@@ -1,0 +1,20 @@
+name: Update index
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy new build to index.html and remove temporary files
+        run: |
+          cp tokyo-side-quests.html index.html
+          rm tokyo-side-quests.html
+          rm -f .github/workflows/update-index.yml
+          git config user.name "fantasywwyyxx-zoe"
+          git config user.email "fantasywwyyxx-zoe@users.noreply.github.com"
+          git add -A
+          git commit -m "Update index.html"
+          git push
