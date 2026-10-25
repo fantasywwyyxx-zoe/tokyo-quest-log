@@ -1,0 +1,22 @@
+name: Create index.html
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tokyo-side-quests.html'
+      - '.github/workflows/create-index.yml'
+permissions:
+  contents: write
+jobs:
+  create-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy game file to index.html
+        run: |
+          cp tokyo-side-quests.html index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Create index.html" || echo "Nothing to commit"
+          git push
