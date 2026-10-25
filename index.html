@@ -1591,9 +1591,224 @@
       @media (prefers-reduced-motion: reduce) {
         .ds-card.is-expanded .ds-body { scroll-behavior: auto; }
       }
+
+      /* ================================================================
+         DECK REPAIR + PHOTO VIEWER + LOCATE + STUDIO + BIG MAP PASS
+         (1) the deck card fits a real phone at 844pt AND 667pt: the
+             LIST chrome (HUD + filter) goes extra-slim so the deck
+             gets the height, the price is NEVER truncated (only the
+             venue may ellipsis, and a long price wraps whole onto
+             its own line), and there is exactly ONE detail path —
+             the OPEN BRIEFING button (the in-card "Details" toggle
+             is gone; the photo itself opens the photo viewer).
+         (2) real photos are shown WHOLE (contain) over a blurred
+             copy of themselves — posters are never cropped — and a
+             tap opens a full-screen viewer (pinch / double-tap).
+             Events with no real photo get a compact category banner
+             instead of a tall decorative block, returning the height
+             to the info and buttons.
+         (3) the big map is a dedicated screen: safe-area padding,
+             a two-row-safe header, drag-pan + wheel zoom.
+         (4) a LOCATE button drops a pulsing hero marker on the map.
+         (5) the HERO screen gains a dress-up studio: slot tabs,
+             per-category progress, unequip / random / clear-all,
+             and reward items earned outside the gacha.
+         ================================================================ */
+      /* --- (1a) LIST chrome goes slim so the deck gets the height --- */
+      body[data-view="list"] .statusbar { padding: 6px 10px; margin-bottom: 6px; }
+      body[data-view="list"] .statusbar .exp-row { display: none; }
+      body[data-view="list"] .statusbar .avatar { width: 34px; height: 34px; }
+      body[data-view="list"] .filterbar.is-min { padding-top: 7px; padding-bottom: 7px; }
+      #view-list { padding-bottom: 8px; }
+      .deck-nav { padding-top: 4px; }
+      .deck-hint { line-height: 1.45; }
+
+      /* --- (1b) price always in full; only the venue may shrink --- */
+      .ds-meta > span.ds-line2 { flex-wrap: wrap; row-gap: 2px; }
+      .ds-line2 .ds-venue { min-width: 0; }
+      .ds-line2 .ds-price {
+        flex: 0 1 auto; overflow: visible; text-overflow: clip;
+        white-space: normal; overflow-wrap: break-word;
+      }
+
+      /* --- (2a) photo area: whole image over its own blur --- */
+      .ds-photo { flex-basis: 25%; }
+      .ds-photo img.ds-img-bg {
+        position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+        filter: blur(16px) brightness(0.92) saturate(1.2); transform: scale(1.25);
+      }
+      .ds-photo img.ds-img-main { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+      .detail-preview img.qp-bg {
+        position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+        filter: blur(14px) brightness(0.92) saturate(1.18); transform: scale(1.3);
+      }
+      .detail-preview img.qp-main { position: relative; width: 100%; height: 100%; object-fit: contain; }
+
+      /* --- (2b) no-photo events: compact category banner --- */
+      .ds-banner {
+        flex: none; position: relative; display: flex; align-items: center; gap: 10px;
+        padding: 12px 14px; color: #fff; cursor: pointer;
+        border-bottom: 3px solid var(--shadow);
+      }
+      .ds-banner .ds-banner-ico { flex: none; display: flex; }
+      .ds-banner .ds-banner-ico svg { width: 30px; height: 30px; display: block; }
+      .ds-banner-name { font-weight: 800; font-size: 16px; letter-spacing: 0.06em; white-space: nowrap; }
+      .ds-banner-badges { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+      .ds-banner .ds-exp { position: static; flex: none; }
+      .ds-banner .stamp { position: static; flex: none; transform: rotate(-8deg); background: rgba(255,255,255,0.88); }
+
+      /* --- (2c) full-screen photo viewer --- */
+      .img-viewer {
+        position: fixed; inset: 0; z-index: 300; display: flex; flex-direction: column;
+        background: rgba(6, 8, 20, 0.97);
+      }
+      .img-viewer[hidden] { display: none !important; }
+      .iv-stage {
+        flex: 1 1 auto; min-height: 0; position: relative; overflow: hidden;
+        display: flex; align-items: center; justify-content: center; touch-action: none;
+      }
+      .iv-img {
+        max-width: 100%; max-height: 100%; object-fit: contain; display: block;
+        -webkit-user-select: none; user-select: none; -webkit-user-drag: none;
+        will-change: transform;
+      }
+      .iv-cap {
+        position: absolute; left: 12px; right: 12px; bottom: 10px; z-index: 2;
+        text-align: center; color: #fff; font-size: 13.5px; font-weight: 700; line-height: 1.4;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.9); pointer-events: none; margin: 0;
+      }
+      .iv-close {
+        position: absolute; z-index: 3;
+        top: calc(10px + env(safe-area-inset-top, 0px)); right: calc(10px + env(safe-area-inset-right, 0px));
+        background: linear-gradient(180deg, #ffd166, var(--gold)); color: #231a00;
+        border: 2px solid #fff7dd; border-radius: 999px; padding: 9px 15px; cursor: pointer;
+        font-family: "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 13px; line-height: 1;
+        box-shadow: inset 0 0 0 1px var(--gold-deep), 0 3px 0 rgba(0,0,0,0.5);
+      }
+      .iv-close:active { transform: translateY(2px); }
+      .iv-hint {
+        flex: none; margin: 0; text-align: center; color: #aebadd; font-size: 12px;
+        padding: 8px 12px calc(9px + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* --- (3) big map as a dedicated screen --- */
+      .big-map {
+        z-index: 200;
+        padding: calc(8px + env(safe-area-inset-top, 0px)) calc(10px + env(safe-area-inset-right, 0px))
+                 calc(8px + env(safe-area-inset-bottom, 0px)) calc(10px + env(safe-area-inset-left, 0px));
+      }
+      .big-map-head { flex: none; flex-wrap: wrap; row-gap: 7px; }
+      .big-map-title { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .bm-tools { display: flex; align-items: center; gap: 7px; }
+      .big-map-stage { flex: 1 1 auto; min-height: 0; }
+      .big-map-stage .map-box { flex: 1 1 auto; height: 100%; min-height: 0; aspect-ratio: auto; margin: 0; }
+      .map-box.in-big { touch-action: none; }
+      @media (max-width: 560px) {
+        .bm-tools { flex-basis: 100%; justify-content: flex-end; order: 5; }
+        .big-map-head .mt-label { display: none; }
+      }
+
+      /* --- (4) locate: button, status chip, hero marker --- */
+      .loc-btn { flex: none; }
+      .map-count { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .loc-chip {
+        position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 9;
+        background: rgba(10, 14, 40, 0.9); color: #fff;
+        font-size: 12.5px; font-weight: 700; line-height: 1.45;
+        padding: 8px 11px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.35);
+      }
+      .loc-chip[hidden] { display: none; }
+      .me-radius {
+        position: absolute; z-index: 2; transform: translate(-50%, -50%);
+        border-radius: 50%; pointer-events: none;
+        background: rgba(47, 124, 214, 0.16); border: 2px solid rgba(47, 124, 214, 0.45);
+      }
+      .me-marker {
+        position: absolute; z-index: 5; width: 34px; height: 34px;
+        transform: translate(-50%, -50%); pointer-events: none;
+      }
+      .me-marker .me-pulse {
+        position: absolute; inset: 0; border-radius: 50%;
+        border: 3px solid rgba(47, 124, 214, 0.75);
+        animation: me-pulse 1.8s ease-out infinite;
+      }
+      .me-marker .me-dot {
+        position: absolute; inset: 3px; border-radius: 50%; overflow: hidden;
+        background: #fff; border: 2px solid #2f7cd6;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 2px 6px rgba(9, 12, 44, 0.45);
+      }
+      .me-marker canvas { width: 23px; height: 23px; image-rendering: pixelated; display: block; }
+      .me-marker .me-arrow {
+        position: absolute; left: 50%; top: 50%; font-size: 15px; line-height: 1; color: #2f7cd6;
+        text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+      }
+      @keyframes me-pulse {
+        0% { transform: scale(0.55); opacity: 0.9; }
+        70% { transform: scale(1.3); opacity: 0; }
+        100% { transform: scale(1.3); opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .me-marker .me-pulse { animation: none; opacity: 0.5; }
+      }
+
+      /* --- (5) dress-up studio --- */
+      .hud-preview {
+        display: inline-flex; align-items: center; gap: 8px; margin-top: 7px;
+        background: var(--chip); border: 2px solid var(--window-edge); border-radius: 999px;
+        padding: 4px 12px 4px 5px; font-size: 11.5px; font-weight: 800; color: var(--ink);
+      }
+      .hud-preview canvas {
+        width: 30px; height: 30px; image-rendering: pixelated; border-radius: 50%;
+        background: var(--window-hi); border: 2px solid var(--window-edge); display: block;
+      }
+      .studio-panel { padding: 12px; margin-bottom: 12px; }
+      .studio-tabs { display: flex; gap: 6px; margin-bottom: 9px; }
+      .studio-tab {
+        flex: 1; min-width: 0; padding: 9px 3px; border-radius: 10px; cursor: pointer;
+        border: 2px solid var(--window-edge); background: var(--chip); color: var(--ink);
+        font-family: "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 12.5px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .studio-tab[aria-pressed="true"] {
+        background: linear-gradient(180deg, #ffd166, var(--gold)); color: #231a00;
+        box-shadow: inset 0 0 0 1px var(--gold-deep), 0 2px 0 var(--shadow);
+      }
+      .studio-actions { display: flex; gap: 6px; margin-bottom: 9px; }
+      .studio-act {
+        flex: 1; min-width: 0; padding: 8px 4px; border-radius: 9px; cursor: pointer;
+        border: 2px solid var(--window-edge); background: var(--window-hi); color: var(--ink);
+        font-family: "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 12px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .studio-act:active { transform: translateY(1px); }
+      .studio-act[disabled] { opacity: 0.4; cursor: default; }
+      .studio-progress { font-size: 12px; font-weight: 700; color: var(--gold); margin-bottom: 9px; letter-spacing: 0.02em; line-height: 1.5; }
+      .studio-panel .hero-switch { margin-bottom: 0; }
+      .hero-locked-note { font-size: 12px; color: var(--ink-dim); margin-top: 8px; line-height: 1.55; }
+      .gacha-item .gi-how { display: block; font-size: 11px; font-weight: 700; color: var(--gold-deep); margin-top: 2px; }
+      .gacha-item.is-equipped .gi-how { color: #5a3d00; }
+
+      /* map label readability over roads, both themes */
+      .area-label { text-shadow: 0 0 3px var(--map-land), 0 0 3px var(--map-land), 1px 1px 0 var(--map-land); opacity: 0.85; }
+
+      /* short phones: trade photo + button padding for deck room —
+         sized so even the worst case (photo + two-line title + a
+         long price that wraps whole) keeps every button in the card */
+      @media (max-height: 740px) {
+        .ds-photo { flex-basis: 20%; min-height: 76px; }
+        .ds-body { padding: 8px 12px 9px; }
+        .ds-name { margin-bottom: 4px; }
+        .ds-actions { gap: 5px; }
+        .ds-actions .rpg-btn { padding: 8px 6px; }
+        .ds-actions .btn-checkin { padding: 9px 6px; }
+        .ds-actions .ds-ghost { padding: 5px 6px; }
+        .ds-foot { padding-top: 5px; }
+        .ds-banner { padding: 9px 12px; }
+      }
     </style>
   </head>
-  <body>
+  <body data-view="map">
     <!-- ===== TITLE SCREEN + CHARACTER SELECT ===== -->
     <div class="start-screen" id="startScreen" role="dialog" aria-modal="true" aria-labelledby="startTitle">
       <div class="start-card">
@@ -1717,6 +1932,7 @@
           <div class="map-head">
             <span class="ps map-title" id="mapTitle"></span>
             <span class="map-count" id="mapCount"></span>
+            <button class="tool-btn wide loc-btn" id="locBtn" type="button"></button>
             <button class="open-big-btn" id="mapExpandBtn" type="button"></button>
           </div>
           <div class="map-box" id="mapBox">
@@ -1733,7 +1949,7 @@
                 <path d="M0 402 L26 374 L52 402 Z"/><path d="M28 435 L64 400 L100 435 Z"/><path d="M0 62 L20 40 L40 62 Z"/><path d="M84 435 L112 408 L140 435 Z"/>
               </g>
               <!-- minor street grid -->
-              <g stroke="var(--map-road)" stroke-width="1.6" opacity="0.32">
+              <g stroke="var(--map-road)" stroke-width="1.6" opacity="0.26">
                 <path d="M24 0 V330 M50 0 V435 M76 0 V360 M102 0 V435 M146 90 V435 M172 60 V300 M198 90 V260 M224 60 V330 M276 40 V170 M302 240 V360" fill="none"/>
                 <path d="M0 24 H320 M0 86 H400 M0 112 H180 M120 186 H260 M0 214 H180 M0 240 H140 M0 296 H260 M0 322 H300 M0 376 H240 M0 402 H200" fill="none"/>
               </g>
@@ -1779,6 +1995,13 @@
               <rect x="272" y="172" width="36" height="26" fill="var(--map-land-2)" opacity="0.55"/>
               <rect x="284" y="180" width="12" height="9" fill="#fdf6dd"/>
               <rect x="286" y="177" width="8" height="3" fill="#c33d2e"/>
+              <!-- main road casing: a soft light bed under the main
+                   routes so the road hierarchy reads at any zoom
+                   without the roads themselves getting darker -->
+              <g stroke="#ffffff" stroke-width="8" opacity="0.38" fill="none">
+                <path d="M0 150 H400"/><path d="M0 268 H330"/><path d="M120 0 V435"/>
+                <path d="M252 0 V330"/><path d="M30 435 L210 250 L400 190"/><path d="M0 322 H300"/>
+              </g>
               <!-- main roads -->
               <g stroke="var(--map-road)" stroke-width="5" opacity="0.8">
                 <path d="M0 150 H400" fill="none"/>
@@ -1800,7 +2023,7 @@
                 <path d="M0 150 H400 M120 0 V435 M252 0 V330 M0 268 H330" fill="none"/>
               </g>
               <!-- Yamanote loop (rail) -->
-              <path d="M158 66 H292 Q336 66 336 116 V292 Q336 340 288 340 H182 Q134 340 134 290 V118 Q134 66 158 66 Z" fill="none" stroke="#46506e" stroke-width="3" stroke-dasharray="7 5" opacity="0.75"/>
+              <path d="M158 66 H292 Q336 66 336 116 V292 Q336 340 288 340 H182 Q134 340 134 290 V118 Q134 66 158 66 Z" fill="none" stroke="#46506e" stroke-width="3.4" stroke-dasharray="7 5" opacity="0.85"/>
               <g fill="#ffffff" stroke="#46506e" stroke-width="1">
                 <rect x="168" y="63" width="6" height="6"/><rect x="248" y="63" width="6" height="6"/><rect x="333" y="118" width="6" height="6"/>
                 <rect x="333" y="228" width="6" height="6"/><rect x="288" y="337" width="6" height="6"/><rect x="188" y="337" width="6" height="6"/>
@@ -1946,6 +2169,16 @@
                 <path d="M186 206 l6 -12 l6 12 Z"/><path d="M214 214 l6 -12 l6 12 Z"/><path d="M270 182 l6 -12 l6 12 Z"/><path d="M296 182 l6 -12 l6 12 Z"/>
                 <path d="M104 250 l6 -12 l6 12 Z"/><path d="M44 340 l6 -12 l6 12 Z"/><path d="M310 52 l6 -12 l6 12 Z"/><path d="M224 156 l6 -12 l6 12 Z"/>
               </g>
+              <!-- station names: romaji with a land-coloured halo, so
+                   they stay readable over roads and rail at any zoom -->
+              <g font-family="'M PLUS Rounded 1c', sans-serif" font-size="9" font-weight="800" letter-spacing="0.04em" fill="var(--map-label)" stroke="var(--map-land)" stroke-width="3" paint-order="stroke" stroke-linejoin="round" opacity="0.95">
+                <text x="180" y="60">Ikebukuro</text>
+                <text x="124" y="112" text-anchor="end">Shinjuku</text>
+                <text x="124" y="258" text-anchor="end">Shibuya</text>
+                <text x="200" y="354">Shinagawa</text>
+                <text x="326" y="178" text-anchor="end">Tokyo</text>
+                <text x="296" y="95">Ueno</text>
+              </g>
             </svg>
             <div class="compass" aria-hidden="true">
               <svg viewBox="0 0 24 24" shape-rendering="crispEdges"><path d="M12 1 L16 12 L12 9 L8 12 Z" fill="#e5484d"/><path d="M12 23 L8 12 L12 15 L16 12 Z" fill="#e8ecf5"/></svg>
@@ -1963,6 +2196,7 @@
                 </span>
               </span>
             </div>
+            <div class="loc-chip" id="locChip" hidden></div>
           </div>
           <div class="legend" id="legend"></div>
           <p class="map-note" id="mapNote"></p>
@@ -2038,11 +2272,31 @@
             <div class="hh-name ps" id="heroNameLine">ADVENTURER<span class="lv-badge" id="heroLv">Lv.1</span></div>
             <div class="hh-title" id="heroTitleLine"></div>
             <div class="hh-desc" id="heroDescLine"></div>
+            <div class="hud-preview"><canvas id="studioHudCanvas" width="16" height="16" aria-hidden="true"></canvas><span id="hudPreviewLabel"></span></div>
           </div>
         </div>
-        <div class="win-flat hero-switch">
-          <div class="hs-title ps" id="heroSwitchTitle"></div>
-          <div class="hero-grid" id="heroGrid2"></div>
+        <h2 class="log-sec-title"><span id="wardrobeTitle"></span><span class="n" id="wardrobeCount"></span></h2>
+        <div class="win studio-panel" id="studioPanel">
+          <div class="studio-tabs" role="group" aria-label="Dress-up slots">
+            <button class="studio-tab" type="button" data-studio-tab="hero" aria-pressed="true"></button>
+            <button class="studio-tab" type="button" data-studio-tab="hat" aria-pressed="false"></button>
+            <button class="studio-tab" type="button" data-studio-tab="outfit" aria-pressed="false"></button>
+            <button class="studio-tab" type="button" data-studio-tab="scarf" aria-pressed="false"></button>
+          </div>
+          <div class="studio-actions">
+            <button class="studio-act" id="unequipBtn" type="button"></button>
+            <button class="studio-act" id="randomBtn" type="button"></button>
+            <button class="studio-act" id="clearAllBtn" type="button"></button>
+          </div>
+          <p class="studio-progress" id="studioProgress"></p>
+          <div id="studioHeroPane">
+            <div class="win-flat hero-switch">
+              <div class="hs-title ps" id="heroSwitchTitle"></div>
+              <div class="hero-grid" id="heroGrid2"></div>
+            </div>
+            <p class="hero-locked-note" id="studioHeroLocked"></p>
+          </div>
+          <div class="gacha-grid" id="gachaGrid" style="display:none"></div>
         </div>
         <div class="win gacha-panel" id="gachaPanel">
           <div class="gacha-head">
@@ -2067,8 +2321,6 @@
             <span class="gr-new" id="gachaResultNew" hidden>NEW!</span>
           </div>
         </div>
-        <h2 class="log-sec-title"><span id="wardrobeTitle"></span><span class="n" id="wardrobeCount"></span></h2>
-        <div class="gacha-grid" id="gachaGrid"></div>
         <h2 class="log-sec-title"><span id="badgeTitle"></span></h2>
         <div class="badge-grid" id="badgeGrid"></div>
         <h2 class="log-sec-title"><span id="ladderTitle"></span></h2>
@@ -2083,14 +2335,27 @@
     <div class="big-map" id="bigMap" hidden role="dialog" aria-modal="true" aria-labelledby="bigMapTitle">
       <div class="win-flat big-map-head">
         <span class="big-map-title" id="bigMapTitle"></span>
-        <span class="mt-label" id="lblZoom"></span>
-        <button class="tool-btn" id="zoomOutBtn" type="button" aria-label="Zoom out">−</button>
-        <span class="zoom-pct" id="zoomPct">100%</span>
-        <button class="tool-btn" id="zoomInBtn" type="button" aria-label="Zoom in">+</button>
-        <button class="tool-btn wide" id="zoomResetBtn" type="button"></button>
+        <button class="tool-btn wide loc-btn" id="locBtnBig" type="button"></button>
+        <span class="bm-tools">
+          <span class="mt-label" id="lblZoom"></span>
+          <button class="tool-btn" id="zoomOutBtn" type="button" aria-label="Zoom out">−</button>
+          <span class="zoom-pct" id="zoomPct">100%</span>
+          <button class="tool-btn" id="zoomInBtn" type="button" aria-label="Zoom in">+</button>
+          <button class="tool-btn wide" id="zoomResetBtn" type="button"></button>
+        </span>
         <button class="big-close" id="bigMapClose" type="button"></button>
       </div>
       <div class="big-map-stage" id="bigMapStage"></div>
+    </div>
+
+    <!-- ===== FULL-SCREEN PHOTO VIEWER ===== -->
+    <div class="img-viewer" id="imgViewer" hidden role="dialog" aria-modal="true">
+      <div class="iv-stage" id="ivStage">
+        <img class="iv-img" id="ivImg" alt="">
+        <p class="iv-cap" id="ivCap"></p>
+      </div>
+      <button class="iv-close" id="ivClose" type="button"></button>
+      <p class="iv-hint" id="ivHint"></p>
     </div>
 
     <!-- Quest detail -->
@@ -2276,6 +2541,30 @@
           zoomLabel: "MAP ZOOM", zoomReset: "RESET", expand: "EXPAND ⤢", collapse: "CLOSE ✕",
           mapHintZoom: "Tap the map to open the big full-screen map — there you can zoom with + / − and tap a pin for a quick preview.",
           ppOpen: "OPEN BRIEFING ▶",
+          viewPhoto: "View full photo",
+          viewerClose: "✕ CLOSE",
+          viewerHint: "Pinch or double-tap to zoom · drag to pan",
+          locBtn: "◎ LOCATE",
+          locFinding: "Finding you…",
+          locFound: "You are here.",
+          locOut: "You are outside this map's area.",
+          locNearest: function (name, d) { return "Nearest quest: " + name + " — " + d; },
+          locDenied: "Location is off for this site. Allow it in your browser settings, then tap LOCATE again.",
+          locFailed: "Couldn't get your location. Wait a moment and try again.",
+          locUnsupported: "This browser can't share its location.",
+          studioTitle: "▶ DRESS-UP STUDIO",
+          slotHero: "Hero",
+          unequipBtn: "REMOVE",
+          randomBtn: "RANDOM",
+          clearAllBtn: "REMOVE ALL",
+          hudPreview: "IN THE HUD",
+          srcGacha: "From the GACHA CAPSULE",
+          lockedHeroNote: "Secret heroes (？？？) join from SR gacha pulls.",
+          rewardConds: {
+            "rookie-cap": "Reward — clear your first quest",
+            "stamp-scarf": "Reward — clear 5 quests",
+            "master-coat": "Reward — reach Lv.5"
+          },
           heroSwitch: "SWITCH ADVENTURER",
           badgeTitle: "▶ BADGES", stampTitle: "▶ STAMP COLLECTION",
           stampTodo: "NOT YET",
@@ -2333,7 +2622,10 @@
             "teal-scarf": { name: "Teal Scarf", desc: "Cool as the bay breeze." },
             "gold-scarf": { name: "Gold Scarf", desc: "A scarf fit for a stamp master." },
             "hero-hikari": { name: "HIKARI joins!", desc: "Secret hero: a dawn-chaser who maps Tokyo by first light." },
-            "hero-kuro": { name: "KURO joins!", desc: "Secret hero: a shadow scout of the night wards." }
+            "hero-kuro": { name: "KURO joins!", desc: "Secret hero: a shadow scout of the night wards." },
+            "rookie-cap": { name: "Rookie Cap", desc: "A reward for your very first clear." },
+            "stamp-scarf": { name: "Stamp Scarf", desc: "Red as a fresh stamp — five clears deep." },
+            "master-coat": { name: "Master Coat", desc: "The Lv.5 coat. The city knows your walk now." }
           },
           tabDaily: "DAILY",
           styleBtn: "STYLE",
@@ -2431,6 +2723,30 @@
           zoomLabel: "マップ拡大", zoomReset: "リセット", expand: "大きく ⤢", collapse: "閉じる ✕",
           mapHintZoom: "マップをタップすると大きな全画面マップが開きます。そちらで＋／−拡大と、タップでのピンプレビューができます。",
           ppOpen: "詳細をひらく ▶",
+          viewPhoto: "写真を全体表示",
+          viewerClose: "✕ 閉じる",
+          viewerHint: "ピンチ／ダブルタップで拡大 · ドラッグで移動",
+          locBtn: "◎ 現在地",
+          locFinding: "現在地を探しています…",
+          locFound: "現在地を表示中。",
+          locOut: "地図の範囲外です。",
+          locNearest: function (name, d) { return "最寄りクエスト：" + name + " まで " + d; },
+          locDenied: "位置情報が許可されていません。ブラウザ設定で許可してから、もう一度「現在地」をタップしてください。",
+          locFailed: "現在地を取得できませんでした。少し待って再試行してください。",
+          locUnsupported: "このブラウザでは位置情報を使えません。",
+          studioTitle: "▶ 着せ替えスタジオ",
+          slotHero: "主人公",
+          unequipBtn: "外す",
+          randomBtn: "おまかせ",
+          clearAllBtn: "全外し",
+          hudPreview: "HUDでの見え方",
+          srcGacha: "ガチャで入手",
+          lockedHeroNote: "シークレット主人公（？？？）はガチャのSRで加入します。",
+          rewardConds: {
+            "rookie-cap": "報酬 — 最初のクエストをクリア",
+            "stamp-scarf": "報酬 — クエストを5件クリア",
+            "master-coat": "報酬 — Lv.5に到達"
+          },
           heroSwitch: "冒険者を切り替える",
           badgeTitle: "▶ バッジ", stampTitle: "▶ スタンプコレクション",
           stampTodo: "まだ",
@@ -2488,7 +2804,10 @@
             "teal-scarf": { name: "ティールスカーフ", desc: "湾の風みたいに涼しい。" },
             "gold-scarf": { name: "金のスカーフ", desc: "スタンプマスターにふさわしい。" },
             "hero-hikari": { name: "ヒカリ加入！", desc: "シークレット主人公：朝いちばんの光で東京を描く旅人。" },
-            "hero-kuro": { name: "クロ加入！", desc: "シークレット主人公：夜の区を歩く影のスカウト。" }
+            "hero-kuro": { name: "クロ加入！", desc: "シークレット主人公：夜の区を歩く影のスカウト。" },
+            "rookie-cap": { name: "ルーキーキャップ", desc: "初クリアのごほうび。" },
+            "stamp-scarf": { name: "スタンプスカーフ", desc: "押したてのスタンプみたいな赤。クリア5件の証。" },
+            "master-coat": { name: "マスターコート", desc: "Lv.5のコート。街があなたの歩き方を覚えた。" }
           },
           tabDaily: "デイリー",
           styleBtn: "表示設定",
@@ -2869,7 +3188,13 @@
           }
         }
       }
-      function drawAvatar() { drawHeroEquipped(document.getElementById("avatarCanvas"), state.hero, state.gacha.equipped); }
+      function drawAvatar() {
+        drawHeroEquipped(document.getElementById("avatarCanvas"), state.hero, state.gacha.equipped);
+        var sh = document.getElementById("studioHudCanvas");
+        if (sh) drawHeroEquipped(sh, state.hero, state.gacha.equipped);
+        var mc = document.getElementById("meCanvas");
+        if (mc) drawHeroEquipped(mc, state.hero, state.gacha.equipped);
+      }
 
       /* ============ Gacha: items, tickets, pulls, wardrobe ============
          EXP is never spent (levels stay put): every 50 EXP of total EXP
@@ -2896,10 +3221,27 @@
         { id: "hero-hikari", kind: "hero", rarity: "SR", heroId: "hikari" },
         { id: "hero-kuro", kind: "hero", rarity: "SR", heroId: "kuro" }
       ];
-      function gachaItem(id) { for (var i = 0; i < GACHA_ITEMS.length; i++) if (GACHA_ITEMS[i].id === id) return GACHA_ITEMS[i]; return null; }
+      /* Reward items: earned outside the gacha (first clear, clear
+         count, level) — they never enter the gacha pool. */
+      var REWARD_ITEMS = [
+        { id: "rookie-cap", kind: "hat", rarity: "R", hat: "cap", c1: "#2e9e5b", c2: "#f8bc3d", reward: { type: "clears", n: 1 } },
+        { id: "stamp-scarf", kind: "scarf", rarity: "R", scarf: "#e14b4f", reward: { type: "clears", n: 5 } },
+        { id: "master-coat", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", reward: { type: "level", n: 5 } }
+      ];
+      var ALL_ITEMS = GACHA_ITEMS.concat(REWARD_ITEMS);
+      function gachaItem(id) { for (var i = 0; i < ALL_ITEMS.length; i++) if (ALL_ITEMS[i].id === id) return ALL_ITEMS[i]; return null; }
       function totalTickets() { return 1 + Math.floor(totalExp() / 50); }
       function ticketsLeft() { return Math.max(0, totalTickets() - (state.gacha.pulls || 0)); }
-      function ownsItem(id) { return state.gacha.owned.indexOf(id) !== -1; }
+      function rewardUnlocked(it) {
+        if (!it || !it.reward) return false;
+        if (it.reward.type === "clears") return state.clears.filter(function (c) { return byId(c.id); }).length >= it.reward.n;
+        if (it.reward.type === "level") return levelInfo().lv >= it.reward.n;
+        return false;
+      }
+      function ownsItem(id) {
+        if (state.gacha.owned.indexOf(id) !== -1) return true;
+        return rewardUnlocked(gachaItem(id));
+      }
       function unlockedHeroes() {
         var out = [];
         GACHA_ITEMS.forEach(function (it) { if (it.kind === "hero" && ownsItem(it.id)) out.push(it.heroId); });
@@ -3025,24 +3367,86 @@
           rar.textContent = it2.rarity; rar.className = "rarity rarity-" + it2.rarity;
           document.getElementById("gachaResultNew").hidden = lastPull.dupe;
         } else res.hidden = true;
-        document.getElementById("wardrobeTitle").textContent = t.wardrobeTitle;
-        document.getElementById("wardrobeCount").textContent = "(" + state.gacha.owned.length + "/" + GACHA_ITEMS.length + ")";
-        document.getElementById("gachaGrid").innerHTML = GACHA_ITEMS.map(function (it) {
+        document.getElementById("wardrobeTitle").textContent = t.studioTitle;
+        var ownN = ALL_ITEMS.filter(function (i) { return ownsItem(i.id); }).length;
+        document.getElementById("wardrobeCount").textContent = "(" + ownN + "/" + ALL_ITEMS.length + ")";
+        document.getElementById("gachaGrid").innerHTML = ALL_ITEMS.filter(function (it) { return it.kind === studioSlot; }).map(function (it) {
           var tx2 = t.gachaItems[it.id] || { name: it.id, desc: "" };
           var owned = ownsItem(it.id);
           var equipped = it.kind !== "hero" && state.gacha.equipped[it.kind] === it.id;
           var stateTxt = !owned ? t.lockedState : equipped ? t.equipState : it.kind === "hero" ? t.ownedState : t.equipHint;
-          return '<button class="win-flat gacha-item' + (owned ? "" : " not-owned") + (equipped ? " is-equipped" : "") + '" type="button" data-gacha-item="' + it.id + '"' + (owned ? "" : " disabled") + ">" +
+          var how = "";
+          if (!owned) how = it.reward ? (t.rewardConds[it.id] || "") : t.srcGacha;
+          return '<button class="win-flat gacha-item' + (owned ? "" : " not-owned") + (equipped ? " is-equipped" : "") + '" type="button" data-gacha-item="' + it.id + '" aria-disabled="' + String(!owned) + '">' +
             '<canvas width="16" height="16" data-gacha-canvas="' + it.id + '" aria-hidden="true"></canvas>' +
-            '<span class="gi-main"><span class="gi-name">' + esc(owned ? tx2.name : "？？？") + '</span>' +
+            '<span class="gi-main"><span class="gi-name">' + esc(owned || it.reward ? tx2.name : "？？？") + '</span>' +
             '<span class="gi-kind">' + esc(t.kindNames[it.kind]) + '</span>' +
-            '<span class="gi-state">' + esc(stateTxt) + '</span></span>' +
+            '<span class="gi-state">' + esc(stateTxt) + '</span>' +
+            (how ? '<span class="gi-how">' + esc(how) + "</span>" : "") + "</span>" +
             '<span class="rarity rarity-' + it.rarity + '">' + it.rarity + "</span></button>";
         }).join("");
         document.querySelectorAll("[data-gacha-canvas]").forEach(function (cv) {
           var it3 = gachaItem(cv.getAttribute("data-gacha-canvas"));
           if (it3) drawItemPreview(cv, it3);
         });
+        renderStudio();
+      }
+
+      /* ============ Dress-up studio: slot tabs + outfit actions ============ */
+      var studioSlot = "hero";
+      function renderStudio() {
+        var t = L();
+        document.querySelectorAll("[data-studio-tab]").forEach(function (b) {
+          var k = b.getAttribute("data-studio-tab");
+          b.setAttribute("aria-pressed", String(k === studioSlot));
+          b.textContent = k === "hero" ? t.slotHero : t.kindNames[k];
+        });
+        var pane = document.getElementById("studioHeroPane");
+        if (pane) pane.hidden = studioSlot !== "hero";
+        var grid = document.getElementById("gachaGrid");
+        if (grid) grid.style.display = studioSlot === "hero" ? "none" : "";
+        var un = document.getElementById("unequipBtn");
+        if (un) {
+          un.textContent = t.unequipBtn;
+          un.disabled = studioSlot === "hero" || !state.gacha.equipped[studioSlot];
+        }
+        var rb = document.getElementById("randomBtn"); if (rb) rb.textContent = t.randomBtn;
+        var cb = document.getElementById("clearAllBtn"); if (cb) cb.textContent = t.clearAllBtn;
+        var hl = document.getElementById("hudPreviewLabel"); if (hl) hl.textContent = t.hudPreview;
+        var counts = {};
+        ["hat", "outfit", "scarf"].forEach(function (k) {
+          counts[k] = ALL_ITEMS.filter(function (i) { return i.kind === k && ownsItem(i.id); }).length +
+            "/" + ALL_ITEMS.filter(function (i) { return i.kind === k; }).length;
+        });
+        var heroTot = HERO_IDS.length + GACHA_ITEMS.filter(function (i) { return i.kind === "hero"; }).length;
+        var sp = document.getElementById("studioProgress");
+        if (sp) sp.textContent = t.slotHero + " " + allHeroIds().length + "/" + heroTot +
+          " · " + t.kindNames.hat + " " + counts.hat +
+          " · " + t.kindNames.outfit + " " + counts.outfit +
+          " · " + t.kindNames.scarf + " " + counts.scarf;
+        var lh = document.getElementById("studioHeroLocked");
+        if (lh) lh.textContent = GACHA_ITEMS.some(function (i) { return i.kind === "hero" && !ownsItem(i.id); }) ? t.lockedHeroNote : "";
+      }
+      function refreshOutfit() { save(); drawAvatar(); renderGacha(); renderHero(); }
+      function unequipSlot() {
+        if (studioSlot === "hero" || !state.gacha.equipped[studioSlot]) return;
+        state.gacha.equipped[studioSlot] = null;
+        sfx("back");
+        refreshOutfit();
+      }
+      function randomOutfit() {
+        ["hat", "outfit", "scarf"].forEach(function (slot) {
+          var pool = ALL_ITEMS.filter(function (it) { return it.kind === slot && ownsItem(it.id); });
+          state.gacha.equipped[slot] = pool.length && Math.random() < 0.85
+            ? pool[Math.floor(Math.random() * pool.length)].id : null;
+        });
+        sfx("dice");
+        refreshOutfit();
+      }
+      function clearOutfit() {
+        state.gacha.equipped = { hat: null, outfit: null, scarf: null };
+        sfx("back");
+        refreshOutfit();
       }
 
       /* ============ Per-quest preview art (pixel scene per venue) ============ */
@@ -3196,6 +3600,10 @@
         document.getElementById("deckPrev").setAttribute("aria-label", t.deckPrev);
         document.getElementById("deckNext").setAttribute("aria-label", t.deckNext);
         document.getElementById("deckHint").textContent = t.deckHint;
+        document.getElementById("locBtn").textContent = t.locBtn;
+        document.getElementById("locBtnBig").textContent = t.locBtn;
+        document.getElementById("ivClose").textContent = t.viewerClose;
+        document.getElementById("ivHint").textContent = t.viewerHint;
         document.getElementById("heroSwitchTitle").textContent = t.heroSwitch;
         document.getElementById("badgeTitle").textContent = t.badgeTitle;
         document.getElementById("stampTitle").textContent = t.stampTitle;
@@ -3311,11 +3719,13 @@
           b.innerHTML = flag + '<span class="pin-body ' + CAT_CLASS[e.category] + '"><span class="pin-ico">' + ICONS[CAT_ICON[e.category]] + "</span></span>";
           b.addEventListener("click", function (ev) {
             ev.stopPropagation();
+            if (suppressPinClick) return;
             if (!mapBox.classList.contains("in-big")) openBigMap();
             showPinPreview(e.id);
           });
           mapZoom.appendChild(b);
         });
+        renderMeMarker();
       }
 
       function sortedVisible() {
@@ -3330,9 +3740,26 @@
         var t = L();
         var clr = isCleared(e.id), acc = isAccepted(e.id);
         var rec = clearRec(e.id);
-        var photo = e.img
-          ? '<img src="' + e.img + '" alt="" loading="lazy">'
-          : '<span class="ds-fallback ' + CAT_CLASS[e.category] + '">' + ICONS[CAT_ICON[e.category]] + "</span>";
+        /* Media block: a real photo is shown WHOLE (contain) over a
+           blurred copy of itself, and tapping it opens the photo
+           viewer. No photo → a compact category banner, so the
+           height goes to the info and buttons instead. */
+        var media;
+        if (e.img) {
+          media = '<div class="ds-photo ' + CAT_CLASS[e.category] + '" data-act="photo" data-id="' + e.id + '" role="button" aria-label="' + esc(evName(e) + " — " + t.viewPhoto) + '">' +
+            '<img class="ds-img-bg" src="' + e.img + '" alt="" aria-hidden="true" loading="lazy">' +
+            '<img class="ds-img-main" src="' + e.img + '" alt="" loading="lazy">' +
+            '<span class="ds-chips">' + catChip(e) + stateBadges(e) + "</span>" +
+            (clr ? '<span class="stamp">' + esc(t.clearedStamp) + "</span>" : '<span class="ds-exp">+' + expFor(e) + " EXP</span>") +
+            "</div>";
+        } else {
+          media = '<div class="ds-banner ' + CAT_CLASS[e.category] + '" data-act="open" data-id="' + e.id + '" role="button" aria-label="' + esc(evName(e)) + '">' +
+            '<span class="ds-banner-ico">' + ICONS[CAT_ICON[e.category]] + "</span>" +
+            '<span class="ds-banner-name">' + esc(e.category) + "</span>" +
+            '<span class="ds-banner-badges">' + stateBadges(e) + "</span>" +
+            (clr ? '<span class="stamp">' + esc(t.clearedStamp) + "</span>" : '<span class="ds-exp">+' + expFor(e) + " EXP</span>") +
+            "</div>";
+        }
         var foot;
         if (clr) {
           foot = '<div class="ds-foot"><p class="ds-cleared">★ ' + esc(t.clearedOn) + esc(fmtDate(rec.clearedAt.slice(0, 10))) + "</p>" +
@@ -3350,17 +3777,12 @@
             "</div></div>";
         }
         return '<article class="deck-slide"><div class="ds-card">' +
-          '<div class="ds-photo ' + CAT_CLASS[e.category] + '" data-act="open" data-id="' + e.id + '" role="button" aria-label="' + esc(evName(e)) + '">' +
-          photo +
-          '<span class="ds-chips">' + catChip(e) + stateBadges(e) + "</span>" +
-          (clr ? '<span class="stamp">' + esc(t.clearedStamp) + "</span>" : '<span class="ds-exp">+' + expFor(e) + " EXP</span>") +
-          "</div>" +
+          media +
           '<div class="ds-body">' +
           '<h3 class="ds-name">' + esc(evName(e)) + "</h3>" +
           '<div class="ds-meta"><span>' + ICONS.cal + "<b>" + esc(fmtRange(e)) + "</b> · " + esc(timingLine(e)) + "</span>" +
           '<span class="ds-line2">' + ICONS.pin + '<b class="ds-venue">' + esc(e.venue) + '</b><span class="ds-area">· ' + esc(areaName(e.area)) + " ·</span>" + ICONS.ticket + '<b class="ds-price">' + esc(e.price) + "</b></span></div>" +
           '<p class="ds-blurb">' + esc(evBlurb(e)) + "</p>" +
-          '<button class="ds-more" type="button" data-act="more" data-id="' + e.id + '" aria-expanded="false">' + esc(t.moreDetails) + "</button>" +
           foot +
           "</div></div></article>";
       }
@@ -3401,6 +3823,161 @@
         var wrap = document.getElementById("cards");
         if (wrap) wrap.scrollTo({ left: deckIndex * wrap.clientWidth, behavior: "smooth" });
         updateDeckNav();
+      }
+
+      /* ============ Full-screen photo viewer (whole image, pinch / double-tap zoom) ============ */
+      var ivT = { s: 1, x: 0, y: 0 };
+      function ivApply() {
+        var img = document.getElementById("ivImg");
+        if (img) img.style.transform = "translate(" + ivT.x + "px," + ivT.y + "px) scale(" + ivT.s + ")";
+      }
+      function ivZoomAt(cx, cy, ns) {
+        ns = Math.max(1, Math.min(4, ns));
+        var stage = document.getElementById("ivStage");
+        var r = stage.getBoundingClientRect();
+        var px = cx - r.left - r.width / 2, py = cy - r.top - r.height / 2;
+        var k = ns / ivT.s;
+        ivT.x = px - (px - ivT.x) * k;
+        ivT.y = py - (py - ivT.y) * k;
+        ivT.s = ns;
+        if (ns === 1) { ivT.x = 0; ivT.y = 0; }
+        ivApply();
+      }
+      function openViewer(src, cap) {
+        var v = document.getElementById("imgViewer");
+        if (!v) return;
+        document.getElementById("ivImg").src = src;
+        document.getElementById("ivCap").textContent = cap || "";
+        ivT = { s: 1, x: 0, y: 0 };
+        ivApply();
+        v.hidden = false;
+        sfx("open");
+      }
+      function closeViewer() {
+        var v = document.getElementById("imgViewer");
+        if (v) v.hidden = true;
+        sfx("back");
+      }
+      (function initViewer() {
+        var stage = document.getElementById("ivStage");
+        if (!stage) return;
+        var pointers = {}, pinch = null, drag = null, lastTap = 0;
+        stage.addEventListener("pointerdown", function (ev) {
+          stage.setPointerCapture(ev.pointerId);
+          pointers[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
+          var ids = Object.keys(pointers);
+          if (ids.length === 2) {
+            var a = pointers[ids[0]], b = pointers[ids[1]];
+            pinch = { d: Math.hypot(a.x - b.x, a.y - b.y), s: ivT.s, cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+            drag = null;
+          } else {
+            drag = { x: ev.clientX, y: ev.clientY, tx: ivT.x, ty: ivT.y, moved: false };
+          }
+        });
+        stage.addEventListener("pointermove", function (ev) {
+          if (!pointers[ev.pointerId]) return;
+          pointers[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
+          if (pinch && Object.keys(pointers).length === 2) {
+            var ids = Object.keys(pointers), a = pointers[ids[0]], b = pointers[ids[1]];
+            var d = Math.hypot(a.x - b.x, a.y - b.y);
+            if (pinch.d > 0) ivZoomAt(pinch.cx, pinch.cy, pinch.s * d / pinch.d);
+          } else if (drag && ivT.s > 1) {
+            var dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+            if (Math.abs(dx) + Math.abs(dy) > 4) drag.moved = true;
+            if (drag.moved) { ivT.x = drag.tx + dx; ivT.y = drag.ty + dy; ivApply(); }
+          }
+        });
+        function endPointer(ev) {
+          var wasDrag = drag;
+          delete pointers[ev.pointerId];
+          if (Object.keys(pointers).length < 2) pinch = null;
+          if (Object.keys(pointers).length === 0) {
+            if (wasDrag && !wasDrag.moved && ivT.s === 1) {
+              var now = Date.now();
+              if (now - lastTap < 320) { ivZoomAt(ev.clientX, ev.clientY, 2.5); lastTap = 0; }
+              else lastTap = now;
+            } else if (wasDrag && !wasDrag.moved && ivT.s > 1) {
+              var now2 = Date.now();
+              if (now2 - lastTap < 320) { ivZoomAt(ev.clientX, ev.clientY, 1); lastTap = 0; }
+              else lastTap = now2;
+            }
+            drag = null;
+          }
+        }
+        stage.addEventListener("pointerup", endPointer);
+        stage.addEventListener("pointercancel", endPointer);
+        stage.addEventListener("wheel", function (ev) {
+          ev.preventDefault();
+          ivZoomAt(ev.clientX, ev.clientY, ivT.s * (ev.deltaY < 0 ? 1.18 : 0.85));
+        }, { passive: false });
+      })();
+
+      /* ============ Locate me (read only on tap; never stored or tracked) ============ */
+      var myPos = null;
+      /* Projection fitted to the hand-drawn map: two venue anchors per
+         axis (TUAT west edge + Amusement Expo east; Persona north +
+         Tokyo Atlas south) reproduce the pin layout within a few %. */
+      function latLngToPct(lat, lng) {
+        return { x: 4 + (lng - 139.5185) * 322.5, y: 10 + (35.7289 - lat) * 798 };
+      }
+      var locTimer = null;
+      function showLocChip(text) {
+        var chip = document.getElementById("locChip");
+        if (!chip) return;
+        chip.textContent = text || "";
+        chip.hidden = !text;
+        if (locTimer) clearTimeout(locTimer);
+        if (text) locTimer = setTimeout(function () { chip.hidden = true; }, 9000);
+      }
+      function renderMeMarker() {
+        var oldM = document.getElementById("meMarker"); if (oldM) oldM.remove();
+        var oldR = document.getElementById("meRadius"); if (oldR) oldR.remove();
+        if (!myPos) return;
+        var pt = latLngToPct(myPos.lat, myPos.lng);
+        var out = pt.x < 0 || pt.x > 100 || pt.y < 0 || pt.y > 100;
+        var cx = Math.max(3, Math.min(97, pt.x)), cy = Math.max(3, Math.min(97, pt.y));
+        var acc = myPos.acc || 120;
+        var rad = document.createElement("div");
+        rad.className = "me-radius"; rad.id = "meRadius";
+        rad.style.left = cx + "%"; rad.style.top = cy + "%";
+        rad.style.width = Math.min(64, Math.max(7, acc * 2 / 249)) + "%";
+        rad.style.height = Math.min(64, Math.max(7, acc * 2 / 139)) + "%";
+        mapZoom.appendChild(rad);
+        var m = document.createElement("div");
+        m.className = "me-marker" + (out ? " is-edge" : ""); m.id = "meMarker";
+        m.style.left = cx + "%"; m.style.top = cy + "%";
+        var arrow = "";
+        if (out) {
+          var ang = Math.atan2(pt.y - 50, pt.x - 50) * 180 / Math.PI;
+          arrow = '<span class="me-arrow" style="transform: translate(-50%,-50%) rotate(' + ang.toFixed(0) + 'deg) translateX(27px)">➤</span>';
+        }
+        m.innerHTML = '<span class="me-pulse"></span><span class="me-dot"><canvas id="meCanvas" width="16" height="16" aria-hidden="true"></canvas></span>' + arrow;
+        mapZoom.appendChild(m);
+        drawAvatar();
+      }
+      function locate() {
+        var t = L();
+        if (!navigator.geolocation) { showLocChip(t.locUnsupported); return; }
+        showLocChip(t.locFinding);
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          myPos = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy || 0 };
+          renderMeMarker();
+          var best = null, bd = Infinity;
+          VISIBLE.forEach(function (e) {
+            var v = VENUES[e.id]; if (!v) return;
+            var d = haversineM(myPos.lat, myPos.lng, v.lat, v.lng);
+            if (d < bd) { bd = d; best = e; }
+          });
+          var pt = latLngToPct(myPos.lat, myPos.lng);
+          var out = pt.x < 0 || pt.x > 100 || pt.y < 0 || pt.y > 100;
+          var msg = out ? t.locOut : t.locFound;
+          if (best) msg += " " + t.locNearest(evName(best), fmtDist(bd));
+          showLocChip(msg);
+          sfx("accept");
+        }, function (err) {
+          showLocChip(err && err.code === 1 ? t.locDenied : t.locFailed);
+          sfx("back");
+        }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
       }
       function setSlideMsg(el, kind, text) {
         if (!el) return;
@@ -3447,8 +4024,9 @@
         var dp = document.getElementById("detailPreview");
         if (e.img) {
           dp.style.display = "";
-          dp.innerHTML = '<img src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(e.venue) + " · " + esc(areaName(e.area)) + "</span>";
-        } else { dp.style.display = "none"; dp.innerHTML = ""; }
+          dp.style.cursor = "zoom-in";
+          dp.innerHTML = '<img class="qp-bg" src="' + e.img + '" alt="" aria-hidden="true"><img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(e.venue) + " · " + esc(areaName(e.area)) + "</span>";
+        } else { dp.style.display = "none"; dp.style.cursor = ""; dp.innerHTML = ""; }
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
         document.getElementById("detailName").textContent = evName(e);
         var monthly = document.getElementById("detailMonthly");
@@ -3685,7 +4263,9 @@
           document.getElementById("view-" + v).hidden = v !== name;
           document.getElementById("tab-" + v).setAttribute("aria-selected", String(v === name));
         });
+        document.body.setAttribute("data-view", name);
         setStatusMin(true); /* the status card is a compact game HUD on every screen */
+        if (name === "list") setFilterMin(true); /* on LIST the deck gets the height */
         if (name === "hero") renderHero();
         if (name === "daily") renderDaily();
         if (name === "list" && typeof requestAnimationFrame === "function") requestAnimationFrame(syncDeckScroll);
@@ -3854,6 +4434,7 @@
 
       /* ============ Map zoom (buttons only, inside the big map) ============ */
       var zoom = { s: 1, tx: 0, ty: 0 };
+      var suppressPinClick = false;
       function clampZoom() {
         var w = mapBox.clientWidth, h = mapBox.clientHeight;
         var minTx = w * (1 - zoom.s), minTy = h * (1 - zoom.s);
@@ -3886,7 +4467,7 @@
         document.getElementById("bigMap").hidden = false;
         document.body.classList.add("map-locked");
         sfx("open");
-        setTimeout(applyZoom, 60);
+        requestAnimationFrame(function () { requestAnimationFrame(applyZoom); });
       }
       function closeBigMap() {
         if (mapHome) {
@@ -3906,6 +4487,36 @@
         if (ev.target.closest(".pin,.pin-preview,button")) return;
         openBigMap();
       });
+      /* Big map: drag to pan when zoomed (the zoom buttons recentre,
+         the drag reaches the edges), wheel to zoom on desktop. */
+      var panState = null;
+      mapBox.addEventListener("pointerdown", function (ev) {
+        if (!mapBox.classList.contains("in-big") || zoom.s <= 1) return;
+        panState = { x: ev.clientX, y: ev.clientY, tx: zoom.tx, ty: zoom.ty, moved: false };
+        try { mapBox.setPointerCapture(ev.pointerId); } catch (err) {}
+      });
+      mapBox.addEventListener("pointermove", function (ev) {
+        if (!panState) return;
+        var dx = ev.clientX - panState.x, dy = ev.clientY - panState.y;
+        if (Math.abs(dx) + Math.abs(dy) > 6) { panState.moved = true; mapBox.classList.add("is-panning"); }
+        if (panState.moved) { zoom.tx = panState.tx + dx; zoom.ty = panState.ty + dy; applyZoom(); }
+      });
+      function endPan() {
+        if (panState && panState.moved) {
+          suppressPinClick = true;
+          setTimeout(function () { suppressPinClick = false; }, 60);
+        }
+        panState = null;
+        mapBox.classList.remove("is-panning");
+      }
+      mapBox.addEventListener("pointerup", endPan);
+      mapBox.addEventListener("pointercancel", endPan);
+      mapBox.addEventListener("wheel", function (ev) {
+        if (!mapBox.classList.contains("in-big")) return;
+        ev.preventDefault();
+        var r = mapBox.getBoundingClientRect();
+        setZoom(zoom.s * (ev.deltaY < 0 ? 1.15 : 0.87), ev.clientX - r.left, ev.clientY - r.top);
+      }, { passive: false });
 
       /* ============ Pin quick preview ============ */
       var previewId = null;
@@ -3913,6 +4524,7 @@
         var e = byId(id); if (!e) return;
         previewId = id;
         sfx("move");
+        var lc = document.getElementById("locChip"); if (lc) lc.hidden = true;
         document.getElementById("ppThumb").innerHTML = previewSVG(e);
         document.getElementById("ppName").textContent = evName(e);
         document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + e.price + (isCleared(id) ? " · " + L().clearedBtn : isAccepted(id) ? " · " + L().accepted : "");
@@ -3962,15 +4574,9 @@
         var id = el.getAttribute("data-id"), act = el.getAttribute("data-act");
         if (!id) return;
         if (act === "open") openDetail(id);
-        else if (act === "more") {
-          var card = el.closest(".ds-card");
-          if (card) {
-            var open = card.classList.toggle("is-expanded");
-            el.setAttribute("aria-expanded", String(open));
-            el.textContent = open ? L().lessDetails : L().moreDetails;
-            if (!open) { var bd = card.querySelector(".ds-body"); if (bd) bd.scrollTop = 0; }
-            sfx("move");
-          }
+        else if (act === "photo") {
+          var pe = byId(id);
+          if (pe && pe.img) openViewer(pe.img, evName(pe));
         }
         else if (act === "accept") toggleAccept(id);
         else if (act === "clear") doClear(id);
@@ -4044,6 +4650,20 @@
       document.getElementById("gachaGrid").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-gacha-item]"); if (b) equipItem(b.getAttribute("data-gacha-item"));
       });
+      document.querySelectorAll("[data-studio-tab]").forEach(function (b) {
+        b.addEventListener("click", function () { studioSlot = b.getAttribute("data-studio-tab"); sfx("move"); renderGacha(); });
+      });
+      document.getElementById("unequipBtn").addEventListener("click", unequipSlot);
+      document.getElementById("randomBtn").addEventListener("click", randomOutfit);
+      document.getElementById("clearAllBtn").addEventListener("click", clearOutfit);
+      document.getElementById("locBtn").addEventListener("click", function (ev) { ev.stopPropagation(); locate(); });
+      document.getElementById("locBtnBig").addEventListener("click", function () { locate(); });
+      document.getElementById("ivClose").addEventListener("click", closeViewer);
+      document.getElementById("detailPreview").addEventListener("click", function () {
+        if (!currentId) return;
+        var e = byId(currentId);
+        if (e && e.img) openViewer(e.img, evName(e));
+      });
       document.getElementById("styleBtn").addEventListener("click", function () {
         var p = document.getElementById("stylePanel");
         p.hidden = !p.hidden;
@@ -4054,6 +4674,7 @@
       document.getElementById("ppClose").addEventListener("click", function () { sfx("back"); hidePinPreview(); });
       document.addEventListener("keydown", function (ev) {
         if (ev.key === "Escape") {
+          if (!document.getElementById("imgViewer").hidden) { closeViewer(); return; }
           if (!document.getElementById("bigMap").hidden) closeBigMap();
           hidePinPreview();
         }
