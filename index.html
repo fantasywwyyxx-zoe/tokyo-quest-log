@@ -4116,6 +4116,21 @@
         border: 2.5px solid var(--edge); border-radius: 999px; padding: 8px 10px;
         box-shadow: 0 2px 0 var(--shadow);
       }
+      /* map quick type filter: a chip row under the count chip;
+         the active chip wears the lemon highlight */
+      .map-filters {
+        position: absolute; left: 8px; top: 46px; z-index: 30;
+        display: flex; flex-wrap: wrap; gap: 5px; max-width: calc(100% - 16px);
+      }
+      .mf-chip {
+        font-family: inherit; font-size: 11px; font-weight: 800; letter-spacing: 0.03em;
+        color: var(--ink); background: color-mix(in srgb, var(--window) 92%, transparent);
+        border: 2.5px solid var(--edge); border-radius: 999px; padding: 5px 9px;
+        box-shadow: 0 2px 0 var(--shadow); cursor: pointer; line-height: 1;
+      }
+      .mf-chip:active { transform: translateY(2px); box-shadow: none; }
+      .mf-chip[aria-pressed="true"] { background: var(--lemon); color: #22303c; }
+      .mf-chip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; border-color: var(--epic-gold); }
       .osm-attrib {
         position: absolute; right: 0; bottom: 0; z-index: 30;
         font-size: 9.5px; line-height: 1.5; padding: 1px 6px;
@@ -5662,7 +5677,7 @@
         background: rgba(13, 20, 43, 0.68); color: #fffdf4;
         border: 2.5px solid #fffdf4; border-radius: 10px;
         box-shadow: 0 3px 0 rgba(9, 12, 44, 0.45), inset 0 0 0 2px rgba(6, 10, 24, 0.55);
-        padding: 7px 16px 8px; font-size: 15.5px; font-weight: 700; line-height: 1.5;
+        padding: 12px 22px 13px; font-size: 19.5px; font-weight: 700; line-height: 1.55;
         text-shadow: none; margin: 0 auto 14px;
         animation: sloganPop 0.45s steps(4) 0.35s both;
       }
@@ -5677,8 +5692,8 @@
         animation: sloganTwinkle 1.8s steps(1) infinite;
       }
       .start-screen .start-card .start-sub::after {
-        content: ""; display: inline-block; width: 8px; height: 12px;
-        margin-left: 7px; vertical-align: -1px; background: var(--lemon);
+        content: ""; display: inline-block; width: 10px; height: 15px;
+        margin-left: 8px; vertical-align: -2px; background: var(--lemon);
         animation: sloganCursor 1.06s steps(1) infinite;
       }
       @keyframes sloganPop { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
@@ -6426,13 +6441,15 @@
         --plaque-bg: #fff6dd; --plaque-ink: #22303c; --plaque-line: #22303c;
       }
 
-      /* --- title copy: small pixel plaques that hug the text --- */
+      /* --- title copy: the slogan plaque — enlarged at the user's
+         direction (2026-10-27): a bigger plaque + bigger type so
+         the line carries real presence on the title screen --- */
       .start-screen .start-card .start-sub {
         display: inline-block; width: fit-content; max-width: 94%;
         background: var(--plaque-bg); color: var(--plaque-ink);
-        border: var(--bw) solid var(--plaque-line); border-radius: var(--rad-card);
+        border: 3.5px solid var(--plaque-line); border-radius: var(--rad-card);
         box-shadow: var(--hard-lg), inset 0 0 0 2px #ffffff;
-        padding: 6px 15px 7px; font-size: 15.5px; font-weight: 800; line-height: 1.5;
+        padding: 12px 22px 13px; font-size: 19.5px; font-weight: 800; line-height: 1.55;
         white-space: pre-line; text-shadow: none;
       }
       .start-screen .start-card .start-sub::before {
@@ -6899,15 +6916,18 @@
       .cat-landmark { background: #b0722a; }
       .ds-topbanner.cat-landmark::after { background: #b0722a; }
       .ms-ico.cat-landmark { background: #b0722a; }
-      /* ============ EPIC tier + creator + photo proof + puzzle
+      /* ============ EPIC tier + creator + puzzle
          (user direction, 2026-10-27) ============
          EPIC = the evergreen landmarks re-tiered: deep purple +
          gold trim in BOTH themes (never confusable with the day
          red/blue or the night blue-black/yellow). Epic clears are
-         GPS + on-site photo only, and pay a spot-exclusive limited
-         item. Daily quests need a photo. On-site clears pay 100%
+         GPS check-in only (no manual route), and pay a
+         spot-exclusive limited item. On-site clears pay 100%
          EXP, remote (manual) clears 30%, once a day. On-site
-         clears drop Tokyo-panorama puzzle pieces (16). */
+         clears drop Tokyo-panorama puzzle pieces (16). (The
+         photo-proof step for epic + daily clears was built and
+         then retired the same day at the user's direction —
+         dailies complete by tap again.) */
       :root { --epic: #5b3a8f; --epic-deep: #3d2f57; --epic-hi: #8a6fd0; --epic-gold: #f8bc3d; --epic-gold-deep: #d9a400; }
       .epic-badge {
         display: inline-flex; align-items: center; gap: 4px;
@@ -6936,28 +6956,9 @@
       }
       .epic-reward canvas { width: 44px; height: 44px; image-rendering: pixelated; flex: none;
         background: var(--epic-deep); border: 2px solid var(--epic-gold); border-radius: 8px; }
-      .epic-reward img.er-photo { width: 44px; height: 44px; object-fit: cover; flex: none;
-        border: 2px solid var(--epic-gold); border-radius: 8px; }
       .epic-reward .er-k { display: block; font-size: 11px; font-weight: 900; letter-spacing: .08em; color: var(--epic); }
       :root[data-theme="midnight"] .epic-reward .er-k { color: #cdbcf5; }
       .manual-link[disabled] { opacity: .75; cursor: not-allowed; text-decoration: none; color: var(--epic); font-weight: 800; }
-      /* --- photo proof step (epic check-in + daily completion) --- */
-      .photo-step {
-        position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none;
-        margin: 0; padding: 18px; border: none; background: rgba(10,12,24,.62);
-        display: none; align-items: center; justify-content: center; z-index: 95;
-      }
-      .photo-step.show { display: flex; }
-      .ps-win { width: min(92vw, 360px); }
-      .ps-desc { font-weight: 700; font-size: 13.5px; line-height: 1.55; margin: 4px 0 10px; }
-      .ps-preview {
-        border: 3px dashed var(--ink-dim); border-radius: 12px; min-height: 128px;
-        display: flex; align-items: center; justify-content: center; overflow: hidden;
-        background: rgba(127,147,168,.12); margin-bottom: 10px;
-      }
-      .ps-preview img { width: 100%; height: 168px; object-fit: cover; display: block; }
-      .ps-empty { font-weight: 800; font-size: 12.5px; color: var(--ink-dim); padding: 18px; text-align: center; }
-      .ps-row { display: flex; gap: 8px; margin-top: 8px; }
       .ps-btn {
         flex: 1; font: inherit; font-weight: 900; font-size: 14px; cursor: pointer;
         border: 3px solid var(--edge, #2c3e50); border-radius: 12px; padding: 11px 6px;
@@ -6983,13 +6984,7 @@
       }
       .creator-go { width: 100%; margin-top: 12px; }
       .creator-back { width: 100%; margin-top: 8px; }
-      /* --- daily photo record --- */
-      .dr-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; border: 2px solid var(--gold-deep); flex: none; }
-      .dr-cam { display: inline-flex; width: 18px; height: 18px; flex: none; color: var(--ink-dim); }
-      .dr-cam svg { width: 100%; height: 100%; }
       /* --- settlement additions --- */
-      .cp-photo { display: block; width: 108px; height: 76px; object-fit: cover; margin: 8px auto 2px;
-        border: 3px solid var(--epic-gold); border-radius: 10px; }
       .cp-line.piece .cp-v { color: var(--epic); font-weight: 900; }
       .cp-wear {
         display: block; margin: 10px auto 2px; font: inherit; font-weight: 900; font-size: 14.5px;
@@ -7023,7 +7018,7 @@
       /* start screen: ONE hero tile — yours (no preset picking) */
       .start-heroes .hero-pick.mine { cursor: default; }
       .start-heroes .hero-pick.mine:active { transform: none; }
-      /* --- F: streak + photo diary; G: achievement-card share --- */
+      /* --- F: streak + record calendar; G: achievement-card share --- */
       .dstreak {
         display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
         margin: 2px 0 8px; font-weight: 900; font-size: 13.5px;
@@ -7065,7 +7060,7 @@
         border: 3px solid var(--edge, #2c3e50); border-radius: 10px; padding: 8px 9px; background: #fff; color: #22303c;
       }
       .ps-private { font-size: 11.5px; font-weight: 700; color: var(--ink-dim); margin: 2px 0 8px; line-height: 1.5; }
-      /* photo diary calendar (full-screen, no scroll) */
+      /* record calendar (full-screen, no scroll) */
       .cal-screen {
         position: fixed; inset: 0; z-index: 84; overflow: hidden;
         display: flex; align-items: flex-start; justify-content: center;
@@ -7094,16 +7089,14 @@
         position: absolute; top: 2px; left: 4px; font-size: 10.5px; font-weight: 900;
         color: var(--ink); text-shadow: 0 1px 0 rgba(255,255,255,.7); z-index: 1;
       }
-      .cal-cell img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .cal-cell.full { border-color: var(--gold-deep); box-shadow: inset 0 0 0 2px var(--epic-gold); }
       .cal-cell.today { border-color: var(--primary); border-style: dashed; }
       .cal-cell.future { opacity: .45; }
       .cal-private { font-size: 11.5px; font-weight: 700; color: var(--ink-dim); margin: 9px 0 0; line-height: 1.5; }
       .cal-day { margin-top: 10px; border-top: 3px dotted rgba(127,147,168,.5); padding-top: 9px; }
       .cal-day-head { display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 15px; }
-      .cal-day-photos { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
-      .cal-day-photos img { width: 84px; height: 84px; object-fit: cover; border-radius: 10px; border: 2.5px solid var(--gold-deep); }
-      .cal-day-memo { font-weight: 700; font-size: 14px; margin: 8px 0 0; }
+      .cal-cell .cal-mark { position: absolute; right: 3px; bottom: 2px; font-size: 11px; font-weight: 900; color: var(--gold-deep); line-height: 1; }
+      .cal-cell .cal-dot { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
       .cal-day-memo:empty { display: none; }
       .cal-day-tasks { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
       .cal-day-tasks span { font-size: 13px; font-weight: 700; }
@@ -7198,10 +7191,10 @@
       </div>
     </div>
 
-    <!-- ===== PHOTO DIARY (private, on-device only): the daily
-         proof photos collect into a month calendar; tapping a
-         day opens that day's photos + one-line note + cleared
-         tasks. Nothing here is ever shared from this page. ===== -->
+    <!-- ===== RECORD CALENDAR: a month grid of daily-quest
+         marks — a star for a full-clear day, a dot for a partial
+         day; tapping a day lists the quests cleared that day.
+         Marks and task names only — no photos, no notes. ===== -->
     <div class="cal-screen" id="calScreen" hidden role="dialog" aria-modal="true" aria-labelledby="calTitle">
       <div class="win cal-win">
         <span class="creator-tab" id="calTitle"></span>
@@ -7216,8 +7209,6 @@
         <p class="cal-private" id="calPrivate"></p>
         <div class="cal-day" id="calDay" hidden>
           <div class="cal-day-head"><span id="calDayTitle"></span><button class="cal-nav-btn" id="calDayBack" type="button">◀</button></div>
-          <div class="cal-day-photos" id="calDayPhotos"></div>
-          <p class="cal-day-memo" id="calDayMemo"></p>
           <div class="cal-day-tasks" id="calDayTasks"></div>
         </div>
       </div>
@@ -7325,6 +7316,16 @@
               <button class="map-chip sq" id="mapZoomHome" type="button" aria-label="Reset view">⌂</button>
             </div>
             <span class="map-count-chip" id="mapCount"></span>
+            <!-- quick type filter (user, 2026-10-27): chips on the
+                 map itself — pins and the on-board count follow
+                 instantly; separate from the LIST search modal -->
+            <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
+              <button class="mf-chip" type="button" data-mf="all" aria-pressed="true"></button>
+              <button class="mf-chip" type="button" data-mf="event" aria-pressed="false"></button>
+              <button class="mf-chip" type="button" data-mf="epic" aria-pressed="false"></button>
+              <button class="mf-chip" type="button" data-mf="accepted" aria-pressed="false"></button>
+              <button class="mf-chip" type="button" data-mf="cleared" aria-pressed="false"></button>
+            </div>
             <div class="map-zoom" id="mapZoom">
             <svg class="scenery osm-map" viewBox="0 0 400 270" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <!-- REAL GEOGRAPHY, BAKED IN AT BUILD TIME: coastline, Tokyo Bay,
@@ -7771,31 +7772,6 @@
         <div class="gc-row">
           <button class="gc-btn" id="gcNo" type="button"></button>
           <button class="gc-btn yes" id="gcYes" type="button"></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PHOTO PROOF step: epic check-ins and daily completions
-         pass through here — pick/shoot a photo, THEN the clear
-         lands. Popover-painted above the modal detail dialog,
-         like the confirm window. -->
-    <div class="photo-step" id="photoStep" popover="manual" hidden role="dialog" aria-labelledby="psTab">
-      <div class="rpg-tab-window ps-win">
-        <span class="rpg-tab-label" id="psTab"></span>
-        <p class="ps-desc" id="psDesc"></p>
-        <div class="ps-preview" id="psPreview"><span class="ps-empty" id="psEmpty"></span><img id="psImg" alt="" hidden></div>
-        <input type="file" id="psFile" accept="image/*" hidden>
-        <div class="ps-memo-row" id="psMemoRow" hidden>
-          <span class="ps-memo-label" id="psMemoLabel"></span>
-          <input class="ps-memo" id="psMemo" type="text" maxlength="60" autocomplete="off">
-        </div>
-        <p class="ps-private" id="psPrivate"></p>
-        <div class="ps-row">
-          <button class="ps-btn" id="psPick" type="button"></button>
-        </div>
-        <div class="ps-row">
-          <button class="ps-btn ghost" id="psCancel" type="button"></button>
-          <button class="ps-btn yes" id="psOk" type="button" disabled></button>
         </div>
       </div>
     </div>
@@ -8264,7 +8240,7 @@
           dailySub: "Tiny quests, small joys. Each one +10 EXP.",
           dailyNpc: "Psst — these are the little everyday quests: no travelling, done in minutes, anywhere. The REAL adventures are waiting out on the map!",
           dailyProg: "TODAY", dailyDoneBtn: "DONE!", dailyDoneStamp: "DONE ✓",
-          dailyNote: "Daily quests refresh at midnight. Each one needs a photo as proof — snap the little joy, then it counts.",
+          dailyNote: "Daily quests refresh at midnight. Do a little joy, then tap its row — clear all three for a +30 EXP bonus.",
           dailyKindRealTag: "REAL QUESTS",
           dailyKindReal: "The real adventures: exhibitions, festivals and workshops you actually travel to, and check in at the venue.",
           dailyKindDailyTag: "DAILY",
@@ -8289,17 +8265,8 @@
           epicRewardK: "LIMITED GEAR",
           epicReward: function (name) { return name + " — yours on the first clear of this epic spot!"; },
           epicRewardGot: function (name) { return name + " — in your wardrobe ✓ (epic limited)"; },
-          epicNote: "EPIC quest: clear it on site — GPS check-in at the venue PLUS a photo taken there. Manual clear is disabled for epic quests.",
-          epicNoManual: "Epic quests can't be cleared manually — GPS check-in + an on-site photo only.",
-          epicPhotoTab: "EPIC CHECK-IN",
-          epicPhotoDesc: "You are at the venue! Take (or pick) a photo of this spot as proof — then the epic clear lands and the limited gear is yours.",
-          photoPick: "TAKE / PICK A PHOTO",
-          photoEmpty: "No photo yet — this clear needs one.",
-          photoOk: "▶ CONFIRM",
-          photoCancel: "CANCEL",
-          photoShare: "SHARE",
-          dailyPhotoTab: "DAILY PROOF PHOTO",
-          dailyPhotoDesc: "Show it, don't just tap it: take (or pick) a photo of this little joy. It stays as today's record — no photo, no clear.",
+          epicNote: "EPIC quest: clear it on site — GPS check-in at the venue. Manual clear is disabled for epic quests.",
+          epicNoManual: "Epic quests can't be cleared manually — on-site GPS check-in only.",
           resOnsite: "ON-SITE CLEAR",
           resRemote: "REMOTE CLEAR · 30%",
           remoteUsed: "Remote clear is once a day — today's is used up. On-site GPS clears are always open!",
@@ -8327,13 +8294,15 @@
           restUsedTxt: "REST CARD USED",
           weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
           allDoneBonus: "ALL DAILIES BONUS",
-          calTitleStr: "PHOTO DIARY",
-          calOpen: "▶ PHOTO DIARY CALENDAR",
-          photoPrivate: "Photos are stored only on this device — never uploaded, never shared.",
-          memoLabel: "ONE-LINE NOTE (optional)",
-          diaryMemoK: "Note",
+          calTitleStr: "RECORD CALENDAR",
+          calOpen: "▶ RECORD CALENDAR",
+          calNote: "A ★ day = every daily quest cleared. Tap a day to see what was done.",
           diaryTasksK: "Cleared that day",
-          diaryEmpty: "No photo diary entry for this day yet.",
+          diaryEmpty: "No record for this day yet.",
+          mfEvent: "EVENTS",
+          mfEpic: "EPIC",
+          mfAccepted: "ACCEPTED",
+          mfCleared: "CLEARED",
           shareBtn: "↗ SHARE CARD",
           shareQuest: function (name) { return "I cleared “" + name + "” in Tokyo Side Quests — a real-world Tokyo adventure RPG!"; },
           shareEpic: function (name) { return "EPIC CLEAR! I conquered “" + name + "” and won limited gear in Tokyo Side Quests!"; },
@@ -8368,12 +8337,12 @@
             { n: "Climb a hill or shrine steps", d: "To the top, then look back at how far the city spreads.", c: "walk" },
             { n: "Walk a shopping street end to end", d: "The whole shotengai, window by window, no skipping.", c: "walk", b: 1 },
             { n: "Chase the sunset on foot", d: "Walk toward the evening sun until it drops behind the buildings.", c: "walk" },
-            { n: "Photograph the sky", d: "One photo of today's sky, wherever you are. Keep it in the diary.", c: "see" },
+            { n: "Photograph the sky", d: "One photo of today's sky, wherever you are.", c: "see" },
             { n: "Watch a train pass", d: "Pick a crossing or platform edge and just watch for five minutes.", c: "see" },
             { n: "Read one shop sign properly", d: "A sign you always pass — today you actually read all of it.", c: "see" },
             { n: "Find today's best cloud", d: "Judge the sky like a contest. One cloud wins.", c: "see" },
             { n: "People-watch from a window seat", d: "Ten minutes of the city's quiet theatre, coffee optional.", c: "see" },
-            { n: "Spot a cat", d: "Real or statue — Tokyo always hides one. Photo goes in the diary.", c: "see", b: 1 },
+            { n: "Spot a cat", d: "Real or statue — Tokyo always hides one.", c: "see", b: 1 },
             { n: "Watch street performers", d: "Stop for one whole song. Applause counts double.", c: "see" },
             { n: "Find one red thing", d: "Hunt the city for a single beautiful red. Photograph it.", c: "see" },
             { n: "Read a poster wall", d: "Event posters at a station or café — find one you'd actually go to.", c: "see" },
@@ -8405,7 +8374,7 @@
             { n: "Buy a small plant or seeds", d: "Something green for the windowsill. Name it if you like.", c: "mind" },
             { n: "One compliment, out loud", d: "To anyone — a coworker, a stranger's great coat. Say it kindly.", c: "mind" },
             { n: "Phone-free for 30 minutes", d: "Leave it in another room. Notice what your hands do instead.", c: "mind" },
-            { n: "Name three good things", d: "From today, out loud or in the diary note. Small counts.", c: "mind", b: 1 },
+            { n: "Name three good things", d: "From today, out loud or on paper. Small counts.", c: "mind", b: 1 },
             { n: "Forgive one small grudge", d: "Let one tiny annoyance go on purpose. Feel it get lighter.", c: "mind" },
             { n: "Plan one tiny treat for the weekend", d: "Write it down. Anticipation is half the flavor.", c: "mind" },
             { n: "Stand under a cherry tree", d: "One full minute in the petal weather.", c: "see", mo: [3, 4] },
@@ -8723,7 +8692,7 @@
           dailySub: "ちいさなクエスト、ちいさな幸せ。1件 +10 EXP。",
           dailyNpc: "これは日常の小さなクエスト。移動なし、どこでも数分で終わるやつ。本物の冒険はマップで待ってるよ！",
           dailyProg: "今日", dailyDoneBtn: "できた！", dailyDoneStamp: "達成 ✓",
-          dailyNote: "デイリークエストは深夜0時に切り替わります。達成には証明写真が必要です — 小さな幸せを撮ってから、達成になります。",
+          dailyNote: "デイリークエストは深夜0時に切り替わります。小さな幸せを叶えたら行をタップ — 3つ全達成で +30 EXP ボーナス。",
           dailyKindRealTag: "本物のクエスト",
           dailyKindReal: "展示・フェス・ワークショップへ、実際に足を運んで会場でチェックインする探険。",
           dailyKindDailyTag: "デイリー",
@@ -8748,17 +8717,8 @@
           epicRewardK: "限定装備",
           epicReward: function (name) { return name + " — この史詩スポットの初回クリアで手に入る！"; },
           epicRewardGot: function (name) { return name + " — 入手済み ✓（史詩限定）"; },
-          epicNote: "史詩クエスト：会場でGPSチェックイン＋現場で撮った写真の両方が必要です。手動クリアは使えません。",
-          epicNoManual: "史詩クエストは手動クリアできません — GPSチェックイン＋現場写真のみ。",
-          epicPhotoTab: "史詩チェックイン",
-          epicPhotoDesc: "会場に到着！この場所の写真を撮って（または選んで）証明にしてください。史詩クリアが成立し、限定装備が手に入ります。",
-          photoPick: "写真を撮る・選ぶ",
-          photoEmpty: "まだ写真がありません — このクリアには写真が必要です。",
-          photoOk: "▶ これで達成！",
-          photoCancel: "やめる",
-          photoShare: "シェア",
-          dailyPhotoTab: "デイリーの証明写真",
-          dailyPhotoDesc: "タップだけで終わらせない：この小さな幸せの写真を撮って（または選んで）ください。今日の記録として残ります — 写真なしでは達成になりません。",
+          epicNote: "史詩クエスト：会場でのGPSチェックインでクリア。手動クリアは使えません。",
+          epicNoManual: "史詩クエストは手動クリアできません — 現地でのGPSチェックインのみ。",
           resOnsite: "実地クリア",
           resRemote: "遠距離クリア · 30%",
           remoteUsed: "遠距離クリアは1日1回まで — 今日は使用済みです。実地のGPSクリアはいつでもできます！",
@@ -8786,13 +8746,15 @@
           restUsedTxt: "お休みカード使用済み",
           weekDays: ["月", "火", "水", "木", "金", "土", "日"],
           allDoneBonus: "デイリー全達成ボーナス",
-          calTitleStr: "写真日記",
-          calOpen: "▶ 写真日記カレンダー",
-          photoPrivate: "写真はこの端末の中だけに保存されます。アップロードも共有もされません。",
-          memoLabel: "一言メモ（任意）",
-          diaryMemoK: "一言",
+          calTitleStr: "記録カレンダー",
+          calOpen: "▶ 記録カレンダー",
+          calNote: "★の日はデイリー全達成。日をタップすると、その日の達成が見られます。",
           diaryTasksK: "その日の達成",
-          diaryEmpty: "この日の写真日記はまだありません。",
+          diaryEmpty: "この日の記録はまだありません。",
+          mfEvent: "期間限定",
+          mfEpic: "史詩",
+          mfAccepted: "受注中",
+          mfCleared: "完了",
           shareBtn: "↗ 実績カードをシェア",
           shareQuest: function (name) { return "「" + name + "」をクリア！Tokyo Side Quests — 現実の東京を冒険するRPGで遊んでいます。"; },
           shareEpic: function (name) { return "史詩クリア！「" + name + "」を制覇して限定装備をGET！Tokyo Side Quests で東京を冒険中。"; },
@@ -8827,12 +8789,12 @@
             { n: "坂か神社の階段をのぼる", d: "頂上まで行って、街の広がりを振り返る。", c: "walk" },
             { n: "商店街を端から端まで歩く", d: "ショーウィンドウひとつずつ、全部見る。", c: "walk", b: 1 },
             { n: "夕日を追いかけて歩く", d: "夕日がビルの向こうに沈むまで、西へ歩く。", c: "walk" },
-            { n: "今日の空を撮る", d: "今いる場所の空を1枚。日記に残そう。", c: "see" },
+            { n: "今日の空を撮る", d: "今いる場所の空を1枚撮ろう。", c: "see" },
             { n: "電車が通るのを見る", d: "踏切かホームの端で、ただ5分見る。", c: "see" },
             { n: "お店の看板をちゃんと読む", d: "いつも素通りの看板を、今日は全部読む。", c: "see" },
             { n: "今日いちばんの雲を決める", d: "空をコンテストみたいに審査。優勝はひとつ。", c: "see" },
             { n: "窓側の席で人間観察", d: "街の静かな劇場を10分。コーヒーは任意。", c: "see" },
-            { n: "猫を見つける", d: "本物でも像でも — 東京は必ず隠している。写真は日記へ。", c: "see", b: 1 },
+            { n: "猫を見つける", d: "本物でも像でも — 東京は必ず隠している。", c: "see", b: 1 },
             { n: "大道芸や路上ライブを見る", d: "1曲まるごと立ち止まって。拍手は2倍カウント。", c: "see" },
             { n: "赤いものをひとつ探す", d: "街の中で、きれいな赤をひとつだけ。撮っておく。", c: "see" },
             { n: "ポスターの壁を読む", d: "駅やカフェのイベントポスター。本当に行きたいやつを探す。", c: "see" },
@@ -8864,7 +8826,7 @@
             { n: "小さな植物か種を買う", d: "窓辺の緑をひとつ。名前をつけてもいい。", c: "mind" },
             { n: "誰かを声に出して褒める", d: "同僚でも、素敵なコートの他人でも。やさしく言う。", c: "mind" },
             { n: "30分スマホを手放す", d: "別の部屋に置く。手が代わりに何をするか観察。", c: "mind" },
-            { n: "今日の良いことを3つ言う", d: "声に出すか、日記のメモに。小さいのでもカウント。", c: "mind", b: 1 },
+            { n: "今日の良いことを3つ言う", d: "声に出すか、紙に書いて。小さいのでもカウント。", c: "mind", b: 1 },
             { n: "小さなモヤモヤをひとつ許す", d: "小さな苛立ちを意識して手放す。軽くなるのを感じる。", c: "mind" },
             { n: "週末の小さなご褒美を計画する", d: "書き留めておく。楽しみに待つのが味の半分。", c: "mind" },
             { n: "桜の木の下に立つ", d: "花びらの天気の中で、まる1分。", c: "see", mo: [3, 4] },
@@ -9182,7 +9144,7 @@
           dailySub: "小小的任务，小小的幸福。每件 +10 EXP。",
           dailyNpc: "这些是日常的小任务：不用出门，在任何地方几分钟就能完成。真正的冒险，在地图上等着你！",
           dailyProg: "今日", dailyDoneBtn: "完成了！", dailyDoneStamp: "达成 ✓",
-          dailyNote: "每日任务在午夜刷新。每个任务都需要一张照片作为证明 — 拍下小确幸，才算完成。",
+          dailyNote: "每日任务在午夜刷新。完成小确幸后点一下那一行 — 三个全完成有 +30 EXP 奖励。",
           dailyKindRealTag: "真实任务",
           dailyKindReal: "真正的探险：实际前往展览、节日和工作坊，并在场馆打卡。",
           dailyKindDailyTag: "每日",
@@ -9207,17 +9169,8 @@
           epicRewardK: "限定装备",
           epicReward: function (name) { return name + " — 首次完成这个史诗地点即可获得！"; },
           epicRewardGot: function (name) { return name + " — 已收入衣柜 ✓（史诗限定）"; },
-          epicNote: "史诗任务：必须在现场 GPS 打卡 ＋ 拍一张现场照片。不能手动完成。",
-          epicNoManual: "史诗任务不能手动完成 — 仅限 GPS 打卡＋现场照片。",
-          epicPhotoTab: "史诗打卡",
-          epicPhotoDesc: "你已经到达现场！拍一张（或选择一张）这个地点的照片作为证明 — 史诗任务随即完成，限定装备归你所有。",
-          photoPick: "拍照 / 选择照片",
-          photoEmpty: "还没有照片 — 这次完成需要一张照片。",
-          photoOk: "▶ 确认完成",
-          photoCancel: "取消",
-          photoShare: "分享",
-          dailyPhotoTab: "每日证明照片",
-          dailyPhotoDesc: "别只是点一点：拍一张（或选择一张）这个小确幸的照片。它会作为今天的记录留下来 — 没有照片就不能完成。",
+          epicNote: "史诗任务：在场馆现场 GPS 打卡即可完成。不能手动完成。",
+          epicNoManual: "史诗任务不能手动完成 — 仅限现场 GPS 打卡。",
           resOnsite: "实地完成",
           resRemote: "远程完成 · 30%",
           remoteUsed: "远程完成每天仅 1 次 — 今天已用完。实地 GPS 打卡随时都可以！",
@@ -9245,13 +9198,15 @@
           restUsedTxt: "休息卡已使用",
           weekDays: ["一", "二", "三", "四", "五", "六", "日"],
           allDoneBonus: "每日全完成奖励",
-          calTitleStr: "照片日记",
-          calOpen: "▶ 照片日记日历",
-          photoPrivate: "照片只保存在这台设备里 — 不会上传，也不会分享。",
-          memoLabel: "一句话备忘（可选）",
-          diaryMemoK: "一句话",
+          calTitleStr: "记录日历",
+          calOpen: "▶ 记录日历",
+          calNote: "带 ★ 的日子 = 每日任务全完成。点某一天可以看那天的完成记录。",
           diaryTasksK: "当天的完成",
-          diaryEmpty: "这一天还没有照片日记。",
+          diaryEmpty: "这一天还没有记录。",
+          mfEvent: "限时",
+          mfEpic: "史诗",
+          mfAccepted: "进行中",
+          mfCleared: "已完成",
           shareBtn: "↗ 分享成就卡",
           shareQuest: function (name) { return "我完成了「" + name + "」！正在玩 Tokyo Side Quests — 一款在真实东京冒险的 RPG。"; },
           shareEpic: function (name) { return "史诗完成！我征服了「" + name + "」，拿到了限定装备！Tokyo Side Quests 东京冒险中。"; },
@@ -9286,12 +9241,12 @@
             { n: "爬一段坡或神社的台阶", d: "爬到顶，回头看看城市铺展多远。", c: "walk" },
             { n: "把一条商店街走到底", d: "整条商店街，一个橱窗一个橱窗地看，不跳过。", c: "walk", b: 1 },
             { n: "追着夕阳走", d: "朝晚霞的方向走，直到太阳落进楼群后面。", c: "walk" },
-            { n: "拍一张天空的照片", d: "一张今天天空的照片，无论你在哪里。留在日记里。", c: "see" },
+            { n: "拍一张天空的照片", d: "一张今天天空的照片，无论你在哪里。", c: "see" },
             { n: "看一列电车经过", d: "选一个道口或站台边缘，就这样看五分钟。", c: "see" },
             { n: "认真读完一块店铺招牌", d: "一块你总是路过的招牌——今天把它完整读完。", c: "see" },
             { n: "选出今天最美的云", d: "像评委一样打量天空。只有一朵云能胜出。", c: "see" },
             { n: "坐在窗边看人来人往", d: "城市安静的剧场，十分钟。咖啡可选。", c: "see" },
-            { n: "找到一只猫", d: "真的或雕像——东京总藏着一只。照片进日记。", c: "see", b: 1 },
+            { n: "找到一只猫", d: "真的或雕像——东京总藏着一只。", c: "see", b: 1 },
             { n: "看街头表演", d: "为一整首歌停下脚步。鼓掌算双倍。", c: "see" },
             { n: "找一样红色的东西", d: "在城市里找一样美丽的红。拍下来。", c: "see" },
             { n: "读一面海报墙", d: "车站或咖啡馆的活动海报。找一张你真的想去看的。", c: "see" },
@@ -9323,7 +9278,7 @@
             { n: "买一株小植物或种子", d: "给窗台添一点绿。愿意的话给它起个名字。", c: "mind" },
             { n: "大声夸一个人", d: "同事也好，穿着好看大衣的陌生人也好。友善地说出来。", c: "mind" },
             { n: "30 分钟不碰手机", d: "把它放在另一个房间。留意你的手会做些什么。", c: "mind" },
-            { n: "说出今天的三件好事", d: "大声说，或写进日记备忘。小的也算。", c: "mind", b: 1 },
+            { n: "说出今天的三件好事", d: "大声说，或写在纸上。小的也算。", c: "mind", b: 1 },
             { n: "原谅一件小小的不快", d: "故意放下一件小烦恼。感受它变轻。", c: "mind" },
             { n: "计划周末的一件小奖励", d: "把它写下来。期待本身就是一半的味道。", c: "mind" },
             { n: "站在樱花树下", d: "在花瓣的天气里，站上整整一分钟。", c: "see", mo: [3, 4] },
@@ -9458,7 +9413,7 @@
 
       /* ============ State (localStorage; clears keep {id, clearedAt, area} for Phase 2 EXP) ============ */
       var LS_KEY = "tsq_state_v1";
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "aoi", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], photos: {}, bonus: false }, bonusExp: 0, bgmDay: "brave-c", bgmNight: "farm-night", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, gacha: { pulls: 0, owned: [], equipped: { hat: null, outfit: null, scarf: null } } };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "aoi", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "brave-c", bgmNight: "farm-night", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, gacha: { pulls: 0, owned: [], equipped: { hat: null, outfit: null, scarf: null } } };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -9494,7 +9449,9 @@
             state.dailyExp = typeof parsed.dailyExp === "number" ? parsed.dailyExp : 0;
             state.dailyTotal = typeof parsed.dailyTotal === "number" ? parsed.dailyTotal : 0;
             if (parsed.daily && typeof parsed.daily === "object") {
-              state.daily = { date: typeof parsed.daily.date === "string" ? parsed.daily.date : "", done: Array.isArray(parsed.daily.done) ? parsed.daily.done : [], photos: (parsed.daily.photos && typeof parsed.daily.photos === "object") ? parsed.daily.photos : {}, bonus: !!parsed.daily.bonus };
+              /* legacy saves may carry a photos map from the retired
+                 photo-proof system — it is dropped, not read */
+              state.daily = { date: typeof parsed.daily.date === "string" ? parsed.daily.date : "", done: Array.isArray(parsed.daily.done) ? parsed.daily.done : [], bonus: !!parsed.daily.bonus };
             }
             /* creator name / puzzle pieces / remote-clear day cap:
                older saves carry none of these — defaults keep the
@@ -9504,12 +9461,20 @@
             state.puzzle = Array.isArray(parsed.puzzle) ? parsed.puzzle.filter(function (n) { return typeof n === "number" && n >= 0 && n < 16; }) : [];
             state.puzzleDone = !!parsed.puzzleDone;
             /* F/G: share-reward ledger + streak day log + the
-               private photo diary (all on-device only) */
+               record calendar (per-day cleared-task names only;
+               legacy photo-diary entries are reduced to their
+               task lists — photos and notes are discarded) */
             state.ticketBonus = typeof parsed.ticketBonus === "number" ? parsed.ticketBonus : 0;
             state.sharedEver = !!parsed.sharedEver;
             state.shareDate = typeof parsed.shareDate === "string" ? parsed.shareDate : "";
             state.dayLog = (parsed.dayLog && typeof parsed.dayLog === "object") ? parsed.dayLog : {};
-            state.diary = (parsed.diary && typeof parsed.diary === "object") ? parsed.diary : {};
+            state.diary = {};
+            if (parsed.diary && typeof parsed.diary === "object") {
+              Object.keys(parsed.diary).forEach(function (ds) {
+                var en = parsed.diary[ds];
+                state.diary[ds] = { tasks: (en && Array.isArray(en.tasks)) ? en.tasks.filter(function (x) { return typeof x === "string"; }) : [] };
+              });
+            }
             state.bonusExp = typeof parsed.bonusExp === "number" ? parsed.bonusExp : 0;
             if (parsed.gacha && typeof parsed.gacha === "object") {
               var pg = parsed.gacha, pe = (pg.equipped && typeof pg.equipped === "object") ? pg.equipped : {};
@@ -9546,6 +9511,18 @@
         return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
       }
       var TODAY = todayStr();
+      /* the LOCAL calendar day of a stored timestamp. Clear
+         records keep clearedAt as a UTC ISO string; slicing its
+         first 10 chars yields the UTC day, which disagrees with
+         the local TODAY for local 00:00–08:59 in JST — that
+         mismatch broke the cleared-on date AND the remote-slot
+         restore on undo. Always convert through Date. */
+      function localDay(iso) {
+        var d = new Date(iso);
+        if (isNaN(d.getTime())) return String(iso || "").slice(0, 10);
+        var m = d.getMonth() + 1, day = d.getDate();
+        return d.getFullYear() + "-" + (m < 10 ? "0" : "") + m + "-" + (day < 10 ? "0" : "") + day;
+      }
       function parseD(s) { var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
       function daysBetween(a, b) { return Math.round((parseD(b) - parseD(a)) / 86400000); }
       function isVisible(e) { return e.evergreen || e.recurring || (e.end && e.end >= TODAY); }
@@ -10376,7 +10353,7 @@
         { id: "master-coat", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", reward: { type: "level", n: 5 } },
         /* EPIC limited gear (user direction, 2026-10-27): one
            exclusive piece per evergreen landmark, granted by the
-           first EPIC clear of that spot (GPS + on-site photo).
+           first EPIC clear of that spot (on-site GPS check-in).
            Never in the gacha pool. */
         { id: "ep-hachiko", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg-hachiko" } },
         { id: "ep-meiji", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#1e4634", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg-meiji-jingu" } },
@@ -11468,7 +11445,7 @@
         document.getElementById("statCleared").textContent = cleared.length;
         document.getElementById("statActive").textContent = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
         document.getElementById("statAreas").textContent = Object.keys(areas).length;
-        document.getElementById("mapCount").textContent = L().onBoard(VISIBLE.length);
+        document.getElementById("mapCount").textContent = L().onBoard(mapShownCount());
         var total = VISIBLE.length;
         document.getElementById("progressNum").textContent = cleared.length + "/" + total;
         document.getElementById("progressFill").style.width = (total ? Math.round((cleared.length / total) * 100) : 0) + "%";
@@ -11497,7 +11474,31 @@
         "tokyo-atlas": [-16, 4], "hololive-grand-reception": [0, -14], "amusement-expo-2026": [8, 9],
         "pigment-workshop": [-4, -9], "seitoku-murals": [-10, -6], "marimekko-teien": [10, 6]
       };
+      /* ============ MAP QUICK TYPE FILTER (user, 2026-10-27) ====
+         Chips on the map itself (NOT the LIST search modal):
+         all / limited-time events / epic (evergreen) / accepted /
+         cleared. Pins, clusters and the on-board count all follow
+         the active filter instantly. */
+      var mapFilter = "all";
+      function mapFilterMatch(e) {
+        if (mapFilter === "event") return !e.evergreen;
+        if (mapFilter === "epic") return !!e.evergreen;
+        if (mapFilter === "accepted") return isAccepted(e.id) && !isCleared(e.id);
+        if (mapFilter === "cleared") return isCleared(e.id);
+        return true;
+      }
+      function mapShownCount() { return VISIBLE.filter(mapFilterMatch).length; }
+      function renderMapFilterChips() {
+        var t = L();
+        var labels = { all: t.all, event: t.mfEvent, epic: t.mfEpic, accepted: t.mfAccepted, cleared: t.mfCleared };
+        document.querySelectorAll("#mapFilters .mf-chip").forEach(function (b) {
+          var k = b.getAttribute("data-mf");
+          b.textContent = labels[k] || k;
+          b.setAttribute("aria-pressed", String(mapFilter === k));
+        });
+      }
       function renderMap() {
+        renderMapFilterChips();
         mapZoom.querySelectorAll(".pin,.area-label").forEach(function (n) { n.remove(); });
         AREA_LABELS.forEach(function (a) {
           var el = document.createElement("span");
@@ -11522,7 +11523,7 @@
           el.appendChild(main); el.appendChild(sub);
           mapZoom.appendChild(el);
         });
-        VISIBLE.forEach(function (e) {
+        VISIBLE.filter(mapFilterMatch).forEach(function (e) {
           var b = document.createElement("button");
           b.type = "button";
           b.className = "pin" + (isCleared(e.id) ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "");
@@ -11973,7 +11974,7 @@
           return logRow(e, fmtRange(e) + " · " + areaName(e.area));
         }).join("");
         document.getElementById("logCleared").innerHTML = cleared.map(function (o) {
-          return logRow(o.e, t.clearedOn + fmtDate(o.c.clearedAt.slice(0, 10)) + " · " + areaName(o.c.area));
+          return logRow(o.e, t.clearedOn + fmtDate(localDay(o.c.clearedAt)) + " · " + areaName(o.c.area));
         }).join("");
         document.getElementById("logActiveEmpty").hidden = active.length > 0;
         document.getElementById("logClearedEmpty").hidden = cleared.length > 0;
@@ -12069,9 +12070,7 @@
         else detail.setAttribute("open", "");
       }
       /* EPIC reward line in the detail: the spot's limited gear,
-         previewed before the clear and marked once it is yours;
-         after an epic clear it also carries the on-site proof
-         photo stored with the clear record. */
+         previewed before the clear and marked once it is yours. */
       function renderEpicReward(e) {
         var box = document.getElementById("epicReward");
         if (!box) return;
@@ -12079,12 +12078,10 @@
         var it = epicItemFor(e.id), t = L();
         var name = it ? ((t.gachaItems[it.id] || {}).name || it.id) : "";
         var got = !!it && ownsItem(it.id);
-        var rec = clearRec(e.id);
         box.hidden = false;
         box.innerHTML = (it ? '<canvas width="16" height="16" data-epic-canvas aria-hidden="true"></canvas>' : "") +
           '<span><span class="er-k">' + esc(t.epicBadge) + " · " + esc(t.epicRewardK) + "</span>" +
-          esc(got ? t.epicRewardGot(name) : t.epicReward(name)) + "</span>" +
-          (rec && rec.photo ? '<img class="er-photo" src="' + rec.photo + '" alt="">' : "");
+          esc(got ? t.epicRewardGot(name) : t.epicReward(name)) + "</span>";
         var cv = box.querySelector("[data-epic-canvas]");
         if (cv && it) drawItemPreview(cv, it);
       }
@@ -12118,7 +12115,7 @@
         var line = document.getElementById("detailClearedLine");
         var rec = clearRec(currentId);
         line.hidden = !rec;
-        if (rec) line.textContent = "★ " + t.clearedOn + fmtDate(rec.clearedAt.slice(0, 10)) + " · " + areaName(rec.area);
+        if (rec) line.textContent = "★ " + t.clearedOn + fmtDate(localDay(rec.clearedAt)) + " · " + areaName(rec.area);
         var undo = document.getElementById("btnUndo");
         undo.hidden = !(clr || acc);
         if (clr) undo.textContent = t.undoClear;
@@ -12286,7 +12283,7 @@
         if (completed) state.puzzleDone = true;
         return { piece: pick, n: state.puzzle.length, completed: completed };
       }
-      function doClear(id, method, photo) {
+      function doClear(id, method) {
         var e = byId(id); if (!e || isCleared(id)) return;
         method = method === "remote" ? "remote" : "gps";
         if (e.evergreen && method !== "gps") return;   /* EPIC: on-site only, always */
@@ -12300,7 +12297,6 @@
         var base = expFor(e);
         var granted = method === "remote" ? Math.round(base * 0.3) : base;
         var rec = { id: id, clearedAt: new Date().toISOString(), area: e.area, method: method, exp: granted };
-        if (photo) rec.photo = photo;
         state.clears.push(rec);
         var pieceRes = method === "gps" ? dropPuzzlePiece() : null;
         var epicIt = e.evergreen ? epicItemFor(id) : null;
@@ -12311,8 +12307,8 @@
         renderEpicReward(e);
         /* the settlement's share card (spec G): achievement
            moments only — puzzle completion > epic > level-up >
-           plain clear. The card is generated pixel art + text;
-           it NEVER contains a personal photo. */
+           plain clear. The card is generated pixel art + text
+           only; it never carries personal content. */
         var shareText = (pieceRes && pieceRes.completed) ? L().sharePuzzle
           : epicIt ? L().shareEpic(evName(e))
           : (newInfo.lv > prevInfo.lv ? L().shareLevel(newInfo.lv) : L().shareQuest(evName(e)));
@@ -12323,7 +12319,6 @@
           piece: pieceRes,
           rewardItem: epicIt ? epicIt.id : null,
           rewardName: epicIt ? ((L().gachaItems[epicIt.id] || {}).name || epicIt.id) : "",
-          photo: e.evergreen ? photo : null,
           shareText: shareText,
           results: {
             cleared: state.clears.filter(function (c) { return byId(c.id); }).length,
@@ -12343,7 +12338,7 @@
         /* undoing today's remote clear hands the daily remote
            slot back — the EXP leaves with the record, so there
            is nothing to farm */
-        if (rec && rec.method === "remote" && rec.clearedAt.slice(0, 10) === TODAY && state.remoteDate === TODAY) state.remoteDate = "";
+        if (rec && rec.method === "remote" && localDay(rec.clearedAt) === TODAY && state.remoteDate === TODAY) state.remoteDate = "";
         save(); sfx("back");
         renderStatus(); renderMap(); renderList(); renderLog(); refreshDetailButtons();
       }
@@ -12513,7 +12508,6 @@
           '<div class="cp-head ps">' + (o.mini ? o.title : "CLEAR!") + "</div>" +
           (o.mini ? "" : '<div class="cp-stamp ps" hidden>' + esc(t.clearedStamp) + "</div>") +
           '<div class="cp-name">' + esc(o.name) + "</div>" +
-          (o.photo ? '<img class="cp-photo" src="' + o.photo + '" alt="">' : "") +
           '<div class="cp-lines">' + lines + "</div>" +
           (o.rewardItem ? '<button class="cp-wear" type="button" data-cp-wear="' + o.rewardItem + '">' + esc(t.wearNow) + "</button>" : "") +
           (o.shareText ? '<button class="cp-share" type="button" data-cp-share>' + esc(t.shareBtn) + '</button><span class="cp-share-note" data-cp-share-note></span>' : "") +
@@ -12617,77 +12611,6 @@
         if (nm) nm.textContent = L().themeNames[state.theme] || state.theme;
       }
 
-      /* ============ PHOTO PROOF step ============
-         One shared gate: epic check-ins (after a successful GPS
-         fix) and daily completions pass through here — a photo
-         must be attached before the clear lands, so tap-only
-         completion is structurally impossible. Dailies may add a
-         one-line memo for the private diary. Photos are
-         compressed hard (max 360px, JPEG) and stay ON-DEVICE:
-         never uploaded, never shared (user privacy rule). */
-      var psCb = null, psData = null;
-      function openPhotoStep(opts) {
-        var t = L();
-        psCb = opts.onOk || null;
-        psData = null;
-        document.getElementById("psTab").textContent = opts.tab;
-        document.getElementById("psDesc").textContent = opts.desc;
-        document.getElementById("psPick").textContent = t.photoPick;
-        document.getElementById("psOk").textContent = opts.okLabel || t.photoOk;
-        document.getElementById("psCancel").textContent = t.photoCancel;
-        document.getElementById("psPrivate").textContent = t.photoPrivate;
-        document.getElementById("psEmpty").textContent = t.photoEmpty;
-        var memoRow = document.getElementById("psMemoRow");
-        memoRow.hidden = !opts.memo;
-        if (opts.memo) {
-          document.getElementById("psMemoLabel").textContent = t.memoLabel;
-          var mi = document.getElementById("psMemo");
-          mi.value = "";
-          mi.setAttribute("placeholder", opts.memoHint || "");
-        }
-        var img = document.getElementById("psImg");
-        img.hidden = true; img.removeAttribute("src");
-        document.getElementById("psEmpty").hidden = false;
-        document.getElementById("psOk").disabled = true;
-        document.getElementById("psFile").value = "";
-        var box = document.getElementById("photoStep");
-        box.hidden = false;
-        box.classList.add("show");
-        popShow(box);
-        sfx("open");
-      }
-      function closePhotoStep() {
-        var box = document.getElementById("photoStep");
-        if (!box) return;
-        box.hidden = true;
-        box.classList.remove("show");
-        popHide(box);
-        psCb = null; psData = null;
-      }
-      function psHandleFile(file) {
-        if (!file) return;
-        var url = URL.createObjectURL(file);
-        var img = new Image();
-        img.onload = function () {
-          URL.revokeObjectURL(url);
-          var max = 360;
-          var w = img.naturalWidth || 1, h = img.naturalHeight || 1;
-          var k = Math.min(1, max / Math.max(w, h));
-          var cv = document.createElement("canvas");
-          cv.width = Math.max(1, Math.round(w * k));
-          cv.height = Math.max(1, Math.round(h * k));
-          cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
-          psData = cv.toDataURL("image/jpeg", 0.62);
-          var pv = document.getElementById("psImg");
-          pv.src = psData; pv.hidden = false;
-          document.getElementById("psEmpty").hidden = true;
-          document.getElementById("psOk").disabled = false;
-          sfx("accept");
-        };
-        img.onerror = function () { URL.revokeObjectURL(url); };
-        img.src = url;
-      }
-
       /* ============ Location check-in (location read only at the moment of check-in; never tracked or stored) ============ */
       function haversineM(lat1, lng1, lat2, lng2) {
         var R = 6371000, rad = Math.PI / 180;
@@ -12724,10 +12647,9 @@
           var r = v.r || 400;
           if (d <= r) {
             showMsg("ok", t.checkinOk);
-            /* arrival is only the GATE: the caller decides what
-               the clear still needs (epic = an on-site photo) */
+            /* arrival is the gate: the caller runs the clear */
             if (onArrive) onArrive(e);
-            else doClear(e.id, "gps", null);
+            else doClear(e.id, "gps");
           } else {
             sfx("back");
             showMsg("err", t.tooFar(fmtDist(d), fmtDist(r)));
@@ -12767,17 +12689,11 @@
             }
           }
         }, refreshDetailButtons, function (arrivedEv) {
-          /* GPS confirmed on site. EPIC quests still owe a photo
-             (spec B); normal quests clear right here at 100%. */
-          if (arrivedEv.evergreen) {
-            var t = L();
-            openPhotoStep({
-              tab: t.epicPhotoTab, desc: t.epicPhotoDesc, okLabel: t.photoOk, memo: false,
-              onOk: function (data) { doClear(arrivedEv.id, "gps", data); }
-            });
-          } else {
-            doClear(arrivedEv.id, "gps", null);
-          }
+          /* GPS confirmed on site — that alone clears the quest
+             at 100%, epic included (the photo-proof step was
+             retired by the user, 2026-10-27: GPS is the gate,
+             and for epic quests it is the ONLY gate) */
+          doClear(arrivedEv.id, "gps");
         });
       }
 
@@ -13034,6 +12950,11 @@
         save();
         closeCreator();
         renderHeroGrids();
+        /* the status bar must show the NEW hero (name + avatar)
+           from the first frame inside — without this it kept the
+           pre-creation preset ("AOI") until some later action
+           happened to re-render it */
+        renderStatus();
         hideStart();
       }
       function hideStart() {
@@ -13115,23 +13036,85 @@
         { view: "list", sel: "#styleBtn" }
       ];
       var tutStep = 0;
+      /* ============ Tutorial spotlight (fixed, 2026-10-27) ====
+         The ring used to be placed ONCE from a rect measured two
+         frames after the step opened — but the map keeps moving
+         (entry zoom, pans, cluster re-renders), so the ring
+         drifted off its pin (user screenshot). Now:
+         1. the target is a REAL single pin whose centre is inside
+            the visible map box — never an off-screen pin, never a
+            cluster badge;
+         2. if no pin is on screen, the map is first CENTRED on a
+            real pin (same cover-fit math as a successful locate);
+         3. while the tutorial is open, a rAF loop re-measures the
+            target's live getBoundingClientRect EVERY FRAME and
+            re-seats the ring, so it tracks pans and zooms exactly
+            and can never be left behind by a settling transform. */
+      var tutCenteredFor = -1;
+      function tutPinVisible(pin, boxR) {
+        var r = pin.getBoundingClientRect();
+        if (r.width <= 0 || r.height <= 0) return null;
+        var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        return (cx > boxR.left + 6 && cx < boxR.right - 6 && cy > boxR.top + 6 && cy < boxR.bottom - 6) ? r : null;
+      }
       function tutTarget(flow) {
         if (flow.sel === "pin") {
-          var pins = document.querySelectorAll("#mapZoom .pin");
+          var box = document.getElementById("mapBox");
+          var boxR = box ? box.getBoundingClientRect() : null;
+          var pins = document.querySelectorAll("#mapZoom .pin:not(.is-clustered)");
+          var first = null;
           for (var i = 0; i < pins.length; i++) {
-            var r = pins[i].getBoundingClientRect();
-            if (r.width > 0 && r.height > 0) return pins[i];
+            if (!first) first = pins[i];
+            if (boxR && tutPinVisible(pins[i], boxR)) return pins[i];
           }
-          return document.querySelector("#mapZoom .cluster-pin") || document.getElementById("mapBox");
+          if (first) {
+            /* no single pin on screen: centre the map on the
+               first real pin ONCE for this step, then the tracking
+               loop seats the ring on it as the pan settles */
+            if (tutCenteredFor !== tutStep) {
+              tutCenteredFor = tutStep;
+              var px = parseFloat(first.style.left), py = parseFloat(first.style.top);
+              if (!isNaN(px) && !isNaN(py)) {
+                if (mapBox.classList.contains("in-big")) centerOnPct({ x: px, y: py }, 1.6);
+                else {
+                  var g = layoutMap();
+                  if (g) {
+                    zoom.s = Math.min(2.9, Math.max(1.2, zoom.s));
+                    zoom.tx = g.w / 2 - zoom.s * (px / 100) * g.pw;
+                    zoom.ty = g.h / 2 - zoom.s * (py / 100) * g.ph;
+                    applyZoom();
+                  }
+                }
+              }
+            }
+            return first;
+          }
+          return box;
         }
         return document.querySelector(flow.sel) || (flow.fb ? document.querySelector(flow.fb) : null);
       }
+      var tutTrackOn = false;
+      function tutTrackLoop() {
+        if (!tutTrackOn) return;
+        var tut = document.getElementById("tutorial");
+        if (!tut || tut.hidden) { tutTrackOn = false; return; }
+        var flow = TUT_FLOW[Math.min(tutStep, TUT_FLOW.length - 1)];
+        placeTutSpot(flow);
+        requestAnimationFrame(tutTrackLoop);
+      }
+      function tutTrackStart() {
+        if (tutTrackOn) return;
+        tutTrackOn = true;
+        requestAnimationFrame(tutTrackLoop);
+      }
       function showTutorial(step) {
         tutStep = step || 0;
+        tutCenteredFor = -1;
         var tut = document.getElementById("tutorial");
         if (!tut) return;
         tut.hidden = false;
         renderTutorial();
+        tutTrackStart();
       }
       function renderTutorial() {
         var t = L(), steps = t.tutSteps || [];
@@ -13150,8 +13133,10 @@
         document.getElementById("tutBack").textContent = t.tutBack;
         document.getElementById("tutSkip").textContent = t.tutSkip;
         document.getElementById("tutNext").textContent = tutStep === steps.length - 1 ? t.tutDone : t.tutNext;
-        /* measure only after the view switch has laid out */
-        requestAnimationFrame(function () { requestAnimationFrame(function () { placeTutSpot(flow); }); });
+        /* placement is continuous (tutTrackLoop) — seat it once
+           right away so the first painted frame is already true */
+        placeTutSpot(flow);
+        tutTrackStart();
       }
       function placeTutSpot(flow) {
         var tut = document.getElementById("tutorial");
@@ -13161,6 +13146,13 @@
         var el = tutTarget(flow);
         if (!el) { spot.hidden = true; win.classList.add("pos-bottom"); win.classList.remove("pos-top"); return; }
         var r = el.getBoundingClientRect();
+        /* a target outside the viewport gets NO ring — a floating
+           frame pointing at nothing is worse than none; the ring
+           appears the moment the target is truly on screen */
+        if (r.width <= 0 || r.height <= 0 || r.bottom < 0 || r.top > window.innerHeight || r.right < 0 || r.left > window.innerWidth) {
+          spot.hidden = true;
+          return;
+        }
         var pad = 7;
         spot.hidden = false;
         spot.style.left = Math.max(2, r.left - pad) + "px";
@@ -13177,6 +13169,7 @@
         else { tutStep++; renderTutorial(); sfx("move"); }
       }
       function endTutorial() {
+        tutTrackOn = false;
         var tut = document.getElementById("tutorial");
         if (tut) tut.hidden = true;
         var spot = document.getElementById("tutSpot");
@@ -13277,7 +13270,7 @@
 
       /* ============ Daily quests (small joys, rotates at midnight) ============ */
       function ensureDaily() {
-        if (state.daily.date !== TODAY) { state.daily = { date: TODAY, done: [], photos: {}, bonus: false }; save(); }
+        if (state.daily.date !== TODAY) { state.daily = { date: TODAY, done: [], bonus: false }; save(); }
       }
       /* the pool is ~65 categorized little joys (food / walk /
          see / make / tidy / mind, a few LUCKY bonus tasks, a few
@@ -13332,7 +13325,6 @@
            row itself completes it and stamps the row */
         document.getElementById("dailyCards").innerHTML = list.map(function (q) {
           var done = state.daily.done.indexOf(q.idx) !== -1;
-          var photo = done && state.daily.photos ? state.daily.photos[q.idx] : null;
           return '<button class="drow' + (done ? " done" : "") + (q.lucky ? " lucky" : "") + '" type="button" data-daily="' + q.idx + '"' + (done ? " disabled" : "") + ">" +
             '<span class="dr-cursor" aria-hidden="true">▶</span>' +
             '<span class="dr-main"><span class="dr-name">' +
@@ -13340,12 +13332,11 @@
               (q.lucky ? '<span class="dr-lucky">' + esc(t.luckyTag) + "</span>" : "") +
               '</span><span class="dr-desc">' + esc(q.desc) + "</span></span>" +
             '<span class="dr-dots" aria-hidden="true"></span>' +
-            (photo ? '<img class="dr-thumb" src="' + photo + '" alt="">' : '<span class="dr-cam" aria-hidden="true">' + ICONS.camera + "</span>") +
             '<span class="dr-exp">+' + (q.lucky ? 30 : 10) + " EXP</span>" +
             (done ? '<span class="dr-stamp">' + esc(t.dailyDoneStamp) + "</span>" : "") + "</button>";
         }).join("");
         document.querySelectorAll("[data-daily]").forEach(function (b) {
-          b.addEventListener("click", function () { startDailyPhoto(parseInt(b.getAttribute("data-daily"), 10)); });
+          b.addEventListener("click", function () { completeDaily(parseInt(b.getAttribute("data-daily"), 10)); });
         });
         renderStreak();
         document.getElementById("calOpenBtn").textContent = t.calOpen;
@@ -13380,37 +13371,22 @@
         for (var i = 0; i < list.length; i++) if (state.daily.done.indexOf(list[i].idx) === -1) { next = list[i]; break; }
         document.getElementById("dailyBannerName").textContent = next ? L().dailyBannerNext(next.name) : L().dailyAllDone;
       }
-      /* a daily tap opens the PHOTO step first (spec C/F):
-         no photo, no completion — the button alone can never
-         finish a daily. The photo + optional one-line memo land
-         in the private on-device diary. */
-      function startDailyPhoto(idx) {
-        ensureDaily();
-        if (state.daily.done.indexOf(idx) !== -1) return;
-        var t = L();
-        var q = null;
-        todaysDaily().forEach(function (x) { if (x.idx === idx) q = x; });
-        openPhotoStep({
-          tab: t.dailyPhotoTab, desc: t.dailyPhotoDesc, okLabel: t.photoOk, memo: true,
-          onOk: function (data, memo) { completeDaily(idx, data, memo, q); }
-        });
-      }
-      function completeDaily(idx, photo, memo, q) {
+      /* a daily tap completes it on the spot (the photo-proof
+         step was retired by the user, 2026-10-27 — motivation is
+         carried by the streak, the rest card, the all-clear
+         bonus and the record calendar instead). The cleared
+         task's NAME joins the day's record-calendar entry. */
+      function completeDaily(idx, q) {
         ensureDaily();
         if (state.daily.done.indexOf(idx) !== -1) return;
         if (!q) todaysDaily().forEach(function (x) { if (x.idx === idx) q = x; });
         var exp = q && q.lucky ? 30 : 10;
         var prevInfo = levelInfo(), badgesBefore = badgeProgress();
         state.daily.done.push(idx);
-        if (!state.daily.photos) state.daily.photos = {};
-        if (photo) state.daily.photos[idx] = photo;
         state.dailyExp = (state.dailyExp || 0) + exp;
         state.dailyTotal = (state.dailyTotal || 0) + 1;
-        /* the private photo diary (on-device only): the day's
-           photos, its latest one-line memo, its cleared tasks */
-        var dy = state.diary[TODAY] || (state.diary[TODAY] = { photos: [], memo: "", tasks: [] });
-        if (photo) dy.photos.push(photo);
-        if (memo) dy.memo = memo;
+        /* the record calendar: the day's cleared task names */
+        var dy = state.diary[TODAY] || (state.diary[TODAY] = { tasks: [] });
         if (q) dy.tasks.push(q.name);
         var sweep = state.daily.done.length >= todaysDaily().length;
         var bonus = 0;
@@ -13426,7 +13402,6 @@
         renderStatus(); renderDaily(); renderHero();
         celebrate({
           mini: true,
-          photo: photo || null,
           bonusExp: bonus,
           title: state.lang === "ja" ? "デイリー<br>達成！" : state.lang === "zh" ? "每日<br>达成！" : "DAILY<br>DONE!",
           name: q ? q.name : "", exp: exp, cat: null, flavor: "",
@@ -13497,12 +13472,16 @@
           '<span class="dw-dots">' + dots + "</span>";
       }
 
-      /* ============ PHOTO DIARY CALENDAR (private) ============ */
+      /* ============ RECORD CALENDAR ============
+         Marks only: a ★ + gold frame for a full-clear day
+         (state.dayLog), a dot for a day with any daily done
+         (state.diary task lists). Tapping a day lists the
+         quests cleared that day. No photos, no notes. */
       var calCursor = null;
       function renderCal() {
         var t = L();
         document.getElementById("calTitle").textContent = t.calTitleStr;
-        document.getElementById("calPrivate").textContent = t.photoPrivate;
+        document.getElementById("calPrivate").textContent = t.calNote;
         document.getElementById("calWeek").innerHTML = (t.weekDays || []).map(function (w) { return "<span>" + esc(w) + "</span>"; }).join("");
         if (!calCursor) calCursor = TODAY.slice(0, 7);
         var p = calCursor.split("-"), y = +p[0], m = +p[1];
@@ -13514,9 +13493,11 @@
         for (var dn = 1; dn <= days; dn++) {
           var ds = y + "-" + (m < 10 ? "0" : "") + m + "-" + (dn < 10 ? "0" : "") + dn;
           var dy = state.diary[ds];
-          var has = dy && dy.photos && dy.photos.length;
-          html += '<button type="button" class="cal-cell' + (state.dayLog[ds] ? " full" : "") + (ds === TODAY ? " today" : "") + (ds > TODAY ? " future" : "") + '" data-cal-day="' + ds + '">' +
-            '<span class="cal-num">' + dn + "</span>" + (has ? '<img src="' + dy.photos[0] + '" alt="">' : "") + "</button>";
+          var full = !!state.dayLog[ds];
+          var partial = !full && dy && dy.tasks && dy.tasks.length;
+          html += '<button type="button" class="cal-cell' + (full ? " full" : "") + (ds === TODAY ? " today" : "") + (ds > TODAY ? " future" : "") + '" data-cal-day="' + ds + '">' +
+            '<span class="cal-num">' + dn + "</span>" +
+            (full ? '<span class="cal-mark">★</span>' : partial ? '<span class="cal-dot"></span>' : "") + "</button>";
         }
         document.getElementById("calGrid").innerHTML = html;
         document.getElementById("calDay").hidden = true;
@@ -13525,15 +13506,13 @@
         var t = L();
         var dy = state.diary[ds];
         document.getElementById("calDay").hidden = false;
-        document.getElementById("calDayTitle").textContent = fmtDate(ds);
-        document.getElementById("calDayPhotos").innerHTML = dy && dy.photos ? dy.photos.map(function (p) { return '<img src="' + p + '" alt="">'; }).join("") : "";
-        document.getElementById("calDayMemo").textContent = dy && dy.memo ? t.diaryMemoK + ": " + dy.memo : "";
+        document.getElementById("calDayTitle").textContent = fmtDate(ds) + (state.dayLog[ds] ? " ★" : "");
         var tk = document.getElementById("calDayTasks");
         if (dy && dy.tasks && dy.tasks.length) {
           tk.innerHTML = "<span>" + esc(t.diaryTasksK) + "</span>" + dy.tasks.map(function (n) { return "<span>✓ " + esc(n) + "</span>"; }).join("");
-        } else if (!dy || !dy.photos || !dy.photos.length) {
+        } else {
           tk.innerHTML = "<span>" + esc(t.diaryEmpty) + "</span>";
-        } else tk.innerHTML = "";
+        }
       }
       function openCal() { calCursor = TODAY.slice(0, 7); renderCal(); document.getElementById("calScreen").hidden = false; sfx("open"); }
       function closeCal() { document.getElementById("calScreen").hidden = true; }
@@ -14096,20 +14075,9 @@
         if (!e || e.evergreen) return;            /* EPIC: remote clear does not exist */
         if (state.remoteDate === TODAY) return;   /* remote clear: once a day (spec D) */
         state.remoteDate = TODAY;
-        doClear(currentId, "remote", null);
+        doClear(currentId, "remote");
       });
-      /* photo proof step wiring */
-      document.getElementById("psPick").addEventListener("click", function () { document.getElementById("psFile").click(); });
-      document.getElementById("psFile").addEventListener("change", function () { psHandleFile(this.files && this.files[0]); });
-      document.getElementById("psCancel").addEventListener("click", function () { sfx("back"); closePhotoStep(); });
-      document.getElementById("psOk").addEventListener("click", function () {
-        if (!psData || !psCb) return;
-        var cb = psCb, data = psData;
-        var memo = document.getElementById("psMemoRow").hidden ? "" : document.getElementById("psMemo").value.trim().slice(0, 60);
-        closePhotoStep();
-        cb(data, memo);
-      });
-      /* photo diary calendar wiring */
+      /* record calendar wiring */
       document.getElementById("calOpenBtn").addEventListener("click", openCal);
       document.getElementById("calClose").addEventListener("click", function () { sfx("back"); closeCal(); });
       document.getElementById("calDayBack").addEventListener("click", function () { document.getElementById("calDay").hidden = true; });
@@ -14404,6 +14372,15 @@
       document.getElementById("clearAllBtn").addEventListener("click", clearOutfit);
       document.getElementById("mapZoomIn").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("move"); setZoom(zoom.s * 1.35); });
       document.getElementById("mapZoomOut").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("move"); setZoom(zoom.s / 1.35); });
+      /* map quick type filter: instant re-render of pins + count */
+      document.getElementById("mapFilters").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mf]"); if (!b) return;
+        ev.stopPropagation();
+        mapFilter = b.getAttribute("data-mf") || "all";
+        sfx("move");
+        renderMap();
+        renderStatus();
+      });
       document.getElementById("mapZoomHome").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); if (mapBox.classList.contains("in-big")) setZoom(1); else goHomeView(); });
       document.getElementById("locBtn").addEventListener("click", function (ev) { ev.stopPropagation(); locate(); });
       document.getElementById("locBtnBig").addEventListener("click", function () { locate(); });
