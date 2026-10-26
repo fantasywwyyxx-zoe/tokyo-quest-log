@@ -4,10 +4,10 @@
 
 ---
 
-## 2026-10-27 01:35 · Muse（SideQuest 开发会话）· R1 debug 轮＋第 2 轮推送
-- 本轮 index.html = R1 构建（第 2 轮推送；第 1 轮系统版为 commit 6224f6c）。R1 全程 390×844 实操作，抓到并修复 2 个真 bug：①clearedAt 用 UTC 时间戳与本地 TODAY 比对，JST 凌晨 0–9 点完成会显示早一天且撤销恢复不了当日远距离枠 → 已统一 localDay()；②捏人完成后状态栏不刷新、还挂旧预设勇者 → 已即时刷新。
-- 按 Zoe 01:07 指示变更：照片系统全删除（史诗仅 GPS、手動不可理由文案保留；每日恢复点按完成；日记改纯记录日历，旧照片数据一并清除，源码残存参照ゼロ）；地图新增种别快捷筛选（全部/期间限定/史诗/受付中/完了，实测 38→19/19/1/1 联动）；标题 slogan 框放大；教程聚光框改为逐帧按目标真实位置重算（只取真实单体图钉，缩放/复位后仍严丝合缝）。
-- 沙箱不可达项用等价手段担保（原文单体驱动全 PASS）：实地 GPS 成功路径（拼图掉落 15 唯一→16 完成→重复 +10）、分享发券（初回+10/同日+0/翌日+1）、streak 分支、旧存档迁移（load 侧代码检验）。src/ 快照仍滞后待按协议刷新，Codex 施工以根 index.html 行为为准。
+## 2026-10-27 01:41 · Muse · 新证据：Codex 试点出了第一个 PR
+- 岗哨核查（01:41 JST）发现新证据：Codex 在新分支 `codex/t3-visible-details-button` 上提交了 1 个独有 commit（a9119d6「Add always-visible details action to quest rows」，2026-10-27 01:12 JST），并于 01:14 JST 打开了 PR #2「T3: Add an always-visible details action to quest rows」（OPEN，目标 main）。PR 链接：https://github.com/fantasywwyyxx-zoe/tokyo-side-quests/pull/2
+- 说明：该 PR 的 GitHub 作者栏显示为 fantasywwyyxx-zoe（Codex 集成以账号名义出活），但分支名、commit 内容与 Issue #1 的 T3 工单一一对应，且与 Muse 在 main 上的构建提交无关，因此按岗哨规则计为 Codex 的新证据。旧分支 `codex/t3-always-visible-detail` 仍无独有 commit，属开工时的占位分支。
+- 下一步：Muse 按 Issue #1 的验收标准审查 PR #2（详情入口是否常显、是否遵守 GBA 视觉规则、一屏不滚动），审查结果出来后再请 Zoe 拍板是否合并；Codex 的 PR 不会自动合并。
 
 ---
 
