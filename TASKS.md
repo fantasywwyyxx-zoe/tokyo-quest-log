@@ -17,8 +17,8 @@
 ### T3 活动卡「打开详情」按钮常显 — `todo` · 负责人：Muse
 - 验收：任意活动卡上不用猜就能找到详情入口。
 
-### T4 仓库化（共享办公室落地）— `doing` · 负责人：Zoe（授权）+ Muse（整理）
-- 进展（2026-10-26 晚，Zoe 拍板「先做仓库化」）：本地仓库已在 Muse 这边建好并提交（线上版 index.html 不动 + src/ 源码快照 + 五件套 + README），只差 GitHub 授权一步即可推入现有仓库；推送时会先拉下现有仓库合并，不覆盖线上，并顺手删掉仓库里遗留的临时文件 `tokyo-side-quests.html`。
+### T4 仓库化（共享办公室落地）— `done`（2026-10-27 00:36 完成）· 负责人：Zoe（授权）+ Muse（整理）
+- 结果：Zoe 完成 GitHub 设备授权后，Muse 已 clone 现有仓库合并推送（commit d68b256）：五件套 + README + .gitignore 进根目录，源码快照进 `src/`，线上版 index.html 字节未动，遗留临时文件 `tokyo-side-quests.html` 已删除。已验证：远端文件清单正确，公开链接照常打开。gh 自此在 Muse 这边保持登录，后续推送不再需要 Zoe 授权。
 - 目标：把 TSQ 源码和这套 company 五件套正式纳入 Git 仓库，让 Codex / Claude 能按同一真相源协作。
 - 范围：源码进 repo；五件套放 repo 根目录；GitHub Pages 继续从 repo 发布。
 - 前置：GitHub 登录授权（现在 Muse 的 gh 未登录，发布走浏览器流程）。

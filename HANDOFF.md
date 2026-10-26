@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-27 00:36 · Muse · 仓库已上线（T4 完成）
+- Zoe 完成 GitHub 设备授权（中途第一组码过期、第二组码因 Muse 申请的权限少了 read:org 被 gh 拒收，第三组补全权限后通过——教训记下：设备授权 scope 要一次给全 `repo read:org gist`）。
+- 推送完成：commit d68b256。仓库根目录现有五件套 + README + .gitignore + index.html（线上版，字节未动）+ `src/`（源码快照）；遗留的临时文件 `tokyo-side-quests.html` 已删。已用 GitHub API 核对远端清单，并打开公开链接确认游戏照常加载。
+- 下一步：Zoe 把仓库链接发给 Codex 和 Claude，两位顾问读完五件套即可按 TASKS 接活；Codex 的代码施工角色从现在起生效。
+
+---
+
 ## 2026-10-27 00:02 · Muse · 阵容定版 + 仓库推送获批
 - Zoe 拍板：**不用 ChatGPT 了**。最终阵容 = Zoe（董事长）+ Muse（主管/主力/记忆中枢）+ Codex（代码施工 + 调研/文案/第二意见）+ Claude（外部审查）。COMPANY.md 分工已同步改版。
 - 同一时刻 Zoe 批准「现在就授权，把仓库推上去」：GitHub 设备授权完成后，Muse 按既定方案 clone 现有仓库 → 合并本地仓库内容 → 推送，并验证公开链接不受影响。
