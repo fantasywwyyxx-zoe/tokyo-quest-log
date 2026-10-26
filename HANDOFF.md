@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-10-27 00:39 · Muse · 运转方式 v2：免搬运
+- Zoe 明确说不想在 AI 之间来回复制粘贴。已写入 COMPANY.md「免搬运原则」：产出落在仓库，Muse 直接去仓库收活，Zoe 只拍板 + 偶尔喊「去看仓库」。
+- 同时给 Zoe 做了一页「AI 公司 · 虚拟办公室」状态页（谁在干吗、任务板、动态墙），由 Muse 按 TASKS/HANDOFF 维护更新，省得她挨个问。
+
+---
+
 ## 2026-10-27 00:36 · Muse · 仓库已上线（T4 完成）
 - Zoe 完成 GitHub 设备授权（中途第一组码过期、第二组码因 Muse 申请的权限少了 read:org 被 gh 拒收，第三组补全权限后通过——教训记下：设备授权 scope 要一次给全 `repo read:org gist`）。
 - 推送完成：commit d68b256。仓库根目录现有五件套 + README + .gitignore + index.html（线上版，字节未动）+ `src/`（源码快照）；遗留的临时文件 `tokyo-side-quests.html` 已删。已用 GitHub API 核对远端清单，并打开公开链接确认游戏照常加载。
