@@ -11,6 +11,14 @@
 
 ---
 
+## 2026-10-27 01:44 · Muse · PR #2 审查通过，建议合并（等 Zoe 拍板）
+- 岗哨在 01:14 发现 Codex 开了 PR #2「T3: Add an always-visible details action to quest rows」（分支 codex/t3-visible-details-button，1 个 commit，仅改 `src/index.html`，+13/−3 行，状态 OPEN 未合并）。
+- Muse 按 Issue #1 验收标准审了 diff，结论：通过。① 现状结论写在 PR 描述里并指到代码位置（`searchRowHTML()` 全行按钮 + `#msResults` 委托处理器，chevron 单独不易被理解为详情入口）；② 每行新增常显详情按钮（英 DETAILS ▶ / 日 詳細 ▶ / 中 打开详情 ▶），主色底白字、2.5px 粗边框、900 字重、继承字体（无新字体、无细字重），符合 GBA 视觉规则；③ 整行仍可点（行容器由 button 改 div 避免嵌套交互控件，点击冒泡走原有委托路径）；④ 只改 src/，根目录线上版和五份真相源未动，且 PR 未自合并。唯一小提醒：整行不再是可聚焦的 button（键盘用户改走每行那个按钮，仍可聚焦可用，不构成阻碍）。
+- 重要说明：合并 PR #2 只改变仓库里的源码快照，不直接改线上游戏；正式生效需 Muse 把改动带进正式构建并用手机尺寸验证后再发布（按 Zoe 的手机端验证规则）。
+- 下一步：Zoe 拍板是否合并；合并后 Muse 负责移植进正式构建并验证发布。
+
+---
+
 ## 2026-10-27 01:01 · Muse · 证据更新：Codex 接活了
 - Muse 例行核查仓库时发现新证据：远端出现了 Codex 的专属分支 `codex/t3-always-visible-detail`（指向最新 main，约 01:00 建立）——这是 @codex 触发后约 11 分钟Codex 的接单动作。它还没有提交改动、没有开 PR，所以准确状态是：**已接单、刚开工、尚无产出**。分支地址：https://github.com/fantasywwyyxx-zoe/tokyo-side-quests/tree/codex/t3-always-visible-detail
 - Zoe 明确要求虚拟办公室不要假的（「我真想看他们在没在干活」）：看板将删掉演示按钮，只保留带核查时间和证据链接的真实状态；同时 Muse 设了一个每 30 分钟的仓库岗哨，有新证据（新 commit / PR / 评论）才更新看板和本文件并通知 Zoe，没动静保持沉默。
