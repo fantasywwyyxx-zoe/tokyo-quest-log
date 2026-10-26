@@ -7109,6 +7109,67 @@
       .cp-share:active { transform: translateY(2px); box-shadow: none; }
       .cp-share-note { display: block; text-align: center; font-size: 12px; font-weight: 800; margin-top: 6px; }
     </style>
+    <style>
+      /* ================================================================
+         R2 POLISH PASS (2026-10-27) — per-screen aesthetic fixes from
+         the 390×844 review (both themes, EN/JP/ZH). Visual only:
+         no behaviour, data or copy changes beyond #9's label, which
+         now uses the existing localised string like its neighbours.
+         1. MAP: at phone widths the quest-count chip drops to top:50
+            while the quick-filter row sits at top:46 — they overlapped
+            and the "All" chip was buried behind the count pill. On
+            narrow screens the filter row now stacks below the count.
+         2. QUEST ROWS: the EPIC tag lived INSIDE the ellipsised name
+            span, so a long name clipped the tag out of existence
+            (Hachiko row). The name text ellipsises in its own flex
+            slot; the tag is a fixed sibling and always renders.
+         3. EPIC DETAIL: the period row printed the evergreen label
+            twice (range slot + when slot, same string both times).
+            The duplicate right-hand copy is hidden on epic details.
+         4. MIDNIGHT EPIC DETAIL: the title was light lavender on the
+            gold head band — washed out. It keeps the dark epic
+            purple the day theme uses; the No. line follows.
+         5. CREATOR + CALENDAR windows: their name tab was an
+            unstyled inline span reading as stray text. It now wears
+            the bordered name plate the other GBA windows use —
+            in-flow, so no scroller can slice it (the settings-sheet
+            lesson).
+         6. HERO: the DOCK label "DRESS-UP" hyphen-wrapped to two
+            lines while its neighbours took one; labels now stay on
+            one line at the next type step down. The equip slots'
+            corner cursor sat on the name line's baseline and long
+            hero names ran under it; it moves to the top corner.
+         7. DAILY ROWS: the dotted leader kept a fixed 30px even when
+            the task name needed the room; it now yields sooner.
+         8. DETAIL FACTS: the (area) suffix could split mid-
+            parenthesis across lines ((涩 / 谷）); it wraps as a unit.
+         9. SETTLEMENT: reward values (long EN epic gear names) can
+            now shrink and wrap inside their row instead of forcing
+            the row wider than the panel.
+         ================================================================ */
+      @media (max-width: 620px) {
+        body[data-view="map"] .map-filters { top: 88px; }
+      }
+      .ms-name { display: flex; align-items: center; gap: 6px; white-space: normal; overflow: visible; text-overflow: clip; }
+      .ms-name-t { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .ms-name .epic-tag { flex: none; margin-left: 0; }
+      dialog#detail.is-epic .detail-period .dp-when { display: none; }
+      :root[data-theme="midnight"] dialog#detail.is-epic .detail-head h2 { color: var(--epic-deep); }
+      :root[data-theme="midnight"] dialog#detail.is-epic .detail-no { color: var(--epic-deep); text-shadow: none; }
+      .creator-tab {
+        display: inline-block; margin: 9px 0 8px 9px; padding: 2px 11px 3px;
+        background: var(--window); color: var(--ink);
+        border: 2.5px solid var(--line-c); border-radius: 7px;
+        box-shadow: 0 2px 0 var(--edge);
+        font-size: 14px; font-weight: 800; letter-spacing: 0.05em;
+      }
+      .dock-btn { font-size: 11px; }
+      .dock-btn span[data-dockname] { white-space: nowrap; }
+      .slot::after { top: 4px; bottom: auto; }
+      .dr-dots { flex: 0 1 16px; }
+      dialog#detail .kv dd .dim { white-space: nowrap; }
+      .cp-v { min-width: 0; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -11707,7 +11768,7 @@
         var clr = isCleared(e.id);
         return '<button type="button" class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
-          '<span class="ms-main"><span class="ms-name">' + esc(evName(e)) + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
+          '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
           '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(e.category) + " · " + esc(e.price) + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<span class="ms-chev" aria-hidden="true">▶</span>' +
           '</button>';
@@ -12486,7 +12547,7 @@
           lines += '<div class="cp-line"><span class="cp-k">' + esc(t.allDoneBonus) + '</span><span class="cp-v">+' + o.bonusExp + " EXP</span></div>";
         }
         if (o.piece) {
-          lines += '<div class="cp-line piece"><span class="cp-k">PUZZLE</span><span class="cp-v">' + esc(o.piece.dupe ? t.pieceDupe : t.pieceGet(o.piece.n)) + "</span></div>";
+          lines += '<div class="cp-line piece"><span class="cp-k">' + esc(t.segPuzzle) + '</span><span class="cp-v">' + esc(o.piece.dupe ? t.pieceDupe : t.pieceGet(o.piece.n)) + "</span></div>";
           if (o.piece.completed) {
             lines += '<div class="cp-line piece"><span class="cp-k">★</span><span class="cp-v">' + esc(t.puzzleRewardLine(t.puzzleTitleName)) + "</span></div>";
           }
