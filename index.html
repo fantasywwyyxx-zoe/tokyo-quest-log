@@ -7996,6 +7996,43 @@
         .ladder-track { gap: 8px; }
       }
     </style>
+    <style>
+      /* ==========================================================
+         MAP CONTROLS MOVE TO THE THUMB ZONE (user device report,
+         2026-10-27 16:46 — the top-right control cluster was out
+         of thumb reach): the whole cluster (LOCATE / FULL MAP /
+         − / + / ⌂ home) leaves the top edge and sits as ONE
+         compact right-aligned group directly above the bottom
+         command bar, clear of it by --bar-clear. The filter bar
+         (count + type chips) stays at the top exactly as before —
+         with the cluster gone, no pin can hide behind a button
+         at the top edge anymore.
+         Stacking at the bottom edge, bottom-up: command bar /
+         control cluster / location banner / pin preview. The
+         banner and the preview therefore ride one cluster-height
+         higher than before, so the three never overlap; when the
+         banner is hidden the cluster simply owns the bottom slot
+         alone.
+         ========================================================== */
+      .map-chips {
+        top: auto; left: auto;
+        right: calc(8px + env(safe-area-inset-right, 0px));
+        bottom: calc(var(--bar-clear) + 2px);
+      }
+      body[data-view="map"] .map-chips {
+        top: auto; left: auto;
+        right: calc(8px + env(safe-area-inset-right, 0px));
+        bottom: calc(var(--bar-clear) + 2px);
+      }
+      /* banner + pin preview stack ABOVE the cluster */
+      body[data-view] .map-box .loc-chip { bottom: calc(var(--bar-clear) + 48px); }
+      body[data-view] .map-box .pin-preview { bottom: calc(var(--bar-clear) + 48px); }
+      /* full-screen map keeps its own control set — the page
+         cluster stays hidden there (existing .in-big rule) and
+         its banner keeps the plain bar-clear offset */
+      body[data-view] .map-box.in-big .loc-chip { bottom: var(--bar-clear); }
+      body[data-view] .map-box.in-big .pin-preview { bottom: var(--bar-clear); }
+    </style>
   </head>
   <body data-view="map">
 
