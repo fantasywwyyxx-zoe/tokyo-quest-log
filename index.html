@@ -807,6 +807,22 @@
          geographically true 400×270 plane, letterboxed and centred
          inside the box by the zoom transform's home offset. */
       .map-zoom { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
+      /* the plane's margin land (user device report 2026-10-27
+         14:25 — "the edges are broken"): the baked geography ends
+         AT the plane's edge, so any overshoot past it used to show
+         a hard straight cliff into flat box colour. This backdrop
+         rides INSIDE the plane, oversized past every edge, painted
+         as more of the same land — past the sheet's edge the world
+         now reads as open country, not a void. It pans and zooms
+         with the plane and follows the day/night land palette. */
+      .map-backdrop {
+        position: absolute; left: -40%; top: -55%; width: 180%; height: 210%;
+        background-color: var(--map-land);
+        background-image:
+          repeating-linear-gradient(90deg, rgba(70, 90, 40, 0.05) 0 26px, transparent 26px 53px),
+          repeating-linear-gradient(0deg, rgba(255, 252, 230, 0.05) 0 26px, transparent 26px 53px);
+        pointer-events: none;
+      }
       /* a drag that starts on ANY plane child (scenery, labels,
          pins) belongs to the pan — no child may hand a vertical
          drag back to the browser as a page scroll */
@@ -6070,9 +6086,14 @@
          a ragged grass fringe in the stage's own ground tones, so
          the hero melts into the scene in day and night alike */
       .hero-ground {
-        width: 86%; max-width: 300px; height: 26px; margin-bottom: 14px; flex: none;
+        /* fringe only (2026-10-27 grounding pass): the old centred
+           shadow blob stayed mid-stage while the hero walked, so he
+           read as floating beside it. Contact shadows now belong to
+           each figure/prop at the shared ground line; this strip
+           just keeps its grass tufts, seated on that same line. */
+        width: 86%; max-width: 300px; height: 12px; margin-bottom: calc(var(--ground-b, 30px) - 12px); flex: none;
         position: relative; border: 0; border-radius: 0; box-shadow: none;
-        background: radial-gradient(ellipse 58% 88% at 50% 58%, rgba(18, 30, 16, 0.30) 0%, rgba(18, 30, 16, 0.30) 68%, rgba(18, 30, 16, 0) 69%);
+        background: none;
       }
       .hero-ground::before {
         content: ""; position: absolute; left: 7%; right: 7%; top: 0; height: 9px;
@@ -6081,8 +6102,8 @@
       }
       .hero-dock { flex: none; display: flex; gap: 8px; margin-top: 8px; }
       .dock-btn {
-        flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
-        padding: 7px 2px 6px; cursor: pointer; color: var(--ink);
+        flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 2px;
+        padding: 6px 2px 5px; cursor: pointer; color: var(--ink);
         background: var(--window); border: 2.5px solid var(--line-c); border-radius: 11px;
         box-shadow: 0 3px 0 var(--edge);
         font-family: inherit; font-weight: 800; font-size: 11.5px; letter-spacing: 0.03em;
@@ -6091,6 +6112,23 @@
       .dock-btn[aria-pressed="true"] { background: var(--ink); color: var(--window); }
       .dock-ico { display: flex; }
       .dock-ico svg { width: 20px; height: 20px; }
+      /* --- the RECORDS window (user, 2026-10-27 — status / badges /
+         adventure log were "too cluttered" as three dock entries):
+         ONE dock tile opens ONE window whose head is this tab bar;
+         the bar rides at the head of each of the three panels, so
+         switching tabs reads as a single tabbed window --- */
+      .rec-tabs { display: flex; gap: 6px; margin-bottom: 10px; }
+      .rec-tab {
+        flex: 1; min-width: 0; padding: 8px 3px; border-radius: 10px; cursor: pointer;
+        border: 2px solid var(--window-edge); background: var(--chip); color: var(--ink);
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 12.5px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .rec-tab[aria-pressed="true"] {
+        background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #231a00;
+        box-shadow: inset 0 0 0 1px var(--gold-deep), 0 2px 0 var(--shadow);
+      }
+      .rec-tab:active { transform: translateY(2px); box-shadow: none; }
       #view-hero .hseg-panel.hero-win {
         position: absolute; z-index: 60; left: 6px; right: 6px; top: 6px; bottom: 6px;
         overflow-y: auto; overflow-x: hidden; padding: 13px 12px;
@@ -6816,37 +6854,80 @@
 
       /* --- the static pedestal figure retires: the hero WALKS --- */
       #view-hero .hero-figure .hero-big { display: none; }
+      /* ONE ground line for the whole diorama (user device report
+         2026-10-27 14:28 — "they float"): the walker's feet, every
+         grounded prop's base and every contact shadow all read
+         their offset from this single variable, so nothing can
+         drift off the street again. */
+      .hero-figure { --ground-b: 30px; }
+      @media (max-height: 740px) { .hero-figure { --ground-b: 24px; } }
       .walk-hero {
-        position: absolute; bottom: 36px; left: 50%; z-index: 3;
+        position: absolute; bottom: var(--ground-b); left: 50%; z-index: 3;
         width: 92px; height: 92px; image-rendering: pixelated;
-        transform: translateX(-50%);
+        transform: translateX(-50%); cursor: pointer;
       }
       /* the walker's ground shadow: one flat hard-edged ellipse,
-         no blur, no gradient (art redo, 2026-10-27) */
+         no blur, no gradient (art redo, 2026-10-27) — centred ON
+         the ground line, directly under the feet */
       .walk-shadow {
-        position: absolute; bottom: 31px; left: 50%; z-index: 2;
+        position: absolute; bottom: calc(var(--ground-b) - 4px); left: 50%; z-index: 2;
         width: 54px; height: 9px; transform: translateX(-50%);
         background: rgba(18, 30, 16, 0.32); border-radius: 50%;
         pointer-events: none;
       }
-      @media (max-height: 740px) { .walk-shadow { bottom: 25px; width: 46px; height: 8px; } }
-      @media (max-height: 740px) { .walk-hero { width: 76px; height: 76px; bottom: 30px; } }
+      @media (max-height: 740px) { .walk-shadow { width: 46px; height: 8px; } }
+      @media (max-height: 740px) { .walk-hero { width: 76px; height: 76px; } }
+      /* tap the walker (user, 2026-10-27): a small stepped hop +
+         one pixel reaction mark (! / note / sparkle) overhead.
+         Light GBA feedback; re-tapping just restarts it cleanly. */
+      .walk-hero.tap-hop { animation: tap-hop 0.34s steps(4) both; }
+      @keyframes tap-hop {
+        0% { transform: translate(-50%, 0); } 35% { transform: translate(-50%, -11px); }
+        70% { transform: translate(-50%, 0); } 85% { transform: translate(-50%, -4px); }
+        100% { transform: translate(-50%, 0); }
+      }
+      .hero-react {
+        position: absolute; z-index: 4; width: 22px; height: 22px; pointer-events: none;
+        transform: translateX(-50%); bottom: calc(var(--ground-b) + 98px);
+        animation: react-pop 0.62s steps(6) both;
+      }
+      .hero-react svg { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+      @keyframes react-pop {
+        0% { opacity: 0; margin-bottom: 0; } 18% { opacity: 1; }
+        70% { opacity: 1; margin-bottom: 7px; } 100% { opacity: 0; margin-bottom: 10px; }
+      }
+      @media (max-height: 740px) { .hero-react { bottom: calc(var(--ground-b) + 82px); } }
+      @media (prefers-reduced-motion: reduce) {
+        .walk-hero.tap-hop { animation: none; }
+        .hero-react { animation: react-fade 0.62s steps(2) both; }
+      }
+      @keyframes react-fade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
 
       /* --- the diorama's Tokyo scenery layer --- */
       .scene-props { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
       .scene-props .sp { position: absolute; display: block; }
       .scene-props svg { display: block; width: 100%; height: 100%; }
-      .sp-sakura { left: 1%; bottom: 32px; width: 62px; height: 56px; }
-      .sp-vending { right: 12%; bottom: 32px; width: 27px; height: 42px; }
-      .sp-hachiko { left: 15%; bottom: 32px; width: 42px; height: 37px; }
-      .sp-torii { right: 2%; bottom: 32px; width: 50px; height: 44px; }
-      .sp-tower { left: 50%; bottom: 30px; width: 44px; height: 118px; transform: translateX(-50%); }
+      .sp-sakura { left: 1%; bottom: var(--ground-b, 30px); width: 62px; height: 56px; }
+      .sp-vending { right: 12%; bottom: var(--ground-b, 30px); width: 27px; height: 42px; }
+      .sp-hachiko { left: 15%; bottom: var(--ground-b, 30px); width: 42px; height: 37px; }
+      .sp-torii { right: 2%; bottom: var(--ground-b, 30px); width: 50px; height: 44px; }
+      .sp-tower { left: 50%; bottom: var(--ground-b, 30px); width: 44px; height: 118px; transform: translateX(-50%); }
+      /* contact shadows: every grounded prop stands ON the street —
+         one flat ellipse at its base, centred on the ground line,
+         the same treatment the walker's shadow gets */
+      .sp-sakura::before, .sp-vending::before, .sp-hachiko::before,
+      .sp-torii::before, .sp-monument::before, .sp-tower::before {
+        content: ""; position: absolute; left: 50%; bottom: -4px; z-index: 0;
+        transform: translateX(-50%); width: 76%; height: 7px; border-radius: 50%;
+        background: rgba(18, 30, 16, 0.30); pointer-events: none;
+      }
+      .scene-props .sp svg { position: relative; z-index: 1; }
       .sp-rainbow { left: 50%; bottom: 66px; width: 96%; height: 30px; transform: translateX(-50%); }
       .sp-crossing { left: 0; right: 0; bottom: 4px; width: 100%; height: 18px; }
       .sp-fireworks { top: 12%; right: 5%; width: 92px; height: 56px; }
       .sp-fireworks svg { animation: fw-pulse 1.6s steps(2) infinite; }
       @keyframes fw-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
-      .sp-monument { right: 27%; bottom: 32px; width: 34px; height: 46px; }
+      .sp-monument { right: 27%; bottom: var(--ground-b, 30px); width: 34px; height: 46px; }
       .sp-train { left: 0; right: 0; bottom: 92px; width: 100%; height: 34px; }
       .sp-train .train-car {
         position: absolute; bottom: 9px; left: 0; width: 118px; height: 21px;
@@ -7817,6 +7898,7 @@
               <button class="mf-chip" type="button" data-mf="cleared" aria-pressed="false"></button>
             </div>
             <div class="map-zoom" id="mapZoom">
+            <div class="map-backdrop" aria-hidden="true"></div>
             <svg class="scenery osm-map" viewBox="0 0 400 270" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <!-- REAL GEOGRAPHY, BAKED IN AT BUILD TIME: coastline, Tokyo Bay,
                    rivers and canals, parks, railways and the road network are
@@ -7998,13 +8080,10 @@
           </div>
         </div>
         <div class="hero-dock" id="heroDock">
-          <button class="dock-btn" type="button" data-openwin="status" aria-pressed="false"><span class="dock-ico" data-dock="status"></span><span data-dockname="status"></span></button>
-          <button class="dock-btn" type="button" data-openwin="badges" aria-pressed="false"><span class="dock-ico" data-dock="badges"></span><span data-dockname="badges"></span></button>
+          <button class="dock-btn" type="button" data-openwin="records" aria-pressed="false"><span class="dock-ico" data-dock="records"></span><span data-dockname="records"></span></button>
           <button class="dock-btn" type="button" data-openwin="gacha" aria-pressed="false"><span class="dock-ico" data-dock="gacha"></span><span data-dockname="gacha"></span></button>
           <button class="dock-btn" type="button" data-openwin="studio" aria-pressed="false"><span class="dock-ico" data-dock="studio"></span><span data-dockname="studio"></span></button>
-          <button class="dock-btn" type="button" data-openwin="puzzle" aria-pressed="false"><span class="dock-ico" data-dock="puzzle"></span><span data-dockname="puzzle"></span></button>
           <button class="dock-btn" type="button" data-openwin="collection" aria-pressed="false"><span class="dock-ico" data-dock="collection"></span><span data-dockname="collection"></span></button>
-          <button class="dock-btn" type="button" data-openwin="advlog" aria-pressed="false"><span class="dock-ico" data-dock="advlog"></span><span data-dockname="advlog"></span></button>
         </div>
         <!-- the old dress-up studio stays in the DOM (its render
              code feeds the gacha grids) but is never shown: the
@@ -8104,6 +8183,11 @@
         </div>
         <div class="hseg-panel hero-win" id="hsegStatus" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
+        <div class="rec-tabs" role="group" aria-label="Records">
+          <button class="rec-tab" type="button" data-rectab="status" aria-pressed="true"></button>
+          <button class="rec-tab" type="button" data-rectab="badges" aria-pressed="false"></button>
+          <button class="rec-tab" type="button" data-rectab="advlog" aria-pressed="false"></button>
+        </div>
         <div class="hh-title" id="heroTitleLine"></div>
         <div class="hh-desc" id="heroDescLine"></div>
         <div class="hstat-box">
@@ -8116,36 +8200,27 @@
           <span class="db-name" id="dailyBannerName"></span>
           <span class="db-go">▶</span>
         </button>
-        <button class="daily-banner pz-banner" id="puzzleBanner" type="button">
-          <span class="db-tag pz-tag">PUZZLE</span>
-          <span class="db-name" id="puzzleBannerName"></span>
-          <span class="db-go">▶</span>
-        </button>
-        <p class="hs-puzzle-title" id="hsPuzzleTitle" hidden></p>
         <h2 class="log-sec-title"><span id="ladderTitle"></span></h2>
         <div class="ladder" id="ladder"></div>
         </div>
         <div class="hseg-panel hero-win" id="hsegBadges" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
+        <div class="rec-tabs" role="group" aria-label="Records">
+          <button class="rec-tab" type="button" data-rectab="status" aria-pressed="false"></button>
+          <button class="rec-tab" type="button" data-rectab="badges" aria-pressed="true"></button>
+          <button class="rec-tab" type="button" data-rectab="advlog" aria-pressed="false"></button>
+        </div>
         <h2 class="log-sec-title"><span id="badgeTitle"></span><span class="n" id="badgeCount"></span></h2>
         <div class="badge-grid" id="badgeGrid"></div>
         </div>
-        <!-- PUZZLE case window: the 16-piece Tokyo panorama.
-             Pieces drop ONLY from on-site (GPS) clears — epic
-             clears included; remote clears never drop one. -->
-        <div class="hseg-panel hero-win" id="hsegPuzzle" hidden>
-        <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
-        <h2 class="log-sec-title"><span id="puzzleTitle"></span></h2>
-        <div class="pz-wrap">
-          <div class="pz-grid" id="puzzleGrid"></div>
-          <div class="pz-count" id="puzzleCount"></div>
-          <p class="pz-hint" id="puzzleHint"></p>
-          <div class="pz-reward" id="puzzleReward" hidden></div>
-        </div>
-        </div>
+        <!-- the PUZZLE case window is retired from the UI (user,
+             2026-10-27): no dock tile, no window, no drops. Saved
+             piece data (state.puzzle / state.puzzleDone) is kept
+             untouched in the save, so the feature can return later
+             and the puzzle badge keeps whatever state it earned. -->
         <!-- COLLECTION (図鑑): one no-scroll case window gathering
              every collection counter — wardrobe by kind, the EPIC
-             gear shelf, badges, titles, puzzle, MY STREET props,
+             gear shelf, badges, titles, MY STREET props,
              record days and per-zone quest progress (R3). -->
         <div class="hseg-panel hero-win" id="hsegCollection" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -8158,6 +8233,11 @@
              honestly; no date is ever invented (R3). -->
         <div class="hseg-panel hero-win" id="hsegAdvlog" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
+        <div class="rec-tabs" role="group" aria-label="Records">
+          <button class="rec-tab" type="button" data-rectab="status" aria-pressed="false"></button>
+          <button class="rec-tab" type="button" data-rectab="badges" aria-pressed="false"></button>
+          <button class="rec-tab" type="button" data-rectab="advlog" aria-pressed="true"></button>
+        </div>
         <h2 class="log-sec-title"><span id="advLogTitleEl"></span><span class="n" id="advLogCount"></span></h2>
         <div class="adv-body" id="advBody"></div>
         <p class="adv-empty" id="advEmpty" hidden></p>
@@ -8928,6 +9008,7 @@
           puzzleHint: "Pieces drop from ON-SITE clears only (GPS check-in — epic clears count too). Remote clears never drop a piece.",
           puzzleTitleName: "TOKYO PANORAMA MASTER",
           puzzleRewardLine: function (name) { return "★ LIMITED TITLE: " + name + " — the finished panorama is yours to admire!"; },
+          segRecords: "RECORDS",
           segPuzzle: "PUZZLE", segCollection: "COLLECTION", segAdvLog: "ADV. LOG",
           colTitle: "▶ COLLECTION", advLogTitle: "▶ ADVENTURE LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "RECORD DAYS", colZones: "ZONE PROGRESS", colBadges: "BADGES", colHeroes: "SECRET HEROES", advEmpty: "No cleared quests yet. Clear a quest and its record lands here.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
           puzzleBanner: function (n) { return "Tokyo panorama — " + n + "/16 pieces"; },
@@ -9447,6 +9528,7 @@
           puzzleHint: "ピースは実地クリア（GPSチェックイン）でのみ落ちます — 史詩クリアも対象。遠距離クリアでは落ちません。",
           puzzleTitleName: "東京パノラママスター",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成したパノラマを眺められます！"; },
+          segRecords: "記録",
           segPuzzle: "パズル", segCollection: "コレクション", segAdvLog: "冒険ログ",
           colTitle: "▶ コレクション", advLogTitle: "▶ 冒険ログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "記録日数", colZones: "ゾーン達成度", colBadges: "バッジ", colHeroes: "シークレット勇者", advEmpty: "まだクリア記録がありません。クエストをクリアするとここに年表が残ります。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
           puzzleBanner: function (n) { return "東京パノラマ — ピース " + n + "/16"; },
@@ -9966,6 +10048,7 @@
           puzzleHint: "碎片仅在实地完成（GPS 打卡）时掉落 — 史诗完成也算。远程完成不会掉落碎片。",
           puzzleTitleName: "东京全景大师",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成的全景图可以慢慢欣赏了！"; },
+          segRecords: "记录",
           segPuzzle: "拼图", segCollection: "图鉴", segAdvLog: "冒险日志",
           colTitle: "▶ 图鉴", advLogTitle: "▶ 冒险日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "记录天数", colZones: "区域进度", colBadges: "徽章", colHeroes: "秘密勇者", advEmpty: "还没有完成记录。完成任务后，年表会记在这里。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
           puzzleBanner: function (n) { return "东京全景 — 碎片 " + n + "/16"; },
@@ -11616,6 +11699,10 @@
       /* --- the walk loop: stepped frames, edge turns, blink pauses --- */
       var walkTimer = null, walkSt = null;
       var WALK_FRAMES = [0, 1, 2, 1];
+      /* the shared ground line, mirroring --ground-b in the CSS:
+         the walker's feet, the shadow and every grounded prop all
+         sit on this one offset, at both height bands */
+      function groundB() { return (window.matchMedia && window.matchMedia("(max-height: 740px)").matches) ? 24 : 30; }
       function walkDraw() {
         var cv = document.getElementById("walkCanvas");
         if (!cv || !walkSt) return;
@@ -11628,7 +11715,12 @@
         drawSideSprite(ctx, equippedPal(state.hero, state.gacha.equipped), fr, blink);
         ctx.restore();
         cv.style.left = (walkSt.x * 100) + "%";
-        cv.style.bottom = (36 + (walkSt.mode === "walk" && fr !== 1 ? 2 : 0)) + "px";
+        /* feet stay PLANTED on the ground line (user, 2026-10-27 —
+           "they float"): the old +2px stride bob lifted the whole
+           sprite off its shadow twice per cycle; the leg frames
+           alone carry the walk now, so the feet never leave the
+           street in any frame */
+        cv.style.bottom = groundB() + "px";
         var wsh = document.getElementById("walkShadow");
         if (wsh) wsh.style.left = cv.style.left;
       }
@@ -11656,7 +11748,7 @@
         var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (reduced) {
           drawHeroEquipped(cv, state.hero, state.gacha.equipped);
-          cv.style.left = "50%"; cv.style.bottom = "36px";
+          cv.style.left = "50%"; cv.style.bottom = groundB() + "px";
           return;
         }
         walkSt = { x: 0.5, dir: 1, tick: 0, mode: "idle", left: 5 };
@@ -11805,6 +11897,42 @@
           fig.appendChild(s);
           setTimeout(function (el) { el.remove(); }, 560, s);
         }
+      }
+      /* tap-the-hero reaction (user, 2026-10-27 — "tapping the
+         character should get a little response"): a small stepped
+         hop, ONE pixel reaction mark overhead (! / note / sparkle,
+         rotating), and a tiny blip when sound is on. Spam-safe by
+         construction: a re-tap removes the live mark, restarts the
+         hop from a reflow, and only the latest tap's timer may
+         clean up — mashing can never stack marks or strand a
+         mid-hop class. Reduced motion: mark fades in place, no hop. */
+      var REACT_MARKS = [
+        '<svg viewBox="0 0 14 14" shape-rendering="crispEdges" aria-hidden="true"><g fill="#ffd83d" stroke="#26222e" stroke-width="1.3"><rect x="5" y="1" width="4" height="7"/><rect x="5" y="10" width="4" height="3"/></g></svg>',
+        '<svg viewBox="0 0 14 14" shape-rendering="crispEdges" aria-hidden="true"><g fill="#fff6dd" stroke="#26222e" stroke-width="1.3"><rect x="8" y="1" width="2" height="8"/><rect x="8" y="1" width="5" height="3"/><rect x="3" y="8" width="6" height="4"/></g></svg>',
+        '<svg viewBox="0 0 14 14" shape-rendering="crispEdges" aria-hidden="true"><path d="M7 0 L9 5 L14 7 L9 9 L7 14 L5 9 L0 7 L5 5 Z" fill="#ffd83d" stroke="#26222e" stroke-width="1.2" stroke-linejoin="round"/></svg>'
+      ];
+      var reactIdx = 0, reactSeq = 0;
+      function heroTapReact() {
+        var cv = document.getElementById("walkCanvas");
+        var fig = document.querySelector("#view-hero .hero-figure");
+        if (!cv || !fig) return;
+        sfx("move");
+        var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!reduced) { cv.classList.remove("tap-hop"); void cv.offsetWidth; cv.classList.add("tap-hop"); }
+        var old = fig.querySelector(".hero-react");
+        if (old) old.remove();
+        var m = document.createElement("span");
+        m.className = "hero-react";
+        m.setAttribute("aria-hidden", "true");
+        m.innerHTML = REACT_MARKS[reactIdx++ % REACT_MARKS.length];
+        m.style.left = cv.style.left || "50%";
+        fig.appendChild(m);
+        var seq = ++reactSeq;
+        setTimeout(function () {
+          if (seq !== reactSeq) return;   /* a newer tap owns the cleanup */
+          if (m.parentNode) m.remove();
+          cv.classList.remove("tap-hop");
+        }, 680);
       }
       /* Equip a just-won item immediately (never a toggle: the
          wear-now button only exists for an unworn new prize).
@@ -12249,10 +12377,12 @@
         var hsegNames = { style: t.segStyle, gacha: t.segGacha, status: t.segStatus, badges: t.segBadges, studio: t.segStyle };
         document.querySelectorAll("[data-hseg]").forEach(function (b) { b.textContent = hsegNames[b.getAttribute("data-hseg")] || ""; });
         /* character-screen dock: names + glyphs for the case windows */
-        var dockNames = { status: t.segStatus, badges: t.segBadges, gacha: t.segGacha, studio: t.segStyle, puzzle: t.segPuzzle, collection: t.segCollection, advlog: t.segAdvLog };
+        var dockNames = { records: t.segRecords, gacha: t.segGacha, studio: t.segStyle, collection: t.segCollection };
         document.querySelectorAll("[data-dockname]").forEach(function (el) { el.textContent = dockNames[el.getAttribute("data-dockname")] || ""; });
-        var dockIcons = { status: ICONS.hero, badges: ICONS.anime, gacha: ICONS.dice, studio: ICONS.fashion, puzzle: ICONS.puzzle, collection: ICONS.book, advlog: ICONS.scroll };
+        var dockIcons = { records: ICONS.scroll, gacha: ICONS.dice, studio: ICONS.fashion, collection: ICONS.book };
         document.querySelectorAll("[data-dock]").forEach(function (el) { el.innerHTML = dockIcons[el.getAttribute("data-dock")] || ""; });
+        var recNames = { status: t.segStatus, badges: t.segBadges, advlog: t.segAdvLog };
+        document.querySelectorAll("[data-rectab]").forEach(function (el) { el.textContent = recNames[el.getAttribute("data-rectab")] || ""; });
         var lsegNames = { active: t.segActive, cleared: t.segCleared };
         document.querySelectorAll("[data-lseg]").forEach(function (b) { b.textContent = lsegNames[b.getAttribute("data-lseg")] || ""; });
         document.getElementById("avatarBtn").setAttribute("aria-label", t.changeHero);
@@ -12818,6 +12948,7 @@
                 zoom.s = Math.min(2.9, Math.max(1.2, zoom.s));
                 zoom.tx = g.w / 2 - zoom.s * (pt.x / 100) * g.pw;
                 zoom.ty = g.h / 2 - zoom.s * (pt.y / 100) * g.ph;
+                clampCover();
                 applyZoom();
               }
             }
@@ -13180,7 +13311,11 @@
         var granted = method === "remote" ? Math.round(base * 0.3) : base;
         var rec = { id: id, clearedAt: new Date().toISOString(), area: e.area, method: method, exp: granted };
         state.clears.push(rec);
-        var pieceRes = method === "gps" ? dropPuzzlePiece() : null;
+        /* puzzle drops retired (user, 2026-10-27): no new pieces
+           are granted on clear. state.puzzle / state.puzzleDone
+           stay in the save untouched, so earned pieces and the
+           puzzle badge's state survive a possible return. */
+        var pieceRes = null;
         /* set-completion bonuses (R3): finishing a whole zone
            pays +2 tickets once; clearing EVERY epic pays +5 once.
            Granted here so the settlement window shows the row. */
@@ -13202,14 +13337,12 @@
            moments only — puzzle completion > epic > level-up >
            plain clear. The card is generated pixel art + text
            only; it never carries personal content. */
-        var shareText = (pieceRes && pieceRes.completed) ? L().sharePuzzle
-          : epicIt ? L().shareEpic(evName(e))
+        var shareText = epicIt ? L().shareEpic(evName(e))
           : (newInfo.lv > prevInfo.lv ? L().shareLevel(newInfo.lv) : L().shareQuest(evName(e)));
         celebrate({
           title: state.lang === "ja" ? "クエスト<br>クリア！" : state.lang === "zh" ? "任务<br>完成！" : "QUEST<br>CLEAR!",
           name: evName(e), exp: granted, cat: e.cat, flavor: L().clearFanfareSub,
           method: method,
-          piece: pieceRes,
           rewardItem: epicIt ? epicIt.id : null,
           rewardName: epicIt ? ((L().gachaItems[epicIt.id] || {}).name || epicIt.id) : "",
           shareText: shareText,
@@ -13378,12 +13511,6 @@
         }
         if (o.bonusExp) {
           lines += '<div class="cp-line"><span class="cp-k">' + esc(t.allDoneBonus) + '</span><span class="cp-v">+' + o.bonusExp + " EXP</span></div>";
-        }
-        if (o.piece) {
-          lines += '<div class="cp-line piece"><span class="cp-k">' + esc(t.segPuzzle) + '</span><span class="cp-v">' + esc(o.piece.dupe ? t.pieceDupe : t.pieceGet(o.piece.n)) + "</span></div>";
-          if (o.piece.completed) {
-            lines += '<div class="cp-line piece"><span class="cp-k">★</span><span class="cp-v">' + esc(t.puzzleRewardLine(t.puzzleTitleName)) + "</span></div>";
-          }
         }
         if (o.rewardItem) {
           lines += '<div class="cp-line piece"><span class="cp-k">' + esc(t.epicRewardK) + '</span><span class="cp-v">' + esc(o.rewardName) + " GET!</span></div>";
@@ -13987,6 +14114,7 @@
                     zoom.s = Math.min(2.9, Math.max(1.2, zoom.s));
                     zoom.tx = g.w / 2 - zoom.s * (px / 100) * g.pw;
                     zoom.ty = g.h / 2 - zoom.s * (py / 100) * g.ph;
+                    clampCover();
                     applyZoom();
                   }
                 }
@@ -14182,7 +14310,7 @@
         html += '<div class="col-shelf epic"><h3>★ ' + esc(t.colEpicShelf) + "</h3>" + shelfRow(t.colEpicShelf, epicN + "/" + epic.length) + "</div>";
         html += '<div class="col-shelf"><h3>' + esc(t.badgeTitle.replace("▶ ", "")) + "</h3>" +
           shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, 30) + "/30 · " + titleFor(info.lv)) +
-          shelfRow(t.segPuzzle, state.puzzle.length + "/16") + shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
+          shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
           shelfRow(t.colHeroes, heroesN + "/" + heroes.length) + shelfRow(t.colCalDays, String(days)) + "</div>";
         html += '<div class="col-shelf"><h3>' + esc(t.colZones || "ZONES") + "</h3>" + zoneCompleteList().map(function (z) {
           return '<div class="col-row"><span class="col-k">' + esc(zoneName(z.id)) + '</span><span class="col-v">' + z.done + "/" + z.total + (z.complete ? " ★" : "") + "</span></div>";
@@ -14231,10 +14359,6 @@
         if (hsv) hsv.textContent = info.xp + (info.next ? " · " + t.nextLevel(info.next - info.xp) : " · " + t.maxLevel);
         var hst = document.getElementById("hsTicketVal");
         if (hst) hst.textContent = t.ticketsLabel(ticketsLeft());
-        var pbn = document.getElementById("puzzleBannerName");
-        if (pbn) pbn.textContent = t.puzzleBanner(state.puzzle.length);
-        var hpt = document.getElementById("hsPuzzleTitle");
-        if (hpt) { hpt.hidden = !state.puzzleDone; if (state.puzzleDone) hpt.textContent = "★ " + t.puzzleTitleName; }
         renderSlots();
         document.getElementById("heroTitleLine").textContent = titleFor(info.lv);
         document.getElementById("heroDescLine").textContent = h.desc;
@@ -14703,6 +14827,7 @@
         zoom.s = 1;
         zoom.tx = g.w / 2 - (HOME_PCT.x / 100) * g.pw;
         zoom.ty = g.h / 2 - (HOME_PCT.y / 100) * g.ph;
+        clampCover();
         hidePinPreview();
         applyZoom();
       }
@@ -14737,6 +14862,23 @@
         if (!g) return;
         zoom.tx = clampAxisM(zoom.tx, g.w, g.pw * zoom.s, g.w * 0.14);
         zoom.ty = clampAxisM(zoom.ty, g.h, g.ph * zoom.s, g.h * 0.20);
+      }
+      /* STRICT cover clamp for PROGRAMMATIC centring only (home,
+         locate, tutorial centring, big-map centring): the plane
+         must always COVER the box after the app itself moves the
+         view, so its edge can never slide into the frame on its
+         own (user device report 2026-10-27 14:25 — locate centred
+         on a north-east point and left flat empty bands along the
+         top and right edges). A deliberate finger drag keeps the
+         generous clampZoom margins above, so edge pins can still
+         be pulled comfortably inside; and past the sheet's edge
+         the .map-backdrop land now continues, so even a hard drag
+         no longer falls off the world. */
+      function clampCover() {
+        var g = layoutMap(); if (!g) return;
+        var pw = g.pw * zoom.s, ph = g.ph * zoom.s;
+        zoom.tx = pw <= g.w ? (g.w - pw) / 2 : Math.min(0, Math.max(g.w - pw, zoom.tx));
+        zoom.ty = ph <= g.h ? (g.h - ph) / 2 : Math.min(0, Math.max(g.h - ph, zoom.ty));
       }
       function applyZoom() {
         if (glActive) {
@@ -14802,6 +14944,7 @@
         zoom.s = Math.min(3, Math.max(1.4, s || 1.6));
         zoom.tx = g.w / 2 - zoom.s * (pt.x / 100) * g.pw;
         zoom.ty = g.h / 2 - zoom.s * (pt.y / 100) * g.ph;
+        clampCover();
         applyZoom();
       }
       /* ============ Small-map home view ============
@@ -14820,6 +14963,7 @@
         zoom.s = s;
         zoom.tx = g.w / 2 - s * (HOME_PCT.x / 100) * g.pw;
         zoom.ty = g.h / 2 - s * (HOME_PCT.y / 100) * g.ph;
+        clampCover();
         hidePinPreview();
         applyZoom();
       }
@@ -15121,8 +15265,12 @@
       document.getElementById("calGrid").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-cal-day]"); if (b) openCalDay(b.getAttribute("data-cal-day"));
       });
-      /* status window -> puzzle case window */
-      document.getElementById("puzzleBanner").addEventListener("click", function () { sfx("open"); openHeroWin("puzzle"); });
+      /* tap the walking hero: hop + pixel reaction mark (2026-10-27) */
+      document.getElementById("walkCanvas").addEventListener("click", function (ev) { ev.stopPropagation(); heroTapReact(); });
+      /* RECORDS window tabs: status / badges / adventure log */
+      document.querySelectorAll("[data-rectab]").forEach(function (b) {
+        b.addEventListener("click", function () { sfx("move"); setRecTab(b.getAttribute("data-rectab")); });
+      });
       document.getElementById("btnUndo").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) { undoClear(currentId); return; }
@@ -15223,19 +15371,30 @@
       /* ============ Character screen: stage slots + case windows
          ============ */
       var heroWinOpen = null;
+      var recTab = "status";   /* the RECORDS window's current tab */
+      function setRecTab(k) {
+        if (k !== "status" && k !== "badges" && k !== "advlog") k = "status";
+        recTab = k;
+        openHeroWin(k);
+      }
       function openHeroWin(name) {
+        /* the dock's single RECORDS tile (user, 2026-10-27) opens
+           the merged status / badges / adventure-log window on
+           whichever tab it was left on */
+        if (name === "records") name = recTab;
         heroWinOpen = name;
+        if (name === "status" || name === "badges" || name === "advlog") recTab = name;
         /* the ladder always opens on the CURRENT title's page */
         if (name === "status") { ladderPage = -1; renderLadder(); }
-        ["gacha", "status", "badges", "studio", "custom", "puzzle", "collection", "advlog"].forEach(function (k) {
+        ["gacha", "status", "badges", "studio", "custom", "collection", "advlog"].forEach(function (k) {
           var p = document.getElementById("hseg" + k.charAt(0).toUpperCase() + k.slice(1));
           if (p) p.hidden = name !== k;
         });
-        if (name === "puzzle") renderPuzzle();
         if (name === "collection") renderCollection();
         if (name === "advlog") renderAdvLog();
         document.querySelectorAll("[data-openwin]").forEach(function (b) {
-          b.setAttribute("aria-pressed", String(b.getAttribute("data-openwin") === name));
+          var bw = b.getAttribute("data-openwin");
+          b.setAttribute("aria-pressed", String(bw === name || (bw === "records" && (name === "status" || name === "badges" || name === "advlog"))));
         });
         /* a case window ALWAYS opens at its head — the named tab,
            the close button, the first row (a persisted scroll
@@ -15328,8 +15487,11 @@
       document.getElementById("heroDock").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-openwin]"); if (!b) return;
         var name = b.getAttribute("data-openwin");
-        sfx(heroWinOpen === name ? "back" : "open");
-        openHeroWin(heroWinOpen === name ? null : name);
+        var isOpen = name === "records"
+          ? (heroWinOpen === "status" || heroWinOpen === "badges" || heroWinOpen === "advlog")
+          : heroWinOpen === name;
+        sfx(isOpen ? "back" : "open");
+        openHeroWin(isOpen ? null : name);
       });
       document.getElementById("view-hero").addEventListener("click", function (ev) {
         if (ev.target.closest("[data-closewin]")) { sfx("back"); openHeroWin(null); }
