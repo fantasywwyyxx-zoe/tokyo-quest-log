@@ -8255,6 +8255,111 @@
       .daily-rows { flex: 0 1 auto; overflow: visible; }
       .daily-win .cal-open { margin-top: 8px; }
     </style>
+    <style>
+      /* ==========================================================
+         ROUND: static headings are labels / daily calendar rides
+         the streak row / full-screen map top + close fix
+         (user device reports, 2026-10-27 17:24–17:27)
+         1. HEADINGS STOP IMPERSONATING FOLDS: the records-window
+            section headings (.log-sec-title — badges, title
+            ladder, wardrobe, customize, collection, adventure
+            log, quest log) wore a window plaque (frame + radius
+            + hard shadow) and a leading ▶, so a static heading
+            like "▶ バッジ (12/36)" read as a fold toggle that
+            never folds. The plaque is gone: headings are now one
+            plain text line — label + count — over a light dashed
+            divider, no frame, no shadow, no cursor. The ▶ is
+            also stripped from the strings themselves (EN/JA/ZH),
+            from the quest-log section titles and from the
+            search sheet title. Real folds and real buttons keep
+            their ▶ / chip looks untouched (daily + gacha how-to
+            toggles, PULL, START, tabs, menu rows).
+         2. DAILY: NO BOTTOM BAND. The record-calendar button
+            leaves its lone row under the task rows; the daily
+            window now ends with the third task row. The calendar
+            is a SMALL button (icon + short label) docked at the
+            right end of the streak strip: flame + streak count
+            + the 7 week dots stay compact on the left, dots keep
+            their full size, and the strip is the only row.
+         3. FULL-SCREEN MAP: the top belongs to the filter bar
+            alone. The "東京マップ" sign plaque is hidden in
+            full screen (redundant there), and LOCATE + the gear
+            move out of the top row into the bottom control row,
+            so every filter chip （すべて/期間限定/史詩/受注中/完了）
+            is fully exposed. The text CLOSE button becomes the
+            same ✕ as every other window: a compact red square,
+            glyph only, still bottom-left of the zoom pill.
+         ========================================================== */
+
+      /* --- 1. section headings: plain label line, no plaque --- */
+      .log-sec-title {
+        display: flex; align-items: baseline; gap: 8px;
+        background: transparent; border: 0; border-bottom: 2px dashed var(--rule-c);
+        border-radius: 0; box-shadow: none;
+        padding: 2px 2px 5px; cursor: default;
+      }
+      .log-sec-title .n { font-size: 0.85em; }
+
+      /* --- 2. daily: streak strip hosts the calendar button --- */
+      .dstreak-bar {
+        display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+        margin: 4px 0 9px; padding: 5px 6px 5px 10px;
+        background: color-mix(in srgb, var(--ink) 6%, var(--window));
+        border: 2px solid var(--line-c); border-radius: 10px;
+      }
+      .daily-win .dstreak-bar .dstreak {
+        margin: 0; padding: 0; background: none; border: 0;
+        border-radius: 0; box-shadow: none;
+        flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; gap: 5px;
+        font-size: 12.5px;
+      }
+      .dstreak-bar .st-n { white-space: nowrap; }
+      .dstreak-bar .dw-dots { margin-left: 3px; flex: none; gap: 3px; }
+      .dstreak-bar .dw-dots i { width: 10px; height: 10px; flex: none; }
+      .cal-open.cal-open-sm {
+        margin: 0 0 0 auto; flex: none; width: auto;
+        display: inline-flex; align-items: center; gap: 5px;
+        min-height: 32px; padding: 5px 8px;
+        font-size: 11.5px; font-weight: 900; white-space: nowrap;
+        background: var(--window); color: var(--ink);
+        border: 2.5px solid var(--line-c); border-radius: 8px;
+        box-shadow: 0 2px 0 var(--edge); cursor: pointer;
+      }
+      .cal-open.cal-open-sm svg { width: 14px; height: 14px; flex: none; }
+      .cal-open.cal-open-sm:active { transform: translateY(2px); box-shadow: 0 0 0 var(--edge); }
+      .daily-win .cal-open { margin-top: 0; }
+      @media (max-height: 740px) {
+        .dstreak-bar { margin: 3px 0 7px; padding: 4px 5px 4px 9px; }
+      }
+
+      /* --- 3. full-screen map: filter bar owns the top --- */
+      .big-map .bm-top { display: none !important; }
+      .map-box.in-big .map-filters { top: calc(8px + env(safe-area-inset-top, 0px)); }
+      .big-map .bm-bottom { gap: 6px; flex-wrap: nowrap; }
+      .big-map .big-close {
+        order: 0; flex: none; margin: 0;
+        width: 46px; height: 46px; min-height: 46px; padding: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 19px; line-height: 1; border-radius: 12px;
+      }
+      .bm-side { display: inline-flex; align-items: center; gap: 5px; flex: none; }
+      .bm-side .loc-btn {
+        min-height: 38px; padding: 5px 10px; font-size: 12.5px; white-space: nowrap;
+        background: color-mix(in srgb, var(--window) 94%, transparent);
+        border: 2.5px solid var(--edge); border-radius: 999px;
+        box-shadow: 0 2px 0 var(--shadow);
+      }
+      .bm-side #bmStyleBtn {
+        width: 38px; height: 38px; min-height: 38px; padding: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        border-radius: 999px;
+      }
+      .bm-side #bmStyleBtn svg { width: 19px; height: 19px; }
+      .big-map .bm-tools { margin-left: auto; padding: 4px 6px; gap: 4px; flex: none; }
+      .big-map .bm-tools .tool-btn { min-width: 32px; height: 34px; padding: 0 6px; }
+      .big-map .bm-tools #zoomResetBtn { width: auto; padding: 0 9px; font-size: 12px; }
+      .big-map .zoom-pct { min-width: 36px; text-align: center; font-size: 12.5px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -8646,9 +8751,11 @@
           <span class="daily-win-tab" id="dailyTitle"></span>
           <button class="how-toggle" id="dailyHowToggle" type="button" aria-expanded="false" aria-controls="dailyHowBody"><span id="dailyHowLabel"></span><span class="how-chip" id="dailyHowChip" aria-hidden="true"></span></button>
           <div class="how-body" id="dailyHowBody" hidden><p id="dailyNpc"></p></div>
-          <div class="dstreak" id="dailyStreak" hidden></div>
+          <div class="dstreak-bar">
+            <div class="dstreak" id="dailyStreak" hidden></div>
+            <button class="cal-open cal-open-sm" id="calOpenBtn" type="button"></button>
+          </div>
           <div class="daily-rows" id="dailyCards"></div>
-          <button class="cal-open" id="calOpenBtn" type="button"></button>
         </div>
         </div>
         <footer class="win-flat site record-foot">
@@ -8875,11 +8982,14 @@
       <div class="big-map-stage" id="bigMapStage"></div>
       <div class="bm-top">
         <span class="big-map-title" id="bigMapTitle"></span>
-        <button class="tool-btn wide loc-btn" id="locBtnBig" type="button"></button>
-        <button class="tool-btn" id="bmStyleBtn" type="button" aria-label="Settings"></button>
       </div>
       <p class="big-map-hint" id="bigMapHint"></p>
       <div class="bm-bottom">
+        <button class="big-close" id="bigMapClose" type="button" aria-label="Close">✕</button>
+        <span class="bm-side">
+          <button class="tool-btn wide loc-btn" id="locBtnBig" type="button"></button>
+          <button class="tool-btn" id="bmStyleBtn" type="button" aria-label="Settings"></button>
+        </span>
         <span class="bm-tools">
           <span class="mt-label" id="lblZoom"></span>
           <button class="tool-btn" id="zoomOutBtn" type="button" aria-label="Zoom out">−</button>
@@ -8887,7 +8997,6 @@
           <button class="tool-btn" id="zoomInBtn" type="button" aria-label="Zoom in">+</button>
           <button class="tool-btn wide" id="zoomResetBtn" type="button"></button>
         </span>
-        <button class="big-close" id="bigMapClose" type="button"></button>
       </div>
     </div>
 
@@ -9318,7 +9427,7 @@
           locDenied: "Location is off for this site. Allow it in your browser settings, then tap LOCATE again.",
           locFailed: "Couldn't get your location. Wait a moment and try again.",
           locUnsupported: "This browser can't share its location.",
-          studioTitle: "▶ DRESS-UP STUDIO",
+          studioTitle: "DRESS-UP STUDIO",
           slotHero: "Hero",
           unequipBtn: "REMOVE",
           randomBtn: "RANDOM",
@@ -9371,7 +9480,7 @@
             "ep2-toyosu": "EPIC reward — clear Toyosu Market"
           },
           heroSwitch: "SWITCH ADVENTURER",
-          badgeTitle: "▶ BADGES",
+          badgeTitle: "BADGES",
           heroes: {
             aoi: { name: "AOI", trait: "Classic Walker", desc: "A bright-eyed walker who has crossed every Tokyo ward on foot. Balanced and cheerful — the diary's first hero." },
             ren: { name: "REN", trait: "Crimson Scout", desc: "A night-shift scout who finds the exhibitions everyone else walks past. Loves hidden galleries and last trains." },
@@ -9420,7 +9529,7 @@
           ],
           segStyle: "DRESS-UP", segGacha: "GACHA", segStatus: "TITLES",
           segActive: "ON QUEST", segCleared: "CLEARED",
-          gachaTitle: "▶ GACHA CAPSULE",
+          gachaTitle: "GACHA CAPSULE",
           gachaSub: "50 EXP = 1 ticket · dupes +10 EXP.",
           ticketsLabel: function (n) { return "TICKET × " + n; },
           ownedOnly: "OWNED ONLY", ownedEmpty: "Nothing yet — pull the machine to win your first cosmetic.",
@@ -9429,7 +9538,7 @@
           pullNone: "NO TICKETS — EARN EXP!",
           nextTicket: function (n) { return "Next ticket in <b>" + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "Gacha time — " + n + (n === 1 ? " ticket" : " tickets") + " ready!" : "Gacha: earn 50 EXP for a ticket"; },
-          wardrobeTitle: "▶ WARDROBE",
+          wardrobeTitle: "WARDROBE",
           kindNames: { hat: "Hat", outfit: "Outfit", scarf: "Scarf", hero: "Secret hero" },
           equipState: "EQUIPPED ✓", equipHint: "Tap to equip", ownedState: "OWNED", lockedState: "NOT YET",
           resultDupe: function (name) { return name + " — already owned! Converted to +10 EXP."; },
@@ -9599,7 +9708,7 @@
           ],
           tutNext: "NEXT ▶", tutBack: "◀ BACK", tutSkip: "SKIP", tutDone: "START ▶", tutReplay: "HOW TO PLAY",
           styleBtn: "STYLE",
-          bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "CLOSE ✕",
+          bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "✕",
           dailyTitle: "Today's Daily Quests",
           dailySub: "Tiny quests, small joys. Each one +10 EXP.",
           dailyNpc: "Psst — these are the little everyday quests: no travelling, done in minutes, anywhere. The REAL adventures are waiting out on the map!",
@@ -9612,7 +9721,7 @@
           dailyKindDaily: "These are different — tiny things you can do anywhere, today, in a few minutes. Small joys to pick up between the real adventures.",
           dailyAllDone: "All daily quests done — nice day!",
           dailyBannerNext: function (n) { return "Today's daily: " + n; },
-          ladderTitle: "▶ TITLE LADDER", ladderNow: "NOW", ladderGot: "✓", ladderLocked: "LOCKED",
+          ladderTitle: "TITLE LADDER", ladderNow: "NOW", ladderGot: "✓", ladderLocked: "LOCKED",
           ladderPast: function (n) { return "▸ Show earlier titles (" + n + ")"; },
           ladderNext: function (n) { return "▸ Show later titles (" + n + ")"; },
           ladderHide: "▾ Fold away",
@@ -9637,14 +9746,14 @@
           remoteUsed: "Remote clear is once a day — today's is used up. On-site GPS clears are always open!",
           pieceGet: function (n) { return "PUZZLE PIECE GET! " + n + "/16"; },
           pieceDupe: "Panorama complete — piece became +10 EXP",
-          puzzleTitleStr: "▶ TOKYO PANORAMA PUZZLE",
+          puzzleTitleStr: "TOKYO PANORAMA PUZZLE",
           puzzleCount: function (n) { return "PIECES " + n + " / 16"; },
           puzzleHint: "Pieces drop from ON-SITE clears only (GPS check-in — epic clears count too). Remote clears never drop a piece.",
           puzzleTitleName: "TOKYO PANORAMA MASTER",
           puzzleRewardLine: function (name) { return "★ LIMITED TITLE: " + name + " — the finished panorama is yours to admire!"; },
           segRecords: "RECORDS",
           segPuzzle: "PUZZLE", segCollection: "COLLECTION", segAdvLog: "ADV. LOG",
-          colTitle: "▶ COLLECTION", advLogTitle: "▶ ADVENTURE LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "RECORD DAYS", colZones: "ZONE PROGRESS", colBadges: "BADGES", colHeroes: "SECRET HEROES", advEmpty: "No cleared quests yet. Clear a quest and its record lands here.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
+          colTitle: "COLLECTION", advLogTitle: "ADVENTURE LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "RECORD DAYS", colZones: "ZONE PROGRESS", colBadges: "BADGES", colHeroes: "SECRET HEROES", advEmpty: "No cleared quests yet. Clear a quest and its record lands here.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
           puzzleBanner: function (n) { return "Tokyo panorama — " + n + "/16 pieces"; },
           createTab: "NEW ADVENTURER",
           creatorNameLabel: "NAME",
@@ -9660,7 +9769,7 @@
           weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
           allDoneBonus: "ALL DAILIES BONUS",
           calTitleStr: "RECORD CALENDAR",
-          calOpen: "RECORD CALENDAR",
+          calOpen: "CALENDAR",
           howOpen: "OPEN", howClose: "CLOSE",
           calNote: "A ★ day = every daily quest cleared. Tap a day to see what was done.",
           diaryTasksK: "Cleared that day",
@@ -9680,7 +9789,7 @@
           shareCopied: "Card text copied — paste it anywhere!",
           dailyCats: { food: "EAT", walk: "WALK", see: "SEE", make: "MAKE", tidy: "TIDY", mind: "MIND" },
           luckyTag: "★ LUCKY",
-          customTitle: "▶ CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR",
+          customTitle: "CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR",
           hairStyles: ["Short", "Long", "Twin Tails", "Ponytail", "Bob", "Bun"],
           dailyPool: [
             { n: "Try a new onigiri flavor", d: "The flavor you never pick. Judge it fairly.", c: "food" },
@@ -9847,7 +9956,7 @@
           locDenied: "位置情報が許可されていません。ブラウザ設定で許可してから、もう一度「現在地」をタップしてください。",
           locFailed: "現在地を取得できませんでした。少し待って再試行してください。",
           locUnsupported: "このブラウザでは位置情報を使えません。",
-          studioTitle: "▶ 着せ替えスタジオ",
+          studioTitle: "着せ替えスタジオ",
           slotHero: "主人公",
           unequipBtn: "外す",
           randomBtn: "おまかせ",
@@ -9900,7 +10009,7 @@
             "ep2-toyosu": "史詩報酬 — 豊洲市場をクリア"
           },
           heroSwitch: "冒険者を切り替える",
-          badgeTitle: "▶ バッジ",
+          badgeTitle: "バッジ",
           heroes: {
             aoi: { name: "アオイ", trait: "王道ウォーカー", desc: "東京の区を歩き尽くした、明るいウォーカー。手帳の最初の主人公。" },
             ren: { name: "レン", trait: "紅のスカウト", desc: "みんなが見逃す展示を見つける夜型スカウト。隠れたギャラリーと終電が好き。" },
@@ -9949,7 +10058,7 @@
           ],
           segStyle: "きせかえ", segGacha: "ガチャ", segStatus: "称号",
           segActive: "受注中", segCleared: "クリア済",
-          gachaTitle: "▶ ガチャカプセル",
+          gachaTitle: "ガチャカプセル",
           gachaSub: "50 EXP＝チケット1枚／ダブりは +10 EXP。",
           ticketsLabel: function (n) { return "チケット × " + n; },
           ownedOnly: "所持済みだけ", ownedEmpty: "まだ何も持っていない — まわして最初のコスメを当てよう。",
@@ -9958,7 +10067,7 @@
           pullNone: "チケットなし — EXPを貯めよう！",
           nextTicket: function (n) { return "次のチケットまで <b>あと " + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "ガチャの時間 — チケット " + n + "枚あるよ！" : "ガチャ：50 EXPでチケット1枚"; },
-          wardrobeTitle: "▶ クローゼット",
+          wardrobeTitle: "クローゼット",
           kindNames: { hat: "帽子", outfit: "服", scarf: "スカーフ", hero: "シークレット主人公" },
           equipState: "着用中 ✓", equipHint: "タップで着る", ownedState: "所持済み", lockedState: "まだ",
           resultDupe: function (name) { return name + " — もう持ってる！ +10 EXP に変換しました。"; },
@@ -10128,7 +10237,7 @@
           ],
           tutNext: "つぎへ ▶", tutBack: "◀ もどる", tutSkip: "スキップ", tutDone: "はじめる ▶", tutReplay: "あそびかた",
           styleBtn: "表示設定",
-          bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "閉じる ✕",
+          bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "✕",
           dailyTitle: "今日のデイリークエスト",
           dailySub: "ちいさなクエスト、ちいさな幸せ。1件 +10 EXP。",
           dailyNpc: "これは日常の小さなクエスト。移動なし、どこでも数分で終わるやつ。本物の冒険はマップで待ってるよ！",
@@ -10141,7 +10250,7 @@
           dailyKindDaily: "こちらはそれとは別もの——今日、どこでも、数分でできる小さなこと。本物の探険の合間にできる、日常の小さな冒険です。",
           dailyAllDone: "今日のデイリーは全部達成——いい日だ！",
           dailyBannerNext: function (n) { return "今日のデイリー：" + n; },
-          ladderTitle: "▶ 称号ラダー", ladderNow: "現在", ladderGot: "✓", ladderLocked: "まだ",
+          ladderTitle: "称号ラダー", ladderNow: "現在", ladderGot: "✓", ladderLocked: "まだ",
           ladderPast: function (n) { return "▸ これまでの称号（" + n + "）"; },
           ladderNext: function (n) { return "▸ これからの称号（" + n + "）"; },
           ladderHide: "▾ たたむ",
@@ -10166,14 +10275,14 @@
           remoteUsed: "遠距離クリアは1日1回まで — 今日は使用済みです。実地のGPSクリアはいつでもできます！",
           pieceGet: function (n) { return "パズルピース GET! " + n + "/16"; },
           pieceDupe: "パノラマ完成済み — ピースは +10 EXP に変換",
-          puzzleTitleStr: "▶ 東京パノラマパズル",
+          puzzleTitleStr: "東京パノラマパズル",
           puzzleCount: function (n) { return "ピース " + n + " / 16"; },
           puzzleHint: "ピースは実地クリア（GPSチェックイン）でのみ落ちます — 史詩クリアも対象。遠距離クリアでは落ちません。",
           puzzleTitleName: "東京パノラママスター",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成したパノラマを眺められます！"; },
           segRecords: "記録",
           segPuzzle: "パズル", segCollection: "コレクション", segAdvLog: "冒険ログ",
-          colTitle: "▶ コレクション", advLogTitle: "▶ 冒険ログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "記録日数", colZones: "ゾーン達成度", colBadges: "バッジ", colHeroes: "シークレット勇者", advEmpty: "まだクリア記録がありません。クエストをクリアするとここに年表が残ります。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
+          colTitle: "コレクション", advLogTitle: "冒険ログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "記録日数", colZones: "ゾーン達成度", colBadges: "バッジ", colHeroes: "シークレット勇者", advEmpty: "まだクリア記録がありません。クエストをクリアするとここに年表が残ります。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
           puzzleBanner: function (n) { return "東京パノラマ — ピース " + n + "/16"; },
           createTab: "あたらしい勇者",
           creatorNameLabel: "名前",
@@ -10209,7 +10318,7 @@
           shareCopied: "文面をコピーしました — どこにでも貼れます！",
           dailyCats: { food: "食", walk: "歩", see: "見", make: "作", tidy: "整", mind: "心" },
           luckyTag: "★ 当たり",
-          customTitle: "▶ 主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色",
+          customTitle: "主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色",
           hairStyles: ["ショート", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子"],
           dailyPool: [
             { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を公平に判定。", c: "food" },
@@ -10376,7 +10485,7 @@
           locDenied: "本站点未获得定位许可。请在浏览器设置中允许，然后再点一次「定位」。",
           locFailed: "无法获取你的位置。稍等一下再试一次。",
           locUnsupported: "这个浏览器无法共享定位。",
-          studioTitle: "▶ 换装工作室",
+          studioTitle: "换装工作室",
           slotHero: "主人公",
           unequipBtn: "卸下",
           randomBtn: "随机",
@@ -10429,7 +10538,7 @@
             "ep2-toyosu": "史诗奖励 — 完成豊洲市場"
           },
           heroSwitch: "切换冒险者",
-          badgeTitle: "▶ 徽章",
+          badgeTitle: "徽章",
           heroes: {
             aoi: { name: "小葵", trait: "王道漫步者", desc: "走遍东京每个区的开朗漫步者。这本手帐的第一位主人公，均衡又阳光。" },
             ren: { name: "小莲", trait: "绯红侦察员", desc: "夜班侦察员，总能找到别人走过却错过的展览。喜欢隐藏画廊和末班车。" },
@@ -10478,7 +10587,7 @@
           ],
           segStyle: "换装", segGacha: "扭蛋", segStatus: "称号",
           segActive: "进行中", segCleared: "已完成",
-          gachaTitle: "▶ 扭蛋机",
+          gachaTitle: "扭蛋机",
           gachaSub: "50 EXP = 1 张扭蛋券 · 重复 +10 EXP。",
           ticketsLabel: function (n) { return "券 × " + n; },
           ownedOnly: "只看已拥有", ownedEmpty: "还没有扭蛋收获 — 抽一次，赢下第一件装扮吧。",
@@ -10487,7 +10596,7 @@
           pullNone: "没有券了——去赚 EXP！",
           nextTicket: function (n) { return "下一张券还差 <b>" + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "扭蛋时间——有 " + n + " 张券！" : "扭蛋：50 EXP 换 1 张券"; },
-          wardrobeTitle: "▶ 衣橱",
+          wardrobeTitle: "衣橱",
           kindNames: { hat: "帽子", outfit: "服装", scarf: "围巾", hero: "秘密主人公" },
           equipState: "已穿戴 ✓", equipHint: "点击穿戴", ownedState: "已拥有", lockedState: "未获得",
           resultDupe: function (name) { return name + " — 已经有了！已转换为 +10 EXP。"; },
@@ -10657,7 +10766,7 @@
           ],
           tutNext: "下一步 ▶", tutBack: "◀ 返回", tutSkip: "跳过", tutDone: "开始 ▶", tutReplay: "玩法介绍",
           styleBtn: "显示设置",
-          bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "关闭 ✕",
+          bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "✕",
           dailyTitle: "今日每日任务",
           dailySub: "小小的任务，小小的幸福。每件 +10 EXP。",
           dailyNpc: "这些是日常的小任务：不用出门，在任何地方几分钟就能完成。真正的冒险，在地图上等着你！",
@@ -10670,7 +10779,7 @@
           dailyKindDaily: "这些不一样——是今天在任何地方、几分钟就能做完的小事。在真正的探险之间，捡起日常的小确幸。",
           dailyAllDone: "今天的每日任务全做完了——美好的一天！",
           dailyBannerNext: function (n) { return "今日每日：" + n; },
-          ladderTitle: "▶ 称号阶梯", ladderNow: "当前", ladderGot: "✓", ladderLocked: "未解锁",
+          ladderTitle: "称号阶梯", ladderNow: "当前", ladderGot: "✓", ladderLocked: "未解锁",
           ladderPast: function (n) { return "▸ 查看之前的称号（" + n + "）"; },
           ladderNext: function (n) { return "▸ 查看之后的称号（" + n + "）"; },
           ladderHide: "▾ 收起",
@@ -10695,14 +10804,14 @@
           remoteUsed: "远程完成每天仅 1 次 — 今天已用完。实地 GPS 打卡随时都可以！",
           pieceGet: function (n) { return "拼图碎片 GET! " + n + "/16"; },
           pieceDupe: "全景已完成 — 碎片转为 +10 EXP",
-          puzzleTitleStr: "▶ 东京全景拼图",
+          puzzleTitleStr: "东京全景拼图",
           puzzleCount: function (n) { return "碎片 " + n + " / 16"; },
           puzzleHint: "碎片仅在实地完成（GPS 打卡）时掉落 — 史诗完成也算。远程完成不会掉落碎片。",
           puzzleTitleName: "东京全景大师",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成的全景图可以慢慢欣赏了！"; },
           segRecords: "记录",
           segPuzzle: "拼图", segCollection: "图鉴", segAdvLog: "冒险日志",
-          colTitle: "▶ 图鉴", advLogTitle: "▶ 冒险日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "记录天数", colZones: "区域进度", colBadges: "徽章", colHeroes: "秘密勇者", advEmpty: "还没有完成记录。完成任务后，年表会记在这里。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
+          colTitle: "图鉴", advLogTitle: "冒险日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "记录天数", colZones: "区域进度", colBadges: "徽章", colHeroes: "秘密勇者", advEmpty: "还没有完成记录。完成任务后，年表会记在这里。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
           puzzleBanner: function (n) { return "东京全景 — 碎片 " + n + "/16"; },
           createTab: "新勇者",
           creatorNameLabel: "名字",
@@ -10738,7 +10847,7 @@
           shareCopied: "文案已复制 — 粘贴到任何地方吧！",
           dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心" },
           luckyTag: "★ 幸运",
-          customTitle: "▶ 自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色",
+          customTitle: "自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色",
           hairStyles: ["短发", "长发", "双马尾", "马尾", "波波头", "丸子头"],
           dailyPool: [
             { n: "尝一种新的饭团口味", d: "便利店里你从不选的那个口味。公平地评判它。", c: "food" },
@@ -13058,7 +13167,7 @@
         var dmb = document.getElementById("detailMoreBtn");
         if (dmb) dmb.textContent = document.getElementById("detailBlurb").classList.contains("is-collapsed") ? t.moreDetails : t.lessDetails;
         renderMinBtns();
-        document.getElementById("msTitle").textContent = "▶ " + t.searchTitle;
+        document.getElementById("msTitle").textContent = t.searchTitle;
         document.getElementById("searchOpenBtn").innerHTML = "🔍 " + esc(t.searchBtn);
         document.getElementById("lblFilterCat").textContent = t.category;
         document.getElementById("lblFilterArea").textContent = t.lblArea;
@@ -13068,8 +13177,8 @@
         /* keyword input retired: filtering is chips-only now */
         document.getElementById("msFree").innerHTML = ICONS.sword + "<span>" + t.freeOnly + "</span>";
         document.getElementById("msFree").setAttribute("aria-pressed", String(filterFree));
-        document.getElementById("logActiveTitle").textContent = "▶ " + t.logActive;
-        document.getElementById("logClearedTitle").textContent = "▶ " + t.logCleared;
+        document.getElementById("logActiveTitle").textContent = t.logActive;
+        document.getElementById("logClearedTitle").textContent = t.logCleared;
         document.getElementById("logActiveEmpty").textContent = t.logActiveEmpty;
         document.getElementById("logClearedEmpty").textContent = t.logClearedEmpty;
         document.getElementById("tab-hero").innerHTML = ICONS.hero + "<span>" + t.tabHero + "</span>";
@@ -15114,7 +15223,7 @@
         var html = '<div class="col-shelf"><h3>' + esc(t.colWardrobe) + "</h3>" +
           shelfRow(t.colHats, cnt("hat")) + shelfRow(t.colOutfits, cnt("outfit")) + shelfRow(t.colScarves, cnt("scarf")) + "</div>";
         html += '<div class="col-shelf epic"><h3>★ ' + esc(t.colEpicShelf) + "</h3>" + shelfRow(t.colEpicShelf, epicN + "/" + epic.length) + "</div>";
-        html += '<div class="col-shelf"><h3>' + esc(t.badgeTitle.replace("▶ ", "")) + "</h3>" +
+        html += '<div class="col-shelf"><h3>' + esc(t.badgeTitle) + "</h3>" +
           shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, 30) + "/30 · " + titleFor(info.lv)) +
           shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
           shelfRow(t.colHeroes, heroesN + "/" + heroes.length) + shelfRow(t.colCalDays, String(days)) + "</div>";
@@ -15263,7 +15372,7 @@
           b.addEventListener("click", function () { completeDaily(parseInt(b.getAttribute("data-daily"), 10)); });
         });
         renderStreak();
-        document.getElementById("calOpenBtn").textContent = t.calOpen;
+        document.getElementById("calOpenBtn").innerHTML = ICONS.cal + "<span>" + esc(t.calOpen) + "</span>";
         var dHr = new Date().getHours();
         var dPhase = dHr >= 5 && dHr < 10 ? "morning" : dHr >= 10 && dHr < 16 ? "day" : dHr >= 16 && dHr < 19 ? "evening" : "night";
         var sc = document.getElementById("dailyScene");
