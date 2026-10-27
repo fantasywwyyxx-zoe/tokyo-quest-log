@@ -7454,6 +7454,148 @@
         }
       }
     </style>
+    <style>
+      /* ==========================================================
+         DEVICE FIX PACK (user screenshots, 2026-10-27 10:23–10:25):
+         1. MAP PAN — the box itself takes touch-action:none (a
+            vertical drag starting on box ground was handable to
+            the browser as a scroll, killing the pan mid-gesture),
+            and the map view never scrolls as a page.
+         2. MAP TOP CHROME = TWO ROWS — the on-board count lost
+            its own pill row and is now the first segment of the
+            filter bar: [74件 | すべて | 期間限定 | 史詩 | 受注中
+            | 完了]. The control row above it is unchanged.
+         3. ✕ RULE — a close button belongs to the OUTER window
+            frame's corner, fully inside it, and never straddles
+            an inner header band: case-window ✕ buttons are
+            anchored to the window corner (absolute, clear of all
+            content via the window's top padding); in-flow head
+            ✕ buttons (detail, search, settings) stay in-flow.
+         4. DAILY ROWS — no dotted leader stealing width, no
+            ellipsis: titles wrap inside the row, sub-lines read
+            in full (the longest pool texts were shortened in the
+            data to fit one line at 390px), and the window's
+            title tab sits IN the window as a plate — the scene
+            band no longer eats its top edge.
+         5. DETAIL FITS 390×667 IN EVERY STATE — tighter head,
+            KV back to a true 2×2, one-line distance alert text
+            (shortened in the strings), one-line privacy note,
+            compact actions pinned fully on screen; the photo
+            band shows the WHOLE key visual (contain on a deep
+            ground) instead of a bold centre crop.
+         6. PILLS NEVER TEAR — pill/badge elements are nowrap
+            and never shrink; the text beside them wraps first.
+         ========================================================== */
+
+      /* --- 1. pan gestures belong to the map --- */
+      .map-box { touch-action: none; }
+      #view-map { overscroll-behavior: none; }
+      body[data-view="map"] #view-map { overflow: hidden !important; }
+
+      /* --- 2. one-row count + filter bar --- */
+      .map-filters {
+        top: 50px; left: 8px; right: 8px; max-width: none;
+        flex-wrap: nowrap; align-items: center; gap: 0;
+        background: color-mix(in srgb, var(--window) 94%, transparent);
+        border: 2.5px solid var(--edge); border-radius: 999px;
+        box-shadow: 0 2px 0 var(--shadow); padding: 3px;
+        transition: opacity 0.4s ease;
+      }
+      body[data-view="map"] .map-filters {
+        top: 50px;
+        left: calc(8px + env(safe-area-inset-left, 0px));
+        right: calc(8px + env(safe-area-inset-right, 0px));
+        max-width: none;
+      }
+      body.map-ui-off .map-filters { opacity: 0; pointer-events: none; }
+      .mf-count {
+        flex: none; display: inline-flex; align-items: center; white-space: nowrap;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif;
+        font-size: 11px; font-weight: 800; letter-spacing: 0.02em; line-height: 1;
+        color: var(--ink-dim); padding: 4px 6px 4px 8px; margin-right: 1px;
+        border-right: 2px solid color-mix(in srgb, var(--edge) 38%, transparent);
+      }
+      .mf-chip {
+        flex: 1 1 0; min-width: 0; text-align: center;
+        border: 0; box-shadow: none; background: transparent;
+        border-radius: 999px; padding: 5px 0; font-size: 10px; letter-spacing: 0.01em;
+      }
+      .mf-chip:active { transform: none; box-shadow: none; }
+      .mf-chip[aria-pressed="true"] { background: var(--lemon); color: #22303c; }
+      .mf-chip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; }
+      /* night: the bar is one solid dark pill, pale segments */
+      :root[data-theme="midnight"] .map-filters { background: #10142e; border-color: #dfe6ff; box-shadow: 0 2px 0 #000; }
+      :root[data-theme="midnight"] .mf-chip { background: transparent; color: #f0f3ff; }
+      :root[data-theme="midnight"] .mf-count { color: #aebadd; border-right-color: rgba(223, 230, 255, 0.35); }
+      :root[data-theme="midnight"] .mf-chip[aria-pressed="true"] { background: #ffd83d; color: #131a2e; }
+      :root[data-theme="midnight"] .mf-chip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .map-filters { background: #10142e; border-color: #dfe6ff; box-shadow: 0 2px 0 #000; }
+        :root:not([data-theme="emerald"]) .mf-chip { background: transparent; color: #f0f3ff; }
+        :root:not([data-theme="emerald"]) .mf-count { color: #aebadd; border-right-color: rgba(223, 230, 255, 0.35); }
+        :root:not([data-theme="emerald"]) .mf-chip[aria-pressed="true"] { background: #ffd83d; color: #131a2e; }
+        :root:not([data-theme="emerald"]) .mf-chip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; }
+      }
+
+      /* --- 3. ✕ belongs to the outer frame's corner --- */
+      #view-hero .hseg-panel.hero-win { padding: 50px 12px 12px; }
+      .hwin-x {
+        position: absolute; top: 8px; right: 10px; margin: 0; z-index: 6;
+        width: 36px; height: 36px;
+      }
+      .cal-x { top: 8px; right: 8px; }
+      #stylePanel .sheet-close { top: 9px; }
+
+      /* --- 4. daily rows read in full --- */
+      .dr-dots { display: none !important; }
+      .dr-name { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3; }
+      .dr-desc {
+        display: block; -webkit-line-clamp: none; -webkit-box-orient: initial;
+        overflow: visible; white-space: normal;
+      }
+      .dr-exp { padding: 1px 7px; font-size: 12px; }
+      .daily-win-tab {
+        position: static; align-self: flex-start;
+        border: 2.5px solid var(--line-c); border-radius: 7px;
+        padding: 2px 10px 3px; margin: 0 0 6px 2px;
+        background: var(--window);
+      }
+
+      /* --- 5. detail: everything on one short screen --- */
+      dialog#detail .detail-head { padding: 7px 12px 5px; }
+      dialog#detail .detail-head h2 { font-size: 17px; margin-top: 2px; }
+      dialog#detail .detail-body { gap: 6px; padding: 6px 12px 9px; }
+      dialog#detail .kv {
+        grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
+        gap: 4px 7px; padding: 7px 9px; font-size: 12px; line-height: 1.35;
+      }
+      dialog#detail .kv dd { line-height: 1.35; }
+      dialog#detail .kv dt { font-size: 11px; padding: 1px 5px; }
+      #detailPreview { background: var(--window-deep); }
+      #detailPreview img.qp-main { object-fit: contain; }
+      /* an older pass froze the band at flex:none/74px (dialog#detail
+         .detail-preview outranks #detailPreview) — the band must flex
+         with the screen again or short quests strand a dead gap */
+      dialog#detail .detail-preview { flex: 1 1 auto; height: auto; min-height: 64px; }
+      dialog#detail .detail-period { padding: 5px 10px; font-size: 12.5px; }
+      dialog#detail .checkin-msg { font-size: 12px; padding: 6px 9px; line-height: 1.45; }
+      dialog#detail .manual-link { font-size: 12.5px; margin: 0; }
+      dialog#detail .checkin-note { font-size: 11px; line-height: 1.45; }
+      dialog#detail .checkin-note svg { width: 14px; height: 14px; margin-top: 1px; }
+      dialog#detail .epic-reward { order: 6; margin: 0; padding: 6px 9px; }
+      dialog#detail .detail-actions .rpg-btn { padding: 9px 8px; min-height: 44px; }
+      @media (max-height: 740px) {
+        #detailPreview, dialog#detail .detail-banner { min-height: 36px; }
+        dialog#detail .detail-preview { min-height: 36px; }
+        dialog#detail .kv { font-size: 11.5px; }
+        dialog#detail .detail-head h2 { font-size: 16px; }
+      }
+
+      /* --- 6. pills never tear --- */
+      .free-badge, .mood, .ticket-pill, .dr-exp, .dr-stamp, .epic-tag {
+        white-space: nowrap; flex: none; display: inline-block;
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -7660,11 +7802,14 @@
               <button class="map-chip sq" id="mapZoomIn" type="button" aria-label="Zoom in">+</button>
               <button class="map-chip sq" id="mapZoomHome" type="button" aria-label="Reset view">⌂</button>
             </div>
-            <span class="map-count-chip" id="mapCount"></span>
-            <!-- quick type filter (user, 2026-10-27): chips on the
-                 map itself — pins and the on-board count follow
-                 instantly; separate from the LIST search modal -->
+            <!-- quick type filter + on-board count: ONE bar
+                 (user, 2026-10-27 10:23 — the count pill used to
+                 take its own row and crowd the map top into three
+                 rows). The count is the bar's first segment and
+                 follows the active filter instantly; separate
+                 from the LIST search modal. -->
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
+              <span class="mf-count" id="mapCount"></span>
               <button class="mf-chip" type="button" data-mf="all" aria-pressed="true"></button>
               <button class="mf-chip" type="button" data-mf="event" aria-pressed="false"></button>
               <button class="mf-chip" type="button" data-mf="epic" aria-pressed="false"></button>
@@ -8384,7 +8529,7 @@
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
           mapTitle: "TOKYO MAP",
-          onBoard: function (n) { return n + (n === 1 ? " QUEST ON BOARD" : " QUESTS ON BOARD"); },
+          onBoard: function (n) { return n + " QUESTS"; },
           progress: "PROGRESS",
           audioHint: "♪ Tap anywhere — the BGM starts with your first tap. Two tracks for day and two for night; pick your favourites under BGM in SETTINGS — the music follows the day/night mode automatically.",
           legendNote: "Tap a pin for a quick preview, then open its briefing; at the real venue, tap <b>CHECK IN</b> there — your location clears the quest. Pins you accepted show <b>!</b>; cleared quests get a stamp.",
@@ -8406,9 +8551,9 @@
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
           checkin: "CHECK IN HERE", checkingIn: "LOCATING…",
           manualClear: "Can't make it? Clear remotely from here (30% EXP · once a day)",
-          checkinNote: "Your location is used only at the moment you tap check-in, to measure the distance to the venue. It is never tracked or saved.",
+          checkinNote: "Used only at check-in to measure distance. Never tracked or saved.",
           checkinOk: "You're at the venue — check-in complete!",
-          tooFar: function (d, r) { return "Not yet — you're about " + d + " from the venue. Check-in works within about " + r + " of it."; },
+          tooFar: function (d, r) { return "Not yet — about " + d + " to the venue (check-in within " + r + ")."; },
           geoDenied: "Location permission was denied, so no distance check ran.",
           geoError: "Couldn't read your location (GPS off or timed out). Try again at the venue.",
           geoInaccurate: function (a) { return "Location fix is too rough (about " + a + "). Wait for a steadier GPS signal and try again."; },
@@ -8824,71 +8969,71 @@
           customTitle: "▶ CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR",
           hairStyles: ["Short", "Long", "Twin Tails", "Ponytail", "Bob", "Bun"],
           dailyPool: [
-            { n: "Try a new onigiri flavor", d: "The convenience-store flavor you never pick. Judge it fairly.", c: "food" },
+            { n: "Try a new onigiri flavor", d: "The flavor you never pick. Judge it fairly.", c: "food" },
             { n: "Buy a pastry from a local bakery", d: "That small bakery you always pass. Today you go in.", c: "food" },
-            { n: "Eat today's seasonal thing", d: "Whatever is seasonal right now — a sweet, a fruit, a limited flavor.", c: "food" },
-            { n: "Try a drink you've never had", d: "A vending machine or café drink you always skip. First sip counts.", c: "food" },
-            { n: "Breakfast like a local", d: "A morning set at a kissaten or bakery — coffee, toast, a slow start.", c: "food" },
+            { n: "Eat today's seasonal thing", d: "Whatever is seasonal — sweet, fruit, limited.", c: "food" },
+            { n: "Try a drink you've never had", d: "A drink you always skip. First sip counts.", c: "food" },
+            { n: "Breakfast like a local", d: "A kissaten morning set — a slow start.", c: "food" },
             { n: "One fancy convenience-store dessert", d: "The premium sweet on the top shelf. Today it is yours.", c: "food" },
-            { n: "Eat at a counter you can watch", d: "Sit where you can see the kitchen work. Dinner and a show.", c: "food" },
+            { n: "Eat at a counter you can watch", d: "Sit where you can see the kitchen work.", c: "food" },
             { n: "Fruit, whole and fresh", d: "One piece of fruit eaten as-is. Simple and perfect.", c: "food" },
-            { n: "A taiyaki or dorayaki break", d: "Warm and sweet, eaten on a bench like a true side quest.", c: "food", b: 1 },
-            { n: "Cook one thing from scratch", d: "Anything — miso soup, an omelette, a sauce. You made it.", c: "food" },
-            { n: "Walk one extra station", d: "Get off one stop early and walk the rest, looking up instead of down.", c: "walk" },
-            { n: "Sit in a park for 10 minutes", d: "Bench, sky, nothing to do. Snacks allowed and encouraged.", c: "walk" },
+            { n: "A taiyaki or dorayaki break", d: "Warm and sweet, eaten on a bench.", c: "food", b: 1 },
+            { n: "Cook one thing from scratch", d: "Anything — miso soup, an omelette. You made it.", c: "food" },
+            { n: "Walk one extra station", d: "Get off one stop early. Walk, looking up.", c: "walk" },
+            { n: "Sit in a park for 10 minutes", d: "Bench, sky, nothing to do. Snacks allowed.", c: "walk" },
             { n: "Visit a shrine or temple gate", d: "Step through, breathe, make one small wish. No rush.", c: "walk" },
-            { n: "Take the long way home", d: "One detour street you've never walked. See where it goes.", c: "walk" },
-            { n: "Find a new vending machine", d: "A machine you have never bought from. Whatever it sells counts.", c: "walk" },
-            { n: "Cross a bridge on foot", d: "Any bridge over water or rails. Stop in the middle for the view.", c: "walk" },
-            { n: "Evening stroll after dinner", d: "Twenty slow minutes around the block. The city changes at night.", c: "walk" },
-            { n: "Climb a hill or shrine steps", d: "To the top, then look back at how far the city spreads.", c: "walk" },
+            { n: "Take the long way home", d: "One street you've never walked. Explore.", c: "walk" },
+            { n: "Find a new vending machine", d: "A machine you've never bought from.", c: "walk" },
+            { n: "Cross a bridge on foot", d: "Any bridge. Stop mid-way for the view.", c: "walk" },
+            { n: "Evening stroll after dinner", d: "Twenty slow minutes. The city changes.", c: "walk" },
+            { n: "Climb a hill or shrine steps", d: "To the top, then look back at the city.", c: "walk" },
             { n: "Walk a shopping street end to end", d: "The whole shotengai, window by window, no skipping.", c: "walk", b: 1 },
-            { n: "Chase the sunset on foot", d: "Walk toward the evening sun until it drops behind the buildings.", c: "walk" },
+            { n: "Chase the sunset on foot", d: "Walk toward the sun until it drops.", c: "walk" },
             { n: "Photograph the sky", d: "One photo of today's sky, wherever you are.", c: "see" },
-            { n: "Watch a train pass", d: "Pick a crossing or platform edge and just watch for five minutes.", c: "see" },
-            { n: "Read one shop sign properly", d: "A sign you always pass — today you actually read all of it.", c: "see" },
+            { n: "Watch a train pass", d: "Watch from a crossing for five minutes.", c: "see" },
+            { n: "Read one shop sign properly", d: "A sign you always pass — read it fully.", c: "see" },
             { n: "Find today's best cloud", d: "Judge the sky like a contest. One cloud wins.", c: "see" },
-            { n: "People-watch from a window seat", d: "Ten minutes of the city's quiet theatre, coffee optional.", c: "see" },
+            { n: "People-watch from a window seat", d: "Ten minutes of the city's quiet theatre.", c: "see" },
             { n: "Spot a cat", d: "Real or statue — Tokyo always hides one.", c: "see", b: 1 },
             { n: "Watch street performers", d: "Stop for one whole song. Applause counts double.", c: "see" },
-            { n: "Find one red thing", d: "Hunt the city for a single beautiful red. Photograph it.", c: "see" },
-            { n: "Read a poster wall", d: "Event posters at a station or café — find one you'd actually go to.", c: "see" },
+            { n: "Find one red thing", d: "Hunt for one beautiful red. Photograph it.", c: "see" },
+            { n: "Read a poster wall", d: "Find a poster you'd actually go to.", c: "see" },
             { n: "Look at the moon", d: "Find it before you go home. That's the whole quest.", c: "see" },
-            { n: "Write three lines of diary", d: "Three honest lines about today. That's the whole quest.", c: "make" },
+            { n: "Write three lines of diary", d: "Three honest lines about today.", c: "make" },
             { n: "Buy a magazine or small book", d: "A genre you never read. One issue is a whole new map.", c: "make" },
-            { n: "Sketch something in 5 minutes", d: "Your cup, a pigeon, a skyline. Bad drawings count double.", c: "make" },
-            { n: "Make a tiny playlist", d: "Five songs for tomorrow morning. Title it something dramatic.", c: "make" },
-            { n: "Fold something from paper", d: "A crane, a plane, a box. One sheet, no shame in instructions.", c: "make" },
+            { n: "Sketch something in 5 minutes", d: "A cup, a pigeon. Bad drawings count double.", c: "make" },
+            { n: "Make a tiny playlist", d: "Five songs for tomorrow morning.", c: "make" },
+            { n: "Fold something from paper", d: "A crane, a plane, a box. One sheet.", c: "make" },
             { n: "Take a portrait of your shoes", d: "Where they took you today. Compose it like art.", c: "make" },
-            { n: "Write a postcard to yourself", d: "From today's Tokyo, to next month's you. Send or stash it.", c: "make", b: 1 },
-            { n: "Arrange one small corner", d: "A shelf, a desk corner — compose it like a tiny exhibition.", c: "make" },
+            { n: "Write a postcard to yourself", d: "From today's Tokyo to next month's you.", c: "make", b: 1 },
+            { n: "Arrange one small corner", d: "Compose one corner like an exhibition.", c: "make" },
             { n: "Doodle today's map", d: "Draw your route from memory, wobbly lines welcome.", c: "make" },
             { n: "Make tea or coffee slowly", d: "The full ritual, no shortcuts. Watch it brew.", c: "make" },
             { n: "Stretch by a window for 5 minutes", d: "Shoulders, neck, back. Look far away while you do it.", c: "tidy" },
-            { n: "Tidy one drawer", d: "Just one. It opens smoothly afterward — that's the reward.", c: "tidy" },
+            { n: "Tidy one drawer", d: "Just one. It opens smoothly after.", c: "tidy" },
             { n: "Water or trim a plant", d: "Your green companion gets five minutes of care.", c: "tidy" },
             { n: "Clean your phone screen & case", d: "A tiny reset you can see. Sparkling counts.", c: "tidy" },
             { n: "Sort one pocket or bag corner", d: "Receipts out, treasures in their place.", c: "tidy" },
             { n: "Lay out tomorrow's clothes", d: "Tomorrow-you says thanks. Weather check counts double.", c: "tidy" },
-            { n: "Wash one cup properly", d: "Your favourite cup, washed and dried with full attention.", c: "tidy" },
+            { n: "Wash one cup properly", d: "Your favourite cup, washed with care.", c: "tidy" },
             { n: "Delete 10 junk photos", d: "Free the camera roll. Blurry sunsets fear you.", c: "tidy", b: 1 },
             { n: "Straighten your entryway", d: "Shoes in a row. The house greets you properly now.", c: "tidy" },
-            { n: "Ten slow deep breaths", d: "Count them on your fingers. Shoulders down on each one.", c: "tidy" },
-            { n: "Send a kind message", d: "Text someone you haven't talked to in a while — just say hi.", c: "mind" },
-            { n: "Say a big thank-you", d: "Thank a shop clerk, driver or colleague like you mean it.", c: "mind" },
-            { n: "Listen to one whole album", d: "Start to finish, no skipping. Old favorite or total stranger.", c: "mind" },
-            { n: "Buy flowers at a florist", d: "One small bouquet for your desk or a friend. Any shop, any flower.", c: "mind" },
-            { n: "Buy a small plant or seeds", d: "Something green for the windowsill. Name it if you like.", c: "mind" },
-            { n: "One compliment, out loud", d: "To anyone — a coworker, a stranger's great coat. Say it kindly.", c: "mind" },
-            { n: "Phone-free for 30 minutes", d: "Leave it in another room. Notice what your hands do instead.", c: "mind" },
+            { n: "Ten slow deep breaths", d: "Count on your fingers. Shoulders down.", c: "tidy" },
+            { n: "Send a kind message", d: "Text someone you miss — just say hi.", c: "mind" },
+            { n: "Say a big thank-you", d: "Thank a clerk or driver like you mean it.", c: "mind" },
+            { n: "Listen to one whole album", d: "Start to finish, no skipping.", c: "mind" },
+            { n: "Buy flowers at a florist", d: "One small bouquet, any shop, any flower.", c: "mind" },
+            { n: "Buy a small plant or seeds", d: "Something green for the windowsill.", c: "mind" },
+            { n: "One compliment, out loud", d: "To anyone. Say it kindly, out loud.", c: "mind" },
+            { n: "Phone-free for 30 minutes", d: "Leave it in another room. Watch your hands.", c: "mind" },
             { n: "Name three good things", d: "From today, out loud or on paper. Small counts.", c: "mind", b: 1 },
-            { n: "Forgive one small grudge", d: "Let one tiny annoyance go on purpose. Feel it get lighter.", c: "mind" },
+            { n: "Forgive one small grudge", d: "Let one tiny annoyance go, on purpose.", c: "mind" },
             { n: "Plan one tiny treat for the weekend", d: "Write it down. Anticipation is half the flavor.", c: "mind" },
             { n: "Stand under a cherry tree", d: "One full minute in the petal weather.", c: "see", mo: [3, 4] },
             { n: "Eat something icy", d: "Shaved ice, ice cream, a frozen treat — summer rules.", c: "food", mo: [6, 7, 8] },
-            { n: "Collect one fallen leaf", d: "The best-shaped leaf on your route. Press it in a book.", c: "walk", mo: [10, 11] },
+            { n: "Collect one fallen leaf", d: "The best-shaped leaf. Press it in a book.", c: "walk", mo: [10, 11] },
             { n: "Warm drink, cold air", d: "A hot can or cup, drunk outside in the winter air.", c: "food", mo: [12, 1, 2] },
-            { n: "Find winter illuminations", d: "Any glowing street or tree. Stand in the light a moment.", c: "see", mo: [11, 12, 1] }
+            { n: "Find winter illuminations", d: "Any glowing street. Stand in the light.", c: "see", mo: [11, 12, 1] }
           ]
         },
         ja: {
@@ -8903,7 +9048,7 @@
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
           mapTitle: "東京マップ",
-          onBoard: function (n) { return "掲示中のクエスト " + n + "件"; },
+          onBoard: function (n) { return n + "件"; },
           progress: "進捗",
           audioHint: "♪ どこかをタップするとBGMが流れ始めます。BGMは昼・夜それぞれ2曲から選べます（設定のBGMで選択、保存されます）。カラーモードに合わせて昼／夜が自動で切り替わります。",
           legendNote: "ピンをタップすると小さなプレビューが出ます。そこから詳細を開き、実際の会場で<b>チェックイン</b>を押すと位置情報でクリアになります。受注中のピンには<b>！</b>、クリア済みにはスタンプが付きます。",
@@ -8925,9 +9070,9 @@
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
           checkin: "ここにいる？チェックイン", checkingIn: "位置を取得中…",
           manualClear: "行けないときは遠距離クリア（EXP 30%・1日1回）",
-          checkinNote: "位置情報はチェックインを押した瞬間だけ、会場との距離判定に使います。追跡したり保存したりすることはありません。",
+          checkinNote: "位置情報はチェックイン時の距離判定のみ。追跡・保存はしません。",
           checkinOk: "会場に到着！チェックイン完了。",
-          tooFar: function (d, r) { return "まだ届きません——会場まで約" + d + "あります。チェックインは会場から約" + r + "以内でできます。"; },
+          tooFar: function (d, r) { return "まだ届きません——会場まで約" + d + "（チェックインは約" + r + "以内）"; },
           geoDenied: "位置情報の許可が得られなかったため、距離判定は行いませんでした。",
           geoError: "位置情報を取得できませんでした（GPSオフ／タイムアウト）。会場で再試行してください。",
           geoInaccurate: function (a) { return "位置情報の精度が粗すぎます（約" + a + "）。GPSが安定するまで待って、もう一度試してください。"; },
@@ -9343,21 +9488,21 @@
           customTitle: "▶ 主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色",
           hairStyles: ["ショート", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子"],
           dailyPool: [
-            { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を。公平に判定すること。", c: "food" },
-            { n: "近所のパン屋でパンを買う", d: "いつも素通りするあの小さなパン屋さんへ、今日こそ入る。", c: "food" },
-            { n: "今が旬のものを食べる", d: "お菓子でも果物でも期間限定でも、今だけのやつを。", c: "food" },
-            { n: "飲んだことない飲み物を試す", d: "自販機でもカフェでも、いつも選ばないやつを。一口目が本番。", c: "food" },
+            { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を公平に判定。", c: "food" },
+            { n: "近所のパン屋でパンを買う", d: "いつも素通りする小さなパン屋へ今日こそ入る。", c: "food" },
+            { n: "今が旬のものを食べる", d: "お菓子でも果物でも、今だけの旬を。", c: "food" },
+            { n: "飲んだことない飲み物を試す", d: "いつも選ばない飲み物を。一口目が本番。", c: "food" },
             { n: "喫茶店のモーニングを食べる", d: "コーヒーとトーストと、ゆっくりした始まりを。", c: "food" },
-            { n: "コンビニの贅沢スイーツをひとつ", d: "一番上の棚のプレミアムなやつ。今日はあなたのもの。", c: "food" },
+            { n: "コンビニの贅沢スイーツをひとつ", d: "一番上の棚のプレミアムを今日は自分に。", c: "food" },
             { n: "厨房が見えるカウンターで食べる", d: "作る手元が見える席で。食事とショーが同時に。", c: "food" },
             { n: "果物をまるごとひとつ", d: "そのまま食べる。シンプルで完璧。", c: "food" },
-            { n: "たい焼き・どら焼き休憩", d: "温かくて甘いやつを、ベンチで食べる正統派サイドクエスト。", c: "food", b: 1 },
-            { n: "一品だけ手作りする", d: "味噌汁でも卵焼きでもソースでも。自分で作った、それが大事。", c: "food" },
-            { n: "一駅分あるく", d: "ひとつ手前で降りて、あとは歩く。下じゃなく上を見ながら。", c: "walk" },
+            { n: "たい焼き・どら焼き休憩", d: "温かくて甘いやつをベンチで食べる。", c: "food", b: 1 },
+            { n: "一品だけ手作りする", d: "味噌汁でも卵焼きでも。自分で作るのが大事。", c: "food" },
+            { n: "一駅分あるく", d: "手前で降りて歩く。上を見ながら。", c: "walk" },
             { n: "公園で10分すわる", d: "ベンチと空と、なにもしない時間。おやつ推奨。", c: "walk" },
-            { n: "神社やお寺の門をくぐる", d: "入って、息をして、小さなお願いをひとつ。急がない。", c: "walk" },
-            { n: "遠回りして帰る", d: "歩いたことのない脇道をひとつ。どこへ出るか見てみよう。", c: "walk" },
-            { n: "初めての自販機を探す", d: "買ったことのない自販機を。何が売ってても正解。", c: "walk" },
+            { n: "神社やお寺の門をくぐる", d: "入って息をして、小さなお願いをひとつ。", c: "walk" },
+            { n: "遠回りして帰る", d: "歩いたことのない脇道をひとつ探る。", c: "walk" },
+            { n: "初めての自販機を探す", d: "初めての自販機で買う。何でも正解。", c: "walk" },
             { n: "橋を歩いて渡る", d: "水の上でも線路の上でも。真ん中で景色を見る。", c: "walk" },
             { n: "夕食後の夜さんぽ", d: "近所をゆっくり20分。夜の街は別の顔。", c: "walk" },
             { n: "坂か神社の階段をのぼる", d: "頂上まで行って、街の広がりを振り返る。", c: "walk" },
@@ -9369,42 +9514,42 @@
             { n: "今日いちばんの雲を決める", d: "空をコンテストみたいに審査。優勝はひとつ。", c: "see" },
             { n: "窓側の席で人間観察", d: "街の静かな劇場を10分。コーヒーは任意。", c: "see" },
             { n: "猫を見つける", d: "本物でも像でも — 東京は必ず隠している。", c: "see", b: 1 },
-            { n: "大道芸や路上ライブを見る", d: "1曲まるごと立ち止まって。拍手は2倍カウント。", c: "see" },
-            { n: "赤いものをひとつ探す", d: "街の中で、きれいな赤をひとつだけ。撮っておく。", c: "see" },
-            { n: "ポスターの壁を読む", d: "駅やカフェのイベントポスター。本当に行きたいやつを探す。", c: "see" },
+            { n: "大道芸や路上ライブを見る", d: "1曲まるごと立ち止まって聴く。", c: "see" },
+            { n: "赤いものをひとつ探す", d: "街できれいな赤をひとつ。撮っておく。", c: "see" },
+            { n: "ポスターの壁を読む", d: "駅やカフェのポスターで行きたいやつを。", c: "see" },
             { n: "月を見る", d: "帰る前に見つける。それだけのクエスト。", c: "see" },
             { n: "日記を3行書く", d: "今日について正直に3行。それでクエスト完了。", c: "make" },
-            { n: "雑誌か小さな本を買う", d: "普段読まないジャンルを1冊。それだけで新しい地図。", c: "make" },
-            { n: "5分で何か描く", d: "カップでも鳩でもスカイラインでも。下手な絵は2倍カウント。", c: "make" },
+            { n: "雑誌か小さな本を買う", d: "普段読まないジャンルを1冊買う。", c: "make" },
+            { n: "5分で何か描く", d: "何でも5分で描く。下手な絵は2倍。", c: "make" },
             { n: "小さなプレイリストを作る", d: "明日の朝のための5曲。タイトルは大げさに。", c: "make" },
-            { n: "紙で何か折る", d: "鶴でも飛行機でも箱でも。1枚で、折り方を見るのは恥じゃない。", c: "make" },
-            { n: "自分の靴のポートレートを撮る", d: "今日連れて行ってくれた場所で。アートみたいに構図。", c: "make" },
-            { n: "自分宛てのはがきを書く", d: "今日の東京から、来月の自分へ。出すか仕舞うかは自由。", c: "make", b: 1 },
+            { n: "紙で何か折る", d: "鶴でも飛行機でも。折り方を見てもOK。", c: "make" },
+            { n: "自分の靴のポートレートを撮る", d: "今日の場所で、アートみたいに撮る。", c: "make" },
+            { n: "自分宛てのはがきを書く", d: "今日の東京から来月の自分へ書く。", c: "make", b: 1 },
             { n: "小さな一角を整えて飾る", d: "棚でも机の隅でも。小さな展覧会みたいに。", c: "make" },
             { n: "今日の地図を落書きする", d: "記憶でたどる今日のルート。ゆがんだ線も歓迎。", c: "make" },
             { n: "お茶かコーヒーをゆっくり淹れる", d: "近道なしのフル儀式。淹れる様子を見ている。", c: "make" },
             { n: "窓辺で5分ストレッチ", d: "肩・首・背中。遠くを見ながらやるのがコツ。", c: "tidy" },
-            { n: "引き出しをひとつ片付ける", d: "ひとつだけ。スムーズに開くようになるのが報酬。", c: "tidy" },
+            { n: "引き出しをひとつ片付ける", d: "ひとつだけ。滑らかに開くのが報酬。", c: "tidy" },
             { n: "植物に水やり・手入れ", d: "緑の相棒に5分のケアを。", c: "tidy" },
             { n: "スマホの画面とケースを拭く", d: "目に見える小さなリセット。ピカピカが正解。", c: "tidy" },
             { n: "ポケットかバッグの一角を整理", d: "レシートは出し、宝物は定位置へ。", c: "tidy" },
-            { n: "明日の服を用意する", d: "明日の自分が感謝する。天気チェックは2倍カウント。", c: "tidy" },
+            { n: "明日の服を用意する", d: "明日の自分が感謝する。用意しよう。", c: "tidy" },
             { n: "お気に入りのカップを丁寧に洗う", d: "洗って、拭いて、フル集中で。", c: "tidy" },
-            { n: "いらない写真を10枚消す", d: "カメラロールを解放。ブレた夕日写真があなたを恐れる。", c: "tidy", b: 1 },
+            { n: "いらない写真を10枚消す", d: "ブレた夕日写真を消して軽くする。", c: "tidy", b: 1 },
             { n: "玄関を整える", d: "靴を一列に。家がちゃんと迎えてくれる。", c: "tidy" },
             { n: "ゆっくり深呼吸を10回", d: "指で数えながら。1回ごとに肩を下ろす。", c: "tidy" },
             { n: "やさしいメッセージを送る", d: "久しぶりの人に、ただ「元気？」と送る。", c: "mind" },
             { n: "大きな声でありがとうを言う", d: "店員さん、運転手さん、同僚に、心を込めて。", c: "mind" },
-            { n: "アルバムを1枚通して聴く", d: "最初から最後まで、飛ばさずに。懐かしいのでも初めましてでも。", c: "mind" },
-            { n: "花屋さんでお花を買う", d: "机の上でも、誰かへのプレゼントでも。小さな花束をひとつ。", c: "mind" },
+            { n: "アルバムを1枚通して聴く", d: "最初から最後まで飛ばさず聴く。", c: "mind" },
+            { n: "花屋さんでお花を買う", d: "机でも贈り物でも、小さな花束を。", c: "mind" },
             { n: "小さな植物か種を買う", d: "窓辺の緑をひとつ。名前をつけてもいい。", c: "mind" },
-            { n: "誰かを声に出して褒める", d: "同僚でも、素敵なコートの他人でも。やさしく言う。", c: "mind" },
+            { n: "誰かを声に出して褒める", d: "同僚でも他人でも、やさしく言う。", c: "mind" },
             { n: "30分スマホを手放す", d: "別の部屋に置く。手が代わりに何をするか観察。", c: "mind" },
-            { n: "今日の良いことを3つ言う", d: "声に出すか、紙に書いて。小さいのでもカウント。", c: "mind", b: 1 },
-            { n: "小さなモヤモヤをひとつ許す", d: "小さな苛立ちを意識して手放す。軽くなるのを感じる。", c: "mind" },
+            { n: "今日の良いことを3つ言う", d: "声に出すか紙に書く。小さくてもOK。", c: "mind", b: 1 },
+            { n: "小さなモヤモヤをひとつ許す", d: "小さな苛立ちを手放して軽くなる。", c: "mind" },
             { n: "週末の小さなご褒美を計画する", d: "書き留めておく。楽しみに待つのが味の半分。", c: "mind" },
             { n: "桜の木の下に立つ", d: "花びらの天気の中で、まる1分。", c: "see", mo: [3, 4] },
-            { n: "冷たいものを食べる", d: "かき氷でもアイスでも冷たいおやつ。夏のルール。", c: "food", mo: [6, 7, 8] },
+            { n: "冷たいものを食べる", d: "かき氷でもアイスでも、冷たいおやつ。", c: "food", mo: [6, 7, 8] },
             { n: "落ち葉をひとつ拾う", d: "ルート上で一番形のいい葉を。本に挟んで。", c: "walk", mo: [10, 11] },
             { n: "温かい飲み物を冷たい空気の中で", d: "ホット缶でもカップでも、冬の外気で飲む。", c: "food", mo: [12, 1, 2] },
             { n: "冬のイルミネーションを探す", d: "光る通りか木を。光の中で少し立つ。", c: "see", mo: [11, 12, 1] }
@@ -9422,7 +9567,7 @@
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
           mapTitle: "东京地图",
-          onBoard: function (n) { return "公告板上的任务 " + n + " 件"; },
+          onBoard: function (n) { return n + " 件"; },
           progress: "进度",
           audioHint: "♪ 点一下任意位置，BGM 就会开始播放。白天和夜晚各有 2 首可选（在设置的 BGM 中选择并保存），音乐会随昼夜模式自动切换。",
           legendNote: "点图钉会弹出小预览，从那里打开详情；到了真实场馆点<b>打卡</b>，用定位完成任务。已接受的图钉带 <b>!</b>，已完成的会盖上印章。",
@@ -9444,9 +9589,9 @@
           clearedOn: "完成日期：", undoClear: "撤销完成",
           checkin: "我在这里？打卡", checkingIn: "正在定位…",
           manualClear: "去不了时可远程完成（EXP 30%，每天 1 次）",
-          checkinNote: "定位信息只在点击打卡的那一刻使用，用来判断与场馆的距离。不会追踪，也不会保存。",
+          checkinNote: "定位只在打卡时用于测距，不追踪、不保存。",
           checkinOk: "已到达场馆——打卡完成！",
-          tooFar: function (d, r) { return "还没到——距离场馆约 " + d + "。在场馆约 " + r + " 以内才能打卡。"; },
+          tooFar: function (d, r) { return "还没到——距场馆约 " + d + "（约 " + r + " 以内可打卡）"; },
           geoDenied: "没有获得定位许可，因此没有进行距离判断。",
           geoError: "无法获取定位（GPS 关闭或超时）。请在场馆再试一次。",
           geoInaccurate: function (a) { return "定位精度太粗（约 " + a + "）。等 GPS 稳定一点，再试一次。"; },
@@ -9865,20 +10010,20 @@
             { n: "尝一种新的饭团口味", d: "便利店里你从不选的那个口味。公平地评判它。", c: "food" },
             { n: "在小面包店买面包", d: "那家你总是路过的小面包店。今天就进去。", c: "food" },
             { n: "吃今天的应季之物", d: "现在正当季的东西——点心、水果或限定口味都可以。", c: "food" },
-            { n: "尝一杯没喝过的饮料", d: "自动售货机或咖啡馆里你总是跳过的那一款。第一口才算数。", c: "food" },
+            { n: "尝一杯没喝过的饮料", d: "自动售货机里你总跳过的那款，第一口才算数。", c: "food" },
             { n: "吃一顿老派咖啡馆早餐", d: "咖啡、吐司，一个慢慢的开始。", c: "food" },
             { n: "一个便利店高级甜点", d: "最上层货架的那款高级甜点。今天它归你了。", c: "food" },
             { n: "坐在能看见厨房的吧台吃饭", d: "看着厨房忙碌。一顿饭加一场表演。", c: "food" },
             { n: "整个吃一个新鲜水果", d: "就这样吃。简单而完美。", c: "food" },
             { n: "鲷鱼烧或铜锣烧休息时间", d: "热乎乎、甜甜的，在长椅上吃——正统的支线任务。", c: "food", b: 1 },
-            { n: "亲手做一样东西吃", d: "味噌汤、煎蛋卷、酱汁，什么都行。是你做的，这就够了。", c: "food" },
+            { n: "亲手做一样东西吃", d: "味噌汤、煎蛋卷都行，你做的就够了。", c: "food" },
             { n: "多走一站路", d: "提前一站下车，剩下的路走回去。抬头走，别低头。", c: "walk" },
             { n: "在公园坐 10 分钟", d: "长椅、天空、什么都不做。允许并鼓励带零食。", c: "walk" },
             { n: "走进神社或寺庙的门", d: "迈进去，呼吸，许一个小小的愿望。不用着急。", c: "walk" },
             { n: "绕远路回家", d: "走一条从没走过的小路。看看它通向哪里。", c: "walk" },
             { n: "找一台新的自动售货机", d: "你从没买过的一台。它卖什么都算数。", c: "walk" },
             { n: "步行过一座桥", d: "水上或铁道上都可以。在桥中间停下来看看风景。", c: "walk" },
-            { n: "晚饭后散步", d: "在附近慢慢走 20 分钟。夜晚的城市是另一副面孔。", c: "walk" },
+            { n: "晚饭后散步", d: "附近慢慢走20分钟，夜里的城市不一样。", c: "walk" },
             { n: "爬一段坡或神社的台阶", d: "爬到顶，回头看看城市铺展多远。", c: "walk" },
             { n: "把一条商店街走到底", d: "整条商店街，一个橱窗一个橱窗地看，不跳过。", c: "walk", b: 1 },
             { n: "追着夕阳走", d: "朝晚霞的方向走，直到太阳落进楼群后面。", c: "walk" },
@@ -9917,7 +10062,7 @@
             { n: "完整听完一张专辑", d: "从头到尾，不跳歌。老最爱或完全陌生都可以。", c: "mind" },
             { n: "在花店买花", d: "一小束花，放在桌上或送给朋友。任何店，任何花。", c: "mind" },
             { n: "买一株小植物或种子", d: "给窗台添一点绿。愿意的话给它起个名字。", c: "mind" },
-            { n: "大声夸一个人", d: "同事也好，穿着好看大衣的陌生人也好。友善地说出来。", c: "mind" },
+            { n: "大声夸一个人", d: "同事或陌生人，友善地夸出口。", c: "mind" },
             { n: "30 分钟不碰手机", d: "把它放在另一个房间。留意你的手会做些什么。", c: "mind" },
             { n: "说出今天的三件好事", d: "大声说，或写在纸上。小的也算。", c: "mind", b: 1 },
             { n: "原谅一件小小的不快", d: "故意放下一件小烦恼。感受它变轻。", c: "mind" },
@@ -12788,7 +12933,10 @@
         document.getElementById("kMood").textContent = t.kMood;
         document.getElementById("vHours").textContent = e.hours;
         document.getElementById("vWhere").innerHTML = esc(e.venue) + ' <span class="dim">(' + esc(areaName(e.area)) + ")</span>";
-        document.getElementById("vPrice").innerHTML = esc(e.price) + (e.free ? ' <span class="free-badge">' + t.free + "</span>" : "");
+        /* no free pill in the price row: the detail head already
+           carries the free chip, and the in-row pill was torn in
+           half by long price text (device report 2026-10-27) */
+        document.getElementById("vPrice").innerHTML = esc(e.price);
         document.getElementById("vMood").innerHTML = evBuckets(e).map(function (b) { return '<span class="mood">#' + esc(moodBucketLabel(b)) + "</span>"; }).join("");
         var db = document.getElementById("detailBlurb");
         typeText(db, evBlurb(e));
@@ -14517,7 +14665,7 @@
            scaled 12% past cover on BOTH axes, so every direction
            has real travel at fit zoom, and clampZoom below keeps
            the two axes perfectly symmetric. */
-        var ch = Math.max(h, w / PLANE_AR) * 1.12;
+        var ch = Math.max(h, w / PLANE_AR) * 1.24;
         var cw = ch * PLANE_AR;
         mapZoom.style.width = cw + "px";
         mapZoom.style.height = ch + "px";
@@ -14566,10 +14714,29 @@
         if (span <= 0) return (box - plane) / 2;
         return Math.min(0, Math.max(-span, t));
       }
+      /* Pan range with a working margin (user device report
+         2026-10-27 10:23 — "the map still won't pan down; is it
+         a range limit?"): it WAS the range. The catalogue's real
+         southern pins sit at the plane's very edge (Todoroki
+         y=97.6%, Jiyugaoka 95.7%, Togoshi 92.2%; Shibamata /
+         Kasai / Kameari even past x=100%), the pins render
+         clamped onto the edge lines, and the home view already
+         sat ON the southern clamp — so southward travel was
+         exactly zero while every other direction had room.
+         The clamp now allows overshoot past every plane edge
+         (20% of the box height vertically, 14% of the width
+         horizontally): an edge pin can always be dragged
+         comfortably inside the frame, over the map-land margin
+         colour, instead of dying half under the bottom bar. */
+      function clampAxisM(t, box, plane, m) {
+        var span = plane - box;
+        if (span <= 0) return (box - plane) / 2;
+        return Math.min(m, Math.max(-span - m, t));
+      }
       function clampZoom(g) {
         if (!g) return;
-        zoom.tx = clampAxis(zoom.tx, g.w, g.pw * zoom.s);
-        zoom.ty = clampAxis(zoom.ty, g.h, g.ph * zoom.s);
+        zoom.tx = clampAxisM(zoom.tx, g.w, g.pw * zoom.s, g.w * 0.14);
+        zoom.ty = clampAxisM(zoom.ty, g.h, g.ph * zoom.s, g.h * 0.20);
       }
       function applyZoom() {
         if (glActive) {
