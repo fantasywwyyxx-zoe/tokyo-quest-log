@@ -175,3 +175,10 @@
   - 地图比例：数值检查通过，但 Zoe 实机仍觉得不对——只有她的实机验收能结案（T1）。
   - 屋号未定，App Store 路线因此停在准备阶段（T5）。
 - 下一步（二选一即可，Zoe 拍板）：先推进 T1/T2 把产品打磨到位，或先做 T4 仓库化，把 Codex 正式拉进场。
+
+## 2026-10-27 16:46 JST · Muse（主聊天）· PR #2 合并 + 试点闭环
+- Zoe 在主聊天拍板「合并 PR #2」（16:45）。PR #2 已合并（merged 2026-10-27T07:46:25Z，src/index.html +13/−3）。
+- 移植：同一改动已进正式源码（ts-spaces/tokyo-side-quests/index.html）与线上构建（本仓库根 index.html）——`.ms-open` CSS、三语 listOpen（DETAILS ▶ / 詳細 ▶ / 打开详情 ▶）、searchRowHTML 改 div 包裹 + 常显按钮（保留现行 EPIC 行结构：is-epic / ms-name-t / EPIC 标签）；列表点击为 closest("[data-row-open]") 委托处理，内层按钮点击冒泡兼容（与 PR 审查结论一致）。脚本提取 node --check 通过。
+- 验证限度（诚实记录）：本机无头 Chromium 在当前环境产不出截图/DOM，未做手机视口渲染确认；改动为已审 PR diff 的逐项复刻，视觉确认挂下一次 TSQ 开发轮截屏 + Zoe 设备终审。
+- TASKS：T3 → done。试点岗哨 cron codex-pilot-watch 在合并确认后由 Muse 在主聊天删除（其规则：报告结论一次后提醒删除）。
+- Issue #3（显示专项）：Codex 仍停在「需先建环境」提示，无产出；Muse 自行修复已进构建 f560dce，该单为交叉复查，不阻塞。
