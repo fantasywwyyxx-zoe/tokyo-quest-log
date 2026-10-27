@@ -4,6 +4,11 @@
 
 ---
 
+## 2026-10-27 09:43 · Muse · 审查分诊五项拍板：全部按 Muse 建议定 + 代码落地三项
+- Zoe 拍板：「5点都按你的建议定」。五项已写入 DECISIONS「审查分诊五项拍板」：① Kiwi Maru 正式退役；② 官方主视觉/海报算官方物料（真照片优先，授权核查列入屋号/上架前必做）；③ 签到加 100m 精度门槛，半径不变；④ 无图占位改干净空窗；⑤ 注释真名删除、GitHub 用户名留待屋号定案。
+- 代码落地（根目录 index.html 与 artifact 源码同步改，JS 语法检查通过）：签到 `doCheckinFor` 新增精度门槛 + 三语 `geoInaccurate` 提示；一覧缩略图 `rowThumbHTML` 无图时只剩空窗（去掉 np-band/np-ico）；详情无图横幅只剩干净空舞台 `.npw`；注释里「Zoe confirmed…」已改无名表述（短行内已无真名，余下仅 URL 里的用户名）。
+- 待办衔接：详情页构图重做仍在 T6；授权逐个核查并入 T5 屋号文档；本轮代码改动的手机尺寸渲染验证按交付规则在 TSQ 开发会话的下一轮构建里一并实拍（本条不冒充已实机验证）。
+
 ## 2026-10-27 09:36 · Muse · Claude 第一轮审查：核实 + 分诊（它离场前的最后一份产出）
 - 背景：Zoe 同日已把 Claude 移出阵容；它随后交来第一轮审查（自述范围改为线上根目录 `index.html` @ `3aab9cc`，因 `src/` 已滞后；含 390×844 真实渲染逐页测滚动）。Muse 逐条核实后分诊如下。
 - **属实（已核对代码/仓库）**：根 index.html 13.7MB、22 个 `<style>` 块、3309 行重复 `</style></style>`、字体切换器与 MapLibre 死代码/`glActive`、3784 行过期 CARTO/OSM 注释、无 service worker、manifest 为 data URI、`src/` 仅 1.5MB 滞后数轮、README 与实际流程矛盾、COMPANY 第 11 行「尚未纳入 Git」过期、DECISIONS 自 `d68b256` 后未跟上 5 轮大改、签到只比距离不看 `coords.accuracy`（`doCheckinFor` 用 `maximumAge: 30000`，精度只存不用）、详情页为堆叠卡片构图。

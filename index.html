@@ -2354,7 +2354,7 @@
 
       /* ================================================================
          SELECTION-PAGE TOKENS, EXACT (final alignment)
-         Zoe confirmed the BGM page's day/night cards on her phone
+         Confirmed on-device — the BGM page's day/night cards
          ("font and colours are perfect — this exact feel in my
          app"), so its tokens become the app's tokens literally:
          day = cream paper #fbf6ea, ink #22303c, sky #57b6e8;
@@ -8411,6 +8411,7 @@
           tooFar: function (d, r) { return "Not yet — you're about " + d + " from the venue. Check-in works within about " + r + " of it."; },
           geoDenied: "Location permission was denied, so no distance check ran.",
           geoError: "Couldn't read your location (GPS off or timed out). Try again at the venue.",
+          geoInaccurate: function (a) { return "Location fix is too rough (about " + a + "). Wait for a steadier GPS signal and try again."; },
           geoUnsupported: "This browser can't share your location.",
           themeLabel: "COLOR",
           themeNames: { auto: "Auto", emerald: "Pearl White", midnight: "Black-Indigo Yellow" },
@@ -8929,6 +8930,7 @@
           tooFar: function (d, r) { return "まだ届きません——会場まで約" + d + "あります。チェックインは会場から約" + r + "以内でできます。"; },
           geoDenied: "位置情報の許可が得られなかったため、距離判定は行いませんでした。",
           geoError: "位置情報を取得できませんでした（GPSオフ／タイムアウト）。会場で再試行してください。",
+          geoInaccurate: function (a) { return "位置情報の精度が粗すぎます（約" + a + "）。GPSが安定するまで待って、もう一度試してください。"; },
           geoUnsupported: "このブラウザは位置情報を共有できません。",
           themeLabel: "カラー",
           themeNames: { auto: "自動", emerald: "パールホワイト", midnight: "黒藍イエロー" },
@@ -9447,6 +9449,7 @@
           tooFar: function (d, r) { return "还没到——距离场馆约 " + d + "。在场馆约 " + r + " 以内才能打卡。"; },
           geoDenied: "没有获得定位许可，因此没有进行距离判断。",
           geoError: "无法获取定位（GPS 关闭或超时）。请在场馆再试一次。",
+          geoInaccurate: function (a) { return "定位精度太粗（约 " + a + "）。等 GPS 稳定一点，再试一次。"; },
           geoUnsupported: "这个浏览器无法共享定位。",
           themeLabel: "颜色",
           themeNames: { auto: "自动", emerald: "珍珠白", midnight: "黑蓝黄" },
@@ -12433,7 +12436,7 @@
          only — no timing chip on the list. */
       function rowThumbHTML(e, cls) {
         if (e.img) return '<span class="' + cls + ' has-photo" aria-hidden="true"><img src="' + e.img + '" alt="" loading="lazy"></span>';
-        return '<span class="' + cls + ' nophoto" aria-hidden="true"><span class="np-band ' + CAT_CLASS[e.category] + '"></span><span class="np-ico">' + ICONS[CAT_ICON[e.category]] + '</span></span>';
+        return '<span class="' + cls + ' nophoto" aria-hidden="true"></span>';
       }
       function searchRowHTML(e) {
         var clr = isCleared(e.id);
@@ -12758,12 +12761,11 @@
           bn.hidden = true; bn.innerHTML = "";
         } else {
           /* photo-less events get a designed NO PHOTO window — a
-             framed empty stage in the category colour, never an AI
+             clean framed empty stage (no band, no icon, no lettering), never an AI
              illustration standing in for a photo */
           dp.hidden = true; dp.style.cursor = ""; dp.innerHTML = "";
           bn.hidden = false;
-          bn.innerHTML = '<span class="npw"><span class="npw-band ' + CAT_CLASS[e.category] + '"></span>' +
-            '<span class="npw-ico">' + ICONS[CAT_ICON[e.category]] + "</span></span>";
+          bn.innerHTML = '<span class="npw"></span>';
         }
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
         document.getElementById("detailName").textContent = evName(e);
@@ -13394,6 +13396,11 @@
           btn.innerHTML = orig;
           if (onSettle) onSettle();
           var d = haversineM(pos.coords.latitude, pos.coords.longitude, v.lat, v.lng);
+          if (pos.coords.accuracy && pos.coords.accuracy > 100) {
+            sfx("back");
+            showMsg("err", t.geoInaccurate(fmtDist(pos.coords.accuracy)));
+            return;
+          }
           var r = v.r || 400;
           if (d <= r) {
             showMsg("ok", t.checkinOk);
