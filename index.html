@@ -7188,6 +7188,272 @@
       dialog#detail .kv dd .dim { white-space: nowrap; }
       .cp-v { min-width: 0; }
     </style>
+    <style>
+      /* ==========================================================
+         FINAL MINIMAL PASS (user device reports, 2026-10-27):
+         the fit bar is now 390×667 (the Muse in-app webview's
+         real height), checked alongside 390×844. Rules:
+         1. the document itself never scrolls — every screen is
+            a fixed shell; only designated inner areas (quest
+            index, badge grid, collection / log bodies) scroll,
+            inside their own window, chrome always still.
+         2. explanatory text blocks no longer stand open at the
+            top of a screen: DAILY and GACHA share ONE fold
+            pattern — a slim one-line "▶ HOW TO PLAY" toggle,
+            closed by default, holding a single shortened rule
+            line. The same compression (clamp / tighten) is
+            applied to the other case windows' top text.
+         3. vertical padding/margins are compressed, never the
+            information: streak, rest card and week dots stay;
+            title + ticket pill stay; machine, PULL and the
+            result card stay the gacha's main actors.
+         ========================================================== */
+
+      /* --- 1. locked shell --- */
+      html, body { height: 100dvh; }
+      body { overflow: hidden; }
+
+      /* --- 2. the shared how-to fold --- */
+      .how-toggle {
+        flex: none; width: 100%; display: flex; align-items: center; gap: 6px;
+        padding: 4px 2px 5px; margin: 0; cursor: pointer; text-align: left;
+        background: transparent; border: 0; border-bottom: 2px dashed var(--rule-c);
+        color: var(--ink); font-family: inherit; font-weight: 800;
+        font-size: 12.5px; letter-spacing: 0.04em; line-height: 1.3;
+      }
+      .how-toggle .how-arrow { margin-left: auto; flex: none; font-size: 11.5px; color: var(--ink-dim); transition: transform 0.15s steps(3); }
+      .how-toggle.is-open .how-arrow { transform: rotate(90deg); }
+      .how-body { flex: none; border-bottom: 2px dashed var(--rule-c); padding: 5px 2px 6px; }
+      .how-body[hidden] { display: none !important; }
+      .how-body p { margin: 0; font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--ink); text-align: left; }
+
+      /* --- 3a. DAILY: HUD + scene + window, compressed --- */
+      #dailyPanel { gap: 5px; }
+      .daily-hud { padding: 3px 9px; font-size: 12px; }
+      .dhud-who canvas { width: 20px; height: 20px; }
+      #dailyPanel .daily-scene { height: 96px; }
+      .dscene-hero { width: 60px; height: 60px; }
+      .daily-win { padding: 10px 10px 8px; }
+      .dstreak { margin: 3px 0 3px; font-size: 12.5px; gap: 6px; }
+      .dstreak .flame { width: 16px; height: 16px; }
+      .dw-dots i { width: 11px; height: 11px; }
+      .drow { padding: 6px 4px; }
+      .cal-open { margin-top: 6px; padding: 7px 9px; font-size: 13px; }
+      @media (max-height: 740px) {
+        #dailyPanel .daily-scene { height: 64px; }
+        .dscene-hero { width: 46px; height: 46px; }
+        .daily-win { padding: 8px 9px 7px; }
+        .drow { padding: 5px 4px; }
+        .dr-name { font-size: 14px; }
+        .dr-desc { font-size: 11px; }
+      }
+
+      /* --- 3b. GACHA: title + pill stay, fold under them,
+             machine / PULL / result are the screen --- */
+      #hsegGacha .gacha-panel { padding: 12px 12px 13px; margin: auto 0; }
+      #hsegGacha .gacha-title { font-size: 19px; }
+      #hsegGacha .gacha-machine { gap: 9px; padding: 12px 12px 11px; margin-bottom: 10px; }
+      #hsegGacha .gacha-machine canvas { width: 116px; height: 116px; }
+      #hsegGacha .gacha-next { font-size: 12.5px; margin-bottom: 8px; }
+      #hsegGacha .gacha-pull { padding: 12px 10px; font-size: 14.5px; }
+      #hsegGacha .gacha-result { padding: 9px 10px; gap: 9px; }
+      #hsegGacha .gacha-result canvas { width: 52px; height: 52px; }
+      #hsegGacha .how-body .gacha-sub { margin: 0; text-align: left; }
+      @media (max-height: 740px) {
+        #hsegGacha .gacha-panel { padding: 9px 10px 10px; }
+        #hsegGacha .gacha-machine { padding: 9px 10px; margin-bottom: 8px; gap: 7px; }
+        #hsegGacha .gacha-machine canvas { width: 88px; height: 88px; }
+        #hsegGacha .gacha-pull { padding: 10px 10px; }
+        #hsegGacha .gacha-result { padding: 7px 9px; }
+        #hsegGacha .gacha-result canvas { width: 44px; height: 44px; }
+        #hsegGacha .gacha-result .gr-desc {
+          display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+        }
+      }
+
+      /* --- 3c. other case windows: same top-text compression --- */
+      #view-hero .hseg-panel.hero-win { padding: 10px 10px; }
+      .log-sec-title { margin: 10px 2px 7px; padding-bottom: 5px; font-size: 19px; }
+      #hsegStatus .hh-desc {
+        display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+        margin-top: 2px;
+      }
+      #hsegStatus .hstat-box { margin: 6px 0 2px; padding: 6px 9px; gap: 5px; }
+      #hsegStatus .daily-banner, #hsegStatus .pz-banner { min-height: 38px; margin-bottom: 6px; padding: 7px 10px; }
+      #hsegPuzzle .pz-wrap { gap: 5px; }
+      #hsegPuzzle .pz-grid { width: min(64vw, 264px); }
+      #hsegPuzzle .pz-hint { font-size: 11.5px; line-height: 1.4; }
+      #hsegPuzzle .pz-count { font-size: 14px; }
+      #hsegStudio .studio-progress { margin-bottom: 5px; }
+      @media (max-height: 740px) {
+        #hsegPuzzle .pz-grid { width: min(54vw, 216px); }
+        #hsegBadges .badge { padding: 7px 4px 6px; gap: 3px; }
+        #hsegBadges .badge .b-ico { width: 34px; height: 34px; }
+        #hsegBadges .badge .b-ico svg { width: 25px; height: 25px; }
+        #hsegBadges .b-name { min-height: 0; font-size: 11.5px; }
+        #hsegStatus .ladder-row { min-height: 30px; padding: 4px 8px; }
+      }
+
+      /* --- 3d. short screens: chrome gives back its pixels --- */
+      @media (max-height: 740px) {
+        .wrap { padding: 6px 8px 8px; }
+        body .wrap { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+        body[data-view="daily"] .statusbar,
+        body[data-view="hero"] .statusbar { padding: 4px 8px; margin-bottom: 4px; }
+        .statusbar { margin-bottom: 6px; }
+        .tabs .tab, .tabs .nav-gear { height: 48px; min-height: 48px; }
+        .tabs .tab-start { height: 59px; min-height: 59px; }
+        #view-hero .hero-dock { margin-top: 6px; }
+        #view-hero .dock-btn { padding: 5px 2px 4px; }
+      }
+    </style>
+    <style>
+      /* ==========================================================
+         FINAL MINIMAL PASS 2 (user rule, 2026-10-27 08:51):
+         NO lone full-width button rows. A single button never
+         occupies an entire row by itself: buttons are content-
+         width, or share their row with information / another
+         action. Inventory applied below: gacha PULL, daily
+         record-calendar, briefing actions, title + creator
+         primaries, settlement wear/share. (Menu ROWS — daily
+         quest rows, log rows, the how-to fold toggles — are
+         list items, not button bands, and stay full-width by
+         GBA menu grammar. The bottom command bar is a shared
+         5-slot row, not a lone button.)
+         Top areas compress further at the same time.
+         ========================================================== */
+
+      /* --- gacha: next-ticket info and PULL share ONE row --- */
+      #hsegGacha .gm-side {
+        display: flex; flex-direction: row; align-items: center; gap: 10px;
+        width: 100%; text-align: left;
+      }
+      #hsegGacha .gacha-next { flex: 1 1 auto; min-width: 0; margin: 0; }
+      #hsegGacha .gacha-pull {
+        flex: none; width: auto; padding: 11px 24px;
+        font-size: 14.5px; white-space: nowrap;
+      }
+      @media (max-height: 740px) { #hsegGacha .gacha-pull { padding: 9px 20px; } }
+      #hsegGacha .gacha-head { margin-bottom: 2px; }
+      #hsegGacha .ticket-pill { padding: 4px 11px; }
+
+      /* --- daily: record calendar is a compact pill, not a band --- */
+      .cal-open {
+        width: auto; align-self: flex-start;
+        padding: 7px 18px; border-radius: 999px;
+      }
+
+      /* --- briefing: actions pair up in two columns at every
+             width; nothing spans a row alone --- */
+      dialog#detail .detail-actions {
+        display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 7px;
+      }
+      dialog#detail .detail-actions .rpg-btn { width: auto; }
+      dialog#detail .detail-actions .wide,
+      dialog#detail .detail-actions .btn-checkin,
+      dialog#detail .detail-actions .btn-back { grid-column: auto; }
+      dialog#detail .detail-actions .undo-link { grid-column: 1 / -1; }
+      dialog#detail .btn-quest { padding: 11px 8px; font-size: 14.5px; }
+      dialog#detail .detail-head { padding: 10px 13px 7px; }
+      dialog#detail .detail-head h2 { font-size: 19px; margin-top: 3px; }
+
+      /* --- title + creator primaries: content width, centred --- */
+      .start-btn {
+        width: auto; min-width: min(62%, 290px);
+        margin-left: auto; margin-right: auto; display: block;
+        padding: 13px 26px;
+      }
+      .creator-go { width: auto; }
+      .creator-back { width: auto; display: block; margin-left: auto; margin-right: auto; padding-left: 22px; padding-right: 22px; }
+
+      /* --- settlement: WEAR and SHARE sit side by side --- */
+      .cpanel .cp-wear { display: inline-block; margin: 8px 4px 2px; padding: 8px 16px; }
+      .cpanel .cp-share { display: inline-block; margin: 8px 4px 2px; padding: 8px 16px; }
+      .cpanel { text-align: center; }
+      .cpanel .cp-lines, .cpanel .cflavor { text-align: left; }
+
+      /* --- gacha result: WEAR is a compact pill on the card's
+             action line, never a full-width band --- */
+      #hsegGacha .gacha-result { flex-wrap: wrap; }
+      #hsegGacha .gr-wear {
+        flex: none; width: auto; margin-left: auto;
+        padding: 7px 16px; border-radius: 999px; white-space: nowrap;
+      }
+
+      /* --- top rows everywhere: one step tighter --- */
+      .daily-win-tab { top: -11px; padding: 0 9px 1px; font-size: 12px; }
+      #hsegGacha .gacha-title { line-height: 1.25; }
+      .hh-title { margin-bottom: 0; }
+    </style>
+    <style>
+      /* ==========================================================
+         FINAL MINIMAL PASS 3 (user device reports, 2026-10-27
+         08:51–08:52):
+         A. COMMAND BAR CLIPPED AT BOTH ENDS (map screenshot):
+            the fixed bar carried left:8px AND width:100% from
+            different passes — over-constrained, the right edge
+            (and its frame) landed 8px+ past the viewport, and
+            the longest slot label （表示設定） rode the cut. The
+            bar is now inset-anchored (left+right, width auto)
+            with safe-area insets, on every page (one shared
+            rule — the bar is the same element everywhere).
+         B. NIGHT MAP CONTROLS UNREADABLE: --lemon was never
+            defined, so every var(--lemon) ground silently
+            dropped out — worst on the pressed filter chip,
+            which kept dark ink (#22303c) on the dark translucent
+            chip ground. --lemon is defined now, and at night
+            every map control (filter chips, count pill, LOCATE /
+            FULL MAP, zoom −/+, home) wears a SOLID dark ground,
+            pale ink and a bright frame — nothing translucent
+            melts into the night map anymore. Day untouched.
+         ========================================================== */
+      :root { --lemon: #ffd83d; }
+      html, body { overflow-x: clip; }
+
+      /* --- A. the bar lives fully inside the viewport --- */
+      body[data-view] .tabs {
+        left: calc(8px + env(safe-area-inset-left, 0px));
+        right: calc(8px + env(safe-area-inset-right, 0px));
+        width: auto; max-width: none;
+      }
+      .tabs .tab, .tabs .nav-gear { min-width: 0; }
+      body[data-view="map"] .map-filters {
+        left: calc(8px + env(safe-area-inset-left, 0px));
+        max-width: calc(100% - 16px - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px));
+      }
+
+      /* --- B. night map controls: solid ground, pale ink --- */
+      :root[data-theme="midnight"] .map-chip,
+      :root[data-theme="midnight"] .mf-chip,
+      :root[data-theme="midnight"] .map-count-chip,
+      :root[data-theme="midnight"] .big-map .tool-btn,
+      :root[data-theme="midnight"] .big-close {
+        background: #10142e; color: #f0f3ff; border-color: #dfe6ff;
+        box-shadow: 0 2px 0 #000;
+      }
+      :root[data-theme="midnight"] .mf-chip[aria-pressed="true"] {
+        background: #ffd83d; color: #131a2e; border-color: #fff6dd;
+      }
+      :root[data-theme="midnight"] .mf-chip[data-mf="epic"][aria-pressed="true"] {
+        background: var(--epic); color: #ffe9a8; border-color: var(--epic-gold);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .map-chip,
+        :root:not([data-theme="emerald"]) .mf-chip,
+        :root:not([data-theme="emerald"]) .map-count-chip,
+        :root:not([data-theme="emerald"]) .big-map .tool-btn,
+        :root:not([data-theme="emerald"]) .big-close {
+          background: #10142e; color: #f0f3ff; border-color: #dfe6ff;
+          box-shadow: 0 2px 0 #000;
+        }
+        :root:not([data-theme="emerald"]) .mf-chip[aria-pressed="true"] {
+          background: #ffd83d; color: #131a2e; border-color: #fff6dd;
+        }
+        :root:not([data-theme="emerald"]) .mf-chip[data-mf="epic"][aria-pressed="true"] {
+          background: var(--epic); color: #ffe9a8; border-color: var(--epic-gold);
+        }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -7546,10 +7812,10 @@
         </div>
         <div class="win daily-win" id="dailyWin">
           <span class="daily-win-tab" id="dailyTitle"></span>
-          <p class="daily-npc" id="dailyNpc"></p>
+          <button class="how-toggle" id="dailyHowToggle" type="button" aria-expanded="false" aria-controls="dailyHowBody"><span id="dailyHowLabel"></span><span class="how-arrow" aria-hidden="true">▸</span></button>
+          <div class="how-body" id="dailyHowBody" hidden><p id="dailyNpc"></p></div>
           <div class="dstreak" id="dailyStreak" hidden></div>
           <div class="daily-rows" id="dailyCards"></div>
-          <p class="daily-note" id="dailyNote"></p>
           <button class="cal-open" id="calOpenBtn" type="button"></button>
         </div>
         </div>
@@ -7611,7 +7877,8 @@
             <span class="gacha-title" id="gachaTitle"></span>
             <span class="ticket-pill" id="ticketPill"></span>
           </div>
-          <p class="gacha-sub" id="gachaSub"></p>
+          <button class="how-toggle" id="gachaHowToggle" type="button" aria-expanded="false" aria-controls="gachaHowBody"><span id="gachaHowLabel"></span><span class="how-arrow" aria-hidden="true">▸</span></button>
+          <div class="how-body" id="gachaHowBody" hidden><p class="gacha-sub" id="gachaSub"></p></div>
           <div class="gacha-machine">
             <canvas id="gachaHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
             <div class="gm-side">
@@ -8301,7 +8568,7 @@
           segStyle: "DRESS-UP", segGacha: "GACHA", segStatus: "STATUS",
           segActive: "ON QUEST", segCleared: "CLEARED",
           gachaTitle: "▶ GACHA CAPSULE",
-          gachaSub: "50 EXP = 1 ticket. Dress your hero — dupes become +10 EXP.",
+          gachaSub: "50 EXP = 1 ticket · dupes +10 EXP.",
           ticketsLabel: function (n) { return "TICKET × " + n; },
           pullBtn: "▶ PULL 1",
           pullNone: "NO TICKETS — EARN EXP!",
@@ -8476,6 +8743,7 @@
           dailyTitle: "Today's Daily Quests",
           dailySub: "Tiny quests, small joys. Each one +10 EXP.",
           dailyNpc: "Psst — these are the little everyday quests: no travelling, done in minutes, anywhere. The REAL adventures are waiting out on the map!",
+          dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 for +30 EXP.",
           dailyProg: "TODAY", dailyDoneBtn: "DONE!", dailyDoneStamp: "DONE ✓",
           dailyNote: "Daily quests refresh at midnight. Do a little joy, then tap its row — clear all three for a +30 EXP bonus.",
           dailyKindRealTag: "REAL QUESTS",
@@ -8818,7 +9086,7 @@
           segStyle: "きせかえ", segGacha: "ガチャ", segStatus: "ステータス",
           segActive: "受注中", segCleared: "クリア済",
           gachaTitle: "▶ ガチャカプセル",
-          gachaSub: "50 EXP = チケット1枚。着せ替えやシークレット主人公を当てよう。ダブりは +10 EXP。",
+          gachaSub: "50 EXP＝チケット1枚／ダブりは +10 EXP。",
           ticketsLabel: function (n) { return "チケット × " + n; },
           pullBtn: "▶ 1回まわす",
           pullNone: "チケットなし — EXPを貯めよう！",
@@ -8993,6 +9261,7 @@
           dailyTitle: "今日のデイリークエスト",
           dailySub: "ちいさなクエスト、ちいさな幸せ。1件 +10 EXP。",
           dailyNpc: "これは日常の小さなクエスト。移動なし、どこでも数分で終わるやつ。本物の冒険はマップで待ってるよ！",
+          dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で +30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "できた！", dailyDoneStamp: "達成 ✓",
           dailyNote: "デイリークエストは深夜0時に切り替わります。小さな幸せを叶えたら行をタップ — 3つ全達成で +30 EXP ボーナス。",
           dailyKindRealTag: "本物のクエスト",
@@ -9335,7 +9604,7 @@
           segStyle: "换装", segGacha: "扭蛋", segStatus: "状态",
           segActive: "进行中", segCleared: "已完成",
           gachaTitle: "▶ 扭蛋机",
-          gachaSub: "50 EXP = 1 张票。给主人公换装——重复的会变成 +10 EXP。",
+          gachaSub: "50 EXP = 1 张票 · 重复 +10 EXP。",
           ticketsLabel: function (n) { return "票 × " + n; },
           pullBtn: "▶ 抽 1 次",
           pullNone: "没有票了——去赚 EXP！",
@@ -9510,6 +9779,7 @@
           dailyTitle: "今日每日任务",
           dailySub: "小小的任务，小小的幸福。每件 +10 EXP。",
           dailyNpc: "这些是日常的小任务：不用出门，在任何地方几分钟就能完成。真正的冒险，在地图上等着你！",
+          dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 +30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "完成了！", dailyDoneStamp: "达成 ✓",
           dailyNote: "每日任务在午夜刷新。完成小确幸后点一下那一行 — 三个全完成有 +30 EXP 奖励。",
           dailyKindRealTag: "真实任务",
@@ -11420,6 +11690,7 @@
         var left = ticketsLeft();
         var titleEl = document.getElementById("gachaTitle"); if (!titleEl) return;
         titleEl.textContent = t.gachaTitle;
+        var ghl = document.getElementById("gachaHowLabel"); if (ghl) ghl.textContent = "▶ " + t.tutReplay;
         document.getElementById("gachaSub").textContent = t.gachaSub;
         document.getElementById("ticketPill").textContent = t.ticketsLabel(left);
         var xp = totalExp();
@@ -13869,8 +14140,8 @@
         ensureDaily();
         var t = L();
         document.getElementById("dailyTitle").textContent = t.dailyTitle;
-        document.getElementById("dailyNpc").textContent = t.dailyNpc;
-        document.getElementById("dailyNote").textContent = t.dailyNote;
+        document.getElementById("dailyHowLabel").textContent = "▶ " + t.tutReplay;
+        document.getElementById("dailyNpc").textContent = t.dailyHow || t.dailyNpc;
         var list = todaysDaily();
         var doneN = list.filter(function (q) { return state.daily.done.indexOf(q.idx) !== -1; }).length;
         /* slim segmented HUD: hero (avatar + name) / Lv / EXP
@@ -14647,6 +14918,20 @@
       });
       /* record calendar wiring */
       document.getElementById("calOpenBtn").addEventListener("click", openCal);
+      /* how-to folds (daily + gacha share one pattern: a slim
+         one-line toggle, closed by default, body holds the
+         shortened rule line — UI minimisation, 2026-10-27) */
+      [["dailyHowToggle", "dailyHowBody"], ["gachaHowToggle", "gachaHowBody"]].forEach(function (pair) {
+        var tg = document.getElementById(pair[0]), bd = document.getElementById(pair[1]);
+        if (!tg || !bd) return;
+        tg.addEventListener("click", function () {
+          var open = bd.hidden;
+          bd.hidden = !open;
+          tg.setAttribute("aria-expanded", open ? "true" : "false");
+          tg.classList.toggle("is-open", open);
+          sfx(open ? "move" : "back");
+        });
+      });
       document.getElementById("calClose").addEventListener("click", function () { sfx("back"); closeCal(); });
       document.getElementById("calDayBack").addEventListener("click", function () { document.getElementById("calDay").hidden = true; });
       function calShift(n) {
