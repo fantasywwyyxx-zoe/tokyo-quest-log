@@ -4,6 +4,14 @@
 
 ---
 
+## 2026-10-27 09:36 · Muse · Claude 第一轮审查：核实 + 分诊（它离场前的最后一份产出）
+- 背景：Zoe 同日已把 Claude 移出阵容；它随后交来第一轮审查（自述范围改为线上根目录 `index.html` @ `3aab9cc`，因 `src/` 已滞后；含 390×844 真实渲染逐页测滚动）。Muse 逐条核实后分诊如下。
+- **属实（已核对代码/仓库）**：根 index.html 13.7MB、22 个 `<style>` 块、3309 行重复 `</style></style>`、字体切换器与 MapLibre 死代码/`glActive`、3784 行过期 CARTO/OSM 注释、无 service worker、manifest 为 data URI、`src/` 仅 1.5MB 滞后数轮、README 与实际流程矛盾、COMPANY 第 11 行「尚未纳入 Git」过期、DECISIONS 自 `d68b256` 后未跟上 5 轮大改、签到只比距离不看 `coords.accuracy`（`doCheckinFor` 用 `maximumAge: 30000`，精度只存不用）、详情页为堆叠卡片构图。
+- **本轮已落**：COMPANY/README 过期说法修正 + Claude 移出阵容记录；DECISIONS 补记 2026-10-27 已拍板系统（EPIC tier、拼图、EXP 分级、捏人起始、拍照系统删除、75 件/36 徽章/图鉴/冒险日志、无社群、667px 适配目标）；新开 T6（详情页重做，T2 第一块）与 T7（仓库/代码卫生）。
+- **过时/需修正的一处**：审查把「デイリー写真＋日记」列为现状——那是第 1 轮的方案，已被 Zoe 01:07 推翻并在第 2 轮删除，现状是点按完成 + 无照片记录日历（DECISIONS 已补记）。
+- **等 Zoe 拍板（5 点）**：① 字体 Kiwi Maru：代码已在 10-26 FINAL PASS 中退役（只剩 M PLUS Rounded 1c + Baloo 2 + Noto Sans SC），但 DECISIONS 旧条目仍写 Kiwi — 请确认正式放弃，Muse 再把旧条目标注「已被取代」；② 活动图口径：官方主视觉/海报（六本木艺术之夜标志、AMUSEMENT EXPO 插画、Solo Leveling 海报等 `ev-*`）算不算「真实照片」，及其授权来源（关系屋号上架）；③ 签到要不要加定位精度门槛、半径收窄；④ 无图活动缩略图的「彩色横条+图标」占位算不算违反「干净空窗」；⑤ 公开仓库代码注释里出现「Zoe」字样（2357 行）与仓库用户名带名字，屋号未定前能否接受。
+- **通过项（审查确认）**：地图烘焙矢量无运行时瓷砖请求、底部 5 键导航合规、三语标语合规、无字体切换器、无 <700 字重、无变现代码、地图/一览/主人公/デイリー在 390×844 无页面级滚动、用户输入进 innerHTML 前有 `esc()` 转义。
+
 ## 2026-10-27 01:41 · Muse · 新证据：Codex 试点出了第一个 PR
 - 岗哨核查（01:41 JST）发现新证据：Codex 在新分支 `codex/t3-visible-details-button` 上提交了 1 个独有 commit（a9119d6「Add always-visible details action to quest rows」，2026-10-27 01:12 JST），并于 01:14 JST 打开了 PR #2「T3: Add an always-visible details action to quest rows」（OPEN，目标 main）。PR 链接：https://github.com/fantasywwyyxx-zoe/tokyo-side-quests/pull/2
 - 说明：该 PR 的 GitHub 作者栏显示为 fantasywwyyxx-zoe（Codex 集成以账号名义出活），但分支名、commit 内容与 Issue #1 的 T3 工单一一对应，且与 Muse 在 main 上的构建提交无关，因此按岗哨规则计为 Codex 的新证据。旧分支 `codex/t3-always-visible-detail` 仍无独有 commit，属开工时的占位分支。

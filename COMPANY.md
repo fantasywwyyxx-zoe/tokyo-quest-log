@@ -1,6 +1,6 @@
 # COMPANY.md — Tokyo Side Quests（公司大脑 · 1/5）
 
-> 这套文件是所有 AI（Muse / Codex / Claude）开工前必读、收工前必更新的共享真相源。
+> 这套文件是所有 AI（Muse / Codex）开工前必读、收工前必更新的共享真相源。（Claude 已于 2026-10-27 被 Zoe 移出阵容。）
 > 拍板人永远是 Zoe 本人；AI 的提案在 Zoe 确认并写入 DECISIONS.md 之前，都只是提案。
 
 ## 产品
@@ -8,7 +8,7 @@
 变成 GBA 时代像素 RPG 里的「支线任务」：在真实地图上找任务、接取、到现场 GPS 签到、拿 EXP 升级。
 - 公开版（PWA，可加到手机主屏幕）：https://fantasywwyyxx-zoe.github.io/tokyo-side-quests/
 - 仓库：GitHub `fantasywwyyxx-zoe/tokyo-side-quests`（public，GitHub Pages 发布）
-- 源码现状：单个自包含页面（index.html + assets），目前在 Muse 的 artifact 工作区维护，尚未正式纳入 Git 版本管理（见 TASKS.md 的 T4）
+- 源码现状：单个自包含页面。仓库根目录 `index.html` 就是线上发布版、也是现行准本（Muse 维护，每轮推送）；`src/` 是 2026-10-27 00:36 的旧快照，已滞后，待重新同步或废止（见 TASKS.md 的 T7）。T4 仓库化已于 2026-10-27 完成。
 
 ## 目标用户
 先是 Zoe 自己和朋友；之后是住在东京、喜欢艺术/动漫/游戏活动、但总错过小众活动的人。
@@ -29,7 +29,7 @@
 - **Zoe**：董事长。拍板、实机验收、在各 AI 之间搬运任务与结果。
 - **Muse**：主力执行 + 记忆中枢。TSQ 的源码、全部决策历史、每日自动刷新任务都在 Muse 这边；负责具体实现、内容更新、发布。
 - **Codex**：外部施工 + 顾问。在仓库里按 TASKS.md 写代码、提 PR（重构、测试）；同时负责市场调研、竞品、文案和第二意见（2026-10-27 Zoe 决定不用 ChatGPT，该角色合并给 Codex，它已确认接受）。产出经 Zoe 带回 Muse 汇总，不直接改真相源文件。
-- **Claude（外部）**：代码与设计审查顾问。只审查、不改代码、不做决定；意见要具体到文件和问题。实测确认（2026-10-27，Zoe 截图）：它用的是聊天版，不常驻 GitHub、不能评论/提交/推送，只能抓取公开页面阅读（本仓库是 public，所以给它链接它能自己读）；叫一次动一次，不会自己醒来。它给出的审查意见由 Muse 负责落进仓库（开 Issue / 写进 HANDOFF），所以它不算「免搬运」闭环的一员，是按需召唤的外部眼睛。
+- ~~**Claude（外部）**：审查顾问~~ — **2026-10-27 被 Zoe 移出阵容**（「更新办公室 Claude删掉吧」），虚拟办公室已同步删除。它离场前完成的第一轮审查（审线上版 `3aab9cc`）经 Muse 核实后已分诊落进 HANDOFF / TASKS（T6/T7），需 Zoe 拍板的点单列在 HANDOFF 2026-10-27 09:36 条。
 
 ## 运转节奏
 1. 开工先读：COMPANY → ROADMAP → TASKS → DECISIONS → HANDOFF（最新一条）。
