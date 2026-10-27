@@ -7138,14 +7138,7 @@
         display: inline-block; background: transparent;
       }
       .dw-dots i.on { background: var(--highlight, #ffd83d); border-color: var(--gold-deep); }
-      .dw-dots i.rest { background: #57b6e8; border-color: #2f7cb3; }
       .dw-dots i.today { border-color: var(--primary); border-style: dashed; }
-      .rest-chip {
-        font-size: 11px; font-weight: 900; border: 2px solid #2f7cb3; color: #2f7cb3;
-        border-radius: 999px; padding: 1px 7px;
-      }
-      .rest-chip.used { border-color: var(--ink-dim); color: var(--ink-dim); }
-      :root[data-theme="midnight"] .rest-chip { color: #a5dcff; border-color: #57b6e8; }
       .cal-open {
         width: 100%; margin-top: 9px; font: inherit; font-weight: 900; font-size: 13.5px;
         border: 3px solid var(--edge, #2c3e50); border-radius: 12px; padding: 9px;
@@ -7292,7 +7285,7 @@
             line. The same compression (clamp / tighten) is
             applied to the other case windows' top text.
          3. vertical padding/margins are compressed, never the
-            information: streak, rest card and week dots stay;
+            information: streak and week dots stay;
             title + ticket pill stay; machine, PULL and the
             result card stay the gacha's main actors.
          ========================================================== */
@@ -8033,6 +8026,235 @@
       body[data-view] .map-box.in-big .loc-chip { bottom: var(--bar-clear); }
       body[data-view] .map-box.in-big .pin-preview { bottom: var(--bar-clear); }
     </style>
+    <style>
+      /* ==========================================================
+         DAILY × RECORDS ALIGNMENT (user device report, 2026-10-27
+         16:51): the daily page read as a stranger next to the
+         records window （称号 / 徽章 / 記録 tabs). This pass puts
+         the daily page on the SAME plaque system — no behaviour,
+         data or copy changes beyond the fold chip's open/close
+         word and the retired triangle glyphs:
+         1. ROWS are plaques now: the records frame (2.5px line-c
+            border, 10px radius, hard 0 2px 0 edge shadow, window-hi
+            ground), spaced like the log body (8px), pressed like
+            .ms-row. The leading red ▶ cursor is GONE — it read as
+            a fold/disclosure icon; the category box （作/整/心…)
+            leads the row instead, a chunky framed square in the
+            .ms-ico family. Name rides the shared row-title step
+            (--fs-t2), the sub-line the shared sub step (--fs-s).
+         2. +EXP is a chunky lemon TAG in the .ms-open family
+            (2.5px frame, 8px radius, hard shadow, 900 weight) —
+            no more thin pill. The done stamp keeps its tilt but
+            takes the same frame tokens.
+         3. LUCKY stays ONE atomic block: the gold inset ring now
+            rides WITH the plaque's drop shadow (never split off),
+            a warm tint joins the ground, and the ★ tag is a small
+            framed chip INSIDE the name line.
+         4. TOP STRIP speaks the records info-line language: the
+            streak / week dots sit in ONE segmented strip (the
+            .hstat-foot frame: 2px line-c, 10px radius, ink-tinted
+            ground); the week dots take the same 2.5px frame
+            weight. (The rest-card chip that used to sit here was
+            removed with the mechanic, 2026-10-27.)
+         5. HOW-TO FOLD: no bare triangle anywhere — the label is
+            plain text and the state rides a chunky .ms-open-family
+            chip （ひらく / とじる · OPEN / CLOSE · 展开 / 收起） that
+            flips with the fold. The gacha fold keeps its own look;
+            this pass is daily-only.
+         6. RECORD CALENDAR is a compact chunky button in the same
+            family (frame + hard shadow + square-ish radius),
+            content-width, never a full-width band.
+         ========================================================== */
+
+      /* --- 1. task rows: records plaques, category box leads --- */
+      .daily-rows { gap: 8px; padding: 2px 2px 4px; }
+      .drow {
+        align-items: center; gap: 9px;
+        padding: 8px 9px; margin: 0;
+        background: var(--window-hi, var(--window));
+        border: 2.5px solid var(--line-c); border-radius: 10px;
+        box-shadow: 0 2px 0 var(--edge);
+      }
+      .drow:last-child { border-bottom: 2.5px solid var(--line-c); }
+      .drow:active { transform: translateY(2px); box-shadow: 0 0 0 var(--edge); }
+      .drow.done:active { transform: none; box-shadow: 0 2px 0 var(--edge); }
+      .drow .dr-cursor { display: none !important; }
+      .drow .dr-main { padding-top: 0; }
+      .dr-catbox {
+        flex: none; min-width: 32px; height: 32px; padding: 0 5px;
+        display: inline-flex; align-items: center; justify-content: center;
+        background: var(--window); color: var(--ink);
+        border: 2.5px solid var(--line-c); border-radius: 8px;
+        box-shadow: 0 2px 0 var(--edge);
+        font-size: 12px; font-weight: 900; line-height: 1;
+        letter-spacing: 0.03em; white-space: nowrap;
+      }
+      .dr-name { font-size: var(--fs-t2); }
+      .dr-desc { font-size: var(--fs-s); }
+
+      /* --- 2. EXP tag + done stamp: chunky .ms-open family --- */
+      .drow .dr-exp {
+        margin-top: 0; padding: 3px 8px;
+        background: var(--lemon); color: #231a00;
+        border: 2.5px solid var(--line-c); border-radius: 8px;
+        box-shadow: 0 2px 0 var(--edge);
+        font-size: var(--fs-s); font-weight: 900;
+      }
+      .drow .dr-stamp {
+        margin-top: 0; padding: 3px 8px;
+        border: 2.5px solid var(--line-c); border-radius: 8px;
+        box-shadow: 0 2px 0 var(--edge);
+        font-size: var(--fs-c); font-weight: 900;
+      }
+
+      /* --- 3. lucky: one framed block, tag inside the frame --- */
+      .drow.lucky {
+        background: color-mix(in srgb, var(--epic-gold) 13%, var(--window));
+        box-shadow: 0 2px 0 var(--edge), inset 0 0 0 2.5px var(--epic-gold);
+      }
+      .drow.lucky:active { box-shadow: 0 0 0 var(--edge), inset 0 0 0 2.5px var(--epic-gold); }
+      .dr-lucky {
+        margin-left: 6px; padding: 1px 6px 2px;
+        background: color-mix(in srgb, var(--epic-gold) 26%, var(--window));
+        border: 2px solid var(--epic-gold-deep); border-radius: 6px;
+        font-size: var(--fs-c);
+      }
+      .drow.done .dr-lucky { border-color: var(--ink-dim); background: var(--window); }
+
+      /* --- 4. top strip: one segmented records-style block --- */
+      .dstreak {
+        margin: 4px 0 9px; padding: 6px 10px;
+        background: color-mix(in srgb, var(--ink) 6%, var(--window));
+        border: 2px solid var(--line-c); border-radius: 10px;
+        font-size: var(--fs-b);
+      }
+      .dw-dots i { width: 12px; height: 12px; border: 2.5px solid var(--line-c); }
+      .dw-dots i.on { border-color: var(--gold-deep); }
+      .dw-dots i.today { border-color: var(--primary); }
+
+      /* --- 5. fold state = chunky chip, never a bare triangle --- */
+      #dailyHowToggle .how-chip {
+        margin-left: auto; flex: none;
+        background: var(--primary); color: #fff;
+        border: 2.5px solid var(--line-c); border-radius: 7px;
+        box-shadow: 0 2px 0 var(--edge);
+        padding: 2px 9px 3px;
+        font-size: var(--fs-c); font-weight: 900; letter-spacing: 0.05em; line-height: 1.35;
+      }
+      #dailyHowToggle.is-open .how-chip { background: var(--window); color: var(--ink); }
+      #dailyHowToggle:active .how-chip { transform: translateY(2px); box-shadow: 0 0 0 var(--edge); }
+
+      /* --- 6. record calendar: compact chunky button --- */
+      .cal-open {
+        border: 2.5px solid var(--line-c); border-radius: 10px;
+        box-shadow: 0 3px 0 var(--edge);
+        padding: 7px 16px; font-size: var(--fs-b);
+      }
+      .cal-open:active { transform: translateY(2px); box-shadow: 0 0 0 var(--edge); }
+
+      /* short screens: same tokens, one step tighter padding */
+      @media (max-height: 740px) {
+        .drow { padding: 6px 8px; }
+        .dr-catbox { min-width: 29px; height: 29px; font-size: 11.5px; }
+        .dstreak { margin: 3px 0 7px; padding: 5px 9px; }
+      }
+    </style>
+    <style>
+      /* ==========================================================
+         ROUND: date gate + hero map marker + studio owned-only +
+         list distance sort (user reports, 2026-10-27)
+         ========================================================== */
+      /* --- 1. not-started quest button: grey, inert, self-explaining --- */
+      dialog#detail .btn-quest[data-state="notstarted"] {
+        background: #8a93a6; color: #fff; cursor: not-allowed;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35), inset 0 -4px 0 rgba(0, 0, 0, 0.14), 0 3px 0 var(--edge);
+      }
+      dialog#detail .btn-quest[data-state="notstarted"][disabled] { opacity: 1; }
+      dialog#detail .btn-quest[data-state="notstarted"]:active { transform: none; }
+
+      /* --- 2. you-are-here = the hero herself, standing on the map.
+             The marker box is centred on the GPS point; the hero
+             stands with her feet just above centre over a soft
+             breathing pool of light at her feet. Counter-scaled by
+             --u like the pins, so her on-screen size is constant on
+             the normal map and the full-screen map alike. --- */
+      .me-marker {
+        width: calc(48px * var(--u, 1)); height: calc(54px * var(--u, 1));
+        z-index: 9; pointer-events: none;
+      }
+      .me-marker .me-ring, .me-marker .me-dot, .me-marker .me-pulse { display: none !important; }
+      .me-marker .me-ground {
+        position: absolute; left: 50%; bottom: calc(3px * var(--u, 1));
+        width: calc(36px * var(--u, 1)); height: calc(13px * var(--u, 1));
+        transform: translateX(-50%); border-radius: 50%;
+        background: radial-gradient(ellipse at center, rgba(255, 216, 61, 0.9) 0%, rgba(255, 216, 61, 0.5) 52%, rgba(255, 216, 61, 0) 76%);
+        box-shadow: 0 0 0 calc(1.5px * var(--u, 1)) rgba(255, 253, 244, 0.5);
+        animation: me-breathe 2.2s ease-in-out infinite;
+      }
+      @keyframes me-breathe {
+        0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.85; }
+        50% { transform: translateX(-50%) scale(1.16); opacity: 1; }
+      }
+      .me-marker .me-hero {
+        position: absolute; left: 50%; bottom: calc(8px * var(--u, 1));
+        transform: translateX(-50%); line-height: 0;
+        filter: drop-shadow(0 calc(2px * var(--u, 1)) 0 rgba(20, 20, 30, 0.45));
+        animation: me-stand 2.2s ease-in-out infinite;
+      }
+      @keyframes me-stand {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(calc(-1.5px * var(--u, 1))); }
+      }
+      .me-marker .me-hero canvas {
+        width: calc(34px * var(--u, 1)) !important; height: calc(34px * var(--u, 1)) !important;
+        display: block !important; image-rendering: pixelated;
+      }
+      .me-marker .me-arrow { z-index: 4; }
+      @media (prefers-reduced-motion: reduce) {
+        .me-marker .me-ground, .me-marker .me-hero { animation: none; }
+      }
+
+      /* --- 3. studio owned-only bar: same pill as the gacha toggle --- */
+      .studio-viewbar { display: flex; margin: 0 0 8px; }
+      #hsegStudio .gacha-owned-empty { margin: 4px 2px 10px; }
+
+      /* --- 4. list: nearest-first sort chip + one-line geo notice --- */
+      .list-subbar { flex-wrap: wrap; align-items: center; gap: 6px; }
+      .sort-near-btn {
+        margin-left: auto; flex: none; min-height: 28px; padding: 4px 12px; cursor: pointer;
+        border: 2px solid var(--line-c); border-radius: 999px;
+        background: var(--window); color: var(--ink);
+        font-family: inherit; font-weight: 800; font-size: 12px; line-height: 1.3;
+        box-shadow: 0 2px 0 var(--edge); white-space: nowrap;
+      }
+      .sort-near-btn[aria-pressed="true"] { background: var(--primary); color: #fff; }
+      .sort-near-btn:active { transform: translateY(2px); box-shadow: none; }
+      .sort-near-btn[disabled] { opacity: 0.6; cursor: wait; }
+      .sort-msg {
+        flex: 1 1 100%; margin: 2px 0 0; font-size: 12px; font-weight: 700;
+        color: var(--red); line-height: 1.5;
+      }
+      .sort-msg[hidden] { display: none !important; }
+    </style>
+    <style>
+      /* ==========================================================
+         ROUND: rest card retired + daily window hugs its content
+         (user report, 2026-10-27 — "休息卡啥玩意儿" + the circled
+         dead space at the daily window's lower right)
+         ==========================================================
+         The streak strip is now flame + "N-day streak" + week
+         dots only (the .rest-chip styles are gone with the chip).
+         The window used to stretch to the panel's full height
+         (flex: 1 on both .daily-win and .daily-rows), so the
+         leftover height pooled as blank window below/right of
+         the record-calendar button. The window now sizes to its
+         content: rows take only the height they need, the
+         calendar button follows directly, and the window's
+         bottom edge sits just under it. */
+      .daily-win { flex: 0 1 auto; }
+      .daily-rows { flex: 0 1 auto; overflow: visible; }
+      .daily-win .cal-open { margin-top: 8px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -8349,6 +8571,8 @@
         </div>
         <div class="list-subbar">
           <span class="search-summary" id="searchSummary"></span>
+          <button class="sort-near-btn" id="sortNearBtn" type="button" aria-pressed="false"></button>
+          <p class="sort-msg" id="sortMsg" hidden></p>
         </div>
         <div class="liseg-panel" id="lisegIndex">
           <div class="ms-results" id="msResults"></div>
@@ -8420,7 +8644,7 @@
         </div>
         <div class="win daily-win" id="dailyWin">
           <span class="daily-win-tab" id="dailyTitle"></span>
-          <button class="how-toggle" id="dailyHowToggle" type="button" aria-expanded="false" aria-controls="dailyHowBody"><span id="dailyHowLabel"></span><span class="how-arrow" aria-hidden="true">▸</span></button>
+          <button class="how-toggle" id="dailyHowToggle" type="button" aria-expanded="false" aria-controls="dailyHowBody"><span id="dailyHowLabel"></span><span class="how-chip" id="dailyHowChip" aria-hidden="true"></span></button>
           <div class="how-body" id="dailyHowBody" hidden><p id="dailyNpc"></p></div>
           <div class="dstreak" id="dailyStreak" hidden></div>
           <div class="daily-rows" id="dailyCards"></div>
@@ -8540,6 +8764,10 @@
             <button class="studio-act" id="randomBtn" type="button"></button>
             <button class="studio-act" id="clearAllBtn" type="button"></button>
           </div>
+          <div class="studio-viewbar">
+            <button class="gacha-owned-toggle" id="studioOwnedToggle" type="button" aria-pressed="false"></button>
+          </div>
+          <p class="gacha-owned-empty" id="studioOwnedEmpty" hidden></p>
           <p class="studio-progress" id="studioProgress"></p>
           <div class="gacha-grid" id="gachaGrid"></div>
         </div>
@@ -9034,6 +9262,8 @@
           geoError: "Couldn't read your location (GPS off or timed out). Try again at the venue.",
           geoInaccurate: function (a) { return "Location fix is too rough (about " + a + "). Wait for a steadier GPS signal and try again."; },
           geoUnsupported: "This browser can't share your location.",
+          notStartedBtn: function (d) { return d === 1 ? "STARTS TOMORROW" : "STARTS IN " + d + " DAYS"; },
+          notStartedNote: function (d) { return "This quest hasn't started yet — " + (d === 1 ? "it begins tomorrow" : "it begins in " + d + " days") + ". Accept, check-in and remote clear unlock on the start date."; },
           themeLabel: "COLOR",
           themeNames: { auto: "Auto", emerald: "Pearl White", midnight: "Black-Indigo Yellow" },
           bgmLabel: "BGM",
@@ -9194,6 +9424,7 @@
           gachaSub: "50 EXP = 1 ticket · dupes +10 EXP.",
           ticketsLabel: function (n) { return "TICKET × " + n; },
           ownedOnly: "OWNED ONLY", ownedEmpty: "Nothing yet — pull the machine to win your first cosmetic.",
+          studioOwnedEmpty: "Nothing owned in this slot yet — pull the gacha or clear an EPIC quest to win gear.",
           pullBtn: "▶ PULL 1",
           pullNone: "NO TICKETS — EARN EXP!",
           nextTicket: function (n) { return "Next ticket in <b>" + n + " EXP</b>"; },
@@ -9347,6 +9578,11 @@
           searchCount: function (n) { return n + (n === 1 ? " quest" : " quests"); },
           searchEmpty: "No quests match. Try another word — the city still has secrets.",
           searchBtn: "SEARCH", searchAll: "Showing every quest — tap SEARCH to filter.",
+          sortNear: "NEAREST FIRST", sortLocating: "LOCATING…",
+          sortNoGeo: "This browser can't share your location, so distance sort is unavailable — the list keeps its usual order.",
+          sortDenied: "Location permission was denied, so distance sort couldn't run — the list keeps its usual order.",
+          sortFailed: "Couldn't read your location, so distance sort couldn't run — the list keeps its usual order.",
+          distAway: function (s) { return "about " + s + " away"; },
           lblArea: "AREA", lblMood: "MOOD", searchDone: "SHOW RESULTS", searchReset: "RESET",
           summaryFiltered: function (n, parts) { return n + (n === 1 ? " quest" : " quests") + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "Immersive", retro: "Retro & nostalgic", cinema: "Cinema", treasure: "History & hidden gems", craft: "Hands-on & craft", pop: "Pop culture", city: "City wandering", grand: "Grand & festive" },
@@ -9421,12 +9657,11 @@
           creatorGo: "▶ START ADVENTURE",
           creatorBack: "◀ BACK TO TITLE",
           streakTxt: function (n) { return n + "-DAY STREAK"; },
-          restReady: "REST CARD READY",
-          restUsedTxt: "REST CARD USED",
           weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
           allDoneBonus: "ALL DAILIES BONUS",
           calTitleStr: "RECORD CALENDAR",
-          calOpen: "▶ RECORD CALENDAR",
+          calOpen: "RECORD CALENDAR",
+          howOpen: "OPEN", howClose: "CLOSE",
           calNote: "A ★ day = every daily quest cleared. Tap a day to see what was done.",
           diaryTasksK: "Cleared that day",
           diaryEmpty: "No record for this day yet.",
@@ -9556,6 +9791,8 @@
           geoError: "位置情報を取得できませんでした（GPSオフ／タイムアウト）。会場で再試行してください。",
           geoInaccurate: function (a) { return "位置情報の精度が粗すぎます（約" + a + "）。GPSが安定するまで待って、もう一度試してください。"; },
           geoUnsupported: "このブラウザは位置情報を共有できません。",
+          notStartedBtn: function (d) { return d === 1 ? "明日から開始" : "あと" + d + "日で開始"; },
+          notStartedNote: function (d) { return "このクエストはまだ始まっていません——開始は" + (d === 1 ? "明日" : "あと" + d + "日") + "。受注・チェックイン・遠距離クリアは開始日からできます。"; },
           themeLabel: "カラー",
           themeNames: { auto: "自動", emerald: "パールホワイト", midnight: "黒藍イエロー" },
           bgmLabel: "BGM",
@@ -9716,6 +9953,7 @@
           gachaSub: "50 EXP＝チケット1枚／ダブりは +10 EXP。",
           ticketsLabel: function (n) { return "チケット × " + n; },
           ownedOnly: "所持済みだけ", ownedEmpty: "まだ何も持っていない — まわして最初のコスメを当てよう。",
+          studioOwnedEmpty: "このスロットではまだ何も持っていない — ガチャやEPICクリアで手に入れよう。",
           pullBtn: "▶ 1回まわす",
           pullNone: "チケットなし — EXPを貯めよう！",
           nextTicket: function (n) { return "次のチケットまで <b>あと " + n + " EXP</b>"; },
@@ -9869,6 +10107,11 @@
           searchCount: function (n) { return n + "件のクエスト"; },
           searchEmpty: "見つからなかった。別の言葉で探してみて——街にはまだ秘密がある。",
           searchBtn: "検索", searchAll: "全クエスト表示中——「検索」で絞り込める。",
+          sortNear: "近い順", sortLocating: "位置を取得中…",
+          sortNoGeo: "このブラウザは位置情報を共有できないため、距離順は使えません——並びは通常のままです。",
+          sortDenied: "位置情報の許可が得られなかったため、距離順にできませんでした——並びは通常のままです。",
+          sortFailed: "位置情報を取得できなかったため、距離順にできませんでした——並びは通常のままです。",
+          distAway: function (s) { return "約" + s; },
           lblArea: "エリア", lblMood: "気分", searchDone: "結果を見る", searchReset: "リセット",
           summaryFiltered: function (n, parts) { return n + "件のクエスト" + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "没入・体験", retro: "レトロ・懐かしい", cinema: "映画", treasure: "歴史・秘宝", craft: "手作り・工芸", pop: "ポップカルチャー", city: "街歩き", grand: "壮大・お祭り" },
@@ -9943,12 +10186,11 @@
           creatorGo: "▶ 冒険をはじめる",
           creatorBack: "◀ タイトルに戻る",
           streakTxt: function (n) { return n + "日連続！"; },
-          restReady: "お休みカードあり",
-          restUsedTxt: "お休みカード使用済み",
           weekDays: ["月", "火", "水", "木", "金", "土", "日"],
           allDoneBonus: "デイリー全達成ボーナス",
           calTitleStr: "記録カレンダー",
-          calOpen: "▶ 記録カレンダー",
+          calOpen: "記録カレンダー",
+          howOpen: "ひらく", howClose: "とじる",
           calNote: "★の日はデイリー全達成。日をタップすると、その日の達成が見られます。",
           diaryTasksK: "その日の達成",
           diaryEmpty: "この日の記録はまだありません。",
@@ -10078,6 +10320,8 @@
           geoError: "无法获取定位（GPS 关闭或超时）。请在场馆再试一次。",
           geoInaccurate: function (a) { return "定位精度太粗（约 " + a + "）。等 GPS 稳定一点，再试一次。"; },
           geoUnsupported: "这个浏览器无法共享定位。",
+          notStartedBtn: function (d) { return d === 1 ? "明天开始" : "还有 " + d + " 天开始"; },
+          notStartedNote: function (d) { return "这个任务还没开始——" + (d === 1 ? "明天开始" : "还有 " + d + " 天开始") + "。开始当天起才能接受、打卡和远程完成。"; },
           themeLabel: "颜色",
           themeNames: { auto: "自动", emerald: "珍珠白", midnight: "黑蓝黄" },
           bgmLabel: "BGM",
@@ -10238,6 +10482,7 @@
           gachaSub: "50 EXP = 1 张扭蛋券 · 重复 +10 EXP。",
           ticketsLabel: function (n) { return "券 × " + n; },
           ownedOnly: "只看已拥有", ownedEmpty: "还没有扭蛋收获 — 抽一次，赢下第一件装扮吧。",
+          studioOwnedEmpty: "这个分类还没有拥有的装扮 — 去抽扭蛋或完成史诗任务来获得吧。",
           pullBtn: "▶ 抽 1 次",
           pullNone: "没有券了——去赚 EXP！",
           nextTicket: function (n) { return "下一张券还差 <b>" + n + " EXP</b>"; },
@@ -10391,6 +10636,11 @@
           searchCount: function (n) { return n + " 件任务"; },
           searchEmpty: "没有找到。换个词试试——这座城市还有秘密。",
           searchBtn: "搜索", searchAll: "正在显示全部任务——点「搜索」可以筛选。",
+          sortNear: "离我最近", sortLocating: "正在定位…",
+          sortNoGeo: "这个浏览器无法共享定位，没法按距离排序——列表保持原来的顺序。",
+          sortDenied: "没有获得定位许可，没法按距离排序——列表保持原来的顺序。",
+          sortFailed: "没能获取定位，没法按距离排序——列表保持原来的顺序。",
+          distAway: function (s) { return "约 " + s; },
           lblArea: "区域", lblMood: "氛围", searchDone: "查看结果", searchReset: "重置",
           summaryFiltered: function (n, parts) { return n + " 件任务" + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "沉浸体验", retro: "复古怀旧", cinema: "电影", treasure: "历史与秘宝", craft: "手作工艺", pop: "流行文化", city: "城市漫游", grand: "盛大与节庆" },
@@ -10465,12 +10715,11 @@
           creatorGo: "▶ 开始冒险",
           creatorBack: "◀ 返回标题",
           streakTxt: function (n) { return "连续 " + n + " 天！"; },
-          restReady: "本周有休息卡",
-          restUsedTxt: "休息卡已使用",
           weekDays: ["一", "二", "三", "四", "五", "六", "日"],
           allDoneBonus: "每日全完成奖励",
           calTitleStr: "记录日历",
-          calOpen: "▶ 记录日历",
+          calOpen: "记录日历",
+          howOpen: "展开", howClose: "收起",
           calNote: "带 ★ 的日子 = 每日任务全完成。点某一天可以看那天的完成记录。",
           diaryTasksK: "当天的完成",
           diaryEmpty: "这一天还没有记录。",
@@ -10901,6 +11150,17 @@
         if (left <= 7) return L().endsIn(left);
         return L().nowOn + " · " + L().endsIn(left);
       }
+      /* DATE GATE (user report, 2026-10-27 — "任务还没开始就能打卡"):
+         a time-limited quest whose start date is still ahead cannot
+         be accepted, checked in or remote-cleared. Evergreen quests
+         carry no dates and monthly workshops recur, so neither is
+         ever gated. A clear recorded BEFORE this gate existed (or
+         before a date moved) is left untouched — the player can
+         still undo it from the detail page. */
+      function isNotStarted(e) {
+        return !!(e && !e.evergreen && !e.recurring && e.start && e.start > TODAY);
+      }
+      function daysUntilStart(e) { return daysBetween(TODAY, e.start); }
       /* Event names are NEVER translated: EN shows the English
          listing name, JA and ZH both show the official Japanese
          name as-is. Descriptions localise at this display layer. */
@@ -11585,7 +11845,7 @@
         drawHeroEquipped(document.getElementById("avatarCanvas"), state.hero, state.gacha.equipped);
         var sh = document.getElementById("studioHudCanvas");
         if (sh) drawHeroEquipped(sh, state.hero, state.gacha.equipped);
-        var mc = document.getElementById("meCanvas");
+        var mc = document.getElementById("meCanvas") || document.querySelector("#meMarker .me-hero-canvas");
         if (mc) drawHeroEquipped(mc, state.hero, state.gacha.equipped);
       }
 
@@ -12168,6 +12428,7 @@
       var lastPull = null; /* { id, dupe } */
       var gachaRolling = false;
       var gachaOwnedOnly = false; /* OWNED ONLY list replaces the machine */
+      var studioOwnedOnly = false; /* OWNED ONLY filter for the dress-up studio grid */
       function rollGachaItem() {
         var r = Math.random() * 100;
         var rar = r < 10 ? "SR" : r < 40 ? "R" : "N";
@@ -12457,8 +12718,28 @@
         }
         document.getElementById("wardrobeTitle").textContent = t.studioTitle;
         var ownN = ALL_ITEMS.filter(function (i) { return ownsItem(i.id); }).length;
+        /* the header count is always owned/total for the WHOLE
+           wardrobe, in both views — it never changes meaning when
+           the owned-only filter below is on */
         document.getElementById("wardrobeCount").textContent = "(" + ownN + "/" + ALL_ITEMS.length + ")";
-        document.getElementById("gachaGrid").innerHTML = ALL_ITEMS.filter(function (it) { return it.kind === studioSlot; }).map(function (it) {
+        /* OWNED ONLY for the studio (user, 2026-10-27 — the same
+           one-tap switch the gacha window got): the grid narrows to
+           what you actually hold in the current slot; the slot tabs
+           keep their owned/total counts either way. Tap again to
+           see the full catalogue. */
+        var slotOwned = ALL_ITEMS.filter(function (i) { return i.kind === studioSlot && ownsItem(i.id); });
+        var sBtn = document.getElementById("studioOwnedToggle");
+        if (sBtn) {
+          sBtn.textContent = (studioOwnedOnly ? "◀ " : "▸ ") + t.ownedOnly + " (" + slotOwned.length + ")";
+          sBtn.setAttribute("aria-pressed", String(studioOwnedOnly));
+        }
+        var gridItems = ALL_ITEMS.filter(function (it) { return it.kind === studioSlot && (!studioOwnedOnly || ownsItem(it.id)); });
+        var sEmpty = document.getElementById("studioOwnedEmpty");
+        if (sEmpty) {
+          sEmpty.hidden = !(studioOwnedOnly && gridItems.length === 0);
+          sEmpty.textContent = t.studioOwnedEmpty;
+        }
+        document.getElementById("gachaGrid").innerHTML = gridItems.map(function (it) {
           var tx2 = t.gachaItems[it.id] || { name: it.id, desc: "" };
           var owned = ownsItem(it.id);
           var equipped = it.kind !== "hero" && state.gacha.equipped[it.kind] === it.id;
@@ -13078,6 +13359,21 @@
       var msQuery = "";
       var filterArea = "All";
       var filterMoods = {};
+      /* NEAREST-FIRST sort for the quest index (user, 2026-10-27):
+         off by default — the board keeps its usual end-date order.
+         The position is read ONLY on the tap that turns the sort on
+         (same privacy rule as check-in: used for this sort, never
+         tracked, never saved — it lives in this memory-only var and
+         is dropped when the sort is switched off). */
+      var listSortNear = false;
+      var sortPos = null;
+      var sortMsg = "";
+      var sortBusy = false;
+      function questDistM(e) {
+        var v = VENUES[e.id];
+        if (!v || !sortPos) return null;
+        return haversineM(sortPos.lat, sortPos.lng, v.lat, v.lng);
+      }
       /* Area facets are a CLOSED ZONE TAXONOMY (user direction,
          2026-10-26): chips come from this fixed zone list ONLY —
          never from raw event area strings, so the chip set can
@@ -13151,12 +13447,28 @@
       function currentBoardList() {
         var q = msQuery.trim().toLowerCase();
         var selMoods = Object.keys(filterMoods).filter(function (m) { return filterMoods[m]; });
-        return sortedVisible().filter(function (e) {
+        var list = sortedVisible().filter(function (e) {
           return (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) &&
             (filterArea === "All" || zoneOf(e) === filterArea) &&
             (!selMoods.length || selMoods.some(function (b) { return evBuckets(e).indexOf(b) !== -1; })) &&
             questMatchesQuery(e, q);
         });
+        /* distance sort composes WITH the filters above: it only
+           re-orders the filtered set (EPIC evergreen quests mix in
+           by the same distance). Quests without a venue coordinate
+           keep their usual order at the end. Ties fall back to the
+           default end-date order the list already carries. */
+        if (listSortNear && sortPos) {
+          list = list.map(function (e, i) { return { e: e, i: i, d: questDistM(e) }; })
+            .sort(function (a, b) {
+              if (a.d == null && b.d == null) return a.i - b.i;
+              if (a.d == null) return 1;
+              if (b.d == null) return -1;
+              return (a.d - b.d) || (a.i - b.i);
+            })
+            .map(function (o) { return o.e; });
+        }
+        return list;
       }
       /* the row thumbnail shows the event's REAL photo; photo-less
          events get a clean designed window (category band + icon),
@@ -13168,10 +13480,15 @@
       }
       function searchRowHTML(e) {
         var clr = isCleared(e.id);
+        var distTxt = "";
+        if (listSortNear && sortPos) {
+          var d = questDistM(e);
+          if (d != null) distTxt = " · " + esc(L().distAway(fmtDist(d)));
+        }
         return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
-          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(e.category) + " · " + esc(e.price) + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
+          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(e.category) + " · " + esc(e.price) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
       }
@@ -13198,7 +13515,16 @@
         Object.keys(filterMoods).forEach(function (m) { if (filterMoods[m]) parts.push(moodBucketLabel(m)); });
         if (filterFree) parts.push(t.freeOnly);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
+        if (listSortNear) parts.push(t.sortNear);
         document.getElementById("searchSummary").textContent = parts.length ? t.summaryFiltered(list.length, parts) : t.searchAll;
+        var snb = document.getElementById("sortNearBtn");
+        if (snb) {
+          snb.textContent = sortBusy ? t.sortLocating : t.sortNear;
+          snb.setAttribute("aria-pressed", String(listSortNear));
+          snb.disabled = sortBusy;
+        }
+        var smg = document.getElementById("sortMsg");
+        if (smg) { smg.hidden = !sortMsg; smg.textContent = sortMsg || ""; }
         document.getElementById("msResults").innerHTML = list.length
           ? list.map(searchRowHTML).join("")
           : '<p class="ms-empty">' + esc(L().searchEmpty) + "</p>";
@@ -13368,11 +13694,18 @@
           var ang = Math.atan2(pt.y - 50, pt.x - 50) * 180 / Math.PI;
           arrow = '<span class="me-arrow" style="transform: translate(-50%,-50%) rotate(' + ang.toFixed(0) + 'deg) translateX(34px)">➤</span>';
         }
-        /* A small ring + dot (user direction 2026-10-25): the old
-           yellow hero-badge plaque covered the zoom controls. */
-        m.innerHTML = '<span class="me-pulse p1"></span><span class="me-pulse p2"></span>' +
-          '<span class="me-ring"></span><span class="me-dot"></span>' + arrow;
+        /* YOU ARE HERE = the hero herself (user report, 2026-10-27
+           — "这是我自己？怪怪的": the yellow ring + red dot read as
+           neither person nor marker). Her own equipped pixel sprite
+           stands on the point, over a soft breathing pool of light
+           at her feet — an RPG world map's "you stand here". The
+           same DOM rides the plane in both the normal map and the
+           full-screen map, so both get the same treatment. */
+        m.innerHTML = '<span class="me-ground"></span>' +
+          '<span class="me-hero"><canvas class="me-hero-canvas" width="16" height="16" aria-hidden="true"></canvas></span>' + arrow;
         mapZoom.appendChild(m);
+        var meCv = m.querySelector(".me-hero-canvas");
+        if (meCv) drawHeroEquipped(meCv, state.hero, state.gacha.equipped);
         if (glActive) glPlaceAll();
       }
       function locate() {
@@ -13559,19 +13892,27 @@
         if (!currentId) return;
         var t = L();
         var acc = isAccepted(currentId), clr = isCleared(currentId);
+        var curEv = byId(currentId);
+        var ns = !clr && isNotStarted(curEv);
         var bQ = document.getElementById("btnQuest");
-        bQ.disabled = clr;
-        bQ.dataset.state = clr ? "cleared" : acc ? "checkin" : "accept";
+        bQ.disabled = clr || ns;
+        bQ.dataset.state = clr ? "cleared" : ns ? "notstarted" : acc ? "checkin" : "accept";
         if (clr) bQ.innerHTML = ICONS.check + "<span>" + t.clearedBtn + "</span>";
+        else if (ns) bQ.innerHTML = "<span>" + esc(t.notStartedBtn(daysUntilStart(curEv))) + "</span>";
         else if (acc) bQ.innerHTML = ICONS.pin + "<span>" + t.checkin + "</span>";
         else bQ.innerHTML = ICONS.sword + "<span>" + t.accept + "</span>";
         var note = document.getElementById("checkinNote");
         var hasVenue = !!VENUES[currentId];
-        var curEv = byId(currentId);
-        note.hidden = clr || !acc || !hasVenue;
-        if (!note.hidden) note.innerHTML = ICONS.globe + "<span>" + ((curEv && curEv.evergreen) ? t.epicNote : t.checkinNote) + "</span>";
+        if (ns) {
+          /* the reason rides the note slot, visible before any tap */
+          note.hidden = false;
+          note.innerHTML = ICONS.globe + "<span>" + esc(t.notStartedNote(daysUntilStart(curEv))) + "</span>";
+        } else {
+          note.hidden = clr || !acc || !hasVenue;
+          if (!note.hidden) note.innerHTML = ICONS.globe + "<span>" + ((curEv && curEv.evergreen) ? t.epicNote : t.checkinNote) + "</span>";
+        }
         var man = document.getElementById("btnManualClear");
-        if (clr || !acc) man.hidden = true;
+        if (clr || !acc || ns) man.hidden = true;
         else if (curEv && curEv.evergreen) {
           /* EPIC: there is no manual route — the slot shows the
              REASON, disabled, instead of a working link (spec B) */
@@ -13624,6 +13965,9 @@
       function toggleAccept(id) {
         var e = byId(id); if (!e) return;
         var i = state.accepted.indexOf(id);
+        /* date gate: a not-yet-started quest cannot be ACCEPTED
+           (cancelling an existing accept stays allowed) */
+        if (i === -1 && isNotStarted(e)) return;
         if (i === -1) { state.accepted.push(id); sfx("accept"); }
         else { state.accepted.splice(i, 1); sfx("back"); }
         save(); renderStatus(); renderMap(); renderList(); renderLog(); refreshDetailButtons();
@@ -13751,6 +14095,7 @@
       }
       function doClear(id, method) {
         var e = byId(id); if (!e || isCleared(id)) return;
+        if (isNotStarted(e)) return;   /* date gate: no clear of any kind before the start date */
         method = method === "remote" ? "remote" : "gps";
         if (e.evergreen && method !== "gps") return;   /* EPIC: on-site only, always */
         if (currentId === id) checkinMsg("", "");
@@ -14114,6 +14459,9 @@
         var e = byId(id); if (!e) return;
         var v = VENUES[e.id];
         var t = L();
+        /* date gate: never even start a GPS read for a quest whose
+           start date is still ahead */
+        if (isNotStarted(e)) { showMsg("err", t.notStartedNote(daysUntilStart(e))); return; }
         if (!v || !navigator.geolocation) { showMsg("err", t.geoUnsupported); return; }
         var orig = btn.innerHTML;
         btn.disabled = true;
@@ -14877,7 +15225,9 @@
         ensureDaily();
         var t = L();
         document.getElementById("dailyTitle").textContent = t.dailyTitle;
-        document.getElementById("dailyHowLabel").textContent = "▶ " + t.tutReplay;
+        document.getElementById("dailyHowLabel").textContent = t.tutReplay;
+        var dhc = document.getElementById("dailyHowChip");
+        if (dhc) dhc.textContent = document.getElementById("dailyHowBody").hidden ? (t.howOpen || "") : (t.howClose || "");
         document.getElementById("dailyNpc").textContent = t.dailyHow || t.dailyNpc;
         var list = todaysDaily();
         var doneN = list.filter(function (q) { return state.daily.done.indexOf(q.idx) !== -1; }).length;
@@ -14902,12 +15252,10 @@
         document.getElementById("dailyCards").innerHTML = list.map(function (q) {
           var done = state.daily.done.indexOf(q.idx) !== -1;
           return '<button class="drow' + (done ? " done" : "") + (q.lucky ? " lucky" : "") + '" type="button" data-daily="' + q.idx + '"' + (done ? " disabled" : "") + ">" +
-            '<span class="dr-cursor" aria-hidden="true">▶</span>' +
-            '<span class="dr-main"><span class="dr-name">' +
-              '<span class="dr-cat">' + esc((t.dailyCats || {})[q.cat] || "") + "</span>" + esc(q.name) +
+            '<span class="dr-catbox" aria-hidden="true">' + esc((t.dailyCats || {})[q.cat] || "") + "</span>" +
+            '<span class="dr-main"><span class="dr-name">' + esc(q.name) +
               (q.lucky ? '<span class="dr-lucky">' + esc(t.luckyTag) + "</span>" : "") +
               '</span><span class="dr-desc">' + esc(q.desc) + "</span></span>" +
-            '<span class="dr-dots" aria-hidden="true"></span>' +
             '<span class="dr-exp">+' + (q.lucky ? 30 : 10) + " EXP</span>" +
             (done ? '<span class="dr-stamp">' + esc(t.dailyDoneStamp) + "</span>" : "") + "</button>";
         }).join("");
@@ -14949,8 +15297,8 @@
       }
       /* a daily tap completes it on the spot (the photo-proof
          step was retired by the user, 2026-10-27 — motivation is
-         carried by the streak, the rest card, the all-clear
-         bonus and the record calendar instead). The cleared
+         carried by the streak, the all-clear bonus and the
+         record calendar instead). The cleared
          task's NAME joins the day's record-calendar entry. */
       function completeDaily(idx, q) {
         ensureDaily();
@@ -14989,13 +15337,13 @@
         if (sweep) narrate(L().narrDailyAll(heroDisplayName()));
       }
 
-      /* ============ STREAK (spec F, kind by design) ============
+      /* ============ STREAK (spec F) ============
          A "full" day = every daily done (state.dayLog). The
-         streak walks back from today/yesterday; ONE missed day
-         per Mon–Sun week is silently filled by the rest card,
-         so a single busy day never breaks the chain. A rest day
-         only bridges BETWEEN full days — trailing rest days at
-         the old end are trimmed, never counted. */
+         streak is a plain run of consecutive full days walking
+         back from today (or yesterday, while today is still
+         open). The rest card that used to bridge one missed day
+         per week was retired by the user, 2026-10-27 ("休息卡
+         啥玩意儿") — a missed day now simply ends the run. */
       function dateAdd(ds, n) {
         var d = parseD(ds); d.setDate(d.getDate() + n);
         var m = d.getMonth() + 1, day = d.getDate();
@@ -15006,27 +15354,13 @@
         return dateAdd(ds, -((d.getDay() + 6) % 7));
       }
       function computeStreak() {
-        var seq = [];           /* newest → oldest: "full" | "rest" */
-        var restDays = {};
-        var restWk = {};
         var d = state.dayLog[TODAY] ? TODAY : dateAdd(TODAY, -1);
+        var n = 0;
         for (var i = 0; i < 400; i++) {
-          if (state.dayLog[d]) { seq.push("full"); d = dateAdd(d, -1); continue; }
-          var wk = weekMonday(d);
-          if (!restWk[wk]) { restWk[wk] = true; restDays[d] = true; seq.push("rest"); d = dateAdd(d, -1); continue; }
-          break;
+          if (!state.dayLog[d]) break;
+          n++; d = dateAdd(d, -1);
         }
-        /* trim trailing rests at the old end (a rest only counts
-           when it bridges two full days), then rebuild the
-           rest-day map from the surviving sequence */
-        while (seq.length && seq[seq.length - 1] === "rest") seq.pop();
-        restDays = {};
-        var dd = state.dayLog[TODAY] ? TODAY : dateAdd(TODAY, -1);
-        for (var j = 0; j < seq.length; j++) {
-          if (seq[j] === "rest") restDays[dd] = true;
-          dd = dateAdd(dd, -1);
-        }
-        return { n: seq.length, restDays: restDays };
+        return { n: n };
       }
       function renderStreak() {
         var el = document.getElementById("dailyStreak");
@@ -15034,17 +15368,14 @@
         var t = L();
         var s = computeStreak();
         var mon = weekMonday(TODAY);
-        var restThisWeek = false;
-        Object.keys(s.restDays).forEach(function (d) { if (weekMonday(d) === mon) restThisWeek = true; });
         var dots = "";
         for (var i = 0; i < 7; i++) {
           var d = dateAdd(mon, i);
-          var cls = state.dayLog[d] ? "on" : s.restDays[d] ? "rest" : d === TODAY ? "today" : "";
+          var cls = state.dayLog[d] ? "on" : d === TODAY ? "today" : "";
           dots += '<i class="' + cls + '" title="' + esc((t.weekDays || [])[i] || "") + '"></i>';
         }
         el.hidden = false;
         el.innerHTML = '<span class="flame">' + ICONS.flame + '</span><span class="st-n">' + esc(t.streakTxt(s.n)) + "</span>" +
-          '<span class="rest-chip' + (restThisWeek ? " used" : "") + '">' + esc(restThisWeek ? t.restUsedTxt : t.restReady) + "</span>" +
           '<span class="dw-dots">' + dots + "</span>";
       }
 
@@ -15678,6 +16009,32 @@
         if (typeof searchModal.showModal === "function") searchModal.showModal();
         else searchModal.setAttribute("open", "");
       });
+      /* NEAREST-FIRST toggle: the position is requested ONLY here,
+         on this tap (check-in's privacy rule — sort-only, never
+         tracked or saved). Any failure leaves the default order in
+         place and explains itself in one line under the bar. */
+      document.getElementById("sortNearBtn").addEventListener("click", function () {
+        var t = L();
+        if (listSortNear) {
+          listSortNear = false; sortPos = null; sortMsg = "";
+          sfx("back"); renderSearch();
+          return;
+        }
+        if (sortBusy) return;
+        if (!navigator.geolocation) { sortMsg = t.sortNoGeo; sfx("back"); renderSearch(); return; }
+        sortBusy = true; sortMsg = "";
+        renderSearch();
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          sortBusy = false;
+          sortPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          listSortNear = true; sortMsg = "";
+          sfx("accept"); renderSearch();
+        }, function (err) {
+          sortBusy = false;
+          sortMsg = err && err.code === 1 ? t.sortDenied : t.sortFailed;
+          sfx("back"); renderSearch();
+        }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+      });
       function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); }
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
       document.getElementById("searchDone").addEventListener("click", function () { sfx("move"); closeSearchModal(); });
@@ -15719,6 +16076,7 @@
       document.getElementById("btnQuest").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) return;
+        if (isNotStarted(byId(currentId))) return;   /* date gate (the button is disabled too) */
         if (isAccepted(currentId)) doCheckin();
         else toggleAccept(currentId);
       });
@@ -15726,6 +16084,7 @@
         if (!currentId || this.disabled) return;
         var e = byId(currentId);
         if (!e || e.evergreen) return;            /* EPIC: remote clear does not exist */
+        if (isNotStarted(e)) return;              /* date gate: no remote clear before the start date */
         if (state.remoteDate === TODAY) return;   /* remote clear: once a day (spec D) */
         state.remoteDate = TODAY;
         doClear(currentId, "remote");
@@ -15743,6 +16102,8 @@
           bd.hidden = !open;
           tg.setAttribute("aria-expanded", open ? "true" : "false");
           tg.classList.toggle("is-open", open);
+          var chip = tg.querySelector(".how-chip");
+          if (chip) chip.textContent = open ? (L().howClose || "") : (L().howOpen || "");
           sfx(open ? "move" : "back");
         });
       });
@@ -16025,6 +16386,11 @@
       document.getElementById("gachaPullBtn").addEventListener("click", pullGacha);
       document.getElementById("gachaOwnedToggle").addEventListener("click", function () {
         gachaOwnedOnly = !gachaOwnedOnly;
+        sfx("move");
+        renderGacha();
+      });
+      document.getElementById("studioOwnedToggle").addEventListener("click", function () {
+        studioOwnedOnly = !studioOwnedOnly;
         sfx("move");
         renderGacha();
       });
