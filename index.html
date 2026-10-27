@@ -7794,6 +7794,201 @@
         .hstat-foot { margin-top: 6px; padding: 5px 10px; }
       }
     </style>
+    <style>
+      /* ==========================================================
+         ROUND — GACHA RESULT / OWNED LIST / TAP FRAME / TITLES
+         PATH (user device reports, 2026-10-27 15:08–15:10):
+         1. GACHA RESULT CARD REBUILT: the old single flex row
+            (thumb + name + R badge + NEW! + wear button) crushed
+            the name column to one character wide — long CJK names
+            rendered as a vertical strip ending in "…". The card
+            is now two stacked lines: thumb + name/desc on top
+            (the name owns the full remaining width and wraps in
+            full — never clipped, never ellipsised), badges and
+            the wear pill on their own action line below. The
+            gacha panel also stops floating mid-window: it sits
+            directly under the window frame instead of being
+            vertically centred with voids above and below.
+         2. OWNED ONLY toggle in the gacha window: swaps the
+            machine for a list of held cosmetics (icon + full
+            name, ×N when an item landed more than once,
+            equipped state); a second tap returns to the machine.
+         3. TAP FRAME: tapping the walking hero could flash a
+            dark rectangular edge around the canvas. The walker
+            is now explicitly frameless in every state (no border,
+            background, shadow or focus outline; tap highlight
+            off) — the only dark line left around the character
+            is the sprite's own stamped pixel outline.
+         4. TITLES TAB AS A PATH: the ladder reads as a climb —
+            a rail runs through node markers (✓ reached on warm
+            pale rows / ▶ lemon node on the PRIMARY-red current
+            row, flavor text on the current row only / lock on
+            desaturated locked rows), so state reads by colour
+            alone, day and night alike. The info box compresses
+            to one slim line; the pager slims; the EXP footer
+            strip stays at the bottom.
+         ========================================================== */
+
+      /* --- 1. gacha result: two lines, name owns its width --- */
+      #hsegGacha .gacha-panel { margin: 0; }
+      #hsegGacha .gacha-result {
+        display: flex; flex-direction: column; align-items: stretch;
+        gap: 9px; padding: 11px 12px;
+      }
+      #hsegGacha .gacha-result .gr-top {
+        display: flex; align-items: center; gap: 11px; min-width: 0;
+      }
+      #hsegGacha .gacha-result canvas { flex: none; }
+      #hsegGacha .gacha-result .gr-main {
+        flex: 1 1 auto; min-width: 0;
+        display: flex; flex-direction: column; gap: 2px;
+      }
+      #hsegGacha .gacha-result .gr-name {
+        display: block; font-size: var(--fs-t1); line-height: 1.35;
+        white-space: normal; overflow: visible; text-overflow: clip;
+        overflow-wrap: break-word; word-break: normal;
+      }
+      #hsegGacha .gacha-result .gr-desc {
+        display: block; font-size: var(--fs-s); line-height: 1.45;
+        white-space: normal; overflow: visible;
+        -webkit-line-clamp: none; -webkit-box-orient: initial;
+      }
+      #hsegGacha .gacha-result .gr-actions {
+        display: flex; align-items: center; gap: 8px; min-height: 34px;
+      }
+      #hsegGacha .gacha-result .gr-actions .rarity { flex: none; }
+      #hsegGacha .gacha-result .gr-new { flex: none; font-size: 15px; }
+      #hsegGacha .gr-wear {
+        flex: none; width: auto; margin: 0 0 0 auto;
+        padding: 8px 18px; border-radius: 999px; white-space: nowrap;
+      }
+      @media (max-height: 740px) {
+        #hsegGacha .gacha-result { padding: 9px 10px; gap: 7px; }
+        #hsegGacha .gacha-result .gr-desc {
+          display: block; -webkit-line-clamp: none; overflow: visible;
+        }
+      }
+
+      /* --- 2. owned-only toggle + list --- */
+      .gacha-viewbar { display: flex; margin: 9px 0 1px; }
+      .gacha-owned-toggle {
+        flex: none; cursor: pointer; font-family: inherit; font-weight: 800;
+        font-size: var(--fs-s); letter-spacing: 0.02em; line-height: 1.3;
+        color: var(--ink); background: var(--window);
+        border: 2.5px solid var(--line-c); border-radius: 999px;
+        padding: 6px 14px; box-shadow: 0 2px 0 var(--edge);
+        white-space: nowrap;
+      }
+      .gacha-owned-toggle:active { transform: translateY(2px); box-shadow: none; }
+      .gacha-owned-toggle[aria-pressed="true"] { background: var(--lemon); color: #231a00; }
+      .gacha-owned-list { display: grid; gap: 7px; margin-top: 9px; }
+      .gacha-owned-row {
+        display: flex; align-items: center; gap: 10px;
+        padding: 8px 10px; color: var(--ink); text-align: left;
+      }
+      .gacha-owned-row canvas {
+        width: 44px; height: 44px; flex: none; image-rendering: pixelated;
+        background: var(--window-hi); border: 2px solid var(--window-edge); border-radius: 8px;
+      }
+      .gacha-owned-row .go-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+      .gacha-owned-row .go-name {
+        font-size: var(--fs-b); font-weight: 800; line-height: 1.35;
+        white-space: normal; overflow-wrap: break-word;
+      }
+      .gacha-owned-row .go-meta { font-size: var(--fs-s); color: var(--ink-dim); }
+      .gacha-owned-row .go-count {
+        flex: none; font-weight: 800; font-size: var(--fs-s); color: #231a00;
+        background: linear-gradient(180deg, var(--gold-hi), var(--gold));
+        border: 2px solid var(--gold-deep); border-radius: 999px; padding: 2px 9px;
+      }
+      .gacha-owned-row .go-eq {
+        flex: none; font-weight: 800; font-size: var(--fs-s); color: var(--gold-deep);
+        white-space: nowrap;
+      }
+      .gacha-owned-empty {
+        margin: 12px 2px 4px; font-size: var(--fs-b); font-weight: 700;
+        color: var(--ink-dim); line-height: 1.55; text-align: center;
+      }
+
+      /* --- 3. the walker is frameless in every state --- */
+      .walk-hero {
+        background: transparent !important; border: 0 !important;
+        box-shadow: none !important; outline: none !important;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .walk-hero:focus, .walk-hero:focus-visible { outline: none !important; }
+      .hero-react { background: transparent; border: 0; box-shadow: none; }
+      button, .slot, .dock-btn, .rec-tab, canvas {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      /* --- 4. titles: the ladder is a path, not a pile of pills --- */
+      #hsegStatus .hstat-box {
+        display: flex; flex-direction: row; flex-wrap: wrap; align-items: center;
+        column-gap: 14px; row-gap: 2px;
+        margin: 0 0 10px; padding: 7px 11px;
+      }
+      #hsegStatus .hstat-row { flex: none; }
+      #hsegStatus .hstat-scene { flex: 1 1 170px; margin: 0; }
+      #hsegStatus .ladder { gap: 0; }
+      .ladder-track {
+        position: relative; display: grid; gap: 10px; padding: 3px 0 1px;
+      }
+      .ladder-track::before {
+        content: ""; position: absolute; left: 17px; top: 16px; bottom: 16px;
+        width: 3px; border-radius: 2px;
+        background: color-mix(in srgb, var(--ink) 22%, transparent);
+      }
+      #hsegStatus .ladder-row {
+        position: relative; min-height: 44px; gap: 10px;
+        padding: 9px 12px; border-radius: 12px; align-items: center;
+      }
+      .ladder-row .lr-node {
+        flex: none; width: 26px; height: 26px; margin-left: 2px; z-index: 1;
+        display: inline-flex; align-items: center; justify-content: center;
+        border: 2.5px solid var(--line-c); border-radius: 50%;
+        background: var(--chip); color: var(--ink-dim);
+        font-size: 12px; font-weight: 800; line-height: 1;
+      }
+      .ladder-row .lr-main {
+        flex: 1 1 auto; min-width: 0;
+        display: flex; flex-direction: column; gap: 1px; text-align: left;
+      }
+      #hsegStatus .ladder-row .lr-lv { flex: none; width: auto; }
+      #hsegStatus .ladder-row .lr-state { flex: none; margin-left: 0; }
+      /* reached: calm warm pale, gold node */
+      .ladder-row.done {
+        background: linear-gradient(180deg, #fff3d9, #ffe9c2); color: #43300a;
+      }
+      .ladder-row.done .lr-node { background: var(--gold); color: #231a00; }
+      .ladder-row.done .lr-lv { color: #8a6508; }
+      .ladder-row.done .lr-state { color: #8a6508; }
+      /* current: PRIMARY red hero row, lemon node marker */
+      .ladder-row.current {
+        background: linear-gradient(180deg, #f06a52, var(--primary));
+        color: #fff; box-shadow: 0 3px 0 var(--edge);
+      }
+      .ladder-row.current .lr-node { background: var(--lemon); color: #231a00; }
+      .ladder-row.current .lr-lv { color: #ffe1d6; }
+      .ladder-row.current .lr-state { color: #fff; }
+      .ladder-row.current .lr-flavor { color: #ffe9dc; }
+      /* locked: desaturated grey, dimmed name, lock node */
+      .ladder-row.locked {
+        background: color-mix(in srgb, var(--ink) 5%, var(--window));
+        color: var(--ink-dim); opacity: 1;
+      }
+      .ladder-row.locked .lr-name { color: var(--ink-dim); }
+      .ladder-row.locked .lr-lv { color: var(--ink-dim); }
+      .ladder-row.locked .lr-state { color: var(--ink-dim); }
+      .ladder-row.locked .lr-node { background: var(--chip); color: var(--ink-dim); }
+      /* slimmer pager */
+      .ladder-pager { margin-top: 9px; }
+      .ladder-pg-btn { padding: 5px 12px; min-width: 62px; }
+      @media (max-height: 740px) {
+        #hsegStatus .ladder-row { min-height: 39px; padding: 6px 10px; }
+        .ladder-track { gap: 8px; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -8245,7 +8440,10 @@
           </div>
           <button class="how-toggle" id="gachaHowToggle" type="button" aria-expanded="false" aria-controls="gachaHowBody"><span id="gachaHowLabel"></span><span class="how-arrow" aria-hidden="true">▸</span></button>
           <div class="how-body" id="gachaHowBody" hidden><p class="gacha-sub" id="gachaSub"></p></div>
-          <div class="gacha-machine">
+          <div class="gacha-viewbar">
+            <button class="gacha-owned-toggle" id="gachaOwnedToggle" type="button" aria-pressed="false"></button>
+          </div>
+          <div class="gacha-machine" id="gachaMachine">
             <canvas id="gachaHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
             <div class="gm-side">
               <div class="gacha-next" id="gachaNext"></div>
@@ -8253,14 +8451,22 @@
             </div>
           </div>
           <div class="gacha-result" id="gachaResult" hidden>
-            <canvas id="gachaResultCanvas" width="16" height="16" aria-hidden="true"></canvas>
-            <span class="gr-main">
-              <span class="gr-name" id="gachaResultName"></span><br>
-              <span class="gr-desc" id="gachaResultDesc"></span>
-            </span>
-            <span class="rarity" id="gachaResultRarity"></span>
-            <span class="gr-new" id="gachaResultNew" hidden>NEW!</span>
-            <button class="gr-wear" id="gachaWearBtn" type="button" hidden></button>
+            <div class="gr-top">
+              <canvas id="gachaResultCanvas" width="16" height="16" aria-hidden="true"></canvas>
+              <span class="gr-main">
+                <span class="gr-name" id="gachaResultName"></span>
+                <span class="gr-desc" id="gachaResultDesc"></span>
+              </span>
+            </div>
+            <div class="gr-actions">
+              <span class="rarity" id="gachaResultRarity"></span>
+              <span class="gr-new" id="gachaResultNew" hidden>NEW!</span>
+              <button class="gr-wear" id="gachaWearBtn" type="button" hidden></button>
+            </div>
+          </div>
+          <div class="gacha-owned" id="gachaOwned" hidden>
+            <div class="gacha-owned-list" id="gachaOwnedList"></div>
+            <p class="gacha-owned-empty" id="gachaOwnedEmpty" hidden></p>
           </div>
           <div class="gacha-fx" id="gachaFx" hidden aria-hidden="true">
             <div class="gfx-rays"></div>
@@ -8942,6 +9148,7 @@
           gachaTitle: "▶ GACHA CAPSULE",
           gachaSub: "50 EXP = 1 ticket · dupes +10 EXP.",
           ticketsLabel: function (n) { return "TICKET × " + n; },
+          ownedOnly: "OWNED ONLY", ownedEmpty: "Nothing yet — pull the machine to win your first cosmetic.",
           pullBtn: "▶ PULL 1",
           pullNone: "NO TICKETS — EARN EXP!",
           nextTicket: function (n) { return "Next ticket in <b>" + n + " EXP</b>"; },
@@ -9462,6 +9669,7 @@
           gachaTitle: "▶ ガチャカプセル",
           gachaSub: "50 EXP＝チケット1枚／ダブりは +10 EXP。",
           ticketsLabel: function (n) { return "チケット × " + n; },
+          ownedOnly: "所持済みだけ", ownedEmpty: "まだ何も持っていない — まわして最初のコスメを当てよう。",
           pullBtn: "▶ 1回まわす",
           pullNone: "チケットなし — EXPを貯めよう！",
           nextTicket: function (n) { return "次のチケットまで <b>あと " + n + " EXP</b>"; },
@@ -9842,7 +10050,7 @@
           nowOn: "举办中",
           clearFanfareSub: "已记录到任务日志。",
           badgeGet: "获得徽章",
-          resExp: "获得EXP", resProg: "进度", resTicket: "下一张票",
+          resExp: "获得EXP", resProg: "进度", resTicket: "下一张券",
           resTicketIn: function (n) { return "还差 " + n + " EXP"; },
           narrCheckin: function (hero, ev) { return hero + " 在「" + ev + "」打卡成功！"; },
           narrDailyAll: function (hero) { return hero + " 完成了今天的全部每日任务！"; },
@@ -9980,12 +10188,13 @@
           segStyle: "换装", segGacha: "扭蛋", segStatus: "称号",
           segActive: "进行中", segCleared: "已完成",
           gachaTitle: "▶ 扭蛋机",
-          gachaSub: "50 EXP = 1 张票 · 重复 +10 EXP。",
-          ticketsLabel: function (n) { return "票 × " + n; },
+          gachaSub: "50 EXP = 1 张扭蛋券 · 重复 +10 EXP。",
+          ticketsLabel: function (n) { return "券 × " + n; },
+          ownedOnly: "只看已拥有", ownedEmpty: "还没有扭蛋收获 — 抽一次，赢下第一件装扮吧。",
           pullBtn: "▶ 抽 1 次",
-          pullNone: "没有票了——去赚 EXP！",
-          nextTicket: function (n) { return "下一张票还差 <b>" + n + " EXP</b>"; },
-          gachaBanner: function (n) { return n > 0 ? "扭蛋时间——有 " + n + " 张票！" : "扭蛋：50 EXP 换 1 张票"; },
+          pullNone: "没有券了——去赚 EXP！",
+          nextTicket: function (n) { return "下一张券还差 <b>" + n + " EXP</b>"; },
+          gachaBanner: function (n) { return n > 0 ? "扭蛋时间——有 " + n + " 张券！" : "扭蛋：50 EXP 换 1 张券"; },
           wardrobeTitle: "▶ 衣橱",
           kindNames: { hat: "帽子", outfit: "服装", scarf: "围巾", hero: "秘密主人公" },
           equipState: "已穿戴 ✓", equipHint: "点击穿戴", ownedState: "已拥有", lockedState: "未获得",
@@ -10146,7 +10355,7 @@
             { h: "点地图上的图钉", b: "每个图钉都是东京的真实活动。点一下会弹出小预览，再点「打开详情」就能看到任务全貌。" },
             { h: "底部命令栏切换画面", b: "屏幕下方的命令栏可以在「地图／一览／每日／主人公」之间切换——每个页面都有同一条栏，地图页也不例外。" },
             { h: "接受任务，然后去打卡", b: "点一览里的任意一行打开详情。接受任务后前往真实场馆，在场馆点「打卡」，定位会判定完成并奖励 EXP。实在去不了，详情里也有手动完成的入口。" },
-            { h: "小任务，大成长", b: "「每日」里有几分钟就能完成的小任务。EXP 可以升级、解锁称号和徽章，每 50 EXP 还能获得 1 张扭蛋票。" },
+            { h: "小任务，大成长", b: "「每日」里有几分钟就能完成的小任务。EXP 可以升级、解锁称号和徽章，每 50 EXP 还能获得 1 张扭蛋券。" },
             { h: "设置一直在右上角", b: "语言、白天/夜晚皮肤和 BGM 都在右上角的设置里，任何页面都能打开。这段引导也可以从那里重看。" }
           ],
           tutNext: "下一步 ▶", tutBack: "◀ 返回", tutSkip: "跳过", tutDone: "开始 ▶", tutReplay: "玩法介绍",
@@ -10227,8 +10436,8 @@
           shareEpic: function (name) { return "史诗完成！我征服了「" + name + "」，拿到了限定装备！Tokyo Side Quests 东京冒险中。"; },
           sharePuzzle: "我在 Tokyo Side Quests 完成了 16 块东京全景拼图！",
           shareLevel: function (lv) { return "我在 Tokyo Side Quests 达到了 Lv." + lv + "！我的东京冒险在成长。"; },
-          shareFirst: "首次分享奖励 — 票 +10！",
-          shareDailyReward: "分享奖励 — 票 +1！",
+          shareFirst: "首次分享奖励 — 券 +10！",
+          shareDailyReward: "分享奖励 — 券 +1！",
           shareDoneTxt: "今天的分享奖励已领取。",
           shareCopied: "文案已复制 — 粘贴到任何地方吧！",
           dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心" },
@@ -10491,7 +10700,7 @@
 
       /* ============ State (localStorage; clears keep {id, clearedAt, area} for Phase 2 EXP) ============ */
       var LS_KEY = "tsq_state_v1";
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "aoi", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "brave-c", bgmNight: "farm-night", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], gacha: { pulls: 0, owned: [], equipped: { hat: null, outfit: null, scarf: null } } };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "aoi", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "brave-c", bgmNight: "farm-night", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } } };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -10557,9 +10766,13 @@
             state.bonusExp = typeof parsed.bonusExp === "number" ? parsed.bonusExp : 0;
             if (parsed.gacha && typeof parsed.gacha === "object") {
               var pg = parsed.gacha, pe = (pg.equipped && typeof pg.equipped === "object") ? pg.equipped : {};
+              var pd = (pg.dupes && typeof pg.dupes === "object" && !Array.isArray(pg.dupes)) ? pg.dupes : {};
+              var pdClean = {};
+              Object.keys(pd).forEach(function (k) { if (typeof pd[k] === "number" && pd[k] > 0) pdClean[k] = Math.floor(pd[k]); });
               state.gacha = {
                 pulls: typeof pg.pulls === "number" ? pg.pulls : 0,
                 owned: Array.isArray(pg.owned) ? pg.owned.filter(function (x) { return typeof x === "string"; }) : [],
+                dupes: pdClean,
                 equipped: {
                   hat: typeof pe.hat === "string" ? pe.hat : null,
                   outfit: typeof pe.outfit === "string" ? pe.outfit : null,
@@ -11907,6 +12120,7 @@
 
       var lastPull = null; /* { id, dupe } */
       var gachaRolling = false;
+      var gachaOwnedOnly = false; /* OWNED ONLY list replaces the machine */
       function rollGachaItem() {
         var r = Math.random() * 100;
         var rar = r < 10 ? "SR" : r < 40 ? "R" : "N";
@@ -11925,7 +12139,14 @@
           gachaRolling = false;
           state.gacha.pulls = (state.gacha.pulls || 0) + 1;
           var dupe = ownsItem(it.id);
-          if (dupe) { state.bonusExp = (state.bonusExp || 0) + 10; }
+          if (dupe) {
+            state.bonusExp = (state.bonusExp || 0) + 10;
+            /* remember the dupe so the OWNED ONLY list can show
+               a real holding count (past dupes were never logged
+               and are not invented after the fact) */
+            if (!state.gacha.dupes || typeof state.gacha.dupes !== "object") state.gacha.dupes = {};
+            state.gacha.dupes[it.id] = (state.gacha.dupes[it.id] || 0) + 1;
+          }
           else { state.gacha.owned.push(it.id); }
           lastPull = { id: it.id, dupe: dupe };
           save();
@@ -12148,6 +12369,45 @@
             wearBtn.setAttribute("data-wear-id", it2.id);
           }
         } else res.hidden = true;
+        /* OWNED ONLY view (user, 2026-10-27): one tap swaps the
+           machine for a plain list of what you already hold —
+           icon + full name, holding count when an item landed
+           more than once, equipped state — so holdings can be
+           checked BEFORE spending a ticket. Tapping again
+           returns to the machine. */
+        var ownBtn = document.getElementById("gachaOwnedToggle");
+        var ownedItems = GACHA_ITEMS.filter(function (i) { return ownsItem(i.id); });
+        if (ownBtn) {
+          ownBtn.textContent = (gachaOwnedOnly ? "◀ " : "▸ ") + t.ownedOnly + " (" + ownedItems.length + ")";
+          ownBtn.setAttribute("aria-pressed", String(gachaOwnedOnly));
+        }
+        var machineEl = document.getElementById("gachaMachine");
+        if (machineEl) machineEl.hidden = gachaOwnedOnly;
+        if (gachaOwnedOnly) res.hidden = true;
+        var ownBox = document.getElementById("gachaOwned");
+        if (ownBox) {
+          ownBox.hidden = !gachaOwnedOnly;
+          if (gachaOwnedOnly) {
+            var ownEmpty = document.getElementById("gachaOwnedEmpty");
+            if (ownEmpty) { ownEmpty.hidden = ownedItems.length > 0; ownEmpty.textContent = t.ownedEmpty; }
+            document.getElementById("gachaOwnedList").innerHTML = ownedItems.map(function (oi) {
+              var otx = t.gachaItems[oi.id] || { name: oi.id, desc: "" };
+              var cnt = 1 + ((state.gacha.dupes && state.gacha.dupes[oi.id]) || 0);
+              var equipped = oi.kind !== "hero" && state.gacha.equipped[oi.kind] === oi.id;
+              return '<div class="win-flat gacha-owned-row">' +
+                '<canvas width="16" height="16" data-owned-canvas="' + oi.id + '" aria-hidden="true"></canvas>' +
+                '<span class="go-main"><span class="go-name">' + esc(otx.name) + '</span>' +
+                '<span class="go-meta">' + esc(t.kindNames[oi.kind] || oi.kind) + " · " + oi.rarity + "</span></span>" +
+                (cnt > 1 ? '<span class="go-count">×' + cnt + "</span>" : "") +
+                (equipped ? '<span class="go-eq">' + esc(t.equipState) + "</span>" : "") +
+                "</div>";
+            }).join("");
+            ownBox.querySelectorAll("[data-owned-canvas]").forEach(function (cv) {
+              var oi3 = gachaItem(cv.getAttribute("data-owned-canvas"));
+              if (oi3) drawItemPreview(cv, oi3);
+            });
+          }
+        }
         document.getElementById("wardrobeTitle").textContent = t.studioTitle;
         var ownN = ALL_ITEMS.filter(function (i) { return ownsItem(i.id); }).length;
         document.getElementById("wardrobeCount").textContent = "(" + ownN + "/" + ALL_ITEMS.length + ")";
@@ -14054,19 +14314,24 @@
         var total = t.titles.length;
         var pages = Math.max(1, Math.ceil(total / LADDER_PAGE_SIZE));
         if (ladderPage < 0 || ladderPage >= pages) ladderPage = Math.min(pages - 1, Math.floor((cur - 1) / LADDER_PAGE_SIZE));
+        var LOCK_SVG = '<svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><rect x="2.4" y="5.2" width="7.2" height="5.4" rx="1" fill="currentColor"/><path d="M4.1 5.2V3.6a1.9 1.9 0 0 1 3.8 0v1.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>';
         function row(title, i) {
           var lvN = i + 1;
+          var state = lvN === cur ? "current" : lvN < cur ? "done" : "locked";
           var st = lvN === cur ? t.ladderNow : lvN < cur ? t.ladderGot : t.ladderLocked;
           var fl = lvN === cur ? (flavors[i] || "") : "";
-          return '<div class="win-flat ladder-row' + (lvN === cur ? " current" : lvN > cur ? " locked" : "") + '">' +
+          var node = state === "done" ? "✓" : state === "current" ? "▶" : LOCK_SVG;
+          return '<div class="win-flat ladder-row ' + state + '">' +
+            '<span class="lr-node" aria-hidden="true">' + node + '</span>' +
             '<span class="lr-lv">Lv.' + lvN + '</span>' +
             '<span class="lr-main"><span class="lr-name">' + esc(title) + "</span>" +
             (fl ? '<span class="lr-flavor">' + esc(fl) + "</span>" : "") + "</span>" +
             '<span class="lr-state">' + esc(st) + "</span></div>";
         }
         var start = ladderPage * LADDER_PAGE_SIZE;
-        var html = "";
+        var html = '<div class="ladder-track">';
         for (var i = start; i < Math.min(total, start + LADDER_PAGE_SIZE); i++) html += row(t.titles[i], i);
+        html += "</div>";
         html += '<div class="ladder-pager">' +
           '<button class="ladder-pg-btn" type="button" data-ladder-pg="-1"' + (ladderPage <= 0 ? " disabled" : "") + ">" + esc(t.ladderPrev) + "</button>" +
           '<span class="ladder-pg-num">' + esc(t.ladderPageOf(ladderPage + 1, pages)) + "</span>" +
@@ -15711,6 +15976,11 @@
          the hero stage with the studio window open */
       document.getElementById("dressBtn").addEventListener("click", function () { sfx("move"); switchView("hero"); openHeroWin("studio"); });
       document.getElementById("gachaPullBtn").addEventListener("click", pullGacha);
+      document.getElementById("gachaOwnedToggle").addEventListener("click", function () {
+        gachaOwnedOnly = !gachaOwnedOnly;
+        sfx("move");
+        renderGacha();
+      });
       document.getElementById("gachaWearBtn").addEventListener("click", function () {
         wearNowEquip(this.getAttribute("data-wear-id"));
       });
