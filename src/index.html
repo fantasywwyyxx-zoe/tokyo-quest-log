@@ -4913,6 +4913,13 @@
       .log-banner { width: 66px; height: 42px; }
       .log-banner img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
       .ms-chev { flex: none; font-size: 11.5px; color: var(--ink-dim); }
+      .ms-open {
+        flex: none; display: inline-flex; align-items: center; justify-content: center;
+        min-height: 32px; padding: 5px 7px; white-space: nowrap;
+        background: var(--primary); color: #fff; border: 2.5px solid var(--line-c);
+        border-radius: 8px; box-shadow: 0 2px 0 var(--edge);
+        font-family: inherit; font-size: 10.5px; font-weight: 900; line-height: 1.1; cursor: pointer;
+      }
       .ms-row.is-cleared .ms-banner img { filter: saturate(0.35) brightness(0.94); }
       /* detail: the NO PHOTO stage */
       dialog#detail .detail-banner .npw {
@@ -7509,6 +7516,7 @@
           zoomLabel: "MAP ZOOM", zoomReset: "RESET", expand: "EXPAND ⤢", collapse: "CLOSE ✕",
           mapHintZoom: "Tap the map to open the big full-screen map — there you can zoom with + / − and tap a pin for a quick preview.",
           ppOpen: "OPEN BRIEFING ▶",
+          listOpen: "DETAILS ▶",
           boardOpen: "OPEN",
           boardTitle: "QUEST BOARD", backBtn: "◀ BACK",
           viewPhoto: "View full photo",
@@ -7782,6 +7790,7 @@
           zoomLabel: "マップ拡大", zoomReset: "リセット", expand: "大きく ⤢", collapse: "閉じる ✕",
           mapHintZoom: "マップをタップすると大きな全画面マップが開きます。そちらで＋／−拡大と、タップでのピンプレビューができます。",
           ppOpen: "詳細をひらく ▶",
+          listOpen: "詳細 ▶",
           boardOpen: "詳細",
           boardTitle: "クエスト掲示板", backBtn: "◀ もどる",
           viewPhoto: "写真を全体表示",
@@ -8055,6 +8064,7 @@
           zoomLabel: "地图缩放", zoomReset: "重置", expand: "放大 ⤢", collapse: "关闭 ✕",
           mapHintZoom: "点击地图会打开大号全屏地图，在那里可以用 +/− 缩放，也可以点图钉看预览。",
           ppOpen: "打开详情 ▶",
+          listOpen: "打开详情 ▶",
           boardOpen: "详情",
           boardTitle: "任务公告板", backBtn: "◀ 返回",
           viewPhoto: "全屏查看照片",
@@ -10171,12 +10181,12 @@
       }
       function searchRowHTML(e) {
         var clr = isCleared(e.id);
-        return '<button type="button" class="ms-row' + (clr ? " is-cleared" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
+        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name">' + esc(evName(e)) + '</span>' +
           '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(e.category) + " · " + esc(e.price) + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
-          '<span class="ms-chev" aria-hidden="true">▶</span>' +
-          '</button>';
+          '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
+          '</div>';
       }
       function renderAreaChips() {
         var list = [{ id: "All" }].concat(ZONES);
