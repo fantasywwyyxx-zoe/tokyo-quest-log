@@ -4165,6 +4165,31 @@
       .mf-chip:active { transform: translateY(2px); box-shadow: none; }
       .mf-chip[aria-pressed="true"] { background: var(--lemon); color: #22303c; }
       .mf-chip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; border-color: var(--epic-gold); }
+      /* mainline/side-quest framing (2026-10-27): the map board is
+         the SIDE QUEST board — a compact lemon segment rides the
+         one-row filter bar (never a bordered pill of its own: the
+         bar's five chips share what is left, and at phone width
+         every segment tightens so no label is squeezed out) */
+      .mf-side {
+        flex: none; white-space: nowrap; line-height: 1; align-self: center;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif;
+        font-size: 10px; font-weight: 800; letter-spacing: 0.02em;
+        color: #22303c; background: var(--lemon);
+        border-radius: 999px; padding: 4px 6px; margin-right: 2px;
+      }
+      .mf-side:empty { display: none; }
+      @media (max-width: 430px) {
+        .map-filters .mf-chip { font-size: 8.5px; letter-spacing: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+        .map-filters .mf-count { font-size: 9px; padding: 3px 3px 3px 4px; }
+        .map-filters .mf-side { font-size: 9px; padding: 3px 4px; margin-right: 1px; }
+      }
+      /* status tab: one quiet line tying titles/levels to the
+         mainline's progress */
+      .ladder-note { margin: 0 2px 8px; font-size: 12.5px; font-weight: 700; line-height: 1.5; color: var(--ink-soft, #5a6a7a); }
+      .ladder-note:empty { display: none; }
+      /* detail head: the side-quest framing line under the No. */
+      .detail-side-line { margin: 3px 0 0; font-size: 12.5px; font-weight: 800; line-height: 1.45; color: var(--accent, #d8434f); }
+      .detail-side-line:empty { display: none; }
       .osm-attrib {
         position: absolute; right: 0; bottom: 0; z-index: 30;
         font-size: 9.5px; line-height: 1.5; padding: 1px 6px;
@@ -8692,6 +8717,7 @@
                  follows the active filter instantly; separate
                  from the LIST search modal. -->
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
+              <span class="mf-side" id="mapSideTag"></span>
               <span class="mf-count" id="mapCount"></span>
               <button class="mf-chip" type="button" data-mf="all" aria-pressed="true"></button>
               <button class="mf-chip" type="button" data-mf="event" aria-pressed="false"></button>
@@ -9041,11 +9067,12 @@
           <p class="hstat-scene" id="hsScene"></p>
         </div>
         <button class="daily-banner" id="dailyBanner" type="button">
-          <span class="db-tag">DAILY</span>
+          <span class="db-tag" id="dbTag">DAILY</span>
           <span class="db-name" id="dailyBannerName"></span>
           <span class="db-go">▶</span>
         </button>
         <h2 class="log-sec-title"><span id="ladderTitle"></span></h2>
+        <p class="ladder-note" id="ladderNote"></p>
         <div class="ladder" id="ladder"></div>
         <!-- EXP progress rides at the very bottom of the TITLES
              tab as a slim footer strip (user, 2026-10-27): the
@@ -9168,6 +9195,7 @@
             <div id="detailChips" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center"></div>
             <h2 id="detailName"></h2>
             <div class="detail-no" id="detailNo"></div>
+            <p class="detail-side-line" id="detailSideLine"></p>
           </div>
           <button class="close-btn" id="detailClose" type="button" aria-label="Close">✕</button>
         </div>
@@ -9508,12 +9536,12 @@
           startsIn: function (d) { return d === 1 ? "Starts tomorrow" : "Starts in " + d + " days"; },
           endsIn: function (d) { return d === 0 ? "Last day today!" : d === 1 ? "Ends tomorrow" : "Ends in " + d + " days"; },
           nowOn: "Now on",
-          clearFanfareSub: "The quest is recorded in your log.",
+          clearFanfareSub: "Side quest complete — a new page in your logbook.",
           badgeGet: "BADGE GET",
           resExp: "EXP GAINED", resProg: "PROGRESS", resTicket: "NEXT TICKET",
           resTicketIn: function (n) { return n + " EXP to go"; },
           narrCheckin: function (hero, ev) { return hero + " checked in at " + ev + "!"; },
-          narrDailyAll: function (hero) { return hero + " cleared every daily quest today!"; },
+          narrDailyAll: function (hero) { return hero + " completed today's mainline!"; },
           narrGot: function (item) { return "Got " + item + "!"; },
           narrDupe: function (item) { return item + " — already in the wardrobe! +10 EXP"; },
           soundOn: "SOUND ON", soundOff: "SOUND OFF",
@@ -9627,11 +9655,11 @@
             { name: "Lv.20 Legend", desc: "Reach Lv.20" },
             { name: "Lv.30 Myth", desc: "Reach Lv.30" },
             { name: "On a Roll", desc: "Accept 3 quests at once" },
-            { name: "Daily Friend", desc: "Complete 3 daily quests" },
-            { name: "Small Joys Collector", desc: "Complete 10 daily quests" },
-            { name: "Daily Devotee", desc: "Complete 30 daily quests" },
-            { name: "Sweep Starter", desc: "Finish a full daily sweep" },
-            { name: "Sweep Regular", desc: "Finish 5 full daily sweeps" },
+            { name: "Daily Friend", desc: "Complete 3 mainline quests" },
+            { name: "Small Joys Collector", desc: "Complete 10 mainline quests" },
+            { name: "Daily Devotee", desc: "Complete 30 mainline quests" },
+            { name: "Sweep Starter", desc: "Finish a full mainline sweep" },
+            { name: "Sweep Regular", desc: "Finish 5 full mainline sweeps" },
             { name: "Week Streak", desc: "Reach a 7-day streak" },
             { name: "Month Streak", desc: "Reach a 30-day streak" },
             { name: "Epic Hunter", desc: "Clear 5 EPIC quests" },
@@ -9794,8 +9822,8 @@
             "moon-pendant": { name: "Moon Pendant", desc: "A pale moon on a midnight chain." },
             "twin-bells": { name: "Twin Bells", desc: "Two bells that ring at every clear." }
           },
-          tabDaily: "DAILY",
-          tabListIndex: "QUEST INDEX",
+          tabDaily: "MAINLINE",
+          tabListIndex: "SIDE QUESTS",
           locBtnShort: "LOCATE", bigMapShort: "FULL MAP",
           communityTitle: "COMMUNITY", communitySub: "FELLOW ADVENTURERS' BOARD",
           communityStamp: "COMING SOON",
@@ -9820,26 +9848,30 @@
           tutTitle: "HOW TO PLAY",
           tutSteps: [
             { h: "Tap a pin on the map", b: "Every pin is a real Tokyo event. Tap one for a quick preview, then OPEN BRIEFING to see the full quest." },
-            { h: "One menu bar, every screen", b: "This command bar at the bottom switches between MAP, LIST, DAILY and HERO — the same bar sits on every screen, the map included." },
+            { h: "One menu bar, every screen", b: "This command bar at the bottom switches between MAP, LIST, MAINLINE and HERO — the same bar sits on every screen, the map included." },
             { h: "Accept, then check in", b: "Tap a quest row to open its briefing. Accept the quest, go to the real venue and tap CHECK IN — your location clears it and earns EXP. Can't make it? A manual clear link waits in the detail." },
-            { h: "Small quests, big growth", b: "DAILY holds tiny quests you can finish anywhere in minutes. EXP levels you up, unlocks titles and badges, and every 50 EXP earns a gacha ticket." },
+            { h: "Small quests, big growth", b: "Today's mainline holds tiny quests you can finish anywhere in minutes — the daily walk itself is the story. EXP levels you up, unlocks titles and badges, and every 50 EXP earns a gacha ticket." },
             { h: "Settings live top-right", b: "Language, day/night skin and BGM are always in the sheet at the top-right — on every screen, not just the title. This tour can be replayed from there too." }
           ],
           tutNext: "NEXT ▶", tutBack: "◀ BACK", tutSkip: "SKIP", tutDone: "START ▶", tutReplay: "HOW TO PLAY",
           styleBtn: "STYLE",
           bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "✕",
-          dailyTitle: "Today's Daily Quests",
-          dailySub: "Tiny quests, small joys. Each one +10 EXP.",
-          dailyNpc: "Psst — these are the little everyday quests: no travelling, done in minutes, anywhere. The REAL adventures are waiting out on the map!",
-          dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 for +30 EXP.",
+          dailyTitle: "Today's Mainline",
+          dailySub: "Walking your day IS the main quest. Each one +10 EXP.",
+          dailyNpc: "Psst — this is today's mainline: the everyday walk itself, done in minutes, anywhere. The side quests are waiting out on the map!",
+          dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 to complete today's mainline for +30 EXP.",
           dailyProg: "TODAY", dailyDoneBtn: "DONE!", dailyDoneStamp: "DONE ✓",
-          dailyNote: "Daily quests refresh at midnight. Do a little joy, then tap its row — clear all three for a +30 EXP bonus.",
-          dailyKindRealTag: "REAL QUESTS",
-          dailyKindReal: "The real adventures: exhibitions, festivals and workshops you actually travel to, and check in at the venue.",
-          dailyKindDailyTag: "DAILY",
-          dailyKindDaily: "These are different — tiny things you can do anywhere, today, in a few minutes. Small joys to pick up between the real adventures.",
-          dailyAllDone: "All daily quests done — nice day!",
-          dailyBannerNext: function (n) { return "Today's daily: " + n; },
+          dailyNote: "Today's mainline refreshes at midnight. Do a little joy, then tap its row — clear all three for a +30 EXP bonus.",
+          dailyKindRealTag: "SIDE QUESTS",
+          dailyKindReal: "Side quests branching off the mainline: exhibitions, festivals and workshops you actually travel to, and check in at the venue.",
+          dailyKindDailyTag: "MAINLINE",
+          dailyKindDaily: "This is the mainline itself — tiny things you can do anywhere, today, in a few minutes. The everyday walk that moves your story forward.",
+          dailyAllDone: "Today's mainline complete — nice day!",
+          dailyBannerNext: function (n) { return "Mainline: " + n; },
+          mainTag: "MAINLINE",
+          sideLine: "A side quest — branched off today's mainline, out in the Tokyo adventure.",
+          partMain: "MAINLINE", partSide: "SIDE QUESTS",
+          ladderNote: "Titles and levels are your mainline progress — every day you walk adds up here.",
           ladderTitle: "TITLE LADDER", ladderNow: "NOW", ladderGot: "✓", ladderLocked: "LOCKED",
           ladderPast: function (n) { return "▸ Show earlier titles (" + n + ")"; },
           ladderNext: function (n) { return "▸ Show later titles (" + n + ")"; },
@@ -9871,8 +9903,8 @@
           puzzleTitleName: "TOKYO PANORAMA MASTER",
           puzzleRewardLine: function (name) { return "★ LIMITED TITLE: " + name + " — the finished panorama is yours to admire!"; },
           segRecords: "RECORDS",
-          segPuzzle: "PUZZLE", segCollection: "LOGBOOK", segAdvLog: "QUEST LOG",
-          colTitle: "HERO'S LOGBOOK", advLogTitle: "QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "RECORD DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear a quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared quests yet. Clear a quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
+          segPuzzle: "PUZZLE", segCollection: "LOGBOOK", segAdvLog: "SIDE QUEST LOG",
+          colTitle: "HERO'S LOGBOOK", advLogTitle: "SIDE QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "MAINLINE DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear a side quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared side quests yet. Clear a side quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
           puzzleBanner: function (n) { return "Tokyo panorama — " + n + "/16 pieces"; },
           createTab: "NEW ADVENTURER",
           creatorNameLabel: "NAME",
@@ -9886,12 +9918,12 @@
           creatorBack: "◀ BACK TO TITLE",
           streakTxt: function (n) { return n + "-DAY STREAK"; },
           weekDays: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-          allDoneBonus: "ALL DAILIES BONUS",
-          calTitleStr: "RECORD CALENDAR",
-          calOpen: "CALENDAR",
+          allDoneBonus: "MAINLINE COMPLETE BONUS",
+          calTitleStr: "MAINLINE RECORD CALENDAR",
+          calOpen: "MAINLINE RECORD",
           howOpen: "OPEN", howClose: "CLOSE",
-          calNote: "A ★ day = every daily quest cleared. Tap a day to see what was done.",
-          diaryTasksK: "Cleared that day",
+          calNote: "A ★ day = today's mainline fully cleared. Tap a day to see what was done.",
+          diaryTasksK: "Mainline cleared that day",
           diaryEmpty: "No record for this day yet.",
           mfEvent: "EVENTS",
           mfEpic: "EPIC",
@@ -10037,12 +10069,12 @@
           startsIn: function (d) { return d === 1 ? "明日から" : "あと" + d + "日で開始"; },
           endsIn: function (d) { return d === 0 ? "本日最終日！" : d === 1 ? "明日で終了" : "あと" + d + "日で終了"; },
           nowOn: "開催中",
-          clearFanfareSub: "クエストログに記録しました。",
+          clearFanfareSub: "サイドクエスト完了——手帳に記録しました。",
           badgeGet: "バッジ獲得",
           resExp: "獲得EXP", resProg: "進捗", resTicket: "次のチケットまで",
           resTicketIn: function (n) { return "あと " + n + " EXP"; },
           narrCheckin: function (hero, ev) { return hero + " は 「" + ev + "」 に チェックインした！"; },
-          narrDailyAll: function (hero) { return hero + " は 今日のデイリーを すべて達成した！"; },
+          narrDailyAll: function (hero) { return hero + " は 今日のメインクエストを すべて達成した！"; },
           narrGot: function (item) { return item + " を てにいれた！"; },
           narrDupe: function (item) { return item + " は もう持っていた！ +10 EXP"; },
           soundOn: "サウンド ON", soundOff: "サウンド OFF",
@@ -10156,11 +10188,11 @@
             { name: "Lv.20レジェンド", desc: "Lv.20到達" },
             { name: "Lv.30の神話", desc: "Lv.30到達" },
             { name: "同時進行", desc: "クエストを3件同時に受注" },
-            { name: "デイリーの友", desc: "デイリーを3回達成" },
-            { name: "小確幸コレクター", desc: "デイリーを10回達成" },
-            { name: "デイリーの達人", desc: "デイリーを30回達成" },
-            { name: "全達成スターター", desc: "デイリー全達成を1回" },
-            { name: "全達成レギュラー", desc: "デイリー全達成を5回" },
+            { name: "デイリーの友", desc: "メインクエストを3回達成" },
+            { name: "小確幸コレクター", desc: "メインクエストを10回達成" },
+            { name: "デイリーの達人", desc: "メインクエストを30回達成" },
+            { name: "全達成スターター", desc: "メインクエスト全達成を1回" },
+            { name: "全達成レギュラー", desc: "メインクエスト全達成を5回" },
             { name: "7日ストリーク", desc: "7日連続を達成" },
             { name: "30日ストリーク", desc: "30日連続を達成" },
             { name: "EPICハンター", desc: "EPICを5件クリア" },
@@ -10323,8 +10355,8 @@
             "moon-pendant": { name: "月ペンダント", desc: "深夜の鎖に淡い月。" },
             "twin-bells": { name: "双子鈴", desc: "クリアのたびに鳴る二つの鈴。" }
           },
-          tabDaily: "デイリー",
-          tabListIndex: "クエスト索引",
+          tabDaily: "メイン",
+          tabListIndex: "サイドクエスト",
           locBtnShort: "現在地", bigMapShort: "全画面",
           communityTitle: "コミュニティ", communitySub: "冒険者たちの掲示板",
           communityStamp: "近日公開",
@@ -10349,26 +10381,30 @@
           tutTitle: "あそびかた",
           tutSteps: [
             { h: "地図のピンをタップ", b: "ピンはぜんぶ東京の実在イベント。タップすると小さなプレビューが出て、「詳細をひらく」からクエストの全容が見られます。" },
-            { h: "下のバーで画面切り替え", b: "画面下のコマンドバーで「マップ／一覧／デイリー／主人公」を切り替えます。地図の画面でも、どの画面でも同じバーです。" },
+            { h: "下のバーで画面切り替え", b: "画面下のコマンドバーで「マップ／一覧／メイン／主人公」を切り替えます。地図の画面でも、どの画面でも同じバーです。" },
             { h: "受けて、行って、チェックイン", b: "一覧の行をタップすると詳細が開きます。クエストを受けたら実際の会場へ。会場で「チェックイン」を押すと位置情報でクリアになり、EXPがもらえます。行けないときは詳細内の手動クリアも使えます。" },
-            { h: "小さなクエストで育つ", b: "デイリーには、どこでも数分でできる小さなクエスト。EXPでレベルアップして称号やバッジが増え、50 EXPごとにガチャチケットが1枚もらえます。" },
+            { h: "小さなクエストで育つ", b: "今日のメインクエストには、どこでも数分でできる小さなクエスト——歩く毎日そのものが主线です。EXPでレベルアップして称号やバッジが増え、50 EXPごとにガチャチケットが1枚もらえます。" },
             { h: "設定は右上にいつも", b: "言語・昼夜の皮膚・BGMは、右上の設定シートにいつも入っています。どの画面からでも開けて、この案内の再生もここからできます。" }
           ],
           tutNext: "つぎへ ▶", tutBack: "◀ もどる", tutSkip: "スキップ", tutDone: "はじめる ▶", tutReplay: "あそびかた",
           styleBtn: "表示設定",
           bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "✕",
-          dailyTitle: "今日のデイリークエスト",
-          dailySub: "ちいさなクエスト、ちいさな幸せ。1件 +10 EXP。",
-          dailyNpc: "これは日常の小さなクエスト。移動なし、どこでも数分で終わるやつ。本物の冒険はマップで待ってるよ！",
-          dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で +30 EXP。",
+          dailyTitle: "今日のメインクエスト",
+          dailySub: "毎日を歩くこと自体がメインクエスト。1件 +10 EXP。",
+          dailyNpc: "これは今日のメインクエスト——移動なし、どこでも数分で終わる、毎日の歩みそのもの。寄り道のサイドクエストはマップで待ってるよ！",
+          dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で今日のメインクエスト完了、+30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "できた！", dailyDoneStamp: "達成 ✓",
-          dailyNote: "デイリークエストは深夜0時に切り替わります。小さな幸せを叶えたら行をタップ — 3つ全達成で +30 EXP ボーナス。",
-          dailyKindRealTag: "本物のクエスト",
-          dailyKindReal: "展示・フェス・ワークショップへ、実際に足を運んで会場でチェックインする探険。",
-          dailyKindDailyTag: "デイリー",
-          dailyKindDaily: "こちらはそれとは別もの——今日、どこでも、数分でできる小さなこと。本物の探険の合間にできる、日常の小さな冒険です。",
-          dailyAllDone: "今日のデイリーは全部達成——いい日だ！",
-          dailyBannerNext: function (n) { return "今日のデイリー：" + n; },
+          dailyNote: "今日のメインクエストは深夜0時に切り替わります。小さな幸せを叶えたら行をタップ — 3つ全達成で +30 EXP ボーナス。",
+          dailyKindRealTag: "サイドクエスト",
+          dailyKindReal: "メインクエストから分かれた寄り道：展示・フェス・ワークショップへ、実際に足を運んで会場でチェックインする冒険。",
+          dailyKindDailyTag: "メインクエスト",
+          dailyKindDaily: "こちらが主线そのもの——今日、どこでも、数分でできる小さなこと。毎日を歩くことが、物語を前に進めます。",
+          dailyAllDone: "今日のメインクエストは全部達成——いい日だ！",
+          dailyBannerNext: function (n) { return "今日のメインクエスト：" + n; },
+          mainTag: "メイン",
+          sideLine: "サイドクエスト —— 今日のメインクエストから分かれた、東京の冒険の寄り道。",
+          partMain: "メイン編", partSide: "サイドクエスト編",
+          ladderNote: "称号とレベルは主线の進行——歩いた毎日が、ここに積み上がっていく。",
           ladderTitle: "称号ラダー", ladderNow: "現在", ladderGot: "✓", ladderLocked: "まだ",
           ladderPast: function (n) { return "▸ これまでの称号（" + n + "）"; },
           ladderNext: function (n) { return "▸ これからの称号（" + n + "）"; },
@@ -10400,8 +10436,8 @@
           puzzleTitleName: "東京パノラママスター",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成したパノラマを眺められます！"; },
           segRecords: "記録",
-          segPuzzle: "パズル", segCollection: "手帳", segAdvLog: "クエストログ",
-          colTitle: "勇者のクエスト手帳", advLogTitle: "クエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "クエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。クエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
+          segPuzzle: "パズル", segCollection: "手帳", segAdvLog: "サイドクエストログ",
+          colTitle: "勇者のクエスト手帳", advLogTitle: "サイドクエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "メイン記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "サイドクエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。サイドクエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
           puzzleBanner: function (n) { return "東京パノラマ — ピース " + n + "/16"; },
           createTab: "あたらしい勇者",
           creatorNameLabel: "名前",
@@ -10415,12 +10451,12 @@
           creatorBack: "◀ タイトルに戻る",
           streakTxt: function (n) { return n + "日連続！"; },
           weekDays: ["月", "火", "水", "木", "金", "土", "日"],
-          allDoneBonus: "デイリー全達成ボーナス",
-          calTitleStr: "記録カレンダー",
-          calOpen: "記録カレンダー",
+          allDoneBonus: "メインクエスト全達成ボーナス",
+          calTitleStr: "メイン記録カレンダー",
+          calOpen: "メイン記録",
           howOpen: "ひらく", howClose: "とじる",
-          calNote: "★の日はデイリー全達成。日をタップすると、その日の達成が見られます。",
-          diaryTasksK: "その日の達成",
+          calNote: "★の日はメインクエスト全達成。日をタップすると、その日の達成が見られます。",
+          diaryTasksK: "その日のメインクエスト達成",
           diaryEmpty: "この日の記録はまだありません。",
           mfEvent: "期間限定",
           mfEpic: "史詩",
@@ -10566,12 +10602,12 @@
           startsIn: function (d) { return d === 1 ? "明天开始" : "还有 " + d + " 天开始"; },
           endsIn: function (d) { return d === 0 ? "今天最后一天！" : d === 1 ? "明天结束" : "还有 " + d + " 天结束"; },
           nowOn: "举办中",
-          clearFanfareSub: "已记录到任务日志。",
+          clearFanfareSub: "支线完成——已记入手帐。",
           badgeGet: "获得徽章",
           resExp: "获得EXP", resProg: "进度", resTicket: "下一张券",
           resTicketIn: function (n) { return "还差 " + n + " EXP"; },
           narrCheckin: function (hero, ev) { return hero + " 在「" + ev + "」打卡成功！"; },
-          narrDailyAll: function (hero) { return hero + " 完成了今天的全部每日任务！"; },
+          narrDailyAll: function (hero) { return hero + " 完成了今日主线！"; },
           narrGot: function (item) { return "获得了 " + item + "！"; },
           narrDupe: function (item) { return item + " 已经有了！+10 EXP"; },
           soundOn: "声音 开", soundOff: "声音 关",
@@ -10685,11 +10721,11 @@
             { name: "Lv.20传奇", desc: "达到Lv.20" },
             { name: "Lv.30神话", desc: "达到Lv.30" },
             { name: "三线并行", desc: "同时接取3个任务" },
-            { name: "每日之友", desc: "完成3次每日任务" },
-            { name: "小确幸收藏家", desc: "完成10次每日任务" },
-            { name: "每日达人", desc: "完成30次每日任务" },
-            { name: "全清新手", desc: "每日全清1次" },
-            { name: "全清常客", desc: "每日全清5次" },
+            { name: "每日之友", desc: "完成3次主线任务" },
+            { name: "小确幸收藏家", desc: "完成10次主线任务" },
+            { name: "每日达人", desc: "完成30次主线任务" },
+            { name: "全清新手", desc: "主线全清1次" },
+            { name: "全清常客", desc: "主线全清5次" },
             { name: "7天连击", desc: "达成7天连续" },
             { name: "30天连击", desc: "达成30天连续" },
             { name: "EPIC猎人", desc: "完成5个EPIC任务" },
@@ -10852,8 +10888,8 @@
             "moon-pendant": { name: "月亮吊坠", desc: "午夜链子上的淡月。" },
             "twin-bells": { name: "双铃铛", desc: "每次完成都会响的两只铃。" }
           },
-          tabDaily: "每日",
-          tabListIndex: "任务索引",
+          tabDaily: "主线",
+          tabListIndex: "支线任务",
           locBtnShort: "定位", bigMapShort: "全屏",
           communityTitle: "社区", communitySub: "冒险者公告板",
           communityStamp: "即将公开",
@@ -10878,26 +10914,30 @@
           tutTitle: "玩法介绍",
           tutSteps: [
             { h: "点地图上的图钉", b: "每个图钉都是东京的真实活动。点一下会弹出小预览，再点「打开详情」就能看到任务全貌。" },
-            { h: "底部命令栏切换画面", b: "屏幕下方的命令栏可以在「地图／一览／每日／主人公」之间切换——每个页面都有同一条栏，地图页也不例外。" },
+            { h: "底部命令栏切换画面", b: "屏幕下方的命令栏可以在「地图／一览／主线／主人公」之间切换——每个页面都有同一条栏，地图页也不例外。" },
             { h: "接受任务，然后去打卡", b: "点一览里的任意一行打开详情。接受任务后前往真实场馆，在场馆点「打卡」，定位会判定完成并奖励 EXP。实在去不了，详情里也有手动完成的入口。" },
-            { h: "小任务，大成长", b: "「每日」里有几分钟就能完成的小任务。EXP 可以升级、解锁称号和徽章，每 50 EXP 还能获得 1 张扭蛋券。" },
+            { h: "小任务，大成长", b: "「今日主线」里有几分钟就能完成的小任务——每天走下去的过程，本身就是主线。EXP 可以升级、解锁称号和徽章，每 50 EXP 还能获得 1 张扭蛋券。" },
             { h: "设置一直在右上角", b: "语言、白天/夜晚皮肤和 BGM 都在右上角的设置里，任何页面都能打开。这段引导也可以从那里重看。" }
           ],
           tutNext: "下一步 ▶", tutBack: "◀ 返回", tutSkip: "跳过", tutDone: "开始 ▶", tutReplay: "玩法介绍",
           styleBtn: "显示设置",
           bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "✕",
-          dailyTitle: "今日每日任务",
-          dailySub: "小小的任务，小小的幸福。每件 +10 EXP。",
-          dailyNpc: "这些是日常的小任务：不用出门，在任何地方几分钟就能完成。真正的冒险，在地图上等着你！",
-          dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 +30 EXP。",
+          dailyTitle: "今日主线",
+          dailySub: "每天走下去的过程，本身就是主线任务。每件 +10 EXP。",
+          dailyNpc: "这是今日主线：不用出门，在任何地方几分钟就能完成——走下去的每一天就是主线。真正的支线任务，在地图上等着你！",
+          dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 = 今日主线完成，+30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "完成了！", dailyDoneStamp: "达成 ✓",
-          dailyNote: "每日任务在午夜刷新。完成小确幸后点一下那一行 — 三个全完成有 +30 EXP 奖励。",
-          dailyKindRealTag: "真实任务",
-          dailyKindReal: "真正的探险：实际前往展览、节日和工作坊，并在场馆打卡。",
-          dailyKindDailyTag: "每日",
-          dailyKindDaily: "这些不一样——是今天在任何地方、几分钟就能做完的小事。在真正的探险之间，捡起日常的小确幸。",
-          dailyAllDone: "今天的每日任务全做完了——美好的一天！",
-          dailyBannerNext: function (n) { return "今日每日：" + n; },
+          dailyNote: "今日主线在午夜刷新。完成小确幸后点一下那一行 — 三个全完成有 +30 EXP 奖励。",
+          dailyKindRealTag: "支线任务",
+          dailyKindReal: "从主线分岔出去的支线：实际前往展览、节日和工作坊，并在场馆打卡。",
+          dailyKindDailyTag: "主线任务",
+          dailyKindDaily: "这就是主线本身——今天在任何地方、几分钟就能做完的小事。每天的步伐，推动着你的故事向前。",
+          dailyAllDone: "今日主线全部完成——美好的一天！",
+          dailyBannerNext: function (n) { return "今日主线：" + n; },
+          mainTag: "主线",
+          sideLine: "支线任务 —— 从今日主线分岔出去的一段东京冒险。",
+          partMain: "主线篇", partSide: "支线篇",
+          ladderNote: "称号和等级就是主线的进度——你走过的每一天，都累积在这里。",
           ladderTitle: "称号阶梯", ladderNow: "当前", ladderGot: "✓", ladderLocked: "未解锁",
           ladderPast: function (n) { return "▸ 查看之前的称号（" + n + "）"; },
           ladderNext: function (n) { return "▸ 查看之后的称号（" + n + "）"; },
@@ -10929,8 +10969,8 @@
           puzzleTitleName: "东京全景大师",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成的全景图可以慢慢欣赏了！"; },
           segRecords: "记录",
-          segPuzzle: "拼图", segCollection: "手帐", segAdvLog: "任务日志",
-          colTitle: "勇者任务手帐", advLogTitle: "任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成任务后，这里会多出一页任务日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
+          segPuzzle: "拼图", segCollection: "手帐", segAdvLog: "支线任务日志",
+          colTitle: "勇者任务手帐", advLogTitle: "支线任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "主线记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成支线任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成支线任务后，这里会多出一页日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
           puzzleBanner: function (n) { return "东京全景 — 碎片 " + n + "/16"; },
           createTab: "新勇者",
           creatorNameLabel: "名字",
@@ -10944,12 +10984,12 @@
           creatorBack: "◀ 返回标题",
           streakTxt: function (n) { return "连续 " + n + " 天！"; },
           weekDays: ["一", "二", "三", "四", "五", "六", "日"],
-          allDoneBonus: "每日全完成奖励",
-          calTitleStr: "记录日历",
-          calOpen: "记录日历",
+          allDoneBonus: "主线全完成奖励",
+          calTitleStr: "主线记录日历",
+          calOpen: "主线记录",
           howOpen: "展开", howClose: "收起",
-          calNote: "带 ★ 的日子 = 每日任务全完成。点某一天可以看那天的完成记录。",
-          diaryTasksK: "当天的完成",
+          calNote: "带 ★ 的日子 = 今日主线全完成。点某一天可以看那天的完成记录。",
+          diaryTasksK: "当天的主线完成",
           diaryEmpty: "这一天还没有记录。",
           mfEvent: "限时",
           mfEpic: "史诗",
@@ -13324,6 +13364,8 @@
         document.getElementById("bigMapTitle").textContent = t.bigMapTitle;
         document.getElementById("bigMapClose").textContent = t.bigMapClose;
         document.getElementById("ladderTitle").textContent = t.ladderTitle;
+        var lnEl = document.getElementById("ladderNote"); if (lnEl) lnEl.textContent = t.ladderNote || "";
+        var dbt = document.getElementById("dbTag"); if (dbt) dbt.textContent = t.mainTag || "DAILY";
         document.getElementById("bigMapHint").innerHTML = t.legendNote + " " + t.mapHintZoom;
         typeSlogan(t.startSub);
         document.getElementById("startChooseTitle").textContent = t.startChoose;
@@ -13465,6 +13507,7 @@
       function mapShownCount() { return VISIBLE.filter(mapFilterMatch).length; }
       function renderMapFilterChips() {
         var t = L();
+        var mst = document.getElementById("mapSideTag"); if (mst) mst.textContent = t.tabListIndex || "";
         var labels = { all: t.all, event: t.mfEvent, epic: t.mfEpic, accepted: t.mfAccepted, cleared: t.mfCleared };
         document.querySelectorAll("#mapFilters .mf-chip").forEach(function (b) {
           var k = b.getAttribute("data-mf");
@@ -14065,6 +14108,7 @@
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
         document.getElementById("detailName").textContent = evName(e);
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
+        var dsl = document.getElementById("detailSideLine"); if (dsl) dsl.textContent = t.sideLine || "";
         detail.classList.toggle("has-photo", !!e.img);
         detail.classList.toggle("is-epic", !!e.evergreen);
         renderEpicReward(e);
@@ -15371,10 +15415,14 @@
           (srows.length ? '<div class="sticker-grid">' + srows.map(function (o) {
             return '<div class="sticker-cell">' + badgeIconSVG(stickerIdxFor(o.e.id)) + '<span class="sticker-name">' + esc(evName(o.e)) + "</span></div>";
           }).join("") + "</div>" : '<p class="adv-empty">' + esc(t.stickerEmpty || "") + "</p>") + "</div>";
+        /* the logbook reads as two parts (2026-10-27 concept):
+           MAINLINE pages carry the hero's growth (gear, badges,
+           titles, record days); SIDE QUEST pages carry what the
+           events left behind (zone stamps, stickers) */
         var pages = [
-          { name: t.pageGear || "GEAR & BADGES", html: gear },
-          { name: t.colZones || "ZONE STAMPS", html: stamps },
-          { name: t.colStickers || "STICKER BOOK", html: stickers }
+          { name: (t.partMain ? t.partMain + " · " : "") + (t.pageGear || "GEAR & BADGES"), html: gear },
+          { name: (t.partSide ? t.partSide + " · " : "") + (t.colZones || "ZONE STAMPS"), html: stamps },
+          { name: (t.partSide ? t.partSide + " · " : "") + (t.colStickers || "STICKER BOOK"), html: stickers }
         ];
         if (colPage < 0) colPage = 0;
         if (colPage > pages.length - 1) colPage = pages.length - 1;
@@ -15589,7 +15637,7 @@
         celebrate({
           mini: true,
           bonusExp: bonus,
-          title: state.lang === "ja" ? "デイリー<br>達成！" : state.lang === "zh" ? "每日<br>达成！" : "DAILY<br>DONE!",
+          title: state.lang === "ja" ? "メインクエスト<br>達成！" : state.lang === "zh" ? "今日主线<br>完成！" : "MAINLINE<br>COMPLETE!",
           name: q ? q.name : "", exp: exp, cat: null, flavor: "",
           prevInfo: prevInfo, newInfo: newInfo,
           leveledTo: newInfo.lv > prevInfo.lv ? newInfo.lv : 0,
