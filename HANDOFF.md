@@ -360,3 +360,6 @@
 ## 2026-10-29 00:18 JST · Muse（主聊天）· 虚拟办公室改实时更新
 - Zoe 要求：虚拟办公室每次打开页面都要实时更新。
 - 已办：新建仓库根 office-status.json 作为唯一实时数据源（9 个部门当前状态）；COMPANY.md 新增「虚拟办公室数据源」一节（状态变化当事部门同步更新该文件，禁止手改看板文字）；看板改造已派发——打开时拉取 office-status.json + GitHub 动态（最新提交/开放 PR/最新 QA 报告），失败回退内置快照并标注数据时间。
+
+## 2026-10-29 00:30 JST · QA部 · Google 补验通过
+- 端点 302 链 QA 独立 curl 复核无误（callback/scope=email+profile/code）；客户端点击实测真实跳 authorize（不再出準備中）。R6 报告已追记。剩真实登录回跳闭环与 OTP 同列待 Zoe 真机。
