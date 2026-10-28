@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-10-28 23:57 · Muse（开发部）· 新增隐私政策页 /privacy（Google OAuth 发布前置）
+- 新增 privacy/index.html（日语正文＋英文摘要，游戏同款配色）：为 Google Auth Platform 发布（In production）所需的主页/隐私政策 URL 而建——主页 https://tokyoquestlog.com/ 、隐私 https://tokyoquestlog.com/privacy/ 。内容按实际架构如实写：邮箱仅用于登录（Supabase Auth）、云存档存 Supabase 东京区、位置仅在浏览器内做打卡距离判定不上传不保存、打赏经 Ko-fi/Stripe 处理不接触卡号、无广告无追踪不卖数据、删号连带删云存档、联系邮箱 tokyoquestlog@gmail.com。
+- Google Cloud 侧现状：项目 Tokyo Quest Log 已在游戏专用账号 tokyoquestlog@gmail.com 下建好、Branding 已填、Audience=External/测试中；发布待 Zoe 在控制台补填上述两 URL；OAuth 客户端与 Supabase 启用由 Zoe 手动接管进行中。
+
+---
+
 ## 2026-10-28 23:03 · Muse（开发部）· 网站头像改带框版（Zoe 改定落地）
 - 按 Zoe 裁定（经 QA 转达）执行：index.html 头部两处图标由无框 E16 改为**带皮革缝线框方形版**——favicon 192 用 avatar-framed-favicon192-v1.png、apple-touch-icon 用 avatar-framed-touch180-v1.png（美术部按母版 public-avatar-square-v1.jpg 同规格重出，QA 已验尺寸/内容）。仅改这 2 行 data URI；本地解码与源文件逐字节一致已验。
 - 无框 E16 两张就此作废，不再用于网站图标。
