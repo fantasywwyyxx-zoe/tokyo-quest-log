@@ -10183,6 +10183,148 @@
         overflow-y: auto; overflow-x: hidden;
         padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
       }
+
+      /* --- K / scroll-tail fix (device regression report on
+         qa2, 2026-10-29 00:31 — "many screens scroll down and
+         then won't move": the CUSTOMIZE window stopped with
+         the EXPRESSION row half-buried under the command bar,
+         and the same tail loss hit the whole window family).
+         TWO stacked causes, both fixed here:
+
+         (1) THE BAR OVERLAP (every height, probes included):
+         the case windows are full-screen fixed pages (inset 0)
+         whose bottom padding was 12px — but the command bar
+         is FIXED, always visible, and paints over the page's
+         bottom ~91px. The design system's own bottom-collision
+         rule (see --bar-clear) already ends map sheets and the
+         search window ABOVE the bar; the case-window pages
+         never got that treatment, so at maximum scroll each
+         window's last rows stayed hidden behind the bar — the
+         scroll ran out before the content did. Fix: the panels
+         take the same clearance as every other bottom-anchored
+         surface — padding-bottom of --bar-clear + a margin of
+         air. For panel-level scrollers the padding extends the
+         scroll range; for the inner scrollers (customize /
+         collection / log) it lifts the whole flex column, so
+         their bottom edges clear the bar too. The ▾ markers
+         lift by the same amount, or they would ride hidden
+         under the bar as well.
+
+         (2) THE WEBVIEW SHORTFALL (device only): J proved this
+         webview's VISIBLE viewport runs ~84px shorter than its
+         layout viewport, and gave the detail page the
+         visualViewport basis (--vvh) — but the shell's other
+         height budgets stayed on layout units (100dvh):
+         html/body, .wrap (which sizes the in-flow tab panels),
+         the creator window's max-height, the settings sheet,
+         the search modal and the calendar window. Those now
+         take the same --vvh basis, always with the 100dvh
+         fallback — where visualViewport matches the layout
+         viewport (desktop, probes) nothing changes, and the
+         detail page's own rules above are untouched. The map's
+         full-bleed plane and the title screen keep their layout
+         basis by design (neither is a window scroller; the
+         title screen scrolls as one fixed sheet). --- */
+      #view-hero .hseg-panel.hero-win {
+        padding-bottom: calc(var(--bar-clear, 104px) + 6px);
+      }
+      #view-hero .win-more {
+        bottom: calc(var(--bar-clear, 104px) + 4px);
+      }
+      html, body { height: var(--vvh, 100dvh); }
+      .wrap {
+        height: var(--vvh, 100dvh);
+        max-height: var(--vvh, 100dvh);
+      }
+      .creator-win { max-height: calc(var(--vvh, 100dvh) - 48px); }
+      @media (max-height: 740px) {
+        .creator-win { max-height: calc(var(--vvh, 100dvh) - 18px); }
+      }
+      #stylePanel {
+        max-height: calc(var(--vvh, 100dvh) - 20px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+      }
+      dialog#searchModal {
+        max-height: calc(var(--vvh, 100dvh) - var(--bar-clear) - 22px);
+      }
+      .search-win {
+        max-height: calc(var(--vvh, 100dvh) - var(--bar-clear) - 22px);
+      }
+      .cal-win {
+        max-height: calc(var(--vvh, 100dvh) - var(--bar-clear, 104px) - 14px);
+      }
+
+      /* --- L / Q-112: the title screen takes the same visible-
+         viewport basis (QA round 7: at 390x600 the LOG IN /
+         SUPPORT plaques started at top 605 — outside the
+         screen, and the screen does not scroll, so they were
+         unreachable; at 390x667 the margin was 10px before the
+         device shortfall is even counted). Two moves: (1) the
+         screen itself is sized/placed from --vvh/--vvt, exactly
+         like the detail page; (2) the LOGO BLOCK becomes the
+         column's one flexible region — the drawn logo scales
+         down with the room available (aspect preserved, both
+         theme plates), while the top row, the tag plaque, the
+         hero + two-line slogan band and the start panel keep
+         their natural size, so the plaques are on screen at
+         every height with no scrolling. At tall heights the
+         logo keeps its designed size (540px / 94vw cap) and
+         the band's auto margin keeps the bottom stack seated,
+         so the approved 844 composition is unchanged. --- */
+      .start-screen {
+        top: var(--vvt, 0px); bottom: auto;
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+      }
+      .start-screen .start-logo-block {
+        flex: 1 1 auto; min-height: 0;
+        display: flex; flex-direction: column; align-items: center;
+        margin-top: 3.5vh;
+      }
+      @media (max-height: 740px) {
+        .start-screen .start-logo-block { margin-top: 1.5vh; }
+      }
+      .start-screen .logo-wrap {
+        flex: 1 1 auto; min-height: 0; width: 100%;
+        display: flex; align-items: flex-start; justify-content: center;
+      }
+      /* the art box fills the flexible region and the master
+         (1500x536) is contained inside it — aspect always
+         preserved, the box can shrink all the way to nothing
+         before the panel below is ever pushed, and at tall
+         heights the 254px cap + width cap restore the
+         designed logo size */
+      .start-screen .logo-art {
+        height: 100%; max-height: 254px; width: min(540px, 94vw);
+      }
+      .start-screen .logo-img {
+        width: 100%; height: 100%; object-fit: contain;
+      }
+
+      /* --- M / Q-113: the records tab labels never truncate.
+         The third tab (サイドクエストログ) was ellipsised by
+         the base rule (nowrap + text-overflow: ellipsis) even
+         though its DOM text was whole. Per the house text rule
+         — wrap first (up to two lines), then step the type down
+         inside the floor — the tabs now wrap, and fitRecTabs()
+         steps the shared bar's font (12.5px down to the 10.5px
+         floor) until every label fits on one line. The bar is
+         still ONE shared element pinned outside the panels, so
+         Q-108's 0px switch displacement holds by construction;
+         fitting runs on label render, on records open and on
+         resize, never on tab switch. --- */
+      .rec-tab {
+        white-space: normal; text-overflow: clip;
+        display: flex; align-items: center; justify-content: center;
+        text-align: center; line-height: 1.15;
+      }
+
+      /* --- N / beta feedback entry: ONE plain sheet row under
+         the account group — the sheet's ordinary button rank
+         (same dress as the tutorial replay row), never the
+         support/money treatment; label only, set per language
+         by refreshAuthTexts(). --- */
+      #stylePanel .feedback-btn {
+        text-decoration: none; justify-content: center;
+      }
     </style>
   </head>
   <body data-view="map">
@@ -10434,6 +10576,9 @@
           <button class="icon-btn lang-btn acct-support" id="supportBtn" type="button"></button>
         </div>
         <span class="build-ver" id="buildVerLine"></span>
+      </div>
+      <div class="win-flat themebar" role="group" aria-label="Feedback">
+        <a class="icon-btn lang-btn feedback-btn" id="feedbackBtn" href="https://docs.google.com/forms/d/e/1FAIpQLSff5d2_vVD8fbw7MyKNSp1lbDnKaqLW3j3yHxwDiQOFaKLRfw/viewform" target="_blank" rel="noopener" style="flex:1"></a>
       </div>
       </div>
       <p class="audio-hint" id="audioHint" hidden></p>
@@ -16617,6 +16762,7 @@
         document.querySelectorAll("[data-dock]").forEach(function (el) { el.innerHTML = dockIcons[el.getAttribute("data-dock")] || ""; });
         var recNames = { status: t.segStatus, badges: t.segBadges, advlog: t.segAdvLog };
         document.querySelectorAll("[data-rectab]").forEach(function (el) { el.textContent = recNames[el.getAttribute("data-rectab")] || ""; });
+        fitRecTabs();
         var lsegNames = { active: t.segActive, cleared: t.segCleared };
         document.querySelectorAll("[data-lseg]").forEach(function (b) { b.textContent = lsegNames[b.getAttribute("data-lseg")] || ""; });
         document.getElementById("avatarBtn").setAttribute("aria-label", t.changeHero);
@@ -20003,6 +20149,32 @@
       }
       /* ============ Character screen: stage slots + case windows
          ============ */
+      /* Q-113: step the shared RECORDS bar's type down (12.5px
+         to the 10.5px floor) until every tab label fits its box
+         on ONE line — labels wrap (two lines allowed) instead of
+         ever ellipsising, and the fit runs on render / records
+         open / resize, never on tab switch, so the pinned bar
+         cannot move (Q-108). Skipped while the bar is hidden
+         (a hidden bar has no measurable box). */
+      function fitRecTabs() {
+        var bar = document.getElementById("recTabsShared");
+        if (!bar || bar.hidden) return;
+        var tabs = Array.prototype.slice.call(bar.querySelectorAll(".rec-tab"));
+        if (!tabs.length || !tabs[0].clientWidth) return;
+        var size = 12.5;
+        function apply() { tabs.forEach(function (b) { b.style.fontSize = size + "px"; }); }
+        function fits() {
+          return tabs.every(function (b) {
+            var prev = b.style.whiteSpace;
+            b.style.whiteSpace = "nowrap";
+            var over = b.scrollWidth > b.clientWidth + 0.5;
+            b.style.whiteSpace = prev;
+            return !over;
+          });
+        }
+        apply();
+        while (size > 10.5 && !fits()) { size -= 0.5; apply(); }
+      }
       var heroWinOpen = null;
       var recTab = "status";   /* the RECORDS window's current tab */
       function setRecTab(k) {
@@ -20031,6 +20203,7 @@
         if (rts) {
           var isRec = (name === "status" || name === "badges" || name === "advlog");
           rts.hidden = !isRec;
+          if (isRec) fitRecTabs();
           if (isRec) rts.querySelectorAll("[data-rectab]").forEach(function (b) {
             b.setAttribute("aria-pressed", String(b.getAttribute("data-rectab") === name));
           });
@@ -20081,7 +20254,7 @@
           updateWinMore(box);
         }, { passive: true });
       });
-      window.addEventListener("resize", function () { refreshWinMoreAll(); });
+      window.addEventListener("resize", function () { refreshWinMoreAll(); fitRecTabs(); });
       /* ============ chrome rule (all pages): while any case
          window / modal / sheet is open, the shared status bar
          hides so the window gets the room; closing restores it.
@@ -20418,17 +20591,40 @@
          (visualViewport), so the full-height detail page sizes
          to what the player can actually see inside in-app
          webviews whose layout viewport runs taller than the
-         visible area */
+         visible area.
+         K / Q-114 gesture guard: the live listeners do NOT
+         rewrite --vvh while a touch is down (plus a short
+         settle after it lifts). In-app webviews can fire
+         visualViewport resize/scroll events DURING a finger
+         drag (host chrome breathing), and every --vvh consumer
+         — the shell, the creator window, the detail page —
+         would resize its scroll region under the finger
+         mid-gesture, which reads on device as the scroll
+         sticking or dying part-way. Programmatic scrollTop
+         never sees this; a real finger does. Direct calls
+         (init, opening the detail page) always write. */
+      var vvhTouch = false, vvhSettle = null;
       function syncVisibleH() {
         if (!window.visualViewport) return;
         document.documentElement.style.setProperty("--vvh", window.visualViewport.height + "px");
         document.documentElement.style.setProperty("--vvt", window.visualViewport.offsetTop + "px");
       }
+      function syncVisibleHLive() { if (!vvhTouch) syncVisibleH(); }
       if (window.visualViewport) {
-        window.visualViewport.addEventListener("resize", syncVisibleH);
-        window.visualViewport.addEventListener("scroll", syncVisibleH);
+        window.visualViewport.addEventListener("resize", syncVisibleHLive);
+        window.visualViewport.addEventListener("scroll", syncVisibleHLive);
         syncVisibleH();
       }
+      window.addEventListener("touchstart", function () {
+        vvhTouch = true;
+        if (vvhSettle) { clearTimeout(vvhSettle); vvhSettle = null; }
+      }, { passive: true });
+      function vvhRelease() {
+        if (vvhSettle) clearTimeout(vvhSettle);
+        vvhSettle = setTimeout(function () { vvhTouch = false; vvhSettle = null; syncVisibleH(); }, 150);
+      }
+      window.addEventListener("touchend", vvhRelease, { passive: true });
+      window.addEventListener("touchcancel", vvhRelease, { passive: true });
 
       renderAll();
       applyTheme(state.theme, false);
@@ -20472,7 +20668,7 @@
           syncUploaded: "This device's record was saved to the cloud.", syncLoaded: "Your cloud record was loaded onto this device.",
           syncDone: "Cloud sync is up to date.", syncFail: "Sync didn't finish — it will retry on the next save.",
           unsynced: "● Not synced yet", migrate: "Import a save from the old address",
-          supportTitle: "SUPPORT", kofiBtn: "♥ SUPPORT ON KO-FI",
+          supportTitle: "SUPPORT", kofiBtn: "♥ SUPPORT ON KO-FI", feedback: "FEEDBACK",
           supportText: "Tokyo Quest Log is still in preparation for its official release. Your support keeps development going — and as the game grows, we hope to team up with events and shops around the city to bring real perks back to players. Only tip if you can; every bit of support means a lot!",
           verNew: "A new version is available — tap to reload",
           heroGuest: "ACCOUNT: Guest (tap to log in)", heroIn: function (e) { return "ACCOUNT: " + e; }
@@ -20495,7 +20691,7 @@
           syncUploaded: "この端末の記録をクラウドに保存しました", syncLoaded: "クラウドの記録を読み込みました",
           syncDone: "クラウドと同期済みです", syncFail: "同期が完了しませんでした — 次の保存で自動で再試行します",
           unsynced: "● 未同期", migrate: "旧アドレスのセーブデータを取り込む",
-          supportTitle: "応援する", kofiBtn: "♥ Ko-fiで応援する",
+          supportTitle: "応援する", kofiBtn: "♥ Ko-fiで応援する", feedback: "フィードバック",
           supportText: "東京クエストログは、正式リリースに向けて準備中です。応援は開発の大きな励みになります。もっと人気が出たら、街のイベントやお店とコラボして、プレイヤーのみんなに還元できる企画も狙っています。無理のない範囲で応援してもらえたら嬉しいです！",
           verNew: "新しいバージョンがあります — タップで再読み込み",
           heroGuest: "アカウント：ゲスト（タップでログイン）", heroIn: function (e) { return "アカウント：" + e; }
@@ -20518,7 +20714,7 @@
           syncUploaded: "已把这台设备的记录保存到云端", syncLoaded: "已读取云端的记录",
           syncDone: "已与云端同步", syncFail: "同步未完成 — 下次保存时会自动重试",
           unsynced: "● 尚未同步", migrate: "导入旧地址的存档",
-          supportTitle: "应援", kofiBtn: "♥ 在 Ko-fi 应援",
+          supportTitle: "应援", kofiBtn: "♥ 在 Ko-fi 应援", feedback: "反馈",
           supportText: "东京冒险日志还在为正式上线做准备。你的应援是开发最大的动力；等游戏更火一些，我们想和城市里的活动、店铺联动，为大家争取玩家福利。量力而行就好，每一份支持都非常感谢！",
           verNew: "有新版本 — 点按重新加载",
           heroGuest: "账号：游客（点按登录）", heroIn: function (e) { return "账号：" + e; }
@@ -20660,6 +20856,7 @@
         $("acctLogoutBtn").hidden = !authUser;
         $("acctLoginBtn").hidden = !!authUser;
         $("supportBtn").textContent = t.support;
+        $("feedbackBtn").textContent = t.feedback;
         $("heroSupportBtn").textContent = t.support;
         var tsb = $("titleSupportBtn"); if (tsb) tsb.textContent = t.supportShort;
         $("heroAcctText").textContent = authUser ? t.heroIn(authUser.email || "") : t.heroGuest;
