@@ -1,0 +1,452 @@
+{
+  "tag": "2026-10-28-r3",
+  "generatedAt": "2026-10-28T08:15:22.542Z",
+  "probes": [
+    {
+      "name": "chips-expanded-initial",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "All",
+          "rect": [
+            114,
+            56,
+            17,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "event",
+          "text": "EVENTS",
+          "rect": [
+            135,
+            56,
+            44,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "epic",
+          "text": "EPIC",
+          "rect": [
+            182,
+            56,
+            27,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "legend",
+          "text": "LEGEND",
+          "rect": [
+            212,
+            56,
+            46,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "accepted",
+          "text": "ACCEPTED",
+          "rect": [
+            261,
+            56,
+            59,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "cleared",
+          "text": "CLEARED",
+          "rect": [
+            324,
+            56,
+            52,
+            42
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "fold-initial",
+      "folded": false,
+      "tabText": "▾",
+      "ariaExpanded": "true",
+      "barRect": [
+        8,
+        50,
+        374,
+        54
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All EVENTS EPIC LEGEND ACCEPTED CLEARED"
+    },
+    {
+      "name": "fold-after-fold",
+      "folded": true,
+      "tabText": "▸",
+      "ariaExpanded": "false",
+      "barRect": [
+        8,
+        50,
+        374,
+        32
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All ▸"
+    },
+    {
+      "name": "fold-after-strip-tap",
+      "folded": false,
+      "tabText": "▾",
+      "ariaExpanded": "true",
+      "barRect": [
+        8,
+        50,
+        374,
+        54
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All EVENTS EPIC LEGEND ACCEPTED CLEARED"
+    },
+    {
+      "name": "chips-expanded-after-unfold",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "All",
+          "rect": [
+            114,
+            56,
+            17,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "event",
+          "text": "EVENTS",
+          "rect": [
+            135,
+            56,
+            44,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "epic",
+          "text": "EPIC",
+          "rect": [
+            182,
+            56,
+            27,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "legend",
+          "text": "LEGEND",
+          "rect": [
+            212,
+            56,
+            46,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "accepted",
+          "text": "ACCEPTED",
+          "rect": [
+            261,
+            56,
+            59,
+            42
+          ],
+          "visible": true
+        },
+        {
+          "mf": "cleared",
+          "text": "CLEARED",
+          "rect": [
+            324,
+            56,
+            52,
+            42
+          ],
+          "visible": true
+        }
+      ]
+    },
+    {
+      "name": "fold-after-view-roundtrip",
+      "folded": true,
+      "tabText": "▸",
+      "ariaExpanded": "false",
+      "barRect": [
+        8,
+        50,
+        374,
+        32
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All ▸"
+    },
+    {
+      "name": "fold-bigmap-expanded",
+      "folded": false,
+      "tabText": "▾",
+      "ariaExpanded": "true",
+      "barRect": [
+        5,
+        11,
+        380,
+        54
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All EVENTS EPIC LEGEND ACCEPTED CLEARED"
+    },
+    {
+      "name": "fold-bigmap-folded",
+      "folded": true,
+      "tabText": "▸",
+      "ariaExpanded": "false",
+      "barRect": [
+        5,
+        11,
+        380,
+        32
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All ▸"
+    },
+    {
+      "name": "fold-after-bigmap-close",
+      "folded": true,
+      "tabText": "▸",
+      "ariaExpanded": "false",
+      "barRect": [
+        8,
+        50,
+        374,
+        32
+      ],
+      "sideTag": "SIDE QUESTS",
+      "count": "130",
+      "barText": "SIDE QUESTS 130 All ▸"
+    },
+    {
+      "name": "list-names-en",
+      "total": 134,
+      "sample": [
+        {
+          "cls": "is-legend",
+          "text": "Sumida River Run",
+          "sw": 142,
+          "cw": 142,
+          "h": 18,
+          "lines": 1
+        },
+        {
+          "cls": "is-legend",
+          "text": "Yanesen Old-Town Walk",
+          "sw": 146,
+          "cw": 146,
+          "h": 35,
+          "lines": 2
+        },
+        {
+          "cls": "is-legend",
+          "text": "Yamanote Grand Loop",
+          "sw": 143,
+          "cw": 143,
+          "h": 35,
+          "lines": 2
+        },
+        {
+          "cls": "is-legend",
+          "text": "Bay Crossing",
+          "sw": 142,
+          "cw": 142,
+          "h": 18,
+          "lines": 1
+        },
+        {
+          "cls": "ms-row",
+          "text": "SONIC the Exhibition — ACROSS GENE",
+          "sw": 147,
+          "cw": 147,
+          "h": 31,
+          "lines": 2
+        },
+        {
+          "cls": "ms-row",
+          "text": "Solo Leveling Exhibition",
+          "sw": 147,
+          "cw": 147,
+          "h": 35,
+          "lines": 2
+        },
+        {
+          "cls": "ms-row",
+          "text": "66th Kanda Used Book Festival",
+          "sw": 147,
+          "cw": 147,
+          "h": 35,
+          "lines": 2
+        },
+        {
+          "cls": "ms-row",
+          "text": "Roppongi Art Night 2026",
+          "sw": 147,
+          "cw": 147,
+          "h": 35,
+          "lines": 2
+        }
+      ]
+    },
+    {
+      "name": "sonic-detail-844",
+      "cardRight": 390,
+      "moodChips": [
+        {
+          "t": "#History & hidden gems",
+          "rect": [
+            88,
+            567,
+            253,
+            592
+          ],
+          "insideCard": true,
+          "insideViewport": true
+        },
+        {
+          "t": "#Pop culture",
+          "rect": [
+            259,
+            567,
+            357,
+            592
+          ],
+          "insideCard": true,
+          "insideViewport": true
+        },
+        {
+          "t": "#Retro & nostalgic",
+          "rect": [
+            88,
+            598,
+            220,
+            623
+          ],
+          "insideCard": true,
+          "insideViewport": true
+        }
+      ],
+      "blurbSh": 115,
+      "blurbCh": 115,
+      "blurbClipped": false,
+      "blurbTail": "y 16 contemporary artists."
+    },
+    {
+      "0": {
+        "text": "Asakusa · Senso-ji Temple, Asakusa",
+        "sw": 159,
+        "cw": 159,
+        "h": 39,
+        "clipped": false
+      },
+      "1": {
+        "text": "Oshiage · TOKYO SKYTREE, Oshiage",
+        "sw": 261,
+        "cw": 261,
+        "h": 19,
+        "clipped": false
+      },
+      "2": {
+        "text": "Ryogoku · Ryogoku Kokugikan, Ryogoku",
+        "sw": 261,
+        "cw": 261,
+        "h": 19,
+        "clipped": false
+      },
+      "3": {
+        "text": "Kiyosumi · Kiyosumi Gardens, Fukagawa",
+        "sw": 261,
+        "cw": 261,
+        "h": 19,
+        "clipped": false
+      },
+      "4": {
+        "text": "Shimbashi · Hamarikyu Gardens, Chuo",
+        "sw": 261,
+        "cw": 261,
+        "h": 19,
+        "clipped": false
+      },
+      "name": "sumida-meta"
+    },
+    {
+      "name": "sonic-detail-667",
+      "vh": 667,
+      "moodChips": [
+        {
+          "t": "#History & hidden gems",
+          "right": 253,
+          "insideViewport": true
+        },
+        {
+          "t": "#Pop culture",
+          "right": 357,
+          "insideViewport": true
+        },
+        {
+          "t": "#Retro & nostalgic",
+          "right": 220,
+          "insideViewport": true
+        }
+      ],
+      "blurbSh": 115,
+      "blurbCh": 115,
+      "blurbClipped": false,
+      "blurbRect": [
+        487,
+        608
+      ],
+      "bannerH": 0,
+      "acceptBtn": [
+        614,
+        658
+      ]
+    },
+    {
+      "name": "fold-ja",
+      "folded": true,
+      "tabText": "▸",
+      "ariaExpanded": "false",
+      "barRect": [
+        8,
+        50,
+        374,
+        32
+      ],
+      "sideTag": "サイドクエスト",
+      "count": "130件",
+      "barText": "サイドクエスト 130件 すべて ▸"
+    }
+  ]
+}
