@@ -1,0 +1,423 @@
+{
+  "tag": "2026-10-28-r4",
+  "generatedAt": "2026-10-28T08:35:23.030Z",
+  "probes": [
+    {
+      "name": "inventory-lv30-day",
+      "lvText": "Lv.30",
+      "uniqueSp": [
+        "bridge",
+        "butterflies",
+        "carrier",
+        "crossing",
+        "ferris-wheel",
+        "konbini",
+        "lanterns",
+        "pigeons",
+        "rainbow",
+        "shiba",
+        "skytree",
+        "sparrows",
+        "train"
+      ],
+      "counts": {
+        "train": 1,
+        "crossing": 1,
+        "lanterns": 1,
+        "ferris-wheel": 1,
+        "rainbow": 1,
+        "skytree": 1,
+        "bridge": 1,
+        "konbini": 1,
+        "butterflies": 1,
+        "shiba": 1,
+        "pigeons": 1,
+        "sparrows": 1,
+        "carrier": 3
+      },
+      "totalSpEls": 15,
+      "stageRect": [
+        0,
+        0,
+        0
+      ],
+      "heroRect": [
+        149,
+        545,
+        92,
+        92
+      ],
+      "layerFilter": "none",
+      "layerOpacity": "1"
+    },
+    {
+      "name": "inventory-lv30-night",
+      "lvText": "Lv.30",
+      "uniqueSp": [
+        "bridge",
+        "butterflies",
+        "carrier",
+        "crossing",
+        "ferris-wheel",
+        "fireworks",
+        "konbini",
+        "lanterns",
+        "pigeons",
+        "rainbow",
+        "shiba",
+        "skytree",
+        "sparrows",
+        "train"
+      ],
+      "counts": {
+        "train": 1,
+        "crossing": 1,
+        "lanterns": 1,
+        "fireworks": 1,
+        "ferris-wheel": 1,
+        "rainbow": 1,
+        "skytree": 1,
+        "bridge": 1,
+        "konbini": 1,
+        "butterflies": 1,
+        "shiba": 1,
+        "pigeons": 1,
+        "sparrows": 1,
+        "carrier": 3
+      },
+      "totalSpEls": 16,
+      "stageRect": [
+        0,
+        0,
+        0
+      ],
+      "heroRect": [
+        149,
+        545,
+        92,
+        92
+      ],
+      "layerFilter": "none",
+      "layerOpacity": "1"
+    },
+    {
+      "name": "night-dimming-compare",
+      "sceneFilter": "none",
+      "konbini": {
+        "filter": "none",
+        "opacity": "1"
+      },
+      "skytree": {
+        "filter": "none",
+        "opacity": "1"
+      },
+      "planter": "absent"
+    },
+    {
+      "name": "inventory-lv10-day",
+      "lvText": "Lv.10",
+      "uniqueSp": [
+        "butterflies",
+        "carrier",
+        "konbini"
+      ],
+      "counts": {
+        "konbini": 1,
+        "butterflies": 1,
+        "carrier": 3
+      },
+      "totalSpEls": 5,
+      "stageRect": [
+        0,
+        0,
+        0
+      ],
+      "heroRect": [
+        149,
+        547,
+        92,
+        92
+      ],
+      "layerFilter": "none",
+      "layerOpacity": "1"
+    },
+    {
+      "name": "inventory-lv1-new",
+      "lvText": "Lv.1",
+      "uniqueSp": [
+        "carrier",
+        "konbini"
+      ],
+      "counts": {
+        "konbini": 1,
+        "carrier": 1
+      },
+      "totalSpEls": 2,
+      "stageRect": [
+        0,
+        0,
+        0
+      ],
+      "heroRect": [
+        149,
+        545,
+        92,
+        92
+      ],
+      "layerFilter": "none",
+      "layerOpacity": "1"
+    },
+    {
+      "name": "meta-full-catalog",
+      "rows": 134,
+      "clippedCount": 0,
+      "clipped": [],
+      "threeLineCount": 30,
+      "threeLine": [
+        {
+          "name": "Solo Leveling Exhibition",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "39th Tokyo International F",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 89
+        },
+        {
+          "name": "AMUSEMENT EXPO 2026",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "TOKYO MODERNISM SHOW 2026",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Touken Ranbu — Touken Neko",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Design Festa vol.64",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11.5px",
+          "rowH": 81
+        },
+        {
+          "name": "Umineko Nazotoki Vol.2 — E",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11.5px",
+          "rowH": 93
+        },
+        {
+          "name": "THE WORLD OF BIOHAZARD 30t",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11px",
+          "rowH": 90
+        },
+        {
+          "name": "Comic Market 107",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 75
+        },
+        {
+          "name": "YOSHIROTTEN — BEYOND EARTH",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11px",
+          "rowH": 97
+        },
+        {
+          "name": "Mariko Mori: All That Shin",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Introduction to Mineral Pi",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11.5px",
+          "rowH": 92
+        },
+        {
+          "name": "Meiji Jingu Shrine",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Ryogoku Kokugikan",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Tsukishima Monja Street",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11px",
+          "rowH": 97
+        },
+        {
+          "name": "Kasai Rinkai Park",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11.5px",
+          "rowH": 99
+        },
+        {
+          "name": "Sanrio Puroland",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Jiyugakuen Myonichikan",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Asakusa Hanayashiki",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Mori Art Museum",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "The National Art Center, T",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11.5px",
+          "rowH": 99
+        },
+        {
+          "name": "Tokyo Metropolitan Teien A",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 86
+        },
+        {
+          "name": "Kabuki-za Theatre",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Tokyo Station (Marunouchi ",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11px",
+          "rowH": 90
+        },
+        {
+          "name": "Setagaya Art Museum",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 93
+        },
+        {
+          "name": "Hasegawa Machiko Art Museu",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 91
+        },
+        {
+          "name": "SHIBUYA SKY",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 75
+        },
+        {
+          "name": "Nezu Museum",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 75
+        },
+        {
+          "name": "Miraikan — National Museum",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "10px",
+          "rowH": 86
+        },
+        {
+          "name": "TOKYO JOYPOLIS",
+          "metaLines": 3,
+          "metaClipped": false,
+          "metaFont": "11px",
+          "rowH": 97
+        }
+      ],
+      "rowHMin": 55,
+      "rowHMedian": 83,
+      "rowHMax": 99
+    },
+    {
+      "name": "meta-sample-SONIC",
+      "metaText": "Ikebukuro · Games · ¥1,500",
+      "lines": 2,
+      "font": "11.5px",
+      "clipped": false,
+      "rowH": 79
+    },
+    {
+      "name": "meta-sample-Solo Leveling",
+      "metaText": "Shibuya · Anime · Online ¥2,800 weekdays / ¥3,100 weekends (walk-in +¥500)",
+      "lines": 3,
+      "font": "10px",
+      "clipped": false,
+      "rowH": 93
+    },
+    {
+      "name": "regression-fold",
+      "before": false
+    },
+    {
+      "name": "regression-fold-after",
+      "folded": true,
+      "chipsVisible": 0
+    },
+    {
+      "name": "regression-sonic-detail",
+      "chipsMaxRight": 357,
+      "blurbClipped": false
+    }
+  ]
+}
