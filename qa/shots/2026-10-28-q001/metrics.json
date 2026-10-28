@@ -1,0 +1,6394 @@
+{
+  "tag": "2026-10-28-q001",
+  "generatedAt": "2026-10-28T07:05:07.726Z",
+  "results": [
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-title-390x667.png",
+      "stableMs": 908,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "H1",
+          "id": "startTitle",
+          "cls": "start-title sr-logo",
+          "text": "TOKYO QUEST LOG",
+          "rect": [
+            14,
+            53,
+            1,
+            1
+          ],
+          "sw": 465,
+          "cw": 1
+        },
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 1140,
+          "cw": 390
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 1715,
+          "cw": 1225
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -1066,
+            -582,
+            2206,
+            1737
+          ],
+          "sw": 2206,
+          "cw": 2206
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 1225,
+          "cw": 1225
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -828,
+            -389,
+            1662,
+            1440
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -760,
+            -250,
+            1593,
+            1072
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            326,
+            458,
+            339,
+            261
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -828,
+            -292,
+            1564,
+            1343
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -755,
+            -223,
+            1466,
+            988
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            218,
+            256,
+            515,
+            508
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            371,
+            515,
+            236,
+            276
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -600,
+            -170,
+            1283,
+            919
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -603,
+            -170,
+            1280,
+            894
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -591,
+            -146,
+            1296,
+            849
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -649,
+            -146,
+            1323,
+            885
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -649,
+            -146,
+            1323,
+            885
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -586,
+            -389,
+            1288,
+            1143
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -586,
+            -389,
+            1288,
+            1143
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -605,
+            -293,
+            1342,
+            1066
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -605,
+            -293,
+            1342,
+            1066
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            34
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            666,
+            1225,
+            34
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-creator-390x667.png",
+      "stableMs": 920,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "H1",
+          "id": "startTitle",
+          "cls": "start-title sr-logo",
+          "text": "TOKYO QUEST LOG",
+          "rect": [
+            14,
+            53,
+            1,
+            1
+          ],
+          "sw": 465,
+          "cw": 1
+        },
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 1140,
+          "cw": 390
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 1715,
+          "cw": 1225
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -1066,
+            -582,
+            2206,
+            1737
+          ],
+          "sw": 2206,
+          "cw": 2206
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 1225,
+          "cw": 1225
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -828,
+            -389,
+            1662,
+            1440
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -760,
+            -250,
+            1593,
+            1072
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            326,
+            458,
+            339,
+            261
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -828,
+            -292,
+            1564,
+            1343
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -755,
+            -223,
+            1466,
+            988
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            218,
+            256,
+            515,
+            508
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            371,
+            515,
+            236,
+            276
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -600,
+            -170,
+            1283,
+            919
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -603,
+            -170,
+            1280,
+            894
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -591,
+            -146,
+            1296,
+            849
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -649,
+            -146,
+            1323,
+            885
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -649,
+            -146,
+            1323,
+            885
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -586,
+            -389,
+            1288,
+            1143
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -586,
+            -389,
+            1288,
+            1143
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -605,
+            -293,
+            1342,
+            1066
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -605,
+            -293,
+            1342,
+            1066
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            827
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            -127,
+            1225,
+            34
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -576,
+            666,
+            1225,
+            34
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "390x667",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-q001-new-tutorial-390x667.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-map-390x667.png",
+      "stableMs": 924,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 1110,
+          "cw": 390
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -948,
+            -239,
+            1470,
+            992
+          ],
+          "sw": 1715,
+          "cw": 1225
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -1536,
+            -785,
+            2647,
+            2084
+          ],
+          "sw": 2206,
+          "cw": 2206
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -948,
+            -239,
+            1470,
+            992
+          ],
+          "sw": 1225,
+          "cw": 1225
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -1251,
+            -554,
+            1994,
+            1728
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1169,
+            -386,
+            1911,
+            1287
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            134,
+            463,
+            407,
+            314
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1251,
+            -437,
+            1877,
+            1611
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1163,
+            -355,
+            1760,
+            1185
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            4,
+            220,
+            618,
+            610
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            188,
+            532,
+            283,
+            332
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -977,
+            -291,
+            1540,
+            1103
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -981,
+            -291,
+            1537,
+            1073
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -966,
+            -261,
+            1555,
+            1018
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1036,
+            -261,
+            1588,
+            1062
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1036,
+            -261,
+            1588,
+            1062
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -961,
+            -554,
+            1546,
+            1371
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -961,
+            -554,
+            1546,
+            1371
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -983,
+            -438,
+            1610,
+            1279
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -983,
+            -438,
+            1610,
+            1279
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -948,
+            -239,
+            1470,
+            992
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -948,
+            -239,
+            1470,
+            40
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -948,
+            713,
+            1470,
+            40
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -948,
+            -239,
+            40,
+            992
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-list-390x667.png",
+      "stableMs": 1221,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            233,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            252,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            311,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            330,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            389,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            467,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            486,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            545,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            564,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            623,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            642,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            701,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            720,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            779,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            798,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            876,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            935,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            954,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1013,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1032,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1091,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1110,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            154,
+            1169,
+            119,
+            18
+          ],
+          "sw": 126,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            154,
+            1188,
+            119,
+            18
+          ],
+          "sw": 261,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-detail-390x667.png",
+      "stableMs": 1259,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            162,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            180,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            240,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            258,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            318,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            396,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            414,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            474,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            492,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            552,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            570,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            630,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            648,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            708,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            726,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            804,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            864,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            882,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            942,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            960,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1020,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1038,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            154,
+            1098,
+            119,
+            18
+          ],
+          "sw": 126,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            154,
+            1116,
+            119,
+            18
+          ],
+          "sw": 261,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-daily-390x667.png",
+      "stableMs": 1210,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-records-390x667.png",
+      "stableMs": 910,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-hero-390x667.png",
+      "stableMs": 1220,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-new-settings-390x667.png",
+      "stableMs": 1212,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-title-1440x900.png",
+      "stableMs": 907,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "H1",
+          "id": "startTitle",
+          "cls": "start-title sr-logo",
+          "text": "TOKYO QUEST LOG",
+          "rect": [
+            394,
+            55,
+            1,
+            1
+          ],
+          "sw": 755,
+          "cw": 1
+        },
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            190,
+            0,
+            1060,
+            900
+          ],
+          "sw": 1805,
+          "cw": 1060
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 2315,
+          "cw": 1653
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -981,
+            -785,
+            2976,
+            2344
+          ],
+          "sw": 2976,
+          "cw": 2976
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 1653,
+          "cw": 1653
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -661,
+            -525,
+            2242,
+            1943
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -568,
+            -337,
+            2149,
+            1447
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -661,
+            -394,
+            2110,
+            1812
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -561,
+            -301,
+            1979,
+            1333
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            751,
+            345,
+            694,
+            686
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -353,
+            -229,
+            1732,
+            1240
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -357,
+            -229,
+            1728,
+            1207
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -341,
+            -196,
+            1748,
+            1145
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            899,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            45,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -305,
+            -157,
+            1624,
+            1086
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-map-1440x900.png",
+      "stableMs": 2124,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            190,
+            0,
+            1060,
+            900
+          ],
+          "sw": 1854,
+          "cw": 1060
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 2315,
+          "cw": 1653
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -1528,
+            -1059,
+            3571,
+            2812
+          ],
+          "sw": 2976,
+          "cw": 2976
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 1653,
+          "cw": 1653
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -1143,
+            -747,
+            2690,
+            2331
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1032,
+            -521,
+            2579,
+            1736
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1143,
+            -590,
+            2533,
+            2174
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1024,
+            -479,
+            2374,
+            1600
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -774,
+            -392,
+            2078,
+            1488
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -779,
+            -392,
+            2073,
+            1448
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -759,
+            -353,
+            2098,
+            1374
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -853,
+            -353,
+            2143,
+            1433
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -853,
+            -353,
+            2143,
+            1433
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -751,
+            -747,
+            2086,
+            1850
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -751,
+            -747,
+            2086,
+            1850
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -781,
+            -592,
+            2173,
+            1726
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -781,
+            -592,
+            2173,
+            1726
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            55
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            962,
+            1984,
+            55
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            55,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -716,
+            -305,
+            1948,
+            1303
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -726,
+            -315,
+            1968,
+            1323
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-list-1440x900.png",
+      "stableMs": 1236,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-detail-1440x900.png",
+      "stableMs": 1227,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-daily-1440x900.png",
+      "stableMs": 1210,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-records-1440x900.png",
+      "stableMs": 910,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-hero-1440x900.png",
+      "stableMs": 1218,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-old-settings-1440x900.png",
+      "stableMs": 1213,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-title-1440x900.png",
+      "stableMs": 908,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "H1",
+          "id": "startTitle",
+          "cls": "start-title sr-logo",
+          "text": "TOKYO QUEST LOG",
+          "rect": [
+            394,
+            55,
+            1,
+            1
+          ],
+          "sw": 755,
+          "cw": 1
+        },
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            190,
+            0,
+            1060,
+            900
+          ],
+          "sw": 1805,
+          "cw": 1060
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 2315,
+          "cw": 1653
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -981,
+            -785,
+            2976,
+            2344
+          ],
+          "sw": 2976,
+          "cw": 2976
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 1653,
+          "cw": 1653
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -661,
+            -525,
+            2242,
+            1943
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -568,
+            -337,
+            2149,
+            1447
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -661,
+            -394,
+            2110,
+            1812
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -561,
+            -301,
+            1979,
+            1333
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            751,
+            345,
+            694,
+            686
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -353,
+            -229,
+            1732,
+            1240
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -357,
+            -229,
+            1728,
+            1207
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -341,
+            -196,
+            1748,
+            1145
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            899,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            45,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -305,
+            -157,
+            1624,
+            1086
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-creator-1440x900.png",
+      "stableMs": 910,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "H1",
+          "id": "startTitle",
+          "cls": "start-title sr-logo",
+          "text": "TOKYO QUEST LOG",
+          "rect": [
+            394,
+            55,
+            1,
+            1
+          ],
+          "sw": 755,
+          "cw": 1
+        },
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            190,
+            0,
+            1060,
+            900
+          ],
+          "sw": 1805,
+          "cw": 1060
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 2315,
+          "cw": 1653
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -981,
+            -785,
+            2976,
+            2344
+          ],
+          "sw": 2976,
+          "cw": 2976
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 1653,
+          "cw": 1653
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -661,
+            -525,
+            2242,
+            1943
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -568,
+            -337,
+            2149,
+            1447
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -661,
+            -394,
+            2110,
+            1812
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -561,
+            -301,
+            1979,
+            1333
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            751,
+            345,
+            694,
+            686
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -353,
+            -229,
+            1732,
+            1240
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -357,
+            -229,
+            1728,
+            1207
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -341,
+            -196,
+            1748,
+            1145
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -419,
+            -196,
+            1786,
+            1195
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -334,
+            -525,
+            1738,
+            1542
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -359,
+            -396,
+            1811,
+            1438
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            899,
+            1653,
+            45
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -320,
+            -172,
+            45,
+            1116
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -305,
+            -157,
+            1624,
+            1086
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "1440x900",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-q001-new-tutorial-1440x900.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-map-1440x900.png",
+      "stableMs": 907,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "mapBox",
+          "cls": "map-box is-fitview is-pannable",
+          "text": "◎LOCATE\n              ⤢FULL MAP\n        ",
+          "rect": [
+            190,
+            0,
+            1060,
+            900
+          ],
+          "sw": 1854,
+          "cw": 1060
+        },
+        {
+          "tag": "DIV",
+          "id": "mapZoom",
+          "cls": "map-zoom",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 2315,
+          "cw": 1653
+        },
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "map-backdrop",
+          "text": "",
+          "rect": [
+            -1528,
+            -1059,
+            3571,
+            2812
+          ],
+          "sw": 2976,
+          "cw": 2976
+        },
+        {
+          "tag": "svg",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 1653,
+          "cw": 1653
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "151.9L284.8 152M258.7 235.7L258.4 236.4M",
+          "rect": [
+            -1143,
+            -747,
+            2690,
+            2331
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1032,
+            -521,
+            2579,
+            1736
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1143,
+            -590,
+            2533,
+            2174
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -1024,
+            -479,
+            2374,
+            1600
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -774,
+            -392,
+            2078,
+            1488
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -779,
+            -392,
+            2073,
+            1448
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -759,
+            -353,
+            2098,
+            1374
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -853,
+            -353,
+            2143,
+            1433
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -853,
+            -353,
+            2143,
+            1433
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -751,
+            -747,
+            2086,
+            1850
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -751,
+            -747,
+            2086,
+            1850
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -781,
+            -592,
+            2173,
+            1726
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "path",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -781,
+            -592,
+            2173,
+            1726
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            55
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            962,
+            1984,
+            55
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            55,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -716,
+            -305,
+            1948,
+            1303
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "rect",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -726,
+            -315,
+            1968,
+            1323
+          ],
+          "sw": 0,
+          "cw": 0
+        },
+        {
+          "tag": "g",
+          "id": "",
+          "cls": "",
+          "text": "",
+          "rect": [
+            -734,
+            -323,
+            1984,
+            1339
+          ],
+          "sw": 0,
+          "cw": 0
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-list-1440x900.png",
+      "stableMs": 1224,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-detail-1440x900.png",
+      "stableMs": 1358,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-daily-1440x900.png",
+      "stableMs": 1215,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-records-1440x900.png",
+      "stableMs": 911,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-hero-1440x900.png",
+      "stableMs": 1221,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "1440x900",
+      "file": "2026-10-28-q001-new-settings-1440x900.png",
+      "stableMs": 1217,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-title-390x844.png",
+      "stableMs": 914,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-creator-390x844.png",
+      "stableMs": 933,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "390x844",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-q001-new-tutorial-390x844.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-map-390x844.png",
+      "stableMs": 910,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-list-390x844.png",
+      "stableMs": 1228,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            235,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            254,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            313,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            332,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            391,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            469,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            488,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            547,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            566,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            625,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            644,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            703,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            722,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            781,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            800,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            878,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            937,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            956,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1015,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1034,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1093,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1112,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            156,
+            1171,
+            115,
+            18
+          ],
+          "sw": 126,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            156,
+            1190,
+            115,
+            18
+          ],
+          "sw": 261,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-detail-390x844.png",
+      "stableMs": 1256,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            164,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            182,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            242,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            260,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            320,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            398,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            416,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            476,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            494,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            554,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            572,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            632,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            650,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            710,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            728,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            806,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            866,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            884,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            944,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            962,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1022,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1040,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            156,
+            1100,
+            115,
+            18
+          ],
+          "sw": 126,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            156,
+            1118,
+            115,
+            18
+          ],
+          "sw": 261,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-daily-390x844.png",
+      "stableMs": 1221,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-records-390x844.png",
+      "stableMs": 920,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-hero-390x844.png",
+      "stableMs": 1216,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-new-settings-390x844.png",
+      "stableMs": 1218,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-title-390x844.png",
+      "stableMs": 932,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-map-390x844.png",
+      "stableMs": 2195,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-list-390x844.png",
+      "stableMs": 1272,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            235,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            254,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            313,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            332,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            391,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            469,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            488,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            547,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            566,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            625,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            644,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            703,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            722,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            781,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            800,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            878,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            937,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            956,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1015,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1034,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1093,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1112,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            156,
+            1171,
+            115,
+            18
+          ],
+          "sw": 126,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            156,
+            1190,
+            115,
+            18
+          ],
+          "sw": 261,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-detail-390x844.png",
+      "stableMs": 3099,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            164,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            182,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            242,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            260,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            320,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            398,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            416,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            476,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            494,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            554,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            572,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            632,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            650,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            710,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            728,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            806,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            866,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            884,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            944,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            962,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1022,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1040,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            156,
+            1100,
+            115,
+            18
+          ],
+          "sw": 126,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            156,
+            1118,
+            115,
+            18
+          ],
+          "sw": 261,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-daily-390x844.png",
+      "stableMs": 1222,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-records-390x844.png",
+      "stableMs": 919,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-hero-390x844.png",
+      "stableMs": 1262,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "390x844",
+      "file": "2026-10-28-q001-old-settings-390x844.png",
+      "stableMs": 1236,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-title-390x667.png",
+      "stableMs": 939,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-map-390x667.png",
+      "stableMs": 2154,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-list-390x667.png",
+      "stableMs": 1282,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            233,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            252,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            311,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            330,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            389,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            467,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            486,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            545,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            564,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            623,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            642,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            701,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            720,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            779,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            798,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            876,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            935,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            954,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1013,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1032,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1091,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1110,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            154,
+            1169,
+            119,
+            18
+          ],
+          "sw": 126,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            154,
+            1188,
+            119,
+            18
+          ],
+          "sw": 261,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-detail-390x667.png",
+      "stableMs": 3088,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [
+        "detail"
+      ],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            162,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            180,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            240,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            258,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            318,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            396,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            414,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            474,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            492,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            552,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            570,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            630,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            648,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            708,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            726,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            804,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            864,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            882,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            942,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            960,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1020,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1038,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Design Festa vol.64",
+          "rect": [
+            154,
+            1098,
+            119,
+            18
+          ],
+          "sw": 126,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            154,
+            1116,
+            119,
+            18
+          ],
+          "sw": 261,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-daily-390x667.png",
+      "stableMs": 1222,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-records-390x667.png",
+      "stableMs": 926,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-hero-390x667.png",
+      "stableMs": 1245,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "390x667",
+      "file": "2026-10-28-q001-old-settings-390x667.png",
+      "stableMs": 1218,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    }
+  ]
+}
