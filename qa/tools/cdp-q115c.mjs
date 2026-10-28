@@ -32,7 +32,7 @@ cdp.handlers.push(async m => {
   if (m.method !== 'Fetch.requestPaused') return;
   const { requestId, request, resourceType } = m.params; const url = request.url;
   try {
-    if (request.method === 'OPTIONS') return void (await fulfillJson(requestId, 200, {}));
+    if (request.method === 'OPTIONS') return void (await cdp.send('Fetch.fulfillRequest', { requestId, responseCode: 200, responseHeaders: [{ name: 'Access-Control-Allow-Origin', value: '*' }, { name: 'Access-Control-Allow-Headers', value: '*' }, { name: 'Access-Control-Allow-Methods', value: '*' }], body: '' }));
     if (url.includes('supabase-js')) return void (await cdp.send('Fetch.fulfillRequest', { requestId, responseCode: 200, responseHeaders: [{ name: 'Content-Type', value: 'text/javascript' }, { name: 'Access-Control-Allow-Origin', value: '*' }], body: SDK_B64 }));
     if (url.includes('/auth/v1/user')) return void (await fulfillJson(requestId, 200, USER));
     if (url.includes('/auth/v1/token')) return void (await fulfillJson(requestId, 200, SESSION));
@@ -57,6 +57,12 @@ await sleep(3000);
 await cdp.eval(`(() => { localStorage.setItem('tql_state_v1', ${JSON.stringify(JSON.stringify(BASE))}); localStorage.setItem('sb-${REF}-auth-token', ${JSON.stringify(JSON.stringify(SESSION))}); return 'seeded'; })()`);
 docCount = 0; savesGets = 0;
 await cdp.send('Page.navigate', { url: PAGE });
+await sleep(3500);
+// engage the auth/settings path (boot getSession may be lazy until the account UI initializes)
+await cdp.eval(`(() => { const b = document.getElementById('tab-settings') || [...document.querySelectorAll('button, div')].filter(e => e.offsetParent && /表示設定/.test(e.innerText || '')).pop(); if (b) b.click(); return !!b; })()`).catch(() => 'raced');
+await sleep(1500);
+await cdp.eval(`(() => { const b = document.getElementById('acctLoginBtn'); if (b) b.click(); return !!b; })()`).catch(() => 'raced');
+console.log('ENGAGED, counting from docCount', docCount, 'savesGets', savesGets);
 const t0 = Date.now(); let last = 0;
 while (Date.now() - t0 < 30000) { await sleep(1000); if (docCount !== last) { console.log('docCount ->', docCount, 'savesGets', savesGets, 'at', Math.round((Date.now() - t0) / 1000) + 's'); last = docCount; } }
 console.log('FINAL', JSON.stringify({ docCount, savesGets }));
