@@ -1,0 +1,144 @@
+{
+  "tag": "2026-10-28-r5b",
+  "generatedAt": "2026-10-28T12:16:22.747Z",
+  "probes": [
+    {
+      "name": "studio-initial-600",
+      "hidden": false,
+      "sh": 3400,
+      "ch": 600,
+      "top": 0,
+      "moreVisible": true,
+      "pageScrollY": 0
+    },
+    {
+      "name": "studio-after-wheel-600",
+      "hidden": false,
+      "sh": 3400,
+      "ch": 600,
+      "top": 2000,
+      "moreVisible": true,
+      "pageScrollY": 0
+    },
+    {
+      "name": "pin-census",
+      "total": 130,
+      "outCount": 4,
+      "out": [
+        {
+          "qid": "eg3-takahata-fudo",
+          "label": "Takahata Fudoson",
+          "x": -2.5,
+          "y": 64.4,
+          "styleL": "15.9%",
+          "styleT": "64.4%"
+        },
+        {
+          "qid": "eg3-tama-zoo",
+          "label": "Tama Zoological Park",
+          "x": -3.4,
+          "y": 71,
+          "styleL": "14.5%",
+          "styleT": "70.9%"
+        },
+        {
+          "qid": "eg3-showa-kinen",
+          "label": "Showa Memorial Park",
+          "x": -2.5,
+          "y": 44.1,
+          "styleL": "15.2%",
+          "styleT": "44.1%"
+        },
+        {
+          "qid": "eg4-takao",
+          "label": "Mt. Takao",
+          "x": -35.6,
+          "y": 80.3,
+          "styleL": "14.3%",
+          "styleT": "80.4%"
+        }
+      ],
+      "insideMarginsPct": {
+        "left": 0.5,
+        "right": 11.1,
+        "top": 18.8,
+        "bottom": 10.7
+      }
+    },
+    {
+      "name": "true-extreme-west",
+      "svgRel": "-583,-281,1680,975"
+    },
+    {
+      "name": "takao-pin-state",
+      "rect": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "display": "none",
+      "visibility": "visible"
+    },
+    {
+      "name": "true-extreme-east",
+      "svgRel": "-1346,-281,917,975"
+    },
+    {
+      "name": "true-extreme-north",
+      "svgRel": "-1346,26,917,1282"
+    },
+    {
+      "name": "true-extreme-south",
+      "svgRel": "-1346,-438,917,818"
+    },
+    {
+      "0": {
+        "qid": "eg2-kasai",
+        "label": "Quest: Kasai Rinkai Park"
+      },
+      "name": "kasai-pin-find"
+    },
+    {
+      "name": "Kasai Rinkai Park",
+      "previewHidden": false
+    },
+    {
+      "name": "fullmap-open-state",
+      "bodyLocked": false,
+      "zoomLabel": "",
+      "btns": [
+        {
+          "id": "mapExpandBtn",
+          "text": "⤢FULL MAP",
+          "visible": true
+        },
+        {
+          "id": "zoomResetBtn",
+          "text": "RESET",
+          "visible": false
+        },
+        {
+          "id": "searchReset",
+          "text": "RESET",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "name": "fullmap-after-reset",
+      "svgRect": [
+        -1606,
+        -438,
+        2264,
+        1256
+      ],
+      "viewport": [
+        390,
+        844
+      ],
+      "fitsWidth": false,
+      "fitsHeight": false
+    }
+  ]
+}

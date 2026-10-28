@@ -1,0 +1,285 @@
+{
+  "tag": "2026-10-28-r5e",
+  "generatedAt": "2026-10-28T12:23:24.642Z",
+  "probes": [
+    {
+      "name": "sw-view-clusters",
+      "takaoClass": "pin is-epic is-clustered",
+      "takaoDisplay": "none",
+      "clusters": [
+        {
+          "label": "6 quests",
+          "rect": [
+            1306,
+            577,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1066,
+            343,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "5 quests",
+          "rect": [
+            1005,
+            431,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "8 quests",
+          "rect": [
+            1215,
+            414,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "10 quests",
+          "rect": [
+            1123,
+            434,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1089,
+            545,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "8 quests",
+          "rect": [
+            1265,
+            391,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            1367,
+            577,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "7 quests",
+          "rect": [
+            1080,
+            124,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            723,
+            572,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "7 quests",
+          "rect": [
+            1011,
+            311,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "8 quests",
+          "rect": [
+            1242,
+            275,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1283,
+            228,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            1031,
+            413,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            890,
+            216,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            1339,
+            500,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "4 quests",
+          "rect": [
+            1367,
+            215,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1250,
+            149,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            550,
+            259,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            804,
+            674,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1376,
+            273,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            831,
+            236,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1381,
+            363,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            1163,
+            92,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            1009,
+            493,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            309,
+            609,
+            42
+          ],
+          "inView": true
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            302,
+            215,
+            42
+          ],
+          "inView": true
+        },
+        {
+          "label": "3 quests",
+          "rect": [
+            1301,
+            179,
+            42
+          ],
+          "inView": false
+        },
+        {
+          "label": "2 quests",
+          "rect": [
+            816,
+            505,
+            42
+          ],
+          "inView": false
+        }
+      ]
+    },
+    {
+      "name": "Edo-Tokyo Open Air Architectural Museum",
+      "previewHidden": false
+    },
+    {
+      "name": "takao-click-final",
+      "result": {
+        "previewHidden": false,
+        "name": "Mt. Takao"
+      }
+    }
+  ]
+}

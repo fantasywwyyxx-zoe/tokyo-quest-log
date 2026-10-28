@@ -1,0 +1,317 @@
+{
+  "tag": "2026-10-28-r5",
+  "generatedAt": "2026-10-28T12:13:12.911Z",
+  "probes": [
+    {
+      "name": "creator-initial-600",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 473,
+      "ch": 451,
+      "top": 0,
+      "morePresent": true,
+      "moreVisible": true,
+      "pageScrollY": 0,
+      "docSh": 600,
+      "innerH": 600
+    },
+    {
+      "name": "creator-after-wheel-600",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 473,
+      "ch": 451,
+      "top": 22,
+      "morePresent": true,
+      "moreVisible": false,
+      "pageScrollY": 0,
+      "docSh": 600,
+      "innerH": 600
+    },
+    {
+      "name": "creator-confirm-600",
+      "goRect": [
+        486,
+        530
+      ],
+      "withinViewport": true,
+      "atBottom": true,
+      "pageScrollY": 0
+    },
+    {
+      "name": "creator-initial-667",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 473,
+      "ch": 473,
+      "top": 0,
+      "morePresent": true,
+      "moreVisible": false,
+      "pageScrollY": 0,
+      "docSh": 667,
+      "innerH": 667
+    },
+    {
+      "name": "creator-after-wheel-667",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 473,
+      "ch": 473,
+      "top": 0,
+      "morePresent": true,
+      "moreVisible": false,
+      "pageScrollY": 0,
+      "docSh": 667,
+      "innerH": 667
+    },
+    {
+      "name": "creator-confirm-667",
+      "goRect": [
+        508,
+        552
+      ],
+      "withinViewport": true,
+      "atBottom": true,
+      "pageScrollY": 0
+    },
+    {
+      "name": "creator-confirm-click-result",
+      "creatorHidden": true,
+      "tutorialVisible": true
+    },
+    {
+      "name": "studio-open-attempt",
+      "exists": true,
+      "hidden": true,
+      "segBtns": []
+    },
+    {
+      "name": "studio-initial-600",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 0,
+      "ch": 0,
+      "top": 0,
+      "morePresent": true,
+      "moreVisible": false,
+      "pageScrollY": 0,
+      "docSh": 600,
+      "innerH": 600
+    },
+    {
+      "name": "studio-after-wheel-600",
+      "rootFound": true,
+      "scFound": true,
+      "sh": 0,
+      "ch": 0,
+      "top": 0,
+      "morePresent": true,
+      "moreVisible": false,
+      "pageScrollY": 0,
+      "docSh": 600,
+      "innerH": 600
+    },
+    {
+      "name": "map-world-discovery",
+      "box": [
+        0,
+        0,
+        390,
+        844
+      ],
+      "bigKids": [
+        {
+          "tag": "DIV",
+          "cls": "map-zoom",
+          "w": 2264,
+          "h": 1256
+        },
+        {
+          "tag": "DIV",
+          "cls": "map-backdrop",
+          "w": 4074,
+          "h": 2637
+        },
+        {
+          "tag": "svg",
+          "cls": "scenery osm-map",
+          "w": 2264,
+          "h": 1256
+        },
+        {
+          "tag": "g",
+          "cls": "osm-layers",
+          "w": 2835,
+          "h": 1862
+        },
+        {
+          "tag": "rect",
+          "cls": "",
+          "w": 2835,
+          "h": 1825
+        },
+        {
+          "tag": "path",
+          "cls": "",
+          "w": 430,
+          "h": 331
+        },
+        {
+          "tag": "path",
+          "cls": "",
+          "w": 1983,
+          "h": 1702
+        },
+        {
+          "tag": "path",
+          "cls": "",
+          "w": 1859,
+          "h": 1252
+        }
+      ]
+    },
+    {
+      "name": "pins-margins",
+      "pinCount": 130,
+      "marginLeftPct": "-0.4",
+      "marginRightPct": "99.1",
+      "marginTopPct": "0.2",
+      "marginBottomPct": "99.1",
+      "westMost": {
+        "qid": "eg4-takao",
+        "label": "Quest: Mt. Takao",
+        "lng": 139.2436878,
+        "lat": 35.6252267,
+        "xPct": -35.551696176001535,
+        "yPct": 80.33573537400146
+      },
+      "eastMost": {
+        "qid": "eg2-shibamata",
+        "label": "Quest: Shibamata Taishakuten",
+        "lng": 139.8782,
+        "lat": 35.7584,
+        "xPct": 88.86345599999632,
+        "yPct": 22.43464800000023
+      },
+      "northMost": {
+        "qid": "eg2-kameari",
+        "label": "Quest: Kameari — KochiKame Town",
+        "lng": 139.84778,
+        "lat": 35.76667,
+        "xPct": 82.89870239999782,
+        "yPct": 18.839017400001968
+      },
+      "southMost": {
+        "qid": "eg2-todoroki",
+        "label": "Quest: Todoroki Valley",
+        "lng": 139.645955,
+        "lat": 35.604587,
+        "xPct": 43.32485639999513,
+        "yPct": 89.30946414000002
+      }
+    },
+    {
+      "name": "pan-west",
+      "worldRel": [
+        -1661,
+        -972,
+        2414,
+        1665
+      ],
+      "boxSize": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "pan-east",
+      "worldRel": [
+        -2251,
+        -972,
+        1824,
+        1665
+      ],
+      "boxSize": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "pan-north",
+      "worldRel": [
+        -2251,
+        -665,
+        1824,
+        1973
+      ],
+      "boxSize": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "pan-south",
+      "worldRel": [
+        -2251,
+        -1129,
+        1824,
+        1509
+      ],
+      "boxSize": [
+        390,
+        844
+      ]
+    },
+    {
+      "name": "pin-click-east",
+      "target": {
+        "qid": "eg2-shibamata",
+        "label": "Quest: Shibamata Taishakuten"
+      },
+      "at": {
+        "cx": 359,
+        "cy": 163,
+        "inside": true,
+        "boxCx": 195,
+        "boxCy": 422
+      },
+      "result": {
+        "previewHidden": false,
+        "name": "Shibamata Taishakuten"
+      }
+    },
+    {
+      "name": "pin-click-west",
+      "target": {
+        "qid": "eg4-takao",
+        "label": "Quest: Mt. Takao"
+      },
+      "at": {
+        "cx": 0,
+        "cy": 0,
+        "inside": true,
+        "boxCx": 195,
+        "boxCy": 422
+      },
+      "result": {
+        "previewHidden": true,
+        "name": "Shibamata Taishakuten"
+      }
+    },
+    {
+      "name": "fullmap",
+      "expanded": false,
+      "visiblePins": 19,
+      "bodyLocked": true
+    },
+    {
+      "name": "regression-fold",
+      "folded": true
+    },
+    {
+      "name": "regression-sonic-detail",
+      "chipsMaxRight": 357,
+      "blurbClipped": false
+    }
+  ]
+}

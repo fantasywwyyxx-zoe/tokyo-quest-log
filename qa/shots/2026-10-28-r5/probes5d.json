@@ -1,0 +1,54 @@
+{
+  "tag": "2026-10-28-r5d",
+  "generatedAt": "2026-10-28T12:19:02.489Z",
+  "probes": [
+    {
+      "name": "home-state",
+      "l": -878,
+      "t": -146,
+      "r": 1008,
+      "b": 900,
+      "w": 1886
+    },
+    {
+      "name": "west-extreme-final",
+      "l": 22,
+      "t": -146,
+      "r": 1908,
+      "b": 900,
+      "w": 1886
+    },
+    {
+      "name": "takao-at-west",
+      "display": "none",
+      "rect": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "west-extreme-zoomin",
+      "l": 26,
+      "t": -614,
+      "r": 3464,
+      "b": 1294,
+      "w": 3438
+    },
+    {
+      "name": "takao-after-zoom",
+      "display": "block",
+      "rect": [
+        498,
+        900,
+        40,
+        40
+      ]
+    },
+    {
+      "name": "takao-click",
+      "result": "pin still not clickable-visible after zoom-in at west edge"
+    }
+  ]
+}
