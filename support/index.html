@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>応援ページ | 東京クエストログ</title>
+<script>
+/* ============================================================
+   Ko-fi ページURL（2026-10-29 確定・運営確認済み）
+   ============================================================ */
+const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&family=Baloo+2:wght@700;800&family=Noto+Sans+SC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#26222e; --cream:#fff6dd; --paper:#fffdf6; --red:#e2483a; --blue:#2f7cd6;
+    --lemon:#ffd83d; --navy:#232c3a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"M PLUS Rounded 1c","Noto Sans SC",sans-serif; font-weight:700;
+    background:
+      radial-gradient(circle at 18% 12%, #fffdf4 0 90px, transparent 91px),
+      linear-gradient(180deg,#fff9ec 0%,#fbf3df 100%);
+    color:var(--ink); min-height:100vh;
+    display:flex; flex-direction:column; align-items:center;
+    padding:20px 14px 14px;
+  }
+  .lat{font-family:"Baloo 2","M PLUS Rounded 1c",sans-serif;}
+
+  /* ---------- logo (brand master, unmodified) ---------- */
+  .logo-wrap{position:relative; width:min(82vw,330px); margin:2px 0 14px;}
+  .logo-wrap img.logo{width:100%; display:block;}
+  .logo-wrap img.prop{position:absolute; bottom:-6px; width:52px; image-rendering:pixelated;}
+  .logo-wrap img.prop.left{left:-38px;}
+  .logo-wrap img.prop.right{right:-38px;}
+  @media (max-width:430px){ .logo-wrap img.prop{display:none;} }
+
+  /* ---------- GBA game screen ---------- */
+  .screen{
+    width:min(94vw,402px);
+    background:#8ecdf0;
+    border:4px solid var(--ink); border-radius:20px;
+    box-shadow:0 6px 0 rgba(38,34,46,.9), 0 18px 34px rgba(38,34,46,.18);
+    overflow:hidden;
+  }
+  .scene{position:relative; aspect-ratio:704/400; background:#79bce8; overflow:hidden;}
+  .scene video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; image-rendering:auto;}
+  .scene video.stamp{opacity:0; transition:opacity .18s steps(2);}
+  .scene video.stamp.on{opacity:1;}
+  .hud{
+    position:absolute; top:10px; left:10px; z-index:3;
+    background:rgba(35,44,58,.92); color:var(--cream);
+    border:2.5px solid var(--ink); border-radius:10px;
+    padding:5px 10px 7px; font-size:12.5px; line-height:1.25;
+  }
+  .hud .lv{font-family:"Baloo 2",sans-serif; font-weight:800; letter-spacing:.4px;}
+  .hud .expbar{margin-top:4px; width:118px; height:8px; background:#12182b; border:1.5px solid var(--ink); border-radius:99px; overflow:hidden;}
+  .hud .expbar i{display:block; height:100%; width:64%; background:var(--lemon);}
+  .hud .expn{color:var(--lemon); font-family:"Baloo 2",sans-serif; font-size:10.5px; font-weight:800; margin-left:2px;}
+
+  /* ---------- the ONE dialogue / command window ---------- */
+  .window{
+    margin:10px; background:var(--paper);
+    border:3.5px solid var(--ink); border-radius:14px;
+    box-shadow:inset 0 0 0 3px #f1e7c8;
+    padding:17px 17px 15px;
+  }
+  .window p{font-size:14.5px; line-height:1.8; margin-bottom:12px;}
+  .window p b{font-weight:800;}
+  .window .key{color:var(--red); font-weight:800;}
+  .window .last{margin-bottom:15px;}
+  .window .spark{color:#e0a92e;}
+  .btn{
+    display:block; text-align:center; text-decoration:none;
+    background:var(--red); color:var(--cream);
+    font-family:"M PLUS Rounded 1c",sans-serif; font-weight:800; font-size:17.5px;
+    border:3.5px solid var(--ink); border-radius:13px;
+    padding:13px 10px 12px;
+    box-shadow:0 4px 0 var(--ink);
+  }
+  .btn:active{transform:translateY(3px); box-shadow:0 1px 0 var(--ink);}
+  .btn-note{margin-top:9px; text-align:center; font-size:11.5px; color:#8a8272;}
+
+  /* ---------- collection strip (game assets garnish) ---------- */
+  .strip{width:min(94vw,402px); margin-top:16px; text-align:center;}
+  .strip .cap{font-family:"Baloo 2",sans-serif; font-weight:800; font-size:11px; letter-spacing:2.5px; color:#a3977d; margin-bottom:7px;}
+  .strip .row{display:flex; justify-content:center; gap:5px; flex-wrap:nowrap;}
+  .strip .row img{width:29px; height:29px; image-rendering:pixelated;}
+</style>
+</head>
+<body>
+
+  <div class="logo-wrap">
+    <img class="prop left" src="assets/prop-sakura-v1.png" alt="">
+    <img class="logo" src="assets/logo-master.png" alt="TOKYO QUEST LOG 東京クエストログ">
+    <img class="prop right" src="assets/prop-torii-v1.png" alt="">
+  </div>
+
+  <main class="screen">
+    <div class="scene">
+      <video class="walk" src="assets/walk-loop.mp4" autoplay muted loop playsinline></video>
+      <video class="stamp" src="assets/stamp-loop.mp4" muted playsinline preload="auto"></video>
+      <div class="hud">
+        <span class="lv">勇者 Lv.10</span>
+        <div class="expbar"><i></i></div>
+        <span class="expn">EXP</span>
+      </div>
+    </div>
+
+    <section class="window">
+      <p>『東京クエストログ』は、プログラミング完全ゼロの私がAIと一緒に作っている、<b>東京の街そのものがRPGのマップになるゲーム</b>です。展示や街のイベントがクエストになって、現地でチェックインすると経験値が入ります。</p>
+      <p>ゆっくりでも、ちゃんと作り続けたいと思っています。</p>
+      <p>いただいた応援は、サーバー代や素材制作など、開発の燃料に使わせていただきます。応援が集まってゲームが大きくなったら、街のイベントやお店とコラボして、遊んでくれるみんなに特典を届けたいと思っています。金額はお気持ちで大丈夫です。遊んでくれるだけ、シェアしてくれるだけでも十分すぎる応援です。</p>
+      <p class="last">今日も勇者。よかったら見守ってください<span class="spark">🗼</span></p>
+      <a class="btn" id="kofiBtn" href="#">☕ コーヒーで応援する</a>
+      <div class="btn-note">Ko-fi のページへ移動します</div>
+    </section>
+  </main>
+
+  <div class="strip">
+    <div class="cap">— AREA STAMPS —</div>
+    <div class="row">
+      <img src="assets/stamp-ueno-16-v1.png" alt="上野"><img src="assets/stamp-akihabara-16-v1.png" alt="秋葉原"><img src="assets/stamp-ginza-16-v1.png" alt="銀座"><img src="assets/stamp-roppongi-16-v1.png" alt="六本木"><img src="assets/stamp-shibuya-16-v1.png" alt="渋谷"><img src="assets/stamp-shinjuku-16-v1.png" alt="新宿"><img src="assets/stamp-ikebukuro-16-v1.png" alt="池袋"><img src="assets/stamp-nakano-16-v1.png" alt="中野"><img src="assets/stamp-odaiba-16-v1.png" alt="お台場"><img src="assets/stamp-tama-16-v1.png" alt="多摩"><img src="assets/stamp-setagaya-16-v1.png" alt="世田谷">
+    </div>
+  </div>
+
+
+<script>
+  // Ko-fi link: single source of truth (see <head> constant)
+  (function(){
+    var btn = document.getElementById('kofiBtn');
+    if (KOFI_URL) { btn.href = KOFI_URL; btn.target = '_blank'; btn.rel = 'noopener'; }
+  })();
+  // Scene flow: hero walks -> check-in stamp -> walks again ...
+  (function(){
+    var walk = document.querySelector('.scene video.walk');
+    var stamp = document.querySelector('.scene video.stamp');
+    walk.removeAttribute('loop');
+    function toStamp(){
+      stamp.classList.add('on'); stamp.currentTime = 0; stamp.play();
+    }
+    function toWalk(){
+      stamp.classList.remove('on'); walk.currentTime = 0; walk.play();
+    }
+    walk.addEventListener('ended', toStamp);
+    stamp.addEventListener('ended', toWalk);
+  })();
+</script>
+</body>
+</html>

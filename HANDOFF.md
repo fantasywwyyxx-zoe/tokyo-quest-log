@@ -4,6 +4,12 @@
 
 ---
 
+## 2026-10-29 00:45 · Muse（开发部）· 応援页仮公開 /support/（運営部依頼、美術部制作）
+- 美术部制作的 Ko-fi 応援页（08-kofi-promo、自己完結、文案 Zoe 訂正済み現行版、KOFI_URL=ko-fi.com/tokyoquestlog）を本番ドメイン配下に仮公開：support/index.html＋assets/（17 ファイル、880K）の追加のみ、游戏本体 index.html 無変更。Zoe 実機タップ確認用、問題なければそのまま正式公開。
+- 出典：workspace/goals/tokyo-side-quests-2/files/art-department/new-production-2026-10-28/08-kofi-promo/（preview 画像と README は公開対象外として除外）。
+
+---
+
 ## 2026-10-29 00:31 · Muse（开发部）· qa2 合并轮上线（版本戳 TQL v2026.10.29-qa2，Zoe 审标题位置后批准推送）
 - 标题画面：登录入口改 GBA 铭牌主按钮（红）＋同排 ♥ 応援次级铭牌（奶油），390×844 实测两钮同排、底边余量 31px，logo 原图/口号两行无遮挡；応援开现有应援窗、登录开现有登录窗，游客状态行不动。
 - QA 修复批：Q-106 审计结论——展开状态卡不可达（boot 即最小化、.status-toggle 全视图隐藏），按工单审计分支原样保留；Q-107 konbini 左移沉入路侧带，与勇者间距 7px→约 71px（Lv.1 街道实测，几何与等级无关）；Q-108 记录窗三标签改钉死共享标签栏，切换位移实测 0px；Q-109 筛选条每次打开默认折叠＋折叠条重做为游戏窗造型（展开态 chips 几何与基线一致）；Q-110 GACHA 红点（主人公页按钮＋底栏主人公 tab 镜像）随券数实时亮灭（1 券同亮、抽至 0 同灭已验）；Q-111 详情页改按可见视口取高（svh＋visualViewport --vvh 同步）＋按钮行 safe-area 衬距＋窗内滚动兜底，844 档按钮行余量 9px→14px、写真 312px 未压扁、Q-102/Q-103 不回归。
