@@ -4,6 +4,16 @@
 
 ---
 
+## 2026-10-29 00:00 · Muse（开发部）· 账号集成版上线（登录＋云存档＋应援＋版本戳）
+- 三处登录入口（标题画面右下小按钮＋状态行、设置 ACCOUNT 区、主人公页账号行）共用一个 GBA 风登录窗：邮箱 6 位验证码（六格输入、60 秒重发冷却、错误友好转述）、Google 按钮（provider 未启用显示「準備中」不崩）、游客继续；本地 key/数值/地图/目录零改动。
+- 云存档：登录后与 Supabase saves 表按「等级＞EXP＞clear 数＞savedAt」进度优先合并、登录窗明示保留侧；之后本地每次保存防抖 2 秒 upsert，失败仅在设置区留未同期小标记，不打断游玩。
+- SHARE_URL 统一 https://tokyoquestlog.com（旧 github.io 游戏地址引用清零，已 grep 验）；版本戳 TQL v2026.10.28-auth＋新版本柠檬横幅机制（同版本不误报、本地/file 跳过已验）；登录窗带旧地址存档导入链接（tql-migrate 页待建）；应援窗三语定版文案＋Ko-fi 外链。
+- 验证：构建探针 390×667/390×600 截了登录窗各步/设置账户区/标题入口/主人公账号行/应援窗；游客全流程回归（新建→教程→地图）无控制台错误；断网等价环境下登录层静默降级。出货源码复核了审计争议点：重发按钮确实再次调用 signInWithOtp（全文件共 2 处发送调用：初发＋pendingEmail 重发），审计 P1 系截断捕获误读，不成立。
+- 未实测（如实）：沙盒出网被封，真实 OTP 收发与云端合并不在构建内跑通——但今晚已用直连 API 验过 /auth/v1/otp 返回 200 且 Zoe 本人收到过验证码邮件；真实登录闭环待上线后由真机走一次。Google 登录待 Cloud 侧 provider 启用完成（进行中）后按钮自动转活。
+- 下一步：QA 部对本 commit 开轮（账户状态路径入矩阵）；tql-migrate 搬家页另行建仓上线。
+
+---
+
 ## 2026-10-28 23:57 · Muse（开发部）· 新增隐私政策页 /privacy（Google OAuth 发布前置）
 - 新增 privacy/index.html（日语正文＋英文摘要，游戏同款配色）：为 Google Auth Platform 发布（In production）所需的主页/隐私政策 URL 而建——主页 https://tokyoquestlog.com/ 、隐私 https://tokyoquestlog.com/privacy/ 。内容按实际架构如实写：邮箱仅用于登录（Supabase Auth）、云存档存 Supabase 东京区、位置仅在浏览器内做打卡距离判定不上传不保存、打赏经 Ko-fi/Stripe 处理不接触卡号、无广告无追踪不卖数据、删号连带删云存档、联系邮箱 tokyoquestlog@gmail.com。
 - Google Cloud 侧现状：项目 Tokyo Quest Log 已在游戏专用账号 tokyoquestlog@gmail.com 下建好、Branding 已填、Audience=External/测试中；发布待 Zoe 在控制台补填上述两 URL；OAuth 客户端与 Supabase 启用由 Zoe 手动接管进行中。
