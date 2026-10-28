@@ -363,3 +363,7 @@
 
 ## 2026-10-29 00:30 JST · QA部 · Google 补验通过
 - 端点 302 链 QA 独立 curl 复核无误（callback/scope=email+profile/code）；客户端点击实测真实跳 authorize（不再出準備中）。R6 报告已追记。剩真实登录回跳闭环与 OTP 同列待 Zoe 真机。
+
+## 2026-10-29 00:27 JST · Muse（主聊天）· Codex 下岗 + 低打扰解除
+- Zoe：「Codex拉下来吧 没用了」——调试部（Codex）正式解散：云端路线因免费方案无环境走不通，桌面路线自 10-28 立单至此零交付（无 QA-SWEEP、无 PR、无评论）。处理：TASKS T8 标记 cancelled、Issue #3 关闭、codex-debugger-watch 岗哨删除、COMPANY.md 与 office-status.json 同步（看板下次打开自动少一张卡）。调试职责由 QA部 + 开发部接管（QA 当日已多轮闭环，事实证明够用）。
+- Zoe：「低打扰可以取消了」——第 6 条低打扰运转解除，恢复常规节奏；各部门窗口已分别通知。
