@@ -236,3 +236,8 @@
 - 联调实测：Muse 09:34 在 Issue #3 重发 @codex 触发，机器人 6 秒后仍回「create an environment」——云端环境未就绪。Codex 本人回报：Zoe 的 ChatGPT 侧栏显示免费方案，环境页打开即被带回首页，环境列表无本仓库。结论：免费方案没有云端环境入口，非操作问题。
 - Zoe 拍板（09:41）：用桌面版 Codex 当 debugger（免费路线），不开 Plus。
 - Muse 已立工单 TASKS T8（范围/交付/PR 红线齐全）；Zoe 只需在 Codex 桌面应用粘贴一句触发话（Muse 已在主聊天给出）。Codex 产出（QA-SWEEP.md / 分类 PR）落仓库后，Muse 负责验收并向 Zoe 汇报。
+
+## 2026-10-28 10:14 JST · Muse（主聊天）· 公司部门制落地
+- Zoe：「我们真的要为这个项目做公司的」——要求按 Tokyo Quest 聊天现状做部门制虚拟办公室，并提前建好未来部门（如 debug）。
+- COMPANY.md 已改：新增「部门与分工（2026-10-28 部门制）」——董事长室（Zoe）/ 开发部（Muse）/ 调试部 QA（Codex 桌面版，T8）/ 音乐部（Claude，只作曲）/ 宣传部（Muse 代管 + Zoe 拍板）/ 新作企划部（Walking Egg）/ 筹备中空缺（美术部、数据平衡部）；顺手修正了仓库名与公开链接为改名后的 tokyo-quest-log。
+- 虚拟办公室看板（artifact「ai」）同步改版为部门视图：每部一张卡（负责人 + 正在做 + 状态，全部据实，筹备部门明确标空缺），由构建方审计后交付 Zoe。

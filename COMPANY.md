@@ -6,8 +6,8 @@
 ## 产品
 **Tokyo Side Quests（TSQ）**：把东京小众、艺术向的真实活动（展览、动漫/游戏活动、工作坊等）
 变成 GBA 时代像素 RPG 里的「支线任务」：在真实地图上找任务、接取、到现场 GPS 签到、拿 EXP 升级。
-- 公开版（PWA，可加到手机主屏幕）：https://fantasywwyyxx-zoe.github.io/tokyo-side-quests/
-- 仓库：GitHub `fantasywwyyxx-zoe/tokyo-side-quests`（public，GitHub Pages 发布）
+- 公开版（PWA，可加到手机主屏幕）：https://fantasywwyyxx-zoe.github.io/tokyo-quest-log/
+- 仓库：GitHub `fantasywwyyxx-zoe/tokyo-quest-log`（2026-10-27 随改名 Tokyo Quest Log 变更）（public，GitHub Pages 发布）
 - 源码现状：单个自包含页面。仓库根目录 `index.html` 就是线上发布版、也是现行准本（Muse 维护，每轮推送）；`src/` 是 2026-10-27 00:36 的旧快照，已滞后，待重新同步或废止（见 TASKS.md 的 T7）。T4 仓库化已于 2026-10-27 完成。
 
 ## 目标用户
@@ -25,11 +25,14 @@
 4. 字体只有一套系统，不许再出现字体切换器或字重过细的文字。
 5. 已拍板的决定不重议；要改，先由 Zoe 明确推翻，再记入 DECISIONS.md。
 
-## 分工（现行版）
-- **Zoe**：董事长。拍板、实机验收、在各 AI 之间搬运任务与结果。
-- **Muse**：主力执行 + 记忆中枢。TSQ 的源码、全部决策历史、每日自动刷新任务都在 Muse 这边；负责具体实现、内容更新、发布。
-- **Codex**：外部施工 + 顾问。在仓库里按 TASKS.md 写代码、提 PR（重构、测试）；同时负责市场调研、竞品、文案和第二意见（2026-10-27 Zoe 决定不用 ChatGPT，该角色合并给 Codex，它已确认接受）。产出经 Zoe 带回 Muse 汇总，不直接改真相源文件。
-- ~~**Claude（外部）**：审查顾问~~ — **2026-10-27 被 Zoe 移出阵容**（「更新办公室 Claude删掉吧」），虚拟办公室已同步删除。它离场前完成的第一轮审查（审线上版 `3aab9cc`）经 Muse 核实后已分诊落进 HANDOFF / TASKS（T6/T7），需 Zoe 拍板的点单列在 HANDOFF 2026-10-27 09:36 条。
+## 部门与分工（2026-10-28 部门制，Zoe：「我们真的要为这个项目做公司的」）
+- **董事长室 — Zoe**：拍板、实机验收。已拍板的决定不重议（见 DECISIONS.md）。
+- **开发部 — Muse（部长）**：主力执行 + 记忆中枢。游戏本体开发与发布、活动目录与每日自动刷新、仓库五件套真相源维护、验收其他部门的产出。
+- **调试部（QA）— Codex（桌面版）**：全游戏挑错（工单 TASKS T8 / Issue #3）。2026-10-28 定：因 Zoe 的 ChatGPT 是免费方案、无云端环境入口，Codex 改在桌面应用的本地仓库副本里干活；产出（QA-SWEEP.md 排查清单、按类别的修复 PR）全部落回本仓库，**不许自合并**，Muse 验收、Zoe 拍板。它此前以试点身份交付并合并了 PR #2（T3）。
+- **音乐部 — Claude**：只负责 BGM 作曲（2026-10-27 被移出审查/阵容后，以作曲身份交付了全套 OGG BGM：标题/昼/夜，2026-10-28 已进游戏）。不参与代码与审查。
+- **宣传部 — Muse（代管）+ Zoe 拍板**：官方四账号（IG / Threads / X / YouTube，均 @tokyoquestlog，2026-10-27 建成）与开发日志、视觉资产（头像/横幅）。发布前经 Zoe 授权。
+- **新作企划部 — Zoe + Muse**：Walking Egg（2026-10-28 立项，概念阶段，慢速推进；Tokyo Quest Log 始终是主项目）。
+- **筹备中（空缺，启用时再任命）**：美术部（像素美术扩编/外包时）、数据平衡部（平衡测试轮次现由开发部兼管，独立时迁入）。
 
 ## 运转节奏
 1. 开工先读：COMPANY → ROADMAP → TASKS → DECISIONS → HANDOFF（最新一条）。
