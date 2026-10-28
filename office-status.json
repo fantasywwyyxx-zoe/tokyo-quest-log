@@ -1,0 +1,15 @@
+{
+  "updated_at": "2026-10-29T00:18:00+09:00",
+  "note": "各部门状态的唯一实时数据源。各部门状态变化时同步更新本文件并推送；虚拟办公室看板每次打开时从 GitHub 拉取本文件渲染。",
+  "departments": [
+    {"id": "chair", "name": "董事长室", "owner": "Zoe", "doing": "拍板与实机验收；低打扰运转令生效中（待批事项攒批处理）", "badge": "决策中枢", "vacant": false},
+    {"id": "dev", "name": "开发部", "owner": "Muse（部长）", "doing": "后端阶段推进中（账号/云存档/Ko-fi 打赏）；目录 134 个任务每日刷新运行中", "badge": "主线推进中", "vacant": false},
+    {"id": "qa-debug", "name": "调试部", "owner": "Codex（桌面版）", "doing": "全游戏排查工单 T8 已立，等它交 QA-SWEEP.md 排查清单", "badge": "工单已派，待交付", "vacant": false},
+    {"id": "qa-visual", "name": "QA部", "owner": "QA部专属窗口", "doing": "渲染级视觉检测运转中：与开发部直连修缺陷、复测销项（多轮已闭环）", "badge": "运转中", "vacant": false},
+    {"id": "music", "name": "音乐部", "owner": "Claude", "doing": "全套 BGM 已交付并进游戏（标题/昼/夜）", "badge": "已交付 · 按需待命", "vacant": false},
+    {"id": "promo", "name": "宣传部", "owner": "Muse 代管（Zoe 拍板）", "doing": "官方四账号 @tokyoquestlog 运营中；Ko-fi 応援文案已备（日文版）", "badge": "筹备发布中", "vacant": false},
+    {"id": "art", "name": "美术部", "owner": "美术部专属窗口", "doing": "资产总账已建立并接管（logo/字体/头像/横幅/游戏图库）", "badge": "已成立", "vacant": false},
+    {"id": "planning", "name": "新作企划部", "owner": "Zoe + Muse", "doing": "Walking Egg 概念阶段（美术部已在其项目内先行组建，慢速推进）", "badge": "概念阶段", "vacant": false},
+    {"id": "balance", "name": "数据平衡部", "owner": "空缺", "doing": "平衡测试现由开发部兼管", "badge": "空缺 · 筹备中", "vacant": true}
+  ]
+}
