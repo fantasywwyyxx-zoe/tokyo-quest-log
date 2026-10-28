@@ -1,0 +1,98 @@
+{
+  "tag": "2026-10-28-q106",
+  "generatedAt": "2026-10-28T13:53:39.276Z",
+  "probes": [
+    {
+      "name": "hdr-ja-night-lv1",
+      "pill": "absent"
+    },
+    {
+      "name": "hdr-ja-day-lv1",
+      "pill": "absent"
+    },
+    {
+      "name": "hdr-en-night-lv1",
+      "pill": "absent"
+    },
+    {
+      "name": "hdr-zh-night-lv1",
+      "pill": "absent"
+    },
+    {
+      "name": "hdr-ja-night-lv30",
+      "pill": "absent"
+    },
+    {
+      "name": "konbini-night-lv10",
+      "konbini": [
+        58,
+        581,
+        142,
+        639
+      ],
+      "hero": [
+        149,
+        547,
+        241,
+        639
+      ],
+      "gapPx": 7,
+      "konbiniW": 84,
+      "heroW": 92
+    },
+    {
+      "name": "konbini-day-lv10",
+      "konbini": [
+        58,
+        581,
+        142,
+        639
+      ],
+      "hero": [
+        149,
+        547,
+        241,
+        639
+      ],
+      "gapPx": 7,
+      "konbiniW": 84,
+      "heroW": 92
+    },
+    {
+      "name": "konbini-day-lv1",
+      "konbini": [
+        58,
+        581,
+        142,
+        639
+      ],
+      "hero": [
+        149,
+        547,
+        241,
+        639
+      ],
+      "gapPx": 7,
+      "konbiniW": 84,
+      "heroW": 92
+    },
+    {
+      "name": "konbini-day-lv30",
+      "konbini": [
+        58,
+        581,
+        142,
+        639
+      ],
+      "hero": [
+        149,
+        545,
+        241,
+        637
+      ],
+      "gapPx": 7,
+      "konbiniW": 84,
+      "heroW": 92
+    }
+  ]
+}

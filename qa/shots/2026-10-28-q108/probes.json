@@ -1,0 +1,122 @@
+{
+  "tag": "2026-10-28-q108",
+  "generatedAt": "2026-10-28T13:55:01.281Z",
+  "probes": [
+    {
+      "name": "records-structure",
+      "panelId": "hsegStatus",
+      "tabs": [
+        {
+          "key": "status",
+          "label": "称号",
+          "active": "true"
+        },
+        {
+          "key": "badges",
+          "label": "バッジ",
+          "active": "false"
+        },
+        {
+          "key": "advlog",
+          "label": "サイドクエストログ",
+          "active": "false"
+        },
+        {
+          "key": "status",
+          "label": "称号",
+          "active": "false"
+        },
+        {
+          "key": "badges",
+          "label": "バッジ",
+          "active": "true"
+        },
+        {
+          "key": "advlog",
+          "label": "サイドクエストログ",
+          "active": "false"
+        },
+        {
+          "key": "status",
+          "label": "称号",
+          "active": "false"
+        },
+        {
+          "key": "badges",
+          "label": "バッジ",
+          "active": "false"
+        },
+        {
+          "key": "advlog",
+          "label": "サイドクエストログ",
+          "active": "true"
+        }
+      ]
+    },
+    {
+      "name": "switch-trace",
+      "frames": 157,
+      "jumpEvents": [
+        {
+          "t": 177,
+          "dBar": 50,
+          "dFirst": 8,
+          "dH": 844,
+          "textLen": 493
+        },
+        {
+          "t": 1718,
+          "dBar": 60,
+          "dFirst": 18,
+          "dH": 844,
+          "textLen": 226
+        },
+        {
+          "t": 1835,
+          "dBar": 3,
+          "dFirst": 3,
+          "dH": 0,
+          "textLen": 226
+        },
+        {
+          "t": 1952,
+          "dBar": 3,
+          "dFirst": 3,
+          "dH": 0,
+          "textLen": 226
+        }
+      ],
+      "firstFrame": {
+        "t": 2,
+        "panelTop": 0,
+        "panelH": 844,
+        "barTop": 50,
+        "panelScroll": 0,
+        "bodyScrollH": 844,
+        "firstTop": 8,
+        "firstOpacity": "1",
+        "textLen": 226
+      },
+      "lastFrame": {
+        "t": 2601,
+        "panelTop": 0,
+        "panelH": 844,
+        "barTop": 50,
+        "panelScroll": 0,
+        "bodyScrollH": 844,
+        "firstTop": 8,
+        "firstOpacity": "1",
+        "textLen": 226
+      }
+    },
+    {
+      "name": "per-tab-geometry",
+      "panelRect": [
+        0,
+        844
+      ],
+      "scrollH": 844,
+      "clientH": 844
+    }
+  ]
+}
