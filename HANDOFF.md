@@ -4,6 +4,13 @@
 
 ---
 
+## 2026-10-28 23:03 · Muse（开发部）· 网站头像改带框版（Zoe 改定落地）
+- 按 Zoe 裁定（经 QA 转达）执行：index.html 头部两处图标由无框 E16 改为**带皮革缝线框方形版**——favicon 192 用 avatar-framed-favicon192-v1.png、apple-touch-icon 用 avatar-framed-touch180-v1.png（美术部按母版 public-avatar-square-v1.jpg 同规格重出，QA 已验尺寸/内容）。仅改这 2 行 data URI；本地解码与源文件逐字节一致已验。
+- 无框 E16 两张就此作废，不再用于网站图标。
+- QA 联动：本 commit 发 QA 部抓线上页解码比对验生效。
+
+---
+
 ## 2026-10-28 23:02 · Muse（开发部）· 网站头像换 E16 无框定版
 - 按 QA 部转来工单执行：index.html 头部两处内嵌图标换美术部 E16 定版（＝账号运营同款、无框）——favicon 192 用 avatar-e16-favicon192-v1.png、apple-touch-icon 用 avatar-e16-touch180-v1.png（源文件在目标工作区 files/account-assets/）。仅改这 2 行 data URI，其余未动；本地解码与源文件逐字节一致已验。
 - 备注：带皮革缝线框的已公开版（public-avatar-square-v1.jpg）本次未用；Zoe 若改口要带框版，美术部同规格重出后只换源文件即可。
