@@ -208,6 +208,10 @@ async function runProfile(cdp, results, profile, vp) {
     await shot(cdp, results, profile, vp, 'detail');
     console.log(' detail close:', await click(cdp, '#detailClose'));
     await cdp.eval(`(() => { const d = document.getElementById('detail'); if (d && d.open) d.close(); return 'ok'; })()`);
+    // LEGEND rows open a route overlay (#legendClose), not the detail
+    // dialog — close it too or it stays over every later screen.
+    await click(cdp, '#legendClose').catch(() => {});
+    await waitStable(cdp, 'post-detail-close');
   } else {
     results.push({ profile, screen: 'detail', viewport: `${vp.w}x${vp.h}`, error: detailTry });
   }

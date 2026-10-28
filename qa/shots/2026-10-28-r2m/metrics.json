@@ -1,0 +1,5541 @@
+{
+  "tag": "2026-10-28-r2m",
+  "generatedAt": "2026-10-28T07:27:54.010Z",
+  "results": [
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-title-390x844.png",
+      "stableMs": 915,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "sw": 402,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -15,
+            -25,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -15,
+            -25,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-detail-390x844.png",
+      "stableMs": 959,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            54,
+            301,
+            139,
+            18
+          ],
+          "sw": 155,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            54,
+            380,
+            136,
+            18
+          ],
+          "sw": 144,
+          "cw": 136
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            524,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            543,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            602,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            621,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            680,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            758,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            777,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            836,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            855,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            914,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            933,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            992,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            1011,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            1070,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            1089,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            1167,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            1226,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            1245,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1304,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1323,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1382,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-title-390x844.png",
+      "stableMs": 2456,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "sw": 403,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -14,
+            -25,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -14,
+            -25,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-creator-390x844.png",
+      "stableMs": 924,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            844
+          ],
+          "sw": 404,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -14,
+            -24,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -14,
+            -24,
+            417,
+            741
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "390x844",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-r2m-new-tutorial-390x844.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-map-390x844.png",
+      "stableMs": 923,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-list-390x844.png",
+      "stableMs": 1268,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            54,
+            301,
+            139,
+            18
+          ],
+          "sw": 155,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            54,
+            380,
+            136,
+            18
+          ],
+          "sw": 144,
+          "cw": 136
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            524,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            543,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            602,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            621,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            680,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            758,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            777,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            836,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            855,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            914,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            933,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            992,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            1011,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            1070,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            1089,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            1167,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            1226,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            1245,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1304,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1323,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1382,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1401,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-detail-390x844.png",
+      "stableMs": 926,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            54,
+            301,
+            139,
+            18
+          ],
+          "sw": 155,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            54,
+            380,
+            136,
+            18
+          ],
+          "sw": 144,
+          "cw": 136
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            524,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            543,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            602,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            621,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            680,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            758,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            777,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            836,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            855,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            914,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            933,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            992,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            1011,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            1070,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            1089,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            1167,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            1226,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            1245,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1304,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1323,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1382,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-daily-390x844.png",
+      "stableMs": 1215,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-records-390x844.png",
+      "stableMs": 913,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-hero-390x844.png",
+      "stableMs": 1226,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-new-settings-390x844.png",
+      "stableMs": 1254,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-title-390x667.png",
+      "stableMs": 923,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 402,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -15,
+            -20,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -15,
+            -20,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-detail-390x667.png",
+      "stableMs": 953,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            52,
+            299,
+            142,
+            18
+          ],
+          "sw": 155,
+          "cw": 142
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            52,
+            378,
+            139,
+            18
+          ],
+          "sw": 144,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            522,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            541,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            600,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            619,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            678,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            756,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            775,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            834,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            853,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            912,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            931,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            990,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            1009,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            1068,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            1087,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            1165,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            1224,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            1243,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1302,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1321,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1380,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-title-390x667.png",
+      "stableMs": 961,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 403,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -15,
+            -20,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -15,
+            -20,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-creator-390x667.png",
+      "stableMs": 994,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            390,
+            667
+          ],
+          "sw": 403,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -14,
+            -19,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -14,
+            -19,
+            417,
+            585
+          ],
+          "sw": 390,
+          "cw": 390
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "390x667",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-r2m-new-tutorial-390x667.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-map-390x667.png",
+      "stableMs": 920,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-list-390x667.png",
+      "stableMs": 1285,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            52,
+            299,
+            142,
+            18
+          ],
+          "sw": 155,
+          "cw": 142
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            52,
+            378,
+            139,
+            18
+          ],
+          "sw": 144,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            522,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            541,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            600,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            619,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            678,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            756,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            775,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            834,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            853,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            912,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            931,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            990,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            1009,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            1068,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            1087,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            1165,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            1224,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            1243,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1302,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1321,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1380,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1399,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-detail-390x667.png",
+      "stableMs": 969,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            52,
+            299,
+            142,
+            18
+          ],
+          "sw": 155,
+          "cw": 142
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            52,
+            378,
+            139,
+            18
+          ],
+          "sw": 144,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            522,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            541,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            600,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            619,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            678,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            756,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            775,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            834,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            853,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            912,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            931,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            990,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            1009,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            1068,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            1087,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            1165,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            1224,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            1243,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1302,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1321,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1380,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-daily-390x667.png",
+      "stableMs": 1221,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-records-390x667.png",
+      "stableMs": 916,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-hero-390x667.png",
+      "stableMs": 1255,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-new-settings-390x667.png",
+      "stableMs": 1222,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "lg-meta",
+          "text": "Asakusa · Senso-ji Temple, Asakusa",
+          "rect": [
+            73,
+            301,
+            155,
+            19
+          ],
+          "sw": 215,
+          "cw": 155
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "title",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-title-1440x900.png",
+      "stableMs": 2905,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            1440,
+            900
+          ],
+          "sw": 1489,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -52,
+            -31,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -52,
+            -31,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "detail",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-detail-1440x900.png",
+      "stableMs": 968,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            656,
+            517,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            656,
+            613,
+            165,
+            18
+          ],
+          "sw": 420,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            656,
+            673,
+            165,
+            18
+          ],
+          "sw": 201,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            656,
+            769,
+            165,
+            18
+          ],
+          "sw": 239,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            656,
+            847,
+            165,
+            18
+          ],
+          "sw": 290,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            656,
+            907,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            656,
+            925,
+            165,
+            18
+          ],
+          "sw": 445,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            656,
+            1003,
+            165,
+            18
+          ],
+          "sw": 337,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            656,
+            1063,
+            165,
+            18
+          ],
+          "sw": 429,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            656,
+            1159,
+            165,
+            18
+          ],
+          "sw": 174,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            656,
+            1219,
+            165,
+            18
+          ],
+          "sw": 215,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            656,
+            1237,
+            165,
+            18
+          ],
+          "sw": 356,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            656,
+            1297,
+            165,
+            18
+          ],
+          "sw": 269,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            656,
+            1375,
+            165,
+            18
+          ],
+          "sw": 266,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            656,
+            1393,
+            165,
+            18
+          ],
+          "sw": 364,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            656,
+            1471,
+            165,
+            18
+          ],
+          "sw": 261,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "A Journey Through World Embroidery",
+          "rect": [
+            656,
+            1531,
+            165,
+            18
+          ],
+          "sw": 245,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Fashion · ¥1,000 (students ¥5",
+          "rect": [
+            656,
+            1549,
+            165,
+            18
+          ],
+          "sw": 236,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "On the Street — Pardon the Intrusion?",
+          "rect": [
+            656,
+            1609,
+            165,
+            18
+          ],
+          "sw": 246,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "hololive Grand Reception — An Invitation",
+          "rect": [
+            656,
+            1687,
+            165,
+            18
+          ],
+          "sw": 346,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Anime · Advance ¥2,500 / door ¥",
+          "rect": [
+            656,
+            1705,
+            165,
+            18
+          ],
+          "sw": 250,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Yurakucho · Film · Advance ¥1,700–1,800",
+          "rect": [
+            656,
+            1783,
+            165,
+            18
+          ],
+          "sw": 224,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Umineko Nazotoki Vol.2 — Escape from the",
+          "rect": [
+            656,
+            1843,
+            165,
+            18
+          ],
+          "sw": 334,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Games · Advance ¥4,500 / door",
+          "rect": [
+            656,
+            1861,
+            165,
+            18
+          ],
+          "sw": 267,
+          "cw": 165
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "title",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-title-1440x900.png",
+      "stableMs": 947,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            1440,
+            900
+          ],
+          "sw": 1484,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -57,
+            -34,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -57,
+            -34,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "creator",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-creator-1440x900.png",
+      "stableMs": 1065,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": true,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "startScreen",
+        "creatorScreen"
+      ],
+      "offenders": [
+        {
+          "tag": "DIV",
+          "id": "",
+          "cls": "start-bg",
+          "text": "",
+          "rect": [
+            0,
+            0,
+            1440,
+            900
+          ],
+          "sw": 1491,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-day",
+          "text": "",
+          "rect": [
+            -50,
+            -31,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        },
+        {
+          "tag": "IMG",
+          "id": "",
+          "cls": "bg-night",
+          "text": "",
+          "rect": [
+            -50,
+            -31,
+            1541,
+            963
+          ],
+          "sw": 1440,
+          "cw": 1440
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "tutorial",
+      "viewport": "1440x900",
+      "note": "auto-opened on fresh profile; shot as extra",
+      "file": "2026-10-28-r2m-new-tutorial-1440x900.png"
+    },
+    {
+      "profile": "new",
+      "screen": "map",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-map-1440x900.png",
+      "stableMs": 928,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "list",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-list-1440x900.png",
+      "stableMs": 1295,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            656,
+            517,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            656,
+            613,
+            165,
+            18
+          ],
+          "sw": 420,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            656,
+            673,
+            165,
+            18
+          ],
+          "sw": 201,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            656,
+            769,
+            165,
+            18
+          ],
+          "sw": 239,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            656,
+            847,
+            165,
+            18
+          ],
+          "sw": 290,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            656,
+            907,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            656,
+            925,
+            165,
+            18
+          ],
+          "sw": 445,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            656,
+            1003,
+            165,
+            18
+          ],
+          "sw": 337,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            656,
+            1063,
+            165,
+            18
+          ],
+          "sw": 429,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            656,
+            1159,
+            165,
+            18
+          ],
+          "sw": 174,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            656,
+            1219,
+            165,
+            18
+          ],
+          "sw": 215,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            656,
+            1237,
+            165,
+            18
+          ],
+          "sw": 356,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            656,
+            1297,
+            165,
+            18
+          ],
+          "sw": 269,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            656,
+            1375,
+            165,
+            18
+          ],
+          "sw": 266,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            656,
+            1393,
+            165,
+            18
+          ],
+          "sw": 364,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            656,
+            1471,
+            165,
+            18
+          ],
+          "sw": 261,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "A Journey Through World Embroidery",
+          "rect": [
+            656,
+            1531,
+            165,
+            18
+          ],
+          "sw": 245,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Fashion · ¥1,000 (students ¥5",
+          "rect": [
+            656,
+            1549,
+            165,
+            18
+          ],
+          "sw": 236,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "On the Street — Pardon the Intrusion?",
+          "rect": [
+            656,
+            1609,
+            165,
+            18
+          ],
+          "sw": 246,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "hololive Grand Reception — An Invitation",
+          "rect": [
+            656,
+            1687,
+            165,
+            18
+          ],
+          "sw": 346,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Anime · Advance ¥2,500 / door ¥",
+          "rect": [
+            656,
+            1705,
+            165,
+            18
+          ],
+          "sw": 250,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Yurakucho · Film · Advance ¥1,700–1,800",
+          "rect": [
+            656,
+            1783,
+            165,
+            18
+          ],
+          "sw": 224,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Umineko Nazotoki Vol.2 — Escape from the",
+          "rect": [
+            656,
+            1843,
+            165,
+            18
+          ],
+          "sw": 334,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Games · Advance ¥4,500 / door",
+          "rect": [
+            656,
+            1861,
+            165,
+            18
+          ],
+          "sw": 267,
+          "cw": 165
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "detail",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-detail-1440x900.png",
+      "stableMs": 1041,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            656,
+            517,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            656,
+            613,
+            165,
+            18
+          ],
+          "sw": 420,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            656,
+            673,
+            165,
+            18
+          ],
+          "sw": 201,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            656,
+            769,
+            165,
+            18
+          ],
+          "sw": 239,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            656,
+            847,
+            165,
+            18
+          ],
+          "sw": 290,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            656,
+            907,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            656,
+            925,
+            165,
+            18
+          ],
+          "sw": 445,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            656,
+            1003,
+            165,
+            18
+          ],
+          "sw": 337,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            656,
+            1063,
+            165,
+            18
+          ],
+          "sw": 429,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            656,
+            1159,
+            165,
+            18
+          ],
+          "sw": 174,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            656,
+            1219,
+            165,
+            18
+          ],
+          "sw": 215,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            656,
+            1237,
+            165,
+            18
+          ],
+          "sw": 356,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            656,
+            1297,
+            165,
+            18
+          ],
+          "sw": 269,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            656,
+            1375,
+            165,
+            18
+          ],
+          "sw": 266,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            656,
+            1393,
+            165,
+            18
+          ],
+          "sw": 364,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            656,
+            1471,
+            165,
+            18
+          ],
+          "sw": 261,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "A Journey Through World Embroidery",
+          "rect": [
+            656,
+            1531,
+            165,
+            18
+          ],
+          "sw": 245,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Fashion · ¥1,000 (students ¥5",
+          "rect": [
+            656,
+            1549,
+            165,
+            18
+          ],
+          "sw": 236,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "On the Street — Pardon the Intrusion?",
+          "rect": [
+            656,
+            1609,
+            165,
+            18
+          ],
+          "sw": 246,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "hololive Grand Reception — An Invitation",
+          "rect": [
+            656,
+            1687,
+            165,
+            18
+          ],
+          "sw": 346,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Anime · Advance ¥2,500 / door ¥",
+          "rect": [
+            656,
+            1705,
+            165,
+            18
+          ],
+          "sw": 250,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Yurakucho · Film · Advance ¥1,700–1,800",
+          "rect": [
+            656,
+            1783,
+            165,
+            18
+          ],
+          "sw": 224,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Umineko Nazotoki Vol.2 — Escape from the",
+          "rect": [
+            656,
+            1843,
+            165,
+            18
+          ],
+          "sw": 334,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Games · Advance ¥4,500 / door",
+          "rect": [
+            656,
+            1861,
+            165,
+            18
+          ],
+          "sw": 267,
+          "cw": 165
+        }
+      ]
+    },
+    {
+      "profile": "new",
+      "screen": "daily",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-daily-1440x900.png",
+      "stableMs": 1270,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "records",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-records-1440x900.png",
+      "stableMs": 952,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "hero",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-hero-1440x900.png",
+      "stableMs": 1268,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "new",
+      "screen": "settings",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-new-settings-1440x900.png",
+      "stableMs": 1279,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-map-390x844.png",
+      "stableMs": 2204,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-list-390x844.png",
+      "stableMs": 1253,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            54,
+            301,
+            139,
+            18
+          ],
+          "sw": 155,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            54,
+            380,
+            136,
+            18
+          ],
+          "sw": 144,
+          "cw": 136
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            156,
+            524,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            156,
+            543,
+            115,
+            18
+          ],
+          "sw": 149,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            156,
+            602,
+            115,
+            18
+          ],
+          "sw": 157,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            156,
+            621,
+            115,
+            18
+          ],
+          "sw": 420,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            156,
+            680,
+            115,
+            18
+          ],
+          "sw": 201,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            156,
+            758,
+            115,
+            18
+          ],
+          "sw": 158,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            156,
+            777,
+            115,
+            18
+          ],
+          "sw": 239,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            156,
+            836,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            156,
+            855,
+            115,
+            18
+          ],
+          "sw": 290,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            156,
+            914,
+            115,
+            18
+          ],
+          "sw": 316,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            156,
+            933,
+            115,
+            18
+          ],
+          "sw": 445,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            156,
+            992,
+            115,
+            18
+          ],
+          "sw": 162,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            156,
+            1011,
+            115,
+            18
+          ],
+          "sw": 337,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            156,
+            1070,
+            115,
+            18
+          ],
+          "sw": 429,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            156,
+            1089,
+            115,
+            18
+          ],
+          "sw": 134,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            156,
+            1167,
+            115,
+            18
+          ],
+          "sw": 174,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            156,
+            1226,
+            115,
+            18
+          ],
+          "sw": 215,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            156,
+            1245,
+            115,
+            18
+          ],
+          "sw": 356,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            156,
+            1304,
+            115,
+            18
+          ],
+          "sw": 269,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            156,
+            1323,
+            115,
+            18
+          ],
+          "sw": 150,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            156,
+            1382,
+            115,
+            18
+          ],
+          "sw": 266,
+          "cw": 115
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            156,
+            1401,
+            115,
+            18
+          ],
+          "sw": 364,
+          "cw": 115
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-daily-390x844.png",
+      "stableMs": 1221,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-records-390x844.png",
+      "stableMs": 938,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-hero-390x844.png",
+      "stableMs": 1223,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "390x844",
+      "file": "2026-10-28-r2m-old-settings-390x844.png",
+      "stableMs": 1224,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 844,
+      "vw": 390,
+      "vh": 844,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-map-390x667.png",
+      "stableMs": 2136,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-list-390x667.png",
+      "stableMs": 1233,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yanesen Old-Town Walk",
+          "rect": [
+            52,
+            299,
+            142,
+            18
+          ],
+          "sw": 155,
+          "cw": 142
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Yamanote Grand Loop",
+          "rect": [
+            52,
+            378,
+            139,
+            18
+          ],
+          "sw": 144,
+          "cw": 139
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            154,
+            522,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Games · ¥1,500",
+          "rect": [
+            154,
+            541,
+            119,
+            18
+          ],
+          "sw": 149,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Solo Leveling Exhibition",
+          "rect": [
+            154,
+            600,
+            119,
+            18
+          ],
+          "sw": 157,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            154,
+            619,
+            119,
+            18
+          ],
+          "sw": 420,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            154,
+            678,
+            119,
+            18
+          ],
+          "sw": 201,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Roppongi Art Night 2026",
+          "rect": [
+            154,
+            756,
+            119,
+            18
+          ],
+          "sw": 158,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            154,
+            775,
+            119,
+            18
+          ],
+          "sw": 239,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO ANIME NEXT",
+          "rect": [
+            154,
+            834,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            154,
+            853,
+            119,
+            18
+          ],
+          "sw": 290,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            154,
+            912,
+            119,
+            18
+          ],
+          "sw": 316,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            154,
+            931,
+            119,
+            18
+          ],
+          "sw": 445,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "AMUSEMENT EXPO 2026",
+          "rect": [
+            154,
+            990,
+            119,
+            18
+          ],
+          "sw": 162,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            154,
+            1009,
+            119,
+            18
+          ],
+          "sw": 337,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            154,
+            1068,
+            119,
+            18
+          ],
+          "sw": 429,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Free",
+          "rect": [
+            154,
+            1087,
+            119,
+            18
+          ],
+          "sw": 134,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            154,
+            1165,
+            119,
+            18
+          ],
+          "sw": 174,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            154,
+            1224,
+            119,
+            18
+          ],
+          "sw": 215,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            154,
+            1243,
+            119,
+            18
+          ],
+          "sw": 356,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            154,
+            1302,
+            119,
+            18
+          ],
+          "sw": 269,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Setagaya · Fashion · ¥1,400",
+          "rect": [
+            154,
+            1321,
+            119,
+            18
+          ],
+          "sw": 150,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            154,
+            1380,
+            119,
+            18
+          ],
+          "sw": 266,
+          "cw": 119
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            154,
+            1399,
+            119,
+            18
+          ],
+          "sw": 364,
+          "cw": 119
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-daily-390x667.png",
+      "stableMs": 1231,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-records-390x667.png",
+      "stableMs": 917,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-hero-390x667.png",
+      "stableMs": 1229,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "390x667",
+      "file": "2026-10-28-r2m-old-settings-390x667.png",
+      "stableMs": 1218,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 390,
+      "docScrollH": 667,
+      "vw": 390,
+      "vh": 667,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "map",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-map-1440x900.png",
+      "stableMs": 2168,
+      "timedOut": false,
+      "view": "map",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "list",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-list-1440x900.png",
+      "stableMs": 1569,
+      "timedOut": false,
+      "view": "list",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": [
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "SONIC the Exhibition — ACROSS GENERATION",
+          "rect": [
+            656,
+            517,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shibuya · Anime · Online ¥2,800 weekdays",
+          "rect": [
+            656,
+            613,
+            165,
+            18
+          ],
+          "sw": 420,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "66th Kanda Used Book Festival",
+          "rect": [
+            656,
+            673,
+            165,
+            18
+          ],
+          "sw": 201,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Roppongi · Art · Free (some paid program",
+          "rect": [
+            656,
+            769,
+            165,
+            18
+          ],
+          "sw": 239,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ikebukuro · Anime · Varies by program (s",
+          "rect": [
+            656,
+            847,
+            165,
+            18
+          ],
+          "sw": 290,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "39th Tokyo International Film Festival (",
+          "rect": [
+            656,
+            907,
+            165,
+            18
+          ],
+          "sw": 316,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Hibiya / Yurakucho · Film · Most section",
+          "rect": [
+            656,
+            925,
+            165,
+            18
+          ],
+          "sw": 445,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Games · ¥2,000 (early-entry ¥3,",
+          "rect": [
+            656,
+            1003,
+            165,
+            18
+          ],
+          "sw": 337,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "FIST OF THE NORTH STAR — HOKUTO NO KEN S",
+          "rect": [
+            656,
+            1063,
+            165,
+            18
+          ],
+          "sw": 429,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Nakano · Workshop · Free entry",
+          "rect": [
+            656,
+            1159,
+            165,
+            18
+          ],
+          "sw": 174,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "TOKYO MODERNISM SHOW 2026",
+          "rect": [
+            656,
+            1219,
+            165,
+            18
+          ],
+          "sw": 215,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ginza · Fashion · 1-day pass ¥3,000 / 3-",
+          "rect": [
+            656,
+            1237,
+            165,
+            18
+          ],
+          "sw": 356,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Swedish Textiles — Setagaya Art Museum",
+          "rect": [
+            656,
+            1297,
+            165,
+            18
+          ],
+          "sw": 269,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Touken Ranbu — Touken Neko Cafe Vol.6",
+          "rect": [
+            656,
+            1375,
+            165,
+            18
+          ],
+          "sw": 266,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Akihabara · Anime · Free entry · reserva",
+          "rect": [
+            656,
+            1393,
+            165,
+            18
+          ],
+          "sw": 364,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Workshop · Advance ¥800 / door ",
+          "rect": [
+            656,
+            1471,
+            165,
+            18
+          ],
+          "sw": 261,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "A Journey Through World Embroidery",
+          "rect": [
+            656,
+            1531,
+            165,
+            18
+          ],
+          "sw": 245,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Fashion · ¥1,000 (students ¥5",
+          "rect": [
+            656,
+            1549,
+            165,
+            18
+          ],
+          "sw": 236,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "On the Street — Pardon the Intrusion?",
+          "rect": [
+            656,
+            1609,
+            165,
+            18
+          ],
+          "sw": 246,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "hololive Grand Reception — An Invitation",
+          "rect": [
+            656,
+            1687,
+            165,
+            18
+          ],
+          "sw": 346,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Ariake · Anime · Advance ¥2,500 / door ¥",
+          "rect": [
+            656,
+            1705,
+            165,
+            18
+          ],
+          "sw": 250,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Yurakucho · Film · Advance ¥1,700–1,800",
+          "rect": [
+            656,
+            1783,
+            165,
+            18
+          ],
+          "sw": 224,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-name-t",
+          "text": "Umineko Nazotoki Vol.2 — Escape from the",
+          "rect": [
+            656,
+            1843,
+            165,
+            18
+          ],
+          "sw": 334,
+          "cw": 165
+        },
+        {
+          "tag": "SPAN",
+          "id": "",
+          "cls": "ms-meta",
+          "text": "Shinjuku · Games · Advance ¥4,500 / door",
+          "rect": [
+            656,
+            1861,
+            165,
+            18
+          ],
+          "sw": 267,
+          "cw": 165
+        }
+      ]
+    },
+    {
+      "profile": "old",
+      "screen": "daily",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-daily-1440x900.png",
+      "stableMs": 1236,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "records",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-records-1440x900.png",
+      "stableMs": 937,
+      "timedOut": false,
+      "view": "daily",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "calScreen"
+      ],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "hero",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-hero-1440x900.png",
+      "stableMs": 1228,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [],
+      "offenders": []
+    },
+    {
+      "profile": "old",
+      "screen": "settings",
+      "viewport": "1440x900",
+      "file": "2026-10-28-r2m-old-settings-1440x900.png",
+      "stableMs": 1252,
+      "timedOut": false,
+      "view": "hero",
+      "titleOn": false,
+      "docScrollW": 1440,
+      "docScrollH": 900,
+      "vw": 1440,
+      "vh": 900,
+      "pageCanScrollY": false,
+      "dialogs": [],
+      "openLayers": [
+        "stylePanel"
+      ],
+      "offenders": []
+    }
+  ]
+}

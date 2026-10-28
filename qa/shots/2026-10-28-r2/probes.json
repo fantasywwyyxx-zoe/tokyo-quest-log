@@ -1,0 +1,632 @@
+{
+  "tag": "2026-10-28-r2",
+  "generatedAt": "2026-10-28T07:19:09.694Z",
+  "probes": [
+    {
+      "name": "filterbar-ja-390x844",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "すべて",
+          "rect": [
+            132,
+            56,
+            36,
+            42
+          ],
+          "pressed": "true",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "event",
+          "text": "期間限定",
+          "rect": [
+            170,
+            56,
+            48,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "epic",
+          "text": "史詩",
+          "rect": [
+            221,
+            56,
+            26,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "legend",
+          "text": "レジェンド",
+          "rect": [
+            249,
+            56,
+            59,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "accepted",
+          "text": "受注中",
+          "rect": [
+            311,
+            56,
+            37,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "cleared",
+          "text": "完了",
+          "rect": [
+            350,
+            56,
+            26,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        }
+      ],
+      "gaps": [
+        2,
+        3,
+        2,
+        3,
+        2
+      ],
+      "countText": "130件"
+    },
+    {
+      "name": "catalog-ja",
+      "mapCount": "130件"
+    },
+    {
+      "name": "legend-filter-ja",
+      "mapCount": "4件",
+      "visiblePins": 4,
+      "chipState": {
+        "rect": [
+          246,
+          59
+        ],
+        "pressed": "true",
+        "cls": "mf-chip"
+      }
+    },
+    {
+      "name": "list-ja",
+      "rows": 134,
+      "countLabel": ""
+    },
+    {
+      "name": "岩絵具入門ワークショップ（PIGMENT TOKYO）",
+      "monthlyOccurrences": 2,
+      "dpWhen": "",
+      "dpRange": "毎月開催のワークショップ",
+      "bannerImg": {
+        "nw": 533,
+        "nh": 299
+      }
+    },
+    {
+      "name": "sonic-detail-retest",
+      "moodChips": [
+        {
+          "t": "#歴史・秘宝",
+          "right": 337,
+          "clipped": false
+        },
+        {
+          "t": "#ポップカルチャー",
+          "right": 376,
+          "clipped": false
+        },
+        {
+          "t": "#レトロ・懐かしい",
+          "right": 376,
+          "clipped": false
+        }
+      ],
+      "blurbSh": 92,
+      "blurbCh": 92,
+      "blurbClipped": false
+    },
+    {
+      "name": "confirm-dialog-ja",
+      "open": true,
+      "tabText": "かくにん",
+      "qText": "「SONIC the Exhibition -ACROSS GENERATIONS-」をやめますか？掲示板に戻り、いつでも受け直せます。ペナルティはありません。",
+      "tabRect": [
+        34,
+        539,
+        97,
+        26
+      ],
+      "qRect": [
+        37,
+        577,
+        317,
+        93
+      ],
+      "tabOverlapsQ": false,
+      "qClipped": false
+    },
+    {
+      "0": "s",
+      "1": "k",
+      "2": "i",
+      "3": "p",
+      "name": "epic-sample"
+    },
+    {
+      "name": "SONIC the Exhibition -ACROSS GENERATIONS",
+      "chips": "Gamesまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "SONIC the Exhibition -ACROSS GENERATIONS",
+      "chips": "Gamesまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "SONIC the Exhibition -ACROSS GENERATIONS",
+      "chips": "Gamesまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "SONIC the Exhibition -ACROSS GENERATIONS",
+      "chips": "Gamesまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "SONIC the Exhibition -ACROSS GENERATIONS",
+      "chips": "Gamesまもなく終了受注中 ✓",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "『俺だけレベルアップな件』展",
+      "chips": "Animeまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 1000
+      }
+    },
+    {
+      "name": "第66回 東京名物 神田古本まつり",
+      "chips": "Art無料まもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "六本木アートナイト2026",
+      "chips": "Art無料",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 960
+      }
+    },
+    {
+      "name": "TOKYO ANIME NEXT",
+      "chips": "Anime",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 900
+      }
+    },
+    {
+      "name": "第39回東京国際映画祭",
+      "chips": "Filmまもなく終了",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 600
+      }
+    },
+    {
+      "name": "アミューズメントエキスポ2026",
+      "chips": "Games",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 1000
+      }
+    },
+    {
+      "name": "北斗の拳 特別展（アニメ東京ステーション）",
+      "chips": "Anime無料",
+      "rewardVisible": false,
+      "rewardText": "",
+      "bannerImg": {
+        "nw": 1000
+      }
+    },
+    {
+      "name": "",
+      "visible": false
+    },
+    {
+      "name": "北斗の拳 特別展（アニメ東京ステーション）",
+      "detailOpen": false,
+      "textLen": 731,
+      "checkpointMentions": 0,
+      "bodySnippet": "★ 伝説級 ✕ 伝説級 0 / 6 地点 山手線グランドループ 渋谷・原宿・新宿・池袋・上野・神田——山手線の弧をたどる6地点の大きな輪。 EPICの上を行くルートクエスト：全地点を順番に、現地GPSチェックインで踏破。手動クリア不可・制限時間なし——進捗は保存され、いつでも続きから再開できます。 1 忠犬ハチ公像 渋谷 · Hachiko Square, in front of Shibuya Station GPSチェックイン 2 "
+    },
+    {
+      "name": "filterbar-ja-390x667",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "すべて",
+          "rect": [
+            132,
+            56,
+            36,
+            42
+          ],
+          "pressed": "true",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "event",
+          "text": "期間限定",
+          "rect": [
+            170,
+            56,
+            48,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "epic",
+          "text": "史詩",
+          "rect": [
+            221,
+            56,
+            26,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "legend",
+          "text": "レジェンド",
+          "rect": [
+            249,
+            56,
+            59,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "accepted",
+          "text": "受注中",
+          "rect": [
+            311,
+            56,
+            37,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "cleared",
+          "text": "完了",
+          "rect": [
+            350,
+            56,
+            26,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        }
+      ],
+      "gaps": [
+        2,
+        3,
+        2,
+        3,
+        2
+      ],
+      "countText": "130件"
+    },
+    {
+      "name": "filterbar-zh-390x844",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "全部",
+          "rect": [
+            134,
+            56,
+            32,
+            42
+          ],
+          "pressed": "true",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "event",
+          "text": "限时",
+          "rect": [
+            170,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "epic",
+          "text": "史诗",
+          "rect": [
+            207,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "legend",
+          "text": "传说",
+          "rect": [
+            244,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "accepted",
+          "text": "进行中",
+          "rect": [
+            281,
+            56,
+            45,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "cleared",
+          "text": "已完成",
+          "rect": [
+            331,
+            56,
+            45,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        }
+      ],
+      "gaps": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "countText": "130 件"
+    },
+    {
+      "name": "filterbar-zh-390x667",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "全部",
+          "rect": [
+            134,
+            56,
+            32,
+            42
+          ],
+          "pressed": "true",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "event",
+          "text": "限时",
+          "rect": [
+            170,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "epic",
+          "text": "史诗",
+          "rect": [
+            207,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "legend",
+          "text": "传说",
+          "rect": [
+            244,
+            56,
+            32,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "accepted",
+          "text": "进行中",
+          "rect": [
+            281,
+            56,
+            45,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "cleared",
+          "text": "已完成",
+          "rect": [
+            331,
+            56,
+            45,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        }
+      ],
+      "gaps": [
+        4,
+        5,
+        5,
+        5,
+        5
+      ],
+      "countText": "130 件"
+    },
+    {
+      "name": "filterbar-en-1440x900",
+      "chips": [
+        {
+          "mf": "all",
+          "text": "All",
+          "rect": [
+            629,
+            56,
+            17,
+            42
+          ],
+          "pressed": "true",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "event",
+          "text": "EVENTS",
+          "rect": [
+            656,
+            56,
+            44,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "epic",
+          "text": "EPIC",
+          "rect": [
+            710,
+            56,
+            27,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "legend",
+          "text": "LEGEND",
+          "rect": [
+            748,
+            56,
+            46,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "accepted",
+          "text": "ACCEPTED",
+          "rect": [
+            804,
+            56,
+            59,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        },
+        {
+          "mf": "cleared",
+          "text": "CLEARED",
+          "rect": [
+            874,
+            56,
+            52,
+            42
+          ],
+          "pressed": "false",
+          "cls": "mf-chip"
+        }
+      ],
+      "gaps": [
+        10,
+        10,
+        11,
+        10,
+        11
+      ],
+      "countText": "130"
+    }
+  ]
+}
