@@ -10478,6 +10478,7 @@
         <div class="auth-step" id="authStepMain">
           <button class="auth-btn primary" id="authShowEmail" type="button"></button>
           <button class="auth-btn" id="authGoogleBtn" type="button"></button>
+          <p class="auth-sub" id="authNewNote"></p>
           <button class="auth-btn ghost" id="authGuestBtn" type="button"></button>
           <p class="auth-msg" id="authMainMsg" hidden></p>
           <a class="auth-migrate" id="authMigrate" href="https://fantasywwyyxx-zoe.github.io/tql-migrate/" target="_blank" rel="noopener"></a>
@@ -20660,7 +20661,12 @@
           verifyBtn: "VERIFY & LOG IN", verifying: "CHECKING…", resendBtn: "RESEND CODE",
           resendWait: function (s) { return "You can resend in " + s + "s"; }, resendReady: "Didn't get it? Resend the code.",
           backBtn: "◀ BACK", closeBtn: "CLOSE", doneTitle: "LOGGED IN ✓",
+          welcomeBack: "Welcome back, adventurer!",
+          newNote: "New here? No sign-up needed — just log in, and your account is created automatically the first time.",
           googlePrep: "Google sign-in is still being prepared — please use email for now.",
+          errOAuthDenied: "Google sign-in was cancelled, so no account was linked. Tap “G LOG IN WITH GOOGLE” to try again, or use email.",
+          errOAuthFail: function (e) { return "Google sign-in didn't finish (error: " + e + "). Please try again, or use email instead."; },
+          errOAuthLost: "You came back from Google, but the sign-in couldn't be completed on this screen — if the Google page opened in a different app or browser than the one you started in, the secure hand-off gets lost. Please start the Google sign-in again from this same screen, or use email.",
           errMail: "Enter a valid email address.", errBadCode: "That code doesn't match. Check the email and try again.",
           errExpired: "That code has expired. Resend a fresh code and try again.",
           errSend: "Couldn't send the code. Check the address and try again in a moment.",
@@ -20683,7 +20689,12 @@
           verifyBtn: "検証してログイン", verifying: "確認中…", resendBtn: "コードを再送",
           resendWait: function (s) { return "再送できるまで " + s + " 秒"; }, resendReady: "届かないときは再送できます。",
           backBtn: "◀ もどる", closeBtn: "とじる", doneTitle: "ログイン中 ✓",
+          welcomeBack: "おかえりなさい、冒険者！",
+          newNote: "はじめての方へ：登録は不要です。そのままログインすれば、初回ログインでアカウントが自動作成されます。",
           googlePrep: "Googleログインは準備中です。今はメールでログインしてください。",
+          errOAuthDenied: "Googleログインがキャンセルされたため、アカウントは連携されていません。「Googleでログイン」をもう一度押すか、メールでログインしてください。",
+          errOAuthFail: function (e) { return "Googleログインが完了しませんでした（エラー：" + e + "）。もう一度お試しいただくか、メールでログインしてください。"; },
+          errOAuthLost: "Googleから戻ってきましたが、この画面ではログインを完了できませんでした。ログインを始めたアプリ／ブラウザとは別の場所でGoogleの画面が開くと、安全確認の引き継ぎが切れてしまいます。この画面からもう一度Googleログインを始めるか、メールでログインしてください。",
           errMail: "メールアドレスを正しく入力してください。", errBadCode: "コードが一致しません。メールを確認してもう一度どうぞ。",
           errExpired: "コードの有効期限が切れています。再送して新しいコードでお試しください。",
           errSend: "コードを送信できませんでした。アドレスを確認して、少し待ってもう一度どうぞ。",
@@ -20706,7 +20717,12 @@
           verifyBtn: "验证并登录", verifying: "验证中…", resendBtn: "重新发送",
           resendWait: function (s) { return s + " 秒后可以重发"; }, resendReady: "没收到？可以重新发送。",
           backBtn: "◀ 返回", closeBtn: "关闭", doneTitle: "已登录 ✓",
+          welcomeBack: "欢迎回来，冒险者！",
+          newNote: "新用户看这里：无需注册，直接登录即可——首次登录会自动为你创建账号。",
           googlePrep: "Google 登录还在准备中，请先用邮箱登录。",
+          errOAuthDenied: "Google 登录已取消，账号没有绑定。请再点一次「用 Google 登录」，或改用邮箱登录。",
+          errOAuthFail: function (e) { return "Google 登录未完成（错误：" + e + "）。请重试，或改用邮箱登录。"; },
+          errOAuthLost: "已从 Google 返回，但没能在这个页面完成登录——如果 Google 页面是在另一个 App／浏览器里打开的，安全交接就会丢失。请在这个页面重新发起 Google 登录，或改用邮箱登录。",
           errMail: "请输入正确的邮箱地址。", errBadCode: "验证码不对，请检查邮件后再试。",
           errExpired: "验证码已过期，请重新发送后再试。",
           errSend: "验证码发送失败，请检查邮箱地址，稍后再试。",
@@ -20753,7 +20769,16 @@
         if (sbLoading) return sbLoading;
         sbLoading = new Promise(function (resolve, reject) {
           function make() {
-            try { sbClient = window.supabase.createClient(SB_URL, SB_KEY); resolve(sbClient); }
+            /* flowType is set EXPLICITLY to pkce (2026-10-29): the
+               supabase-js build served from the CDN defaults to
+               "implicit", which makes a ?code= OAuth return throw
+               inside the SDK's initialise ("Not a valid implicit
+               grant flow url") and silently produce no session.
+               PKCE is the flow the return leg is built around: the
+               SDK appends sb_flow_id to the redirect, stores the code
+               verifier, and exchanges the returned code at
+               /auth/v1/token during initialise. */
+            try { sbClient = window.supabase.createClient(SB_URL, SB_KEY, { auth: { flowType: "pkce", detectSessionInUrl: true } }); resolve(sbClient); }
             catch (e) { reject(e); }
           }
           if (window.supabase && window.supabase.createClient) { make(); return; }
@@ -20800,10 +20825,10 @@
             var localEmpty = isEmptySave(state), cloudEmpty = isEmptySave(cloud);
             if (cloudEmpty && localEmpty) { await pushCloud(); lastSyncNote = A().syncDone; return lastSyncNote; }
             if (cloudEmpty) { await pushCloud(); lastSyncNote = A().syncUploaded; return lastSyncNote; }
-            if (localEmpty) { applyCloud(cloud); lastSyncNote = A().syncLoaded; return lastSyncNote; }
+            if (localEmpty) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; return lastSyncNote; }
             var cmp = compareSaves(state, cloud);
             if (cmp > 0) { await pushCloud(); lastSyncNote = A().syncUploaded; }
-            else if (cmp < 0) { applyCloud(cloud); lastSyncNote = A().syncLoaded; }
+            else if (cmp < 0) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; }
             else lastSyncNote = A().syncDone;
             return lastSyncNote;
           } catch (e) { setSyncMark(true); lastSyncNote = A().syncFail; return lastSyncNote; }
@@ -20811,10 +20836,52 @@
         })();
         return syncPromise;
       }
-      function applyCloud(cloud) {
+      /* ---------- reload loop guard (2026-10-29) ----------
+         For the one reload that remains (the version-update strip,
+         user-tapped): markReloadOnce() allows ONE plain reload per
+         browser session per purpose, recorded in sessionStorage; if
+         the guard cannot be recorded (storage blocked — itself a
+         classic loop setup) it fails CLOSED. Nothing in the auth /
+         sync paths reloads automatically any more — see applyCloud. */
+      function markReloadOnce(key) {
+        try {
+          if (sessionStorage.getItem(key)) return false;
+          sessionStorage.setItem(key, "1");
+          return true;
+        } catch (e) { return false; }
+      }
+      /* ---------- cloud apply: IN PLACE, never via reload (2026-10-29) ----------
+         The Safari loop, from Zoe's screen recording: LOGGED-IN boot →
+         title renders fully → ~1–2 s later (async session restore +
+         syncOnce completing) the whole page reloads → same decision
+         again → ~5 s cycle, forever. The reload was the old
+         applyCloud: whenever the cloud record won the comparison, the
+         page reloaded to boot onto it, and if the local write did not
+         stick (or the comparison kept finding the cloud ahead) the
+         trigger re-armed on every boot. Guest browsers never looped
+         because sync never runs for them.
+         Now the winning record is applied to the live state and
+         re-rendered in place — sync NEVER reloads, on success or on
+         failure, and token refresh is not handled as a reload trigger
+         either (onAuthStateChange only acts on SIGNED_IN/SIGNED_OUT,
+         and SIGNED_IN funnels into this same reload-free sync).
+         One-shot gate: each cloud version (its updated_at) is applied
+         at most once, ever; the marker sits in localStorage beside
+         the save itself. */
+      function applyCloud(cloud, ver) {
+        var stamp = ver || (cloud && cloud.savedAt) || "";
+        try { if (stamp && localStorage.getItem("tqlCloudAppliedVer") === String(stamp)) return; } catch (e) { /* ignore */ }
         try { localStorage.setItem(LS_KEY, JSON.stringify(cloud)); } catch (e) { /* ignore */ }
+        try { if (stamp) localStorage.setItem("tqlCloudAppliedVer", String(stamp)); } catch (e) { /* ignore */ }
+        try {
+          var fresh = JSON.parse(JSON.stringify(cloud));
+          Object.keys(state).forEach(function (k) { if (!(k in fresh)) delete state[k]; });
+          Object.keys(fresh).forEach(function (k) { state[k] = fresh[k]; });
+          origSave();
+          applyTheme(state.theme, false);
+          renderAll();
+        } catch (e) { /* in-place apply failed partway: the record is already in localStorage and takes effect on the next natural load — still no reload */ }
         showSyncDone(A().syncLoaded);
-        setTimeout(function () { location.reload(); }, 1800);
       }
 
       /* ---------- auth window UI ---------- */
@@ -20874,7 +20941,8 @@
         if (pendingEmail) $("authCodeTo").textContent = t.codeTo(pendingEmail);
         $("authVerifyBtn").textContent = t.verifyBtn;
         if (resendLeft <= 0) { $("authResendBtn").textContent = t.resendBtn; }
-        $("authDoneTitle").textContent = t.doneTitle;
+        $("authDoneTitle").textContent = t.welcomeBack;
+        $("authNewNote").textContent = t.newNote;
         $("authDoneClose").textContent = t.closeBtn;
         $("supportTitle").textContent = t.supportTitle;
         $("supportText").textContent = t.supportText;
@@ -21014,32 +21082,103 @@
       });
 
       /* ---------- boot: restore session, OAuth return, version check ---------- */
-      (function cleanAuthUrl(withError) {
+      /* OAuth return handling (2026-10-29 fix). The previous code wiped
+         ?code= / #access_token from the URL synchronously at script parse —
+         BEFORE supabase-js had even loaded, let alone created its client.
+         supabase-js (PKCE) exchanges the code by reading the CURRENT url
+         when the client initialises, so the code was already gone: no
+         exchange, no session, and the player silently stayed a guest.
+         Now: capture the return params WITHOUT touching the url, let the
+         SDK do its exchange, and clean the url only after getSession()
+         has settled. Any return that fails to produce a session surfaces
+         a visible, localised reason in the login window — never a
+         silent fall-back to guest. */
+      var oauthReturn = (function () {
+        var info = { code: false, tokens: false, error: "", desc: "" };
+        try {
+          var grab = function (str) {
+            if (!str) return;
+            str.replace(/^[#?]/, "").split("&").forEach(function (pair) {
+              var kv = pair.split("=");
+              var k = "", v = "";
+              try { k = decodeURIComponent(kv[0] || ""); v = decodeURIComponent((kv[1] || "").replace(/\+/g, " ")); } catch (e) { return; }
+              if (k === "code" && v) info.code = true;
+              if (k === "access_token" && v) info.tokens = true;
+              if (k === "error" && v) info.error = v;
+              if (k === "error_description" && v) info.desc = v;
+            });
+          };
+          grab(location.search); grab(location.hash);
+        } catch (e) { /* ignore */ }
+        return info;
+      })();
+      function cleanAuthUrlNow() {
         try {
           var dirty = /access_token|refresh_token|provider_token|error_description|error=|code=/.test(location.hash || "") ||
                       /[?&](code|error|error_description)=/.test(location.search || "");
           if (dirty) history.replaceState(null, "", location.pathname);
-          if (withError) { openAuth(); showMsg("authMainMsg", A().googlePrep); }
         } catch (e) { /* ignore */ }
-      })(/[#?&]error/.test(location.hash || "") || /[?&]error=/.test(location.search || ""));
+      }
+      var oauthFailureShown = false;
+      function showOAuthFailure() {
+        if (oauthFailureShown) return;
+        oauthFailureShown = true;
+        var t = A(), msg;
+        if (oauthReturn.error === "access_denied") msg = t.errOAuthDenied;
+        else if (oauthReturn.error) msg = t.errOAuthFail(oauthReturn.error);
+        else msg = t.errOAuthLost;
+        openAuth();
+        showMsg("authMainMsg", msg);
+      }
+      /* One-shot welcome for a login completed by THIS load's OAuth
+         return. Both the getSession path and the SIGNED_IN event can
+         observe the new session (order between them is not guaranteed),
+         so whichever arrives first consumes the flag exactly once.
+         Stored-session restores never set it — no popup for them. */
+      var oauthWelcomePending = !!(oauthReturn.code || oauthReturn.tokens);
+      function maybeOAuthWelcome(note) {
+        if (!oauthWelcomePending) return false;
+        oauthWelcomePending = false;
+        openAuth();
+        showSyncDone(note);
+        return true;
+      }
       loadSupabase().then(async function (sb) {
         try {
           var s = await sb.auth.getSession();
           if (s.data && s.data.session) {
             authUser = s.data.session.user;
             refreshAcctUI();
-            syncOnce();
+            syncOnce().then(function (note) { maybeOAuthWelcome(note); });
+          } else if (oauthReturn.error || oauthReturn.code || oauthReturn.tokens) {
+            /* Back from Google with no session: the provider returned an
+               error, or the PKCE exchange failed — the code verifier lives
+               in the browser context that STARTED the login, so a
+               webview → Safari / home-screen hop loses it. Say so. */
+            showOAuthFailure();
           }
         } catch (e) { /* offline guest play */ }
+        cleanAuthUrlNow();
         sb.auth.onAuthStateChange(function (ev, session) {
           if (ev === "SIGNED_IN" && session) {
             var isNew = !authUser || authUser.id !== session.user.id;
             authUser = session.user; refreshAcctUI();
-            if (isNew) syncOnce().then(function (note) { if (!$("authScreen").hidden) showSyncDone(note); });
+            if (isNew) syncOnce().then(function (note) {
+              /* A login that just completed via an OAuth return gets an
+                 explicit welcome confirmation (welcome title + email +
+                 which save was kept), confirmed by the player's tap —
+                 never a silent state flip. */
+              if (!maybeOAuthWelcome(note) && !$("authScreen").hidden) showSyncDone(note);
+            });
             try { if (/access_token|code=/.test(location.hash || "") || /[?&]code=/.test(location.search || "")) history.replaceState(null, "", location.pathname); } catch (e) { /* ignore */ }
           } else if (ev === "SIGNED_OUT") { authUser = null; refreshAcctUI(); }
         });
-      }).catch(function () { /* SDK unreachable: guest mode, no noise */ });
+      }).catch(function () {
+        /* SDK unreachable: guest mode, no noise — unless this load WAS an
+           OAuth return, in which case say so instead of silent guest. */
+        if (oauthReturn.error || oauthReturn.code || oauthReturn.tokens) showOAuthFailure();
+        cleanAuthUrlNow();
+      });
       refreshAcctUI();
       try {
         if (/^https?:$/.test(location.protocol) && !/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) {
@@ -21049,7 +21188,14 @@
           }).catch(function () { /* offline: no banner */ });
         }
       } catch (e) { /* ignore */ }
-      $("verBanner").addEventListener("click", function () { location.reload(); });
+      $("verBanner").addEventListener("click", function () {
+        /* Loop guard (2026-10-29): one plain reload per session. If the
+           version STILL mismatches after it — Safari re-serving the
+           stale cached document — a second plain reload would just
+           spin, so escalate to a one-off cache-busting navigation. */
+        if (markReloadOnce("tqlReloadVer")) { location.reload(); return; }
+        try { location.replace(location.pathname + "?upd=" + Date.now()); } catch (e) { /* ignore */ }
+      });
       $("verBannerClose").addEventListener("click", function (e) { e.stopPropagation(); $("verBanner").hidden = true; });
     </script>
   </body>
