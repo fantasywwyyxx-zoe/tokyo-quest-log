@@ -7000,7 +7000,14 @@
          one flat ellipse at its base, centred on the ground line,
          the same treatment the walker's shadow gets */
       .sp-sakura::before, .sp-vending::before, .sp-hachiko::before,
-      .sp-torii::before, .sp-monument::before, .sp-tower::before {
+      .sp-torii::before, .sp-monument::before, .sp-tower::before,
+      .sp-planter::before, .sp-lamp::before, .sp-bench::before,
+      .sp-bicycle::before, .sp-postbox::before, .sp-yatai::before,
+      .sp-stone-lantern::before, .sp-maple::before, .sp-bus-stop::before,
+      .sp-cat::before, .sp-gachapon::before, .sp-fountain::before,
+      .sp-hokora::before, .sp-phone-booth::before, .sp-slide::before,
+      .sp-taxi::before, .sp-konbini::before, .sp-shiba::before,
+      .sp-pigeons::before {
         content: ""; position: absolute; left: 50%; bottom: -4px; z-index: 0;
         transform: translateX(-50%); width: 76%; height: 7px; border-radius: 50%;
         background: rgba(18, 30, 16, 0.30); pointer-events: none;
@@ -7013,6 +7020,45 @@
       @keyframes fw-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
       .sp-monument { right: 27%; bottom: var(--ground-b, 30px); width: 34px; height: 46px; }
       .sp-train { left: 0; right: 0; bottom: 92px; width: 100%; height: 34px; }
+      /* --- art-dept batches 2+3 (2026-10-28): the grounded set
+         rides the runner carriers, so these rules only fix each
+         prop's natural size (the carrier sets position/scale);
+         the big landmarks and street infrastructure hold fixed
+         background posts on the same ground line --- */
+      .sp-planter { width: 58px; height: 24px; }
+      .sp-lamp { width: 20px; height: 56px; }
+      .sp-bench { width: 56px; height: 24px; }
+      .sp-bicycle { width: 56px; height: 34px; }
+      .sp-postbox { width: 27px; height: 46px; }
+      .sp-yatai { width: 66px; height: 52px; }
+      .sp-stone-lantern { width: 24px; height: 50px; }
+      .sp-maple { width: 62px; height: 56px; }
+      .sp-bus-stop { width: 42px; height: 56px; }
+      .sp-cat { width: 32px; height: 27px; }
+      .sp-gachapon { width: 29px; height: 46px; }
+      .sp-fountain { width: 68px; height: 38px; }
+      .sp-hokora { width: 30px; height: 37px; }
+      .sp-phone-booth { width: 27px; height: 54px; }
+      .sp-slide { width: 54px; height: 37px; }
+      .sp-taxi { width: 64px; height: 32px; }
+      .sp-konbini { left: 12%; bottom: var(--ground-b, 30px); width: 84px; height: 58px; }
+      .sp-lanterns { left: 5%; top: 11%; width: 128px; height: 49px; }
+      .sp-ferris-wheel { right: 0; bottom: var(--ground-b, 30px); width: 108px; height: 108px; }
+      .sp-skytree { left: 0; bottom: var(--ground-b, 30px); width: 40px; height: 124px; }
+      .sp-bridge { left: 50%; bottom: 36px; width: 94%; height: 34px; transform: translateX(-50%); }
+      /* ambient creatures: butterflies drift in stepped hops by
+         the sakura, the rest hold a still post on the street */
+      .sp-butterflies { left: 17%; top: 33%; width: 30px; height: 21px; }
+      .sp-butterflies svg { animation: bf-drift 2.4s steps(6) infinite; }
+      @keyframes bf-drift {
+        0%, 100% { transform: translate(0, 0); }
+        25% { transform: translate(3px, -3px); }
+        50% { transform: translate(6px, 0); }
+        75% { transform: translate(3px, 2px); }
+      }
+      .sp-shiba { right: 27%; bottom: var(--ground-b, 30px); width: 40px; height: 29px; }
+      .sp-pigeons { left: 28%; bottom: var(--ground-b, 30px); width: 50px; height: 25px; }
+      .sp-sparrows { right: 7%; top: 10.5%; width: 64px; height: 20px; }
       .sp-train .train-car {
         position: absolute; bottom: 9px; left: 0; width: 118px; height: 21px;
         animation: train-pass 17s steps(120) infinite;
@@ -7042,7 +7088,7 @@
         60% { transform: scale(1.12); opacity: 1; }
         100% { transform: scale(1); opacity: 1; }
       }
-      .sp-tower.is-new, .sp-rainbow.is-new { animation-name: sp-pop-fade; }
+      .sp-tower.is-new, .sp-rainbow.is-new, .sp-bridge.is-new { animation-name: sp-pop-fade; }
       @keyframes sp-pop-fade { from { opacity: 0; } to { opacity: 1; } }
       /* the street summary line inside the STATUS window */
       .hstat-scene {
@@ -7050,7 +7096,7 @@
         color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
       @media (prefers-reduced-motion: reduce) {
-        .sp-train .train-car, .sp-fireworks svg, .scene-props .sp.is-new { animation: none; }
+        .sp-train .train-car, .sp-fireworks svg, .sp-butterflies svg, .scene-props .sp.is-new { animation: none; }
       }
 
       /* --- title ladder PAGER (no scroll, ever) --- */
@@ -9696,6 +9742,11 @@
             state lives in memory for the session, and FULL MAP
             shares this same bar (.in-big), so it folds there
             too while the map stays full-bleed underneath.
+         6. Q-105R — the row META line was still ellipsised
+            (price cut at "¥1,…"): it wraps to two lines and
+            steps its type down to a 10px floor (canvas fit in
+            fitRowMetas) until the whole meta reads at 390px.
+            Name two-line treatment and LEGEND rows unchanged.
          ========================================================== */
 
       /* --- 1. Q-102: detail mood chips stay inside the card ---
@@ -9769,6 +9820,26 @@
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="emerald"]) .mf-fold-tab { background: #10142e; color: #f0f3ff; border-color: #dfe6ff; }
       }
+
+      /* --- 6. Q-105R: the row META line reads whole too ---
+         It was still single-line ellipsised (SONIC's price
+         died at "¥1,…"): like the name above it, the meta now
+         wraps to TWO lines and fitRowMetas steps its type
+         down (floor 10px) until area · category · price —
+         plus any distance / cleared tail — fits those two
+         lines entire. A handful of the longest price strings
+         (Solo Leveling's "Online ¥2,800 weekdays / ¥3,100
+         weekends (walk-in +¥500)") cannot physically fit two
+         lines of this column above the floor; for those rows
+         only, fitRowMetas opens a third line (.meta-x3) so
+         the tail is never cut. Rows whose meta fits one line
+         do not grow; LEGEND rows use .lg-meta, untouched. */
+      .ms-meta {
+        white-space: normal; overflow: hidden; text-overflow: clip;
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+        line-height: 1.35;
+      }
+      .ms-meta.meta-x3 { -webkit-line-clamp: 3; }
     </style>
   </head>
   <body data-view="map">
@@ -11475,7 +11546,7 @@
           ladderPrev: "◀ PREV", ladderNextBtn: "NEXT ▶",
           ladderPageOf: function (p, n) { return p + " / " + n; },
           sceneTitle: "MY STREET",
-          sceneNames: ["Sakura Tree", "Vending Machine", "Hachiko Statue", "Tokyo Tower", "Yamanote Train", "Torii Gate", "Scramble Crossing", "Fireworks", "Rainbow Bridge", "Golden Monument"],
+          sceneNames: ["Flower Planter", "Sakura Tree", "Street Lamp", "Vending Machine", "Park Bench", "Hachiko Statue", "Bicycle", "Red Postbox", "Tokyo Tower", "Yatai Stall", "Stone Lantern", "Yamanote Train", "Maple Tree", "Bus Stop", "Torii Gate", "Street Cat", "Gachapon Machine", "Scramble Crossing", "Fountain", "Lantern String", "Fireworks", "Ferris Wheel", "Roadside Shrine", "Rainbow Bridge", "Tokyo Skytree", "Phone Booth", "Suspension Bridge", "Park Slide", "Taxi", "Golden Monument"],
           sceneUnlock: function (n) { return "Your street grew — the " + n + " appeared!"; },
           cancelQuest: "Give up this quest",
           cancelQ: function (name) { return "Give up “" + name + "”? It goes back on the board — you can accept it again any time. No penalty."; },
@@ -12188,7 +12259,7 @@
           ladderPrev: "◀ 前へ", ladderNextBtn: "次へ ▶",
           ladderPageOf: function (p, n) { return p + " / " + n; },
           sceneTitle: "マイストリート",
-          sceneNames: ["桜の木", "自動販売機", "忠犬ハチ公像", "東京タワー", "山手線", "鳥居", "スクランブル交差点", "花火", "レインボーブリッジ", "黄金の記念碑"],
+          sceneNames: ["花壇", "桜の木", "街灯", "自動販売機", "ベンチ", "忠犬ハチ公像", "自転車", "赤ポスト", "東京タワー", "屋台", "石灯籠", "山手線", "紅葉の木", "バス停", "鳥居", "路地の猫", "ガチャポン", "スクランブル交差点", "噴水", "提灯の連なり", "花火", "観覧車", "祠", "レインボーブリッジ", "東京スカイツリー", "電話ボックス", "吊り橋", "滑り台", "タクシー", "黄金の記念碑"],
           sceneUnlock: function (n) { return "街が育った——" + n + "が現れた！"; },
           cancelQuest: "クエストをやめる",
           cancelQ: function (name) { return "「" + name + "」をやめますか？掲示板に戻り、いつでも受け直せます。ペナルティはありません。"; },
@@ -12901,7 +12972,7 @@
           ladderPrev: "◀ 上一页", ladderNextBtn: "下一页 ▶",
           ladderPageOf: function (p, n) { return p + " / " + n; },
           sceneTitle: "我的街道",
-          sceneNames: ["樱花树", "自动贩卖机", "忠犬八公像", "东京塔", "山手线电车", "鸟居", "涩谷十字路口", "烟花", "彩虹大桥", "黄金纪念碑"],
+          sceneNames: ["花坛", "樱花树", "街灯", "自动贩卖机", "长椅", "忠犬八公像", "自行车", "红邮筒", "东京塔", "屋台小吃摊", "石灯笼", "山手线电车", "红叶树", "巴士站", "鸟居", "街猫", "扭蛋机", "涩谷十字路口", "喷泉", "灯笼串", "烟花", "摩天轮", "小祠", "彩虹大桥", "晴空塔", "电话亭", "吊桥", "滑梯", "出租车", "黄金纪念碑"],
           sceneUnlock: function (n) { return "你的街道长大了——" + n + "出现了！"; },
           cancelQuest: "放弃这个任务",
           cancelQ: function (name) { return "要放弃「" + name + "」吗？它会回到公告板，随时可以重新接受，没有惩罚。"; },
@@ -14988,20 +15059,52 @@
 
       /* --- the street that grows: level-milestone Tokyo props --- */
       var SCENE_PROPS = [
+        { id: "planter", lv: 1, svg: '<svg viewBox="0 0 48 20" shape-rendering="crispEdges"><rect x="2" y="12" width="44" height="7" fill="#8a5a33"/><rect x="2" y="17" width="44" height="2" fill="#6b4226"/><rect x="4" y="10" width="40" height="3" fill="#5d3a1e"/><rect x="6" y="6" width="5" height="5" fill="#2e9e5b"/><rect x="14" y="4" width="6" height="7" fill="#58a05c"/><rect x="24" y="5" width="5" height="6" fill="#2e9e5b"/><rect x="33" y="4" width="6" height="7" fill="#58a05c"/><rect x="42" y="6" width="4" height="5" fill="#2e9e5b"/><rect x="7" y="3" width="3" height="3" fill="#f28bb4"/><rect x="16" y="2" width="3" height="3" fill="#ffd83d"/><rect x="26" y="3" width="3" height="3" fill="#fff6dd"/><rect x="35" y="2" width="3" height="3" fill="#e2483a"/><rect x="43" y="4" width="3" height="3" fill="#f28bb4"/></svg>' },
         { id: "sakura", lv: 2, svg: '<svg viewBox="0 0 48 44" shape-rendering="crispEdges"><rect x="22" y="26" width="4" height="16" fill="#7e4a21"/><rect x="18" y="30" width="4" height="3" fill="#7e4a21"/><rect x="26" y="29" width="4" height="3" fill="#9a5f2c"/><rect x="8" y="12" width="32" height="12" fill="#d14f8b"/><rect x="10" y="10" width="28" height="12" fill="#f28bb4"/><rect x="14" y="5" width="20" height="8" fill="#f6a8c6"/><rect x="6" y="15" width="10" height="8" fill="#f28bb4"/><rect x="32" y="14" width="10" height="9" fill="#e56ba0"/><rect x="16" y="7" width="6" height="4" fill="#ffd9e8"/><rect x="27" y="16" width="5" height="3" fill="#ffd9e8"/><rect x="12" y="17" width="4" height="3" fill="#e56ba0"/><rect x="36" y="30" width="3" height="3" fill="#f6a8c6"/><rect x="8" y="34" width="3" height="3" fill="#f28bb4"/></svg>' },
+        { id: "lamp", lv: 3, svg: '<svg viewBox="0 0 16 46" shape-rendering="crispEdges"><rect x="3" y="1" width="10" height="2" fill="#26222e"/><rect x="4" y="3" width="8" height="6" fill="#ffd83d" stroke="#26222e" stroke-width="1.5"/><rect x="7" y="9" width="2" height="2" fill="#3a3f4a"/><rect x="7" y="11" width="2" height="31" fill="#3a3f4a"/><rect x="5" y="42" width="6" height="4" fill="#26222e"/></svg>' },
         { id: "vending", lv: 4, svg: '<svg viewBox="0 0 22 34" shape-rendering="crispEdges"><rect x="2" y="2" width="18" height="30" fill="#c22e3a" stroke="#5d1116" stroke-width="2"/><rect x="2" y="2" width="18" height="3" fill="#e5484d"/><rect x="4" y="7" width="9" height="12" fill="#dff3ff"/><rect x="5" y="8" width="2" height="4" fill="#e5484d"/><rect x="8" y="8" width="2" height="4" fill="#2f7cd6"/><rect x="11" y="8" width="2" height="4" fill="#ffd83d"/><rect x="5" y="13" width="2" height="4" fill="#2e9e5b"/><rect x="8" y="13" width="2" height="4" fill="#e8762b"/><rect x="11" y="13" width="2" height="4" fill="#7558c9"/><rect x="15" y="7" width="3" height="5" fill="#8f1f28"/><rect x="4" y="21" width="14" height="6" fill="#5d1116"/><rect x="6" y="23" width="10" height="2" fill="#22303c"/><rect x="2" y="30" width="18" height="2" fill="#8f1f28"/></svg>' },
+        { id: "bench", lv: 5, svg: '<svg viewBox="0 0 46 20" shape-rendering="crispEdges"><rect x="4" y="2" width="38" height="3" fill="#b0722a"/><rect x="4" y="7" width="38" height="3" fill="#b0722a"/><rect x="2" y="12" width="42" height="3" fill="#9a5f2c"/><rect x="4" y="2" width="3" height="16" fill="#3a3f4a"/><rect x="39" y="2" width="3" height="16" fill="#3a3f4a"/><rect x="3" y="18" width="5" height="2" fill="#26222e"/><rect x="38" y="18" width="5" height="2" fill="#26222e"/></svg>' },
         { id: "hachiko", lv: 6, svg: '<svg viewBox="0 0 34 30" shape-rendering="crispEdges"><g fill="#4a2f16"><rect x="11" y="7" width="13" height="10"/><rect x="18" y="3" width="8" height="8"/><rect x="19" y="1" width="3" height="3"/><rect x="9" y="8" width="4" height="4"/><rect x="12" y="15" width="4" height="6"/><rect x="18" y="15" width="4" height="6"/></g><rect x="6" y="24" width="22" height="3" fill="#8a8f98"/><rect x="9" y="19" width="16" height="5" fill="#a8adb6"/><rect x="9" y="19" width="16" height="2" fill="#c9ced6"/><rect x="12" y="8" width="11" height="8" fill="#9a6b32"/><rect x="19" y="4" width="6" height="6" fill="#9a6b32"/><rect x="20" y="2" width="2" height="3" fill="#7d5525"/><rect x="24" y="6" width="2" height="2" fill="#7d5525"/><rect x="13" y="15" width="3" height="5" fill="#9a6b32"/><rect x="19" y="15" width="3" height="5" fill="#9a6b32"/><rect x="10" y="9" width="3" height="3" fill="#7d5525"/><rect x="14" y="9" width="3" height="2" fill="#c9963f"/><rect x="21" y="5" width="2" height="2" fill="#c9963f"/><rect x="22" y="5" width="2" height="2" fill="#26222e"/><rect x="24" y="7" width="2" height="2" fill="#26222e"/></svg>' },
+        { id: "bicycle", lv: 7, svg: '<svg viewBox="0 0 46 28" shape-rendering="crispEdges"><circle cx="10" cy="20" r="7" fill="none" stroke="#26222e" stroke-width="3"/><circle cx="37" cy="20" r="7" fill="none" stroke="#26222e" stroke-width="3"/><path d="M10 20 L20 10 L37 20 M20 10 L24 20 M20 10 L33 10" fill="none" stroke="#e2483a" stroke-width="3"/><rect x="16" y="7" width="8" height="3" fill="#26222e"/><rect x="31" y="6" width="8" height="3" fill="#26222e"/><rect x="38" y="10" width="7" height="6" fill="#b0722a"/><rect x="9" y="19" width="2" height="2" fill="#ffd83d"/><rect x="36" y="19" width="2" height="2" fill="#ffd83d"/></svg>' },
+        { id: "postbox", lv: 8, svg: '<svg viewBox="0 0 22 38" shape-rendering="crispEdges"><rect x="5" y="2" width="12" height="5" fill="#e5484d"/><rect x="3" y="6" width="16" height="29" fill="#d13438" stroke="#26222e" stroke-width="1.5"/><rect x="5" y="8" width="2" height="20" fill="#ff8d80"/><rect x="6" y="11" width="10" height="3" fill="#5d1116"/><rect x="7" y="17" width="8" height="6" fill="#fff6dd"/><rect x="9" y="19" width="4" height="2" fill="#d13438"/><rect x="2" y="35" width="18" height="3" fill="#8f1f28"/></svg>' },
         { id: "tower", lv: 9, svg: '<svg viewBox="0 0 36 96" shape-rendering="crispEdges"><rect x="17" y="0" width="2" height="10" fill="#7a2418"/><path d="M18 10 L26 50 L10 50 Z" fill="none" stroke="#b3402a" stroke-width="3"/><path d="M18 50 L30 92 L6 92 Z" fill="none" stroke="#b3402a" stroke-width="3"/><path d="M14 32 L22 32 M12 43 L24 43 M11 62 L25 62 M9 78 L27 78" stroke="#8f3125" stroke-width="2"/><path d="M15 22 L21 40 M21 22 L15 40 M13 56 L23 84 M23 56 L13 84" stroke="#8f3125" stroke-width="1.6"/><rect x="12" y="28" width="12" height="5" fill="#e8e4da"/><rect x="12" y="28" width="12" height="2" fill="#b3402a"/><rect x="10" y="62" width="16" height="5" fill="#e8e4da"/><rect x="10" y="62" width="16" height="2" fill="#b3402a"/><rect x="4" y="91" width="28" height="3" fill="#7a2418"/></svg>' },
+        { id: "yatai", lv: 10, svg: '<svg viewBox="0 0 58 46" shape-rendering="crispEdges"><rect x="2" y="2" width="54" height="5" fill="#2f5fb3"/><rect x="2" y="7" width="54" height="2" fill="#234a8a"/><rect x="5" y="7" width="3" height="36" fill="#7e4a21"/><rect x="50" y="7" width="3" height="36" fill="#7e4a21"/><rect x="9" y="10" width="12" height="9" fill="#e2483a"/><rect x="23" y="10" width="12" height="9" fill="#e2483a"/><rect x="37" y="10" width="12" height="9" fill="#e2483a"/><rect x="27" y="11" width="5" height="7" fill="#ffd83d" stroke="#26222e" stroke-width="1"/><rect x="4" y="26" width="50" height="3" fill="#b0722a"/><rect x="4" y="29" width="50" height="5" fill="#8a5a33"/><rect x="10" y="36" width="7" height="5" fill="#c22e3a"/><rect x="26" y="36" width="7" height="5" fill="#c22e3a"/><rect x="42" y="36" width="7" height="5" fill="#c22e3a"/><rect x="11" y="41" width="2" height="3" fill="#5d3a1e"/><rect x="27" y="41" width="2" height="3" fill="#5d3a1e"/><rect x="43" y="41" width="2" height="3" fill="#5d3a1e"/></svg>' },
+        { id: "stone-lantern", lv: 11, svg: '<svg viewBox="0 0 20 42" shape-rendering="crispEdges"><rect x="8" y="1" width="4" height="4" fill="#8a8f98"/><rect x="3" y="5" width="14" height="4" fill="#a8adb6" stroke="#26222e" stroke-width="1"/><rect x="5" y="9" width="10" height="2" fill="#8a8f98"/><rect x="5" y="11" width="10" height="8" fill="#9aa0a8"/><rect x="8" y="13" width="4" height="4" fill="#ffd83d"/><rect x="4" y="20" width="12" height="3" fill="#a8adb6"/><rect x="8" y="23" width="4" height="11" fill="#9aa0a8"/><rect x="4" y="34" width="12" height="4" fill="#8a8f98"/><rect x="2" y="38" width="16" height="3" fill="#7c828c"/></svg>' },
         { id: "train", lv: 12, svg: "" },
+        { id: "maple", lv: 13, svg: '<svg viewBox="0 0 48 44" shape-rendering="crispEdges"><rect x="22" y="26" width="4" height="16" fill="#7e4a21"/><rect x="18" y="30" width="4" height="3" fill="#7e4a21"/><rect x="26" y="29" width="4" height="3" fill="#9a5f2c"/><rect x="8" y="12" width="32" height="12" fill="#c22e3a"/><rect x="10" y="10" width="28" height="12" fill="#d13438"/><rect x="14" y="5" width="20" height="8" fill="#e8762b"/><rect x="6" y="15" width="10" height="8" fill="#d13438"/><rect x="32" y="14" width="10" height="9" fill="#e8762b"/><rect x="16" y="7" width="6" height="4" fill="#f28c3c"/><rect x="27" y="16" width="5" height="3" fill="#f28c3c"/><rect x="12" y="17" width="4" height="3" fill="#e8762b"/><rect x="36" y="30" width="3" height="3" fill="#e8762b"/><rect x="8" y="34" width="3" height="3" fill="#d13438"/><rect x="20" y="36" width="3" height="3" fill="#f28c3c"/></svg>' },
+        { id: "bus-stop", lv: 14, svg: '<svg viewBox="0 0 34 46" shape-rendering="crispEdges"><rect x="15" y="10" width="3" height="33" fill="#8a8f98"/><circle cx="16" cy="8" r="7" fill="#fff6dd" stroke="#2f7cd6" stroke-width="3"/><rect x="11" y="5" width="10" height="5" fill="#2f7cd6"/><rect x="13" y="6" width="2" height="2" fill="#fff6dd"/><rect x="17" y="6" width="2" height="2" fill="#fff6dd"/><rect x="11" y="43" width="12" height="3" fill="#5d6a76"/></svg>' },
         { id: "torii", lv: 15, svg: '<svg viewBox="0 0 40 36" shape-rendering="crispEdges"><rect x="2" y="2" width="36" height="4" fill="#e2483a"/><rect x="5" y="6" width="30" height="3" fill="#c93a2e"/><rect x="18" y="6" width="4" height="4" fill="#e2483a"/><rect x="7" y="9" width="4" height="25" fill="#e2483a"/><rect x="29" y="9" width="4" height="25" fill="#e2483a"/><rect x="7" y="13" width="26" height="3" fill="#c93a2e"/><rect x="7" y="9" width="1" height="25" fill="#ff7a5c"/><rect x="29" y="9" width="1" height="25" fill="#ff7a5c"/></svg>' },
+        { id: "cat", lv: 16, svg: '<svg viewBox="0 0 26 22" shape-rendering="crispEdges"><rect x="18" y="15" width="7" height="3" fill="#e8762b"/><rect x="23" y="12" width="3" height="4" fill="#e8762b"/><rect x="7" y="10" width="11" height="9" fill="#e8762b"/><rect x="10" y="13" width="5" height="6" fill="#fff6dd"/><rect x="6" y="0" width="3" height="3" fill="#e8762b"/><rect x="16" y="0" width="3" height="3" fill="#e8762b"/><rect x="6" y="2" width="13" height="9" fill="#e8762b"/><rect x="15" y="3" width="2" height="3" fill="#c95f1d"/><rect x="8" y="6" width="2" height="2" fill="#26222e"/><rect x="14" y="6" width="2" height="2" fill="#26222e"/><rect x="11" y="8" width="2" height="1" fill="#f28bb4"/><rect x="6" y="19" width="13" height="2" fill="#c95f1d"/></svg>' },
+        { id: "gachapon", lv: 17, svg: '<svg viewBox="0 0 24 38" shape-rendering="crispEdges"><rect x="5" y="2" width="14" height="10" fill="#dff3ff" stroke="#26222e" stroke-width="1.5"/><rect x="7" y="4" width="3" height="3" fill="#e2483a"/><rect x="11" y="6" width="3" height="3" fill="#2f7cd6"/><rect x="15" y="4" width="3" height="3" fill="#ffd83d"/><rect x="9" y="8" width="3" height="3" fill="#2e9e5b"/><rect x="4" y="13" width="16" height="3" fill="#c22e3a"/><rect x="4" y="16" width="16" height="15" fill="#e2483a"/><rect x="7" y="19" width="10" height="6" fill="#5d1116"/><rect x="10" y="20" width="4" height="4" fill="#ffd83d"/><rect x="3" y="32" width="18" height="4" fill="#8f1f28"/><rect x="8" y="33" width="8" height="2" fill="#26222e"/></svg>' },
         { id: "crossing", lv: 18, svg: '<svg viewBox="0 0 120 12" shape-rendering="crispEdges" preserveAspectRatio="none"><g fill="#fffdf4"><rect x="2" y="2" width="16" height="8"/><rect x="27" y="2" width="16" height="8"/><rect x="52" y="2" width="16" height="8"/><rect x="77" y="2" width="16" height="8"/><rect x="102" y="2" width="16" height="8"/></g></svg>' },
+        { id: "fountain", lv: 19, svg: '<svg viewBox="0 0 58 32" shape-rendering="crispEdges"><rect x="28" y="1" width="2" height="5" fill="#a5dcff"/><rect x="14" y="13" width="2" height="6" fill="#a5dcff"/><rect x="42" y="13" width="2" height="6" fill="#a5dcff"/><rect x="20" y="7" width="18" height="4" fill="#b9c8e4" stroke="#26222e" stroke-width="1"/><rect x="26" y="11" width="6" height="11" fill="#93a7c9"/><rect x="2" y="20" width="54" height="3" fill="#b9c8e4"/><rect x="4" y="23" width="50" height="6" fill="#93a7c9" stroke="#26222e" stroke-width="1"/><rect x="8" y="24" width="42" height="3" fill="#57b6e8"/><rect x="10" y="17" width="2" height="2" fill="#a5dcff"/><rect x="46" y="17" width="2" height="2" fill="#a5dcff"/></svg>' },
+        { id: "lanterns", lv: 20, svg: '<svg viewBox="0 0 68 26" shape-rendering="crispEdges"><path d="M2 3 Q34 11 66 3" fill="none" stroke="#26222e" stroke-width="2"/><rect x="10" y="6" width="2" height="3" fill="#26222e"/><rect x="26" y="8" width="2" height="3" fill="#26222e"/><rect x="42" y="8" width="2" height="3" fill="#26222e"/><rect x="57" y="6" width="2" height="3" fill="#26222e"/><rect x="6" y="9" width="10" height="11" fill="#e2483a"/><rect x="22" y="11" width="10" height="11" fill="#fff6dd"/><rect x="38" y="11" width="10" height="11" fill="#ffd83d"/><rect x="53" y="9" width="10" height="11" fill="#e2483a"/><rect x="6" y="9" width="10" height="2" fill="#26222e"/><rect x="22" y="11" width="10" height="2" fill="#26222e"/><rect x="38" y="11" width="10" height="2" fill="#26222e"/><rect x="53" y="9" width="10" height="2" fill="#26222e"/><rect x="10" y="13" width="2" height="5" fill="#c22e3a"/><rect x="26" y="15" width="2" height="5" fill="#e8c96a"/><rect x="42" y="15" width="2" height="5" fill="#e0a92e"/><rect x="57" y="13" width="2" height="5" fill="#c22e3a"/></svg>' },
         { id: "fireworks", lv: 21, night: true, svg: '<svg viewBox="0 0 72 44" shape-rendering="crispEdges"><g fill="#ffd83d"><rect x="16" y="4" width="2" height="2"/><rect x="16" y="12" width="2" height="2"/><rect x="12" y="8" width="2" height="2"/><rect x="20" y="8" width="2" height="2"/><rect x="13" y="5" width="2" height="2"/><rect x="19" y="11" width="2" height="2"/><rect x="19" y="5" width="2" height="2"/><rect x="13" y="11" width="2" height="2"/></g><g fill="#f28bb4"><rect x="50" y="16" width="2" height="2"/><rect x="50" y="24" width="2" height="2"/><rect x="46" y="20" width="2" height="2"/><rect x="54" y="20" width="2" height="2"/><rect x="47" y="17" width="2" height="2"/><rect x="53" y="23" width="2" height="2"/><rect x="53" y="17" width="2" height="2"/><rect x="47" y="23" width="2" height="2"/></g><g fill="#57b6e8"><rect x="32" y="26" width="2" height="2"/><rect x="32" y="32" width="2" height="2"/><rect x="28" y="29" width="2" height="2"/><rect x="36" y="29" width="2" height="2"/></g></svg>' },
+        { id: "ferris-wheel", lv: 22, svg: '<svg viewBox="0 0 76 76" shape-rendering="crispEdges"><circle cx="38" cy="33" r="25" fill="none" stroke="#5b7a99" stroke-width="4"/><path d="M38 8 V58 M13 33 H63 M20 15 L56 51 M56 15 L20 51" stroke="#8aa7c7" stroke-width="2"/><rect x="33" y="1" width="10" height="7" fill="#e2483a"/><rect x="57" y="12" width="10" height="7" fill="#f28bb4"/><rect x="63" y="29" width="10" height="7" fill="#2f7cd6"/><rect x="57" y="47" width="10" height="7" fill="#7558c9"/><rect x="33" y="57" width="10" height="7" fill="#ffd83d"/><rect x="9" y="47" width="10" height="7" fill="#14a38c"/><rect x="3" y="29" width="10" height="7" fill="#2e9e5b"/><rect x="9" y="12" width="10" height="7" fill="#e8762b"/><circle cx="38" cy="33" r="4" fill="#ffd83d" stroke="#26222e" stroke-width="1.5"/><path d="M38 37 L24 73 M38 37 L52 73" stroke="#3a3f4a" stroke-width="4" fill="none"/><rect x="14" y="73" width="48" height="3" fill="#3a3f4a"/></svg>' },
+        { id: "hokora", lv: 23, svg: '<svg viewBox="0 0 24 30" shape-rendering="crispEdges"><rect x="2" y="24" width="20" height="5" fill="#8a8f98"/><rect x="11" y="3" width="2" height="2" fill="#26222e"/><rect x="6" y="5" width="12" height="3" fill="#3a3f4a"/><rect x="3" y="8" width="18" height="4" fill="#3a3f4a"/><rect x="5" y="12" width="14" height="12" fill="#7e4a21"/><rect x="9" y="15" width="6" height="9" fill="#5d3a1e"/><rect x="11" y="17" width="2" height="4" fill="#fff6dd"/><rect x="4" y="24" width="16" height="2" fill="#a8adb6"/></svg>' },
         { id: "rainbow", lv: 24, svg: '<svg viewBox="0 0 120 26" shape-rendering="crispEdges"><path d="M30 20 Q60 -8 90 20" fill="none" stroke="#e5484d" stroke-width="2.4"/><path d="M34 20 Q60 -3 86 20" fill="none" stroke="#e8762b" stroke-width="2.4"/><path d="M38 20 Q60 2 82 20" fill="none" stroke="#f8bc3d" stroke-width="2.4"/><path d="M42 20 Q60 7 78 20" fill="none" stroke="#2e9e5b" stroke-width="2.4"/><path d="M46 20 Q60 12 74 20" fill="none" stroke="#2f7cd6" stroke-width="2.4"/><rect x="0" y="20" width="120" height="3" fill="#5d6d80"/><rect x="26" y="20" width="4" height="6" fill="#46586b"/><rect x="90" y="20" width="4" height="6" fill="#46586b"/><path d="M2 20 L27 9 M118 20 L93 9" stroke="#46586b" stroke-width="1.6" fill="none"/></svg>' },
+        { id: "skytree", lv: 25, svg: '<svg viewBox="0 0 36 112" shape-rendering="crispEdges"><polygon points="18,18 28,108 8,108" fill="#dcebfc"/><path d="M18 18 L26 108 M18 18 L10 108" stroke="#7d94b5" stroke-width="3" fill="none"/><rect x="12" y="30" width="12" height="2" fill="#7d94b5"/><rect x="11" y="48" width="14" height="2" fill="#7d94b5"/><rect x="10" y="66" width="16" height="2" fill="#7d94b5"/><rect x="8" y="84" width="20" height="2" fill="#7d94b5"/><rect x="17" y="0" width="2" height="12" fill="#8a9bc2"/><rect x="13" y="12" width="10" height="6" fill="#dfe7f2" stroke="#26222e" stroke-width="1"/><rect x="11" y="40" width="14" height="5" fill="#fff6dd" stroke="#26222e" stroke-width="1"/><rect x="10" y="58" width="16" height="6" fill="#dfe7f2" stroke="#26222e" stroke-width="1"/><rect x="4" y="108" width="28" height="4" fill="#5d6a76"/></svg>' },
+        { id: "phone-booth", lv: 26, svg: '<svg viewBox="0 0 22 44" shape-rendering="crispEdges"><rect x="2" y="1" width="18" height="3" fill="#3a3f4a"/><rect x="3" y="4" width="16" height="38" fill="#bfe6f7" stroke="#26222e" stroke-width="1.5"/><rect x="3" y="4" width="3" height="38" fill="#5d6a76"/><rect x="16" y="4" width="3" height="38" fill="#5d6a76"/><rect x="6" y="5" width="10" height="5" fill="#fff6dd"/><rect x="8" y="7" width="6" height="2" fill="#2e9e5b"/><rect x="3" y="14" width="16" height="2" fill="#5d6a76"/><rect x="3" y="26" width="16" height="2" fill="#5d6a76"/><rect x="10" y="16" width="2" height="24" fill="#5d6a76"/><rect x="7" y="6" width="2" height="30" fill="#eafaff"/><rect x="2" y="42" width="18" height="2" fill="#3a3f4a"/></svg>' },
+        { id: "bridge", lv: 27, svg: '<svg viewBox="0 0 100 38" shape-rendering="crispEdges"><path d="M25 6 L2 24 M25 6 L50 24 M75 6 L50 24 M75 6 L98 24" stroke="#8aa7c7" stroke-width="2" fill="none"/><rect x="22" y="6" width="6" height="20" fill="#fff6dd" stroke="#26222e" stroke-width="1"/><rect x="72" y="6" width="6" height="20" fill="#fff6dd" stroke="#26222e" stroke-width="1"/><rect x="2" y="24" width="96" height="5" fill="#dfe7f2" stroke="#26222e" stroke-width="1"/><rect x="2" y="27" width="96" height="2" fill="#57b6e8"/><rect x="20" y="29" width="10" height="7" fill="#8a9bc2"/><rect x="70" y="29" width="10" height="7" fill="#8a9bc2"/><rect x="6" y="36" width="14" height="2" fill="#57b6e8"/><rect x="42" y="37" width="18" height="1" fill="#57b6e8"/><rect x="78" y="36" width="14" height="2" fill="#57b6e8"/></svg>' },
+        { id: "slide", lv: 28, svg: '<svg viewBox="0 0 44 30" shape-rendering="crispEdges"><rect x="5" y="3" width="11" height="2" fill="#e2483a"/><rect x="5" y="3" width="2" height="10" fill="#e2483a"/><rect x="14" y="3" width="2" height="10" fill="#e2483a"/><rect x="4" y="10" width="13" height="3" fill="#c22e3a"/><rect x="6" y="13" width="2" height="14" fill="#5d6a76"/><rect x="13" y="13" width="2" height="14" fill="#5d6a76"/><rect x="6" y="17" width="9" height="2" fill="#8a8f98"/><rect x="6" y="22" width="9" height="2" fill="#8a8f98"/><polygon points="17,11 25,11 42,23 42,27 23,15 17,15" fill="#57b6e8" stroke="#26222e"/><rect x="36" y="24" width="3" height="4" fill="#5d6a76"/><rect x="2" y="27" width="18" height="2" fill="#7c828c"/><rect x="30" y="28" width="12" height="2" fill="#7c828c"/></svg>' },
+        { id: "taxi", lv: 29, svg: '<svg viewBox="0 0 52 26" shape-rendering="crispEdges"><rect x="22" y="1" width="8" height="4" fill="#fff6dd" stroke="#26222e"/><rect x="25" y="2" width="2" height="2" fill="#e2483a"/><rect x="10" y="5" width="30" height="8" fill="#2b2f38"/><rect x="12" y="6" width="8" height="5" fill="#a5dcff"/><rect x="22" y="6" width="8" height="5" fill="#a5dcff"/><rect x="32" y="6" width="6" height="5" fill="#a5dcff"/><rect x="3" y="12" width="46" height="9" fill="#2b2f38" stroke="#26222e" stroke-width="1.5"/><rect x="3" y="16" width="46" height="2" fill="#fff6dd"/><rect x="46" y="13" width="3" height="3" fill="#ffd83d"/><rect x="4" y="13" width="3" height="3" fill="#ff8d80"/><circle cx="12" cy="21" r="4" fill="#26222e"/><circle cx="40" cy="21" r="4" fill="#26222e"/><circle cx="12" cy="21" r="2" fill="#8a8f98"/><circle cx="40" cy="21" r="2" fill="#8a8f98"/></svg>' },
         { id: "monument", lv: 30, svg: '<svg viewBox="0 0 30 40" shape-rendering="crispEdges"><rect x="7" y="32" width="16" height="4" fill="#8a6508"/><rect x="9" y="27" width="12" height="5" fill="#b8860b"/><rect x="11" y="12" width="8" height="4" fill="#f8bc3d"/><rect x="10" y="8" width="10" height="5" fill="#ffd83d"/><rect x="12" y="9" width="2" height="2" fill="#8a6508"/><rect x="16" y="9" width="2" height="2" fill="#8a6508"/><rect x="10" y="16" width="10" height="7" fill="#f8bc3d"/><rect x="12" y="23" width="3" height="4" fill="#e0a92e"/><rect x="16" y="23" width="3" height="4" fill="#e0a92e"/><rect x="24" y="4" width="2" height="2" fill="#ffd83d"/><rect x="3" y="10" width="2" height="2" fill="#ffd83d"/></svg>' }
       ];
       var TRAIN_SVG = '<svg viewBox="0 0 120 34" shape-rendering="crispEdges"><rect x="0" y="24" width="120" height="2" fill="#5d4a38"/><rect x="4" y="26" width="3" height="8" fill="#5d4a38"/><rect x="38" y="26" width="3" height="8" fill="#5d4a38"/><rect x="72" y="26" width="3" height="8" fill="#5d4a38"/><rect x="106" y="26" width="3" height="8" fill="#5d4a38"/></svg>' +
         '<span class="train-car"><svg viewBox="0 0 118 21" shape-rendering="crispEdges"><rect x="1" y="3" width="116" height="13" fill="#e8e4da"/><rect x="1" y="8" width="116" height="3" fill="#7ac74f"/><rect x="5" y="4" width="10" height="4" fill="#a5dcff"/><rect x="20" y="4" width="10" height="4" fill="#a5dcff"/><rect x="35" y="4" width="10" height="4" fill="#a5dcff"/><rect x="50" y="4" width="10" height="4" fill="#a5dcff"/><rect x="65" y="4" width="10" height="4" fill="#a5dcff"/><rect x="80" y="4" width="10" height="4" fill="#a5dcff"/><rect x="95" y="4" width="10" height="4" fill="#a5dcff"/><rect x="16" y="4" width="3" height="12" fill="#c9cdd4"/><rect x="46" y="4" width="3" height="12" fill="#c9cdd4"/><rect x="76" y="4" width="3" height="12" fill="#c9cdd4"/><rect x="106" y="4" width="3" height="12" fill="#c9cdd4"/><rect x="8" y="17" width="12" height="3" fill="#3a3f4a"/><rect x="92" y="17" width="12" height="3" fill="#3a3f4a"/></svg></span>';
       SCENE_PROPS.forEach(function (p) { if (p.id === "train") p.svg = TRAIN_SVG; });
+
+      /* ambient street life (art dept batches 2+3): no level of
+         their own and no unlock fanfare — the konbini is street
+         infrastructure from the very first step, and the creatures
+         tag along with the landmark they belong to */
+      var SCENE_AMBIENT = [
+        { id: "konbini", lv: 0, svg: '<svg viewBox="0 0 64 44" shape-rendering="crispEdges"><rect x="10" y="2" width="44" height="8" fill="#fff6dd" stroke="#26222e" stroke-width="1.5"/><circle cx="32" cy="6" r="3" fill="#e2483a"/><rect x="4" y="10" width="56" height="30" fill="#f4f1e6" stroke="#26222e" stroke-width="1.5"/><rect x="4" y="10" width="56" height="4" fill="#e2483a"/><rect x="4" y="14" width="56" height="2" fill="#57b6e8"/><rect x="8" y="22" width="48" height="14" fill="#a5dcff"/><rect x="30" y="22" width="4" height="14" fill="#5d6a76"/><rect x="12" y="25" width="6" height="8" fill="#eafaff"/><rect x="44" y="25" width="6" height="8" fill="#eafaff"/><rect x="8" y="36" width="48" height="2" fill="#5d6a76"/><rect x="2" y="40" width="60" height="3" fill="#8a8f98"/></svg>' },
+        { id: "butterflies", lv: 2, svg: '<svg viewBox="0 0 20 14" shape-rendering="crispEdges"><rect x="2" y="2" width="3" height="3" fill="#f28bb4"/><rect x="2" y="6" width="3" height="2" fill="#e8762b"/><rect x="6" y="2" width="3" height="3" fill="#f28bb4"/><rect x="6" y="6" width="3" height="2" fill="#e8762b"/><rect x="5" y="2" width="1" height="7" fill="#26222e"/><rect x="13" y="8" width="3" height="3" fill="#ffd83d"/><rect x="13" y="12" width="3" height="2" fill="#f28bb4"/><rect x="17" y="8" width="3" height="3" fill="#ffd83d"/><rect x="17" y="12" width="3" height="2" fill="#f28bb4"/><rect x="16" y="8" width="1" height="6" fill="#26222e"/></svg>' },
+        { id: "shiba", lv: 16, svg: '<svg viewBox="0 0 28 20" shape-rendering="crispEdges"><rect x="2" y="4" width="5" height="4" fill="#e8762b"/><rect x="2" y="4" width="2" height="2" fill="#fff6dd"/><rect x="6" y="8" width="14" height="7" fill="#e8762b"/><rect x="6" y="12" width="14" height="3" fill="#fff6dd"/><rect x="19" y="0" width="3" height="4" fill="#e8762b"/><rect x="24" y="0" width="3" height="4" fill="#e8762b"/><rect x="18" y="3" width="8" height="8" fill="#e8762b"/><rect x="23" y="7" width="5" height="3" fill="#fff6dd"/><rect x="27" y="7" width="1" height="2" fill="#26222e"/><rect x="21" y="5" width="2" height="2" fill="#26222e"/><rect x="7" y="15" width="3" height="5" fill="#c95f1d"/><rect x="16" y="15" width="3" height="5" fill="#c95f1d"/><rect x="7" y="19" width="3" height="1" fill="#fff6dd"/><rect x="16" y="19" width="3" height="1" fill="#fff6dd"/></svg>' },
+        { id: "pigeons", lv: 19, svg: '<svg viewBox="0 0 36 18" shape-rendering="crispEdges"><rect x="3" y="9" width="4" height="3" fill="#7c828c"/><rect x="6" y="8" width="9" height="6" fill="#9aa0a8"/><rect x="13" y="4" width="5" height="6" fill="#7c828c"/><rect x="17" y="5" width="2" height="1" fill="#e8762b"/><rect x="8" y="14" width="1" height="3" fill="#e8762b"/><rect x="11" y="14" width="1" height="3" fill="#e8762b"/><rect x="22" y="11" width="4" height="3" fill="#7c828c"/><rect x="25" y="10" width="8" height="5" fill="#9aa0a8"/><rect x="25" y="13" width="5" height="4" fill="#8a8f98"/><rect x="28" y="15" width="2" height="1" fill="#e8762b"/><rect x="14" y="0" width="5" height="3" fill="#9aa0a8"/><rect x="12" y="1" width="2" height="2" fill="#7c828c"/><rect x="19" y="1" width="2" height="2" fill="#7c828c"/></svg>' },
+        { id: "sparrows", lv: 20, svg: '<svg viewBox="0 0 44 14" shape-rendering="crispEdges"><path d="M1 3 Q22 8 43 3" fill="none" stroke="#26222e" stroke-width="1.5"/><rect x="6" y="4" width="6" height="4" fill="#8a6a4a"/><rect x="11" y="2" width="4" height="4" fill="#8a6a4a"/><rect x="15" y="3" width="2" height="1" fill="#e8762b"/><rect x="3" y="5" width="3" height="2" fill="#6e5236"/><rect x="7" y="6" width="3" height="2" fill="#d9c9a8"/><rect x="20" y="5" width="6" height="4" fill="#8a6a4a"/><rect x="25" y="3" width="4" height="4" fill="#8a6a4a"/><rect x="29" y="4" width="2" height="1" fill="#e8762b"/><rect x="17" y="6" width="3" height="2" fill="#6e5236"/><rect x="21" y="7" width="3" height="2" fill="#d9c9a8"/><rect x="34" y="4" width="6" height="4" fill="#8a6a4a"/><rect x="39" y="2" width="4" height="4" fill="#8a6a4a"/><rect x="31" y="5" width="3" height="2" fill="#6e5236"/><rect x="35" y="6" width="3" height="2" fill="#d9c9a8"/></svg>' }
+      ];
       function isNightNow() {
         var th = document.documentElement.getAttribute("data-theme");
         if (th === "midnight") return true;
@@ -15027,10 +15130,16 @@
           var ambientHtml = unlockedAll.filter(function (p) { return RUNNER_GROUNDED.indexOf(p.id) < 0 && (!p.night || night); }).map(function (p) {
             return '<span class="sp sp-' + p.id + (p.id === newId ? " is-new" : "") + '" aria-hidden="true">' + p.svg + "</span>";
           }).join("");
+          /* street infrastructure + ambient creatures ride along
+             silently: in the layer from their gate level on, never
+             counted, never celebrated */
+          var critterHtml = SCENE_AMBIENT.filter(function (p) { return lv >= p.lv; }).map(function (p) {
+            return '<span class="sp sp-' + p.id + '" aria-hidden="true">' + p.svg + "</span>";
+          }).join("");
           var groundedN = unlockedAll.filter(function (p) { return RUNNER_GROUNDED.indexOf(p.id) >= 0; }).length;
           var carriersHtml = "";
           for (var ci = 0; ci < Math.min(3, groundedN); ci++) carriersHtml += '<span class="sp sp-carrier" aria-hidden="true"></span>';
-          layer.innerHTML = ambientHtml + carriersHtml;
+          layer.innerHTML = ambientHtml + critterHtml + carriersHtml;
           if (runSt) initRunner(); /* fresh carrier nodes: rebind, keeping stream positions */
         }
         var sum = document.getElementById("hsScene");
@@ -15061,7 +15170,7 @@
          with the props parked mid-distance at the sides. --- */
       var walkTimer = null, walkSt = null;
       var WALK_FRAMES = [0, 1, 2, 1];
-      var RUNNER_GROUNDED = ["sakura", "vending", "hachiko", "tower", "torii", "monument"];
+      var RUNNER_GROUNDED = ["planter", "sakura", "lamp", "vending", "bench", "hachiko", "bicycle", "postbox", "tower", "yatai", "stone-lantern", "maple", "bus-stop", "torii", "cat", "gachapon", "fountain", "hokora", "phone-booth", "slide", "taxi", "monument"];
       /* the shared ground line, mirroring --ground-b in the CSS */
       function groundB() { return (window.matchMedia && window.matchMedia("(max-height: 740px)").matches) ? 24 : 30; }
 
@@ -16444,6 +16553,35 @@
           }
         });
       }
+      /* Q-105R fit: the same two-line promise for the META line
+         under the name — its single-line measure is checked
+         against two column widths and the type steps down
+         (floor 10px) until area · category · price (and any
+         distance / cleared tail) reads whole. If a meta still
+         overflows two lines at the floor, its clamp opens to
+         three lines (.meta-x3): the price tail is never cut. */
+      function fitRowMetas() {
+        var els = document.querySelectorAll("#msResults .ms-meta");
+        if (!els.length) return;
+        if (!nameFitCtx) nameFitCtx = document.createElement("canvas").getContext("2d");
+        els.forEach(function (el) {
+          el.style.fontSize = "";
+          el.classList.remove("meta-x3");
+          var w = el.clientWidth;
+          if (!w) return;
+          var cs = getComputedStyle(el);
+          var fam = cs.fontFamily;
+          var txt = el.textContent || "";
+          var fs = parseFloat(cs.fontSize) || 11.5;
+          while (fs > 10) {
+            nameFitCtx.font = "700 " + fs + "px " + fam;
+            if (nameFitCtx.measureText(txt).width <= w * 2 - 6) break;
+            fs -= 0.5;
+            el.style.fontSize = fs.toFixed(1) + "px";
+          }
+          if (el.scrollHeight > el.clientHeight + 1) el.classList.add("meta-x3");
+        });
+      }
       function renderSearch() {
         var list = currentBoardList();
         renderCatChips(); renderAreaChips(); renderMoodChips();
@@ -16474,6 +16612,7 @@
           el.addEventListener("click", function (ev) { ev.stopPropagation(); openLegend(el.getAttribute("data-legend-open")); });
         });
         fitRowNames();
+        fitRowMetas();
       }
       function renderList() { renderSearch(); }
 
