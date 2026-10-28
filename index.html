@@ -9936,14 +9936,22 @@
          version banner. Cream card + red primary on the game's own
          rounded bold type; windows scroll internally, never the page.
          ================================================================ */
-      .start-acct-row { display: flex; align-items: flex-start; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+      .start-acct-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 10px; }
       .start-acct-state { font-size: 12px; color: var(--ink-dim); flex: 1; text-align: right; line-height: 1.45; overflow-wrap: anywhere; }
+      /* Title-screen login door: a full GBA plaque button in the auth
+         palette (cream base, thick red frame, main-button type size) —
+         it was an underlined text link and players could not find it.
+         This class is used ONLY by #titleLoginBtn. */
       .auth-mini-btn {
-        background: none; border: 0; padding: 4px 2px; cursor: pointer; flex: none;
-        font-family: "Baloo 2", "M PLUS Rounded 1c", "Noto Sans SC", sans-serif; font-weight: 800; font-size: 13.5px;
-        color: var(--red); text-decoration: underline; text-underline-offset: 3px;
+        display: inline-flex; align-items: center; justify-content: center;
+        min-height: 44px; max-width: 62%; padding: 10px 18px; cursor: pointer; flex: none;
+        background: #fff8e7; color: #d63a2e;
+        border: 3px solid #ff6f61; border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #ffe9c9, 0 3px 0 rgba(120, 40, 30, 0.4);
+        font-family: "Baloo 2", "M PLUS Rounded 1c", "Noto Sans SC", sans-serif; font-weight: 800; font-size: 14.5px; line-height: 1.35;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
       }
-      .auth-mini-btn:active { transform: translateY(1px); }
+      .auth-mini-btn:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #ffe9c9, 0 1px 0 rgba(120, 40, 30, 0.4); }
       #verBanner {
         display: flex; align-items: center; gap: 8px; cursor: pointer;
         background: #ffd83d; color: #231a00; border: 3px solid #fff7dd; border-radius: 10px;
@@ -10027,6 +10035,155 @@
       .hero-acct:active { transform: translateY(1px); }
       .hero-acct.hero-support { flex: 0 0 auto; background: linear-gradient(180deg, #ff8a7a, #ff6f61); color: #fff; border-color: #fff; text-align: center; }
     </style>
+    <style>
+      /* ================================================================
+         QA2 PASS (2026-10-29, version TQL v2026.10.29-qa2)
+         A  title LOG IN plaque (Zoe)   I  title SUPPORT plaque (Zoe)
+         B  Q-106 audit: the EXPANDED status card is UNREACHABLE in
+            the current build — boot calls setStatusMin(true), the
+            only toggle (#statusToggle) is display:none !important
+            in every view, and the slim pass hides .stats /
+            .progress-row / .tagline outright — so the reported
+            title-vs-ticket-capsule overlap cannot occur. Left
+            exactly as-is per the ticket's audit branch.
+         C  Q-107 konbini re-park      D  Q-108 records tab bar pin
+         E  Q-109 filter bar folds by default + designed strip
+         F  Q-110 GACHA red dot         G/H live in the sprite code
+         Everything is scoped so the verified baselines (expanded
+         filter-chip geometry, Q-101–Q-105) do not move.
+         ================================================================ */
+
+      /* --- A + I: title account row: the guest/login state line
+         gets its own centred row; below it ONE row of two GBA
+         plaques — LOG IN the red primary (thick pale frame, main
+         button type size), SUPPORT the cream secondary with red
+         text. The row sits inside the start panel under START,
+         clear of the logo master above and the slogan line. --- */
+      .start-acct-row {
+        flex-direction: column; align-items: stretch; justify-content: flex-start;
+        gap: 6px; margin-top: 10px;
+      }
+      .start-acct-state { flex: none; text-align: center; font-size: 11.5px; }
+      .start-acct-btns { display: flex; gap: 8px; align-items: stretch; }
+      .auth-mini-btn { max-width: none; min-height: 46px; }
+      .auth-mini-btn.is-login {
+        flex: 1.3 1 0; padding: 11px 10px;
+        background: linear-gradient(180deg, #ff8a7a, #ff6f61); color: #fff;
+        border: 3px solid #fff7dd; border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #d63a2e, 0 4px 0 rgba(120, 40, 30, 0.45);
+        font-size: 14.5px; letter-spacing: 0.03em;
+      }
+      .auth-mini-btn.is-login:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #d63a2e, 0 1px 0 rgba(120, 40, 30, 0.45); }
+      .auth-mini-btn.is-support {
+        flex: 1 1 0; padding: 11px 8px;
+        background: #fff8e7; color: #d63a2e;
+        border: 3px solid #ff6f61; border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #ffe9c9, 0 3px 0 rgba(120, 40, 30, 0.4);
+        font-size: 13.5px;
+      }
+      .auth-mini-btn.is-support:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #ffe9c9, 0 1px 0 rgba(120, 40, 30, 0.4); }
+      @media (max-height: 660px) {
+        .start-acct-row { margin-top: 7px; }
+        .auth-mini-btn { min-height: 42px; }
+      }
+
+      /* --- C / Q-107: the konbini leaves the hero's shoulder.
+         Was left:12% on the ground line, 84px wide: at 390px QA
+         measured konbini [58–142] vs walker [149–241] — a 7px
+         gap. Now it parks at the far left, a touch smaller, its
+         base lifted 30px above the ground line into the roadside
+         scenery band: box ≈ [19–95] at 390px, a ≈54px clear gap
+         to the walker. Still lv 0, always present, uncounted,
+         no unlock banner — the SCENE_AMBIENT data is untouched. */
+      .sp-konbini { left: 1%; bottom: calc(var(--ground-b, 30px) + 30px); width: 76px; height: 52px; }
+
+      /* --- D / Q-108: the RECORDS tab bar is pinned. The three
+         panels' private tab bars retire; ONE shared bar
+         (#recTabsShared, a direct child of #view-hero) sits at
+         the exact spot the bars used to occupy, and a tab switch
+         only swaps the panel beneath it + the pressed state —
+         the bar has no layout input from any panel, so its
+         displacement is 0px by construction. The panels keep
+         room for it with a fixed top padding, and their page-in
+         slide is off so no transform can drag content either. */
+      #hsegStatus .rec-tabs, #hsegBadges .rec-tabs, #hsegAdvlog .rec-tabs { display: none !important; }
+      #view-hero #hsegStatus, #view-hero #hsegBadges, #view-hero #hsegAdvlog { padding-top: 98px; animation: none; }
+      #recTabsShared {
+        position: fixed; top: 50px; left: 12px; right: 12px; z-index: 345;
+        display: flex; gap: 6px; margin: 0;
+      }
+      #recTabsShared[hidden] { display: none !important; }
+
+      /* --- E / Q-109: the folded filter strip is a designed
+         piece of the same window family — same pill frame, same
+         lemon side tag, the ACTIVE filter wearing its own
+         selected-chip fill (lemon / epic violet / legend black),
+         the count, and a chunky bordered ▸ segment. Folded-only
+         rules: the expanded bar's verified geometry is untouched.
+         The fold tab drops to the strip's new bottom edge. --- */
+      .map-box .map-filters.is-folded {
+        height: 46px; padding: 4px 6px; gap: 6px;
+        align-items: stretch; justify-content: flex-start;
+      }
+      .map-filters.is-folded .mf-cur {
+        border-radius: 999px; padding: 0 12px;
+        background: var(--lemon); color: #22303c; font-size: 12.5px;
+      }
+      .map-filters.is-folded[data-cur="epic"] .mf-cur { background: var(--epic); color: #ffe9a8; }
+      .map-filters.is-folded[data-cur="legend"] .mf-cur { background: #171208; color: #ffd83d; }
+      .map-filters.is-folded .mf-mark {
+        border: 2px solid var(--edge); border-radius: 999px; padding: 0 11px;
+        background: color-mix(in srgb, var(--window) 92%, transparent);
+        font-size: 13px;
+      }
+      .map-box.filters-folded .mf-fold-tab { top: 98px; }
+
+      /* --- F / Q-110: GACHA red dot — numberless, the DAILY
+         badge's red family, cream-ringed so it reads on the red
+         selected tab too; rides the corner, never the icon or
+         the label. JS: syncGachaDot(). --- */
+      .dock-btn { position: relative; }
+      .gacha-dot {
+        position: absolute; width: 11px; height: 11px; border-radius: 50%;
+        background: var(--primary); border: 2px solid var(--window);
+        box-shadow: 0 1px 0 rgba(16, 23, 63, 0.35);
+        pointer-events: none; z-index: 3;
+      }
+      .gacha-dot[hidden] { display: none !important; }
+      .dock-btn .gacha-dot { top: 4px; right: 4px; }
+      .tabs .tab .gacha-dot { top: 3px; right: 5px; }
+
+      /* --- J / Q-111: the detail page sizes to the VISIBLE
+         viewport, not the layout viewport. It was height:100dvh:
+         in an in-app webview whose visible height runs ~84px
+         short of the layout height, the note + action rows fell
+         below the visible area and were cut (QA measured the
+         action row's bottom margin at just 9px in every tier —
+         a later 9px padding-bottom had beaten the calc(12px +
+         safe-area) rule). Three fixes together: (1) height from
+         100svh with a visualViewport-driven --vvh override (JS
+         syncVisibleH keeps it glued to the visible area);
+         (2) a real safe-area bottom cushion under the action
+         row — 14px + safe-area, stable at every height;
+         (3) the body becomes the internal scroller when the
+         content truly cannot fit (the project's window-scroll
+         grammar; the page itself still never scrolls, and the
+         photo banner keeps its flex squeeze first, so the
+         Q-102 / Q-103 treatments hold). --- */
+      dialog#detail {
+        top: var(--vvt, 0px);
+        height: 100svh; height: var(--vvh, 100svh);
+        max-height: 100svh; max-height: var(--vvh, 100svh);
+      }
+      dialog#detail .detail-win {
+        height: 100svh; height: var(--vvh, 100svh);
+        max-height: 100svh; max-height: var(--vvh, 100svh);
+      }
+      dialog#detail .detail-body {
+        overflow-y: auto; overflow-x: hidden;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -10077,7 +10234,10 @@
           <button class="start-btn" id="startBtn" type="button"></button>
           <div class="start-acct-row">
             <span class="start-acct-state" id="titleAcctState"></span>
-            <button class="auth-mini-btn" id="titleLoginBtn" type="button"></button>
+            <div class="start-acct-btns">
+              <button class="auth-mini-btn is-login" id="titleLoginBtn" type="button"></button>
+              <button class="auth-mini-btn is-support" id="titleSupportBtn" type="button"></button>
+            </div>
           </div>
           <p class="start-foot" id="startFoot"></p>
         </div>
@@ -10097,6 +10257,10 @@
           <span class="cust-name" id="creatorNameEcho"></span>
         </div>
         <div class="creator-scroll win-scroller" id="creatorScroll">
+        <div class="cust-group">
+          <span class="cust-label" id="creatorPresetLabel"></span>
+          <div class="cust-presets" id="creatorPresets"></div>
+        </div>
         <div class="cust-group">
           <span class="cust-label" id="creatorNameLabel"></span>
           <input class="creator-name" id="creatorName" type="text" maxlength="12" autocomplete="off">
@@ -10685,6 +10849,10 @@
             <span class="cust-name" id="customName"></span>
           </div>
           <div class="cust-group">
+            <span class="cust-label" id="custPresetLabel"></span>
+            <div class="cust-presets" id="customPresets"></div>
+          </div>
+          <div class="cust-group">
             <span class="cust-label" id="custNameLabel"></span>
             <input class="cust-name-input" id="customNameInput" type="text" maxlength="12" autocomplete="off">
           </div>
@@ -10776,6 +10944,14 @@
         <h2 class="log-sec-title"><span id="advLogTitleEl"></span><span class="n" id="advLogCount"></span></h2>
         <div class="adv-body win-scroller" id="advBody"></div>
         <p class="adv-empty" id="advEmpty" hidden></p>
+        </div>
+        <!-- Q-108: ONE shared RECORDS tab bar, pinned OUTSIDE the
+             three records panels — switching tabs swaps only the
+             panel below it, so the bar can never jump or jitter -->
+        <div class="rec-tabs" id="recTabsShared" role="group" aria-label="Records" hidden>
+          <button class="rec-tab" type="button" data-rectab="status" aria-pressed="true"></button>
+          <button class="rec-tab" type="button" data-rectab="badges" aria-pressed="false"></button>
+          <button class="rec-tab" type="button" data-rectab="advlog" aria-pressed="false"></button>
         </div>
       </section>
 
@@ -10961,7 +11137,7 @@
         globe: ico('<path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm-5.2 5h3c.3-1.5.8-2.7 1.4-3.6C5.2 3 3.7 4.3 2.8 6zm10.4 0c-.9-1.7-2.4-3-4.4-3.6.6.9 1.1 2.1 1.4 3.6zm-9.7 2c.1 1.7.7 3.2 1.7 4.4.1-1.3.3-2.8.6-4.4zm9 0H9.8c.3 1.6.5 3.1.6 4.4 1-1.2 1.6-2.7 1.7-4.4zM8 12.2c.5-1 .9-2.4 1.1-4.2H6.9c.2 1.8.6 3.2 1.1 4.2zm-1.2 1.4C6.2 12.7 5.7 11.5 5.4 10H2.8c.9 1.7 2.3 3 4 3.6zm2.4 0c1.7-.6 3.1-1.9 4-3.6h-2.6c-.3 1.5-.8 2.7-1.4 3.6z"/>'),
         camera: ico('<path d="M2 5h2.6l1.6-2.2h3.6L11.4 5H14v9.2H2z"/><circle cx="8" cy="9.4" r="2.7" fill="#fffdf4"/><circle cx="8" cy="9.4" r="1.4" fill="#57b6e8"/>'),
         puzzle: ico('<path d="M2 2h5.4v5.4H2zM8.6 2H14v5.4H8.6zM2 8.6h5.4V14H2zM8.6 8.6H14V14H8.6z"/>'),
-        flame: ico('<path d="M8 1.2c.9 2.3 3.9 4.3 3.9 7.3 0 1.5-.6 2.6-1.5 3.4.2-1.2-.1-2.3-.9-3.4-.5.6-1 1-1.6 1.3.2-2.7-.4-5.3-2-7.2C4.8 4 4 6 4 8.4c0 3.4 1.8 5.4 4 5.4s4-2 4-5.1c1 .7 1.7 1.9 1.7 3.4 0 3-2.5 5.9-5.7 5.9S2.3 11.9 2.3 8.6C2.3 5 5.4 3 8 1.2z"/>'),
+        flame: ico('<rect x="7" y="0" width="1" height="1" fill="#e8762b"/><rect x="8" y="0" width="1" height="1" fill="#e8762b"/><rect x="6" y="1" width="1" height="1" fill="#e8762b"/><rect x="7" y="1" width="1" height="1" fill="#e8762b"/><rect x="8" y="1" width="1" height="1" fill="#e8762b"/><rect x="9" y="1" width="1" height="1" fill="#e8762b"/><rect x="6" y="2" width="1" height="1" fill="#e8762b"/><rect x="7" y="2" width="1" height="1" fill="#e8762b"/><rect x="8" y="2" width="1" height="1" fill="#e8762b"/><rect x="9" y="2" width="1" height="1" fill="#e8762b"/><rect x="5" y="3" width="1" height="1" fill="#e8762b"/><rect x="6" y="3" width="1" height="1" fill="#e8762b"/><rect x="7" y="3" width="1" height="1" fill="#e8762b"/><rect x="8" y="3" width="1" height="1" fill="#e8762b"/><rect x="9" y="3" width="1" height="1" fill="#e8762b"/><rect x="5" y="4" width="1" height="1" fill="#e8762b"/><rect x="6" y="4" width="1" height="1" fill="#e8762b"/><rect x="7" y="4" width="1" height="1" fill="#e8762b"/><rect x="8" y="4" width="1" height="1" fill="#e8762b"/><rect x="9" y="4" width="1" height="1" fill="#e8762b"/><rect x="10" y="4" width="1" height="1" fill="#e8762b"/><rect x="4" y="5" width="1" height="1" fill="#e8762b"/><rect x="5" y="5" width="1" height="1" fill="#e8762b"/><rect x="6" y="5" width="1" height="1" fill="#e8762b"/><rect x="7" y="5" width="1" height="1" fill="#e8762b"/><rect x="8" y="5" width="1" height="1" fill="#e8762b"/><rect x="9" y="5" width="1" height="1" fill="#e8762b"/><rect x="10" y="5" width="1" height="1" fill="#e8762b"/><rect x="4" y="6" width="1" height="1" fill="#e8762b"/><rect x="5" y="6" width="1" height="1" fill="#e8762b"/><rect x="6" y="6" width="1" height="1" fill="#ffb03a"/><rect x="7" y="6" width="1" height="1" fill="#ffb03a"/><rect x="8" y="6" width="1" height="1" fill="#ffb03a"/><rect x="9" y="6" width="1" height="1" fill="#e8762b"/><rect x="10" y="6" width="1" height="1" fill="#e8762b"/><rect x="11" y="6" width="1" height="1" fill="#e8762b"/><rect x="3" y="7" width="1" height="1" fill="#e8762b"/><rect x="4" y="7" width="1" height="1" fill="#e8762b"/><rect x="5" y="7" width="1" height="1" fill="#ffb03a"/><rect x="6" y="7" width="1" height="1" fill="#ffb03a"/><rect x="7" y="7" width="1" height="1" fill="#ffb03a"/><rect x="8" y="7" width="1" height="1" fill="#ffb03a"/><rect x="9" y="7" width="1" height="1" fill="#ffb03a"/><rect x="10" y="7" width="1" height="1" fill="#e8762b"/><rect x="11" y="7" width="1" height="1" fill="#e8762b"/><rect x="12" y="7" width="1" height="1" fill="#e8762b"/><rect x="3" y="8" width="1" height="1" fill="#e8762b"/><rect x="4" y="8" width="1" height="1" fill="#e8762b"/><rect x="5" y="8" width="1" height="1" fill="#ffb03a"/><rect x="6" y="8" width="1" height="1" fill="#ffb03a"/><rect x="7" y="8" width="1" height="1" fill="#ffb03a"/><rect x="8" y="8" width="1" height="1" fill="#ffb03a"/><rect x="9" y="8" width="1" height="1" fill="#ffb03a"/><rect x="10" y="8" width="1" height="1" fill="#ffb03a"/><rect x="11" y="8" width="1" height="1" fill="#e8762b"/><rect x="12" y="8" width="1" height="1" fill="#e8762b"/><rect x="2" y="9" width="1" height="1" fill="#e8762b"/><rect x="3" y="9" width="1" height="1" fill="#e8762b"/><rect x="4" y="9" width="1" height="1" fill="#ffb03a"/><rect x="5" y="9" width="1" height="1" fill="#ffb03a"/><rect x="6" y="9" width="1" height="1" fill="#ffd83d"/><rect x="7" y="9" width="1" height="1" fill="#ffd83d"/><rect x="8" y="9" width="1" height="1" fill="#ffd83d"/><rect x="9" y="9" width="1" height="1" fill="#ffb03a"/><rect x="10" y="9" width="1" height="1" fill="#ffb03a"/><rect x="11" y="9" width="1" height="1" fill="#e8762b"/><rect x="12" y="9" width="1" height="1" fill="#e8762b"/><rect x="13" y="9" width="1" height="1" fill="#e8762b"/><rect x="2" y="10" width="1" height="1" fill="#e8762b"/><rect x="3" y="10" width="1" height="1" fill="#e8762b"/><rect x="4" y="10" width="1" height="1" fill="#ffb03a"/><rect x="5" y="10" width="1" height="1" fill="#ffd83d"/><rect x="6" y="10" width="1" height="1" fill="#ffd83d"/><rect x="7" y="10" width="1" height="1" fill="#ffd83d"/><rect x="8" y="10" width="1" height="1" fill="#ffd83d"/><rect x="9" y="10" width="1" height="1" fill="#ffd83d"/><rect x="10" y="10" width="1" height="1" fill="#ffb03a"/><rect x="11" y="10" width="1" height="1" fill="#ffb03a"/><rect x="12" y="10" width="1" height="1" fill="#e8762b"/><rect x="13" y="10" width="1" height="1" fill="#e8762b"/><rect x="2" y="11" width="1" height="1" fill="#e8762b"/><rect x="3" y="11" width="1" height="1" fill="#e8762b"/><rect x="4" y="11" width="1" height="1" fill="#ffb03a"/><rect x="5" y="11" width="1" height="1" fill="#ffd83d"/><rect x="6" y="11" width="1" height="1" fill="#fff6dd"/><rect x="7" y="11" width="1" height="1" fill="#fff6dd"/><rect x="8" y="11" width="1" height="1" fill="#fff6dd"/><rect x="9" y="11" width="1" height="1" fill="#ffd83d"/><rect x="10" y="11" width="1" height="1" fill="#ffb03a"/><rect x="11" y="11" width="1" height="1" fill="#ffb03a"/><rect x="12" y="11" width="1" height="1" fill="#e8762b"/><rect x="13" y="11" width="1" height="1" fill="#e8762b"/><rect x="3" y="12" width="1" height="1" fill="#e8762b"/><rect x="4" y="12" width="1" height="1" fill="#e8762b"/><rect x="5" y="12" width="1" height="1" fill="#ffd83d"/><rect x="6" y="12" width="1" height="1" fill="#fff6dd"/><rect x="7" y="12" width="1" height="1" fill="#fff6dd"/><rect x="8" y="12" width="1" height="1" fill="#fff6dd"/><rect x="9" y="12" width="1" height="1" fill="#ffd83d"/><rect x="10" y="12" width="1" height="1" fill="#ffb03a"/><rect x="11" y="12" width="1" height="1" fill="#e8762b"/><rect x="12" y="12" width="1" height="1" fill="#e8762b"/><rect x="3" y="13" width="1" height="1" fill="#e8762b"/><rect x="4" y="13" width="1" height="1" fill="#e8762b"/><rect x="5" y="13" width="1" height="1" fill="#ffb03a"/><rect x="6" y="13" width="1" height="1" fill="#ffd83d"/><rect x="7" y="13" width="1" height="1" fill="#ffd83d"/><rect x="8" y="13" width="1" height="1" fill="#ffd83d"/><rect x="9" y="13" width="1" height="1" fill="#ffb03a"/><rect x="10" y="13" width="1" height="1" fill="#ffb03a"/><rect x="11" y="13" width="1" height="1" fill="#e8762b"/><rect x="12" y="13" width="1" height="1" fill="#e8762b"/><rect x="4" y="14" width="1" height="1" fill="#e8762b"/><rect x="5" y="14" width="1" height="1" fill="#e8762b"/><rect x="6" y="14" width="1" height="1" fill="#ffb03a"/><rect x="7" y="14" width="1" height="1" fill="#ffb03a"/><rect x="8" y="14" width="1" height="1" fill="#ffb03a"/><rect x="9" y="14" width="1" height="1" fill="#ffb03a"/><rect x="10" y="14" width="1" height="1" fill="#e8762b"/><rect x="11" y="14" width="1" height="1" fill="#e8762b"/><rect x="4" y="15" width="1" height="1" fill="#e8762b"/><rect x="5" y="15" width="1" height="1" fill="#e8762b"/><rect x="6" y="15" width="1" height="1" fill="#e8762b"/><rect x="7" y="15" width="1" height="1" fill="#e8762b"/><rect x="8" y="15" width="1" height="1" fill="#e8762b"/><rect x="9" y="15" width="1" height="1" fill="#e8762b"/><rect x="10" y="15" width="1" height="1" fill="#e8762b"/><rect x="11" y="15" width="1" height="1" fill="#e8762b"/>'),
         soundOn: ico('<path d="M2 6h3l4-3v10L5 10H2z"/><path d="M11 5h1.5v1.5H11zM11 9.5h1.5V11H11zM13 3.5h1.5v9H13z" transform="translate(-.5 0)"/>'),
         soundOff: ico('<path d="M2 6h3l4-3v10L5 10H2z"/><path d="M11 5l4 5-1.4 1.4L10 7.8zm4 0L11.4 8.6 10 7.2 13.6 3.6z"/>')
       };
@@ -11485,6 +11661,7 @@
           heroSwitch: "SWITCH ADVENTURER",
           badgeTitle: "BADGES",
           heroes: {
+            yusha: { name: "YUSHA", trait: "Cap Hero", desc: "The diary's new first hero: blue cap, green shirt, open brown jacket. Every adventure starts with him." },
             aoi: { name: "AOI", trait: "Classic Walker", desc: "A bright-eyed walker who has crossed every Tokyo ward on foot. Balanced and cheerful — the diary's first hero." },
             ren: { name: "REN", trait: "Crimson Scout", desc: "A night-shift scout who finds the exhibitions everyone else walks past. Loves hidden galleries and last trains." },
             momo: { name: "MOMO", trait: "Sakura Creator", desc: "A maker who never misses a workshop. If pigment, thread or clay is involved, Momo is already on the train there." },
@@ -11895,7 +12072,7 @@
           dailyCats: { food: "EAT", walk: "WALK", see: "SEE", make: "MAKE", tidy: "TIDY", mind: "MIND" },
           luckyTag: "★ LUCKY",
           customTitle: "CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR", custFace: "EXPRESSION",
-          hairStyles: ["Short", "Long", "Twin Tails", "Ponytail", "Bob", "Bun", "Spiky", "Curly"],
+          hairStyles: ["Short", "Cap", "Long", "Twin Tails", "Ponytail", "Bob", "Bun", "Spiky", "Curly"],
           faceNames: ["Smile", "Grin", "Wink", "Sleepy", "Star Eyes"],
           dailyPool: [
             { n: "Try a new onigiri flavor", d: "The flavor you never pick. Judge it fairly.", c: "food" },
@@ -12198,6 +12375,7 @@
           heroSwitch: "冒険者を切り替える",
           badgeTitle: "バッジ",
           heroes: {
+            yusha: { name: "勇者", trait: "キャップの勇者", desc: "青いキャップに緑のシャツ、茶色のジャケット。手帳の新しい最初の主人公。冒険はいつも彼から始まる。" },
             aoi: { name: "アオイ", trait: "王道ウォーカー", desc: "東京の区を歩き尽くした、明るいウォーカー。手帳の最初の主人公。" },
             ren: { name: "レン", trait: "紅のスカウト", desc: "みんなが見逃す展示を見つける夜型スカウト。隠れたギャラリーと終電が好き。" },
             momo: { name: "モモ", trait: "桜の作り手", desc: "ワークショップは絶対に逃さない作り手。顔料・糸・粘土があれば、もう電車の中。" },
@@ -12608,7 +12786,7 @@
           dailyCats: { food: "食", walk: "歩", see: "見", make: "作", tidy: "整", mind: "心" },
           luckyTag: "★ 当たり",
           customTitle: "主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色", custFace: "表情",
-          hairStyles: ["ショート", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子", "ツンツン", "くるくる"],
+          hairStyles: ["ショート", "キャップ", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子", "ツンツン", "くるくる"],
           faceNames: ["えがお", "にっこり", "ウインク", "ねむねむ", "キラキラ"],
           dailyPool: [
             { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を公平に判定。", c: "food" },
@@ -12911,6 +13089,7 @@
           heroSwitch: "切换冒险者",
           badgeTitle: "徽章",
           heroes: {
+            yusha: { name: "勇者", trait: "棒球帽勇者", desc: "蓝帽子、绿衬衫、敞开的棕色外套。这本手帐新的第一位主人公，每场冒险都从他开始。" },
             aoi: { name: "小葵", trait: "王道漫步者", desc: "走遍东京每个区的开朗漫步者。这本手帐的第一位主人公，均衡又阳光。" },
             ren: { name: "小莲", trait: "绯红侦察员", desc: "夜班侦察员，总能找到别人走过却错过的展览。喜欢隐藏画廊和末班车。" },
             momo: { name: "桃桃", trait: "樱花手作家", desc: "从不错过任何工作坊的手作家。只要有颜料、线或黏土，桃桃已经在去的电车上了。" },
@@ -13321,7 +13500,7 @@
           dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心" },
           luckyTag: "★ 幸运",
           customTitle: "自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色", custFace: "表情",
-          hairStyles: ["短发", "长发", "双马尾", "马尾", "波波头", "丸子头", "刺猬头", "卷发"],
+          hairStyles: ["短发", "棒球帽", "长发", "双马尾", "马尾", "波波头", "丸子头", "刺猬头", "卷发"],
           faceNames: ["微笑", "咧嘴笑", "眨眼", "困困", "星星眼"],
           dailyPool: [
             { n: "尝一种新的饭团口味", d: "便利店里你从不选的那个口味。公平地评判它。", c: "food" },
@@ -13698,7 +13877,7 @@
          carried over untouched, never reset. */
       var LS_KEY = "tql_state_v1";
       var LS_KEY_OLD = "tsq_state_v1";
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "aoi", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } } };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } } };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -13719,7 +13898,7 @@
             state.muted = !!parsed.muted;
             state.theme = typeof parsed.theme === "string" ? parsed.theme : "auto";
             state.font = typeof parsed.font === "string" ? parsed.font : "rounded";
-            state.hero = typeof parsed.hero === "string" ? parsed.hero : "aoi";
+            state.hero = typeof parsed.hero === "string" ? parsed.hero : "yusha";
             /* hero customization (skin / hair colour / hairstyle):
                older saves carry none — state.custom stays null here
                and is derived from the current hero's preset values
@@ -14503,6 +14682,7 @@
         "................"
       ];
       var HERO_PALS = {
+        yusha: { H: "#5a3a22", S: "#ffd9b3", E: "#26222e", B: "#3dbe5a", P: "#8a5a33", R: "#f2c14e" },
         aoi:  { H: "#f8bc3d", S: "#f2c79b", E: "#23203a", B: "#2271d1", P: "#3a3f4a", R: "#e5484d" },
         ren:  { H: "#3a2b3f", S: "#e8b48c", E: "#23203a", B: "#c22e3a", P: "#2b2b33", R: "#f8bc3d" },
         momo: { H: "#f28bb4", S: "#ffd9c2", E: "#4a2340", B: "#e56ba0", P: "#6b4258", R: "#ffffff" },
@@ -14510,8 +14690,8 @@
         hikari: { H: "#ffe9a8", S: "#ffd9c2", E: "#4a3200", B: "#f5a623", P: "#fff6dd", R: "#e5484d" },
         kuro: { H: "#17130f", S: "#e8b48c", E: "#7a1020", B: "#23203a", P: "#12100f", R: "#7558c9" }
       };
-      var HERO_IDS = ["aoi", "ren", "momo", "sora"];
-      function heroPal(id) { return HERO_PALS[id] || HERO_PALS.aoi; }
+      var HERO_IDS = ["yusha", "aoi", "ren", "momo", "sora"];
+      function heroPal(id) { return HERO_PALS[id] || HERO_PALS.yusha; }
       /* ============ Parametric hero (user direction, 2026-10-26):
          no more picking 1 of 4 fixed heroes — the sprite is built
          from parameters: base preset (body colours + name), skin
@@ -14519,10 +14699,10 @@
          the two secret ones) survive as PRESETS: picking one loads
          its values as the starting point. Equipment (hat / outfit
          / scarf) draws over the parameters, so nothing breaks. */
-      var HERO_STYLES = { aoi: "short", ren: "short", momo: "twin", sora: "long", hikari: "bob", kuro: "short" };
+      var HERO_STYLES = { yusha: "cap", aoi: "short", ren: "short", momo: "twin", sora: "long", hikari: "bob", kuro: "short" };
       var SKIN_TONES = ["#ffd9c2", "#f2c79b", "#e8b48c", "#c98a5a"];
       var HAIR_COLORS = ["#f8bc3d", "#3a2b3f", "#f28bb4", "#bfe3ea", "#e8762b", "#7558c9", "#eef1f4", "#2e9e5b", "#8a5a33", "#d13438", "#57b6e8", "#ffd9e8"];
-      var HAIR_STYLES = ["short", "long", "twin", "pony", "bob", "bun", "spiky", "curly"];
+      var HAIR_STYLES = ["short", "cap", "long", "twin", "pony", "bob", "bun", "spiky", "curly"];
       /* expressions (user, 2026-10-27 22:22 — a fourth custom
          axis): "smile" is the classic face baked into HERO_ROWS,
          so every existing save keeps its exact look by default */
@@ -14567,6 +14747,22 @@
         } else if (style === "curly") {
           px(5, 0); px(6, 0, hl); px(9, 0); px(10, 0, hl);
           px(2, 3); px(13, 3); px(2, 4, hd); px(13, 4, hd); px(2, 5); px(13, 5);
+        } else if (style === "cap") {
+          /* YUSHA's cap (art dept 02b spec, 2026-10-28): dome rows
+             1–3 in cap blue #2e4bd0 (light #4a74e8 at row 2 x5–7),
+             row 4 a deep band #1d2f7a with the gold badge #f2c14e
+             at x10–12; the side hair at row 5 keeps the hair
+             colour. Fixed colours — the cap does NOT follow the
+             hair-colour axis, exactly as the source generator
+             (avatar_hero_16.py) paints it. */
+          var CAP = "#2e4bd0", CAPL = "#4a74e8", CAPD = "#1d2f7a", GOLD = "#f2c14e", cx;
+          for (cx = 5; cx <= 10; cx++) px(cx, 1, CAP);
+          for (cx = 4; cx <= 11; cx++) px(cx, 2, CAP);
+          px(5, 2, CAPL); px(6, 2, CAPL); px(7, 2, CAPL);
+          for (cx = 3; cx <= 12; cx++) px(cx, 3, CAP);
+          for (cx = 3; cx <= 12; cx++) px(cx, 4, CAPD);
+          px(10, 4, GOLD); px(11, 4, GOLD); px(12, 4, GOLD);
+          px(3, 5, hc); px(12, 5, hc);
         } else {
           /* short: a single cowlick strand, light-tipped */
           px(7, 0, hc); px(8, 0, hl);
@@ -14616,11 +14812,23 @@
         drawHairStyle(ctx, style, pal.H, P.h, P.d);
         drawFace(ctx, face, pal);
       }
+      /* YUSHA's open jacket (art dept 02b spec): with the cap
+         style and NO outfit item equipped, the torso's outermost
+         shirt-colour cells (rows 8–11, x4 / x11 — the only B/L/b
+         cells the source generator's x<=4 / x>=11 rule reaches on
+         this grid) turn jacket brown #8a5a33; the centre keeps
+         the shirt green and the gold belt buckle (R) stays. */
+      var YUSHA_JACKET = [[4, 8], [11, 8], [4, 9], [11, 9], [4, 10], [11, 10], [4, 11], [11, 11]];
+      function drawYushaJacket(ctx) {
+        ctx.fillStyle = "#8a5a33";
+        YUSHA_JACKET.forEach(function (c) { ctx.fillRect(c[0], c[1], 1, 1); });
+      }
       function drawHero(canvas, id) {
         if (!canvas || !canvas.getContext) return;
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, 16, 16);
         drawBaseSprite(ctx, heroPal(id), HERO_STYLES[id] || "short");
+        if ((HERO_STYLES[id] || "short") === "cap") drawYushaJacket(ctx);
       }
       function drawAvatar() {
         drawHeroEquipped(document.getElementById("avatarCanvas"), state.hero, state.gacha.equipped);
@@ -15172,6 +15380,12 @@
         drawBaseSprite(ctx, pal, cust.style, cust.face);
         function px(x2, y2, c) { ctx.fillStyle = c; ctx.fillRect(x2, y2, 1, 1); }
         function span(y2, x1, x2, c) { for (var i = x1; i <= x2; i++) px(i, y2, c); }
+        /* the cap hero's open jacket is part of his base look: it
+           shows whenever the cap hairstyle is worn with no outfit
+           item over it; equipping any outfit replaces it whole,
+           exactly like switching the hairstyle away from cap
+           retires the cap itself */
+        if (cust.style === "cap" && !outfit) drawYushaJacket(ctx);
         if (outfit && outfit.fx) drawOutfitFx(ctx, outfit, px, span);
         if (scarfIt) drawNeckShape(ctx, scarfIt, px, span);
         if (hatIt) drawHatShape(ctx, hatIt, px, span);
@@ -15258,6 +15472,13 @@
         else if (sty === "pony") { px(3, 2, H); px(3, 3, H); px(3, 4, HL); px(3, 5, H); px(3, 6, HD); }
         else if (sty === "bob") { rect(4, 3, 2, 4, H); px(5, 7, HD); }
         else if (sty === "bun") { px(6, 0, H); px(7, 0, HL); }
+        if (sty === "cap") {
+          /* side view of the same cap: blue dome over rows 1–2,
+             light band on row 1, deep band + gold badge at the
+             front of row 3 */
+          rect(4, 1, 8, 2, "#2e4bd0"); rect(6, 1, 3, 1, "#4a74e8");
+          rect(10, 3, 2, 1, "#1d2f7a"); px(11, 3, "#f2c14e");
+        }
         /* hat, side view (simplified silhouettes, same colours) */
         if (E.hatIt) {
           var c1 = E.hatIt.c1, c2 = E.hatIt.c2;
@@ -15889,9 +16110,35 @@
         document.querySelectorAll(FIT_NAME_SEL).forEach(fitOneName);
       }
 
+      /* Q-110 GACHA red dot (Zoe, 2026-10-29): while at least one
+         ticket is spendable, a small numberless red dot rides the
+         corner of the HERO-page GACHA dock tile and mirrors on
+         the bottom bar's HERO tab — same red family as the DAILY
+         .count badge, clear of icon and label. It is (re)built by
+         this one sync, called from renderGacha (ticket mint /
+         pull / load all flow through it), so the state is live
+         after every earn, pull, load and page render. */
+      function syncGachaDot() {
+        var left = ticketsLeft();
+        var hosts = [document.querySelector('[data-openwin="gacha"]'), document.getElementById("tab-hero")];
+        hosts.forEach(function (host) {
+          if (!host) return;
+          var d = host.querySelector(".gacha-dot");
+          if (left > 0) {
+            if (!d) {
+              d = document.createElement("span");
+              d.className = "gacha-dot";
+              d.setAttribute("aria-hidden", "true");
+              host.appendChild(d);
+            }
+            d.hidden = false;
+          } else if (d) d.hidden = true;
+        });
+      }
       function renderGacha() {
         var t = L();
         var left = ticketsLeft();
+        syncGachaDot();
         var titleEl = document.getElementById("gachaTitle"); if (!titleEl) return;
         titleEl.textContent = t.gachaTitle;
         var ghl = document.getElementById("gachaHowLabel"); if (ghl) ghl.textContent = "▶ " + t.tutReplay;
@@ -16477,8 +16724,10 @@
          the active filter instantly. */
       var mapFilter = "all";
       /* filter bar fold state: session-only (in memory — leaving
-         the map and coming back keeps it, a reload resets it) */
-      var mapFiltersFolded = false;
+         the map and coming back keeps it, a reload resets it).
+         QA2 (Q-109): every fresh open starts FOLDED in all three
+         languages, so the map gets its full height back on entry */
+      var mapFiltersFolded = true;
       function mapFilterMatch(e) {
         if (mapFilter === "event") return !e.evergreen;
         if (mapFilter === "epic") return !!e.evergreen;
@@ -16507,10 +16756,14 @@
            reads at a glance even with the chips hidden */
         var mcur = document.getElementById("mapFilterCur");
         if (mcur) mcur.textContent = labels[mapFilter] || mapFilter;
+        renderMapFilterFold();
       }
       function renderMapFilterFold() {
         var bar = document.getElementById("mapFilters"); if (!bar) return;
         bar.classList.toggle("is-folded", mapFiltersFolded);
+        /* the folded strip's current-filter pill wears the ACTIVE
+           chip's own colours (lemon / epic / legend) via data-cur */
+        bar.setAttribute("data-cur", mapFilter);
         if (typeof mapBox !== "undefined" && mapBox) mapBox.classList.toggle("filters-folded", mapFiltersFolded);
         var tab = document.getElementById("mfFoldTab");
         if (tab) {
@@ -17233,6 +17486,7 @@
         off.innerHTML = ICONS.ext + "<span>" + t.official + "</span>";
         refreshDetailButtons();
         checkinMsg("", "");
+        syncVisibleH();
         if (typeof detail.showModal === "function") detail.showModal();
         else detail.setAttribute("open", "");
       }
@@ -17592,7 +17846,7 @@
            legacy saves without one keep the base hero's name */
         if (state.name && state.name.trim()) return state.name.trim();
         var t = L();
-        return (t.heroes[state.hero] || t.heroes.aoi).name;
+        return (t.heroes[state.hero] || t.heroes.yusha).name;
       }
       var narrTypeTimer = null, narrHideTimer = null;
       function hideNarr() {
@@ -18039,6 +18293,26 @@
         sfx("accept");
         renderHeroGrids(); renderStatus(); renderHero();
       }
+      /* base-hero preset row (art dept order, 2026-10-29): the
+         roster's first slot is YUSHA, the default hero. The row
+         lives on the CREATOR and the CUSTOMIZE page — picking a
+         preset loads it via selectHero; the secret gacha heroes
+         (hikari / kuro) are NOT presets and stay gacha-only. */
+      function renderPresetRow(el) {
+        if (!el) return;
+        var t = L();
+        el.innerHTML = HERO_IDS.map(function (id) {
+          return '<button class="cust-preset" type="button" data-preset="' + id + '" aria-pressed="' + String(state.hero === id) + '"><canvas width="16" height="16" aria-hidden="true"></canvas><span>' + esc((t.heroes[id] || {}).name || id) + "</span></button>";
+        }).join("");
+        el.querySelectorAll("[data-preset]").forEach(function (b) {
+          drawHero(b.querySelector("canvas"), b.getAttribute("data-preset"));
+          b.addEventListener("click", function () {
+            selectHero(b.getAttribute("data-preset"));
+            renderCustom();
+            renderCreator();
+          });
+        });
+      }
       /* ============ CUSTOMIZE page: preset / skin / style / colour
          Every change applies to the live sprite at once and saves;
          the stage, HUDs and slots all redraw from state.custom. */
@@ -18048,9 +18322,14 @@
         var title = document.getElementById("customTitle");
         if (!title) return;
         title.textContent = t.customTitle;
-        /* NO preset picking anywhere (user direction, 2026-10-27):
-           the maker is parameters + a name. The base palette stays
-           whatever it already is — existing heroes never change. */
+        /* base presets are pickable again (art dept order,
+           2026-10-29 — YUSHA joins the roster as slot #1 and the
+           default): picking one loads its palette + hairstyle as
+           the customization starting point via selectHero. A hero
+           nobody re-picks keeps its saved look untouched. */
+        var cpl = document.getElementById("custPresetLabel");
+        if (cpl) cpl.textContent = t.custPreset;
+        renderPresetRow(document.getElementById("customPresets"));
         document.getElementById("custNameLabel").textContent = t.custNameLabel;
         document.getElementById("custSkinLabel").textContent = t.custSkin;
         document.getElementById("custStyleLabel").textContent = t.custStyle;
@@ -18142,6 +18421,9 @@
         var t = L();
         if (!state.custom) state.custom = presetCustom(state.hero);
         document.getElementById("creatorTab").textContent = t.createTab;
+        var rpl = document.getElementById("creatorPresetLabel");
+        if (rpl) rpl.textContent = t.custPreset;
+        renderPresetRow(document.getElementById("creatorPresets"));
         document.getElementById("creatorNameLabel").textContent = t.creatorNameLabel;
         document.getElementById("creatorSkinLabel").textContent = t.custSkin;
         document.getElementById("creatorStyleLabel").textContent = t.custStyle;
@@ -19741,6 +20023,18 @@
           var p = document.getElementById("hseg" + k.charAt(0).toUpperCase() + k.slice(1));
           if (p) p.hidden = name !== k;
         });
+        /* Q-108: the RECORDS tab bar is ONE shared element pinned
+           outside the three panels (see #recTabsShared) — a tab
+           switch only flips which panel is visible and which tab
+           is pressed, so the bar itself never re-layouts */
+        var rts = document.getElementById("recTabsShared");
+        if (rts) {
+          var isRec = (name === "status" || name === "badges" || name === "advlog");
+          rts.hidden = !isRec;
+          if (isRec) rts.querySelectorAll("[data-rectab]").forEach(function (b) {
+            b.setAttribute("aria-pressed", String(b.getAttribute("data-rectab") === name));
+          });
+        }
         if (name === "collection") renderCollection();
         if (name === "advlog") renderAdvLog();
         document.querySelectorAll("[data-openwin]").forEach(function (b) {
@@ -20120,10 +20414,27 @@
       })();
       setHeroSeg("style");
 
+      /* Q-111: keep --vvh / --vvt glued to the VISIBLE viewport
+         (visualViewport), so the full-height detail page sizes
+         to what the player can actually see inside in-app
+         webviews whose layout viewport runs taller than the
+         visible area */
+      function syncVisibleH() {
+        if (!window.visualViewport) return;
+        document.documentElement.style.setProperty("--vvh", window.visualViewport.height + "px");
+        document.documentElement.style.setProperty("--vvt", window.visualViewport.offsetTop + "px");
+      }
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", syncVisibleH);
+        window.visualViewport.addEventListener("scroll", syncVisibleH);
+        syncVisibleH();
+      }
+
       renderAll();
       applyTheme(state.theme, false);
       goHomeView();
       tryGlInit();
+      renderMapFilterFold();
       setStatusMin(true);
       showStart(false);
     </script>
@@ -20137,7 +20448,7 @@
          every network path here fails silently and never blocks play.
          Only the public publishable key lives in the client.
          ================================================================ */
-      var TQL_BUILD = "TQL v2026.10.28-auth";
+      var TQL_BUILD = "TQL v2026.10.29-qa2";
       var SB_URL = "https://amanohlkajnilhsbofun.supabase.co";
       var SB_KEY = "sb_publishable_tecsXZQy9raLW6nvBK4Ghw_PxTqiiIC";
       var KOFI_URL = "https://ko-fi.com/tokyoquestlog";
@@ -20146,7 +20457,7 @@
         en: {
           login: "LOG IN", account: "ACCOUNT", guestState: "Guest — progress stays on this device",
           inState: function (e) { return "Logged in: " + e; },
-          logout: "LOG OUT", support: "♥ SUPPORT", authTitle: "LOG IN / SIGN UP",
+          logout: "LOG OUT", support: "♥ SUPPORT", supportShort: "♥ SUPPORT", authTitle: "LOG IN / SIGN UP",
           mailBtn: "✉ LOG IN WITH EMAIL", googleBtn: "G  LOG IN WITH GOOGLE", guestBtn: "CONTINUE AS GUEST",
           mailLabel: "EMAIL ADDRESS", sendBtn: "SEND CODE", sending: "SENDING…",
           codeLabel: "ENTER THE 6-DIGIT CODE", codeTo: function (e) { return "We sent a code to " + e + " (valid 60 min)."; },
@@ -20169,7 +20480,7 @@
         ja: {
           login: "ログイン", account: "アカウント", guestState: "ゲスト — 記録はこの端末に保存されます",
           inState: function (e) { return "ログイン中：" + e; },
-          logout: "ログアウト", support: "♥ 応援する", authTitle: "ログイン / 新規登録",
+          logout: "ログアウト", support: "♥ 応援する", supportShort: "♥ 応援", authTitle: "ログイン / 新規登録",
           mailBtn: "✉ メールでログイン", googleBtn: "G Googleでログイン", guestBtn: "ゲストのまま続ける",
           mailLabel: "メールアドレス", sendBtn: "コードを送信", sending: "送信中…",
           codeLabel: "6桁のコードを入力", codeTo: function (e) { return e + " にコードを送りました（有効期限60分）。"; },
@@ -20192,7 +20503,7 @@
         zh: {
           login: "登录", account: "账号", guestState: "游客 — 进度保存在这台设备上",
           inState: function (e) { return "已登录：" + e; },
-          logout: "退出登录", support: "♥ 应援", authTitle: "登录 / 注册",
+          logout: "退出登录", support: "♥ 应援", supportShort: "♥ 应援", authTitle: "登录 / 注册",
           mailBtn: "✉ 用邮箱登录", googleBtn: "G 用 Google 登录", guestBtn: "以游客身份继续",
           mailLabel: "邮箱地址", sendBtn: "发送验证码", sending: "发送中…",
           codeLabel: "输入 6 位验证码", codeTo: function (e) { return "验证码已发送到 " + e + "（60 分钟内有效）。"; },
@@ -20350,6 +20661,7 @@
         $("acctLoginBtn").hidden = !!authUser;
         $("supportBtn").textContent = t.support;
         $("heroSupportBtn").textContent = t.support;
+        var tsb = $("titleSupportBtn"); if (tsb) tsb.textContent = t.supportShort;
         $("heroAcctText").textContent = authUser ? t.heroIn(authUser.email || "") : t.heroGuest;
         $("buildVerLine").textContent = TQL_BUILD;
         $("authTitle").textContent = t.authTitle;
@@ -20458,6 +20770,7 @@
       $("acctLogoutBtn").addEventListener("click", doLogout);
       $("supportBtn").addEventListener("click", openSupport);
       $("heroSupportBtn").addEventListener("click", openSupport);
+      $("titleSupportBtn").addEventListener("click", openSupport);
       $("supportClose").addEventListener("click", closeSupport);
       $("authClose").addEventListener("click", closeAuth);
       $("authGuestBtn").addEventListener("click", closeAuth);
