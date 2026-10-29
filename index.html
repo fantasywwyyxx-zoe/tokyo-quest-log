@@ -15733,7 +15733,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0153-q187-bd4aed38";
+        var BUILD_ID = "tql-20261030-0244-r34h-10e247f0";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24281,7 +24281,7 @@ var qrcode = function() {
          daily), tap anywhere on it to skip; reduced motion gets
          the quiet banner only. */
       var CAT_COLOR = { Art: "#e14b4f", Anime: "#14a38c", Games: "#2f7cd6", Film: "#7558c9", Fashion: "#cf4d7d", Workshop: "#dd7f2a", Tech: "#3a9bc2", Experience: "#58a05c" };
-      var celebTimers = [], celebCountTimer = null;
+      var celebTimers = [], celebCountTimer = null, celebHome = null;
       function celebLater(fn, ms) { celebTimers.push(setTimeout(fn, ms)); }
       /* top-layer helpers: the ceremony + narrative bar enter via
          the Popover API so they paint above the modal detail
@@ -24303,6 +24303,10 @@ var qrcode = function() {
         var box = document.getElementById("celebrate");
         box.classList.remove("show"); box.classList.remove("shake"); box.innerHTML = ""; box.onclick = null;
         popHide(box);
+        if (celebHome) {
+          if (celebHome.n) celebHome.p.insertBefore(box, celebHome.n); else celebHome.p.appendChild(box);
+          celebHome = null;
+        }
       }
       function endCelebrate() { endCelebrateQuiet(); renderStatus(); }
       /* ============ Narrative message bar ============
@@ -24477,6 +24481,23 @@ var qrcode = function() {
         }
         box.classList.add("show");
         popShow(box);
+        /* R34 hardening: the panel rides the popover top layer above
+           the modal detail dialog. Where that promotion is missing
+           or silently fails (browser differences), the panel would
+           sit UNDER the modal and never be seen. Fall back to hosting
+           the panel inside the open dialog itself, so it renders in
+           the dialog's own top layer; endCelebrateQuiet restores the
+           original parent. Where the promotion works, nothing
+           changes. */
+        var popOkH = false;
+        try { popOkH = box.matches(":popover-open"); } catch (eH) {}
+        if (!popOkH) {
+          var dlgH = document.querySelector("dialog[open]");
+          if (dlgH && box.parentElement !== dlgH) {
+            celebHome = { p: box.parentElement, n: box.nextSibling };
+            dlgH.appendChild(box);
+          }
+        }
         box.onclick = function () { endCelebrate(); };
         /* inside-window actions stop the tap-to-close: WEAR the
            epic gear on the spot, or share the achievement CARD
