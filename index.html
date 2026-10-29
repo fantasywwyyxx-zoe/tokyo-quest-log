@@ -11151,13 +11151,14 @@
          the DOM, display:none, so every existing lookup, label and
          count write keeps working untouched — only the entrance
          and the container changed, never the filter logic.
-         FINAL FORM (Zoe ruling, 2026-10-29 14:51 — supersedes
-         every FULL MAP mention above): the full-screen mode, its
-         tools button and its tools sheet are ABOLISHED; the map
-         has exactly one mode. Resident chrome = the smaller
-         filter button (48px) at the right edge + the zoom trio
-         (− / + / ⌂ RESET) at the bottom edge. Settings still
-         opens from the command bar's gear, as always.
+         FINAL FORM (Zoe ruling, 2026-10-29 14:51, corrected
+         15:36 — supersedes every FULL MAP mention above): the
+         full-screen mode, its tools button and its tools sheet
+         are ABOLISHED; the map has exactly one mode. Resident
+         chrome = the smaller filter button (48px) at the right
+         edge + the bottom cluster (− / + / ⌂ RESET / ◎ LOCATE)
+         at the bottom edge. Settings still opens from the
+         command bar's gear, as always.
          ================================================================ */
       #mapFilters { display: none !important; }
 
@@ -11204,15 +11205,19 @@
         font-size: 11.5px; font-weight: 800; line-height: 1.25; padding: 1px 6px;
         pointer-events: none;
       }
-      /* --- the zoom trio (Zoe ruling, 2026-10-29 14:51): at the
-         map's bottom edge, above the command bar, EXACTLY three
-         resident buttons — zoom out (−), zoom in (+), reset
-         (⌂ + the localised RESET word, so the meaning never
-         rides on a glyph alone). Big, instantly readable, in
-         the same cream + ink-frame family as the filter button.
-         The retired LOCATE / FULL MAP chips stay in the DOM
-         (hidden) only so legacy label writes keep landing —
-         they render nothing and open nothing. --- */
+      /* --- the bottom cluster (Zoe ruling, 2026-10-29 14:51,
+         corrected 15:36): at the map's bottom edge, above the
+         command bar, EXACTLY four resident buttons — zoom out
+         (−), zoom in (+), reset (⌂ + the localised RESET word)
+         and LOCATE (◎ + the localised 現在地/定位/LOCATE word,
+         so the meaning never rides on a glyph alone). Big,
+         instantly readable, in the same cream + ink-frame
+         family as the filter button. LOCATE reuses the exact
+         locate() flow (permission prompt, accuracy handling,
+         centre-on-player glide) the retired tool sheet proxied.
+         Only the FULL MAP chip stays retired in the DOM
+         (hidden) so legacy label writes keep landing — it
+         renders nothing and opens nothing. --- */
       .map-chips .is-retired { display: none !important; }
       .map-chips { gap: 8px; }
       .map-chips .mz-btn {
@@ -11229,6 +11234,8 @@
       .map-chips .mz-btn:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
       .map-chips .mz-reset { padding: 0 13px; font-size: 19px; }
       .map-chips .mz-reset .mz-reset-label { font-size: 12.5px; letter-spacing: 0.06em; }
+      .map-chips .mz-locate { padding: 0 13px; font-size: 19px; }
+      .map-chips .mz-locate span:last-child { font-size: 12.5px; letter-spacing: 0.06em; }
       :root[data-theme="midnight"] .map-chips .mz-btn { background: #10142e; color: #f0f3ff; border-color: #dfe6ff; }
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="emerald"]) .map-chips .mz-btn { background: #10142e; color: #f0f3ff; border-color: #dfe6ff; }
@@ -11753,22 +11760,25 @@
       <section id="view-map" role="tabpanel" aria-labelledby="tab-map">
         <div class="win map-frame">
           <div class="map-box" id="mapBox">
-            <!-- ZOOM TRIO (Zoe ruling, 2026-10-29 14:51): the
-                 map's bottom edge carries EXACTLY three resident
-                 buttons — zoom out, zoom in, reset (glyph + the
-                 localised RESET word). The LOCATE and FULL MAP
-                 chips are retired: they stay in the DOM hidden
-                 (the codebase's retirement pattern) so legacy
-                 label writes keep landing, but they render
-                 nothing and open nothing — the FULL MAP mode no
+            <!-- BOTTOM CLUSTER (Zoe ruling, 2026-10-29 14:51,
+                 corrected 15:36): the map's bottom edge carries
+                 EXACTLY four resident buttons — zoom out, zoom
+                 in, reset (glyph + the localised RESET word) and
+                 LOCATE (◎ target glyph + the localised
+                 現在地/定位/LOCATE word; tapping it runs the
+                 same locate() flow the old tool sheet used).
+                 The FULL MAP chip stays retired in the DOM
+                 hidden (the codebase's retirement pattern) so
+                 legacy label writes keep landing, but it renders
+                 nothing and opens nothing — the FULL MAP mode no
                  longer exists, and settings lives on the
                  command bar's gear. -->
             <div class="map-chips" id="mapChips">
-              <button class="map-chip is-retired" id="locBtn" type="button" hidden></button>
               <button class="map-chip is-retired" id="mapExpandBtn" type="button" hidden></button>
               <button class="map-chip mz-btn" id="mapZoomOut" type="button" aria-label="Zoom out">−</button>
               <button class="map-chip mz-btn" id="mapZoomIn" type="button" aria-label="Zoom in">+</button>
               <button class="map-chip mz-btn mz-reset" id="mapZoomHome" type="button" aria-label="Reset view"><span aria-hidden="true">⌂</span><span class="mz-reset-label">RESET</span></button>
+              <button class="map-chip mz-btn mz-locate" id="locBtn" type="button" aria-label="Locate me"></button>
             </div>
             <!-- quick type filter + on-board count: ONE bar
                  (user, 2026-10-27 10:23 — the count pill used to
