@@ -1413,6 +1413,9 @@
 
       /* --- BGM candidate picker: day / night groups, preview + pick --- */
       .bgm-groups { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+      /* Q-174: heading row = label + sound toggle; track groups go full width below */
+      .bgm-bar .bgm-groups { flex: 1 1 100%; min-width: 0; }
+      .sound-in-bgm { margin-left: auto; flex: none; }
       .bgm-group { display: flex; flex-direction: column; gap: 5px; }
       .bgm-glabel { font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; color: var(--ink-dim); }
       .bgm-row { display: flex; gap: 6px; align-items: stretch; }
@@ -12149,8 +12152,8 @@
          and the mini-game fold's nested spacing on the daily page. */
       .cust-presets { justify-content: center; }
       .cust-preset { flex: 0 0 calc(25% - 6px); box-sizing: border-box; }
-      #mgFoldToggle { margin-top: 6px; }
-      #mgFoldBody .run-cabinet { margin-top: 4px; }
+      /* Q-181: the cabinet stands alone below the daily window */
+      #dailyPanel .run-cabinet { margin-top: 10px; }
 
       /* win-more (Zoe 2026-10-30: the pager's plaque floated into
          the middle of the wardrobe grid): every older bottom /
@@ -12589,9 +12592,6 @@
         <span class="sheet-title" id="styleTitle"></span>
       </div>
       <button class="sheet-close" id="styleClose" type="button" aria-label="Close">✕</button>
-      <div class="win-flat themebar" role="group" aria-label="Sound">
-        <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true"></button>
-      </div>
       <!-- Q-143: the ONE language switch — a labelled segmented
            control in SETTINGS. The pressed segment IS the current
            language; tapping another applies it to every screen at
@@ -12610,8 +12610,10 @@
         <span id="themeSwatches" style="display:contents"></span>
         <span class="theme-name" id="themeName"></span>
       </div>
-      <div class="win-flat themebar" role="group" aria-label="BGM track">
+      <!-- Q-174: the sound ON/OFF toggle rides the BGM heading row -->
+      <div class="win-flat themebar bgm-bar" role="group" aria-label="BGM track">
         <span class="flabel" id="lblBgm"></span>
+        <button class="icon-btn sound-in-bgm" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound"></button>
         <div id="bgmGroups" class="bgm-groups"></div>
       </div>
       <div class="win-flat themebar" role="group" aria-label="Tutorial">
@@ -12958,13 +12960,11 @@
             <button class="cal-open cal-open-sm" id="calOpenBtn" type="button"></button>
           </div>
           <div class="daily-rows" id="dailyCards"></div>
-          <button class="how-toggle" id="mgFoldToggle" type="button" aria-expanded="false" aria-controls="mgFoldBody"><span id="mgFoldLabel"></span><span class="how-chip" id="mgFoldChip" aria-hidden="true"></span></button>
-          <div class="how-body mg-fold-body" id="mgFoldBody" hidden>
-            <!-- MINI GAMES cabinet: moved to the DAILY page fold
-                         (Zoe 2026-10-30) -- entrance only; the duty door,
-                         the roster window (#mgHubScreen) and the reward
-                         path are unchanged. -->
-                    <div class="run-cabinet" id="runCabinet">
+        <!-- Q-181 (Zoe 2026-10-30): MINI GAMES get their OWN frame
+             below the daily window — no fold; the heading stays
+             visible and the duty door opens the hub window.
+             Entrance only; roster window + reward path unchanged. -->
+        <div class="run-cabinet mg-panel" id="runCabinet">
                       <div class="run-cab-head">
                         <span class="run-cab-tag" id="runTag">GAMES</span>
                         <span class="run-cab-title ps" id="mgHubTitle">MINI GAMES</span>
@@ -12985,7 +12985,8 @@
                            the hero page never reflows. The roster list and
                            the status line live in that window now. -->
                     </div>
-          </div>
+
+          
         </div>
         </div>
         <footer class="win-flat site record-foot">
@@ -15714,7 +15715,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0103-q180-d1ec2e7a";
+        var BUILD_ID = "tql-20261030-0112-q181q174-410e0cbe";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25465,9 +25466,6 @@ var qrcode = function() {
         var t = L();
         document.getElementById("dailyTitle").textContent = t.dailyTitle;
         document.getElementById("dailyHowLabel").textContent = t.tutReplay;
-        var mgfl = document.getElementById("mgFoldLabel"); if (mgfl) mgfl.textContent = t.mgHub;
-        var mgfb = document.getElementById("mgFoldBody");
-        var mgfc = document.getElementById("mgFoldChip"); if (mgfc && mgfb && mgfb.hidden) mgfc.textContent = t.howOpen || "";
         var dhc = document.getElementById("dailyHowChip");
         if (dhc) dhc.textContent = document.getElementById("dailyHowBody").hidden ? (t.howOpen || "") : (t.howClose || "");
         document.getElementById("dailyNpc").textContent = t.dailyHow || t.dailyNpc;
@@ -26346,7 +26344,7 @@ var qrcode = function() {
       /* how-to folds (daily + gacha share one pattern: a slim
          one-line toggle, closed by default, body holds the
          shortened rule line — UI minimisation, 2026-10-27) */
-      [["dailyHowToggle", "dailyHowBody"], ["gachaHowToggle", "gachaHowBody"], ["mgFoldToggle", "mgFoldBody"]].forEach(function (pair) {
+      [["dailyHowToggle", "dailyHowBody"], ["gachaHowToggle", "gachaHowBody"]].forEach(function (pair) {
         var tg = document.getElementById(pair[0]), bd = document.getElementById(pair[1]);
         if (!tg || !bd) return;
         tg.addEventListener("click", function () {
