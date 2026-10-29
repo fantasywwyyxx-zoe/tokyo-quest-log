@@ -15698,7 +15698,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0041-q177-65e76daf";
+        var BUILD_ID = "tql-20261030-0112-q178-29757fee";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23627,37 +23627,65 @@ var qrcode = function() {
             }
             /* body on cream */
             x.fillStyle = "#fff6dd"; x.fillRect(0, phY + phH, W, H - phY - phH);
-            /* quest name: wrap to at most 2 lines, shrink to fit */
-            var name = evName(e);
-            var size = 68, lines = [];
-            while (size >= 40) {
-              x.font = "900 " + size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
-              lines = [];
-              var cur = "";
-              for (var ci = 0; ci < name.length; ci++) {
-                var ch = name.charAt(ci);
-                if (cur && x.measureText(cur + ch).width > W - 96) { lines.push(cur); cur = ch; }
-                else cur += ch;
+            /* text lines: every line gets fit protection (Q-178) --
+               wrap to at most 2 lines (space-aware), shrink to fit,
+               hard-clip as the last resort, so the longest catalog
+               strings can never paint past the frame */
+            function wrapFit(text, maxW) {
+              var out = [], cur = "";
+              for (var i = 0; i < text.length; i++) {
+                var ch = text.charAt(i);
+                if (cur && x.measureText(cur + ch).width > maxW) {
+                  var sp = cur.lastIndexOf(" ");
+                  if (ch !== " " && sp > cur.length * 0.5) { out.push(cur.slice(0, sp)); cur = cur.slice(sp + 1) + ch; }
+                  else { out.push(cur); cur = ch === " " ? "" : ch; }
+                } else cur += ch;
               }
-              if (cur) lines.push(cur);
-              if (lines.length <= 2) break;
-              size -= 4;
+              if (cur) out.push(cur);
+              return out;
             }
-            if (lines.length > 2) lines = [lines[0], lines.slice(1).join("")];
-            x.fillStyle = "#10142e";
-            var cy = phY + phH + 84;
-            lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (size + 14)); });
-            cy += lines.length * (size + 14) + 34;
-            /* schedule + venue/area */
-            x.font = "700 40px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
-            x.fillStyle = "#26355e";
+            function clipFit(text, maxW) {
+              if (x.measureText(text).width <= maxW) return text;
+              while (text.length && x.measureText(text + "\u2026").width > maxW) text = text.slice(0, -1);
+              return text + "\u2026";
+            }
+            function fitBlock(text, size, minSize, weight) {
+              var s = size, lines = [];
+              while (s >= minSize) {
+                x.font = weight + " " + s + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+                lines = wrapFit(text, W - 96);
+                if (lines.length <= 2) break;
+                s -= 2;
+              }
+              if (s < minSize) s = minSize;
+              if (lines.length > 2) lines = [lines[0], lines.slice(1).join("")];
+              x.font = weight + " " + s + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+              lines = lines.map(function (ln) { return clipFit(ln, W - 96); });
+              return { lines: lines, size: s };
+            }
+            var by = H - 216;
+            var nameB = fitBlock(evName(e), 68, 30, "900");
             var sched = fmtRange(e);
             var when = timingLine(e);
             if (when && when !== sched) sched += "  " + when;
-            x.fillText(sched, 48, cy); cy += 64;
-            x.fillText(e.venue + " · " + areaName(e.area), 48, cy);
+            var schedB = fitBlock(sched, 40, 26, "700");
+            var venB = fitBlock(e.venue + " · " + areaName(e.area), 40, 26, "700");
+            var totalH = (nameB.lines.length - 1) * (nameB.size + 14) + (nameB.size + 14) + 34
+              + (schedB.lines.length - 1) * (schedB.size + 12) + 64
+              + (venB.lines.length - 1) * (venB.size + 12);
+            var cy = phY + phH + 84;
+            if (cy + totalH > by - 44) cy -= (cy + totalH) - (by - 44);
+            x.fillStyle = "#10142e";
+            x.font = "900 " + nameB.size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            nameB.lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (nameB.size + 14)); });
+            cy += (nameB.lines.length - 1) * (nameB.size + 14) + (nameB.size + 14) + 34;
+            x.fillStyle = "#26355e";
+            x.font = "700 " + schedB.size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            schedB.lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (schedB.size + 12)); });
+            cy += (schedB.lines.length - 1) * (schedB.size + 12) + 64;
+            x.font = "700 " + venB.size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            venB.lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (venB.size + 12)); });
             /* bottom band: CTA + QR to the beta hub */
-            var by = H - 216;
             x.fillStyle = "#10142e"; x.fillRect(0, by, W, 216);
             x.fillStyle = "#ffd83d";
             x.font = "900 56px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
