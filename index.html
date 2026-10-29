@@ -15733,7 +15733,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0144-q186-c665ca27";
+        var BUILD_ID = "tql-20261030-0153-q187-bd4aed38";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -22485,7 +22485,17 @@ var qrcode = function() {
         var mh186 = document.getElementById("mgHubScreen");
         if (mh186 && !mh186.hidden) renderRunBanner();
         var cs186 = document.getElementById("calScreen");
-        if (cs186 && !cs186.hidden) renderCal();
+        if (cs186 && !cs186.hidden) {
+          var cd187 = document.getElementById("calDay");
+          var cdWasOpen = !!(cd187 && !cd187.hidden && typeof calDayOpen !== "undefined" && calDayOpen);
+          renderCal();
+          /* Q-187: renderCal() hides the day panel, and the panel's
+             body renders only in openCalDay — so an open day stayed
+             in the previous language (or vanished) on a switch.
+             Re-open the same day so its body follows the new
+             language too; the last surface of the Q-186 sweep. */
+          if (cdWasOpen) openCalDay(calDayOpen);
+        }
       }
       function renderCatChips() {
         var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: c, icon: CAT_ICON[c] }; }));
@@ -25716,7 +25726,9 @@ var qrcode = function() {
         } catch (e) {}
         return stored;
       }
+      var calDayOpen = null; /* Q-187: the day whose detail panel is open */
       function openCalDay(ds) {
+        calDayOpen = ds;
         var t = L();
         var dy = state.diary[ds];
         document.getElementById("calDay").hidden = false;
