@@ -10326,6 +10326,55 @@
         text-decoration: none; justify-content: center;
       }
     </style>
+    <style>
+      /* ================================================================
+         MAP FILTER FOLD REPAIR (user re-report 2026-10-29 — the map
+         index bar's fold/expand "still has problems"):
+         The Q-109/QA2 fold worked on the small map only by
+         coincidence of hand-synced magic numbers, and broke
+         everywhere else:
+         1. DETACHED TAB IN FULL MAP — the bar itself moves to
+            top: calc(8px + safe-area) in .in-big, but the fold tab
+            kept its small-map tops (106px expanded / 98px folded),
+            so in FULL MAP it floated ~40px below the bar with
+            nothing connecting them (probe, pre-fix build: the bar's
+            bottom edge sits at ~62px there, the tab at 98–106px).
+         2. DEAD TAPS — the tab measured 30×20px (probe bbox), and
+            ANY pointerdown inside the map box — the tab included —
+            armed a map pan, so a finger drifting a few px turned
+            the fold tap into a pan and the click never landed
+            (the JS half of this pack keeps chrome touches out of
+            the pan/pinch trackers).
+         3. FRAGILE GEOMETRY — the tab's tops were constants synced
+            by hand against the bar's top + height (106, then 84,
+            then 98); any future change to either silently
+            re-detaches the tab.
+         The repair hangs the tab from the bar by construction:
+         the bar's top and height become custom properties on the
+         map box (--mf-top / --mf-bar-h), switched by the very
+         classes that move the bar itself (.in-big moves it up,
+         .filters-folded shrinks it), and the tab's top is
+         calc(var(--mf-top) + var(--mf-bar-h)) — flush under the
+         bar in the small map and in FULL MAP, folded and
+         expanded, with no constant left to re-sync. The values
+         only MIRROR the geometry earlier packs verified (bar top
+         50px / 8px+safe-area in-big; heights 54px expanded /
+         46px folded), so the expanded chips do not move a pixel.
+         The tab itself grows from 30×20 to a 48×26 plaque, and
+         the folded strip takes a pointer cursor so it reads as
+         the tap-to-expand surface it is.
+         ================================================================ */
+      .map-box { --mf-top: 50px; --mf-bar-h: 54px; }
+      .map-box.in-big { --mf-top: calc(8px + env(safe-area-inset-top, 0px)); }
+      .map-box.filters-folded { --mf-bar-h: 46px; }
+      .map-box .mf-fold-tab, .map-box.filters-folded .mf-fold-tab {
+        top: calc(var(--mf-top) + var(--mf-bar-h));
+      }
+      .map-box .mf-fold-tab {
+        right: 16px; width: 48px; height: 26px; font-size: 13px;
+      }
+      .map-filters.is-folded { cursor: pointer; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -10666,7 +10715,7 @@
               <button class="mf-chip" type="button" data-mf="cleared" aria-pressed="false"></button>
               <span class="mf-mark" aria-hidden="true">▸</span>
             </div>
-            <button class="mf-fold-tab" id="mfFoldTab" type="button" aria-expanded="true" aria-controls="mapFilters" aria-label="Fold filter bar">▾</button>
+            <button class="mf-fold-tab" id="mfFoldTab" type="button" aria-expanded="false" aria-controls="mapFilters" aria-label="Expand filter bar">▸</button>
             <div class="map-zoom" id="mapZoom">
             <div id="routeLayer" hidden aria-hidden="true"></div>
             <div class="map-backdrop" aria-hidden="true"></div>
@@ -19769,6 +19818,11 @@
       var panState = null;
       mapBox.addEventListener("pointerdown", function (ev) {
         if (glActive) return; /* MapLibre owns panning on the real map */
+        /* the filter bar and its fold tab are chrome, not map: a
+           touch starting on them must never arm a pan — a few px
+           of drift would turn the fold tap into a drag and the
+           click would never land (fold repair, 2026-10-29) */
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfFoldTab")) return;
         /* the cover fit overflows the box even at zoom.s = 1 (in
            both modes), so panning must work from the first touch —
            gate on actual overflow, not on the zoom factor */
@@ -19816,6 +19870,9 @@
       var mapPtrs = {}, pinchState = null;
       mapBox.addEventListener("pointerdown", function (ev) {
         if (glActive) return;
+        /* chrome touches (filter bar / fold tab) never join the
+           pinch tracker either — same fold repair as the pan gate */
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfFoldTab")) return;
         mapPtrs[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
         var ids = Object.keys(mapPtrs);
         if (ids.length === 2) {
