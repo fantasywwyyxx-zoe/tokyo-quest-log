@@ -413,7 +413,8 @@
         border: 2px dashed var(--gold); border-radius: 4px; padding: 9px 11px; font-size: 14.5px; margin-bottom: 12px;
         background: rgba(247, 201, 72, 0.12);
       }
-      .detail-actions { display: grid; gap: 9px; }
+      .detail-actions { display: grid; gap: 9px; grid-template-columns: 1fr 1fr; }
+      .detail-actions .undo-link { grid-column: 1 / -1; }
       @media (min-width: 520px) { .detail-actions { grid-template-columns: 1fr 1fr; } .detail-actions .wide { grid-column: 1 / -1; } }
       .rpg-btn {
         display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -13312,8 +13313,8 @@
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
-            <a class="rpg-btn btn-official wide" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
-            <button class="rpg-btn btn-poster wide" id="btnPoster" type="button"></button>
+            <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
+            <button class="rpg-btn btn-poster" id="btnPoster" type="button"></button>
             <button class="undo-link" id="btnUndo" type="button" hidden></button>
             <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
           </div>
@@ -15689,7 +15690,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0005-mapfix-eb2b1a5b";
+        var BUILD_ID = "tql-20261030-0018-posterrow-ba765aff";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
