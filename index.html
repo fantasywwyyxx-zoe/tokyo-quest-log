@@ -12149,6 +12149,16 @@
       dialog#detail .detail-actions .btn-quest,
       dialog#detail .detail-actions .btn-checkin,
       dialog#detail .detail-actions .btn-back { grid-column: 1 / -1; }
+      dialog#detail .detail-actions .btn-official { grid-column: 1 / -1; }
+      .poster-fab {
+        position: absolute; right: 10px; bottom: 8px; z-index: 3;
+        width: 40px; height: 40px; border-radius: 999px; padding: 0;
+        background: #181e42; border: 2px solid #f5f0dc; cursor: pointer;
+        box-shadow: 0 2px 0 rgba(10, 14, 40, 0.45);
+        display: flex; align-items: center; justify-content: center;
+      }
+      .poster-fab:active { transform: translateY(2px); box-shadow: none; }
+      .poster-fab svg { width: 20px; height: 20px; display: block; }
       dialog#detail .detail-preview { flex: none; height: 168px; min-height: 168px; }
       #detailChips .cat-chip, #detailChips .epic-badge, #detailChips .free-badge,
       #detailChips .soon-badge, #detailChips .state-badge {
@@ -13357,7 +13367,6 @@
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
             <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
-            <button class="rpg-btn btn-poster" id="btnPoster" type="button"></button>
             <button class="undo-link" id="btnUndo" type="button" hidden></button>
             <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
           </div>
@@ -15733,7 +15742,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0853-q173-4a089b33";
+        var BUILD_ID = "tql-20261030-0858-q176c-e9681ee0";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23567,7 +23576,7 @@ var qrcode = function() {
         if (e.img) {
           dp.hidden = false;
           dp.style.cursor = "zoom-in";
-          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(e.venue) + " · " + esc(areaName(e.area)) + "</span>";
+          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(e.venue) + " · " + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
           bn.hidden = true; bn.innerHTML = "";
         } else {
           /* photo-less events get a designed NO PHOTO window — a
@@ -23590,7 +23599,6 @@ var qrcode = function() {
         document.getElementById("dpRange").textContent = fmtRange(e);
         document.getElementById("dpWhen").textContent = timingLine(e);
         document.getElementById("btnBack").innerHTML = "<span>" + esc(t.backBtn) + "</span>";
-        document.getElementById("btnPoster").innerHTML = "<span>" + esc(t.posterBtn) + "</span>";
         var monthly = document.getElementById("detailMonthly");
         monthly.hidden = !e.recurring;
         if (e.recurring) monthly.textContent = "» " + t.monthlyNote;
@@ -26513,7 +26521,6 @@ var qrcode = function() {
       });
       document.getElementById("detailClose").addEventListener("click", function () { sfx("back"); closeDetail(); });
       document.getElementById("btnBack").addEventListener("click", function () { sfx("back"); closeDetail(); });
-      document.getElementById("btnPoster").addEventListener("click", function () { sfx("accept"); shareQuestPoster(); });
       detail.addEventListener("click", function (ev) { if (ev.target === detail) closeDetail(); });
       document.getElementById("soundBtn").addEventListener("click", function () {
         state.muted = !state.muted;
@@ -27047,12 +27054,15 @@ var qrcode = function() {
         });
       }
       document.getElementById("ivClose").addEventListener("click", closeViewer);
-      document.getElementById("detailPreview").addEventListener("click", function () {
+      document.getElementById("detailPreview").addEventListener("click", function (ev) {
+        var fab = ev.target && ev.target.closest ? ev.target.closest("#btnPoster") : null;
+        if (fab) { ev.stopPropagation(); sfx("accept"); shareQuestPoster(); return; }
         if (!currentId) return;
         var e = byId(currentId);
         if (e && e.img) openViewer(e.img, evName(e));
       });
       document.getElementById("detailPreview").addEventListener("keydown", function (ev) {
+        if (ev.target !== this) return;
         if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); this.click(); }
       });
       document.getElementById("styleBtn").addEventListener("click", function () {
