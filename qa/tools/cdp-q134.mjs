@@ -31,7 +31,8 @@ await sleep(2500);
 await cdp.eval(`localStorage.setItem('tql_state_v1', ${JSON.stringify(JSON.stringify(BASE))}); 'ok'`);
 await cdp.send('Page.reload', { ignoreCache: true });
 await sleep(3200);
-await click('#startBtn'); await sleep(1000);
+await sleep(1500);
+await cdp.eval(`(() => { const b = document.querySelector('#startBtn'); if (b && b.offsetParent) b.click(); })()`); await sleep(1200);
 await click('#tab-hero'); await sleep(1500);
 // open the wish editor: click the flag plaque / wish button on the hero screen
 console.log('wish open:', await cdp.eval(`(() => { const cands = [...document.querySelectorAll('button, [role=button], [class*=wish], [class*=flag]')].filter(e => e.offsetParent); const b = cands.find(e => /心愿|願い|wish/i.test(e.className + ' ' + (e.innerText || ''))) || cands.find(e => (e.innerText || '').trim() === '啊'); if (b) { b.click(); return (b.className + '|' + (b.innerText || '')).slice(0, 50); } return 'not found: ' + cands.map(c => (c.innerText || '').slice(0, 10)).join('/').slice(0, 120); })()`));
@@ -55,7 +56,7 @@ for (const h of [600, 500, 460]) {
   await cdp.send('Emulation.setDeviceMetricsOverride', { width: 390, height: h, deviceScaleFactor: 1, mobile: true, screenWidth: 390, screenHeight: h });
   await sleep(650);
   await measure('390x' + h);
-  if (h === 460) await shot('q134-wish-editor-460.png');
+  if (h === 460) await shot('q134-wish-editor-460.png'); if (h === 600) await shot('q134-wish-editor-600.png');
 }
 try { proc.kill('SIGKILL'); } catch {}
 console.log('Done');
