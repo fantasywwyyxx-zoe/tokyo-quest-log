@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;}
+body{background:#333;}
+.panel{width:390px;height:400px;position:relative;background:url('/tmp/maptex.png');background-size:390px 460px;background-position:center top;margin:0 auto 10px;overflow:hidden;}
+.tag{position:absolute;top:8px;left:8px;background:#22303C;color:#FFD83D;font-weight:800;font-size:15px;padding:4px 12px;border-radius:999px;z-index:5;}
+.bar{position:absolute;left:12px;right:12px;top:44px;z-index:4;}
+/* A: one-piece capsule */
+.capsule{display:flex;align-items:center;gap:8px;background:#FFF8E7;border:3px solid #22303C;border-radius:999px;height:46px;padding:0 14px;box-shadow:0 3px 0 rgba(34,48,60,.35);}
+.dot{width:22px;height:22px;border-radius:50%;background:#2E7FB8;border:2.5px solid #22303C;flex:none;}
+.cap-t{font-size:17px;font-weight:800;color:#22303C;}
+.count{margin-left:auto;background:#FFD83D;border:2.5px solid #22303C;border-radius:999px;font-weight:800;font-size:14px;color:#22303C;padding:1px 10px;}
+.chev{font-weight:900;color:#E8443A;font-size:15px;}
+/* B: unified search bar */
+.search{display:flex;align-items:center;gap:10px;background:#FFF8E7;border:3px solid #22303C;border-radius:16px;height:50px;padding:0 14px;box-shadow:0 3px 0 rgba(34,48,60,.35);}
+.funnel{width:28px;height:28px;border-radius:9px;background:#2E7FB8;border:2.5px solid #22303C;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;}
+.search-t{font-size:16px;font-weight:800;color:#22303C;}
+.search-r{margin-left:auto;font-size:14px;font-weight:800;color:#22303C;}
+.search-r b{color:#E8443A;}
+/* C: edge round button */
+.roundbtn{position:absolute;right:14px;top:120px;width:58px;height:58px;border-radius:50%;background:#FFF8E7;border:3px solid #22303C;box-shadow:0 3px 0 rgba(34,48,60,.35);display:flex;align-items:center;justify-content:center;font-size:24px;color:#2E7FB8;z-index:4;}
+.roundbtn .bdg{position:absolute;top:-6px;right:-6px;background:#FFD83D;border:2.5px solid #22303C;border-radius:999px;font-size:11px;font-weight:800;color:#22303C;padding:0 6px;}
+.hint{position:absolute;left:12px;top:44px;background:rgba(34,48,60,.85);color:#FFF8E7;font-size:13px;font-weight:700;border-radius:10px;padding:6px 10px;z-index:4;}
+/* A expanded */
+.win{position:absolute;left:12px;right:12px;top:98px;background:#FFF8E7;border:3px solid #22303C;border-radius:16px;padding:10px;z-index:4;box-shadow:0 3px 0 rgba(34,48,60,.35);}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:2.5px solid #22303C;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:800;color:#22303C;background:#fff;}
+.chip.on{background:#E8443A;color:#fff;}
+.chip small{font-weight:800;opacity:.75;}
+</style></head><body>
+<div class="panel"><div class="tag">A 案 · 一粒胶囊</div>
+  <div class="bar"><div class="capsule"><div class="dot"></div><div class="cap-t">すべて</div><div class="count">180</div><div class="chev">▾</div></div></div>
+</div>
+<div class="panel"><div class="tag">B 案 · 一条整 bar（Google Maps 流）</div>
+  <div class="bar"><div class="search"><div class="funnel">⏷</div><div class="search-t">冒険クエスト ・ すべて</div><div class="search-r">180件 <b>▾</b></div></div></div>
+</div>
+<div class="panel"><div class="tag">C 案 · 地图全裸 + 圆钮（Airbnb / 游戏流）</div>
+  <div class="roundbtn">⏷<div class="bdg">180</div></div>
+</div>
+<div class="panel"><div class="tag">A 案 · 展开后（点胶囊）</div>
+  <div class="bar"><div class="capsule"><div class="dot"></div><div class="cap-t">すべて</div><div class="count">180</div><div class="chev">▴</div></div></div>
+  <div class="win"><div class="chips">
+    <div class="chip on">すべて <small>180</small></div><div class="chip">期間限定 <small>41</small></div><div class="chip">EPIC <small>139</small></div><div class="chip">LEGEND <small>4</small></div><div class="chip">♥ 気分</div><div class="chip">✓ クリア済</div>
+  </div></div>
+</div>
+</body></html>
