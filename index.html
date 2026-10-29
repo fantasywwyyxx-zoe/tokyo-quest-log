@@ -11356,6 +11356,15 @@
       .map-chips .mz-reset .mz-reset-label { font-size: 12.5px; letter-spacing: 0.06em; }
       .map-chips .mz-locate { padding: 0 13px; font-size: 19px; }
       .map-chips .mz-locate span:last-child { font-size: 12.5px; letter-spacing: 0.06em; }
+      /* Q-146 delivery hardening (2026-10-29): the button's glyph and
+         label spans never take the hit themselves — every real tap on
+         the button's face targets the BUTTON element. Measured cause:
+         a tap's hit target used to be the inner label span, so the
+         press depended entirely on bubbling up to the button's
+         listener; any harness or webview whose dispatch does not
+         bubble from the deep target lost the press silently (no
+         chip, no permission prompt — QA R20/R21/R22). */
+      .map-chips .mz-locate > span { pointer-events: none; }
       :root[data-theme="midnight"] .map-chips .mz-btn { background: #10142e; color: #f0f3ff; border-color: #dfe6ff; }
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="emerald"]) .map-chips .mz-btn { background: #10142e; color: #f0f3ff; border-color: #dfe6ff; }
@@ -12913,7 +12922,7 @@
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-2107-mg2q-4a812a0b";
+        var BUILD_ID = "tql-20261029-2055-q146-32dc256a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23367,7 +23376,31 @@
          now answers on pointerdown AND on click, deduped by press
          time: a real tap delivers both and locate() runs once; an
          environment that delivers only one of them still gets its
-         one run. */
+         one run.
+         Q-146 delivery hardening (2026-10-29, measured evidence
+         round on build tql-20261029-2107-mg2q-4a812a0b): with the
+         handler entered, every terminal state reaches the chip
+         (denied 218ms / failed 228ms / success 228ms / sync-throw
+         unsupported immediately / never-resolving watchdog chip at
+         10,078ms), and synthetic dispatches fired the handler
+         exactly once each — click→button 1, click→glyph span 1,
+         click→label span 1, pointerdown→button 1, pointerdown→span
+         1, el.click() 1. The fragile layer was DELIVERY: a real
+         tap's hit target was the inner label SPAN (hit-tested at
+         all 5 face sample points), so the press lived or died by
+         bubbling from the span to the button, and any covering
+         layer reduced handler entries to 0 with no chip and no
+         permission prompt (QA's exact symptom). Two structural
+         guards now sit under the button's own listeners: (1) the
+         spans are pointer-events:none (CSS, .mz-locate > span), so
+         a real tap always targets the button itself; (2) the
+         #mapChips parent carries CAPTURE-phase listeners for
+         pointerdown / touchend / click that route any press whose
+         target is the button or a descendant of it into the same
+         deduped handler — capture descends even for dispatches
+         with bubbles:false, and delegation survives the button
+         node ever being re-created. Exactly one locate() run per
+         press is preserved by the shared 900ms dedupe. */
       var locBtnEl = document.getElementById("locBtn");
       var locPressAt = 0;
       function onLocPress(ev) {
@@ -23378,7 +23411,17 @@
         locate();
       }
       locBtnEl.addEventListener("pointerdown", onLocPress);
+      locBtnEl.addEventListener("touchend", onLocPress);
       locBtnEl.addEventListener("click", onLocPress);
+      var mapChipsEl = document.getElementById("mapChips");
+      if (mapChipsEl) {
+        ["pointerdown", "touchend", "click"].forEach(function (locEvType) {
+          mapChipsEl.addEventListener(locEvType, function (ev) {
+            var tgt = ev.target;
+            if (tgt && (tgt === locBtnEl || (locBtnEl.contains && locBtnEl.contains(tgt)))) onLocPress(ev);
+          }, true);
+        });
+      }
       document.getElementById("ivClose").addEventListener("click", closeViewer);
       document.getElementById("detailPreview").addEventListener("click", function () {
         if (!currentId) return;
