@@ -12071,6 +12071,17 @@
              the list now takes the full window once the header
              scrolls away. The Q-139 frame itself is untouched. --- */
       #recTabsShared { position: static; margin: 0 0 10px; }
+      /* Q-184 (Zoe device, ZH titles tab): the shared records tab
+         bar spans the panel's full width at the same height as the
+         corner close button (.hwin-x, absolute at top:8 right:10,
+         36px), so the third tab's right end ran into the button's
+         box and the window could not be closed from the corner.
+         Reserve the button's lane: the bar always ends 48px short
+         of the right edge, and the close button rides above every
+         in-panel row. Q-177's one-line tabs and containment are
+         untouched — the tabs simply get a slightly narrower row. */
+      #recTabsShared { margin-right: 48px; }
+      #view-hero .hseg-panel .hwin-x { z-index: 30; }
       /* Q-108's retire rule (#hsegX .rec-tabs { display:none
          !important }) matches the shared bar too once it lives
          inside a panel — out-specify it for the in-panel
@@ -15722,7 +15733,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0131-q183-5d42ca8a";
+        var BUILD_ID = "tql-20261030-0137-q184-10d686ed";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
