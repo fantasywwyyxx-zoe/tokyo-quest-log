@@ -10870,6 +10870,37 @@
       /* wish flag: the clear / save row is the fixed footer */
       .wish-win .auth-btnrow { flex: none; }
 
+      /* --- wish flag, device fix (Zoe 2026-10-29 13:30): the
+         shared cap starved THIS window on device. With the
+         keyboard open it rendered ~65px shorter than its
+         content (measured 207px against a ~272px natural
+         height): the scroller collapsed to label + input, the
+         hint fell below the fold, and the input's bottom border
+         was clipped flush against the footer row — the CLEAR
+         dashed frame sat on the input's bottom edge. And the
+         shared fixed inset:0 screen was not anchored to the
+         visible viewport, so a strip of the page behind showed
+         directly under the window. For this screen only:
+         (1) the SCREEN takes the detail page's proven
+         --vvt / --vvh anchoring, so the backdrop covers exactly
+         the visible viewport — keyboard open or closed, no
+         strip, no offset; (2) the window caps against the FULL
+         visible height (while a modal is open the command bar
+         is chrome-hidden, so the --bar-clear reservation only
+         starved it), keeping title, input, footer and ✕ above
+         the keyboard at any visible height; (3) the footer
+         keeps a fixed 12px of air above it, OUTSIDE the
+         scroller, so the input frame and the footer can never
+         touch at any scroll position. --- */
+      #wishScreen {
+        top: var(--vvt, 0px); bottom: auto;
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+      }
+      #wishScreen .wish-win {
+        max-height: calc(var(--vvh, 100dvh) - 44px);
+      }
+      #wishScreen .wish-win .auth-btnrow { margin-top: 12px; }
+
       /* --- DASH RUN window: HUD, progress, message, buttons and
              help are fixed frame furniture; the ROAD is the one
              flexible region — it shrinks with its aspect kept
@@ -23148,6 +23179,16 @@
         $("wishClear").textContent = t.wishClear;
         var inp = $("wishInput");
         inp.value = (state.wishText || "").trim();
+        /* re-anchor the visible-viewport basis at open (the same
+           direct-call rule the detail page uses), so this window
+           sizes and sits to the area actually on screen even if
+           a resize event was swallowed while the app was away */
+        try {
+          if (window.visualViewport) {
+            document.documentElement.style.setProperty("--vvh", window.visualViewport.height + "px");
+            document.documentElement.style.setProperty("--vvt", window.visualViewport.offsetTop + "px");
+          }
+        } catch (e) { /* ignore */ }
         $("wishScreen").hidden = false;
         try { inp.focus(); inp.select(); } catch (e) { /* ignore */ }
         try { sfx("open"); } catch (e) { /* ignore */ }
