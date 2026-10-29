@@ -10969,6 +10969,199 @@
       /* the goal plaque keeps its base margin-left:auto, so goal
          + best ride together at the head's right edge */
     </style>
+    <style>
+      /* ================================================================
+         EDIT C (2026-10-29) — MAP FILTER, PLAN C (Zoe-approved from
+         the QA polished mock qa/design/fold-c2.html).
+         The capsule filter bar and every folded strip are ABOLISHED:
+         folded, the map gives its area back — the ONLY chrome is a
+         round button stack at the right edge:
+           · filter button (cream, thick ink frame, pixel funnel,
+             lemon count badge top-right = quests currently shown;
+             the badge turns RED while a non-default filter — type
+             or mood — is active);
+           · FULL MAP only: ONE more round button (tools) in the
+             same stack — never more than two folded entries.
+         Tapping the filter button springs a GBA sheet up from the
+         bottom (grab handle + funnel + 「絞り込み」 + red ✕) holding
+         every filter chip WITH its count and the mood row; chips
+         never wrap mid-label and never ellipsise, in any language.
+         The tools sheet carries the full-map toolbar's five
+         functions (close / locate / settings / zoom / reset),
+         proxying the existing buttons, so the old bottom toolbar
+         is retired from view. A first-time-only hint bubble sits
+         beside the filter button until the sheet is first opened
+         (state.mfHintSeen, on the saved-state base like the
+         tutorial flag). The legacy #mapFilters element stays in
+         the DOM, display:none, so every existing lookup, label and
+         count write keeps working untouched — only the entrance
+         and the container changed, never the filter logic.
+         ================================================================ */
+      #mapFilters { display: none !important; }
+      .big-map .bm-bottom { display: none !important; }
+
+      /* --- the folded state: one round button (two in full map) --- */
+      .mf-dock {
+        position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+        z-index: 47; display: flex; flex-direction: column; align-items: center; gap: 12px;
+        transition: opacity 0.2s ease;
+      }
+      body.map-ui-off .mf-dock { opacity: 0; pointer-events: none; }
+      /* while a sheet is open the dock steps aside: a tall sheet
+         reaches the map's vertical centre, where the round button
+         would sit ON the sheet's top-right corner and swallow its
+         red ✕ — the sheet carries its own close, so the button
+         fades out for the duration (EDIT C repair, 2026-10-29) */
+      .map-box.mf-sheet-open .mf-dock { opacity: 0; pointer-events: none; }
+      .mf-fab {
+        position: relative; flex: none;
+        width: 58px; height: 58px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        background: #fff8e7; border: 3px solid var(--line-c, #22303c);
+        box-shadow: 0 3px 0 rgba(34, 48, 60, 0.35);
+        cursor: pointer; padding: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .mf-fab svg { width: 27px; height: 27px; display: block; }
+      .mf-fab:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(34, 48, 60, 0.35); }
+      .mf-fab:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+      .mf-fab.mf-pop { animation: mfPop 0.34s ease-out; }
+      @keyframes mfPop { 0% { transform: scale(1); } 40% { transform: scale(1.16); } 100% { transform: scale(1); } }
+      /* tools button rides the same stack ONLY in full map */
+      .mf-tools-fab { display: none; }
+      .map-box.in-big .mf-tools-fab { display: flex; }
+      .mf-badge {
+        position: absolute; top: -9px; right: -10px;
+        min-width: 26px; text-align: center;
+        background: #ffd83d; color: #22303c;
+        border: 2.5px solid var(--line-c, #22303c); border-radius: 999px;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif;
+        font-size: 12.5px; font-weight: 800; line-height: 1.25; padding: 1px 7px;
+        pointer-events: none;
+      }
+      .mf-badge.is-filtered { background: var(--primary, #e2483a); color: #fff; }
+      /* first-time hint bubble, left of the filter button */
+      .mf-hint {
+        position: absolute; right: calc(100% + 14px); top: 5px;
+        width: max-content; max-width: 46vw;
+        background: #fff8e7; border: 3px solid var(--line-c, #22303c); border-radius: 14px;
+        padding: 8px 12px; font-size: 14px; font-weight: 800; color: var(--ink, #22303c);
+        box-shadow: 0 3px 0 rgba(34, 48, 60, 0.25);
+        cursor: pointer; animation: mfHintBob 1.6s ease-in-out infinite;
+      }
+      .mf-hint::after {
+        content: ""; position: absolute; right: -12px; top: 50%; margin-top: -7px;
+        border: 7px solid transparent; border-left: 9px solid var(--line-c, #22303c); border-right: 0;
+      }
+      .mf-hint[hidden] { display: none !important; }
+      @keyframes mfHintBob { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
+
+      /* --- sheets: scrim + spring-up GBA window --- */
+      .mf-scrim {
+        position: absolute; inset: 0; z-index: 44;
+        background: rgba(24, 30, 52, 0.16);
+        opacity: 0; transition: opacity 0.22s ease;
+      }
+      .mf-scrim.is-open { opacity: 1; }
+      .mf-scrim[hidden] { display: none !important; }
+      .mf-sheet {
+        position: absolute; left: 10px; right: 10px; z-index: 45;
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        max-height: 82%; overflow-y: auto; overscroll-behavior: contain; touch-action: pan-y;
+        background: #fff8e7; border: 3px solid var(--line-c, #22303c); border-radius: 18px;
+        box-shadow: inset 0 0 0 2px #ffe9c9, 0 -3px 0 rgba(34, 48, 60, 0.2), 0 6px 0 var(--shadow);
+        padding: 8px 12px 13px;
+        transform: translateY(118%);
+        transition: transform 0.38s cubic-bezier(0.3, 1.32, 0.44, 1);
+      }
+      .mf-sheet.is-open { transform: translateY(0); }
+      .mf-sheet[hidden] { display: none !important; }
+      /* on the small map the sheet also clears the bottom command
+         bar — the same --bar-clear the pin preview uses; FULL MAP
+         has no bar over the stage and keeps the 10px seat */
+      body[data-view] .map-box:not(.in-big) .mf-sheet { bottom: calc(var(--bar-clear) + 2px); }
+      .mf-grab { width: 44px; height: 5px; border-radius: 3px; background: var(--line-c, #22303c); opacity: 0.35; margin: 0 auto 8px; }
+      .mf-sheet-head { display: flex; align-items: center; gap: 8px; margin-bottom: 9px; }
+      .mf-sheet-head svg { width: 19px; height: 19px; display: block; flex: none; }
+      .mf-sheet-title { font-size: 16.5px; font-weight: 800; color: var(--ink, #22303c); letter-spacing: 0.02em; }
+      .mf-sheet-count {
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif;
+        font-size: 12.5px; font-weight: 800; color: var(--ink, #22303c);
+        border: 2px solid var(--line-c, #22303c); border-radius: 999px; padding: 1px 8px;
+        background: var(--window, #fffdf4);
+      }
+      .mf-x {
+        margin-left: auto; flex: none;
+        width: 32px; height: 32px; border-radius: 10px;
+        display: flex; align-items: center; justify-content: center;
+        background: var(--primary, #e2483a); color: #fff;
+        border: 2.5px solid var(--line-c, #22303c);
+        font-size: 14px; font-weight: 900; line-height: 1;
+        cursor: pointer; padding: 0; box-shadow: 0 2px 0 var(--shadow);
+      }
+      .mf-x:active { transform: translateY(2px); box-shadow: none; }
+      .mf-chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
+      .mf-schip {
+        display: inline-flex; align-items: baseline; gap: 5px;
+        border: 2.5px solid var(--line-c, #22303c); border-radius: 999px;
+        padding: 5px 12px; background: #fff; color: var(--ink, #22303c);
+        font-family: inherit; font-size: 14px; font-weight: 800; letter-spacing: 0.01em;
+        white-space: nowrap; cursor: pointer;
+        box-shadow: 0 2px 0 rgba(34, 48, 60, 0.25);
+      }
+      .mf-schip:active { transform: translateY(2px); box-shadow: none; }
+      .mf-schip .mf-schip-n { font-family: "Baloo 2", sans-serif; font-size: 12px; font-weight: 800; opacity: 0.7; }
+      .mf-schip[aria-pressed="true"] { background: var(--primary, #e2483a); color: #fff; }
+      .mf-schip[data-mf="epic"][aria-pressed="true"] { background: var(--epic); color: #ffe9a8; }
+      .mf-schip[data-mf="legend"][aria-pressed="true"] { background: #171208; color: #ffd83d; }
+      .mf-mood-label { font-size: 12.5px; font-weight: 800; color: var(--ink, #22303c); opacity: 0.7; margin: 11px 0 6px; }
+      /* tools sheet rows */
+      .mf-tool-row {
+        display: flex; align-items: center; gap: 9px; width: 100%;
+        border: 2.5px solid var(--line-c, #22303c); border-radius: 12px;
+        background: #fff; color: var(--ink, #22303c);
+        font-family: inherit; font-size: 15px; font-weight: 800;
+        padding: 10px 13px; margin-top: 7px; cursor: pointer; text-align: left;
+        box-shadow: 0 2px 0 rgba(34, 48, 60, 0.25);
+      }
+      .mf-tool-row:active { transform: translateY(2px); box-shadow: none; }
+      .mf-tool-row.is-danger { background: var(--primary, #e2483a); color: #fff; justify-content: center; }
+      .mf-tool-zoom { display: flex; align-items: center; gap: 7px; margin-top: 7px; }
+      .mf-tool-zoom .mf-tz-label { font-size: 13px; font-weight: 800; color: var(--ink, #22303c); opacity: 0.7; margin-right: auto; }
+      .mf-tz-btn {
+        width: 42px; height: 42px; border-radius: 11px; flex: none;
+        border: 2.5px solid var(--line-c, #22303c); background: #fff; color: var(--ink, #22303c);
+        font-size: 19px; font-weight: 900; line-height: 1; cursor: pointer; padding: 0;
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 2px 0 rgba(34, 48, 60, 0.25);
+      }
+      .mf-tz-btn:active { transform: translateY(2px); box-shadow: none; }
+      .mf-tz-pct { font-family: "Baloo 2", sans-serif; font-size: 14px; font-weight: 800; min-width: 46px; text-align: center; color: var(--ink, #22303c); }
+      /* midnight (Y3): the same grammar on the dark window */
+      :root[data-theme="midnight"] .mf-fab, :root[data-theme="midnight"] .mf-hint,
+      :root[data-theme="midnight"] .mf-sheet { background: #10142e; border-color: #dfe6ff; color: #f0f3ff; }
+      :root[data-theme="midnight"] .mf-sheet { box-shadow: inset 0 0 0 2px #232f52, 0 -3px 0 rgba(0, 0, 0, 0.4), 0 6px 0 #000; }
+      :root[data-theme="midnight"] .mf-sheet-title, :root[data-theme="midnight"] .mf-mood-label,
+      :root[data-theme="midnight"] .mf-tool-zoom .mf-tz-label, :root[data-theme="midnight"] .mf-tz-pct { color: #f0f3ff; }
+      :root[data-theme="midnight"] .mf-sheet-count { background: #171d3d; color: #ffd83d; border-color: #dfe6ff; }
+      :root[data-theme="midnight"] .mf-schip, :root[data-theme="midnight"] .mf-tool-row, :root[data-theme="midnight"] .mf-tz-btn { background: #171d3d; color: #f0f3ff; border-color: #dfe6ff; }
+      :root[data-theme="midnight"] .mf-grab { background: #dfe6ff; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .mf-fab, :root:not([data-theme="emerald"]) .mf-hint,
+        :root:not([data-theme="emerald"]) .mf-sheet { background: #10142e; border-color: #dfe6ff; color: #f0f3ff; }
+        :root:not([data-theme="emerald"]) .mf-sheet { box-shadow: inset 0 0 0 2px #232f52, 0 -3px 0 rgba(0, 0, 0, 0.4), 0 6px 0 #000; }
+        :root:not([data-theme="emerald"]) .mf-sheet-title, :root:not([data-theme="emerald"]) .mf-mood-label,
+        :root:not([data-theme="emerald"]) .mf-tool-zoom .mf-tz-label, :root:not([data-theme="emerald"]) .mf-tz-pct { color: #f0f3ff; }
+        :root:not([data-theme="emerald"]) .mf-sheet-count { background: #171d3d; color: #ffd83d; border-color: #dfe6ff; }
+        :root:not([data-theme="emerald"]) .mf-schip, :root:not([data-theme="emerald"]) .mf-tool-row, :root:not([data-theme="emerald"]) .mf-tz-btn { background: #171d3d; color: #f0f3ff; border-color: #dfe6ff; }
+        :root:not([data-theme="emerald"]) .mf-grab { background: #dfe6ff; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .mf-sheet { transition: none; }
+        .mf-scrim { transition: none; }
+        .mf-fab.mf-pop, .mf-hint { animation: none; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -11403,6 +11596,59 @@
               <button class="mf-chip" type="button" data-mf="accepted" aria-pressed="false"></button>
               <button class="mf-chip" type="button" data-mf="cleared" aria-pressed="false"></button>
               <span class="mf-mark" aria-hidden="true">▾</span>
+            </div>
+            <!-- EDIT C / PLAN C (2026-10-29): the bar above is retired
+                 (display:none — kept only so legacy JS lookups stay
+                 valid). The folded map carries ONE round button at
+                 its right edge; FULL MAP adds ONE round tools button
+                 to the same stack. Filters and tools live in spring-up
+                 GBA sheets. See the EDIT C style block in <head>. -->
+            <div class="mf-dock" id="mfDock">
+              <span class="mf-hint" id="mfHint" role="button" tabindex="0" hidden></span>
+              <button class="mf-fab" id="mfFilterBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2e7fb8" stroke="#22303c" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                <span class="mf-badge" id="mfBadge">0</span>
+              </button>
+              <button class="mf-fab mf-tools-fab" id="mfToolsBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6v3.4M12 18v3.4M2.6 12h3.4M18 12h3.4M5.2 5.2l2.4 2.4M16.4 16.4l2.4 2.4M18.8 5.2l-2.4 2.4M7.6 16.4l-2.4 2.4" stroke="#22303c" stroke-width="2.6" stroke-linecap="square"/><circle cx="12" cy="12" r="3.4" fill="#ffd83d" stroke="#22303c" stroke-width="1.8"/></svg>
+              </button>
+            </div>
+            <div class="mf-scrim" id="mfScrim" hidden></div>
+            <div class="mf-sheet" id="mfFilterSheet" role="dialog" aria-labelledby="mfSheetTitle" hidden>
+              <div class="mf-grab" aria-hidden="true"></div>
+              <div class="mf-sheet-head">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2e7fb8" stroke="#22303c" stroke-width="1.8" stroke-linejoin="round"/></svg>
+                <span class="mf-sheet-title" id="mfSheetTitle"></span>
+                <span class="mf-sheet-count" id="mfSheetCount"></span>
+                <button class="mf-x" id="mfSheetClose" type="button" aria-label="Close">✕</button>
+              </div>
+              <div class="mf-chip-row" id="mfSheetChips">
+                <button class="mf-schip" type="button" data-mf="all" aria-pressed="true"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mf="event" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mf="epic" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mf="legend" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mf="accepted" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mf="cleared" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+              </div>
+              <div class="mf-mood-label" id="mfMoodLabel"></div>
+              <div class="mf-chip-row" id="mfSheetMoods"></div>
+            </div>
+            <div class="mf-sheet" id="mfToolsSheet" role="dialog" aria-labelledby="mfToolsTitle" hidden>
+              <div class="mf-grab" aria-hidden="true"></div>
+              <div class="mf-sheet-head">
+                <span class="mf-sheet-title" id="mfToolsTitle"></span>
+                <button class="mf-x" id="mfToolsClose" type="button" aria-label="Close">✕</button>
+              </div>
+              <button class="mf-tool-row" id="mfToolLocate" type="button"></button>
+              <button class="mf-tool-row" id="mfToolStyle" type="button"></button>
+              <div class="mf-tool-zoom">
+                <span class="mf-tz-label" id="mfToolZoomLabel"></span>
+                <button class="mf-tz-btn" id="mfToolZoomOut" type="button" aria-label="Zoom out">−</button>
+                <span class="mf-tz-pct" id="mfToolZoomPct">100%</span>
+                <button class="mf-tz-btn" id="mfToolZoomIn" type="button" aria-label="Zoom in">+</button>
+              </div>
+              <button class="mf-tool-row" id="mfToolReset" type="button"></button>
+              <button class="mf-tool-row is-danger" id="mfToolCloseMap" type="button"></button>
             </div>
             <div class="map-zoom" id="mapZoom">
             <div id="routeLayer" hidden aria-hidden="true"></div>
@@ -13291,6 +13537,7 @@
           mfLegend: "LEGEND",
           mfAccepted: "ACCEPTED",
           mfCleared: "CLEARED",
+          mfSheetTitle: "FILTER", mfHint: "Filter quests", mfToolsTitle: "MAP TOOLS", mfMoodHead: "♥ PICK BY MOOD",
           shareBtn: "↗ SHARE CARD",
           shareQuest: function (name) { return "I cleared “" + name + "” in Tokyo Quest Log — a real-world Tokyo adventure RPG!"; },
           shareEpic: function (name) { return "EPIC CLEAR! I conquered “" + name + "” and won limited gear in Tokyo Quest Log!"; },
@@ -14111,6 +14358,7 @@
           mfLegend: "レジェンド",
           mfAccepted: "受注中",
           mfCleared: "完了",
+          mfSheetTitle: "絞り込み", mfHint: "クエストを絞り込み", mfToolsTitle: "ツール", mfMoodHead: "♥ 気分で選ぶ",
           shareBtn: "↗ 実績カードをシェア",
           shareQuest: function (name) { return "「" + name + "」をクリア！東京クエストログ — 現実の東京を冒険するRPGで遊んでいます。"; },
           shareEpic: function (name) { return "史詩クリア！「" + name + "」を制覇して限定装備をGET！東京クエストログで東京を冒険中。"; },
@@ -14931,6 +15179,7 @@
           mfLegend: "传说",
           mfAccepted: "进行中",
           mfCleared: "已完成",
+          mfSheetTitle: "筛选", mfHint: "筛选任务", mfToolsTitle: "工具", mfMoodHead: "♥ 按氛围选",
           shareBtn: "↗ 分享成就卡",
           shareQuest: function (name) { return "我完成了「" + name + "」！正在玩《东京冒险日志》 — 一款在真实东京冒险的 RPG。"; },
           shareEpic: function (name) { return "史诗完成！我征服了「" + name + "」，拿到了限定装备！《东京冒险日志》东京冒险中。"; },
@@ -15532,7 +15781,7 @@
          carried over untouched, never reset. */
       var LS_KEY = "tql_state_v1";
       var LS_KEY_OLD = "tsq_state_v1";
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, homeProg: null };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -15585,6 +15834,9 @@
                HERO stage; older saves carry none and start empty */
             state.wishText = typeof parsed.wishText === "string" ? parsed.wishText.slice(0, 40) : "";
             state.nameAsked = !!parsed.nameAsked;
+            /* EDIT C: the map filter button's first-time hint shows
+               once, ever — same saved-state base as the tutorial flag */
+            state.mfHintSeen = !!parsed.mfHintSeen;
             if (parsed.runner && typeof parsed.runner === "object") {
               state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0 };
             }
@@ -18323,6 +18575,7 @@
         updateLogTab();
         var bmBtn = document.getElementById("bmStyleBtn");
         if (bmBtn) bmBtn.innerHTML = ICONS.gear;
+        renderMfChrome();
         document.getElementById("bigMapHint").innerHTML = t.legendNote;
         document.getElementById("lblProgress").textContent = t.progress;
         document.getElementById("audioHint").textContent = t.audioHint;
@@ -18478,6 +18731,7 @@
         document.getElementById("statActive").textContent = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
         document.getElementById("statAreas").textContent = Object.keys(areas).length;
         document.getElementById("mapCount").textContent = L().onBoard(mapShownCount());
+        renderMfChrome();
         var total = VISIBLE.length + LEGENDS.length;
         document.getElementById("progressNum").textContent = (cleared.length + lgDoneN) + "/" + total;
         document.getElementById("progressFill").style.width = (total ? Math.round(((cleared.length + lgDoneN) / total) * 100) : 0) + "%";
@@ -18512,26 +18766,49 @@
          cleared. Pins, clusters and the on-board count all follow
          the active filter instantly. */
       var mapFilter = "all";
-      /* filter bar fold state: session-only (in memory — leaving
-         the map and coming back keeps it, a reload resets it).
-         QA2 (Q-109): every fresh open starts FOLDED in all three
-         languages, so the map gets its full height back on entry */
+      /* EDIT C: the sheet's mood row — one bucket at a time, ""
+         = off. Default state (type "all" + no mood) behaves
+         exactly like the retired bar; the mood term only ever
+         narrows what the type filter already shows. */
+      var mapMood = "";
+      /* filter bar fold state: session-only legacy — the bar is
+         retired (EDIT C), the flag now only records whether the
+         filter SHEET is open; it stays in memory, and because the
+         dock + sheets live inside #mapBox they ride along when it
+         moves, so the state is ONE state across the small map and
+         FULL MAP (red line, EDIT C). */
       var mapFiltersFolded = true;
-      function mapFilterMatch(e) {
-        if (mapFilter === "event") return !e.evergreen;
-        if (mapFilter === "epic") return !!e.evergreen;
+      function mapFilterMatchAs(e, f) {
+        if (f === "event") return !e.evergreen;
+        if (f === "epic") return !!e.evergreen;
         /* LEGEND is not an event tier — the routes themselves are
            the quests (renderMap draws one star pin per route and
            the count is the route count, both data-linked) */
-        if (mapFilter === "legend") return false;
-        if (mapFilter === "accepted") return isAccepted(e.id) && !isCleared(e.id);
-        if (mapFilter === "cleared") return isCleared(e.id);
+        if (f === "legend") return false;
+        if (f === "accepted") return isAccepted(e.id) && !isCleared(e.id);
+        if (f === "cleared") return isCleared(e.id);
+        return true;
+      }
+      function mapFilterMatch(e) {
+        if (!mapFilterMatchAs(e, mapFilter)) return false;
+        if (mapMood && mapFilter !== "legend") return evBuckets(e).indexOf(mapMood) !== -1;
         return true;
       }
       function mapShownCount() {
         if (mapFilter === "legend") return LEGENDS.length;
         return VISIBLE.filter(mapFilterMatch).length;
       }
+      /* per-chip counts for the sheet: the same match logic, one
+         type at a time, under the current mood selection */
+      function mapCountFor(k) {
+        if (k === "legend") return LEGENDS.length;
+        return VISIBLE.filter(function (e) {
+          if (!mapFilterMatchAs(e, k)) return false;
+          if (mapMood && k !== "legend") return evBuckets(e).indexOf(mapMood) !== -1;
+          return true;
+        }).length;
+      }
+      function mapFilterIsDefault() { return mapFilter === "all" && !mapMood; }
       function renderMapFilterChips() {
         var t = L();
         var mst = document.getElementById("mapSideTag"); if (mst) mst.textContent = t.tabListIndex || "";
@@ -18546,6 +18823,7 @@
         var mcur = document.getElementById("mapFilterCur");
         if (mcur) mcur.textContent = labels[mapFilter] || mapFilter;
         renderMapFilterFold();
+        renderMfChrome();
       }
       function renderMapFilterFold() {
         var bar = document.getElementById("mapFilters"); if (!bar) return;
@@ -18562,6 +18840,115 @@
         bar.setAttribute("aria-expanded", String(!mapFiltersFolded));
         if (mapFiltersFolded) bar.setAttribute("tabindex", "0");
         else bar.removeAttribute("tabindex");
+      }
+      /* ============ EDIT C: round-button dock + spring sheets ====
+         renderMfChrome paints everything the new entrance shows:
+         the badge (shown count; red under a non-default filter),
+         the sheet's chips with their counts, the mood row, the
+         static labels and the first-time hint. Sheet open/close
+         keeps mapFiltersFolded as its single state bit, so the
+         folded state survives the small map ⇄ FULL MAP move. */
+      var mfOpenSheet = null; /* null | "filter" | "tools" */
+      var mfSheetTimer = null;
+      function renderMfChrome() {
+        var t = L();
+        var badge = document.getElementById("mfBadge");
+        if (badge) {
+          badge.textContent = mapShownCount();
+          badge.classList.toggle("is-filtered", !mapFilterIsDefault());
+        }
+        var labels = { all: t.all, event: t.mfEvent, epic: t.mfEpic, legend: t.mfLegend, accepted: t.mfAccepted, cleared: t.mfCleared };
+        document.querySelectorAll("#mfSheetChips .mf-schip").forEach(function (b) {
+          var k = b.getAttribute("data-mf");
+          var nm = b.querySelector(".mf-schip-name"); if (nm) nm.textContent = labels[k] || k;
+          var nn = b.querySelector(".mf-schip-n"); if (nn) nn.textContent = mapCountFor(k);
+          b.setAttribute("aria-pressed", String(mapFilter === k));
+        });
+        var moods = document.getElementById("mfSheetMoods");
+        if (moods && typeof MOOD_BUCKETS !== "undefined") {
+          moods.innerHTML = MOOD_BUCKETS.map(function (bk) {
+            return '<button class="mf-schip" type="button" data-mfmood="' + bk.id + '" aria-pressed="' + String(mapMood === bk.id) + '"><span class="mf-schip-name">' + esc(moodBucketLabel(bk.id)) + "</span></button>";
+          }).join("");
+        }
+        var st = document.getElementById("mfSheetTitle"); if (st) st.textContent = t.mfSheetTitle;
+        var sc = document.getElementById("mfSheetCount"); if (sc) sc.textContent = t.onBoard(mapShownCount());
+        var ml = document.getElementById("mfMoodLabel"); if (ml) ml.textContent = t.mfMoodHead;
+        var fb = document.getElementById("mfFilterBtn"); if (fb) fb.setAttribute("aria-label", t.filterTitle);
+        var tb = document.getElementById("mfToolsBtn"); if (tb) tb.setAttribute("aria-label", t.mfToolsTitle);
+        var tt = document.getElementById("mfToolsTitle"); if (tt) tt.textContent = t.mfToolsTitle;
+        var tl = document.getElementById("mfToolLocate"); if (tl) tl.textContent = t.locBtn;
+        var ts = document.getElementById("mfToolStyle"); if (ts) ts.textContent = t.styleBtn;
+        var tz = document.getElementById("mfToolZoomLabel"); if (tz) tz.textContent = t.zoomLabel;
+        var tr = document.getElementById("mfToolReset"); if (tr) tr.textContent = t.zoomReset;
+        var tc = document.getElementById("mfToolCloseMap"); if (tc) tc.textContent = t.collapse;
+        var hint = document.getElementById("mfHint");
+        if (hint) {
+          hint.textContent = t.mfHint;
+          hint.hidden = !!state.mfHintSeen || !!mfOpenSheet;
+        }
+        syncMfZoomPct();
+      }
+      function syncMfZoomPct() {
+        var zp = document.getElementById("zoomPct");
+        var mp = document.getElementById("mfToolZoomPct");
+        if (zp && mp) mp.textContent = zp.textContent;
+      }
+      function markMfHintSeen() {
+        if (state.mfHintSeen) return;
+        state.mfHintSeen = true;
+        save();
+        var hint = document.getElementById("mfHint");
+        if (hint) hint.hidden = true;
+      }
+      function mfPopFab(id) {
+        var b = document.getElementById(id); if (!b) return;
+        b.classList.remove("mf-pop");
+        void b.offsetWidth; /* restart the bounce */
+        b.classList.add("mf-pop");
+      }
+      function openMfSheet(which) {
+        markMfHintSeen();
+        var sheet = document.getElementById(which === "tools" ? "mfToolsSheet" : "mfFilterSheet");
+        var other = document.getElementById(which === "tools" ? "mfFilterSheet" : "mfToolsSheet");
+        var scrim = document.getElementById("mfScrim");
+        if (mfSheetTimer) { clearTimeout(mfSheetTimer); mfSheetTimer = null; }
+        if (other) { other.classList.remove("is-open"); other.hidden = true; }
+        mfOpenSheet = which;
+        mapFiltersFolded = false;
+        if (typeof mapBox !== "undefined" && mapBox) mapBox.classList.add("mf-sheet-open");
+        if (scrim) { scrim.hidden = false; void scrim.offsetWidth; scrim.classList.add("is-open"); }
+        if (sheet) {
+          sheet.hidden = false;
+          void sheet.offsetWidth; /* seat the start frame before the spring */
+          sheet.classList.add("is-open");
+        }
+        var fb = document.getElementById("mfFilterBtn"); if (fb) fb.setAttribute("aria-expanded", String(which === "filter"));
+        var tb = document.getElementById("mfToolsBtn"); if (tb) tb.setAttribute("aria-expanded", String(which === "tools"));
+        mfPopFab(which === "tools" ? "mfToolsBtn" : "mfFilterBtn");
+        renderMfChrome();
+      }
+      function closeMfSheets() {
+        if (!mfOpenSheet) return;
+        mfOpenSheet = null;
+        mapFiltersFolded = true;
+        if (typeof mapBox !== "undefined" && mapBox) mapBox.classList.remove("mf-sheet-open");
+        ["mfFilterSheet", "mfToolsSheet"].forEach(function (id) {
+          var s = document.getElementById(id); if (s) s.classList.remove("is-open");
+        });
+        var scrim = document.getElementById("mfScrim");
+        if (scrim) scrim.classList.remove("is-open");
+        var fb = document.getElementById("mfFilterBtn"); if (fb) fb.setAttribute("aria-expanded", "false");
+        var tb = document.getElementById("mfToolsBtn"); if (tb) tb.setAttribute("aria-expanded", "false");
+        if (mfSheetTimer) clearTimeout(mfSheetTimer);
+        mfSheetTimer = setTimeout(function () {
+          mfSheetTimer = null;
+          if (mfOpenSheet) return; /* reopened mid-close */
+          ["mfFilterSheet", "mfToolsSheet"].forEach(function (id) {
+            var s = document.getElementById(id); if (s) s.hidden = true;
+          });
+          var sc = document.getElementById("mfScrim"); if (sc) sc.hidden = true;
+        }, 400);
+        renderMfChrome();
       }
       function renderMap() {
         renderMapFilterChips();
@@ -21452,8 +21839,11 @@
         /* the filter bar and its fold tab are chrome, not map: a
            touch starting on them must never arm a pan — a few px
            of drift would turn the fold tap into a drag and the
-           click would never land (fold repair, 2026-10-29) */
-        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters")) return;
+           click would never land (fold repair, 2026-10-29).
+           EDIT C extends the same gate to the round-button dock,
+           the sheets and their scrim: drags starting on any of
+           them move the map by exactly zero. */
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfDock, #mfFilterSheet, #mfToolsSheet, #mfScrim")) return;
         /* the cover fit overflows the box even at zoom.s = 1 (in
            both modes), so panning must work from the first touch —
            gate on actual overflow, not on the zoom factor */
@@ -21489,6 +21879,9 @@
       window.addEventListener("pointercancel", endPan);
       mapBox.addEventListener("wheel", function (ev) {
         if (glActive) return; /* MapLibre scroll-zoom handles it */
+        /* EDIT C: wheel over an open sheet scrolls the sheet, not
+           the map zoom */
+        if (ev.target && ev.target.closest && ev.target.closest("#mfFilterSheet, #mfToolsSheet, #mfScrim")) return;
         ev.preventDefault();
         var r = mapBox.getBoundingClientRect();
         setZoom(zoom.s * (ev.deltaY < 0 ? 1.15 : 0.87), ev.clientX - r.left, ev.clientY - r.top);
@@ -21502,8 +21895,9 @@
       mapBox.addEventListener("pointerdown", function (ev) {
         if (glActive) return;
         /* chrome touches (filter bar / fold tab) never join the
-           pinch tracker either — same fold repair as the pan gate */
-        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters")) return;
+           pinch tracker either — same fold repair as the pan gate;
+           EDIT C: the dock, sheets and scrim are chrome too */
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfDock, #mfFilterSheet, #mfToolsSheet, #mfScrim")) return;
         mapPtrs[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
         var ids = Object.keys(mapPtrs);
         if (ids.length === 2) {
@@ -22154,6 +22548,70 @@
           renderMapFilterFold();
         }
       });
+      /* ============ EDIT C: dock + sheet wiring ============
+         The filter button toggles the filter sheet (and spends
+         the one-time hint); the tools button (FULL MAP only)
+         toggles the tools sheet. Sheet chips apply instantly and
+         the sheet stays open; ✕, the scrim, Escape or the same
+         button again close it. Tapping the scrim closes the sheet
+         — that is the specified outside-tap behaviour. */
+      document.getElementById("mfFilterBtn").addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        sfx("move");
+        if (mfOpenSheet === "filter") closeMfSheets(); else openMfSheet("filter");
+      });
+      document.getElementById("mfToolsBtn").addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        sfx("move");
+        if (mfOpenSheet === "tools") closeMfSheets(); else openMfSheet("tools");
+      });
+      document.getElementById("mfSheetClose").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
+      document.getElementById("mfToolsClose").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
+      document.getElementById("mfScrim").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
+      /* sheet / dock taps never reach the map box's tap-to-open
+         handler, and drags starting on them never pan (the pan and
+         pinch gates below exclude the same elements) */
+      ["mfDock", "mfFilterSheet", "mfToolsSheet"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener("click", function (ev) { ev.stopPropagation(); });
+      });
+      var mfHintEl = document.getElementById("mfHint");
+      if (mfHintEl) {
+        mfHintEl.addEventListener("click", function (ev) { ev.stopPropagation(); markMfHintSeen(); });
+        mfHintEl.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ev.stopPropagation(); markMfHintSeen(); }
+        });
+      }
+      document.getElementById("mfSheetChips").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mf]"); if (!b) return;
+        ev.stopPropagation();
+        mapFilter = b.getAttribute("data-mf") || "all";
+        sfx("move");
+        renderMap();
+        renderStatus();
+      });
+      document.getElementById("mfSheetMoods").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mfmood]"); if (!b) return;
+        ev.stopPropagation();
+        var m = b.getAttribute("data-mfmood");
+        mapMood = (mapMood === m) ? "" : m;
+        sfx("move");
+        renderMap();
+        renderStatus();
+      });
+      /* tools sheet: proxy the retired full-map toolbar's own
+         buttons, so all five functions keep their exact handlers
+         (close / locate / settings / zoom / reset) */
+      function mfProxy(id) { var b = document.getElementById(id); if (b) b.click(); }
+      document.getElementById("mfToolLocate").addEventListener("click", function (ev) { ev.stopPropagation(); mfProxy("locBtnBig"); });
+      document.getElementById("mfToolStyle").addEventListener("click", function (ev) { ev.stopPropagation(); closeMfSheets(); mfProxy("bmStyleBtn"); });
+      document.getElementById("mfToolZoomIn").addEventListener("click", function (ev) { ev.stopPropagation(); mfProxy("zoomInBtn"); syncMfZoomPct(); });
+      document.getElementById("mfToolZoomOut").addEventListener("click", function (ev) { ev.stopPropagation(); mfProxy("zoomOutBtn"); syncMfZoomPct(); });
+      document.getElementById("mfToolReset").addEventListener("click", function (ev) { ev.stopPropagation(); mfProxy("zoomResetBtn"); syncMfZoomPct(); });
+      document.getElementById("mfToolCloseMap").addEventListener("click", function (ev) { ev.stopPropagation(); closeMfSheets(); mfProxy("bigMapClose"); });
+      document.addEventListener("keydown", function (ev) {
+        if (ev.key === "Escape" && mfOpenSheet) { ev.stopPropagation(); closeMfSheets(); }
+      }, true);
       document.getElementById("mapZoomHome").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); if (mapBox.classList.contains("in-big")) setZoom(1); else goHomeView(); });
       document.getElementById("locBtn").addEventListener("click", function (ev) { ev.stopPropagation(); locate(); });
       document.getElementById("locBtnBig").addEventListener("click", function () { locate(); });
