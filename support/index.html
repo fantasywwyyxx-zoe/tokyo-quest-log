@@ -30,6 +30,17 @@ const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
   }
   .lat{font-family:"Baloo 2","M PLUS Rounded 1c",sans-serif;}
 
+  /* ---------- language switcher (same pattern as /beta/) ---------- */
+  .langbar{display:flex; justify-content:center; gap:8px; margin:0 auto 14px;}
+  .langbar button{
+    font-family:inherit; font-weight:800; font-size:14.5px; cursor:pointer;
+    background:var(--paper); color:var(--ink); border:3px solid var(--ink); border-radius:999px;
+    padding:6px 17px;
+  }
+  .langbar button.on{background:var(--red); color:#fff;}
+  .lang{display:none;}
+  .lang.on{display:block;}
+
   /* ---------- logo (brand master, unmodified) ---------- */
   .logo-wrap{position:relative; width:min(82vw,330px); margin:2px 0 14px;}
   .logo-wrap img.logo{width:100%; display:block;}
@@ -93,6 +104,12 @@ const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
 </head>
 <body>
 
+  <div class="langbar" role="tablist" aria-label="Language">
+    <button type="button" data-lang="ja" class="on">日本語</button>
+    <button type="button" data-lang="zh">中文</button>
+    <button type="button" data-lang="en">English</button>
+  </div>
+
   <div class="logo-wrap">
     <img class="prop left" src="assets/prop-sakura-v1.png" alt="">
     <img class="logo" src="assets/logo-master.png" alt="TOKYO QUEST LOG 東京クエストログ">
@@ -104,19 +121,37 @@ const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
       <video class="walk" src="assets/walk-loop.mp4" autoplay muted loop playsinline></video>
       <video class="stamp" src="assets/stamp-loop.mp4" muted playsinline preload="auto"></video>
       <div class="hud">
-        <span class="lv">勇者 Lv.10</span>
+        <span class="lv" id="lvLabel">勇者 Lv.10</span>
         <div class="expbar"><i></i></div>
         <span class="expn">EXP</span>
       </div>
     </div>
 
     <section class="window">
-      <p>『東京クエストログ』は、プログラミング完全ゼロの私がAIと一緒に作っている、<b>東京の街そのものがRPGのマップになるゲーム</b>です。展示や街のイベントがクエストになって、現地でチェックインすると経験値が入ります。</p>
-      <p>ゆっくりでも、ちゃんと作り続けたいと思っています。</p>
-      <p>いただいた応援は、サーバー代や素材制作など、開発の燃料に使わせていただきます。応援が集まってゲームが大きくなったら、街のイベントやお店とコラボして、遊んでくれるみんなに特典を届けたいと思っています。金額はお気持ちで大丈夫です。遊んでくれるだけ、シェアしてくれるだけでも十分すぎる応援です。</p>
-      <p class="last">今日も勇者。よかったら見守ってください<span class="spark">🗼</span></p>
-      <a class="btn" id="kofiBtn" href="#">☕ コーヒーで応援する</a>
-      <div class="btn-note">Ko-fi のページへ移動します</div>
+      <div class="lang on" id="lang-ja">
+        <p>『東京クエストログ』は、プログラミング完全ゼロの私がAIと一緒に作っている、<b>東京の街そのものがRPGのマップになるゲーム</b>です。展示や街のイベントがクエストになって、現地でチェックインすると経験値が入ります。</p>
+        <p>ゆっくりでも、ちゃんと作り続けたいと思っています。</p>
+        <p>いただいた応援は、サーバー代や素材制作など、開発の燃料に使わせていただきます。応援が集まってゲームが大きくなったら、街のイベントやお店とコラボして、遊んでくれるみんなに特典を届けたいと思っています。金額はお気持ちで大丈夫です。遊んでくれるだけ、シェアしてくれるだけでも十分すぎる応援です。</p>
+        <p class="last">今日も勇者。よかったら見守ってください<span class="spark">🗼</span></p>
+        <a class="btn kofiBtn" href="#">☕ コーヒーで応援する</a>
+        <div class="btn-note">Ko-fi のページへ移動します</div>
+      </div>
+      <div class="lang" id="lang-zh">
+        <p>《东京冒险日志》是我——一个完全不会编程的人——和 AI 一起做的游戏，<b>整座东京城就是 RPG 的地图</b>。展览和街头的活动都会变成任务，到现场打卡就能获得经验值。</p>
+        <p>就算慢，我也想认认真真地一直做下去。</p>
+        <p>大家的应援会用在服务器费用、素材制作这些开发燃料上。如果应援多起来、游戏长大了，我想和街头的活动、店铺合作，把福利送到每一位玩家手里。金额随心意就好。光是来玩、帮忙分享，就已经是非常足够的应援了。</p>
+        <p class="last">今天也是勇者。如果愿意，请看着我慢慢做下去吧<span class="spark">🗼</span></p>
+        <a class="btn kofiBtn" href="#">☕ 请我喝杯咖啡来应援</a>
+        <div class="btn-note">将前往 Ko-fi 页面</div>
+      </div>
+      <div class="lang" id="lang-en">
+        <p>Tokyo Quest Log is a game I'm making with AI — I have zero programming experience — <b>where the city of Tokyo itself becomes an RPG map</b>. Exhibitions and street events turn into quests, and checking in on site earns you EXP.</p>
+        <p>Slowly, but properly — I want to keep making it.</p>
+        <p>Your support goes to server costs, art assets and other fuel for development. If enough support comes in and the game grows, I'd love to team up with local events and shops to bring real perks to everyone who plays. Any amount is fine, truly. Just playing, or sharing it, is already more than enough support.</p>
+        <p class="last">Another day, another hero. I'd be glad if you'd watch over this little project <span class="spark">🗼</span></p>
+        <a class="btn kofiBtn" href="#">☕ Support with a coffee</a>
+        <div class="btn-note">Takes you to the Ko-fi page</div>
+      </div>
     </section>
   </main>
 
@@ -131,8 +166,27 @@ const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
 <script>
   // Ko-fi link: single source of truth (see <head> constant)
   (function(){
-    var btn = document.getElementById('kofiBtn');
-    if (KOFI_URL) { btn.href = KOFI_URL; btn.target = '_blank'; btn.rel = 'noopener'; }
+    if (!KOFI_URL) return;
+    document.querySelectorAll('.kofiBtn').forEach(function(btn){
+      btn.href = KOFI_URL; btn.target = '_blank'; btn.rel = 'noopener';
+    });
+  })();
+  // Language switcher: auto-detect + one-tap, title and HUD follow (same pattern as /beta/)
+  (function(){
+    var TITLES = { ja: '応援ページ | 東京クエストログ', zh: '应援页 | 东京冒险日志', en: 'Support | Tokyo Quest Log' };
+    var LVS = { ja: '勇者 Lv.10', zh: '勇者 Lv.10', en: 'Hero Lv.10' };
+    var btns = document.querySelectorAll('.langbar button');
+    function setLang(l){
+      document.querySelectorAll('.lang').forEach(function(s){ s.classList.toggle('on', s.id === 'lang-' + l); });
+      btns.forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-lang') === l); });
+      document.documentElement.lang = (l === 'zh' ? 'zh-CN' : l);
+      document.title = TITLES[l];
+      document.getElementById('lvLabel').textContent = LVS[l];
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ setLang(b.getAttribute('data-lang')); }); });
+    var nav = (navigator.language || 'ja').toLowerCase();
+    if (nav.indexOf('zh') === 0) setLang('zh');
+    else if (nav.indexOf('en') === 0) setLang('en');
   })();
   // Scene flow: hero walks -> check-in stamp -> walks again ...
   (function(){
