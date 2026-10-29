@@ -44,6 +44,19 @@ the in-game photo-credits fold (25 rows total with round 1).
 | 日枝神社 | MaedaAkihiko | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Tokyo_Hie-Shrine_Gate.jpg |
 | 富岡八幡宮 | yamai36 | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:%E5%AF%8C%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE_Tomioka_Hachiman-gu_-_panoramio.jpg |
 | 日本国立競技場 | RuinDig/Yuki Uchida | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:%E5%9B%BD%E7%AB%8B%E7%AB%B6%E6%8A%90%E5%A0%B4%E3%81%AE%E5%A4%96%E8%A6%B3_Exterior_of_the_Japan_National_Stadium_23.jpg |
+| 八王子城跡 | Mocchy | Public domain | https://commons.wikimedia.org/wiki/File:Hachioji_Castle_Gosyuden_entrance.JPG |
+| 鉄道博物館 | kanegen | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:The_Railway_Museum_20080614.jpg |
+| さいたま市大宮盆栽美術館 | Souka Kinmei | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Saitama_Omiya_Bonsai_Art_Museum%E3%83%BBgarden.jpg |
+| 武蔵一宮氷川神社 | Saigen Jiro | CC0 | https://commons.wikimedia.org/wiki/File:Hikawa-jinja_(Saitama),_honden.jpg |
+| 横浜赤レンガ倉庫 | っ | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:AkarengaJP14Apr05.jpg |
+| 日本郵船氷川丸 | Tokyo538 | CC0 | https://commons.wikimedia.org/wiki/File:Hikawa_Maru_at_Yokohama_Port.jpg |
+| 新横浜ラーメン博物館 | Brakeet | CC0 | https://commons.wikimedia.org/wiki/File:Shin-Yokohama_Raumen_Museum_DSCN4010.jpg |
+| よこはま動物園ズーラシア | Syced | CC0 | https://commons.wikimedia.org/wiki/File:Elephants_at_Zoorasia.jpg |
+| 川崎市立日本民家園 | NY066 | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Nihon-Minka-en.JPG |
+| 川崎大師平間寺 | ペン太 | CC BY 2.5 | https://commons.wikimedia.org/wiki/File:Kawasaki_Daishi_Main_Hall.jpg |
+| 市川市動植物園 | 四葉亭四迷 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Ichikawa_Zoo_Main_Gate_20170204.jpg |
+| 足立区生物園 | westnac | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Onshitsu.JPG |
+| 葛飾区郷土と天文の博物館 | Abasaa | Public domain | https://commons.wikimedia.org/wiki/File:Katsushika_City_Museum.JPG |
 
 Note: 通貨博物館 uses a venue-provided photo served from the official site
 (CloudFront AVIF, decoded for self-hosting) — not a CC work, no attribution required.
