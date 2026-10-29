@@ -10727,6 +10727,54 @@
       }
       @keyframes run-start-glow { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.09); } }
       .run-start-btn:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #d9a400, 0 1px 0 var(--edge); }
+      /* --- MINI-GAME HUB (batch 1, 2026-10-29): the cabinet is
+         now a hub — a big duty-game door (today's game, goal,
+         best, ticket state) over the 7-game weekly roster.
+         Unreleased games show as COMING SOON rows. --- */
+      .mg-duty {
+        display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; cursor: pointer;
+        background: linear-gradient(180deg, #fff6dc, #ffe9a8); color: var(--ink);
+        border: 3px solid var(--line-c); border-radius: 12px; padding: 9px 11px;
+        box-shadow: inset 0 0 0 2px #d9a400, 0 3px 0 var(--edge);
+        font-family: inherit;
+      }
+      .mg-duty:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #d9a400, 0 1px 0 var(--edge); }
+      .mg-duty-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+      .mg-duty-kicker { font-size: 10.5px; font-weight: 800; letter-spacing: 0.1em; color: #a8651e; }
+      .mg-duty-name { font-size: 20px; font-weight: 800; line-height: 1.15; letter-spacing: 0.03em; }
+      .mg-duty-meta { font-size: 11.5px; font-weight: 700; color: var(--ink-dim); line-height: 1.35; }
+      .mg-duty-go {
+        flex: none; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+        background: #ffd83d; color: #231a00; border: 2.5px solid var(--line-c); border-radius: 50%;
+        font-size: 14px; box-shadow: 0 2px 0 rgba(9, 12, 44, 0.45);
+      }
+      .mg-duty.is-done { background: linear-gradient(180deg, #e6f7e9, #cdeeda); box-shadow: inset 0 0 0 2px #63b96f, 0 3px 0 var(--edge); }
+      .mg-list { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+      .mg-row {
+        display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+        background: var(--window-hi); color: var(--ink); border: 2.5px solid var(--line-c); border-radius: 10px;
+        padding: 6px 9px; font-family: inherit; font-size: 13px;
+      }
+      button.mg-row { cursor: pointer; }
+      button.mg-row:active { transform: translateY(1px); }
+      .mg-row.is-duty { border-color: #d9a400; background: #fff6dc; }
+      .mg-row.is-soon { opacity: 0.62; }
+      .mg-dow { flex: none; min-width: 34px; font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 11px; color: #a8651e; }
+      .mg-name { flex: 1; min-width: 0; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .mg-best { flex: none; font-size: 11px; font-weight: 700; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+      .mg-badge { flex: none; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; border: 2px solid var(--line-c); border-radius: 999px; padding: 2px 7px; background: #ffd83d; color: #231a00; }
+      .mg-badge.soon { background: var(--window-deep); color: var(--ink-dim); }
+      .mg-badge.play { background: var(--window); color: var(--ink); }
+      #jumpCanvas, #catchCanvas {
+        width: 100%; height: auto; display: block; image-rendering: pixelated;
+        border: 2.5px solid var(--edge); border-radius: 10px; background: #79b5e0;
+        touch-action: none;
+      }
+      .mg-charge {
+        height: 14px; margin: 0 0 8px; overflow: hidden;
+        border: 2.5px solid #43301a; border-radius: 999px; background: #fff;
+      }
+      .mg-charge-fill { height: 100%; width: 0%; background: repeating-linear-gradient(45deg, #ffd83d 0 8px, #f0b429 8px 16px); }
       @media (max-height: 740px) {
         .run-cabinet { padding: 6px 7px 7px; margin-top: 6px; }
         .run-cab-head { margin-bottom: 5px; }
@@ -11891,6 +11939,53 @@
       </div>
     </div>
 
+    <!-- ===== ROOF JUMP window (mini-game hub batch 1): hold to
+         charge, release to leap roof to roof. 15 landings in a
+         row is the goal line. Same window contract as DASH. ===== -->
+    <div class="auth-screen" id="jumpScreen" hidden role="dialog" aria-modal="true" aria-labelledby="jumpTitle">
+      <div class="win auth-win run-win">
+        <div class="auth-head">
+          <span class="auth-title" id="jumpTitle"></span>
+          <button class="auth-x" id="jumpClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="run-hud"><span class="run-dist" id="jumpDist">0</span><span class="run-goal" id="jumpGoal"></span><span class="run-best" id="jumpBest"></span></div>
+        <div class="mg-charge" aria-hidden="true"><div class="mg-charge-fill" id="jumpChargeFill"></div></div>
+        <div class="run-stage"><canvas id="jumpCanvas" width="360" height="400" role="button" aria-label="Jump stage — press and hold to charge, release to jump"></canvas></div>
+        <p class="run-msg" id="jumpMsg"></p>
+        <div class="run-btnrow">
+          <button class="auth-btn primary" id="jumpStartBtn" type="button"></button>
+          <button class="auth-btn ghost" id="jumpQuitBtn" type="button"></button>
+        </div>
+        <p class="run-help" id="jumpHelp"></p>
+      </div>
+    </div>
+
+    <!-- ===== COIN CATCH window (mini-game hub batch 1): move
+         the hero along the bottom, catch coins & EXP orbs,
+         dodge bombs. 30 catches is the goal line; 3 bomb hits
+         end the run. Same window contract as DASH. ===== -->
+    <div class="auth-screen" id="catchScreen" hidden role="dialog" aria-modal="true" aria-labelledby="catchTitle">
+      <div class="win auth-win run-win">
+        <div class="auth-head">
+          <span class="auth-title" id="catchTitle"></span>
+          <button class="auth-x" id="catchClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="run-hud"><span class="run-dist" id="catchDist">0</span><span class="run-goal" id="catchGoal"></span><span class="run-best" id="catchBest"></span><span class="run-speed" id="catchLives"></span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag">🎟 30</span></div>
+        <div class="run-stage"><canvas id="catchCanvas" width="360" height="340" role="button" aria-label="Catch stage — drag to move the hero"></canvas></div>
+        <div class="run-lane-row" role="group" aria-label="Move controls">
+          <button class="run-lane-btn" id="catchLeftBtn" type="button" disabled aria-label="Move left">◀</button>
+          <button class="run-lane-btn" id="catchRightBtn" type="button" disabled aria-label="Move right">▶</button>
+        </div>
+        <p class="run-msg" id="catchMsg"></p>
+        <div class="run-btnrow">
+          <button class="auth-btn primary" id="catchStartBtn" type="button"></button>
+          <button class="auth-btn ghost" id="catchQuitBtn" type="button"></button>
+        </div>
+        <p class="run-help" id="catchHelp"></p>
+      </div>
+    </div>
+
     <!-- ===== WISH FLAG editor (2026-10-29): a GBA-style small
          window for the one wish line. Display only — saving it
          touches nothing but state.wishText. ===== -->
@@ -12348,11 +12443,20 @@
              which launches straight into a run. -->
         <div class="run-cabinet" id="runCabinet">
           <div class="run-cab-head">
-            <span class="run-cab-tag" id="runTag">RUN</span>
-            <span class="run-cab-title ps">DASH RUN</span>
+            <span class="run-cab-tag" id="runTag">GAMES</span>
+            <span class="run-cab-title ps" id="mgHubTitle">MINI GAMES</span>
             <span class="run-cab-rule" id="runCabRule"></span>
-            <span class="run-cab-best" id="runCabBest"></span>
+            <span class="run-cab-best" id="runCabBest" hidden></span>
           </div>
+          <button class="mg-duty" id="mgDutyBtn" type="button">
+            <span class="mg-duty-main">
+              <span class="mg-duty-kicker" id="mgDutyKicker"></span>
+              <span class="mg-duty-name" id="mgDutyName"></span>
+              <span class="mg-duty-meta" id="mgDutyMeta"></span>
+            </span>
+            <span class="mg-duty-go" aria-hidden="true">▶</span>
+          </button>
+          <div class="mg-list" id="mgList"></div>
           <div class="run-cab-foot">
             <span class="run-cab-status" id="runBannerName"></span>
             <button class="run-start-btn" id="runCabStart" type="button"></button>
@@ -12724,7 +12828,7 @@
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-1852-fix4-3f7a91c4";
+        var BUILD_ID = "tql-20261029-1855-mg1-4d8a2c71";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16279,7 +16383,7 @@
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, games: { jump: 0, catch: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -16338,6 +16442,13 @@
             state.mfHintSeen = !!parsed.mfHintSeen;
             if (parsed.runner && typeof parsed.runner === "object") {
               state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0 };
+            }
+            /* MINI-GAME HUB (batch 1, 2026-10-29): per-game best
+               records for the new games (dash keeps its record in
+               state.runner.best). state.runner.rewarded remains
+               THE single daily-ticket flag for every game. */
+            if (parsed.games && typeof parsed.games === "object") {
+              state.games = { jump: typeof parsed.games.jump === "number" ? parsed.games.jump : 0, catch: typeof parsed.games.catch === "number" ? parsed.games.catch : 0 };
             }
             if (parsed.homeProg && typeof parsed.homeProg === "object") {
               state.homeProg = { date: typeof parsed.homeProg.date === "string" ? parsed.homeProg.date : "", details: Array.isArray(parsed.homeProg.details) ? parsed.homeProg.details.filter(function (x) { return typeof x === "string"; }) : [], acts: (parsed.homeProg.acts && typeof parsed.homeProg.acts === "object" && !Array.isArray(parsed.homeProg.acts)) ? parsed.homeProg.acts : {} };
@@ -24008,9 +24119,30 @@
           runLeft: "Move one lane left", runRight: "Move one lane right",
           runHelp: "Steer with the ◀ ▶ buttons — one tap, one lane. Arrow keys work too. Dodge the barriers!",
           runReady: "Reach 300m to win today's gacha ticket. Crash? Retry as much as you like — the ticket waits.",
-          runCrash: function (d) { return "CRASHED at " + d + "m! " + (d >= 300 ? "Ticket earned ✓" : "The 300m ticket is still out there — run again!"); },
+          runCrash: function (d, got) { return "CRASHED at " + d + "m! " + (got ? "Ticket earned ✓" : (d >= 300 ? "Practice run — today's ticket lives in today's game." : "The 300m ticket is still out there — run again!")); },
           runReward: "300m! GACHA TICKET +1 ✓ Keep going for a best distance!",
-          runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; }
+          runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; },
+          runReadyPractice: "Practice mode — today's gacha ticket is in today's game (see the mini-game hub). Retry as much as you like.",
+          mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgSoon: "COMING SOON",
+          mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
+          mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
+          mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : "GOAL 30 CATCHES"; },
+          mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : ""); },
+          mgRule: function (name) { return "🎟 TODAY: " + name; },
+          mgStatus: function (name, done) { return done ? "Today's ticket is yours ✓ — every game stays open for practice." : "Hit the goal in today's game (" + name + ") to win today's gacha ticket. The others are practice — scores only."; },
+          jumpTitle: "ROOF JUMP", jumpStart: "▶ START", jumpAgain: "↻ AGAIN", jumpQuit: "QUIT",
+          jumpHelp: "Press & hold anywhere on the stage to charge, release to leap. Land on the next roof for +1 — miss and the run ends.",
+          jumpReadyDuty: "Hold… release… land! 15 landings in a row wins today's gacha ticket.",
+          jumpReadyPractice: "Hold… release… land! Goal: 15 landings in a row (practice — today's ticket is in today's game).",
+          jumpClear: "15 LANDINGS IN A ROW!", jumpFall: function (n) { return "Fell after " + n + " landings… one more try!"; },
+          jumpBest: function (b) { return "BEST " + b; },
+          catchTitle: "COIN CATCH", catchStart: "▶ START", catchAgain: "↻ AGAIN", catchQuit: "QUIT",
+          catchHelp: "Drag on the stage, or hold the ◀ ▶ buttons, to move. Catch coins & EXP orbs — 3 bomb hits end the run.",
+          catchReadyDuty: "Catch 30 coins & orbs in total to win today's gacha ticket. Mind the bombs!",
+          catchReadyPractice: "Goal: 30 catches in total (practice — today's ticket is in today's game).",
+          catchClear: "30 CATCHES — GOAL REACHED!", catchOver: function (n) { return "Three bombs… run over at " + n + " catches. Again!"; },
+          catchQuitMsg: function (n) { return "Run over — " + n + " catches. Come back anytime today."; },
+          catchBest: function (b) { return "BEST " + b; }
         },
         ja: {
           survey: "アンケート", betaBtn: "★ BETA — お知らせ", newsLabel: "お知らせ",
@@ -24038,9 +24170,30 @@
           runLeft: "左へ1レーン移動", runRight: "右へ1レーン移動",
           runHelp: "◀ ▶ ボタンでレーン変更——1タップで1レーン。方向キーでもOK。障害物をよけろ！",
           runReady: "300m走ると今日のガチャ券がもらえます。ぶつかっても何度でも再挑戦OK——券は逃げません。",
-          runCrash: function (d) { return d + "mでクラッシュ！" + (d >= 300 ? " 券は獲得済み ✓" : " 300mの券はまだ先——もう一度！"); },
+          runCrash: function (d, got) { return d + "mでクラッシュ！" + (got ? " 券は獲得済み ✓" : (d >= 300 ? " 練習ラン——本日の券は当值ゲームにあります" : " 300mの券はまだ先——もう一度！")); },
           runReward: "300m到達！ガチャ券 +1 ✓ ベスト記録を目指して続けよう！",
-          runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; }
+          runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; },
+          runReadyPractice: "練習モード——本日のガチャ券は当值ゲームにあります（小游戏hub参照）。何度でも再挑戦OK。",
+          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日の当值ゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgSoon: "準備中",
+          mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
+          mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
+          mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : "目標 合計30個キャッチ"; },
+          mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : ""); },
+          mgRule: function (name) { return "🎟 本日: " + name; },
+          mgStatus: function (name, done) { return done ? "本日の券は獲得済み ✓ どのゲームも練習で遊べます。" : "当值ゲーム（" + name + "）の目標達成で本日のガチャ券GET。ほかのゲームは記録だけの練習です。"; },
+          jumpTitle: "跳一跳", jumpStart: "▶ スタート", jumpAgain: "↻ もう一度", jumpQuit: "やめる",
+          jumpHelp: "画面を長押しで力を溜めて、離すとジャンプ。次の屋根に着地で+1、外したら終了。",
+          jumpReadyDuty: "長押し→離して次の屋根へ！15回連続着地で本日のガチャ券。",
+          jumpReadyPractice: "長押し→離して次の屋根へ！目標は15回連続着地（練習：券は当值ゲームのみ）。",
+          jumpClear: "15回連続着地達成！", jumpFall: function (n) { return n + "回着地で落下… もう一度挑戦！"; },
+          jumpBest: function (b) { return "ベスト " + b + "回"; },
+          catchTitle: "接金币", catchStart: "▶ スタート", catchAgain: "↻ もう一度", catchQuit: "やめる",
+          catchHelp: "ドラッグか ◀ ▶ ボタンで移動。金貨とEXPオーブをキャッチ——爆弾に3回当たると終了。",
+          catchReadyDuty: "金貨・オーブ合計30個キャッチで本日のガチャ券。爆弾に気をつけて！",
+          catchReadyPractice: "目標は金貨・オーブ合計30個キャッチ（練習：券は当值ゲームのみ）。",
+          catchClear: "30個キャッチ達成！", catchOver: function (n) { return "爆弾3回… " + n + "個で終了。もう一度！"; },
+          catchQuitMsg: function (n) { return "終了 — " + n + "個キャッチ。今日中ならいつでも再挑戦できます。"; },
+          catchBest: function (b) { return "ベスト " + b + "個"; }
         },
         zh: {
           survey: "问卷", betaBtn: "★ BETA — 公告", newsLabel: "公告",
@@ -24068,9 +24221,30 @@
           runLeft: "向左换一条道", runRight: "向右换一条道",
           runHelp: "用 ◀ ▶ 按钮换道——点一次，换一条道。方向键也可以。躲开障碍物！",
           runReady: "跑满300m就能赢得今天的扭蛋券。撞了也没关系，可以一直重开——券跑不掉。",
-          runCrash: function (d) { return "在 " + d + "m 撞啦！" + (d >= 300 ? " 券已到手 ✓" : " 300m 的券还在前面——再来一局！"); },
+          runCrash: function (d, got) { return "在 " + d + "m 撞啦！" + (got ? " 券已到手 ✓" : (d >= 300 ? " 练习局——今日券在当值游戏里" : " 300m 的券还在前面——再来一局！")); },
           runReward: "300m 达成！扭蛋券 +1 ✓ 继续冲最佳距离吧！",
-          runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; }
+          runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; },
+          runReadyPractice: "练习模式——今日扭蛋券在当值游戏里（见小游戏 hub）。可以随便重开。",
+          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgSoon: "准备中",
+          mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
+          mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+          mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : "目标 合计接住30个"; },
+          mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : ""); },
+          mgRule: function (name) { return "🎟 今日: " + name; },
+          mgStatus: function (name, done) { return done ? "今日扭蛋券已到手 ✓ 所有游戏都可以继续练习。" : "完成今日当值游戏（" + name + "）的目标，赢今日扭蛋券；其他游戏只记分。"; },
+          jumpTitle: "跳一跳", jumpStart: "▶ 开始", jumpAgain: "↻ 再来一局", jumpQuit: "结束",
+          jumpHelp: "长按蓄力，松手起跳。落在下一块屋顶 +1，掉下去就结束。",
+          jumpReadyDuty: "长按→松手，跳到下一块屋顶！连续落地15次赢今日扭蛋券。",
+          jumpReadyPractice: "长按→松手，跳到下一块屋顶！目标连续落地15次（练习：券只在当值游戏）。",
+          jumpClear: "连续落地15次，达成！", jumpFall: function (n) { return "落地 " + n + " 次后掉下去了……再来一局！"; },
+          jumpBest: function (b) { return "最佳 " + b + " 次"; },
+          catchTitle: "接金币", catchStart: "▶ 开始", catchAgain: "↻ 再来一局", catchQuit: "结束",
+          catchHelp: "拖动画面或按住 ◀ ▶ 移动。接金币和EXP球——炸弹碰满3次就结束。",
+          catchReadyDuty: "金币+EXP球合计接住30个，赢今日扭蛋券。小心炸弹！",
+          catchReadyPractice: "目标：金币+EXP球合计接住30个（练习：券只在当值游戏）。",
+          catchClear: "接满30个，达成！", catchOver: function (n) { return "炸弹碰满3次……本局接了 " + n + " 个。再来！"; },
+          catchQuitMsg: function (n) { return "本局结束 — 接了 " + n + " 个。今天随时可以再来。"; },
+          catchBest: function (b) { return "最佳 " + b + " 个"; }
         }
       };
       function X() { return EXT_STR[state.lang] || EXT_STR.en; }
@@ -24078,16 +24252,19 @@
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-29", s: "sparkle", t: "[News] Mini-games are here!", b: "A different game every day — hit the goal to win today's gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] The map has grown!", b: "Your adventure now reaches Hachioji, Saitama, and Yokohama."},
           { d: "2026-10-29", s: "wave", t: "Public beta is open!", b: "Tokyo Quest Log is now in public beta (Oct 29 – Nov 5). Explore Tokyo, clear quests, and send us your feedback — survey respondents enter a draw for 3 × ¥1,000 Amazon gift cards (see the lottery note below). Coming next: more evergreen quests and the road to the app release." },
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】小游戏が増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】マップが大きくなりました！", b: "冒険の範囲が八王子・埼玉・横浜方面まで広がりました。"},
           { d: "2026-10-29", s: "wave", t: "オープンベータ開始！", b: "東京クエストログは本日よりオープンベータ（10/29–11/5）です。東京を歩いてクエストをクリアして、感想をぜひ送ってください——アンケート回答者の中から抽選で3名にAmazonギフト券¥1,000をプレゼント（下記の抽選説明をご覧ください）。今後の予定：常駐クエストの拡充と、アプリ版への準備を進めています。" },
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏阵容来了！", b: "每天轮换一款，达标就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】地图变大了！", b: "冒险范围扩展到八王子、埼玉、横滨一带。"},
           { d: "2026-10-29", s: "wave", t: "公开内测开启！", b: "《东京冒险日志》今天起公开内测（10月29日–11月5日）。在东京散步、完成任务，把感想发给我们——填写问卷的玩家将参与抽奖，3个名额 × ¥1,000 亚马逊礼品卡（见下方抽奖说明）。后续计划：继续扩充常驻任务，并推进 App 版的准备。" },
           { d: "2026-10-29", s: "guts", t: "补丁记录 — 近期修复", b: "・每个窗口现在都能滚动到最后一行（底部指令栏不再遮挡内容）。\n・Google 登录已修复：返回时的登录交接不再丢失，失败时会显示原因（不会再默默变回游客）。\n・地图筛选条折叠/展开已修复；LEGEND 的「在地图上看路线」现在会飞到你的下一站。" }
@@ -24399,7 +24576,7 @@
       function homeShortcut(q) {
         try { sfx("open"); } catch (e) { /* ignore */ }
         if (q.act === "detail") switchView("list");
-        else if (q.act === "runner") { switchView("hero"); openRun(); }
+        else if (q.act === "runner") { switchView("hero"); mgOpenDuty(); }
         else if (q.act === "gacha") { switchView("hero"); var b = document.querySelector('[data-openwin="gacha"]'); if (b) b.click(); }
         else if (q.act === "news") openBeta();
         else if (q.act === "legend" && LEGENDS.length) openLegend(LEGENDS[0].id);
@@ -24422,6 +24599,75 @@
         if (row) { var ex = row.querySelector(".dr-exp"); if (ex) ex.textContent = "+" + (L().dailyPool[hi].x || 15) + " EXP"; }
       };
 
+      /* ---------- MINI-GAME HUB (batch 1, 2026-10-29) ----------
+         Seven games, one per weekday. Only dash / jump / catch
+         are playable in this batch; the rest sit in the roster
+         as COMING SOON, and on their weekdays DASH fills in as
+         the duty game so no day is ever ticketless.
+         THE TICKET: state.runner.rewarded is the ONE daily
+         ticket flag for every game (the old dash-only ledger,
+         unified — dash's own rewarded run now flows through
+         mgAward like everything else). One flag, one ticket a
+         day, whichever game is on duty. Practice plays in any
+         non-duty game can never touch it. */
+      var MG_GAMES = [
+        { id: "dash", dow: 1 },
+        { id: "jump", dow: 2 },
+        { id: "catch", dow: 3 },
+        { id: "memory", dow: 4, soon: true },
+        { id: "whack", dow: 5, soon: true },
+        { id: "stack", dow: 6, soon: true },
+        { id: "fish", dow: 0, soon: true }
+      ];
+      var MG_GOALS = { dash: 300, jump: 15, catch: 30 };
+      function ensureGames() {
+        if (!state.games || typeof state.games !== "object") state.games = { jump: 0, catch: 0 };
+        if (typeof state.games.jump !== "number") state.games.jump = 0;
+        if (typeof state.games.catch !== "number") state.games.catch = 0;
+      }
+      function mgScheduledId() {
+        var d = new Date().getDay();
+        for (var i = 0; i < MG_GAMES.length; i++) if (MG_GAMES[i].dow === d) return MG_GAMES[i].id;
+        return "dash";
+      }
+      function mgGame(id) { for (var i = 0; i < MG_GAMES.length; i++) if (MG_GAMES[i].id === id) return MG_GAMES[i]; return MG_GAMES[0]; }
+      function mgDutyId() {
+        var s = mgScheduledId();
+        return mgGame(s).soon ? "dash" : s;
+      }
+      function mgName(id) { var n = X().mgNames; return (n && n[id]) || id; }
+      function mgBest(id) {
+        if (id === "dash") return (state.runner && state.runner.best) || 0;
+        ensureGames();
+        return state.games[id] || 0;
+      }
+      function mgSetBest(id, v) {
+        if (id === "dash") { if (v > (state.runner.best || 0)) state.runner.best = v; }
+        else { ensureGames(); if (v > (state.games[id] || 0)) state.games[id] = v; }
+        save();
+      }
+      function mgTicketDone() { ensureRunnerDay(); return !!state.runner.rewarded; }
+      /* the ONLY door to a ticket: duty game + goal reached +
+         today's single flag still free. Returns true when the
+         ticket was actually granted by this call. */
+      function mgAward(id) {
+        ensureRunnerDay();
+        if (id !== mgDutyId()) return false;
+        if (state.runner.rewarded) return false;
+        state.runner.rewarded = true;
+        state.ticketBonus = (state.ticketBonus || 0) + 1;
+        save(); renderStatus();
+        try { sfx("fanfare"); } catch (e) { /* ignore */ }
+        if (window.markHomeAct) window.markHomeAct("runner"); /* home daily follows the duty game's goal */
+        return true;
+      }
+      function mgOpen(id) {
+        if (id === "jump") openJump();
+        else if (id === "catch") openCatch();
+        else { openRun(); startRun(); }
+      }
+      function mgOpenDuty() { mgOpen(mgDutyId()); }
+
       /* ---------- DASH RUN mini-game ---------- */
       var RUN_TARGET = 300;
       function ensureRunnerDay() {
@@ -24430,12 +24676,38 @@
       }
       function renderRunBanner() {
         var el = $("runBannerName"); if (!el) return;
-        ensureRunnerDay();
-        el.textContent = X().runBanner(state.runner.best || 0, !!state.runner.rewarded);
+        ensureRunnerDay(); ensureGames();
+        var t = X();
+        var duty = mgDutyId(), sched = mgScheduledId(), done = mgTicketDone();
+        el.textContent = t.mgStatus(mgName(duty), done);
+        var hubT = $("mgHubTitle"); if (hubT) hubT.textContent = t.mgHub;
+        var tag = $("runTag"); if (tag) tag.textContent = t.mgTag;
         var rule = $("runCabRule");
-        if (rule) { rule.textContent = X().runGoal(!!state.runner.rewarded); rule.classList.toggle("is-done", !!state.runner.rewarded); }
-        var bst = $("runCabBest"); if (bst) bst.textContent = X().runBest(state.runner.best || 0);
-        var stb = $("runCabStart"); if (stb) stb.textContent = X().runStart;
+        if (rule) { rule.textContent = done ? t.runGoal(true) : t.mgRule(mgName(duty)); rule.classList.toggle("is-done", done); }
+        var kick = $("mgDutyKicker");
+        if (kick) kick.textContent = t.mgToday + (sched !== duty ? " · " + t.mgProxy : "");
+        var dn = $("mgDutyName"); if (dn) dn.textContent = mgName(duty);
+        var dm = $("mgDutyMeta");
+        if (dm) dm.textContent = t.mgGoal(duty) + " · " + t.mgBest(duty, mgBest(duty)) + (done ? " · 🎟 ✓" : "");
+        var db = $("mgDutyBtn"); if (db) db.classList.toggle("is-done", done);
+        var stb = $("runCabStart"); if (stb) stb.textContent = t.mgPlay;
+        var list = $("mgList");
+        if (list) {
+          list.innerHTML = "";
+          MG_GAMES.forEach(function (g) {
+            var isDuty = g.id === duty;
+            var row = document.createElement(g.soon ? "div" : "button");
+            if (!g.soon) row.type = "button";
+            row.className = "mg-row" + (isDuty ? " is-duty" : "") + (g.soon ? " is-soon" : "");
+            var badge = g.soon ? '<span class="mg-badge soon">' + t.mgSoon + "</span>"
+              : isDuty ? '<span class="mg-badge">🎟</span>'
+              : '<span class="mg-badge play">' + t.mgPlay + "</span>";
+            row.innerHTML = '<span class="mg-dow">' + t.mgDow[g.dow] + '</span><span class="mg-name">' + mgName(g.id) + '</span>' +
+              (g.soon ? "" : '<span class="mg-best">' + t.mgBest(g.id, mgBest(g.id)) + "</span>") + badge;
+            if (!g.soon) row.addEventListener("click", function () { mgOpen(g.id); });
+            list.appendChild(row);
+          });
+        }
         startRunAttract();
       }
 
@@ -24564,10 +24836,10 @@
         $("runScreen").hidden = false;
         var t = X();
         $("runTitle").textContent = t.runTitle;
-        $("runGoal").textContent = t.runGoal(!!state.runner.rewarded);
+        $("runGoal").textContent = mgTicketDone() ? t.runGoal(true) : (mgDutyId() === "dash" ? t.runGoal(false) : t.mgGoal("dash"));
         $("runBest").textContent = t.runBest(state.runner.best || 0);
         $("runDist").textContent = "0m";
-        $("runMsg").textContent = t.runReady;
+        $("runMsg").textContent = (mgDutyId() === "dash" && !mgTicketDone()) ? t.runReady : t.runReadyPractice;
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
         $("runQuitBtn").textContent = t.runQuit;
@@ -24611,7 +24883,7 @@
         var d = Math.floor(run.dist);
         if (d > (state.runner.best || 0)) { state.runner.best = d; save(); }
         $("runBest").textContent = X().runBest(state.runner.best || 0);
-        $("runMsg").textContent = crashed ? X().runCrash(d) : X().runQuitMsg(d);
+        $("runMsg").textContent = crashed ? X().runCrash(d, mgTicketDone()) : X().runQuitMsg(d);
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = X().runAgain;
         $("runLeftBtn").disabled = true; $("runRightBtn").disabled = true;
         var win = document.querySelector(".run-win");
@@ -24673,14 +24945,12 @@
             }
           }
         }
-        /* daily ticket at the goal line */
-        if (!state.runner.rewarded && run.dist >= RUN_TARGET) {
-          state.runner.rewarded = true;
-          state.ticketBonus = (state.ticketBonus || 0) + 1;
-          save(); renderStatus();
+        /* daily ticket at the goal line — through the ONE
+           unified door (mgAward): only when dash is today's
+           duty game and today's single flag is still free */
+        if (run.dist >= RUN_TARGET && mgAward("dash")) {
           $("runGoal").textContent = X().runGoal(true);
           $("runMsg").textContent = X().runReward;
-          try { sfx("fanfare"); } catch (e) { /* ignore */ }
         }
         /* HUD: distance + 300m progress + speed tier, refreshed
            when the metre count changes (not every frame) */
@@ -24842,6 +25112,303 @@
         run.lane = Math.max(0, Math.min(2, run.lane + dir));
         try { sfx("move"); } catch (e) { /* ignore */ }
       }
+      /* ---------- ROOF JUMP (跳一跳, Tuesday) ----------
+         Hold to charge, release to leap to the next rooftop.
+         Land = +1; miss = run over. Goal: 15 landings in a row. */
+      var JUMP_GOAL = 15;
+      var jmp = null;
+      function jumpNewPlat(x, score) {
+        var w = Math.max(64, 96 - score * 1.2) + Math.random() * 14;
+        var y = 205 + Math.random() * 105;
+        return { x: x, y: y, w: w };
+      }
+      function openJump() {
+        ensureRunnerDay(); ensureGames();
+        $("jumpScreen").hidden = false;
+        var t = X();
+        $("jumpTitle").textContent = t.jumpTitle;
+        $("jumpGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("jump");
+        $("jumpBest").textContent = t.jumpBest(mgBest("jump"));
+        $("jumpDist").textContent = "0";
+        $("jumpMsg").textContent = mgDutyId() === "jump" && !mgTicketDone() ? t.jumpReadyDuty : t.jumpReadyPractice;
+        $("jumpHelp").textContent = t.jumpHelp;
+        var sb = $("jumpStartBtn"); sb.disabled = false; sb.textContent = t.jumpStart;
+        $("jumpQuitBtn").textContent = t.jumpQuit;
+        var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
+        if (jmp && jmp.raf) cancelAnimationFrame(jmp.raf);
+        jmp = { mode: "idle", score: 0, power: 0, pdir: 1, hx: 70, hy: 0, vx: 0, vy: 0, cam: 0, last: 0, raf: 0, plats: [], cur: 0 };
+        jmp.plats.push({ x: 16, y: 268, w: 108 });
+        jmp.plats.push(jumpNewPlat(16 + 108 + 56, 0));
+        jmp.hy = jmp.plats[0].y;
+        drawJump(0);
+        jmp.raf = requestAnimationFrame(jumpTick);
+        if (window.markHomeAct) window.markHomeAct("runner");
+      }
+      function closeJump() {
+        if (jmp && jmp.raf) cancelAnimationFrame(jmp.raf);
+        jmp = null;
+        $("jumpScreen").hidden = true;
+        renderRunBanner();
+      }
+      function startJump() {
+        if (!jmp || jmp.mode === "stand" || jmp.mode === "charge" || jmp.mode === "fly") return;
+        jmp.mode = "stand"; jmp.score = 0; jmp.power = 0; jmp.cur = 0;
+        jmp.plats = [{ x: 16, y: 268, w: 108 }];
+        jmp.plats.push(jumpNewPlat(16 + 108 + 56, 0));
+        jmp.hx = 70; jmp.hy = jmp.plats[0].y; jmp.vx = 0; jmp.vy = 0; jmp.cam = 0;
+        $("jumpDist").textContent = "0";
+        $("jumpMsg").textContent = "";
+        var sb = $("jumpStartBtn"); sb.disabled = true;
+        var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
+      }
+      function endJump(cleared) {
+        if (!jmp) return;
+        jmp.mode = "over";
+        mgSetBest("jump", jmp.score);
+        $("jumpBest").textContent = X().jumpBest(mgBest("jump"));
+        var t = X();
+        if (cleared) {
+          var won = mgAward("jump");
+          $("jumpMsg").textContent = t.jumpClear + (won ? " 🎟 +1 ✓" : "");
+          if (won) $("jumpGoal").textContent = t.runGoal(true);
+        } else {
+          $("jumpMsg").textContent = t.jumpFall(jmp.score);
+          try { sfx("back"); } catch (e) { /* ignore */ }
+        }
+        var sb = $("jumpStartBtn"); sb.disabled = false; sb.textContent = t.jumpAgain;
+        renderRunBanner();
+      }
+      function jumpTick(ts) {
+        if (!jmp) return;
+        if (!jmp.last) jmp.last = ts;
+        var dt = Math.min(0.05, (ts - jmp.last) / 1000); jmp.last = ts;
+        if (jmp.mode === "charge") {
+          jmp.power += jmp.pdir * dt * 125;
+          if (jmp.power >= 100) { jmp.power = 100; jmp.pdir = -1; }
+          if (jmp.power <= 0) { jmp.power = 0; jmp.pdir = 1; }
+          var cf = $("jumpChargeFill"); if (cf) cf.style.width = jmp.power + "%";
+        } else if (jmp.mode === "fly") {
+          var prevFeet = jmp.hy;
+          jmp.vy += 980 * dt;
+          jmp.hx += jmp.vx * dt;
+          jmp.hy += jmp.vy * dt;
+          if (jmp.vy > 0) {
+            for (var i = jmp.cur + 1; i < jmp.plats.length; i++) {
+              var p = jmp.plats[i];
+              if (jmp.hx >= p.x + 4 && jmp.hx <= p.x + p.w - 4 && prevFeet <= p.y + 1 && jmp.hy >= p.y) {
+                jmp.hy = p.y; jmp.cur = i; jmp.vx = 0; jmp.vy = 0;
+                jmp.score += 1;
+                $("jumpDist").textContent = jmp.score;
+                try { sfx("accept"); } catch (e) { /* ignore */ }
+                if (jmp.score >= JUMP_GOAL) { endJump(true); break; }
+                jmp.mode = "stand";
+                var lastP = jmp.plats[jmp.plats.length - 1];
+                if (lastP === p) jmp.plats.push(jumpNewPlat(p.x + p.w + 62 + Math.random() * 105 + jmp.score * 1.5, jmp.score));
+                break;
+              }
+            }
+          }
+          if (jmp && jmp.mode === "fly" && jmp.hy > 440) { endJump(false); }
+        }
+        if (jmp) {
+          var target = Math.max(0, jmp.hx - 110);
+          jmp.cam += (target - jmp.cam) * Math.min(1, dt * 7);
+          drawJump(ts);
+          jmp.raf = requestAnimationFrame(jumpTick);
+        }
+      }
+      function drawJump(ts) {
+        var cv = $("jumpCanvas"); if (!cv || !jmp) return;
+        var ctx = cv.getContext("2d");
+        var W = 360, H = 400;
+        ctx.imageSmoothingEnabled = false;
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = "#a5dcff"; ctx.fillRect(0, 300, W, 100);
+        ctx.fillStyle = "#ffd76a"; ctx.fillRect(318, 16, 24, 24);
+        ctx.fillStyle = "#5d84a8";
+        [4, 52, 236, 288, 330].forEach(function (x, i) { var h = 60 + (i % 3) * 26; ctx.fillRect(x, 330 - h, 30, h + 70); });
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(30, 26, 46, 9); ctx.fillRect(150, 14, 34, 7); ctx.fillRect(240, 40, 52, 9);
+        /* rooftops */
+        jmp.plats.forEach(function (p, idx) {
+          var sx = p.x - jmp.cam;
+          if (sx + p.w < -10 || sx > W + 10) return;
+          ctx.fillStyle = idx === jmp.cur ? "#7a4b2a" : "#5d3a1e";
+          ctx.fillRect(sx - 4, p.y, p.w + 8, 10);
+          ctx.fillStyle = idx === jmp.cur ? "#a4713e" : "#86603a";
+          ctx.fillRect(sx, p.y + 10, p.w, H - p.y);
+          ctx.fillStyle = "rgba(255,246,220,0.75)";
+          for (var wy = p.y + 30; wy < H - 14; wy += 30)
+            for (var wx = sx + 8; wx < sx + p.w - 10; wx += 22) ctx.fillRect(wx, wy, 10, 12);
+        });
+        /* hero */
+        var hctx = runHeroCv.getContext("2d");
+        hctx.clearRect(0, 0, 16, 16);
+        try { drawRunnerFrame(hctx, jmp.mode === "fly" ? 0 : 1, false); } catch (e) { /* sprite unavailable */ }
+        var S = 46, hx = jmp.hx - jmp.cam;
+        ctx.fillStyle = "rgba(20,20,30,0.3)";
+        ctx.beginPath(); ctx.ellipse(hx, jmp.hy + 3, 17, 4, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.save();
+        ctx.translate(hx, jmp.hy - S / 2);
+        if (jmp.mode === "charge") ctx.scale(1.06, 0.9 - jmp.power * 0.0012);
+        if (jmp.mode === "fly") ctx.rotate(0.1);
+        ctx.drawImage(runHeroCv, -S / 2, -S / 2, S, S);
+        ctx.restore();
+        /* charge arrow hint */
+        if (jmp.mode === "charge") {
+          ctx.fillStyle = "rgba(16,24,46,0.85)";
+          ctx.font = "800 13px 'Baloo 2', sans-serif"; ctx.textAlign = "center";
+          ctx.fillText(Math.round(jmp.power) + "%", hx, jmp.hy - S - 10);
+        }
+        if (jmp.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.25)"; ctx.fillRect(0, 0, W, H); }
+      }
+
+      /* ---------- COIN CATCH (接金币, Wednesday) ----------
+         Move along the bottom, catch coins & EXP orbs, dodge
+         bombs. Goal: 30 catches. 3 bomb hits end the run. */
+      var CATCH_GOAL = 30;
+      var cat = null;
+      function openCatch() {
+        ensureRunnerDay(); ensureGames();
+        $("catchScreen").hidden = false;
+        var t = X();
+        $("catchTitle").textContent = t.catchTitle;
+        $("catchGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("catch");
+        $("catchBest").textContent = t.catchBest(mgBest("catch"));
+        $("catchDist").textContent = "0";
+        $("catchLives").textContent = "💣 0/3";
+        $("catchMsg").textContent = mgDutyId() === "catch" && !mgTicketDone() ? t.catchReadyDuty : t.catchReadyPractice;
+        $("catchHelp").textContent = t.catchHelp;
+        var sb = $("catchStartBtn"); sb.disabled = false; sb.textContent = t.catchStart;
+        $("catchQuitBtn").textContent = t.catchQuit;
+        $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
+        var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
+        if (cat && cat.raf) cancelAnimationFrame(cat.raf);
+        cat = { mode: "idle", hx: 180, tx: 180, drag: false, dirL: false, dirR: false, items: [], spawnT: 0, count: 0, hits: 0, time: 0, last: 0, raf: 0 };
+        drawCatch(0);
+        cat.raf = requestAnimationFrame(catchTick);
+        if (window.markHomeAct) window.markHomeAct("runner");
+      }
+      function closeCatch() {
+        if (cat && cat.raf) cancelAnimationFrame(cat.raf);
+        cat = null;
+        $("catchScreen").hidden = true;
+        renderRunBanner();
+      }
+      function startCatch() {
+        if (!cat || cat.mode === "running") return;
+        cat.mode = "running"; cat.items = []; cat.count = 0; cat.hits = 0; cat.time = 0; cat.spawnT = 0.3;
+        cat.hx = 180; cat.tx = 180;
+        $("catchDist").textContent = "0";
+        $("catchLives").textContent = "💣 0/3";
+        $("catchMsg").textContent = "";
+        var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
+        var sb = $("catchStartBtn"); sb.disabled = true; sb.textContent = X().catchStart;
+        $("catchLeftBtn").disabled = false; $("catchRightBtn").disabled = false;
+      }
+      function endCatch(cleared, quit) {
+        if (!cat) return;
+        cat.mode = "over";
+        mgSetBest("catch", cat.count);
+        $("catchBest").textContent = X().catchBest(mgBest("catch"));
+        var t = X();
+        if (cleared) {
+          var won = mgAward("catch");
+          $("catchMsg").textContent = t.catchClear + (won ? " 🎟 +1 ✓" : "");
+          if (won) $("catchGoal").textContent = t.runGoal(true);
+        } else {
+          $("catchMsg").textContent = quit ? t.catchQuitMsg(cat.count) : t.catchOver(cat.count);
+          try { sfx("back"); } catch (e) { /* ignore */ }
+        }
+        var sb = $("catchStartBtn"); sb.disabled = false; sb.textContent = t.catchAgain;
+        $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
+        renderRunBanner();
+      }
+      function catchTick(ts) {
+        if (!cat) return;
+        if (!cat.last) cat.last = ts;
+        var dt = Math.min(0.05, (ts - cat.last) / 1000); cat.last = ts;
+        if (cat.mode === "running") {
+          cat.time += dt;
+          if (cat.dirL) cat.tx -= 300 * dt;
+          if (cat.dirR) cat.tx += 300 * dt;
+          cat.tx = Math.max(26, Math.min(334, cat.tx));
+          cat.hx += (cat.tx - cat.hx) * Math.min(1, dt * 18);
+          cat.spawnT -= dt;
+          if (cat.spawnT <= 0) {
+            cat.spawnT = Math.max(0.34, 0.6 - cat.time * 0.006);
+            var r = Math.random();
+            cat.items.push({ x: 20 + Math.random() * 320, y: -14, vy: 130 + Math.random() * 60 + Math.min(90, cat.time * 2.2), kind: r < 0.42 ? 0 : r < 0.78 ? 1 : 2 });
+          }
+          var HERO_TOP = 270;
+          for (var i = cat.items.length - 1; i >= 0; i--) {
+            var it = cat.items[i];
+            it.y += it.vy * dt;
+            if (it.y >= HERO_TOP && it.y < HERO_TOP + 26) {
+              if (Math.abs(it.x - cat.hx) <= 42) {
+                cat.items.splice(i, 1);
+                if (it.kind === 2) {
+                  cat.hits += 1;
+                  $("catchLives").textContent = "💣 " + cat.hits + "/3";
+                  try { sfx("back"); } catch (e) { /* ignore */ }
+                  if (cat.hits >= 3) { endCatch(false); break; }
+                } else {
+                  cat.count += 1;
+                  $("catchDist").textContent = cat.count;
+                  var pf = $("catchProgFill"); if (pf) pf.style.width = Math.min(100, cat.count / CATCH_GOAL * 100) + "%";
+                  try { sfx("move"); } catch (e) { /* ignore */ }
+                  if (cat.count >= CATCH_GOAL) { endCatch(true); break; }
+                }
+                continue;
+              }
+            }
+            if (it.y > 352) cat.items.splice(i, 1);
+          }
+        }
+        if (cat) { drawCatch(ts); cat.raf = requestAnimationFrame(catchTick); }
+      }
+      function drawCatch(ts) {
+        var cv = $("catchCanvas"); if (!cv || !cat) return;
+        var ctx = cv.getContext("2d");
+        var W = 360, H = 340;
+        ctx.imageSmoothingEnabled = false;
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = "#ffd76a"; ctx.fillRect(14, 14, 24, 24);
+        ctx.fillStyle = "#5d84a8";
+        [40, 96, 250, 306].forEach(function (x, i) { var h = 34 + (i % 3) * 14; ctx.fillRect(x, 296 - h, 24, h); });
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(120, 22, 44, 8); ctx.fillRect(230, 44, 36, 7);
+        ctx.fillStyle = "#63b96f"; ctx.fillRect(0, 296, W, 44);
+        ctx.fillStyle = "#57ab62"; ctx.fillRect(0, 296, W, 7);
+        /* falling items */
+        cat.items.forEach(function (it) {
+          if (it.kind === 0) {
+            ctx.fillStyle = "#ffd83d"; ctx.beginPath(); ctx.arc(it.x, it.y, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#f0b429"; ctx.beginPath(); ctx.arc(it.x, it.y, 6.5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#fff6dc"; ctx.beginPath(); ctx.arc(it.x - 2, it.y - 2, 2.4, 0, Math.PI * 2); ctx.fill();
+          } else if (it.kind === 1) {
+            ctx.fillStyle = "rgba(87,182,232,0.35)"; ctx.beginPath(); ctx.arc(it.x, it.y, 13, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#57b6e8"; ctx.beginPath(); ctx.arc(it.x, it.y, 8.5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#dff4ff"; ctx.beginPath(); ctx.arc(it.x - 2, it.y - 3, 3, 0, Math.PI * 2); ctx.fill();
+          } else {
+            ctx.fillStyle = "#23283b"; ctx.beginPath(); ctx.arc(it.x, it.y, 10.5, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#4a5470"; ctx.beginPath(); ctx.arc(it.x - 3, it.y - 3, 3.4, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = "#5d3a1e"; ctx.lineWidth = 2.4;
+            ctx.beginPath(); ctx.moveTo(it.x + 3, it.y - 9); ctx.quadraticCurveTo(it.x + 8, it.y - 15, it.x + 12, it.y - 13); ctx.stroke();
+            ctx.fillStyle = Math.floor(ts / 160) % 2 ? "#ffd83d" : "#e8762b";
+            ctx.fillRect(it.x + 10, it.y - 16, 4, 4);
+          }
+        });
+        /* hero with a catch basket line */
+        var hctx = runHeroCv.getContext("2d");
+        hctx.clearRect(0, 0, 16, 16);
+        try { drawRunnerFrame(hctx, cat.mode === "running" ? [0, 1, 2, 1][Math.floor(ts / 160) % 4] : 1, false); } catch (e) { /* sprite unavailable */ }
+        var S = 54;
+        ctx.fillStyle = "rgba(20,20,30,0.3)";
+        ctx.beginPath(); ctx.ellipse(cat.hx, 300, 24, 5, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.drawImage(runHeroCv, cat.hx - S / 2, 296 - S, S, S);
+        ctx.fillStyle = "rgba(255,216,61,0.5)"; ctx.fillRect(cat.hx - 42, 268, 84, 3);
+        if (cat.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.25)"; ctx.fillRect(0, 0, W, H); }
+      }
+
       /* wiring: title plaques, beta window, name step, runner */
       $("titleBetaBtn").addEventListener("click", openBeta);
       var listBetaBtnEl = $("listBetaBtn"); if (listBetaBtnEl) listBetaBtnEl.addEventListener("click", openBeta);
@@ -24853,8 +25420,10 @@
       });
       /* Q-122: the cabinet preview screen is gone — the
          cabinet's lemon START is the only door into the game */
-      /* the cabinet's lemon START launches straight into a run */
-      $("runCabStart").addEventListener("click", function () { openRun(); startRun(); });
+      /* the hub's START + the big duty door both launch
+         TODAY'S duty game straight into play */
+      $("runCabStart").addEventListener("click", function () { mgOpenDuty(); });
+      $("mgDutyBtn").addEventListener("click", function () { mgOpenDuty(); });
       $("runClose").addEventListener("click", closeRun);
       $("runStartBtn").addEventListener("click", startRun);
       $("runQuitBtn").addEventListener("click", function () { if (run && run.mode === "running") endRun(false); else closeRun(); });
@@ -24884,6 +25453,68 @@
           if ($("runScreen").hidden || e.repeat) return;
           if (e.key === "ArrowLeft") runMove(-1);
           else if (e.key === "ArrowRight") runMove(1);
+        });
+      })();
+      /* jump + catch wiring */
+      $("jumpClose").addEventListener("click", closeJump);
+      $("jumpStartBtn").addEventListener("click", startJump);
+      $("jumpQuitBtn").addEventListener("click", function () { closeJump(); });
+      (function () {
+        var cv = $("jumpCanvas");
+        cv.addEventListener("pointerdown", function (e) {
+          e.preventDefault();
+          if (!jmp) return;
+          if (jmp.mode === "idle" || jmp.mode === "over") { startJump(); return; }
+          if (jmp.mode !== "stand") return;
+          jmp.mode = "charge"; jmp.power = 0; jmp.pdir = 1;
+          try { cv.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+        });
+        var release = function (e) {
+          if (!jmp || jmp.mode !== "charge") return;
+          jmp.mode = "fly";
+          jmp.vx = 128 + jmp.power * 2.75;
+          jmp.vy = -(318 + jmp.power * 2.35);
+          jmp.power = 0;
+          var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
+          try { sfx("move"); } catch (err) { /* ignore */ }
+        };
+        cv.addEventListener("pointerup", release);
+        cv.addEventListener("pointercancel", release);
+      })();
+      $("catchClose").addEventListener("click", closeCatch);
+      $("catchStartBtn").addEventListener("click", startCatch);
+      $("catchQuitBtn").addEventListener("click", function () { if (cat && cat.mode === "running") endCatch(false, true); else closeCatch(); });
+      (function () {
+        var cv = $("catchCanvas");
+        function toGameX(e) {
+          var r = cv.getBoundingClientRect();
+          return (e.clientX - r.left) / r.width * 360;
+        }
+        cv.addEventListener("pointerdown", function (e) {
+          if (!cat || cat.mode !== "running") return;
+          e.preventDefault();
+          cat.drag = true; cat.tx = toGameX(e);
+          try { cv.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+        });
+        cv.addEventListener("pointermove", function (e) { if (cat && cat.drag) cat.tx = toGameX(e); });
+        var up = function () { if (cat) cat.drag = false; };
+        cv.addEventListener("pointerup", up);
+        cv.addEventListener("pointercancel", up);
+        var lb = $("catchLeftBtn"), rb = $("catchRightBtn");
+        function bindDir(btn, key) {
+          btn.addEventListener("pointerdown", function (e) { e.preventDefault(); if (cat) cat[key] = true; });
+          ["pointerup", "pointerleave", "pointercancel"].forEach(function (ev) { btn.addEventListener(ev, function () { if (cat) cat[key] = false; }); });
+        }
+        bindDir(lb, "dirL"); bindDir(rb, "dirR");
+        document.addEventListener("keydown", function (e) {
+          if ($("catchScreen").hidden || !cat || cat.mode !== "running") return;
+          if (e.key === "ArrowLeft") cat.dirL = true;
+          else if (e.key === "ArrowRight") cat.dirR = true;
+        });
+        document.addEventListener("keyup", function (e) {
+          if (!cat) return;
+          if (e.key === "ArrowLeft") cat.dirL = false;
+          else if (e.key === "ArrowRight") cat.dirR = false;
         });
       })();
       /* map START menu: NEWS item opens the same beta window, and
