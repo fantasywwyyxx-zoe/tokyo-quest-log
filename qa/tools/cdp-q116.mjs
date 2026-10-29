@@ -30,12 +30,12 @@ const shot = async name => { const d = await cdp.send('Page.captureScreenshot', 
 const BASE = { lang: 'ja', muted: true, theme: 'emerald', font: 'rounded', hero: 'aoi', custom: null, name: 'Zoe', started: true, tutored: true, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: '', done: [], bonus: false }, bonusExp: 60, bgmDay: 'brave-c', bgmNight: 'farm-night', sceneSeen: 2, remoteDate: '', puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: '', dayLog: {}, diary: {}, zoneBonus: [], gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } } };
 const GAP = `(() => {
   const vis = e => !!e.offsetParent;
-  const pager = [...document.querySelectorAll('button')].find(b => vis(b) && /次へ/.test(b.innerText || ''));
   const expBar = [...document.querySelectorAll('*')].find(e => vis(e) && /つぎのLvまで/.test(e.innerText || '') && e.children.length <= 3 && e.getBoundingClientRect().height < 60);
-  const rows = [...document.querySelectorAll('*')].filter(e => vis(e) && /Lv\\.2[1-5]|Lv\\.[1-9]/.test(e.innerText || '') && e.getBoundingClientRect().height > 30 && e.getBoundingClientRect().height < 70);
-  if (!pager || !expBar) return { pager: !!pager, expBar: !!expBar };
-  const pr = pager.getBoundingClientRect(), er = expBar.getBoundingClientRect();
-  return { vh: innerHeight, pagerBottom: Math.round(pr.bottom), expTop: Math.round(er.top), gap: Math.round(er.top - pr.bottom), rowsSeen: rows.length };
+  const rows = [...document.querySelectorAll('*')].filter(e => vis(e) && /Lv\.\d+/.test(e.innerText || '') && e.getBoundingClientRect().height > 30 && e.getBoundingClientRect().height < 70);
+  if (!expBar || !rows.length) return { expBar: !!expBar, rows: rows.length };
+  const lastBottom = Math.max(...rows.map(r => r.getBoundingClientRect().bottom));
+  const er = expBar.getBoundingClientRect();
+  return { vh: innerHeight, lastRowBottom: Math.round(lastBottom), expTop: Math.round(er.top), gapAfterRows: Math.round(er.top - lastBottom), rowsSeen: rows.length };
 })()`;
 for (const H of [844, 667, 600]) {
   await cdp.send('Emulation.setDeviceMetricsOverride', { width: 390, height: H, deviceScaleFactor: 1, mobile: true, screenWidth: 390, screenHeight: H });
@@ -49,8 +49,9 @@ for (const H of [844, 667, 600]) {
   await cdp.eval(`(() => { const b = document.querySelector('[data-openwin="records"]'); if (b) b.click(); return !!b; })()`);
   await waitStable();
   console.log('H=' + H, 'page1:', JSON.stringify(await cdp.eval(GAP)));
-  // page forward x4 -> page 5/6 like Zoe's shot
-  for (let i = 0; i < 4; i++) { await cdp.eval(`(() => { const b = [...document.querySelectorAll('button')].find(x => x.offsetParent && /次へ/.test(x.innerText || '')); if (b) b.click(); return !!b; })()`); await sleep(500); }
+  if (H === 844) { await shot('q116-debug-structure.png'); console.log('STRUCT:', JSON.stringify(await cdp.eval(`(() => { const w = [...document.querySelectorAll('*')].find(e => e.offsetParent && /称号/.test(e.innerText || '') && e.getBoundingClientRect().width > 300); if (!w) return 'win not found'; return [...w.querySelectorAll('*')].filter(e => e.offsetParent && e.children.length === 0).slice(0, 24).map(e => (e.className || '').toString().slice(0, 18) + ' :: ' + (e.innerText || '').trim().slice(0, 24)); })()`))); }
+  // page forward x4 via the pager's next button (rightmost small button in the pager row)
+  for (let i = 0; i < 4; i++) { await cdp.eval(`(() => { const bs = [...document.querySelectorAll('.rec-pager button, [class*=pager] button')].filter(x => x.offsetParent); const b = bs[bs.length - 1]; if (b) b.click(); return bs.length; })()`); await sleep(500); }
   console.log('H=' + H, 'page5:', JSON.stringify(await cdp.eval(GAP)));
   if (H === 844) await shot('q116-titles-p5-844.png');
   // badges tab for comparison
