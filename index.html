@@ -4786,14 +4786,20 @@
          path), which the centre's avenues don't mirror. So the
          far view is now zoom-GATED, not merely thinned: in the
          fit view (the is-fitview state applyZoom maintains,
-         pxu < 2.2) the smallest class (.rd-minor, all sheets)
+         pxu < 3.4) the smallest class (.rd-minor, all sheets)
          and the fringe sheet's mid pair (.rd-fringe-mid) rest,
          and both return as you zoom in. The centre sheet's own
          mid paths are NOT gated — the centre's look is byte-
          for-byte its previous treatment — and arterials (the
          1.7 pair), rail, rivers and parks render at every zoom
          everywhere, so no district ever reads as road-less
-         blank; what changes is only the web impression. */
+         blank; what changes is only the web impression.
+         Q-161 round 3 (2026-10-29, Zoe device 23:32 + QA R27):
+         the band was too narrow — locate() lands at up to
+         s=2.9 (pxu ~2.94 on her phone), past the old 2.2 edge,
+         so the web returned at her everyday zoom. The gate
+         now holds to pxu 3.4; the classes return only deeper,
+         where their strokes read as streets, not mesh. */
       .map-box.is-fitview #mapScenery .rd-minor { display: none; }
       .map-box.is-fitview #mapScenery .rd-fringe-mid { display: none; }
 
@@ -6753,6 +6759,9 @@
       .cust-preset canvas { width: 42px; height: 42px; image-rendering: pixelated; }
       .cust-preset:active { transform: translateY(2px); box-shadow: none; }
       .cust-preset[aria-pressed="true"] { outline: 3px solid var(--highlight); outline-offset: 1px; }
+      .cust-preset.is-locked { position: relative; cursor: default; }
+      .cust-preset.is-locked canvas { filter: brightness(0); opacity: 0.45; }
+      .cust-preset .cp-lock { position: absolute; top: 1px; right: 5px; font-size: 12px; }
       .cust-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
       .cust-swatch {
         width: 40px; height: 40px; padding: 0; cursor: pointer;
@@ -15680,7 +15689,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-2346-konbini-d659f0ba";
+        var BUILD_ID = "tql-20261030-0005-mapfix-eb2b1a5b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -22582,8 +22591,15 @@ var qrcode = function() {
            grouping — and with it the wide cluster counts — is
            unchanged. */
         var pinD = 40 * (curPinScale || 0.85);
-        var zDeep = Math.min(1, Math.max(0, ((curPxu || 1.4) - 1.6) / 1.6));
-        var thrU = (pinD * (1.18 - 0.68 * zDeep)) / (curPxu || 1.4);
+        var zDeep = Math.min(1, Math.max(0, ((curPxu || 1.4) - 1.6) / 1.0));
+        /* Q-154 round 3 (2026-10-29, Zoe device + QA R27 STEP 3):
+           the 0.50 floor still merged 150-290m pairs through the
+           practical band (Akihabara/Ueno badges at her working
+           zoom). Floor is now 0.30, reached by pxu 2.6: merge
+           radius ~240m at pxu 3.6, ~77m at her 8x cap — only
+           true overlaps stay merged. Fit view (pxu <= 1.6) and
+           its measured cluster counts are unchanged. */
+        var thrU = (pinD * (1.18 - 0.88 * zDeep)) / (curPxu || 1.4);
         pts.forEach(function (a) {
           if (a.used) return;
           var grp = [a]; a.used = true;
@@ -24302,9 +24318,21 @@ var qrcode = function() {
       function renderPresetRow(el) {
         if (!el) return;
         var t = L();
-        el.innerHTML = HERO_IDS.map(function (id) {
+        /* Q-172 (Zoe ruling 2026-10-29): the secret pair is SHOWN
+           in the picker as locked slots (silhouette + lock) until
+           the player unlocks them via their gacha items — never
+           silently missing from the roster. */
+        var unlockedSecs = unlockedHeroes();
+        function presetBtn(id) {
           return '<button class="cust-preset" type="button" data-preset="' + id + '" aria-pressed="' + String(state.hero === id) + '"><canvas width="16" height="16" aria-hidden="true"></canvas><span>' + esc((t.heroes[id] || {}).name || id) + "</span></button>";
+        }
+        el.innerHTML = HERO_IDS.map(presetBtn).join("") + ["hikari", "kuro"].map(function (id) {
+          if (unlockedSecs.indexOf(id) >= 0) return presetBtn(id);
+          return '<span class="cust-preset is-locked" data-locked="' + id + '" aria-disabled="true"><canvas width="16" height="16" aria-hidden="true"></canvas><span class="cp-lock" aria-hidden="true">\u{1F512}</span><span>???</span></span>';
         }).join("");
+        el.querySelectorAll(".cust-preset.is-locked canvas").forEach(function (cv) {
+          drawHero(cv, cv.parentNode.getAttribute("data-locked"));
+        });
         el.querySelectorAll("[data-preset]").forEach(function (b) {
           drawHero(b.querySelector("canvas"), b.getAttribute("data-preset"));
           b.addEventListener("click", function () {
@@ -25533,7 +25561,7 @@ var qrcode = function() {
         curPxu = pxu;
         curPinScale = pinScaleFor(pxu);
         mapZoom.style.setProperty("--ps", curPinScale.toFixed(3));
-        mapBox.classList.toggle("is-fitview", pxu < 2.2 || zoom.s < 1.45);
+        mapBox.classList.toggle("is-fitview", pxu < 3.4 || zoom.s < 1.45);
         if (Math.abs(pxu - lastClusterPxu) / Math.max(0.2, lastClusterPxu) > 0.18) { lastClusterPxu = pxu; buildClusters(); }
         /* the % readout lived on the abolished FULL MAP toolbar;
            the write is guarded so the zoom path never depends
