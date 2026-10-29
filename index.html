@@ -11343,6 +11343,235 @@
         .mf-fab.mf-pop, .mf-hint { animation: none; }
       }
     </style>
+    <style>
+      /* ================================================================
+         Q-139 (2026-10-29) — THE WINDOW SHELL CONTRACT, ONE SHELL
+         FOR EVERY WINDOW (root-cause fix, QA ticket Q-139; fifth
+         of the family Q-124 / Q-128 / Q-134 / Q-138 / this one).
+         Root cause (QA): not the device — the VISIBLE AREA. The
+         same phone hands the game a different visible width /
+         height in a Safari tab, in home-screen standalone, with
+         the toolbar shown or collapsed, and around the notch /
+         home-indicator safe areas. Windows were sized one by one
+         against assumed dimensions, so whenever the real visible
+         rect was smaller than the assumption, the frame spilled
+         (here: the gacha window's top-right corner and its
+         ticket pill rode off the right edge in standalone).
+         THE CONTRACT, applied to every window below:
+         (1) every backdrop / screen is pinned to the VISIBLE
+             viewport — top: var(--vvt), left: var(--vvl), size
+             var(--vvw) x var(--vvh) (visualViewport-driven, JS
+             syncVisibleH; 100dvh / 100% fallbacks) — never to
+             the layout viewport (inset:0) again;
+         (2) every frame's outer box is capped by that visible
+             rect MINUS the safe-area insets MINUS a margin:
+             max-width / max-height budgets are struck on the
+             --vvw / --vvh basis with env(safe-area-inset-*)
+             given back, so for ANY insets T/B/L/R the frame
+             lands inside [vvl+L+margin, vvl+vvw-R-margin] x
+             [vvt+T+margin, vvt+vvh-B-margin] — the arithmetic
+             holds for every inset value, which is why it holds
+             in standalone (probe insets are 0; the same formula
+             with the device's real insets is Zoe's final check);
+         (3) inside the frame the three-storey structure stands:
+             fixed head / ONE scrolling middle / pinned footer —
+             overflow may only ever happen inside the middle
+             scroller, never past the frame.
+         The per-family shells (.win overlays, .cal-win,
+         .creator-win, .hero-win case pages, .mf-sheet, the
+         dialogs, the confirm / tutorial tab windows, the
+         settings sheet) are all folded onto this one contract
+         here. Nothing visual changes: bounds and structure
+         only. Q-114's --bar-clear reservation, the creator /
+         wish visual-viewport pinning, the mf-sheet spring, the
+         Dash canvas confinement (Q-132) and the map chrome are
+         all untouched and keep their exact behaviour.
+         ================================================================ */
+      :root {
+        --sat: env(safe-area-inset-top, 0px);
+        --sab: env(safe-area-inset-bottom, 0px);
+        --sal: env(safe-area-inset-left, 0px);
+        --sar: env(safe-area-inset-right, 0px);
+      }
+
+      /* --- (1) screens pinned to the visible viewport --- */
+      .auth-screen, .cal-screen {
+        top: var(--vvt, 0px); left: var(--vvl, 0px); right: auto; bottom: auto;
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+      }
+      .auth-screen {
+        padding-left: calc(12px + var(--sal));
+        padding-right: calc(12px + var(--sar));
+        padding-bottom: calc(24px + var(--sab));
+      }
+      .cal-screen {
+        padding-top: calc(10px + var(--sat));
+        padding-left: calc(10px + var(--sal));
+        padding-right: calc(10px + var(--sar));
+      }
+      /* creator + wish already carried the --vvt / --vvh pin
+         (Q-138 / wish device fix) — they take the width half of
+         the same pin here, behaviour otherwise unchanged */
+      .creator-screen, #wishScreen {
+        left: var(--vvl, 0px);
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+      }
+      .creator-screen {
+        padding-left: calc(12px + var(--sal));
+        padding-right: calc(12px + var(--sar));
+      }
+
+      /* --- (2) frames capped by the visible rect --- */
+      .auth-win, .cal-win, .creator-win { max-width: 100%; }
+      .creator-win {
+        width: min(400px, calc(var(--vvw, 100vw) - 24px - var(--sal) - var(--sar)));
+        max-width: calc(var(--vvw, 100vw) - 24px - var(--sal) - var(--sar));
+      }
+      .cal-win {
+        max-height: calc(var(--vvh, 100dvh) - var(--bar-clear, 104px) - 14px);
+      }
+
+      /* --- HERO case windows (records / gacha / studio /
+             customize / status / badges / collection / log):
+             full-screen fixed pages that still sat on
+             inset:0 — the LAYOUT viewport. In standalone that
+             box is struck against a different rect than the
+             player sees, and the gacha frame's top-right
+             corner + ticket pill spilled past the right edge
+             (Q-139's presenting symptom). They now take the
+             same visible-viewport pin as every other shell,
+             with the horizontal safe-area insets folded into
+             the side padding, so the inner .win frame —
+             ticket pill included — is inside the visible
+             rect at any insets. The --bar-clear bottom
+             padding and the ▾ pin positions are unchanged. --- */
+      #view-hero .hseg-panel.hero-win {
+        top: var(--vvt, 0px); left: var(--vvl, 0px); right: auto; bottom: auto;
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+        padding-left: calc(12px + var(--sal));
+        padding-right: calc(12px + var(--sar));
+      }
+      #view-hero .hseg-panel.hero-win > .win { max-width: 100%; }
+      /* the gacha frame itself: full content-box width, never
+         a pixel wider — head row (title + ticket pill) wraps
+         inside the frame instead of pushing past it */
+      #hsegGacha .gacha-panel { width: 100%; max-width: 100%; }
+      #hsegGacha .gacha-head { max-width: 100%; }
+      #hsegGacha .ticket-pill { max-width: 100%; }
+
+      /* --- dialogs: detail page + search + photo viewer --- */
+      dialog#detail {
+        left: var(--vvl, 0px);
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+      }
+      dialog#searchModal {
+        max-width: calc(var(--vvw, 100vw) - 16px - var(--sal) - var(--sar));
+      }
+      .search-win { width: 100%; max-width: 100%; }
+      dialog.img-viewer {
+        top: var(--vvt, 0px); left: var(--vvl, 0px);
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+      }
+
+      /* --- GBA confirm + tutorial tab windows --- */
+      .gb-confirm {
+        top: var(--vvt, 0px); left: var(--vvl, 0px);
+        width: var(--vvw, 100%); max-width: var(--vvw, 100%);
+        height: var(--vvh, 100dvh); max-height: var(--vvh, 100dvh);
+      }
+      .gb-confirm .gc-win {
+        max-width: calc(var(--vvw, 100vw) - 20px - var(--sal) - var(--sar));
+      }
+      #tutorial .tut-win {
+        left: calc(10px + var(--sal)); right: calc(10px + var(--sar));
+        max-width: min(560px, calc(var(--vvw, 100vw) - 20px - var(--sal) - var(--sar)));
+      }
+      #tutorial .tut-win.pos-top { top: calc(var(--vvt, 0px) + 24px + var(--sat)); }
+      #tutorial .tut-win.pos-bottom {
+        bottom: calc(100dvh - var(--vvh, 100dvh) - var(--vvt, 0px) + 12px + var(--sab));
+      }
+
+      /* --- settings sheet --- */
+      #stylePanel {
+        top: calc(var(--vvt, 0px) + 26px + var(--sat));
+        left: calc(10px + var(--sal)); right: calc(10px + var(--sar));
+        max-width: min(520px, calc(var(--vvw, 100vw) - 20px - var(--sal) - var(--sar)));
+      }
+
+      /* --- map filter sheet: the spring stays exactly as it
+             was; only the seat takes the horizontal insets --- */
+      .mf-sheet {
+        left: calc(10px + var(--sal)); right: calc(10px + var(--sar));
+        max-height: min(82%, calc(var(--vvh, 100dvh) - 24px - var(--sat) - var(--sab)));
+      }
+
+      /* --- daily window (in-flow, already three-storey):
+             width can never exceed its panel --- */
+      .daily-win { max-width: 100%; }
+
+      /* --- Q-145 (2026-10-29) — BACKDROP LIFECYCLE, part of the same
+         shell contract. A scrim/backdrop lives and dies with its
+         window; in the fully-closed state there are ZERO covering
+         layers. Three shell-level guarantees:
+         (1) The app's only backdrop-filter material (the settings
+             scrim's 3px blur) is REMOVED — the scrim stays a flat dim.
+             No element in the app carries backdrop-filter anymore, so
+             no residue or resident layer can ever present as frosted
+             glass over content, in a browser tab or in standalone.
+         (2) A hidden shell/scrim can never eat taps: [hidden] forces
+             display:none AND pointer-events:none for every window
+             shell and scrim, whatever any other rule says.
+         (3) The JS watchdog in syncChrome force-syncs the settings
+             scrim's hidden flag to its panel's on every open-state
+             mutation (and once at boot), and drops a stale
+             body.map-nav-open dim when its menu is hidden. --- */
+      .sheet-backdrop { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+      #styleBackdrop[hidden], #mfScrim[hidden], .mf-sheet[hidden],
+      .auth-screen[hidden], .cal-screen[hidden], .creator-screen[hidden],
+      #wishScreen[hidden], .hero-win[hidden], .gb-confirm[hidden],
+      #tutorial[hidden], #startScreen[hidden], #mapNav[hidden] {
+        display: none !important; pointer-events: none !important;
+      }
+
+      /* --- page-resident chrome (Q-139 follow-up, Zoe device
+             2026-10-29 15:57, standalone): the same visible-
+             rect contract for the two resident bands that are
+             NOT windows — (1) the HERO page's top band: the
+             stage (margin-top 8) and its name banner ride at
+             the wrap's top padding; (2) the LIST page's player
+             card (.statusbar: name + ticket capsule), the
+             wrap's first in-flow child. The wrap's safe-area
+             top padding (the PWA polish longhands) was silently
+             overridden by a later density shorthand
+             (padding: 8px 10px 20px), so in home-screen
+             standalone (viewport-fit=cover) both bands started
+             at y=8 — inside the status-bar / Dynamic Island
+             zone — and read as half cut at the screen's top
+             edge, the window family's same disease on page
+             chrome. Restored here, in the contract's own
+             terms: band top = 8 + sat (6 + sat on short
+             screens) for ANY sat >= 0 — always fully below
+             the top safe area; at sat = 0 (browser tab /
+             probe) nothing moves. The map view's wrap
+             padding (0, higher-specificity body[data-view]
+             rules) and the --bar-clear bottom padding are
+             untouched. --- */
+      .wrap {
+        padding-top: calc(8px + var(--sat));
+        padding-left: calc(10px + var(--sal));
+        padding-right: calc(10px + var(--sar));
+      }
+      @media (max-height: 740px) {
+        .wrap {
+          padding-top: calc(6px + var(--sat));
+          padding-left: calc(8px + var(--sal));
+          padding-right: calc(8px + var(--sar));
+        }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -22428,14 +22657,25 @@
           });
         }
         document.body.classList.toggle("win-open", open);
+        /* Q-145 backdrop watchdog: a scrim lives and dies with its
+           window. The settings scrim's hidden flag is force-synced to
+           its panel's on every observed open-state change (and once at
+           boot via the watchChrome init call below), so no close path
+           — present or future — can strand it over the page. A stale
+           map-nav dim class is dropped when its menu is hidden. */
+        var bd = document.getElementById("styleBackdrop");
+        if (bd && sp && bd.hidden !== sp.hidden) bd.hidden = sp.hidden;
+        var mn = document.getElementById("mapNav");
+        if (document.body.classList.contains("map-nav-open") && (!mn || mn.hidden)) document.body.classList.remove("map-nav-open");
       }
       (function watchChrome() {
         if (!window.MutationObserver) return;
         var mo = new MutationObserver(function () { syncChrome(); });
-        ["stylePanel", "searchModal", "detail", "imgViewer"].forEach(function (id) {
+        ["stylePanel", "searchModal", "detail", "imgViewer", "mapNav"].forEach(function (id) {
           var el = document.getElementById(id);
           if (el) mo.observe(el, { attributes: true, attributeFilter: ["hidden", "open"] });
         });
+        syncChrome(); /* Q-145: normalise every backdrop once at boot */
       })();
       /* Slot faces: the equipped item's own preview (or the hero
          sprite for the hero slot); an empty slot shows its kind
@@ -22820,6 +23060,11 @@
         if (!window.visualViewport) return;
         document.documentElement.style.setProperty("--vvh", window.visualViewport.height + "px");
         document.documentElement.style.setProperty("--vvt", window.visualViewport.offsetTop + "px");
+        /* Q-139: the shell contract also needs the visible
+           WIDTH + left offset, kept by the same writer on the
+           same gesture guard as --vvh / --vvt */
+        document.documentElement.style.setProperty("--vvw", window.visualViewport.width + "px");
+        document.documentElement.style.setProperty("--vvl", window.visualViewport.offsetLeft + "px");
       }
       function syncVisibleHLive() { if (!vvhTouch) syncVisibleH(); }
       if (window.visualViewport) {
@@ -23749,6 +23994,8 @@
           if (window.visualViewport) {
             document.documentElement.style.setProperty("--vvh", window.visualViewport.height + "px");
             document.documentElement.style.setProperty("--vvt", window.visualViewport.offsetTop + "px");
+            document.documentElement.style.setProperty("--vvw", window.visualViewport.width + "px");
+            document.documentElement.style.setProperty("--vvl", window.visualViewport.offsetLeft + "px");
           }
         } catch (e) { /* ignore */ }
         $("wishScreen").hidden = false;
