@@ -791,3 +791,6 @@ Zoe 三连通则（少文字/简洁易懂、多用折叠与跳转）已写入 qa
 - QR の飛び先は Zoe 指定で https://tokyoquestlog.com/beta/ 直達（汎用トップ不可）。QR は qrcode-generator 1.4.4（MIT、Kazuhiko Arase）を内蔵しローカル生成（typeNumber 0 自動、node で検証済み）。任务ディープリンクは将来の精緻化として保留。
 - 共有経路：navigator.share（files）→不可なら PNG ダウンロードにフォールバックし checkinMsg で通知。報酬・EXP・セーブ構造・地図には無干渉。
 - 版数：BUILD_ID = tql-20261029-2352-poster-99a50412、version.txt 同一トークンを同一コミット。ゲームスクリプト全体（48.9MB）の構文チェック通過。
+
+## 2026-10-29 ~23:47 · Q-160 konbini placement (direct edit, mock-approved)
+- Zoe approved effect mock v7 (she iterated v2 "too far" → v6 "slightly on the road" → v7 OK at 23:43). Konbini moved off the hero's ground line into the background: `.sp-konbini` now `left: 8%; bottom: calc(var(--ground-b, 30px) + 16px); width: 67px; height: 46px` (0.88×, base 16px above the ground line, right edge clear of the road). Short-viewport variant (max-height 740px) gets the same treatment (`left: 8%; bottom: calc(var(--ground-b, 24px) + 12px); width: 56px; height: 38px`) — the old left:27% slide-in is gone. CSS-only; no save/map/EXP changes. BUILD_ID `tql-20261029-2346-konbini-d659f0ba`, version.txt updated in the same commit. QA retest against the v7 criteria (position/size/height in real captures, both viewport classes).

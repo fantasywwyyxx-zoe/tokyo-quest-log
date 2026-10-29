@@ -10220,7 +10220,7 @@
          (--ground-b), so its contact shadow (the shared ::before
          at bottom:-4px) lands on the exact line the walker's
          shadow uses — prop and hero stand on the same street. */
-      .sp-konbini { left: 1%; bottom: var(--ground-b, 30px); width: 76px; height: 52px; }
+      .sp-konbini { left: 8%; bottom: calc(var(--ground-b, 30px) + 16px); width: 67px; height: 46px; }
       /* --- Q-130, short heights: the stage compresses until
          the left equipment column spans nearly its full height,
          and the far-left konbini disappeared behind the slot
@@ -10230,7 +10230,7 @@
          ground line. The wish flag's horizon post and the
          hero's running direction are untouched. --- */
       @media (max-height: 740px) {
-        .sp-konbini { left: 27%; width: 50px; height: 35px; }
+        .sp-konbini { left: 8%; bottom: calc(var(--ground-b, 24px) + 12px); width: 56px; height: 38px; }
       }
 
       /* --- D / Q-108: the RECORDS tab bar is pinned. The three
@@ -15680,7 +15680,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-2352-poster-99a50412";
+        var BUILD_ID = "tql-20261029-2346-konbini-d659f0ba";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
