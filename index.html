@@ -12144,6 +12144,12 @@
       .cust-preset { flex: 0 0 calc(25% - 6px); box-sizing: border-box; }
       #mgFoldToggle { margin-top: 6px; }
       #mgFoldBody .run-cabinet { margin-top: 4px; }
+
+      /* win-more (Zoe 2026-10-30: the pager's plaque floated into
+         the middle of the wardrobe grid): every older bottom /
+         fixed rule is retired -- position is absolute and the
+         inline top from updateWinMore places it. */
+      .win-more, .win-more.pin-fix { position: absolute; bottom: auto; }
 </style>
   </head>
   <body data-view="map">
@@ -15701,7 +15707,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0310-clearposter-4499439c";
+        var BUILD_ID = "tql-20261030-0322-winmore-9d1ea34b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26381,6 +26387,16 @@ var qrcode = function() {
         var mk = box.querySelector(".win-more");
         if (!sc || !mk) return;
         mk.hidden = !(sc.scrollHeight - sc.clientHeight - sc.scrollTop > 6);
+        if (!mk.hidden) {
+          /* pin the plaque to the VISIBLE bottom of the scroller:
+             absolute + bottom anchors to the whole scrollable
+             content (the plaque drifted into the middle of grids),
+             and position:fixed is trapped by transformed window
+             ancestors -- so the top is computed in content
+             coordinates on every update (scroll / open / render). */
+          var base = mk.parentElement === sc ? 0 : (sc.offsetTop || 0);
+          mk.style.top = (base + sc.scrollTop + sc.clientHeight - 34) + "px";
+        }
       }
       function refreshWinMoreAll() {
         document.querySelectorAll(".win-more").forEach(function (mk) {
