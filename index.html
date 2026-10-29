@@ -11827,6 +11827,69 @@
       :root[data-theme="midnight"] .mg-dow { color: #f0b429; }
       :root[data-theme="midnight"] .mg-row.is-duty .mg-dow { color: #a8651e; }
     </style>
+    <style>
+      /* ==========================================================
+         FIX7 (2026-10-29) — COLOR-PAIRING, SECOND PASS (Q-156 /
+         Q-159 completion + the same-kind audit the ticket asks
+         for). The late-batch pairing rules above only covered
+         the EXPLICIT midnight theme (:root[data-theme=
+         "midnight"]). But night also arrives via AUTO — the
+         default — where no data-theme is set and the tokens flip
+         through @media (prefers-color-scheme: dark) instead.
+         On Zoe's device (Auto + system dark) every rule above
+         was inert and the splits persisted. Below, every pairing
+         is asserted on BOTH night paths, in the house pattern
+         (explicit midnight + auto-dark :not(emerald)), and the
+         audit's remaining mixed surfaces are paired the same
+         way. Day palette untouched everywhere.
+         The remaining mixed surfaces found by the audit — all
+         inside the FIXED day-cream .auth-win family (game
+         windows, BETA, wish), whose ground never flips while
+         these texts rode the flipping tokens:
+           · game-window HUD goal line: --gold-deep flips to
+             lemon at night → lemon on cream, unreadable. Pinned
+             to its day value #2f8fc4.
+           · game-window BEST line + help line: --ink-dim flips
+             to pale lavender at night → pinned to day #5a6a76.
+           · memory card face label: --ink flips to near-white
+             on the fixed #fffdf4 card face → pinned #22303c.
+           · wish-flag hint: --ink-dim on the cream wish window
+             → pinned to day #5a6a76.
+         ========================================================== */
+
+      /* --- auto-dark path: Q-156 (BETA board) --- */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .beta-post .bp-title { color: #ffd83d; }
+        :root:not([data-theme="emerald"]) #betaScreen .beta-h,
+        :root:not([data-theme="emerald"]) #betaScreen .beta-text,
+        :root:not([data-theme="emerald"]) #betaScreen .beta-fold { color: #43301a; }
+        :root:not([data-theme="emerald"]) #betaScreen .beta-privacy-link { color: #2f7cd6; }
+      }
+
+      /* --- auto-dark path: Q-159 (hub duty surfaces) --- */
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .mg-duty { color: #22303c; }
+        :root:not([data-theme="emerald"]) .mg-duty .mg-duty-meta { color: #5a6a76; }
+        :root:not([data-theme="emerald"]) .mg-row.is-duty { color: #22303c; }
+        :root:not([data-theme="emerald"]) .mg-row.is-duty .mg-best { color: #5a6a76; }
+        :root:not([data-theme="emerald"]) .mg-dow { color: #f0b429; }
+        :root:not([data-theme="emerald"]) .mg-row.is-duty .mg-dow { color: #a8651e; }
+      }
+
+      /* --- both night paths: the fixed-cream window family --- */
+      :root[data-theme="midnight"] .run-win .run-hud .run-goal { color: #2f8fc4; }
+      :root[data-theme="midnight"] .run-win .run-hud .run-best { color: #5a6a76; }
+      :root[data-theme="midnight"] .run-win .run-help { color: #5a6a76; }
+      :root[data-theme="midnight"] .mem-card .mem-label { color: #22303c; }
+      :root[data-theme="midnight"] .wish-win .wish-hint { color: #5a6a76; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .run-win .run-hud .run-goal { color: #2f8fc4; }
+        :root:not([data-theme="emerald"]) .run-win .run-hud .run-best { color: #5a6a76; }
+        :root:not([data-theme="emerald"]) .run-win .run-help { color: #5a6a76; }
+        :root:not([data-theme="emerald"]) .mem-card .mem-label { color: #22303c; }
+        :root:not([data-theme="emerald"]) .wish-win .wish-hint { color: #5a6a76; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -13063,7 +13126,7 @@
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-2134-fix6-f3a35fe5";
+        var BUILD_ID = "tql-20261029-2147-fix7-7b2e9d04";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24471,9 +24534,10 @@
           runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; },
           runReadyPractice: "Practice mode — today's gacha ticket is in today's game (see the mini-game hub). Retry as much as you like.",
           mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgAllGames: "ALL 7 GAMES ▾", mgHideGames: "HIDE ▴", mgSoon: "COMING SOON",
+          runNearMiss: "NEAR MISS!", mgStageJump: "Jump stage — press and hold to charge, release to jump", mgStageCatch: "Catch stage — drag to move the hero", mgStageWhack: "Whack stage — tap the critters that pop up", mgStageMemory: "Memory cards",
           mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
           mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
-          mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : id === "catch" ? "GOAL 30 CATCHES" : id === "memory" ? "GOAL 6 PAIRS IN 90s" : "GOAL 300 PTS IN 45s"; },
+          mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : id === "catch" ? "GOAL 30 CATCHES" : id === "memory" ? "GOAL 6 PAIRS IN 90s" : id === "whack" ? "GOAL 300 PTS IN 45s" : "COMING SOON"; },
           mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 TODAY: " + name; },
           mgStatus: function (name, done) { return done ? "Today's ticket is yours ✓ — every game stays open for practice." : "Hit the goal in today's game (" + name + ") to win today's gacha ticket. The others are practice — scores only."; },
@@ -24544,9 +24608,10 @@
           runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; },
           runReadyPractice: "練習モード——本日のガチャ券は今日のゲームにあります（ミニゲーム参照）。何度でも再挑戦OK。",
           mgHub: "ミニゲーム", mgTag: "GAMES", mgToday: "今日のゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgAllGames: "全7ゲーム ▾", mgHideGames: "とじる ▴", mgSoon: "準備中",
+          runNearMiss: "ニアミス！", mgStageJump: "ジャンプステージ — 長押しで力を溜めて、離すとジャンプ", mgStageCatch: "キャッチステージ — ドラッグで移動", mgStageWhack: "もぐらたたきステージ — 出てきた小動物をタップ", mgStageMemory: "神経衰弱のカード",
           mgNames: { dash: "東京ダッシュ", jump: "屋根ジャンプ", catch: "コインキャッチ", memory: "神経衰弱", whack: "もぐらたたき", stack: "積み上げタワー", fish: "釣り" },
           mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
-          mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : id === "catch" ? "目標 合計30個キャッチ" : id === "memory" ? "目標 90秒で6ペア" : "目標 45秒で300点"; },
+          mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : id === "catch" ? "目標 合計30個キャッチ" : id === "memory" ? "目標 90秒で6ペア" : id === "whack" ? "目標 45秒で300点" : "準備中"; },
           mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 本日: " + name; },
           mgStatus: function (name, done) { return done ? "本日の券は獲得済み ✓ どのゲームも練習で遊べます。" : "今日のゲーム（" + name + "）の目標達成で本日のガチャ券GET。ほかのゲームは記録だけの練習です。"; },
@@ -24617,9 +24682,10 @@
           runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; },
           runReadyPractice: "练习模式——今日扭蛋券在当值游戏里（见小游戏 hub）。可以随便重开。",
           mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgAllGames: "全部 7 个游戏 ▾", mgHideGames: "收起 ▴", mgSoon: "准备中",
+          runNearMiss: "险些撞上！", mgStageJump: "跳跃舞台 — 长按蓄力，松手起跳", mgStageCatch: "接取舞台 — 拖动移动主人公", mgStageWhack: "打地鼠舞台 — 点探头的小动物", mgStageMemory: "翻牌区",
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
           mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-          mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : id === "catch" ? "目标 合计接住30个" : id === "memory" ? "目标 90秒内配齐6对" : "目标 45秒内得300分"; },
+          mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : id === "catch" ? "目标 合计接住30个" : id === "memory" ? "目标 90秒内配齐6对" : id === "whack" ? "目标 45秒内得300分" : "准备中"; },
           mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 今日: " + name; },
           mgStatus: function (name, done) { return done ? "今日扭蛋券已到手 ✓ 所有游戏都可以继续练习。" : "完成今日当值游戏（" + name + "）的目标，赢今日扭蛋券；其他游戏只记分。"; },
@@ -24672,8 +24738,8 @@
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
-          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】小游戏に「翻牌对对碰」と「打地鼠」が加わりました！", b: "木曜は翻牌对对碰、金曜は打地鼠が当值です。目標達成でその日のガチャ券GET！"},
-          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】小游戏が増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
+          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームに「神経衰弱」と「もぐらたたき」が加わりました！", b: "木曜は神経衰弱、金曜はもぐらたたきが当番です。目標達成でその日のガチャ券GET！"},
+          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームが増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】マップが大きくなりました！", b: "冒険の範囲が八王子・埼玉・横浜方面まで広がりました。"},
           { d: "2026-10-29", s: "wave", t: "オープンベータ開始！", b: "東京クエストログは本日よりオープンベータ（10/29–11/5）です。東京を歩いてクエストをクリアして、感想をぜひ送ってください——アンケート回答者の中から抽選で3名にAmazonギフト券¥1,000をプレゼント（下記の抽選説明をご覧ください）。今後の予定：常駐クエストの拡充と、アプリ版への準備を進めています。" },
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
@@ -25364,7 +25430,7 @@
             o.passed = true;
             if (o.wasThreat && o.lane !== run.lane) {
               run.nears = (run.nears || 0) + 1;
-              run.fx.push({ txt: "NEAR MISS!", x: run.x, y: HERO_Y - 30, at: ts });
+              run.fx.push({ txt: X().runNearMiss || "NEAR MISS!", x: run.x, y: HERO_Y - 30, at: ts });
               try { sfx("accept"); } catch (e) { /* ignore */ }
             }
           }
@@ -25551,6 +25617,7 @@
         $("jumpScreen").hidden = false;
         var t = X();
         $("jumpTitle").textContent = t.jumpTitle;
+        var jcv = $("jumpCanvas"); if (jcv && t.mgStageJump) jcv.setAttribute("aria-label", t.mgStageJump);
         $("jumpGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("jump");
         $("jumpBest").textContent = t.jumpBest(mgBest("jump"));
         $("jumpDist").textContent = "0";
@@ -25696,6 +25763,7 @@
         $("catchScreen").hidden = false;
         var t = X();
         $("catchTitle").textContent = t.catchTitle;
+        var ccv = $("catchCanvas"); if (ccv && t.mgStageCatch) ccv.setAttribute("aria-label", t.mgStageCatch);
         $("catchGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("catch");
         $("catchBest").textContent = t.catchBest(mgBest("catch"));
         $("catchDist").textContent = "0";
@@ -25872,6 +25940,7 @@
         $("memoryScreen").hidden = false;
         var t = X();
         $("memoryTitle").textContent = t.memTitle;
+        var mgr = $("memoryGrid"); if (mgr && t.mgStageMemory) mgr.setAttribute("aria-label", t.mgStageMemory);
         $("memoryGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("memory");
         $("memoryBest").textContent = t.memBest(mgBest("memory"));
         $("memoryMsg").textContent = mgDutyId() === "memory" && !mgTicketDone() ? t.memReadyDuty : t.memReadyPractice;
@@ -25984,6 +26053,7 @@
         $("whackScreen").hidden = false;
         var t = X();
         $("whackTitle").textContent = t.whackTitle;
+        var wcv = $("whackCanvas"); if (wcv && t.mgStageWhack) wcv.setAttribute("aria-label", t.mgStageWhack);
         $("whackGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("whack");
         $("whackBest").textContent = t.whackBest(mgBest("whack"));
         $("whackMsg").textContent = mgDutyId() === "whack" && !mgTicketDone() ? t.whackReadyDuty : t.whackReadyPractice;
