@@ -7091,7 +7091,7 @@
       .sp-stone-lantern::before, .sp-maple::before, .sp-bus-stop::before,
       .sp-cat::before, .sp-gachapon::before, .sp-fountain::before,
       .sp-hokora::before, .sp-phone-booth::before, .sp-slide::before,
-      .sp-taxi::before, .sp-konbini::before, .sp-shiba::before,
+      .sp-taxi::before, .sp-shiba::before,
       .sp-pigeons::before {
         content: ""; position: absolute; left: 50%; bottom: -4px; z-index: 0;
         transform: translateX(-50%); width: 76%; height: 7px; border-radius: 50%;
@@ -7126,8 +7126,7 @@
       .sp-phone-booth { width: 27px; height: 54px; }
       .sp-slide { width: 54px; height: 37px; }
       .sp-taxi { width: 64px; height: 32px; }
-      .sp-konbini { left: 12%; bottom: var(--ground-b, 30px); width: 84px; height: 58px; }
-      .sp-lanterns { left: 5%; top: 11%; width: 128px; height: 49px; }
+            .sp-lanterns { left: 5%; top: 11%; width: 128px; height: 49px; }
       .sp-ferris-wheel { right: 0; bottom: var(--ground-b, 30px); width: 108px; height: 108px; }
       .sp-skytree { left: 0; bottom: var(--ground-b, 30px); width: 40px; height: 124px; }
       .sp-bridge { left: 50%; bottom: 36px; width: 94%; height: 34px; transform: translateX(-50%); }
@@ -10216,32 +10215,7 @@
         .auth-mini-btn { min-height: 42px; }
       }
 
-      /* --- C / Q-107: the konbini leaves the hero's shoulder.
-         Was left:12% on the ground line, 84px wide: at 390px QA
-         measured konbini [58–142] vs walker [149–241] — a 7px
-         gap. It parks at the far left, a touch smaller: box
-         ≈ [19–95] at 390px, a ≈54px clear gap to the walker.
-         Still lv 0, always present, uncounted, no unlock
-         banner — the SCENE_AMBIENT data is untouched.
-         Q-130 (2026-10-29) supersedes the one part of Q-107
-         that lifted the base 30px ABOVE the ground line: Zoe
-         read the floating shop as a sticker on another layer.
-         The base is back ON the shared ground line
-         (--ground-b), so its contact shadow (the shared ::before
-         at bottom:-4px) lands on the exact line the walker's
-         shadow uses — prop and hero stand on the same street. */
-      .sp-konbini { left: 8%; bottom: calc(var(--ground-b, 30px) + 16px); width: 67px; height: 46px; }
-      /* --- Q-130, short heights: the stage compresses until
-         the left equipment column spans nearly its full height,
-         and the far-left konbini disappeared behind the slot
-         cards. In the short layout the shop steps right into
-         the one always-clear stretch of street — between the
-         slot column and the walker — smaller, still on the
-         ground line. The wish flag's horizon post and the
-         hero's running direction are untouched. --- */
-      @media (max-height: 740px) {
-        .sp-konbini { left: 8%; bottom: calc(var(--ground-b, 24px) + 12px); width: 56px; height: 38px; }
-      }
+      
 
       /* --- D / Q-108: the RECORDS tab bar is pinned. The three
          panels' private tab bars retire; ONE shared bar
@@ -15727,7 +15701,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0212-mgmove-9faf5fc7";
+        var BUILD_ID = "tql-20261030-0245-nokonbini-c4dc740d";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -21186,11 +21160,10 @@ var qrcode = function() {
       SCENE_PROPS.forEach(function (p) { if (p.id === "train") p.svg = TRAIN_SVG; });
 
       /* ambient street life (art dept batches 2+3): no level of
-         their own and no unlock fanfare — the konbini is street
-         infrastructure from the very first step, and the creatures
-         tag along with the landmark they belong to */
+         their own and no unlock fanfare — the creatures tag
+         along with the landmark they belong to */
       var SCENE_AMBIENT = [
-        { id: "konbini", lv: 0, svg: '<svg viewBox="0 0 64 44" shape-rendering="crispEdges"><rect x="10" y="2" width="44" height="8" fill="#fff6dd" stroke="#26222e" stroke-width="1.5"/><circle cx="32" cy="6" r="3" fill="#e2483a"/><rect x="4" y="10" width="56" height="30" fill="#f4f1e6" stroke="#26222e" stroke-width="1.5"/><rect x="4" y="10" width="56" height="4" fill="#e2483a"/><rect x="4" y="14" width="56" height="2" fill="#57b6e8"/><rect x="8" y="22" width="48" height="14" fill="#a5dcff"/><rect x="30" y="22" width="4" height="14" fill="#5d6a76"/><rect x="12" y="25" width="6" height="8" fill="#eafaff"/><rect x="44" y="25" width="6" height="8" fill="#eafaff"/><rect x="8" y="36" width="48" height="2" fill="#5d6a76"/><rect x="2" y="40" width="60" height="3" fill="#8a8f98"/></svg>' },
+        
         { id: "butterflies", lv: 2, svg: '<svg viewBox="0 0 20 14" shape-rendering="crispEdges"><rect x="2" y="2" width="3" height="3" fill="#f28bb4"/><rect x="2" y="6" width="3" height="2" fill="#e8762b"/><rect x="6" y="2" width="3" height="3" fill="#f28bb4"/><rect x="6" y="6" width="3" height="2" fill="#e8762b"/><rect x="5" y="2" width="1" height="7" fill="#26222e"/><rect x="13" y="8" width="3" height="3" fill="#ffd83d"/><rect x="13" y="12" width="3" height="2" fill="#f28bb4"/><rect x="17" y="8" width="3" height="3" fill="#ffd83d"/><rect x="17" y="12" width="3" height="2" fill="#f28bb4"/><rect x="16" y="8" width="1" height="6" fill="#26222e"/></svg>' },
         { id: "shiba", lv: 16, svg: '<svg viewBox="0 0 28 20" shape-rendering="crispEdges"><rect x="2" y="4" width="5" height="4" fill="#e8762b"/><rect x="2" y="4" width="2" height="2" fill="#fff6dd"/><rect x="6" y="8" width="14" height="7" fill="#e8762b"/><rect x="6" y="12" width="14" height="3" fill="#fff6dd"/><rect x="19" y="0" width="3" height="4" fill="#e8762b"/><rect x="24" y="0" width="3" height="4" fill="#e8762b"/><rect x="18" y="3" width="8" height="8" fill="#e8762b"/><rect x="23" y="7" width="5" height="3" fill="#fff6dd"/><rect x="27" y="7" width="1" height="2" fill="#26222e"/><rect x="21" y="5" width="2" height="2" fill="#26222e"/><rect x="7" y="15" width="3" height="5" fill="#c95f1d"/><rect x="16" y="15" width="3" height="5" fill="#c95f1d"/><rect x="7" y="19" width="3" height="1" fill="#fff6dd"/><rect x="16" y="19" width="3" height="1" fill="#fff6dd"/></svg>' },
         { id: "pigeons", lv: 19, svg: '<svg viewBox="0 0 36 18" shape-rendering="crispEdges"><rect x="3" y="9" width="4" height="3" fill="#7c828c"/><rect x="6" y="8" width="9" height="6" fill="#9aa0a8"/><rect x="13" y="4" width="5" height="6" fill="#7c828c"/><rect x="17" y="5" width="2" height="1" fill="#e8762b"/><rect x="8" y="14" width="1" height="3" fill="#e8762b"/><rect x="11" y="14" width="1" height="3" fill="#e8762b"/><rect x="22" y="11" width="4" height="3" fill="#7c828c"/><rect x="25" y="10" width="8" height="5" fill="#9aa0a8"/><rect x="25" y="13" width="5" height="4" fill="#8a8f98"/><rect x="28" y="15" width="2" height="1" fill="#e8762b"/><rect x="14" y="0" width="5" height="3" fill="#9aa0a8"/><rect x="12" y="1" width="2" height="2" fill="#7c828c"/><rect x="19" y="1" width="2" height="2" fill="#7c828c"/></svg>' },
