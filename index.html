@@ -15701,7 +15701,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0245-nokonbini-c4dc740d";
+        var BUILD_ID = "tql-20261030-0310-clearposter-4499439c";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23718,6 +23718,171 @@ var qrcode = function() {
           } else withImg();
         });
       }
+      /* CLEAR poster (Zoe 2026-10-30: the post-clear share works
+         on the quest-poster principle -- real photo, quest name,
+         brand band + QR -- with a lemon CLEAR ribbon carrying the
+         date and the EXP gained). Same fit protection as Q-178. */
+      function buildClearPoster(e, info) {
+        return new Promise(function (resolve) {
+          var W = 1080, H = 1350;
+          var t = L();
+          function start(img) {
+            var cv = document.createElement("canvas");
+            cv.width = W; cv.height = H;
+            var x = cv.getContext("2d");
+            x.fillStyle = "#10142e"; x.fillRect(0, 0, W, 104);
+            x.textBaseline = "middle";
+            x.fillStyle = "#fff6dd";
+            x.font = "900 52px 'Baloo 2','M PLUS Rounded 1c',sans-serif";
+            x.textAlign = "left";
+            x.fillText("TOKYO QUEST LOG", 44, 57);
+            x.font = "700 30px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            x.textAlign = "right";
+            x.fillText("東京クエストログ", W - 44, 57);
+            x.textAlign = "left";
+            var phY = 104, phH = 620;
+            if (img) {
+              var sc = Math.max(W / img.width, phH / img.height);
+              var dw = img.width * sc, dh = img.height * sc;
+              x.save(); x.beginPath(); x.rect(0, phY, W, phH); x.clip();
+              x.drawImage(img, (W - dw) / 2, phY + (phH - dh) / 2, dw, dh);
+              x.restore();
+            } else {
+              var bands = ["#3f8fd2", "#57b6e8", "#7cc4ee", "#a5dcff"];
+              bands.forEach(function (c, i) { x.fillStyle = c; x.fillRect(0, phY + i * (phH / 4), W, phH / 4 + 1); });
+              x.fillStyle = "#26355e"; x.fillRect(0, phY + phH - 140, W, 140);
+              x.fillStyle = "#ffd83d"; x.fillRect(880, phY + 60, 56, 56);
+            }
+            /* lemon CLEAR ribbon across the photo's foot */
+            x.fillStyle = "#ffd83d"; x.fillRect(0, phY + phH - 88, W, 88);
+            x.fillStyle = "#10142e";
+            x.font = "900 54px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            x.textAlign = "left";
+            x.fillText("★ CLEAR!" + (info.exp ? "  +" + info.exp + " EXP" : ""), 44, phY + phH - 44);
+            x.font = "700 40px 'Baloo 2','M PLUS Rounded 1c',sans-serif";
+            x.textAlign = "right";
+            x.fillText(info.date || "", W - 44, phY + phH - 44);
+            x.textAlign = "left";
+            /* body on cream */
+            x.fillStyle = "#fff6dd"; x.fillRect(0, phY + phH, W, H - phY - phH);
+            function wrapFit(text, maxW) {
+              var out = [], cur = "";
+              for (var i = 0; i < text.length; i++) {
+                var ch = text.charAt(i);
+                if (cur && x.measureText(cur + ch).width > maxW) {
+                  var sp = cur.lastIndexOf(" ");
+                  if (ch !== " " && sp > cur.length * 0.5) { out.push(cur.slice(0, sp)); cur = cur.slice(sp + 1) + ch; }
+                  else { out.push(cur); cur = ch === " " ? "" : ch; }
+                } else cur += ch;
+              }
+              if (cur) out.push(cur);
+              return out;
+            }
+            function clipFit(text, maxW) {
+              if (x.measureText(text).width <= maxW) return text;
+              while (text.length && x.measureText(text + "\u2026").width > maxW) text = text.slice(0, -1);
+              return text + "\u2026";
+            }
+            function fitBlock(text, size, minSize, weight) {
+              var s = size, lines = [];
+              while (s >= minSize) {
+                x.font = weight + " " + s + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+                lines = wrapFit(text, W - 96);
+                if (lines.length <= 2) break;
+                s -= 2;
+              }
+              if (s < minSize) s = minSize;
+              if (lines.length > 2) lines = [lines[0], lines.slice(1).join("")];
+              x.font = weight + " " + s + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+              lines = lines.map(function (ln) { return clipFit(ln, W - 96); });
+              return { lines: lines, size: s };
+            }
+            var by = H - 216;
+            var nameB = fitBlock(evName(e), 68, 30, "900");
+            var venB = fitBlock(e.venue + " · " + areaName(e.area), 40, 26, "700");
+            var totalH = (nameB.lines.length - 1) * (nameB.size + 14) + (nameB.size + 14) + 30
+              + (venB.lines.length - 1) * (venB.size + 12);
+            var cy = phY + phH + 84;
+            if (cy + totalH > by - 44) cy -= (cy + totalH) - (by - 44);
+            x.fillStyle = "#10142e";
+            x.font = "900 " + nameB.size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            nameB.lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (nameB.size + 14)); });
+            cy += (nameB.lines.length - 1) * (nameB.size + 14) + (nameB.size + 14) + 30;
+            x.fillStyle = "#26355e";
+            x.font = "700 " + venB.size + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            venB.lines.forEach(function (ln, li) { x.fillText(ln, 48, cy + li * (venB.size + 12)); });
+            /* bottom band: CTA + QR to the beta hub (same as poster) */
+            x.fillStyle = "#10142e"; x.fillRect(0, by, W, 216);
+            x.fillStyle = "#ffd83d";
+            x.font = "900 56px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            x.fillText(t.posterCta, 48, by + 62);
+            x.fillStyle = "#fff6dd";
+            x.font = "700 38px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+            x.fillText(t.posterScan, 48, by + 124);
+            x.fillStyle = "#a5dcff";
+            x.font = "700 32px 'Baloo 2',sans-serif";
+            x.fillText("tokyoquestlog.com/beta/", 48, by + 178);
+            drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
+            x.strokeStyle = "#10142e"; x.lineWidth = 10;
+            x.strokeRect(5, 5, W - 10, H - 10);
+            resolve(cv);
+          }
+          function withImg() {
+            if (e.img) {
+              var im = new Image();
+              im.onload = function () { start(im); };
+              im.onerror = function () { start(null); };
+              im.src = e.img;
+            } else start(null);
+          }
+          if (document.fonts && document.fonts.ready) {
+            var to = new Promise(function (r) { setTimeout(r, 700); });
+            Promise.race([document.fonts.ready, to]).then(withImg, withImg);
+          } else withImg();
+        });
+      }
+      function doShareClear(o, btn) {
+        var e = byId(o.questId);
+        if (!e) { doShareCard(o.shareText, o.name, btn); return; }
+        var note = btn && btn.parentElement ? btn.parentElement.querySelector("[data-cp-share-note]") : null;
+        function grant(prefix) {
+          var r = shareReward();
+          if (note) note.textContent = (prefix ? prefix + " " : "") + r;
+          renderStatus(); renderGacha();
+          sfx("accept");
+        }
+        function fallback() {
+          var full = o.shareText + " " + SHARE_URL;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(full).then(function () { grant(L().shareCopied); }, function () { grant(""); });
+          } else grant("");
+        }
+        var rec = null;
+        state.clears.forEach(function (c) { if (c.id === e.id) rec = c; });
+        var info = {
+          exp: o.exp || (rec ? rec.exp : 0),
+          date: rec && rec.clearedAt ? String(rec.clearedAt).slice(0, 10).replace(/-/g, ".") : TODAY.replace(/-/g, ".")
+        };
+        buildClearPoster(e, info).then(function (cv) {
+          if (navigator.share && cv.toBlob) {
+            cv.toBlob(function (blob) {
+              if (!blob) { fallback(); return; }
+              var f = null;
+              try { f = new File([blob], "tql-clear.png", { type: "image/png" }); } catch (err) {}
+              if (!f || !navigator.canShare || !navigator.canShare({ files: [f] })) { fallback(); return; }
+              navigator.share({ title: "Tokyo Quest Log", text: o.shareText, url: SHARE_URL, files: [f] }).then(function () { grant(""); }, function (err) {
+                if (!err || err.name !== "AbortError") fallback();
+              });
+            }, "image/png");
+            return;
+          }
+          if (navigator.share) {
+            navigator.share({ title: "Tokyo Quest Log", text: o.shareText, url: SHARE_URL }).then(function () { grant(""); }, function (err) {
+              if (!err || err.name !== "AbortError") fallback();
+            });
+          } else fallback();
+        }, function () { doShareCard(o.shareText, o.name, btn); });
+      }
       function shareQuestPoster() {
         var e = byId(currentId);
         if (!e) return;
@@ -23817,7 +23982,7 @@ var qrcode = function() {
           method: method,
           rewardItem: epicIt ? epicIt.id : null,
           rewardName: epicIt ? ((L().gachaItems[epicIt.id] || {}).name || epicIt.id) : "",
-          shareText: shareText,
+          shareText: shareText, questId: e.id,
           zoneBonusNames: zoneBonusNames, epicAllBonus: epicAllBonus,
           results: {
             cleared: state.clears.filter(function (c) { return byId(c.id); }).length,
@@ -24060,7 +24225,7 @@ var qrcode = function() {
         var shareB = box.querySelector("[data-cp-share]");
         if (shareB) shareB.addEventListener("click", function (ev) {
           ev.stopPropagation();
-          doShareCard(o.shareText, o.name, shareB);
+          if (o.questId) doShareClear(o, shareB); else doShareCard(o.shareText, o.name, shareB);
         });
         animateExpBar(o.prevInfo, o.newInfo, o.mini);
         /* inside the one window: the stamp lands fast, then the
