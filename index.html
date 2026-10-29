@@ -12141,7 +12141,28 @@
       @media (prefers-color-scheme: dark) {
         :root:not([data-theme="emerald"]) .daily-hud { background: #10142e; color: #fffdf4; }
       }
-    </style>
+          /* Q-176 final + Q-179 + chips (2026-10-30, Zoe device):
+         (1) an earlier block reset the action spans to auto, which
+         left the poster button alone on its own row on phones --
+         the quest and back buttons span the grid, so official +
+         poster always share a row, in every state. (2) The detail
+         photo was the layout's shock absorber (flex 1 1 auto, floor
+         shaved to 36px / 26px): it now keeps its full 168px and the
+         body scrolls instead. (3) The head chips (category / EPIC /
+         free / soon / state) each grew their own geometry over
+         successive rounds -- one shared size for all five. */
+      dialog#detail .detail-actions .btn-quest,
+      dialog#detail .detail-actions .btn-checkin,
+      dialog#detail .detail-actions .btn-back { grid-column: 1 / -1; }
+      dialog#detail .detail-preview { flex: none; height: 168px; min-height: 168px; }
+      #detailChips .cat-chip, #detailChips .epic-badge, #detailChips .free-badge,
+      #detailChips .soon-badge, #detailChips .state-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        height: 26px; padding: 0 10px; border-radius: 999px;
+        font-size: 12px; line-height: 1; border-width: 2px; box-sizing: border-box;
+      }
+      #detailChips .cat-chip svg { width: 13px; height: 13px; }
+</style>
   </head>
   <body data-view="map">
 
@@ -15698,7 +15719,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0112-q178-29757fee";
+        var BUILD_ID = "tql-20261030-0140-bundle-b93f231e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -27646,6 +27667,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-30", s: "guts", t: "Oct 29 update roundup", b: "• New: Poster share — make a poster with the quest's real photo right from its detail page and share it. The QR code on the poster leads straight to the beta.\n• The map got a big polish pass: zoom now goes to 8x, the route line and the location ring are clearer, and crowded pins spread out.\n• Mini-game stages and buttons were rebalanced, and the mini-games now live in one window.\n• Fixed hard-to-read night screens, the records window, and the daily cards.\nGrowing a little every day — thanks for playing!"},
           { d: "2026-10-29", s: "sparkle", t: "[News] Two new mini-games have arrived: Memory Pairs and Whack-a-Mole!", b: "Thursday is Memory Pairs, Friday is Whack-a-Mole — hit the goal in the day's game to win its gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] Mini-games are here!", b: "A different game every day — hit the goal to win today's gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] The map has grown!", b: "Your adventure now reaches Hachioji, Saitama, and Yokohama."},
@@ -27653,6 +27675,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-30", s: "guts", t: "10月29日のアップデートまとめ", b: "・新機能「ポスター共有」：クエストの詳細から、写真入りのポスターを作ってそのままシェアできるようになりました。QRコードからベータに参加できます。\n・ちずを大きく直しました：最大8倍まで拡大でき、ルートの点線や現在地の丸も見やすく、ピンの重なりが減りました。\n・ミニゲームの画面バランスとボタンの見た目を整え、ミニゲームを1つの窓にまとめました。\n・夜の画面で文字が見づらかった場所や、記録の窓、毎日のカードを直しました。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームに「神経衰弱」と「もぐらたたき」が加わりました！", b: "木曜は神経衰弱、金曜はもぐらたたきが当番です。目標達成でその日のガチャ券GET！"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームが増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】マップが大きくなりました！", b: "冒険の範囲が八王子・埼玉・横浜方面まで広がりました。"},
@@ -27660,6 +27683,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-30", s: "guts", t: "10月29日更新汇总", b: "・新功能「海报分享」：在任务详情里就能生成带照片的海报直接分享，扫海报上的二维码可以参加内测。\n・地図做了一轮大修整：最大能放大到8倍，路线虚线和定位圈更清楚，图钉挤成一团的情况也少了。\n・小游戏的画面比例和按钮样式都调好了，小游戏都集中到一个窗口里。\n・修好了夜里有些文字看不清的问题，还有记录窗口和每日卡片的小毛病。\n今天也成长了一点，谢谢大家来玩！"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏新增「翻牌对对碰」和「打地鼠」！", b: "周四是翻牌对对碰、周五是打地鼠——完成当值游戏的目标，就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏阵容来了！", b: "每天轮换一款，达标就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】地图变大了！", b: "冒险范围扩展到八王子、埼玉、横滨一带。"},
