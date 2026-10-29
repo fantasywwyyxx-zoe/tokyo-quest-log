@@ -9507,6 +9507,28 @@
       :root[lang="en"] .mf-side { padding-left: 3px; padding-right: 3px; }
       :root[lang="en"] .mf-count { padding-left: 2px; padding-right: 2px; }
       :root[lang="en"] .mf-chip { padding-left: 2px; padding-right: 2px; }
+      /* rename step-down (2026-10-29): EN's tag grew from
+         SIDE QUESTS to ADVENTURE QUESTS (+5 glyphs ≈ +30px),
+         which pushed the last chip (CLEARED) past the bar's
+         right edge in the expanded state. Per the house text
+         rule the EN segments step DOWN (never truncate, never
+         wrap): tag/count 10px → 9px, chips 10px → 9.5px, the
+         even gap 2px → 1px and the tag/count padding trims —
+         together they buy back the ≈30px the rename spent,
+         in the small map and the full map alike. JA/ZH tags
+         did not grow (冒険クエスト is shorter, 冒险任务 is
+         equal) and keep their steps above. */
+      :root[lang="en"] .map-filters { gap: 1px; }
+      :root[lang="en"] .mf-side { font-size: 9px; padding-left: 2px; padding-right: 2px; letter-spacing: 0; }
+      :root[lang="en"] .mf-count { font-size: 9px; padding-left: 1px; padding-right: 1px; letter-spacing: 0; }
+      :root[lang="en"] .mf-chip { font-size: 9.5px; letter-spacing: 0; }
+      /* the same rename in the LIST bar: ADVENTURE QUESTS at
+         the stock 13.5px pushed the SEARCH button ~25px past
+         the shell's right edge at 390px. EN list tabs step
+         down (12px, tighter padding) so tag + LOG + SEARCH
+         share the row again with slack; JA/ZH tabs keep the
+         stock step (their labels did not grow). */
+      :root[lang="en"] .list-tab { font-size: 12px; padding: 5px 10px; letter-spacing: 0.02em; }
 
       /* --- records window (titles tab): everything inside the
          frame, pager included — the panel becomes a flex column
@@ -10325,6 +10347,49 @@
       #stylePanel .feedback-btn {
         text-decoration: none; justify-content: center;
       }
+
+      /* --- O / WISH FLAG (Zoe ruling 2026-10-29; placement
+         refined by Zoe the same day — far away at the horizon,
+         the hero forever running toward it): the flag stands on
+         the path's vanishing point (stage centre, base on the
+         56% horizon line the runner math uses), in the scene's
+         own pixel idiom — a crisp-edged pole + cloth with a
+         paper destination board nailed to the pole carrying the
+         wish line at full readable size. The walker (92px, on
+         the ground line far below the horizon) and the centred
+         name banner (top edge) both stay clear of it at every
+         stage height, because the flag is horizon-locked in %.
+         Display only. --- */
+      .wish-flag {
+        position: absolute; left: 50%; bottom: calc(44% - 3px); z-index: 2;
+        transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center;
+        background: none; border: 0; padding: 2px; cursor: pointer;
+        font-family: inherit; color: var(--ink);
+      }
+      .wish-flag:active { transform: translateX(-50%) translateY(1px); }
+      .wish-flag .wf-art { flex: none; display: block; filter: drop-shadow(1px 2px 0 rgba(9, 12, 44, 0.3)); }
+      .wish-flag .wf-cloth { transform-box: fill-box; transform-origin: left center; animation: wf-wave 1.2s steps(2, end) infinite; }
+      @keyframes wf-wave { 0%, 100% { transform: skewY(0deg); } 50% { transform: skewY(-5deg); } }
+      .wf-sign {
+        /* positioned + z-index so the board paints OVER the
+           pole's foot and grass tuft it overlaps (margin-top
+           -18px): without this the SVG's bottom rows smear
+           across the wish line's mid-height */
+        position: relative; z-index: 1;
+        display: block; min-width: 76px; max-width: 176px; margin-top: -18px;
+        background: var(--paper); color: var(--paper-ink);
+        border: 2.5px solid var(--shadow); border-radius: 7px;
+        box-shadow: 0 2px 0 var(--shadow);
+        padding: 4px 10px 5px; text-align: center;
+      }
+      .wf-text {
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+        font-size: 12.5px; font-weight: 700; line-height: 1.35; overflow-wrap: break-word;
+      }
+      .wf-text.is-empty { color: var(--ink-dim); }
+      @media (prefers-reduced-motion: reduce) { .wish-flag .wf-cloth { animation: none; } }
+      .wish-win .wish-hint { font-size: 12.5px; color: var(--ink-dim); line-height: 1.55; margin: 9px 0 13px; }
     </style>
     <style>
       /* ================================================================
@@ -10374,6 +10439,229 @@
         right: 16px; width: 48px; height: 26px; font-size: 13px;
       }
       .map-filters.is-folded { cursor: pointer; }
+    </style>
+    <style>
+      /* ================================================================
+         BETA ROUND (2026-10-29): title SURVEY + BETA plaques, the
+         BETA announcements window, the account name step, settings
+         name/privacy rows, DASH RUN, and the Q-116 / Q-117 fixes.
+         ================================================================ */
+      /* --- title plaques: SURVEY joins LOG IN / SUPPORT at the
+         same level; BETA rides one slim full-width row under them.
+         Height comes out of the elastic logo zone, never the panel
+         (Q-112 hard gate: every plaque reachable at 390x600). --- */
+      .auth-mini-btn.is-survey {
+        flex: 1 1 0; padding: 11px 6px; text-decoration: none; text-align: center;
+        display: flex; align-items: center; justify-content: center;
+        background: linear-gradient(180deg, #ffe259, #ffd83d); color: #4a3800;
+        border: 3px solid #fff7dd; border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #c9a227, 0 4px 0 rgba(120, 90, 0, 0.4);
+        font-size: 13.5px; letter-spacing: 0.02em;
+      }
+      .auth-mini-btn.is-survey:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #c9a227, 0 1px 0 rgba(120, 90, 0, 0.4); }
+      .auth-mini-btn.is-beta {
+        width: 100%; margin-top: 8px; min-height: 38px; padding: 8px 10px;
+        background: #22303c; color: #ffd83d;
+        border: 3px solid #ffd83d; border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #101820, 0 3px 0 rgba(16, 24, 32, 0.5);
+        font-size: 13.5px; letter-spacing: 0.04em;
+      }
+      .auth-mini-btn.is-beta:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #101820, 0 1px 0 rgba(16, 24, 32, 0.5); }
+      @media (max-height: 660px) {
+        .auth-mini-btn.is-beta { min-height: 34px; margin-top: 6px; padding: 6px 10px; }
+        .start-screen .start-logo-block { margin-top: 0.5vh; }
+      }
+      /* --- BETA window --- */
+      .beta-win { max-height: calc(100dvh - 24px); display: flex; flex-direction: column; }
+      .beta-scroll { overflow-y: auto; min-height: 0; scrollbar-width: none; }
+      .beta-scroll::-webkit-scrollbar { display: none; }
+      .beta-period {
+        font-weight: 800; font-size: 13.5px; line-height: 1.5; text-align: center;
+        background: var(--lemon, #ffd83d); color: #231a00;
+        border: 2.5px solid var(--edge); border-radius: 10px; padding: 8px 10px; margin: 2px 0 12px;
+      }
+      .beta-h { font-size: 15.5px; font-weight: 800; margin: 14px 0 7px; color: var(--ink); }
+      .beta-h:first-of-type { margin-top: 0; }
+      .beta-post { border: 2.5px solid var(--line-c); border-radius: 10px; padding: 9px 11px; margin-bottom: 8px; background: var(--window-hi, rgba(255,255,255,0.35)); }
+      .beta-post .bp-date { font-size: 11.5px; font-weight: 800; color: var(--gold-deep, #9a6b00); letter-spacing: 0.04em; }
+      .beta-post .bp-title { font-size: 14.5px; font-weight: 800; line-height: 1.4; margin: 2px 0 4px; }
+      .beta-post .bp-body { font-size: 13.5px; line-height: 1.6; color: var(--ink); white-space: pre-line; }
+      .beta-text { font-size: 13.5px; line-height: 1.65; color: var(--ink); margin: 0 0 8px; }
+      .beta-survey { display: flex; align-items: center; justify-content: center; text-decoration: none; margin: 10px 0 6px; }
+      .beta-privacy-link { font-size: 13.5px; font-weight: 800; color: var(--aux, #2f7cd6); }
+      /* --- settings: injected name + privacy rows --- */
+      .ext-priv { flex: 1 1 100%; font-size: 12.5px; line-height: 1.6; font-weight: 700; color: var(--ink); white-space: pre-line; }
+      .ext-priv-link { font-size: 12.5px; font-weight: 800; color: var(--aux, #2f7cd6); flex: none; }
+      .ext-privbar .ext-priv { color: #eae3cf; }
+      .ext-privbar .ext-priv-link { color: #8ec9ff; }
+      /* --- DASH RUN --- */
+      .run-banner {
+        display: flex; align-items: center; gap: 9px; width: 100%; min-height: 44px;
+        margin-top: 8px; padding: 8px 12px; cursor: pointer; text-align: left;
+        background: var(--window); color: var(--ink);
+        border: 2.5px solid var(--edge); border-radius: 10px; box-shadow: 0 3px 0 var(--shadow);
+        font-family: inherit;
+      }
+      .run-banner:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--shadow); }
+      .run-banner .db-tag { font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-size: 10.5px; background: #231a00; color: var(--gold, #ffd83d); border-radius: 4px; padding: 4px 6px; flex: none; }
+      .run-banner .db-name { font-weight: 800; font-size: 13.5px; line-height: 1.35; flex: 1; min-width: 0; }
+      .run-banner .db-go { font-size: 11.5px; flex: none; color: var(--gold-deep, #9a6b00); font-weight: 800; }
+      .run-win { display: flex; flex-direction: column; }
+      .run-hud { display: flex; align-items: baseline; gap: 10px; margin: 2px 0 8px; font-weight: 800; }
+      .run-hud .run-dist { font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-size: 20px; }
+      .run-hud .run-goal { font-size: 12.5px; color: var(--gold-deep, #9a6b00); flex: 1; }
+      .run-hud .run-best { font-size: 12.5px; color: var(--ink-dim); }
+      #runCanvas {
+        width: 100%; height: auto; display: block; image-rendering: pixelated;
+        border: 2.5px solid var(--edge); border-radius: 10px; background: #79b5e0;
+        touch-action: none;
+      }
+      .run-msg { min-height: 22px; font-size: 14.5px; font-weight: 800; line-height: 1.45; margin: 9px 0 4px; text-align: center; }
+      .run-btnrow { display: flex; gap: 8px; }
+      .run-btnrow .auth-btn { flex: 1; }
+      .run-help { font-size: 12.5px; line-height: 1.55; color: var(--ink-dim); margin: 8px 0 0; text-align: center; }
+      /* --- Q-116: TITLES tab dead band. #ladder was flex:1 1 auto,
+         so the ladder box stretched to fill the records window and
+         left a 185–195px empty band between the pager row (top of
+         the stretched box) and the EXP footer strip. The ladder now
+         sizes to its content and the EXP strip rides directly
+         under the pager. Q-108 untouched: the shared tab bar is a
+         sibling of the panels and does not move. --- */
+      #hsegStatus #ladder { flex: none; }
+      /* --- Q-117: the LEGEND route layer rides ABOVE the cluster
+         pins (z 34 inside #mapZoom) — pointer-events stay off, so
+         taps still reach the pins underneath. --- */
+      #routeLayer { z-index: 40; }
+    </style>
+    <style>
+      /* ================================================================
+         Q-118 + Q-119 POLISH (2026-10-29, Zoe device reports)
+         Q-118 — the map filter bar's FINISH is reworked; the fold
+         mechanics verified in b190f3e (geometry variables, four-state
+         fit, no pan from bar touches, one-line trilingual chips) are
+         untouched:
+         1. The hanging fold tab (#mfFoldTab) is ABOLISHED — the
+            element is gone from the markup and this rule keeps any
+            stale copy dead. The folded bar itself is the expand
+            button (click handler + Enter/Space in the JS).
+         2. Exactly ONE expand affordance: the ▾ segment integrated
+            into the bar's own frame at its right edge (red segment,
+            part of the frame — not a bordered pill floating inside
+            it, and no second ▸ anywhere).
+         3. The bar body returns to the D1 game-window language:
+            cream base, a thick 3px ink frame, a 14px window radius
+            (no longer a long white web-search capsule), red/blue
+            accents (blue section segment / red chevron segment).
+            Midnight keeps the Y3 dark window with the same frame
+            grammar and a lemon chevron segment.
+         4. The folded middle is a real summary, not blank air:
+            [blue section segment: 冒険クエスト] [current filter
+            name, plain bold text — no lemon capsule that reads as
+            a filter chip] [count as a small framed badge] [▾].
+            The "all" state reads すべて + count in the same
+            structure as every other filter.
+         Q-119 — pagers go pure UI (Zoe's rule: where UI can carry
+         the meaning, no words): the logbook pager and the titles
+         ladder pager render big chunky-framed ◀ ▶ arrows only,
+         with page dots and a compact centre (title + n / N); the
+         tutorial's back/next become ◀ ▶ beside its existing dots
+         (its final START step is an action, not a page turn, and
+         keeps its word). The old word labels survive only as
+         aria-labels. Calendar nav was already arrows-only.
+         ================================================================ */
+
+      /* --- Q-118.1: the hanging tab is dead --- */
+      .mf-fold-tab { display: none !important; }
+
+      /* --- Q-118.3: game-window bar body (both states) --- */
+      .map-filters {
+        background: #fff8e7; border: 3px solid var(--line-c, #22303c);
+        border-radius: 14px;
+        box-shadow: inset 0 0 0 2px #ffe9c9, 0 3px 0 var(--shadow);
+      }
+      :root[data-theme="midnight"] .map-filters { background: #10142e; border-color: #dfe6ff; box-shadow: inset 0 0 0 2px #232f52, 0 3px 0 #000; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .map-filters { background: #10142e; border-color: #dfe6ff; box-shadow: inset 0 0 0 2px #232f52, 0 3px 0 #000; }
+      }
+
+      /* --- Q-118.4: folded summary strip --- */
+      .map-box.filters-folded { --mf-bar-h: 48px; }
+      .map-box .map-filters.is-folded {
+        height: 48px; padding: 0; gap: 0;
+        align-items: stretch; justify-content: flex-start;
+        overflow: hidden; cursor: pointer;
+      }
+      .map-box .map-filters.is-folded .mf-side {
+        order: 1; flex: none; align-self: stretch;
+        display: inline-flex; align-items: center;
+        background: var(--aux-bg, #2f8fc4); color: var(--aux-ink, #fff);
+        border-radius: 0; border-right: 3px solid var(--line-c, #22303c);
+        margin: 0; white-space: nowrap;
+      }
+      .map-box .map-filters.is-folded .mf-cur,
+      .map-box .map-filters.is-folded[data-cur="epic"] .mf-cur,
+      .map-box .map-filters.is-folded[data-cur="legend"] .mf-cur {
+        order: 2; flex: 1 1 auto; min-width: 0;
+        display: inline-flex; align-self: stretch; align-items: center;
+        background: transparent; color: var(--ink);
+        border-radius: 0; padding: 0 10px;
+        font-size: 13.5px; font-weight: 800; letter-spacing: 0.02em;
+        white-space: nowrap; overflow: hidden;
+      }
+      .map-box .map-filters.is-folded .mf-count {
+        order: 3; flex: none; align-self: center;
+        margin: 0 8px 0 0; padding: 3px 8px;
+        background: var(--window); color: var(--ink);
+        border: 2px solid var(--line-c, #22303c); border-radius: 999px;
+        font-size: 12px; line-height: 1.2;
+      }
+      /* Q-118.2: the ONE chevron — a red segment of the frame itself */
+      .map-box .map-filters.is-folded .mf-mark {
+        order: 4; flex: none; align-self: stretch;
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 38px; padding: 0;
+        background: var(--primary, #e2483a); color: #fff;
+        border: 0; border-left: 3px solid var(--line-c, #22303c); border-radius: 0;
+        font-size: 15px; font-weight: 900; line-height: 1;
+      }
+      :root[data-theme="midnight"] .map-box .map-filters.is-folded .mf-mark { background: #ffd83d; color: #131a2e; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .map-box .map-filters.is-folded .mf-mark { background: #ffd83d; color: #131a2e; }
+      }
+      .map-box .map-filters.is-folded:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+      /* --- Q-119: logbook pager — arrows + dots + compact centre --- */
+      .book-nav { gap: 10px; }
+      .book-btn {
+        flex: none; width: 52px; height: 48px; padding: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 19px; font-weight: 900; line-height: 1;
+        background: var(--window); color: var(--ink);
+        border: 3px solid var(--line-c); border-radius: 12px;
+        box-shadow: 0 3px 0 var(--shadow); cursor: pointer;
+      }
+      .book-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--shadow); }
+      .book-center {
+        flex: 1 1 auto; min-width: 0;
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+      }
+      .book-pg {
+        font-size: 12px; font-weight: 800; letter-spacing: 0.03em; line-height: 1.25;
+        white-space: nowrap; text-align: center;
+      }
+      .book-dots { display: inline-flex; gap: 6px; align-items: center; }
+      .book-dot { width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 2px solid var(--line-c); opacity: 0.55; }
+      .book-dot.on { background: var(--primary, #e2483a); border-color: var(--line-c); opacity: 1; }
+
+      /* --- Q-119: titles ladder pager — arrows only, centre n / N --- */
+      .ladder-pg-btn {
+        min-width: 52px; width: 52px; height: 44px; padding: 0;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 18px; line-height: 1;
+      }
+
+      /* --- Q-119: tutorial back/next — arrows beside the dots --- */
+      .tut-btn.tut-arrow { min-width: 46px; padding: 7px 0; text-align: center; font-size: 14px; }
     </style>
   </head>
   <body data-view="map">
@@ -10428,7 +10716,9 @@
             <div class="start-acct-btns">
               <button class="auth-mini-btn is-login" id="titleLoginBtn" type="button"></button>
               <button class="auth-mini-btn is-support" id="titleSupportBtn" type="button"></button>
+              <a class="auth-mini-btn is-survey" id="titleSurveyBtn" href="https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform" target="_blank" rel="noopener"></a>
             </div>
+            <button class="auth-mini-btn is-beta" id="titleBetaBtn" type="button"></button>
           </div>
           <p class="start-foot" id="startFoot"></p>
         </div>
@@ -10564,7 +10854,16 @@
           <p class="auth-done-title" id="authDoneTitle"></p>
           <p class="auth-sub" id="authDoneMail"></p>
           <p class="auth-msg ok" id="authSyncNote" hidden></p>
+          <button class="auth-btn ghost" id="authEditNameBtn" type="button"></button>
           <button class="auth-btn primary" id="authDoneClose" type="button"></button>
+        </div>
+        <div class="auth-step" id="authStepName" hidden>
+          <p class="auth-done-title" id="authNameTitle"></p>
+          <p class="auth-sub" id="authNameSub"></p>
+          <label class="auth-label" id="authNameLabel" for="authNameInput"></label>
+          <input class="auth-input" id="authNameInput" type="text" maxlength="12" autocomplete="off">
+          <button class="auth-btn primary" id="authNameSave" type="button"></button>
+          <button class="auth-btn ghost" id="authNameSkip" type="button"></button>
         </div>
       </div>
     </div>
@@ -10578,6 +10877,71 @@
         </div>
         <p class="support-text" id="supportText"></p>
         <a class="auth-btn primary support-kofi" id="supportKofi" href="https://ko-fi.com/tokyoquestlog" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+
+    <!-- ===== BETA window (2026-10-29): announcements board,
+         beta/lottery explainer, feedback + bug report door and
+         the plain-language privacy note — one window, opened
+         from the title BETA plaque and the map MENU's NEWS item ===== -->
+    <div class="auth-screen" id="betaScreen" hidden role="dialog" aria-modal="true" aria-labelledby="betaTitle">
+      <div class="win auth-win beta-win">
+        <div class="auth-head">
+          <span class="auth-title" id="betaTitle"></span>
+          <button class="auth-x" id="betaClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="beta-scroll win-scroller">
+          <p class="beta-period" id="betaPeriod"></p>
+          <h3 class="beta-h" id="betaNewsH"></h3>
+          <div id="betaNews"></div>
+          <h3 class="beta-h" id="betaLotteryH"></h3>
+          <p class="beta-text" id="betaLottery"></p>
+          <a class="auth-btn primary beta-survey" id="betaSurveyBtn" href="https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform" target="_blank" rel="noopener"></a>
+          <p class="beta-text" id="betaBugNote"></p>
+          <h3 class="beta-h" id="betaPrivacyH"></h3>
+          <p class="beta-text" id="betaPrivacy"></p>
+          <a class="beta-privacy-link" id="betaPrivacyLink" href="https://tokyoquestlog.com/privacy/" target="_blank" rel="noopener"></a>
+        </div>
+        <div class="win-more" aria-hidden="true" hidden>▾</div>
+      </div>
+    </div>
+
+    <!-- ===== DASH RUN window (2026-10-29): the 3-lane dodge
+         mini-game on the HERO page. One screen, never scrolls;
+         the daily goal run pays one gacha ticket. ===== -->
+    <div class="auth-screen run-screen" id="runScreen" hidden role="dialog" aria-modal="true" aria-labelledby="runTitle">
+      <div class="win auth-win run-win">
+        <div class="auth-head">
+          <span class="auth-title" id="runTitle"></span>
+          <button class="auth-x" id="runClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span></div>
+        <canvas id="runCanvas" width="360" height="400"></canvas>
+        <p class="run-msg" id="runMsg"></p>
+        <div class="run-btnrow">
+          <button class="auth-btn primary" id="runStartBtn" type="button"></button>
+          <button class="auth-btn ghost" id="runQuitBtn" type="button"></button>
+        </div>
+        <p class="run-help" id="runHelp"></p>
+      </div>
+    </div>
+
+    <!-- ===== WISH FLAG editor (2026-10-29): a GBA-style small
+         window for the one wish line. Display only — saving it
+         touches nothing but state.wishText. ===== -->
+    <div class="auth-screen" id="wishScreen" hidden role="dialog" aria-modal="true" aria-labelledby="wishTitle">
+      <div class="win auth-win wish-win">
+        <div class="auth-head">
+          <span class="auth-title" id="wishTitle"></span>
+          <button class="auth-x" id="wishClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <label class="auth-label" id="wishLabel" for="wishInput"></label>
+        <input class="auth-input" id="wishInput" type="text" maxlength="40" autocomplete="off">
+        <p class="wish-hint" id="wishHint"></p>
+        <div class="auth-btnrow">
+          <button class="auth-btn ghost" id="wishClear" type="button"></button>
+          <button class="auth-btn primary" id="wishSave" type="button"></button>
+        </div>
       </div>
     </div>
 
@@ -10628,7 +10992,7 @@
         <span class="build-ver" id="buildVerLine"></span>
       </div>
       <div class="win-flat themebar" role="group" aria-label="Feedback">
-        <a class="icon-btn lang-btn feedback-btn" id="feedbackBtn" href="https://docs.google.com/forms/d/e/1FAIpQLSff5d2_vVD8fbw7MyKNSp1lbDnKaqLW3j3yHxwDiQOFaKLRfw/viewform" target="_blank" rel="noopener" style="flex:1"></a>
+        <a class="icon-btn lang-btn feedback-btn" id="feedbackBtn" href="https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform" target="_blank" rel="noopener" style="flex:1"></a>
       </div>
       </div>
       <p class="audio-hint" id="audioHint" hidden></p>
@@ -10713,9 +11077,8 @@
               <button class="mf-chip" type="button" data-mf="legend" aria-pressed="false"></button>
               <button class="mf-chip" type="button" data-mf="accepted" aria-pressed="false"></button>
               <button class="mf-chip" type="button" data-mf="cleared" aria-pressed="false"></button>
-              <span class="mf-mark" aria-hidden="true">▸</span>
+              <span class="mf-mark" aria-hidden="true">▾</span>
             </div>
-            <button class="mf-fold-tab" id="mfFoldTab" type="button" aria-expanded="false" aria-controls="mapFilters" aria-label="Expand filter bar">▸</button>
             <div class="map-zoom" id="mapZoom">
             <div id="routeLayer" hidden aria-hidden="true"></div>
             <div class="map-backdrop" aria-hidden="true"></div>
@@ -10785,6 +11148,7 @@
               <button class="rpg-cmd-item" type="button" data-navto="settings"><span class="rpg-cmd-cursor" aria-hidden="true">▶</span><span class="rpg-cmd-name" data-navname="settings"></span></button>
               <button class="rpg-cmd-item" type="button" data-navto="tutorial"><span class="rpg-cmd-cursor" aria-hidden="true">▶</span><span class="rpg-cmd-name" data-navname="tutorial"></span></button>
               <button class="rpg-cmd-item" type="button" data-navto="about"><span class="rpg-cmd-cursor" aria-hidden="true">▶</span><span class="rpg-cmd-name" data-navname="about"></span></button>
+              <button class="rpg-cmd-item" type="button" data-navto="news"><span class="rpg-cmd-cursor" aria-hidden="true">▶</span><span class="rpg-cmd-name" data-navname="news"></span></button>
             </div>
           </div>
           <div class="rpg-tab-window map-nav-stats">
@@ -10919,6 +11283,27 @@
                so unlocked landmarks can stream past on both sides -->
           <div class="run-path" id="runPath" aria-hidden="true"><div class="run-steps" id="runSteps"></div></div>
           <div class="scene-props" id="sceneProps" aria-hidden="true"></div>
+          <!-- WISH FLAG (Zoe ruling 2026-10-29, hero screen ONLY;
+               placement refined by Zoe the same day: "put it far
+               away — the hero is always running toward it"): the
+               flag stands at the scene's horizon, on the path's
+               vanishing point — the destination the front-facing
+               runner forever runs toward and never reaches. Pure
+               display — tapping it opens a small editor for one
+               wish line (state.wishText). No rewards, no check-in,
+               no records, and it never poses as a quest. -->
+          <button class="wish-flag" id="wishFlag" type="button">
+            <svg class="wf-art" viewBox="0 0 46 58" width="46" height="58" aria-hidden="true" shape-rendering="crispEdges">
+              <rect x="20" y="5" width="3" height="49" fill="#7a4a21" />
+              <rect x="19" y="2" width="5" height="4" fill="#ffd83d" />
+              <path class="wf-cloth" d="M23 6h21l-5 6 5 6H23z" fill="#ff6f61" />
+              <rect x="27" y="9" width="4" height="4" fill="#ffd83d" />
+              <rect x="11" y="53" width="22" height="3" fill="#3e7d3a" />
+              <rect x="14" y="51" width="3" height="3" fill="#63b96f" />
+              <rect x="26" y="51" width="3" height="3" fill="#63b96f" />
+            </svg>
+            <span class="wf-sign"><span class="wf-text" id="wishFlagText"></span></span>
+          </button>
           <div class="slot-col slot-left">
             <button class="slot" type="button" data-slotcycle="hero"><span class="slot-view"><canvas width="16" height="16" aria-hidden="true"></canvas><span class="slot-ico" aria-hidden="true"></span></span><span class="slot-cap"></span><span class="slot-name"></span></button>
             <button class="slot" type="button" data-slotcycle="hat"><span class="slot-view"><canvas width="16" height="16" aria-hidden="true"></canvas><span class="slot-ico" aria-hidden="true"></span></span><span class="slot-cap"></span><span class="slot-name"></span></button>
@@ -10944,6 +11329,11 @@
           <button class="hero-acct" id="heroAcctRow" type="button"><span id="heroAcctText"></span></button>
           <button class="hero-acct hero-support" id="heroSupportBtn" type="button"></button>
         </div>
+        <button class="run-banner" id="runOpenBtn" type="button">
+          <span class="db-tag" id="runTag">RUN</span>
+          <span class="db-name" id="runBannerName"></span>
+          <span class="db-go">▶</span>
+        </button>
         <!-- the old dress-up studio stays in the DOM (its render
              code feeds the gacha grids) but is never shown: the
              stage slots above ARE the dress-up UI now -->
@@ -11623,8 +12013,8 @@
           advSub: "Tokyo quest hunter",
           cleared: "CLEARED", active: "ON QUEST", areas: "AREAS",
           tagline: "<b>Every day in Tokyo is an adventure. Today, you are a hero in real life, too.</b> Open a pin, accept its quest — then check in at the real venue with your phone's location to clear it, earn EXP, and log the page in your quest log.",
-          titles: ["Novice Walker", "Street Scout", "Quest Hunter", "City Ranger", "Tokyo Explorer", "Diary Keeper", "Quest Master", "Night Ranger", "Grand Adventurer", "Legendary Adventurer", "Alley Guide", "Night-Market Master", "Tokyo Collector", "Weekend Hero", "City Storyteller", "Quest King", "Urban Sage", "Stardust Hunter", "Guardian of Tokyo", "Legendary Adventure King", "Ward Wanderer", "Stamp Rally Champion", "Twilight Cartographer", "Festival General", "Skyline Pilgrim", "Tokyo Mythmaker", "Eternal Quester", "Emperor of Detours", "Living City Legend", "Grand Master of Tokyo"],
-          titleFlavors: ["First steps on the big map.", "You know which streets hide the good stuff.", "No quest board goes unread.", "Every ward is familiar ground now.", "The whole city is your field guide.", "Every page of the diary is a trophy.", "Quests fear your schedule.", "Tokyo after dark is your home field.", "The big clears are piling up.", "They tell stories about your walks.", "Back streets? You could guide tours.", "You know every stall by smell.", "If it happened in Tokyo, you were there.", "Weekends are for heroic deeds.", "Every street corner gets a story.", "All hail — no quest stands a chance.", "The city asks YOU where to go.", "You catch what glitters between events.", "The wards rest easy under your watch.", "A walking legend in the making.", "Every ward greets you by name now.", "No stamp rally in Tokyo escapes you.", "You map the city at dusk, from memory.", "Every festival saves you a front-row spot.", "You have walked under every skyline.", "Your walks become city folklore.", "Quests? You collect them like seasons.", "Every detour was the destination all along.", "Kids point: that's the walker from the stories.", "Lv.30. Tokyo itself signs your diary."],
+          titles: ["Novice Walker", "Street Scout", "Quest Hunter", "City Ranger", "Tokyo Explorer", "Diary Keeper", "Quest Master", "Night Ranger", "Grand Adventurer", "Legendary Adventurer", "Alley Guide", "Night-Market Master", "Tokyo Collector", "Weekend Hero", "City Storyteller", "Quest King", "Urban Sage", "Stardust Hunter", "Guardian of Tokyo", "Legendary Adventure King", "Ward Wanderer", "Stamp Rally Champion", "Twilight Cartographer", "Festival General", "Skyline Pilgrim", "Tokyo Mythmaker", "Eternal Quester", "Emperor of Detours", "Living City Legend", "Grand Master of Tokyo", "Dawn Patrol Captain", "Backstreet Cartographer", "Festival Rain-Dancer", "Ward-to-Ward Pilgrim", "Skyline Sovereign", "Neon Archivist", "River Keeper", "Midnight Conductor", "Stamp Emperor's Rival", "Tokyo Wayfarer General", "Cloud Shepherd", "Lantern Keeper", "Grand Tour Chronicler", "Emperor of Backstreets", "Keeper of Every Ward", "Starlight Surveyor", "Confidant of the City of Lights", "Eternal Dawn Walker", "Tokyo's Own Legend", "Grand Master of the Endless City"],
+          titleFlavors: ["First steps on the big map.", "You know which streets hide the good stuff.", "No quest board goes unread.", "Every ward is familiar ground now.", "The whole city is your field guide.", "Every page of the diary is a trophy.", "Quests fear your schedule.", "Tokyo after dark is your home field.", "The big clears are piling up.", "They tell stories about your walks.", "Back streets? You could guide tours.", "You know every stall by smell.", "If it happened in Tokyo, you were there.", "Weekends are for heroic deeds.", "Every street corner gets a story.", "All hail — no quest stands a chance.", "The city asks YOU where to go.", "You catch what glitters between events.", "The wards rest easy under your watch.", "A walking legend in the making.", "Every ward greets you by name now.", "No stamp rally in Tokyo escapes you.", "You map the city at dusk, from memory.", "Every festival saves you a front-row spot.", "You have walked under every skyline.", "Your walks become city folklore.", "Quests? You collect them like seasons.", "Every detour was the destination all along.", "Kids point: that's the walker from the stories.", "Lv.30. Tokyo itself signs your diary.", "You greet the city before it wakes.", "Every alley has your pencil marks on it.", "Rain at a festival? You dance anyway.", "Ward borders mean nothing to your feet.", "Lv.35. The skyline bows when you pass.", "You catalogue the city's glow by heart.", "The rivers report to you now.", "You conduct the midnight trains like an orchestra.", "Even the Stamp Emperor checks your book twice.", "Lv.40. Generals salute your walking boots.", "You herd clouds over the bay on weekends.", "Every lantern in the shotengai knows your step.", "Your chronicle needs a second volume.", "Backstreets pay you tribute in discoveries.", "Lv.45. Every ward keeps a key with your name on it.", "You survey the city by starlight, for fun.", "The city of lights whispers you its shortcuts.", "You walk into every dawn like you own it.", "The legend is no longer a story — it's your address.", "Lv.50. The endless city is yours, Grand Master."],
           nextLevel: function (n) { return "NEXT Lv " + n; },
           maxLevel: "MAX",
           levelUp: "LEVEL UP!",
@@ -11657,7 +12047,7 @@
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
           checkin: "CHECK IN HERE", checkingIn: "LOCATING…",
           manualClear: "Can't make it? Clear remotely from here (30% EXP · once a day)",
-          checkinNote: "Used only at check-in to measure distance. Never tracked or saved.",
+          checkinNote: "Used only at check-in to measure distance, right on your phone — your location never leaves your device, and is never tracked or saved.",
           checkinOk: "You're at the venue — check-in complete!",
           tooFar: function (d, r) { return "Not yet — about " + d + " to the venue (check-in within " + r + ")."; },
           geoDenied: "Location permission was denied, so no distance check ran.",
@@ -11682,7 +12072,7 @@
           startsIn: function (d) { return d === 1 ? "Starts tomorrow" : "Starts in " + d + " days"; },
           endsIn: function (d) { return d === 0 ? "Last day today!" : d === 1 ? "Ends tomorrow" : "Ends in " + d + " days"; },
           nowOn: "Now on",
-          clearFanfareSub: "Side quest complete — a new page in your logbook.",
+          clearFanfareSub: "Adventure quest complete — a new page in your logbook.",
           badgeGet: "BADGE GET",
           resExp: "EXP GAINED", resProg: "PROGRESS", resTicket: "NEXT TICKET",
           resTicketIn: function (n) { return n + " EXP to go"; },
@@ -12144,7 +12534,7 @@
             "comet-pendant": { name: "Comet Pendant", desc: "A golden comet on a midnight cord." }
           },
           tabDaily: "DAILY",
-          tabListIndex: "SIDE QUESTS",
+          tabListIndex: "ADVENTURE QUESTS",
           locBtnShort: "LOCATE", bigMapShort: "FULL MAP",
           communityTitle: "COMMUNITY", communitySub: "FELLOW ADVENTURERS' BOARD",
           communityStamp: "COMING SOON",
@@ -12179,19 +12569,19 @@
           bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "✕",
           dailyTitle: "Today's Daily",
           dailySub: "Walking your day IS the daily quest. Each one +10 EXP.",
-          dailyNpc: "Psst — this is today's daily: the everyday walk itself, done in minutes, anywhere. The side quests are waiting out on the map!",
+          dailyNpc: "Psst — this is today's daily: the everyday walk itself, done in minutes, anywhere. The adventure quests are waiting out on the map!",
           dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 to complete today's daily for +30 EXP.",
           dailyProg: "TODAY", dailyDoneBtn: "DONE!", dailyDoneStamp: "DONE ✓",
           dailyNote: "Today's daily refreshes at midnight. Do a little joy, then tap its row — clear all three for a +30 EXP bonus.",
-          dailyKindRealTag: "SIDE QUESTS",
-          dailyKindReal: "Side quests branching off today's daily: exhibitions, festivals and workshops you actually travel to, and check in at the venue.",
+          dailyKindRealTag: "ADVENTURE QUESTS",
+          dailyKindReal: "Adventure quests branching off today's daily: exhibitions, festivals and workshops you actually travel to, and check in at the venue.",
           dailyKindDailyTag: "DAILY",
           dailyKindDaily: "This is the daily itself — tiny things you can do anywhere, today, in a few minutes. The everyday walk that moves your story forward.",
           dailyAllDone: "Today's daily complete — nice day!",
           dailyBannerNext: function (n) { return "Daily: " + n; },
           mainTag: "DAILY",
-          sideLine: "A side quest — branched off today's daily, out in the Tokyo adventure.",
-          partMain: "DAILY", partSide: "SIDE QUESTS",
+          sideLine: "An adventure quest — branched off today's daily, out in the Tokyo adventure.",
+          partMain: "DAILY", partSide: "ADVENTURE QUESTS",
           ladderNote: "Titles and levels are your daily progress — every day you walk adds up here.",
           ladderTitle: "TITLE LADDER", ladderNow: "NOW", ladderGot: "✓", ladderLocked: "LOCKED",
           ladderPast: function (n) { return "▸ Show earlier titles (" + n + ")"; },
@@ -12227,8 +12617,8 @@
           puzzleTitleName: "TOKYO PANORAMA MASTER",
           puzzleRewardLine: function (name) { return "★ LIMITED TITLE: " + name + " — the finished panorama is yours to admire!"; },
           segRecords: "RECORDS",
-          segPuzzle: "PUZZLE", segCollection: "LOGBOOK", segAdvLog: "SIDE QUEST LOG",
-          colTitle: "HERO'S LOGBOOK", advLogTitle: "SIDE QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "DAILY DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear a side quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared side quests yet. Clear a side quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
+          segPuzzle: "PUZZLE", segCollection: "LOGBOOK", segAdvLog: "ADVENTURE QUEST LOG",
+          colTitle: "HERO'S LOGBOOK", advLogTitle: "ADVENTURE QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "DAILY DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear an adventure quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared adventure quests yet. Clear an adventure quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
           puzzleBanner: function (n) { return "Tokyo panorama — " + n + "/16 pieces"; },
           createTab: "NEW ADVENTURER",
           creatorNameLabel: "NAME",
@@ -12264,7 +12654,7 @@
           shareDailyReward: "SHARE BONUS — TICKET +1!",
           shareDoneTxt: "Share bonus already claimed today.",
           shareCopied: "Card text copied — paste it anywhere!",
-          dailyCats: { food: "EAT", walk: "WALK", see: "SEE", make: "MAKE", tidy: "TIDY", mind: "MIND" },
+          dailyCats: { food: "EAT", walk: "WALK", see: "SEE", make: "MAKE", tidy: "TIDY", mind: "MIND", home: "HOME" },
           luckyTag: "★ LUCKY",
           customTitle: "CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR", custFace: "EXPRESSION",
           hairStyles: ["Short", "Cap", "Long", "Twin Tails", "Ponytail", "Bob", "Bun", "Spiky", "Curly"],
@@ -12334,15 +12724,20 @@
             { n: "Eat something icy", d: "Shaved ice, ice cream, a frozen treat — summer rules.", c: "food", mo: [6, 7, 8] },
             { n: "Collect one fallen leaf", d: "The best-shaped leaf. Press it in a book.", c: "walk", mo: [10, 11] },
             { n: "Warm drink, cold air", d: "A hot can or cup, drunk outside in the winter air.", c: "food", mo: [12, 1, 2] },
-            { n: "Find winter illuminations", d: "Any glowing street. Stand in the light.", c: "see", mo: [11, 12, 1] }
+            { n: "Find winter illuminations", d: "Any glowing street. Stand in the light.", c: "see", mo: [11, 12, 1] },
+            { n: "Browse 3 quest details", d: "Open any 3 quest pages and read them properly. Planning counts.", c: "home", x: 15, act: "detail" },
+            { n: "Play the dash mini-game once", d: "Hero page → DASH RUN. Dodge the barriers!", c: "home", x: 15, act: "runner" },
+            { n: "Pull the gacha once", d: "Hero page → GACHA. One pull — any result counts.", c: "home", x: 10, act: "gacha" },
+            { n: "Read today's announcements", d: "Open the NEWS board and check what's new.", c: "home", x: 10, act: "news" },
+            { n: "Preview a LEGEND route", d: "Open any LEGEND route and scout its waypoints.", c: "home", x: 20, act: "legend" }
           ]
         },
         ja: {
           advSub: "東京のクエストハンター",
           cleared: "クリア", active: "受注中", areas: "エリア",
           tagline: "<b>東京の毎日は、冒険だ。今日も、あなたは生活の勇者。</b>ピンを開いてクエストを受け、実際の会場で位置情報チェックインするとクリア＆EXPゲット。クリアの記録はクエストログに1ページずつ残ります。",
-          titles: ["見習いウォーカー", "街のスカウト", "クエストハンター", "シティレンジャー", "東京エクスプローラー", "手帳の守り手", "クエストマスター", "夜のレンジャー", "大冒険者", "伝説の冒険者", "路地裏の案内人", "夜市マスター", "東京コレクター", "週末の勇者", "街の語り部", "クエスト王", "都市の賢者", "星屑ハンター", "東京の守護者", "伝説の冒険王", "区めぐりの達人", "スタンプラリー覇者", "夕闇の地図師", "祭りの大将", "スカイラインの巡礼者", "東京の神話作者", "永遠のクエスター", "寄り道皇帝", "生きる都市伝説", "東京グランドマスター"],
-          titleFlavors: ["大きな地図への第一歩。", "いい展示が隠れる通りを知っている。", "クエスト掲示板は全部目を通す。", "どの区も、もう庭みたいなもの。", "街全体がフィールドガイド。", "手帳のページ全部がトロフィー。", "クエストが恐れる予定表。", "夜の東京がホームグラウンド。", "大きなクリアが積み上がってきた。", "あなたの散歩は噂になる。", "路地裏ならガイドができる。", "屋台は匂いで判別できる。", "東京のイベント、だいたい現場にいた。", "週末は勇者の仕事場。", "街角ごとに物語が生まれる。", "クエストに敵なし。", "行き先は街があなたに聞く。", "イベントの合間の輝きを拾う。", "区々はあなたの見守りで安眠。", "伝説は、まだ途中。", "どの区も、もう顔なじみ。", "東京のスタンプラリーは制覇済み。", "夕闇の街を記憶だけで描ける。", "どの祭りも特等席が空いている。", "スカイラインは全部歩いて越えた。", "あなたの散歩が街の民話になる。", "クエストは季節のように集まる。", "寄り道こそが目的地だった。", "子どもが指さす、あの噂のウォーカー。", "Lv.30。東京自身が手帳に署名する。"],
+          titles: ["見習いウォーカー", "街のスカウト", "クエストハンター", "シティレンジャー", "東京エクスプローラー", "手帳の守り手", "クエストマスター", "夜のレンジャー", "大冒険者", "伝説の冒険者", "路地裏の案内人", "夜市マスター", "東京コレクター", "週末の勇者", "街の語り部", "クエスト王", "都市の賢者", "星屑ハンター", "東京の守護者", "伝説の冒険王", "区めぐりの達人", "スタンプラリー覇者", "夕闇の地図師", "祭りの大将", "スカイラインの巡礼者", "東京の神話作者", "永遠のクエスター", "寄り道皇帝", "生きる都市伝説", "東京グランドマスター", "夜明けパトロール隊長", "路地裏の地図師", "祭りの雨踊り手", "区々巡礼者", "スカイラインの覇者", "ネオンの記録者", "川の守り人", "真夜中の指揮者", "スタンプ皇帝の好敵手", "東京ウェイフェアラー大将軍", "雲の羊飼い", "提灯の守り手", "大周遊の年代記作者", "路地裏皇帝", "全区の守護者", "星明かりの測量士", "光の街の腹心", "永遠の夜明けウォーカー", "東京公認の伝説", "終わらない街のグランドマスター"],
+          titleFlavors: ["大きな地図への第一歩。", "いい展示が隠れる通りを知っている。", "クエスト掲示板は全部目を通す。", "どの区も、もう庭みたいなもの。", "街全体がフィールドガイド。", "手帳のページ全部がトロフィー。", "クエストが恐れる予定表。", "夜の東京がホームグラウンド。", "大きなクリアが積み上がってきた。", "あなたの散歩は噂になる。", "路地裏ならガイドができる。", "屋台は匂いで判別できる。", "東京のイベント、だいたい現場にいた。", "週末は勇者の仕事場。", "街角ごとに物語が生まれる。", "クエストに敵なし。", "行き先は街があなたに聞く。", "イベントの合間の輝きを拾う。", "区々はあなたの見守りで安眠。", "伝説は、まだ途中。", "どの区も、もう顔なじみ。", "東京のスタンプラリーは制覇済み。", "夕闇の街を記憶だけで描ける。", "どの祭りも特等席が空いている。", "スカイラインは全部歩いて越えた。", "あなたの散歩が街の民話になる。", "クエストは季節のように集まる。", "寄り道こそが目的地だった。", "子どもが指さす、あの噂のウォーカー。", "Lv.30。東京自身が手帳に署名する。", "街が目覚める前に挨拶する。", "路地裏は全部あなたの鉛筆跡だらけ。", "祭りに雨？ それでも踊る。", "区の境目はあなたの足には無意味。", "Lv.35。スカイラインが頭を下げる。", "街の灯りを全部暗記している。", "川はあなたに報告するようになった。", "真夜中の電車をオーケストラのように指揮する。", "スタンプ皇帝もあなたの手帳を二度見する。", "Lv.40。将軍があなたの歩行靴に敬礼する。", "週末は湾の上の雲を追い立てる。", "商店街の提灯は全部あなたの足音を知っている。", "あなたの年代記は第二巻が必要だ。", "路地裏は発見であなたに貢ぐ。", "Lv.45。全区があなたの名の鍵を預けている。", "星明かりで街を測量するのが趣味。", "光の街が近道を耳打ちしてくる。", "どの夜明けも自分のもののように歩く。", "伝説はもう物語じゃない——あなたの住所だ。", "Lv.50。終わらない街はあなたのもの、グランドマスター。"],
           nextLevel: function (n) { return "つぎのLvまで " + n; },
           maxLevel: "MAX",
           levelUp: "レベルアップ！",
@@ -12371,7 +12766,7 @@
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
           checkin: "ここにいる？チェックイン", checkingIn: "位置を取得中…",
           manualClear: "行けないときは遠距離クリア（EXP 30%・1日1回）",
-          checkinNote: "位置情報はチェックイン時の距離判定のみ。追跡・保存はしません。",
+          checkinNote: "位置情報はチェックイン時の距離判定に、端末の中だけで使います。外部に送信されることはなく、追跡・保存もしません。",
           checkinOk: "会場に到着！チェックイン完了。",
           tooFar: function (d, r) { return "まだ届きません——会場まで約" + d + "（チェックインは約" + r + "以内）"; },
           geoDenied: "位置情報の許可が得られなかったため、距離判定は行いませんでした。",
@@ -12396,7 +12791,7 @@
           startsIn: function (d) { return d === 1 ? "明日から" : "あと" + d + "日で開始"; },
           endsIn: function (d) { return d === 0 ? "本日最終日！" : d === 1 ? "明日で終了" : "あと" + d + "日で終了"; },
           nowOn: "開催中",
-          clearFanfareSub: "サイドクエスト完了——手帳に記録しました。",
+          clearFanfareSub: "冒険クエスト完了——手帳に記録しました。",
           badgeGet: "バッジ獲得",
           resExp: "獲得EXP", resProg: "進捗", resTicket: "次のチケットまで",
           resTicketIn: function (n) { return "あと " + n + " EXP"; },
@@ -12858,7 +13253,7 @@
             "comet-pendant": { name: "彗星のペンダント", desc: "深夜色の紐に、黄金の彗星がひとつ。" }
           },
           tabDaily: "デイリー",
-          tabListIndex: "サイドクエスト",
+          tabListIndex: "冒険クエスト",
           locBtnShort: "現在地", bigMapShort: "全画面",
           communityTitle: "コミュニティ", communitySub: "冒険者たちの掲示板",
           communityStamp: "近日公開",
@@ -12893,19 +13288,19 @@
           bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "✕",
           dailyTitle: "今日のデイリー",
           dailySub: "毎日を歩くこと自体がデイリー。1件 +10 EXP。",
-          dailyNpc: "これは今日のデイリー——移動なし、どこでも数分で終わる、毎日の歩みそのもの。寄り道のサイドクエストはマップで待ってるよ！",
+          dailyNpc: "これは今日のデイリー——移動なし、どこでも数分で終わる、毎日の歩みそのもの。寄り道の冒険クエストはマップで待ってるよ！",
           dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で今日のデイリー完了、+30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "できた！", dailyDoneStamp: "達成 ✓",
           dailyNote: "今日のデイリーは深夜0時に切り替わります。小さな幸せを叶えたら行をタップ — 3つ全達成で +30 EXP ボーナス。",
-          dailyKindRealTag: "サイドクエスト",
+          dailyKindRealTag: "冒険クエスト",
           dailyKindReal: "デイリーから分かれた寄り道：展示・フェス・ワークショップへ、実際に足を運んで会場でチェックインする冒険。",
           dailyKindDailyTag: "デイリー",
           dailyKindDaily: "こちらがデイリーそのもの——今日、どこでも、数分でできる小さなこと。毎日を歩くことが、物語を前に進めます。",
           dailyAllDone: "今日のデイリーは全部達成——いい日だ！",
           dailyBannerNext: function (n) { return "今日のデイリー：" + n; },
           mainTag: "デイリー",
-          sideLine: "サイドクエスト —— 今日のデイリーから分かれた、東京の冒険の寄り道。",
-          partMain: "デイリー編", partSide: "サイドクエスト編",
+          sideLine: "冒険クエスト —— 今日のデイリーから分かれた、東京の冒険の寄り道。",
+          partMain: "デイリー編", partSide: "冒険クエスト編",
           ladderNote: "称号とレベルはデイリーの進行——歩いた毎日が、ここに積み上がっていく。",
           ladderTitle: "称号ラダー", ladderNow: "現在", ladderGot: "✓", ladderLocked: "まだ",
           ladderPast: function (n) { return "▸ これまでの称号（" + n + "）"; },
@@ -12941,8 +13336,8 @@
           puzzleTitleName: "東京パノラママスター",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成したパノラマを眺められます！"; },
           segRecords: "記録",
-          segPuzzle: "パズル", segCollection: "手帳", segAdvLog: "サイドクエストログ",
-          colTitle: "勇者のクエスト手帳", advLogTitle: "サイドクエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "デイリー記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "サイドクエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。サイドクエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
+          segPuzzle: "パズル", segCollection: "手帳", segAdvLog: "冒険クエストログ",
+          colTitle: "勇者のクエスト手帳", advLogTitle: "冒険クエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "デイリー記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "冒険クエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。冒険クエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
           puzzleBanner: function (n) { return "東京パノラマ — ピース " + n + "/16"; },
           createTab: "あたらしい勇者",
           creatorNameLabel: "名前",
@@ -12978,7 +13373,7 @@
           shareDailyReward: "シェアボーナス — チケット +1！",
           shareDoneTxt: "今日のシェアボーナスは受取済みです。",
           shareCopied: "文面をコピーしました — どこにでも貼れます！",
-          dailyCats: { food: "食", walk: "歩", see: "見", make: "作", tidy: "整", mind: "心" },
+          dailyCats: { food: "食", walk: "歩", see: "見", make: "作", tidy: "整", mind: "心", home: "家" },
           luckyTag: "★ 当たり",
           customTitle: "主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色", custFace: "表情",
           hairStyles: ["ショート", "キャップ", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子", "ツンツン", "くるくる"],
@@ -13048,15 +13443,20 @@
             { n: "冷たいものを食べる", d: "かき氷でもアイスでも、冷たいおやつ。", c: "food", mo: [6, 7, 8] },
             { n: "落ち葉をひとつ拾う", d: "ルート上で一番形のいい葉を。本に挟んで。", c: "walk", mo: [10, 11] },
             { n: "温かい飲み物を冷たい空気の中で", d: "ホット缶でもカップでも、冬の外気で飲む。", c: "food", mo: [12, 1, 2] },
-            { n: "冬のイルミネーションを探す", d: "光る通りか木を。光の中で少し立つ。", c: "see", mo: [11, 12, 1] }
+            { n: "冬のイルミネーションを探す", d: "光る通りか木を。光の中で少し立つ。", c: "see", mo: [11, 12, 1] },
+            { n: "クエスト詳細を3つ見る", d: "どれか3つのクエストページを開いて、ちゃんと読もう。作戦会議も冒険のうち。", c: "home", x: 15, act: "detail" },
+            { n: "ダッシュミニゲームを1回遊ぶ", d: "主人公ページ→DASH RUN。障害物をよけろ！", c: "home", x: 15, act: "runner" },
+            { n: "ガチャを1回まわす", d: "主人公ページ→ガチャ。結果はなんでもOK。", c: "home", x: 10, act: "gacha" },
+            { n: "今日のお知らせを読む", d: "お知らせボードを開いて新着をチェック。", c: "home", x: 10, act: "news" },
+            { n: "LEGENDルートを下見する", d: "どれか1つのLEGENDルートを開いて地点を確認。", c: "home", x: 20, act: "legend" }
           ]
         },
         zh: {
           advSub: "东京任务猎人",
           cleared: "已完成", active: "进行中", areas: "区域",
           tagline: "<b>东京的每一天都是冒险。今天，你也是生活的勇者。</b>点开一个图钉接下任务——然后到真实场馆用手机定位打卡，完成任务并获得 EXP，每一次完成都会在任务日志里多出一页。",
-          titles: ["新手漫步者", "街头侦察员", "任务猎人", "城市游侠", "东京探险家", "手帐守护者", "任务大师", "暗夜游侠", "大冒险家", "传奇冒险家", "巷子向导", "夜市大师", "东京收藏家", "周末勇者", "街头说书人", "任务之王", "都市贤者", "星屑猎人", "东京守护者", "传说冒险王", "走遍各区之人", "印章拉力霸主", "黄昏制图师", "祭典大将", "天际线朝圣者", "东京神话作者", "永远的勇者", "绕路皇帝", "行走的都市传说", "东京大宗师"],
-          titleFlavors: ["迈向大地图的第一步。", "你知道好展览藏在哪条街。", "任务公告板一块都不落。", "每个区都像自家后院。", "整座城市都是你的攻略本。", "手帐的每一页都是奖杯。", "任务都怕你的日程表。", "夜晚的东京是你的主场。", "大型完成记录越攒越多。", "你的散步都成了传说素材。", "小巷子你能当向导。", "夜市摊位闻味就能认出。", "东京的活动，你基本都在现场。", "周末是勇者的工作日。", "每个街角都有故事发生。", "任务无一是你的对手。", "去哪儿，连城市都要问你。", "活动之间的闪光都被你捡到。", "各区在你的守护下安睡。", "传说，还在继续。", "每个区都跟你混了个脸熟。", "东京的印章拉力你全制霸。", "黄昏的街道，凭记忆就能画出来。", "每个祭典都给你留着特等席。", "每条天际线都用脚步越过。", "你的散步成了城市的民间故事。", "任务像季节一样向你聚拢。", "绕的路，才是目的地本身。", "孩子们指着你说：那是传说中的漫步者。", "Lv.30。东京亲自在你的手帐上签名。"],
+          titles: ["新手漫步者", "街头侦察员", "任务猎人", "城市游侠", "东京探险家", "手帐守护者", "任务大师", "暗夜游侠", "大冒险家", "传奇冒险家", "巷子向导", "夜市大师", "东京收藏家", "周末勇者", "街头说书人", "任务之王", "都市贤者", "星屑猎人", "东京守护者", "传说冒险王", "走遍各区之人", "印章拉力霸主", "黄昏制图师", "祭典大将", "天际线朝圣者", "东京神话作者", "永远的勇者", "绕路皇帝", "行走的都市传说", "东京大宗师", "黎明巡逻队长", "巷子制图师", "祭典雨舞者", "各区巡礼者", "天际线霸主", "霓虹记录者", "河流守护人", "午夜指挥家", "印章皇帝的劲敌", "东京漫游大将军", "云朵牧人", "灯笼守护者", "大周游编年史作者", "小巷皇帝", "全区守护者", "星光测量师", "光之城的心腹", "永远的破晓行者", "东京认证传说", "无尽之城大宗师"],
+          titleFlavors: ["迈向大地图的第一步。", "你知道好展览藏在哪条街。", "任务公告板一块都不落。", "每个区都像自家后院。", "整座城市都是你的攻略本。", "手帐的每一页都是奖杯。", "任务都怕你的日程表。", "夜晚的东京是你的主场。", "大型完成记录越攒越多。", "你的散步都成了传说素材。", "小巷子你能当向导。", "夜市摊位闻味就能认出。", "东京的活动，你基本都在现场。", "周末是勇者的工作日。", "每个街角都有故事发生。", "任务无一是你的对手。", "去哪儿，连城市都要问你。", "活动之间的闪光都被你捡到。", "各区在你的守护下安睡。", "传说，还在继续。", "每个区都跟你混了个脸熟。", "东京的印章拉力你全制霸。", "黄昏的街道，凭记忆就能画出来。", "每个祭典都给你留着特等席。", "每条天际线都用脚步越过。", "你的散步成了城市的民间故事。", "任务像季节一样向你聚拢。", "绕的路，才是目的地本身。", "孩子们指着你说：那是传说中的漫步者。", "Lv.30。东京亲自在你的手帐上签名。", "你赶在城市苏醒之前向它问好。", "每条小巷都有你的铅笔印记。", "祭典下雨？你照样起舞。", "区的边界对你的脚毫无意义。", "Lv.35。天际线在你经过时低头。", "你把整座城市的灯光都记在心里。", "河流现在都要向你汇报。", "你像指挥乐团一样指挥午夜电车。", "连印章皇帝都要把你的手帐看两遍。", "Lv.40。将军们向你的步行靴敬礼。", "周末你去海湾上空放牧云朵。", "商店街的每一盏灯笼都认得你的脚步。", "你的编年史需要第二卷了。", "小巷用新发现向你进贡。", "Lv.45。每个区都存着一把写着你名字的钥匙。", "你靠星光测量城市，纯属好玩。", "光之城会把捷径悄悄告诉你。", "你走进每一个黎明，像走进自己家。", "传说不再是故事——那是你的地址。", "Lv.50。无尽之城归你了，大宗师。"],
           nextLevel: function (n) { return "距离下一级 " + n; },
           maxLevel: "MAX",
           levelUp: "升级了！",
@@ -13085,7 +13485,7 @@
           clearedOn: "完成日期：", undoClear: "撤销完成",
           checkin: "我在这里？打卡", checkingIn: "正在定位…",
           manualClear: "去不了时可远程完成（EXP 30%，每天 1 次）",
-          checkinNote: "定位只在打卡时用于测距，不追踪、不保存。",
+          checkinNote: "定位只在打卡时在你的手机内用于测距，绝不上传、不追踪、不保存。",
           checkinOk: "已到达场馆——打卡完成！",
           tooFar: function (d, r) { return "还没到——距场馆约 " + d + "（约 " + r + " 以内可打卡）"; },
           geoDenied: "没有获得定位许可，因此没有进行距离判断。",
@@ -13110,7 +13510,7 @@
           startsIn: function (d) { return d === 1 ? "明天开始" : "还有 " + d + " 天开始"; },
           endsIn: function (d) { return d === 0 ? "今天最后一天！" : d === 1 ? "明天结束" : "还有 " + d + " 天结束"; },
           nowOn: "举办中",
-          clearFanfareSub: "支线完成——已记入手帐。",
+          clearFanfareSub: "冒险完成——已记入手帐。",
           badgeGet: "获得徽章",
           resExp: "获得EXP", resProg: "进度", resTicket: "下一张券",
           resTicketIn: function (n) { return "还差 " + n + " EXP"; },
@@ -13572,7 +13972,7 @@
             "comet-pendant": { name: "彗星吊坠", desc: "深夜色挂绳上，坠着一颗金色彗星。" }
           },
           tabDaily: "每日",
-          tabListIndex: "支线任务",
+          tabListIndex: "冒险任务",
           locBtnShort: "定位", bigMapShort: "全屏",
           communityTitle: "社区", communitySub: "冒险者公告板",
           communityStamp: "即将公开",
@@ -13607,19 +14007,19 @@
           bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "✕",
           dailyTitle: "今日每日任务",
           dailySub: "每天走下去的过程，本身就是每日任务。每件 +10 EXP。",
-          dailyNpc: "这是今日每日任务：不用出门，在任何地方几分钟就能完成——走下去的每一天就是每日任务。真正的支线任务，在地图上等着你！",
+          dailyNpc: "这是今日每日任务：不用出门，在任何地方几分钟就能完成——走下去的每一天就是每日任务。真正的冒险任务，在地图上等着你！",
           dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 = 今日每日任务完成，+30 EXP。",
           dailyProg: "今日", dailyDoneBtn: "完成了！", dailyDoneStamp: "达成 ✓",
           dailyNote: "今日每日任务在午夜刷新。完成小确幸后点一下那一行 — 三个全完成有 +30 EXP 奖励。",
-          dailyKindRealTag: "支线任务",
-          dailyKindReal: "从每日任务分岔出去的支线：实际前往展览、节日和工作坊，并在场馆打卡。",
+          dailyKindRealTag: "冒险任务",
+          dailyKindReal: "从每日任务分岔出去的冒险任务：实际前往展览、节日和工作坊，并在场馆打卡。",
           dailyKindDailyTag: "每日任务",
           dailyKindDaily: "这就是每日任务本身——今天在任何地方、几分钟就能做完的小事。每天的步伐，推动着你的故事向前。",
           dailyAllDone: "今日每日任务全部完成——美好的一天！",
           dailyBannerNext: function (n) { return "今日每日任务：" + n; },
           mainTag: "每日",
-          sideLine: "支线任务 —— 从今日每日任务分岔出去的一段东京冒险。",
-          partMain: "每日篇", partSide: "支线篇",
+          sideLine: "冒险任务 —— 从今日每日任务分岔出去的一段东京冒险。",
+          partMain: "每日篇", partSide: "冒险篇",
           ladderNote: "称号和等级就是每日任务的进度——你走过的每一天，都累积在这里。",
           ladderTitle: "称号阶梯", ladderNow: "当前", ladderGot: "✓", ladderLocked: "未解锁",
           ladderPast: function (n) { return "▸ 查看之前的称号（" + n + "）"; },
@@ -13655,8 +14055,8 @@
           puzzleTitleName: "东京全景大师",
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成的全景图可以慢慢欣赏了！"; },
           segRecords: "记录",
-          segPuzzle: "拼图", segCollection: "手帐", segAdvLog: "支线任务日志",
-          colTitle: "勇者任务手帐", advLogTitle: "支线任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "每日记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成支线任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成支线任务后，这里会多出一页日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
+          segPuzzle: "拼图", segCollection: "手帐", segAdvLog: "冒险任务日志",
+          colTitle: "勇者任务手帐", advLogTitle: "冒险任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "每日记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成冒险任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成冒险任务后，这里会多出一页日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
           puzzleBanner: function (n) { return "东京全景 — 碎片 " + n + "/16"; },
           createTab: "新勇者",
           creatorNameLabel: "名字",
@@ -13692,7 +14092,7 @@
           shareDailyReward: "分享奖励 — 券 +1！",
           shareDoneTxt: "今天的分享奖励已领取。",
           shareCopied: "文案已复制 — 粘贴到任何地方吧！",
-          dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心" },
+          dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心", home: "家" },
           luckyTag: "★ 幸运",
           customTitle: "自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色", custFace: "表情",
           hairStyles: ["短发", "棒球帽", "长发", "双马尾", "马尾", "波波头", "丸子头", "刺猬头", "卷发"],
@@ -13762,7 +14162,12 @@
             { n: "吃一样冰凉的东西", d: "刨冰、冰淇淋、冷冻小吃——夏天的规则。", c: "food", mo: [6, 7, 8] },
             { n: "捡一片落叶", d: "你路线上形状最美的一片。夹进书里。", c: "walk", mo: [10, 11] },
             { n: "在冷空气里喝一杯热饮", d: "一罐热饮或一杯热咖啡，在冬天的户外喝。", c: "food", mo: [12, 1, 2] },
-            { n: "找冬日的灯光秀", d: "任何发光的街道或树。在光里站一会儿。", c: "see", mo: [11, 12, 1] }
+            { n: "找冬日的灯光秀", d: "任何发光的街道或树。在光里站一会儿。", c: "see", mo: [11, 12, 1] },
+            { n: "看3个任务详情", d: "打开任意3个任务页面认真读一读。做攻略也是冒险的一部分。", c: "home", x: 15, act: "detail" },
+            { n: "玩1次冲刺小游戏", d: "主人公页 → DASH RUN。躲开障碍！", c: "home", x: 15, act: "runner" },
+            { n: "抽1次扭蛋", d: "主人公页 → 扭蛋。抽到什么都算。", c: "home", x: 10, act: "gacha" },
+            { n: "读今天的公告", d: "打开公告板，看看有什么新消息。", c: "home", x: 10, act: "news" },
+            { n: "预览1条LEGEND路线", d: "打开任意一条LEGEND路线，看看它的途经点。", c: "home", x: 20, act: "legend" }
           ]
         }
       };
@@ -14072,7 +14477,7 @@
          carried over untouched, never reset. */
       var LS_KEY = "tql_state_v1";
       var LS_KEY_OLD = "tsq_state_v1";
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } } };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, homeProg: null };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -14117,6 +14522,20 @@
                older saves carry none of these — defaults keep the
                legacy hero name, an empty puzzle and a fresh cap */
             state.name = typeof parsed.name === "string" ? parsed.name : "";
+            /* BETA ROUND (2026-10-29): account display name, the
+               dash-runner ledger and the at-home daily progress —
+               older saves carry none of these and keep defaults */
+            state.displayName = typeof parsed.displayName === "string" ? parsed.displayName : "";
+            /* wish flag (2026-10-29): one display-only line on the
+               HERO stage; older saves carry none and start empty */
+            state.wishText = typeof parsed.wishText === "string" ? parsed.wishText.slice(0, 40) : "";
+            state.nameAsked = !!parsed.nameAsked;
+            if (parsed.runner && typeof parsed.runner === "object") {
+              state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0 };
+            }
+            if (parsed.homeProg && typeof parsed.homeProg === "object") {
+              state.homeProg = { date: typeof parsed.homeProg.date === "string" ? parsed.homeProg.date : "", details: Array.isArray(parsed.homeProg.details) ? parsed.homeProg.details.filter(function (x) { return typeof x === "string"; }) : [], acts: (parsed.homeProg.acts && typeof parsed.homeProg.acts === "object" && !Array.isArray(parsed.homeProg.acts)) ? parsed.homeProg.acts : {} };
+            }
             state.remoteDate = typeof parsed.remoteDate === "string" ? parsed.remoteDate : "";
             state.legendProg = (parsed.legendProg && typeof parsed.legendProg === "object" && !Array.isArray(parsed.legendProg)) ? parsed.legendProg : {};
             state.legendActive = typeof parsed.legendActive === "string" ? parsed.legendActive : "";
@@ -15327,6 +15746,7 @@
       var legendSheetId = null;
       function openLegend(id) {
         legendSheetId = id; state.legendActive = id; save();
+        if (window.markHomeAct) window.markHomeAct("legend"); /* at-home daily: preview a route */
         var lt = document.getElementById("legendTab");
         if (lt) lt.textContent = "★ " + L().legendTag;
         var sc = document.getElementById("legendScreen");
@@ -15376,7 +15796,20 @@
           });
         });
         var mb = document.getElementById("legendMapBtn");
-        if (mb) mb.addEventListener("click", function () { closeLegend(); switchView("map"); drawRouteOverlay(); });
+        if (mb) mb.addEventListener("click", function () {
+          /* Q-117: fly INTO the route, centred on the NEXT waypoint
+             (same centring as a successful locate), with the route
+             layer riding above the cluster pins (CSS z raise) */
+          var nxId = legendNext(lg);
+          var nxEv = nxId ? byId(nxId) : null;
+          closeLegend(); switchView("map"); drawRouteOverlay();
+          var fly = function () {
+            if (nxEv) centerOnPct({ x: nxEv.x, y: nxEv.y }, 1.9);
+            drawRouteOverlay();
+          };
+          if (mapBox.classList.contains("in-big")) fly();
+          else { openBigMap(); setTimeout(fly, 380); }
+        });
       }
       function legendCardHTML(lg) {
         var t = L(), p = legendProg(lg), done = p.length >= lg.cps.length;
@@ -16074,6 +16507,7 @@
           else { state.gacha.owned.push(it.id); }
           lastPull = { id: it.id, dupe: dupe };
           save();
+          if (window.markHomeAct) window.markHomeAct("gacha"); /* at-home daily: one pull */
           sfx(dupe ? "accept" : "fanfare");
           renderStatus(); renderGacha(); renderHeroGrids();
           var res = document.getElementById("gachaResult");
@@ -16856,10 +17290,12 @@
       }
       /* ============ EXP / levels / titles ============ */
       function expFor(e) { if (typeof e.exp === "number") return e.exp; if (e.evergreen) return 100; return e.free ? 30 : 50; } /* EXP table (R3): daily 10 (+30 sweep), normal events 30-50, large/special 60-80 via e.exp, EPIC evergreen 100 + limited gear */
-      /* Lv.1–30 (cap raised 20 -> 30, 2026-10-26): the curve
-         continues with the same widening steps, so existing
-         saves land on exactly the level they had before. */
-      var LEVELS = [0, 50, 120, 210, 320, 450, 600, 780, 980, 1200, 1450, 1750, 2100, 2500, 2950, 3450, 4000, 4600, 5250, 6000, 6900, 7900, 9000, 10200, 11500, 12900, 14400, 16000, 17700, 19500];
+      /* Lv.1–50 (cap raised 30 -> 50, 2026-10-29 beta round):
+         Lv.1–30 thresholds are byte-identical to before, so
+         existing saves land on exactly the level they had; the
+         31–50 thresholds continue the same widening-step curve
+         (steps grow +100 each level, as they did up to Lv.30). */
+      var LEVELS = [0, 50, 120, 210, 320, 450, 600, 780, 980, 1200, 1450, 1750, 2100, 2500, 2950, 3450, 4000, 4600, 5250, 6000, 6900, 7900, 9000, 10200, 11500, 12900, 14400, 16000, 17700, 19500, 21400, 23400, 25500, 27700, 30000, 32400, 34900, 37500, 40200, 43000, 45900, 48900, 52000, 55200, 58500, 61900, 65400, 69000, 72700, 76500];
       function totalExp() {
         /* a clear pays the EXP recorded AT CLEAR TIME (on-site
            100% / remote 30% — spec D); legacy records without a
@@ -16961,12 +17397,14 @@
            chip's own colours (lemon / epic / legend) via data-cur */
         bar.setAttribute("data-cur", mapFilter);
         if (typeof mapBox !== "undefined" && mapBox) mapBox.classList.toggle("filters-folded", mapFiltersFolded);
-        var tab = document.getElementById("mfFoldTab");
-        if (tab) {
-          tab.textContent = mapFiltersFolded ? "▸" : "▾";
-          tab.setAttribute("aria-expanded", String(!mapFiltersFolded));
-          tab.setAttribute("aria-label", mapFiltersFolded ? "Expand filter bar" : "Fold filter bar");
-        }
+        /* Q-118: the hanging fold tab is abolished — the folded
+           bar itself is the expand button, so the expanded state
+           and the keyboard affordance live on the bar itself.
+           Exactly one visible chevron: the .mf-mark segment
+           integrated into the bar's frame (folded state only). */
+        bar.setAttribute("aria-expanded", String(!mapFiltersFolded));
+        if (mapFiltersFolded) bar.setAttribute("tabindex", "0");
+        else bar.removeAttribute("tabindex");
       }
       function renderMap() {
         renderMapFilterChips();
@@ -17625,6 +18063,7 @@
         var e = byId(id);
         if (!e) return;
         currentId = id;
+        if (window.markHomeAct) window.markHomeAct("detail", id); /* at-home daily: browse details */
         var t = L();
         sfx("open");
         /* main visual: the REAL photo, large (tap opens the viewer).
@@ -18589,10 +19028,14 @@
         var html = '<div class="ladder-track">';
         for (var i = start; i < Math.min(total, start + LADDER_PAGE_SIZE); i++) html += row(t.titles[i], i);
         html += "</div>";
+        /* Q-119 self-audit: the titles ladder is the same kind of
+           page-turn nav as the logbook pager, so it goes pure UI
+           too — ◀ ▶ arrows only (words kept as aria-labels) with
+           the n / N readout in the centre. */
         html += '<div class="ladder-pager">' +
-          '<button class="ladder-pg-btn" type="button" data-ladder-pg="-1"' + (ladderPage <= 0 ? " disabled" : "") + ">" + esc(t.ladderPrev) + "</button>" +
+          '<button class="ladder-pg-btn" type="button" data-ladder-pg="-1" aria-label="' + esc(t.ladderPrev) + '"' + (ladderPage <= 0 ? " disabled" : "") + ">◀</button>" +
           '<span class="ladder-pg-num">' + esc(t.ladderPageOf(ladderPage + 1, pages)) + "</span>" +
-          '<button class="ladder-pg-btn" type="button" data-ladder-pg="1"' + (ladderPage >= pages - 1 ? " disabled" : "") + ">" + esc(t.ladderNextBtn) + "</button>" +
+          '<button class="ladder-pg-btn" type="button" data-ladder-pg="1" aria-label="' + esc(t.ladderNextBtn) + '"' + (ladderPage >= pages - 1 ? " disabled" : "") + ">▶</button>" +
           "</div>";
         el.innerHTML = html;
       }
@@ -18843,9 +19286,21 @@
           return '<span class="tut-dot' + (i === tutStep ? " on" : "") + '"></span>';
         }).join("");
         document.getElementById("tutBack").hidden = tutStep === 0;
-        document.getElementById("tutBack").textContent = t.tutBack;
+        /* Q-119 self-audit: tutorial step nav is conventional
+           back/next beside the step dots, so it renders as pure
+           ◀ ▶ arrows (words kept as aria-labels); the final
+           step's button is the START action, not a page turn,
+           and keeps its word. */
+        var tutBackEl = document.getElementById("tutBack");
+        tutBackEl.textContent = "◀";
+        tutBackEl.setAttribute("aria-label", t.tutBack);
+        tutBackEl.classList.add("tut-arrow");
         document.getElementById("tutSkip").textContent = t.tutSkip;
-        document.getElementById("tutNext").textContent = tutStep === steps.length - 1 ? t.tutDone : t.tutNext;
+        var tutNextEl = document.getElementById("tutNext");
+        var tutIsLast = tutStep === steps.length - 1;
+        tutNextEl.textContent = tutIsLast ? t.tutDone : "▶";
+        tutNextEl.setAttribute("aria-label", tutIsLast ? t.tutDone : t.tutNext);
+        tutNextEl.classList.toggle("tut-arrow", !tutIsLast);
         /* placement is continuous (tutTrackLoop) — seat it once
            right away so the first painted frame is already true */
         placeTutSpot(flow);
@@ -19046,7 +19501,7 @@
           shelfRow(t.colHats, cnt("hat")) + shelfRow(t.colOutfits, cnt("outfit")) + shelfRow(t.colScarves, cnt("scarf")) + "</div>";
         gear += '<div class="col-shelf epic"><h3>★ ' + esc(t.colEpicShelf) + "</h3>" + shelfRow(t.colEpicShelf, epicN + "/" + epic.length) + "</div>";
         gear += '<div class="col-shelf"><h3>' + esc(t.badgeTitle) + "</h3>" +
-          shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, 30) + "/30 · " + titleFor(info.lv)) +
+          shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, t.titles.length) + "/" + t.titles.length + " · " + titleFor(info.lv)) +
           shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
           shelfRow(t.colHeroes, heroesN + "/" + heroes.length) + shelfRow(t.colCalDays, String(days)) + "</div>";
         var zl = zoneCompleteList();
@@ -19065,14 +19520,25 @@
            MAINLINE pages carry the hero's growth (gear, badges,
            titles, record days); SIDE QUEST pages carry what the
            events left behind (zone stamps, stickers) */
+        /* Q-119: the pager centre carries the page's own compact
+           name only — the MAINLINE/SIDE part prefix made the EN
+           centre ("ADVENTURE QUESTS · ZONE STAMPS · 2 / 3") wider
+           than the column between the arrow buttons, so it slid
+           under both buttons and clipped. The part framing still
+           lives in the page shelves themselves. */
         var pages = [
-          { name: (t.partMain ? t.partMain + " · " : "") + (t.pageGear || "GEAR & BADGES"), html: gear },
-          { name: (t.partSide ? t.partSide + " · " : "") + (t.colZones || "ZONE STAMPS"), html: stamps },
-          { name: (t.partSide ? t.partSide + " · " : "") + (t.colStickers || "STICKER BOOK"), html: stickers }
+          { name: (t.pageGear || "GEAR & BADGES"), html: gear },
+          { name: (t.colZones || "ZONE STAMPS"), html: stamps },
+          { name: (t.colStickers || "STICKER BOOK"), html: stickers }
         ];
         if (colPage < 0) colPage = 0;
         if (colPage > pages.length - 1) colPage = pages.length - 1;
-        body.innerHTML = '<div class="book-nav"><button class="book-btn" type="button" data-book="-1">' + esc(t.bookPrev || "◀ PREV") + '</button><span class="book-pg">' + esc(pages[colPage].name) + " · " + (t.bookPageOf ? t.bookPageOf(colPage + 1, pages.length) : (colPage + 1) + " / " + pages.length) + '</span><button class="book-btn" type="button" data-book="1">' + esc(t.bookNext || "NEXT ▶") + "</button></div>" +
+        /* Q-119: pure-UI pager — chunky ◀ ▶ arrows only (the old
+           word labels survive only as aria-labels), page dots,
+           and a compact centre of title + n / N. No word wraps or
+           truncates in any language by construction. */
+        var bookDots = pages.map(function (_, i) { return '<span class="book-dot' + (i === colPage ? " on" : "") + '"></span>'; }).join("");
+        body.innerHTML = '<div class="book-nav"><button class="book-btn" type="button" data-book="-1" aria-label="' + esc(t.bookPrev || "Previous page") + '">◀</button><span class="book-center"><span class="book-pg">' + esc(pages[colPage].name) + " · " + (colPage + 1) + " / " + pages.length + '</span><span class="book-dots" aria-hidden="true">' + bookDots + '</span></span><button class="book-btn" type="button" data-book="1" aria-label="' + esc(t.bookNext || "Next page") + '">▶</button></div>' +
           '<div class="book-page">' + pages[colPage].html + "</div>";
         body.querySelectorAll("[data-book]").forEach(function (b) { b.addEventListener("click", function () { colPage = (colPage + parseInt(b.getAttribute("data-book"), 10) + pages.length) % pages.length; renderCollection(); }); });
         body.querySelectorAll("[data-zone-art]").forEach(function (cv) { drawZoneStamp(cv, cv.getAttribute("data-zone-art"), cv.getAttribute("data-zone-mode")); });
@@ -19822,7 +20288,7 @@
            touch starting on them must never arm a pan — a few px
            of drift would turn the fold tap into a drag and the
            click would never land (fold repair, 2026-10-29) */
-        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfFoldTab")) return;
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters")) return;
         /* the cover fit overflows the box even at zoom.s = 1 (in
            both modes), so panning must work from the first touch —
            gate on actual overflow, not on the zoom factor */
@@ -19872,7 +20338,7 @@
         if (glActive) return;
         /* chrome touches (filter bar / fold tab) never join the
            pinch tracker either — same fold repair as the pan gate */
-        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters, #mfFoldTab")) return;
+        if (ev.target && ev.target.closest && ev.target.closest("#mapFilters")) return;
         mapPtrs[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
         var ids = Object.keys(mapPtrs);
         if (ids.length === 2) {
@@ -20490,24 +20956,38 @@
         renderMap();
         renderStatus();
       });
-      /* filter bar fold: the ▾ tab folds it to the slim strip;
-         tapping the folded strip (or the tab, now ▸) expands it
-         back — instant toggle, no slide (GBA grammar) */
-      document.getElementById("mfFoldTab").addEventListener("click", function (ev) {
-        ev.stopPropagation();
-        mapFiltersFolded = !mapFiltersFolded;
-        sfx("move");
-        renderMapFilterFold();
-      });
-      document.getElementById("mapFilters").addEventListener("click", function (ev) {
+      /* filter bar fold (Q-118): there is no fold tab anymore —
+         tapping the folded strip itself expands it back, and
+         Enter/Space on the focused strip does the same.
+         Instant toggle, no slide (GBA grammar) */
+      document.getElementById("mapFilters").addEventListener("keydown", function (ev) {
         if (!mapFiltersFolded) return;
-        if (ev.target.closest("[data-mf]")) return;
-        /* the strip is a div, so without this the tap would fall
-           through to the map box's tap-to-open-big-map handler */
+        if (ev.key !== "Enter" && ev.key !== " ") return;
+        ev.preventDefault();
         ev.stopPropagation();
         mapFiltersFolded = false;
         sfx("move");
         renderMapFilterFold();
+      });
+      document.getElementById("mapFilters").addEventListener("click", function (ev) {
+        if (ev.target.closest("[data-mf]")) return;
+        if (mapFiltersFolded) {
+          /* the strip is a div, so without this the tap would fall
+             through to the map box's tap-to-open-big-map handler */
+          ev.stopPropagation();
+          mapFiltersFolded = false;
+          sfx("move");
+          renderMapFilterFold();
+        } else if (ev.target.closest(".mf-side, .mf-count")) {
+          /* Q-118 fold-back: with the hanging tab abolished, the
+             bar's own non-chip segments (the section tag / count)
+             fold it back — no second chevron is added, so the
+             folded strip's integrated ▾ stays the ONE chevron. */
+          ev.stopPropagation();
+          mapFiltersFolded = true;
+          sfx("move");
+          renderMapFilterFold();
+        }
       });
       document.getElementById("mapZoomHome").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); if (mapBox.classList.contains("in-big")) setZoom(1); else goHomeView(); });
       document.getElementById("locBtn").addEventListener("click", function (ev) { ev.stopPropagation(); locate(); });
@@ -21254,6 +21734,626 @@
         try { location.replace(location.pathname + "?upd=" + Date.now()); } catch (e) { /* ignore */ }
       });
       $("verBannerClose").addEventListener("click", function (e) { e.stopPropagation(); $("verBanner").hidden = true; });
+    </script>
+    <script>
+      "use strict";
+      /* ================================================================
+         BETA ROUND MODULE (2026-10-29) — announcements board + beta
+         entry, single feedback form (FEEDBACK_URL), account display
+         name, at-home daily quests, the DASH RUN mini-game, and
+         the settings name/privacy rows. Everything here rides the
+         game's existing globals (state / save / STR) and its save
+         object, so new fields sync to the cloud with the record.
+         ================================================================ */
+      function $(id) { return document.getElementById(id); }
+
+      /* ---------- feedback form: ONE single form ----------
+         Zoe's ruling 2026-10-29: the three per-language forms are
+         retired in favour of one form that branches by a language
+         choice at its head. Every feedback door (title plaque /
+         beta window / settings row) points at this single
+         constant — swap FEEDBACK_URL here and nowhere else.
+         Value: the unified form (language branch at its head),
+         wired 2026-10-29. */
+      var FEEDBACK_URL = "https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform";
+      function applyFormUrls() {
+        ["feedbackBtn", "betaSurveyBtn", "titleSurveyBtn"].forEach(function (id) {
+          var el = $(id); if (el) el.setAttribute("href", FEEDBACK_URL);
+        });
+      }
+
+      /* ---------- strings ---------- */
+      var EXT_STR = {
+        en: {
+          survey: "SURVEY", betaBtn: "★ BETA — NEWS & NOTES", newsLabel: "NEWS",
+          betaTitle: "BETA — NEWS BOARD", betaPeriod: "PUBLIC BETA · Oct 29 – Nov 5, 2026",
+          newsH: "ANNOUNCEMENTS", lotteryH: "FEEDBACK LOTTERY",
+          lottery: "Send the survey and leave the optional contact in the last question — after the beta closes (Nov 5) we draw 3 winners of a ¥1,000 Amazon gift card each and contact them directly. The draw is for feedback only: tipping is never required and never changes your chances.",
+          surveyBtn: "📝 FEEDBACK / BUG REPORT",
+          bugNote: "Found a bug? The same form has a bug-report field — tell us what happened and on which screen. It goes straight to the dev team.",
+          privacyH: "PRIVACY, IN PLAIN WORDS", privacyLink: "Full privacy policy →",
+          privacy: "• Your email is used only to log in — nothing else.\n• Your location is used only on your phone to measure check-in distance. It is never uploaded, tracked or stored.\n• No ads, no trackers.\n• Your save is stored in Tokyo (Supabase, ap-northeast-1).",
+          nameTitle: "ONE LAST STEP — YOUR NAME", nameSub: "Pick the name the game greets you with. You can change it anytime from your account window or settings.",
+          nameLabel: "ADVENTURER NAME", nameSave: "SAVE NAME", nameSkip: "SKIP FOR NOW", editName: "CHANGE NAME",
+          welcomeName: function (n) { return "Welcome back, " + n + "!"; },
+          nameRowLabel: "NAME",
+          wishCap: "MY WISH", wishPh: "Wish",
+          wishTitle: "WISH FLAG", wishLabel: "YOUR WISH — ONE LINE",
+          wishHint: "Display only: no rewards, no check-ins, no records. Just a little flag flying on your hero's street.",
+          wishSave: "SET THE FLAG", wishClear: "CLEAR",
+          wishAria: "Wish flag — tap to write your wish",
+          runTag: "RUN", runTitle: "DASH RUN",
+          runBanner: function (best, done) { return "DASH RUN — dodge & dash 300m for a daily gacha ticket" + (best ? " · BEST " + best + "m" : "") + (done ? " · TODAY'S TICKET ✓" : ""); },
+          runGoal: function (done) { return done ? "TODAY'S TICKET ✓ GOT IT" : "GOAL 300m = 🎟 ×1 / DAY"; },
+          runBest: function (b) { return "BEST " + b + "m"; },
+          runStart: "▶ START RUN", runRunning: "RUNNING…", runAgain: "↻ RUN AGAIN", runQuit: "QUIT",
+          runHelp: "Swipe ◀ ▶, tap the left / right half, or use the arrow keys to switch lanes. Dodge the barriers!",
+          runReady: "Reach 300m to win today's gacha ticket. Crash? Retry as much as you like — the ticket waits.",
+          runCrash: function (d) { return "CRASHED at " + d + "m! " + (d >= 300 ? "Ticket earned ✓" : "The 300m ticket is still out there — run again!"); },
+          runReward: "300m! GACHA TICKET +1 ✓ Keep going for a best distance!",
+          runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; }
+        },
+        ja: {
+          survey: "アンケート", betaBtn: "★ BETA — お知らせ", newsLabel: "お知らせ",
+          betaTitle: "BETA — お知らせボード", betaPeriod: "オープンベータ · 2026年10月29日〜11月5日",
+          newsH: "お知らせ", lotteryH: "フィードバック抽選",
+          lottery: "アンケートに答えて、最後の任意欄に連絡先を残すだけ。ベータ終了後（11/5）、抽選で3名にAmazonギフト券¥1,000をプレゼントし、直接ご連絡します。抽選はフィードバック専用です——応援（投げ銭）は抽選に一切関係しません。",
+          surveyBtn: "📝 フィードバック／バグ報告",
+          bugNote: "バグを見つけたら？ 同じフォームにバグ報告欄があります。どの画面で何が起きたか教えてください。開発チームに直接届きます。",
+          privacyH: "プライバシー（かんたん説明）", privacyLink: "プライバシーポリシー全文 →",
+          privacy: "・メールアドレスはログイン専用です。それ以外には使いません。\n・位置情報はチェックインの距離判定のため、端末の中だけで使います。アップロード・追跡・保存は一切しません。\n・広告・トラッキングなし。\n・セーブデータは東京（Supabase 東京リージョン）に保存されます。",
+          nameTitle: "あとひとつ — 冒険者名", nameSub: "ゲームがあなたを呼ぶ名前を決めてください。アカウント画面と設定からいつでも変更できます。",
+          nameLabel: "冒険者名", nameSave: "この名前で決定", nameSkip: "あとで", editName: "名前を変更",
+          welcomeName: function (n) { return "おかえりなさい、" + n + "さん！"; },
+          nameRowLabel: "冒険者名",
+          wishCap: "わたしの願い", wishPh: "願い",
+          wishTitle: "願いの旗", wishLabel: "願いをひとこと",
+          wishHint: "表示だけの旗です。報酬・チェックイン・記録とは一切関係ありません。",
+          wishSave: "旗を立てる", wishClear: "消す",
+          wishAria: "願いの旗 — タップで願いを書けます",
+          runTag: "RUN", runTitle: "DASH RUN",
+          runBanner: function (best, done) { return "DASH RUN — よけて300m走ると今日のガチャ券" + (best ? " · ベスト " + best + "m" : "") + (done ? " · 本日の券 ✓" : ""); },
+          runGoal: function (done) { return done ? "本日の券 ✓ 獲得済み" : "目標 300m = 🎟 ×1 / 日"; },
+          runBest: function (b) { return "ベスト " + b + "m"; },
+          runStart: "▶ スタート", runRunning: "走行中…", runAgain: "↻ もう一度", runQuit: "やめる",
+          runHelp: "左右スワイプ／画面の左右タップ／方向キーでレーン変更。障害物をよけろ！",
+          runReady: "300m走ると今日のガチャ券がもらえます。ぶつかっても何度でも再挑戦OK——券は逃げません。",
+          runCrash: function (d) { return d + "mでクラッシュ！" + (d >= 300 ? " 券は獲得済み ✓" : " 300mの券はまだ先——もう一度！"); },
+          runReward: "300m到達！ガチャ券 +1 ✓ ベスト記録を目指して続けよう！",
+          runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; }
+        },
+        zh: {
+          survey: "问卷", betaBtn: "★ BETA — 公告", newsLabel: "公告",
+          betaTitle: "BETA — 公告板", betaPeriod: "公开内测 · 2026年10月29日 – 11月5日",
+          newsH: "公告", lotteryH: "反馈抽奖",
+          lottery: "填好问卷，并在最后一题选填的联系方式里留下联系方法即可。内测结束（11月5日）后，我们会抽出3名反馈者，每人送 ¥1,000 亚马逊礼品卡，并直接联系中奖者。抽奖只看反馈：应援（打赏）与抽奖完全无关，绝不影响中奖机会。",
+          surveyBtn: "📝 反馈 / Bug 报告",
+          bugNote: "发现 Bug？同一份表单里有 Bug 报告栏——告诉我们哪个画面出了什么问题，会直接送到开发团队。",
+          privacyH: "隐私说明（大白话版）", privacyLink: "完整版隐私政策 →",
+          privacy: "・邮箱仅用于登录，不作其他用途。\n・位置只在你的手机内用于计算打卡距离，绝不上传、不追踪、不保存。\n・无广告、无追踪。\n・存档保存在东京（Supabase 东京区域）。",
+          nameTitle: "最后一步 — 你的名字", nameSub: "给自己起一个游戏里称呼你的名字。之后随时可以在账号窗口或设置里修改。",
+          nameLabel: "冒险者名", nameSave: "就用这个名字", nameSkip: "以后再说", editName: "修改名字",
+          welcomeName: function (n) { return "欢迎回来，" + n + "！"; },
+          nameRowLabel: "冒险者名",
+          wishCap: "我的心愿", wishPh: "心愿",
+          wishTitle: "心愿旗", wishLabel: "你的心愿（一句话）",
+          wishHint: "只是展示：没有奖励、不打卡、不记录。一面插在主人公街边的小旗。",
+          wishSave: "立起旗子", wishClear: "清空",
+          wishAria: "心愿旗 — 点按写下你的心愿",
+          runTag: "RUN", runTitle: "DASH RUN",
+          runBanner: function (best, done) { return "DASH RUN — 躲开障碍跑满300m，赢今日扭蛋券" + (best ? " · 最佳 " + best + "m" : "") + (done ? " · 今日券 ✓" : ""); },
+          runGoal: function (done) { return done ? "今日扭蛋券 ✓ 已到手" : "目标 300m = 🎟 ×1 / 天"; },
+          runBest: function (b) { return "最佳 " + b + "m"; },
+          runStart: "▶ 开始跑", runRunning: "奔跑中…", runAgain: "↻ 再来一局", runQuit: "结束",
+          runHelp: "左右滑动 / 点屏幕左半或右半 / 方向键换道。躲开障碍物！",
+          runReady: "跑满300m就能赢得今天的扭蛋券。撞了也没关系，可以一直重开——券跑不掉。",
+          runCrash: function (d) { return "在 " + d + "m 撞啦！" + (d >= 300 ? " 券已到手 ✓" : " 300m 的券还在前面——再来一局！"); },
+          runReward: "300m 达成！扭蛋券 +1 ✓ 继续冲最佳距离吧！",
+          runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; }
+        }
+      };
+      function X() { return EXT_STR[state.lang] || EXT_STR.en; }
+
+      /* ---------- announcements (static board data) ---------- */
+      var ANNOUNCE = {
+        en: [
+          { d: "2026-10-29", t: "Public beta is open!", b: "Tokyo Quest Log is now in public beta (Oct 29 – Nov 5). Explore Tokyo, clear quests, and send us your feedback — survey respondents enter a draw for 3 × ¥1,000 Amazon gift cards (see the lottery note below). Coming next: more evergreen quests and the road to the app release." },
+          { d: "2026-10-29", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
+        ],
+        ja: [
+          { d: "2026-10-29", t: "オープンベータ開始！", b: "東京クエストログは本日よりオープンベータ（10/29–11/5）です。東京を歩いてクエストをクリアして、感想をぜひ送ってください——アンケート回答者の中から抽選で3名にAmazonギフト券¥1,000をプレゼント（下記の抽選説明をご覧ください）。今後の予定：常駐クエストの拡充と、アプリ版への準備を進めています。" },
+          { d: "2026-10-29", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
+        ],
+        zh: [
+          { d: "2026-10-29", t: "公开内测开启！", b: "《东京冒险日志》今天起公开内测（10月29日–11月5日）。在东京散步、完成任务，把感想发给我们——填写问卷的玩家将参与抽奖，3个名额 × ¥1,000 亚马逊礼品卡（见下方抽奖说明）。后续计划：继续扩充常驻任务，并推进 App 版的准备。" },
+          { d: "2026-10-29", t: "补丁记录 — 近期修复", b: "・每个窗口现在都能滚动到最后一行（底部指令栏不再遮挡内容）。\n・Google 登录已修复：返回时的登录交接不再丢失，失败时会显示原因（不会再默默变回游客）。\n・地图筛选条折叠/展开已修复；LEGEND 的「在地图上看路线」现在会飞到你的下一站。" }
+        ]
+      };
+
+      /* ---------- BETA window ---------- */
+      function renderBeta() {
+        var t = X();
+        $("betaTitle").textContent = t.betaTitle;
+        $("betaPeriod").textContent = t.betaPeriod;
+        $("betaNewsH").textContent = t.newsH;
+        $("betaLotteryH").textContent = t.lotteryH;
+        $("betaLottery").textContent = t.lottery;
+        $("betaSurveyBtn").textContent = t.surveyBtn;
+        $("betaBugNote").textContent = t.bugNote;
+        $("betaPrivacyH").textContent = t.privacyH;
+        $("betaPrivacy").textContent = t.privacy;
+        $("betaPrivacyLink").textContent = t.privacyLink;
+        $("betaNews").innerHTML = (ANNOUNCE[state.lang] || ANNOUNCE.en).map(function (p) {
+          return '<div class="beta-post"><span class="bp-date">' + esc(p.d) + '</span><p class="bp-title">' + esc(p.t) + '</p><p class="bp-body">' + esc(p.b) + "</p></div>";
+        }).join("");
+        applyFormUrls();
+      }
+      function openBeta() {
+        renderBeta();
+        $("betaScreen").hidden = false;
+        if (window.markHomeAct) window.markHomeAct("news"); /* at-home daily: read the board */
+        try { sfx("open"); } catch (e) { /* ignore */ }
+      }
+      function closeBeta() { $("betaScreen").hidden = true; }
+
+      /* ---------- display name ---------- */
+      function displayNameOf() {
+        var d = (state.displayName || "").trim();
+        return d || heroDisplayName();
+      }
+      function openNameStep() {
+        ["Main", "Email", "Code", "Done"].forEach(function (k) { var s = $("authStep" + k); if (s) s.hidden = true; });
+        var step = $("authStepName"); if (!step) return;
+        step.hidden = false;
+        $("authScreen").hidden = false;
+        var t = X();
+        $("authNameTitle").textContent = t.nameTitle;
+        $("authNameSub").textContent = t.nameSub;
+        $("authNameLabel").textContent = t.nameLabel;
+        $("authNameSave").textContent = t.nameSave;
+        $("authNameSkip").textContent = t.nameSkip;
+        var inp = $("authNameInput");
+        inp.value = (state.displayName || "").trim() || (state.name || "").trim();
+        try { inp.focus(); } catch (e) { /* ignore */ }
+      }
+      function finishNameStep() {
+        $("authStepName").hidden = true;
+        showStep("done");
+        $("authDoneTitle").textContent = X().welcomeName(displayNameOf());
+        if (typeof authUser !== "undefined" && authUser) $("authDoneMail").textContent = authUser.email || "";
+        showMsg("authSyncNote", (typeof lastSyncNote !== "undefined" ? lastSyncNote : ""), true);
+        refreshExtTexts();
+      }
+      /* first login with no name yet: the welcome step becomes the
+         name step (once — skipping is remembered) */
+      var _origShowSyncDone = showSyncDone;
+      showSyncDone = function (note) {
+        if (typeof authUser !== "undefined" && authUser && !$("authScreen").hidden &&
+            !(state.displayName || "").trim() && !state.nameAsked) { openNameStep(); return; }
+        _origShowSyncDone(note);
+        if (typeof authUser !== "undefined" && authUser) $("authDoneTitle").textContent = X().welcomeName(displayNameOf());
+      };
+
+      /* ---------- settings: name + privacy rows (injected) ---------- */
+      (function injectSettingsRows() {
+        var panel = $("stylePanel"); if (!panel) return;
+        var fb = $("feedbackBtn"); var fbBar = fb ? fb.parentNode : null;
+        var nameBar = document.createElement("div");
+        nameBar.className = "win-flat themebar ext-namebar";
+        nameBar.setAttribute("role", "group"); nameBar.setAttribute("aria-label", "Adventurer name");
+        nameBar.innerHTML = '<span class="flabel" id="extNameLabel"></span><span class="acct-status" id="extNameVal"></span>' +
+          '<button class="icon-btn lang-btn" id="extNameEdit" type="button" style="flex:1"></button>';
+        var privBar = document.createElement("div");
+        privBar.className = "win-flat themebar ext-privbar";
+        privBar.setAttribute("role", "group"); privBar.setAttribute("aria-label", "Privacy");
+        privBar.innerHTML = '<span class="ext-priv" id="extPrivText"></span>' +
+          '<a class="ext-priv-link" id="extPrivLink" href="https://tokyoquestlog.com/privacy/" target="_blank" rel="noopener"></a>';
+        if (fbBar && fbBar.parentNode === panel) { panel.insertBefore(nameBar, fbBar); panel.insertBefore(privBar, fbBar); }
+        else { panel.appendChild(nameBar); panel.appendChild(privBar); }
+        $("extNameEdit").addEventListener("click", function () { openNameStep(); });
+      })();
+
+      /* ---------- wish flag (HERO stage only, display only) ----------
+         One wish line on a small flag in the hero scene. Saving it
+         touches state.wishText and nothing else: no EXP, no daily
+         hook, no record, no notification — and it never renders as
+         a quest. It rides the save jsonb (and the cloud push) the
+         same way displayName does. */
+      function renderWishFlag() {
+        var t = X();
+        var txt = $("wishFlagText"), btn = $("wishFlag");
+        if (!txt || !btn) return;
+        var w = (state.wishText || "").trim();
+        txt.textContent = w || t.wishPh;
+        txt.classList.toggle("is-empty", !w);
+        btn.setAttribute("aria-label", t.wishAria + (w ? ": " + w : ""));
+      }
+      function openWish() {
+        var t = X();
+        $("wishTitle").textContent = t.wishTitle;
+        $("wishLabel").textContent = t.wishLabel;
+        $("wishHint").textContent = t.wishHint;
+        $("wishSave").textContent = t.wishSave;
+        $("wishClear").textContent = t.wishClear;
+        var inp = $("wishInput");
+        inp.value = (state.wishText || "").trim();
+        $("wishScreen").hidden = false;
+        try { inp.focus(); inp.select(); } catch (e) { /* ignore */ }
+        try { sfx("open"); } catch (e) { /* ignore */ }
+      }
+      function closeWish() { $("wishScreen").hidden = true; }
+      function saveWish() {
+        state.wishText = ($("wishInput").value || "").trim().slice(0, 40);
+        save();
+        renderWishFlag();
+        closeWish();
+        try { sfx("accept"); } catch (e) { /* ignore */ }
+      }
+      (function wireWish() {
+        var f = $("wishFlag"); if (f) f.addEventListener("click", openWish);
+        var c = $("wishClose"); if (c) c.addEventListener("click", closeWish);
+        var sv = $("wishSave"); if (sv) sv.addEventListener("click", saveWish);
+        var cl = $("wishClear"); if (cl) cl.addEventListener("click", function () { var i = $("wishInput"); i.value = ""; try { i.focus(); } catch (e) { /* ignore */ } });
+        var sc = $("wishScreen"); if (sc) sc.addEventListener("click", function (e) { if (e.target === sc) closeWish(); });
+        var inp = $("wishInput"); if (inp) inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); saveWish(); } });
+      })();
+
+      /* ---------- shared text refresh ---------- */
+      function refreshExtTexts() {
+        var t = X();
+        var sv = $("titleSurveyBtn"); if (sv) sv.textContent = t.survey;
+        var bb = $("titleBetaBtn"); if (bb) bb.textContent = t.betaBtn;
+        var eb = $("authEditNameBtn"); if (eb) eb.textContent = t.editName;
+        var nl = $("extNameLabel"); if (nl) nl.textContent = t.nameRowLabel;
+        var nv = $("extNameVal"); if (nv) nv.textContent = (state.displayName || "").trim() || "—";
+        var ne = $("extNameEdit"); if (ne) ne.textContent = t.editName;
+        var pt = $("extPrivText"); if (pt) pt.textContent = t.privacy;
+        var pl = $("extPrivLink"); if (pl) pl.textContent = t.privacyLink;
+        if (typeof authUser !== "undefined" && authUser && (state.displayName || "").trim()) {
+          var tas = $("titleAcctState"); if (tas) tas.textContent = t.welcomeName(displayNameOf());
+        }
+        if (!$("betaScreen").hidden) renderBeta();
+        renderRunBanner();
+        renderWishFlag();
+        applyFormUrls();
+      }
+      var _origRefreshAuthTexts = refreshAuthTexts;
+      refreshAuthTexts = function () { _origRefreshAuthTexts(); refreshExtTexts(); };
+      document.addEventListener("click", function (e) {
+        if (e.target && e.target.closest && e.target.closest("#langBtn")) setTimeout(refreshExtTexts, 120);
+      });
+
+      /* ---------- at-home daily quests ----------
+         The pool gained five c:"home" entries per language (same
+         indices in all three). One of them joins every day's list
+         as a 4th quest, rotating by day. They complete by DOING
+         the thing (progress is tracked in state.homeProg), never
+         by a bare tap — a tap on an unfinished home row jumps to
+         where the action lives instead. */
+      function ensureHomeProg() {
+        if (!state.homeProg || state.homeProg.date !== TODAY) state.homeProg = { date: TODAY, details: [], acts: {} };
+        if (!Array.isArray(state.homeProg.details)) state.homeProg.details = [];
+        if (!state.homeProg.acts || typeof state.homeProg.acts !== "object") state.homeProg.acts = {};
+        return state.homeProg;
+      }
+      function homeIndices() {
+        var pool = L().dailyPool, out = [];
+        pool.forEach(function (q, i) { if (q.c === "home") out.push(i); });
+        return out;
+      }
+      function homeGoal(q) { return q.act === "detail" ? 3 : 1; }
+      function homeCount(q) {
+        var p = ensureHomeProg();
+        return q.act === "detail" ? p.details.length : (p.acts[q.act] ? 1 : 0);
+      }
+      function todaysHomeIdx() {
+        var hs = homeIndices(); if (!hs.length) return -1;
+        var dayN = Math.floor(parseD(TODAY).getTime() / 86400000);
+        return hs[((dayN % hs.length) + hs.length) % hs.length];
+      }
+      var _origTodaysDaily = todaysDaily;
+      todaysDaily = function () {
+        var list = _origTodaysDaily();
+        var hi = todaysHomeIdx();
+        if (hi < 0) return list;
+        for (var i = 0; i < list.length; i++) if (list[i].idx === hi) return list;
+        var q = L().dailyPool[hi];
+        var cnt = Math.min(homeCount(q), homeGoal(q));
+        list.push({ idx: hi, name: q.n, desc: q.d + " (" + cnt + "/" + homeGoal(q) + ")", cat: q.c, lucky: false, home: true });
+        return list;
+      };
+      function completeDailyHome(entry) {
+        ensureDaily();
+        if (state.daily.done.indexOf(entry.idx) !== -1) return;
+        var exp = entry.x || 15;
+        var prevInfo = levelInfo(), badgesBefore = badgeProgress();
+        state.daily.done.push(entry.idx);
+        state.dailyExp = (state.dailyExp || 0) + exp;
+        state.dailyTotal = (state.dailyTotal || 0) + 1;
+        var dy = state.diary[TODAY] || (state.diary[TODAY] = { tasks: [] });
+        dy.tasks.push(entry.name);
+        var sweep = state.daily.done.length >= todaysDaily().length;
+        var bonus = 0;
+        if (sweep) {
+          state.dayLog[TODAY] = true;
+          if (!state.daily.bonus) { state.daily.bonus = true; bonus = 30; state.bonusExp = (state.bonusExp || 0) + 30; }
+        }
+        save();
+        try { sfx("fanfare"); } catch (e) { /* ignore */ }
+        var newInfo = levelInfo();
+        renderStatus(); renderDaily(); renderHero();
+        celebrate({
+          mini: true, bonusExp: bonus,
+          title: state.lang === "ja" ? "デイリー<br>達成！" : state.lang === "zh" ? "今日每日任务<br>完成！" : "DAILY<br>COMPLETE!",
+          name: entry.name, exp: exp, cat: null, flavor: "",
+          prevInfo: prevInfo, newInfo: newInfo,
+          leveledTo: newInfo.lv > prevInfo.lv ? newInfo.lv : 0,
+          badges: badgeUnlocks(badgesBefore)
+        });
+        if (sweep) narrate(L().narrDailyAll(heroDisplayName()));
+      }
+      function checkHomeComplete() {
+        ensureDaily();
+        var hi = todaysHomeIdx(); if (hi < 0) return;
+        if (state.daily.done.indexOf(hi) !== -1) return;
+        var q = L().dailyPool[hi];
+        if (homeCount(q) >= homeGoal(q)) completeDailyHome({ idx: hi, name: q.n, x: q.x || 15 });
+      }
+      window.markHomeAct = function (act, id) {
+        var p = ensureHomeProg();
+        if (act === "detail") { if (id && p.details.indexOf(id) === -1) p.details.push(id); }
+        else p.acts[act] = true;
+        save();
+        checkHomeComplete();
+        var dv = $("view-daily");
+        if (dv && !dv.hidden) renderDaily();
+      };
+      function homeShortcut(q) {
+        try { sfx("open"); } catch (e) { /* ignore */ }
+        if (q.act === "detail") switchView("list");
+        else if (q.act === "runner") { switchView("hero"); openRun(); }
+        else if (q.act === "gacha") { switchView("hero"); var b = document.querySelector('[data-openwin="gacha"]'); if (b) b.click(); }
+        else if (q.act === "news") openBeta();
+        else if (q.act === "legend" && LEGENDS.length) openLegend(LEGENDS[0].id);
+      }
+      var _origCompleteDaily = completeDaily;
+      completeDaily = function (idx, q) {
+        var pq = L().dailyPool[idx];
+        if (pq && pq.c === "home") {
+          if (homeCount(pq) >= homeGoal(pq)) completeDailyHome({ idx: idx, name: pq.n, x: pq.x || 15 });
+          else homeShortcut(pq);
+          return;
+        }
+        return _origCompleteDaily(idx, q);
+      };
+      var _origRenderDaily = renderDaily;
+      renderDaily = function () {
+        _origRenderDaily();
+        var hi = todaysHomeIdx(); if (hi < 0) return;
+        var row = document.querySelector('[data-daily="' + hi + '"]');
+        if (row) { var ex = row.querySelector(".dr-exp"); if (ex) ex.textContent = "+" + (L().dailyPool[hi].x || 15) + " EXP"; }
+      };
+
+      /* ---------- DASH RUN mini-game ---------- */
+      var RUN_TARGET = 300;
+      function ensureRunnerDay() {
+        if (!state.runner || typeof state.runner !== "object") state.runner = { date: "", best: 0, rewarded: false, plays: 0 };
+        if (state.runner.date !== TODAY) { state.runner.date = TODAY; state.runner.rewarded = false; state.runner.plays = 0; }
+      }
+      function renderRunBanner() {
+        var el = $("runBannerName"); if (!el) return;
+        ensureRunnerDay();
+        el.textContent = X().runBanner(state.runner.best || 0, !!state.runner.rewarded);
+      }
+      var _origRenderHero = renderHero;
+      renderHero = function () { _origRenderHero(); renderRunBanner(); };
+
+      var run = null; /* { mode, lane, x, dist, obs, spawnT, last, raf, frameT } */
+      var runHeroCv = document.createElement("canvas"); runHeroCv.width = 16; runHeroCv.height = 16;
+      var LANES_X = [60, 180, 300], LANES_HX = [140, 180, 220], HERO_Y = 316, HERO_S = 76;
+      function openRun() {
+        ensureRunnerDay();
+        $("runScreen").hidden = false;
+        var t = X();
+        $("runTitle").textContent = t.runTitle;
+        $("runGoal").textContent = t.runGoal(!!state.runner.rewarded);
+        $("runBest").textContent = t.runBest(state.runner.best || 0);
+        $("runDist").textContent = "0m";
+        $("runMsg").textContent = t.runReady;
+        $("runHelp").textContent = t.runHelp;
+        var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
+        $("runQuitBtn").textContent = t.runQuit;
+        run = { mode: "idle", lane: 1, x: LANES_X[1], dist: 0, obs: [], spawnT: 0, last: 0, raf: 0, frameT: 0 };
+        drawRun(0);
+        if (window.markHomeAct) window.markHomeAct("runner"); /* at-home daily: play once */
+      }
+      function closeRun() {
+        stopRunLoop();
+        run = null;
+        $("runScreen").hidden = true;
+        renderRunBanner();
+      }
+      function stopRunLoop() { if (run && run.raf) cancelAnimationFrame(run.raf); if (run) run.raf = 0; }
+      function startRun() {
+        if (!run || run.mode === "running") return;
+        ensureRunnerDay();
+        state.runner.plays = (state.runner.plays || 0) + 1; save();
+        run.mode = "running"; run.dist = 0; run.obs = []; run.spawnT = 0.6; run.lane = 1; run.x = LANES_X[1]; run.last = 0;
+        $("runMsg").textContent = "";
+        var sb = $("runStartBtn"); sb.disabled = true; sb.textContent = X().runRunning;
+        run.raf = requestAnimationFrame(runTick);
+      }
+      function endRun(crashed) {
+        if (!run) return;
+        run.mode = "over";
+        stopRunLoop();
+        var d = Math.floor(run.dist);
+        if (d > (state.runner.best || 0)) { state.runner.best = d; save(); }
+        $("runBest").textContent = X().runBest(state.runner.best || 0);
+        $("runMsg").textContent = crashed ? X().runCrash(d) : X().runQuitMsg(d);
+        var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = X().runAgain;
+        renderStatus(); renderRunBanner();
+        drawRun(0);
+      }
+      function runTick(ts) {
+        if (!run || run.mode !== "running") return;
+        if (!run.last) run.last = ts;
+        var dt = Math.min(0.05, (ts - run.last) / 1000); run.last = ts;
+        var v = 150 + Math.min(190, run.dist * 0.55); /* px/s, ramps up */
+        run.dist += v * dt * 0.055;
+        /* hero glides toward the target lane */
+        run.x += (LANES_X[run.lane] - run.x) * Math.min(1, dt * 14);
+        /* spawn */
+        run.spawnT -= dt;
+        if (run.spawnT <= 0) {
+          run.spawnT = Math.max(0.5, 0.95 - run.dist * 0.0012);
+          var lanes = [0, 1, 2];
+          var first = lanes.splice(Math.floor(Math.random() * 3), 1)[0];
+          run.obs.push({ lane: first, p: 0, kind: Math.floor(Math.random() * 2) });
+          if (Math.random() < 0.25 && run.dist > 60) {
+            var second = lanes[Math.floor(Math.random() * lanes.length)];
+            run.obs.push({ lane: second, p: 0, kind: 1 });
+          }
+        }
+        /* advance + collide */
+        for (var i = run.obs.length - 1; i >= 0; i--) {
+          var o = run.obs[i];
+          o.p += v * dt / 300;
+          if (o.p > 1.05) { run.obs.splice(i, 1); continue; }
+          if (o.lane === run.lane && o.p > 0.86 && o.p < 1.0 && Math.abs(run.x - LANES_X[run.lane]) < 52) { endRun(true); return; }
+        }
+        /* daily ticket at the goal line */
+        if (!state.runner.rewarded && run.dist >= RUN_TARGET) {
+          state.runner.rewarded = true;
+          state.ticketBonus = (state.ticketBonus || 0) + 1;
+          save(); renderStatus();
+          $("runGoal").textContent = X().runGoal(true);
+          $("runMsg").textContent = X().runReward;
+          try { sfx("fanfare"); } catch (e) { /* ignore */ }
+        }
+        $("runDist").textContent = Math.floor(run.dist) + "m";
+        drawRun(ts);
+        run.raf = requestAnimationFrame(runTick);
+      }
+      function drawRun(ts) {
+        var cv = $("runCanvas"); if (!cv || !run) return;
+        var ctx = cv.getContext("2d");
+        var W = 360, H = 400;
+        ctx.imageSmoothingEnabled = false;
+        /* sky + horizon */
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, 92);
+        ctx.fillStyle = "#a5dcff"; ctx.fillRect(0, 60, W, 32);
+        ctx.fillStyle = "#ffd76a"; ctx.fillRect(316, 14, 26, 26);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(30, 22, 52, 10); ctx.fillRect(44, 14, 28, 8); ctx.fillRect(210, 36, 44, 9);
+        /* road: trapezoid with scrolling lane dashes */
+        ctx.fillStyle = "#5d6673"; ctx.beginPath();
+        ctx.moveTo(118, 92); ctx.lineTo(242, 92); ctx.lineTo(348, H); ctx.lineTo(12, H); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "#63b96f"; ctx.fillRect(0, 92, 118, H - 92); ctx.fillRect(242, 92, W - 242, H - 92);
+        ctx.strokeStyle = "#fff6dc"; ctx.lineWidth = 4; ctx.setLineDash([18, 22]);
+        ctx.lineDashOffset = run.mode === "running" ? -(run.dist * 9 % 40) : 0;
+        [0, 1].forEach(function (k) {
+          var hx = k === 0 ? 160 : 200, bx = k === 0 ? 120 : 240;
+          ctx.beginPath(); ctx.moveTo(hx, 96); ctx.lineTo(bx, H); ctx.stroke();
+        });
+        ctx.setLineDash([]);
+        /* obstacles */
+        run.obs.forEach(function (o) { drawObstacle(ctx, o); });
+        /* hero (the game's own walking frames) */
+        run.frameT += 1;
+        var frames = [0, 1, 2, 1];
+        var fr = run.mode === "running" ? frames[Math.floor(ts / 110) % 4] : 1;
+        var hctx = runHeroCv.getContext("2d");
+        hctx.clearRect(0, 0, 16, 16);
+        try { drawRunnerFrame(hctx, fr, false); } catch (e) { /* sprite unavailable */ }
+        var bob = run.mode === "running" && fr === 1 ? -3 : 0;
+        ctx.fillStyle = "rgba(20,20,30,0.3)";
+        ctx.beginPath(); ctx.ellipse(run.x, HERO_Y + HERO_S + 4, 30, 7, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.drawImage(runHeroCv, run.x - HERO_S / 2, HERO_Y + bob, HERO_S, HERO_S);
+        if (run.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.35)"; ctx.fillRect(0, 0, W, H); }
+      }
+      function drawObstacle(ctx, o) {
+        var p = o.p;
+        var y = 92 + p * 292;
+        var cx = LANES_HX[o.lane] + (LANES_X[o.lane] - LANES_HX[o.lane]) * p;
+        var s = 0.45 + 0.75 * p;
+        var w = 74 * s, h = 40 * s;
+        var x = cx - w / 2, yy = y - h;
+        if (o.kind === 0) {
+          /* striped barricade */
+          ctx.fillStyle = "#e8762b"; ctx.fillRect(x, yy, w, h * 0.52);
+          ctx.fillStyle = "#fff6dc";
+          for (var i = 0; i < 3; i++) ctx.fillRect(x + i * w / 3 + 3 * s, yy + 3 * s, w / 6, h * 0.52 - 6 * s);
+          ctx.fillStyle = "#5d3a1e"; ctx.fillRect(x + 5 * s, yy + h * 0.52, 6 * s, h * 0.48); ctx.fillRect(x + w - 11 * s, yy + h * 0.52, 6 * s, h * 0.48);
+        } else {
+          /* rock pile */
+          ctx.fillStyle = "#8d99b5"; ctx.fillRect(x + w * 0.12, yy + h * 0.3, w * 0.76, h * 0.7);
+          ctx.fillStyle = "#aab6cc"; ctx.fillRect(x + w * 0.3, yy + h * 0.08, w * 0.4, h * 0.4);
+          ctx.fillStyle = "#6d7890"; ctx.fillRect(x + w * 0.55, yy + h * 0.55, w * 0.3, h * 0.2);
+        }
+      }
+      function runMove(dir) {
+        if (!run || run.mode !== "running") return;
+        run.lane = Math.max(0, Math.min(2, run.lane + dir));
+        try { sfx("move"); } catch (e) { /* ignore */ }
+      }
+      /* wiring: title plaques, beta window, name step, runner */
+      $("titleBetaBtn").addEventListener("click", openBeta);
+      $("betaClose").addEventListener("click", closeBeta);
+      $("runOpenBtn").addEventListener("click", openRun);
+      $("runClose").addEventListener("click", closeRun);
+      $("runStartBtn").addEventListener("click", startRun);
+      $("runQuitBtn").addEventListener("click", function () { if (run && run.mode === "running") endRun(false); else closeRun(); });
+      $("authNameSave").addEventListener("click", function () {
+        var v = ($("authNameInput").value || "").trim().slice(0, 12);
+        if (v) state.displayName = v;
+        state.nameAsked = true; save();
+        finishNameStep();
+      });
+      $("authNameSkip").addEventListener("click", function () { state.nameAsked = true; save(); finishNameStep(); });
+      $("authEditNameBtn").addEventListener("click", openNameStep);
+      /* runner touch: swipe = change lane by direction; tap = side */
+      (function () {
+        var cv = $("runCanvas"), sx = null;
+        cv.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
+        cv.addEventListener("touchend", function (e) {
+          if (sx == null) return;
+          var ex = e.changedTouches[0].clientX, dx = ex - sx; sx = null;
+          if (Math.abs(dx) > 24) runMove(dx > 0 ? 1 : -1);
+          else { var r = cv.getBoundingClientRect(); runMove(ex - r.left < r.width / 2 ? -1 : 1); }
+        }, { passive: true });
+        cv.addEventListener("mousedown", function (e) { sx = e.clientX; });
+        cv.addEventListener("mouseup", function (e) {
+          if (sx == null) return;
+          var dx = e.clientX - sx; sx = null;
+          if (Math.abs(dx) > 24) runMove(dx > 0 ? 1 : -1);
+          else { var r = cv.getBoundingClientRect(); runMove(e.clientX - r.left < r.width / 2 ? -1 : 1); }
+        });
+        document.addEventListener("keydown", function (e) {
+          if ($("runScreen").hidden) return;
+          if (e.key === "ArrowLeft") runMove(-1);
+          else if (e.key === "ArrowRight") runMove(1);
+        });
+      })();
+      /* map START menu: NEWS item opens the same beta window, and
+         carries its label (renderMapNav's name table predates it) */
+      $("mapNavGrid").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-navto]");
+        if (b && b.getAttribute("data-navto") === "news") {
+          ev.stopPropagation();
+          setMapNavOpen(false);
+          openBeta();
+        }
+      }, true);
+      var navObs = new MutationObserver(function () {
+        var el = document.querySelector('[data-navname="news"]');
+        if (el) el.textContent = X().newsLabel;
+      });
+      var navEl = $("mapNav"); if (navEl) navObs.observe(navEl, { attributes: true, attributeFilter: ["hidden"] });
+
+      refreshExtTexts();
+      if (typeof syncDailyBadge === "function") syncDailyBadge();
+      ensureRunnerDay();
+      renderRunBanner();
     </script>
   </body>
 </html>
