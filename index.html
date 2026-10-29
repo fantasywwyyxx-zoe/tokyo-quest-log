@@ -12155,6 +12155,13 @@
       /* Q-181: the cabinet stands alone below the daily window */
       #dailyPanel .run-cabinet { margin-top: 10px; }
 
+      /* Q-154 round 4: pins, cluster badges and area labels inherit
+         the generic button touch-action (manipulation), which lets
+         the browser claim a pinch that STARTS on a pin as page zoom
+         on device — the app then never sees the gesture's zoom.
+         Inside the pin layer, gestures belong to the map. */
+      #pinLayer .pin, #pinLayer .cluster-pin, #pinLayer .area-label { touch-action: none; }
+
       /* win-more (Zoe 2026-10-30: the pager's plaque floated into
          the middle of the wardrobe grid): every older bottom /
          fixed rule is retired -- position is absolute and the
@@ -15715,7 +15722,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0112-q181q174-410e0cbe";
+        var BUILD_ID = "tql-20261030-0121-q154r4-cb9eccdd";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26117,12 +26124,21 @@ var qrcode = function() {
           zoom.tx = tx; zoom.ty = ty; applyZoom();
         }
       });
+      /* Q-154 round 4 (Zoe device, 2026-10-30): the shipped radius
+         schedule provably dissolves the Akihabara pair by pxu ~3.5
+         (simulated on the real pin data), yet on device the badge
+         pattern stayed at a mid-zoom build — the in-motion rebuild
+         gate can miss the final zoom on the finger path (pinch
+         stream interrupted / claimed). The gesture END therefore
+         forces one unconditional re-sync at the resting pxu. */
+      function syncClustersNow() { lastClusterPxu = 0; applyZoom(); }
       function endPan() {
         if (panState && panState.moved) {
           suppressPinClick = true;
           boxClickMuteUntil = Date.now() + 250;
           setTimeout(function () { suppressPinClick = false; }, 60);
           snapToRest();
+          syncClustersNow();
         }
         panState = null;
         mapBox.classList.remove("is-panning");
@@ -26179,6 +26195,7 @@ var qrcode = function() {
           boxClickMuteUntil = Date.now() + 250;
           setTimeout(function () { suppressPinClick = false; }, 60);
           snapToRest();
+          syncClustersNow();
         }
       }
       window.addEventListener("pointerup", endPinch);
