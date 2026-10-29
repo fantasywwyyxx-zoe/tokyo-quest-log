@@ -644,3 +644,4 @@ Zoe 三连通则（少文字/简洁易懂、多用折叠与跳转）已写入 qa
 
 ## QA 立案 Q-138（Zoe 实机，2026-10-29 14:56）
 - 捏人窗在 iPhone Safari 实机上：窗顶出画（头部被屏幕顶边切）＋滚动区尾行（HAIRSTYLE 末行）被钉住页脚盖住一半。与 Q-134 同族（窗口高度契约对可视视口不成立）；Q-128 的实验室关闭（headless 布局视口）不覆盖实机动态工具栏高度。工单 qa/reports/2026-10-29-q138-creator-device-top-clip-footer-cover.md。
+- Q-138 追补：再現環境は Safari タブではなくホーム画面 standalone（Zoe 本人情報）。閉じは彼女のホーム画面版実機確認が主。
