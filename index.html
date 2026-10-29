@@ -168,6 +168,20 @@
       .icon-btn svg { width: 18px; height: 18px; flex: none; }
       .icon-btn[aria-pressed="true"] { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #231a00; border-color: #fff7dd; box-shadow: inset 0 0 0 2px var(--gold-deep), inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 3px 0 var(--shadow); }
       .lang-btn { font-family: "Baloo 2", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif; font-size: 11.5px; padding: 9px 10px; }
+      /* Q-143: language is a labelled segmented choice in SETTINGS —
+         the current language is the pressed segment, never a cycle
+         button naming the NEXT language. */
+      .lang-seg { display: flex; gap: 6px; flex: 1 1 auto; min-width: 0; }
+      .lang-opt {
+        flex: 1 1 0; min-width: 0; padding: 8px 4px; cursor: pointer;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif;
+        font-size: 12.5px; font-weight: 800; line-height: 1.15; white-space: nowrap;
+        color: var(--ink); background: var(--chip);
+        border: 2px solid var(--window-edge); border-radius: 10px;
+        box-shadow: 0 2px 0 var(--shadow);
+      }
+      .lang-opt:active { transform: translateY(2px); box-shadow: none; }
+      .lang-opt[aria-checked="true"] { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #231a00; border-color: #fff7dd; box-shadow: inset 0 0 0 2px var(--gold-deep), 0 2px 0 var(--shadow); }
 
       /* ---------- Status bar ---------- */
       .statusbar { padding: 10px 14px; margin-bottom: 12px; }
@@ -11652,10 +11666,6 @@
           <div class="cust-presets" id="creatorPresets"></div>
         </div>
         <div class="cust-group">
-          <span class="cust-label" id="creatorNameLabel"></span>
-          <input class="creator-name" id="creatorName" type="text" maxlength="12" autocomplete="off">
-        </div>
-        <div class="cust-group">
           <span class="cust-label" id="creatorSkinLabel"></span>
           <div class="cust-swatches" id="creatorSkins"></div>
         </div>
@@ -11894,9 +11904,21 @@
         <span class="sheet-title" id="styleTitle"></span>
       </div>
       <button class="sheet-close" id="styleClose" type="button" aria-label="Close">✕</button>
-      <div class="win-flat themebar" role="group" aria-label="Sound and language">
+      <div class="win-flat themebar" role="group" aria-label="Sound">
         <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true"></button>
-        <button class="icon-btn lang-btn" id="langBtn" type="button"></button>
+      </div>
+      <!-- Q-143: the ONE language switch — a labelled segmented
+           control in SETTINGS. The pressed segment IS the current
+           language; tapping another applies it to every screen at
+           once and records an explicit device choice that no save
+           or cloud record can override (see tql_lang_choice). -->
+      <div class="win-flat themebar" role="group" aria-label="Language">
+        <span class="flabel" id="lblLang"></span>
+        <div class="lang-seg" role="radiogroup" aria-label="Language">
+          <button class="lang-opt" type="button" role="radio" data-lang-opt="en" aria-checked="false">ENGLISH</button>
+          <button class="lang-opt" type="button" role="radio" data-lang-opt="ja" aria-checked="false">日本語</button>
+          <button class="lang-opt" type="button" role="radio" data-lang-opt="zh" aria-checked="false">中文</button>
+        </div>
       </div>
       <div class="win-flat themebar" role="group" aria-label="Color theme">
         <span class="flabel" id="lblTheme"></span>
@@ -12432,10 +12454,6 @@
           <div class="cust-group">
             <span class="cust-label" id="custPresetLabel"></span>
             <div class="cust-presets" id="customPresets"></div>
-          </div>
-          <div class="cust-group">
-            <span class="cust-label" id="custNameLabel"></span>
-            <input class="cust-name-input" id="customNameInput" type="text" maxlength="12" autocomplete="off">
           </div>
           <div class="cust-group">
             <span class="cust-label" id="custSkinLabel"></span>
@@ -13244,6 +13262,7 @@
           notStartedBtn: function (d) { return d === 1 ? "STARTS TOMORROW" : "STARTS IN " + d + " DAYS"; },
           notStartedNote: function (d) { return "This quest hasn't started yet — " + (d === 1 ? "it begins tomorrow" : "it begins in " + d + " days") + ". Accept, check-in and remote clear unlock on the start date."; },
           themeLabel: "COLOR",
+          langLabel: "LANGUAGE",
           themeNames: { auto: "Auto", emerald: "Pearl White", midnight: "Black-Indigo Yellow" },
           bgmLabel: "BGM",
           bgmNames: { "op-title": "Title Theme", "day-1": "Day Theme 1", "day-2": "Day Theme 2", "night-1": "Night Theme 1", "night-2": "Night Theme 2" },
@@ -13275,7 +13294,7 @@
           startSub: "Every day in Tokyo is an adventure.\nToday, you are a hero in real life, too.",
           opSlogan: "Every day in Tokyo is an adventure.\nToday, you are a hero in real life, too.", opSkip: "TAP TO SKIP ▸",
           startChoose: "Create your adventurer",
-          startIntro: "No preset heroes — the adventurer is YOU. The maker sets skin tone, hairstyle, hair colour and a name; re-make them any time on the HERO screen.",
+          startIntro: "No preset heroes — the adventurer is YOU. The maker sets skin tone, hairstyle and hair colour; re-make them any time on the HERO screen.",
           startBtnNew: "▶ START ADVENTURE", startBtnContinue: "▶ CONTINUE ADVENTURE",
           startFoot: "Check in at real venues with your phone's location to clear quests and earn EXP. Progress is saved in this browser only.",
           skip: "SKIP", changeHero: "Change hero",
@@ -14065,6 +14084,7 @@
           notStartedBtn: function (d) { return d === 1 ? "明日から開始" : "あと" + d + "日で開始"; },
           notStartedNote: function (d) { return "このクエストはまだ始まっていません——開始は" + (d === 1 ? "明日" : "あと" + d + "日") + "。受注・チェックイン・遠距離クリアは開始日からできます。"; },
           themeLabel: "カラー",
+          langLabel: "言語",
           themeNames: { auto: "自動", emerald: "パールホワイト", midnight: "黒藍イエロー" },
           bgmLabel: "BGM",
           bgmNames: { "op-title": "タイトルテーマ", "day-1": "昼テーマ 1", "day-2": "昼テーマ 2", "night-1": "夜テーマ 1", "night-2": "夜テーマ 2" },
@@ -14096,7 +14116,7 @@
           startSub: "東京の毎日は、冒険だ。\n今日も、あなたは生活の勇者。",
           opSlogan: "東京の毎日は、冒険だ。\n今日も、あなたは生活の勇者。", opSkip: "タップでスキップ ▸",
           startChoose: "勇者をつくろう",
-          startIntro: "プリセットの勇者はいません — 冒険者はあなた自身。メーカーで肌の色・髪型・髪の色・名前を決めましょう。HERO画面でいつでも作り直せます。",
+          startIntro: "プリセットの勇者はいません — 冒険者はあなた自身。メーカーで肌の色・髪型・髪の色を決めましょう。HERO画面でいつでも作り直せます。",
           startBtnNew: "▶ 冒険をはじめる", startBtnContinue: "▶ 冒険をつづける",
           startFoot: "実際の会場で位置情報チェックインするとクリア＆EXP。進行状況はこのブラウザにのみ保存されます。",
           skip: "スキップ", changeHero: "主人公を変更",
@@ -14886,6 +14906,7 @@
           notStartedBtn: function (d) { return d === 1 ? "明天开始" : "还有 " + d + " 天开始"; },
           notStartedNote: function (d) { return "这个任务还没开始——" + (d === 1 ? "明天开始" : "还有 " + d + " 天开始") + "。开始当天起才能接受、打卡和远程完成。"; },
           themeLabel: "颜色",
+          langLabel: "语言",
           themeNames: { auto: "自动", emerald: "珍珠白", midnight: "黑蓝黄" },
           bgmLabel: "BGM",
           bgmNames: { "op-title": "标题主题", "day-1": "白天主题 1", "day-2": "白天主题 2", "night-1": "夜晚主题 1", "night-2": "夜晚主题 2" },
@@ -14917,7 +14938,7 @@
           startSub: "东京的每一天都是冒险。\n今天，你也是生活的勇者。",
           opSlogan: "东京的每一天都是冒险。\n今天，你也是生活的勇者。", opSkip: "点按跳过 ▸",
           startChoose: "创建你的冒险者",
-          startIntro: "没有预设勇者 — 冒险者就是你自己。在捏人界面决定肤色、发型、发色和名字；之后随时可在主人公页面重做。",
+          startIntro: "没有预设勇者 — 冒险者就是你自己。在捏人界面决定肤色、发型和发色；之后随时可在主人公页面重做。",
           startBtnNew: "▶ 开始冒险", startBtnContinue: "▶ 继续冒险",
           startFoot: "在真实场馆用定位打卡即可完成任务并获得 EXP。进度只保存在这个浏览器中。",
           skip: "跳过", changeHero: "更换主人公",
@@ -16177,6 +16198,23 @@
          carried over untouched, never reset. */
       var LS_KEY = "tql_state_v1";
       var LS_KEY_OLD = "tsq_state_v1";
+      /* Q-143 (Zoe: language setting felt "fuzzy" — and a language
+         picked on this device could flip back): an EXPLICIT language
+         choice is recorded OUTSIDE the save record, under its own
+         key, and it outranks every other lang source. Priority:
+         explicit device choice > local save lang > cloud save lang.
+         The save-side lang is only ever a fallback for a device
+         that never chose; once the player picks a language in
+         SETTINGS, neither a reload, a re-login nor a cloud apply
+         can reverse it (applyCloud re-imposes it — see the auth
+         module — and the boot load below does the same). */
+      var LANG_KEY = "tql_lang_choice";
+      function explicitLang() {
+        try {
+          var o = JSON.parse(localStorage.getItem(LANG_KEY) || "null");
+          return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
+        } catch (e) { return ""; }
+      }
       var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
@@ -16218,10 +16256,11 @@
                  photo-proof system — it is dropped, not read */
               state.daily = { date: typeof parsed.daily.date === "string" ? parsed.daily.date : "", done: Array.isArray(parsed.daily.done) ? parsed.daily.done : [], bonus: !!parsed.daily.bonus };
             }
-            /* creator name / puzzle pieces / remote-clear day cap:
-               older saves carry none of these — defaults keep the
-               legacy hero name, an empty puzzle and a fresh cap */
-            state.name = typeof parsed.name === "string" ? parsed.name : "";
+            /* NAME MODEL (Zoe ruling 2026-10-29 16:17): there is
+               exactly ONE name — the account displayName. The legacy
+               per-character `name` field is retired: it is no longer
+               loaded, and no display surface reads it, so a stale
+               ゆうしゃ / 王 in an old record can never surface. */
             /* BETA ROUND (2026-10-29): account display name, the
                dash-runner ledger and the at-home daily progress —
                older saves carry none of these and keep defaults */
@@ -16282,6 +16321,10 @@
           }
         }
       } catch (e) { /* storage unavailable — run in-memory */ }
+      /* Q-143: the explicit device choice (if any) beats whatever
+         lang the loaded save carried. */
+      var bootLang = explicitLang();
+      if (bootLang) state.lang = bootLang;
       function save() {
         try { localStorage.setItem(LS_KEY, JSON.stringify(state)); try { localStorage.removeItem(LS_KEY_OLD); } catch (e2) { /* ignore */ } } catch (e) { /* ignore */ }
       }
@@ -19031,7 +19074,7 @@
            SAME started + name rule as showStart — a plain
            renderAll (language switch, cloud apply) must never
            reset a returning player to the first-run wording. */
-        var dnS = (state.displayName || "").trim();
+        var dnS = accountName();
         document.getElementById("startChooseTitle").textContent = state.started
           ? (dnS && t.startChooseBackName ? t.startChooseBackName(dnS) : t.startChooseBack)
           : t.startChoose;
@@ -19078,14 +19121,29 @@
         b.setAttribute("aria-label", state.muted ? L().soundOff : L().soundOn);
         updateAudioUI();
       }
-      /* Language cycle: EN -> JA -> ZH -> EN. The button names the
-         NEXT language, as before. */
-      function nextLang() { return state.lang === "en" ? "ja" : state.lang === "ja" ? "zh" : "en"; }
-      function nextLangLabel() { var n = nextLang(); return n === "ja" ? "日本語" : n === "zh" ? "中文" : "ENGLISH"; }
+      /* Q-143: the language control is a segmented choice in
+         SETTINGS (ENGLISH / 日本語 / 中文) — the pressed segment IS
+         the current language. The old cycle button, which named the
+         NEXT language and left the current one invisible, is gone. */
       function renderLangBtn() {
-        var b = document.getElementById("langBtn");
-        b.textContent = nextLangLabel();
-        b.setAttribute("aria-label", "Switch language: " + nextLangLabel());
+        var lb = document.getElementById("lblLang");
+        if (lb) lb.textContent = L().langLabel || "LANGUAGE";
+        document.querySelectorAll("[data-lang-opt]").forEach(function (b) {
+          b.setAttribute("aria-checked", String(b.getAttribute("data-lang-opt") === state.lang));
+        });
+      }
+      /* Picking a language applies it to EVERY screen at once
+         (renderAll re-renders list / hero / daily / map / windows
+         from the one state.lang) and records the explicit device
+         choice that outranks any save-side lang from then on. */
+      function setLang(l) {
+        if (l !== "en" && l !== "ja" && l !== "zh") return;
+        if (l !== state.lang) {
+          state.lang = l;
+          try { localStorage.setItem(LANG_KEY, JSON.stringify({ lang: l, ts: Date.now() })); } catch (e) { /* storage unavailable — the in-memory choice still applies to every screen this session */ }
+        }
+        save(); sfx("move"); renderAll();
+        if (currentId) openDetail(currentId);
       }
       function renderCatChips() {
         var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: c, icon: CAT_ICON[c] }; }));
@@ -19891,9 +19949,31 @@
       }
       function locate() {
         var t = L();
-        if (!navigator.geolocation) { showLocChip(t.locUnsupported, 12000); return; }
+        /* Q-146: a LOCATE tap must ALWAYS produce visible feedback.
+           The "finding" chip goes up FIRST, synchronously, before
+           any geolocation call — then every outcome replaces it:
+           centred + found, denied, failed, unsupported, or the
+           watchdog below if the platform never calls back at all
+           (some webviews swallow the request silently). No path
+           out of this function leaves the tap unanswered. */
         showLocChip(t.locFinding, 0);
+        if (!navigator.geolocation || typeof navigator.geolocation.getCurrentPosition !== "function") {
+          showLocChip(t.locUnsupported, 12000);
+          sfx("back");
+          return;
+        }
+        var locSettled = false;
+        var locWatchdog = setTimeout(function () {
+          if (locSettled) return;
+          locSettled = true;
+          showLocChip(t.locFailed, 16000);
+          sfx("back");
+        }, 13500);
+        function locDone() { locSettled = true; clearTimeout(locWatchdog); }
+        try {
         navigator.geolocation.getCurrentPosition(function (pos) {
+          if (locSettled) return;
+          locDone();
           myPos = { lat: pos.coords.latitude, lng: pos.coords.longitude, acc: pos.coords.accuracy || 0 };
           renderMeMarker();
           var best = null, bd = Infinity;
@@ -19923,9 +20003,20 @@
           showLocChip(msg, out ? 14000 : 9000);
           sfx("accept");
         }, function (err) {
+          if (locSettled) return;
+          locDone();
           showLocChip(err && err.code === 1 ? t.locDenied : t.locFailed, 16000);
           sfx("back");
         }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+        } catch (e) {
+          /* the platform threw instead of calling back — the tap
+             still gets its answer */
+          if (!locSettled) {
+            locDone();
+            showLocChip(t.locUnsupported, 12000);
+            sfx("back");
+          }
+        }
       }
       function setSlideMsg(el, kind, text) {
         if (!el) return;
@@ -20401,10 +20492,19 @@
          sweep, a gacha get. It has its own lifecycle (tap it or
          wait ~3s) and never shares space with the banner/panel
          centre or the detail blurb. */
+      /* NAME MODEL (Zoe ruling 2026-10-29 16:17): ONE name only —
+         the account displayName, and only while signed in. Every
+         name surface (status bar, hero nameplate, daily HUD,
+         narrations, hero grids) reads through this one function.
+         Guests have no custom name: they always see the base
+         hero's default name. The legacy `name` field is never
+         read for display. */
+      function accountName() {
+        return window.tqlSignedIn ? (state.displayName || "").trim() : "";
+      }
       function heroDisplayName() {
-        /* a creator-made hero carries the player's own name;
-           legacy saves without one keep the base hero's name */
-        if (state.name && state.name.trim()) return state.name.trim();
+        var dn = accountName();
+        if (dn) return dn;
         var t = L();
         return (t.heroes[state.hero] || t.heroes.yusha).name;
       }
@@ -20890,14 +20990,11 @@
         var cpl = document.getElementById("custPresetLabel");
         if (cpl) cpl.textContent = t.custPreset;
         renderPresetRow(document.getElementById("customPresets"));
-        document.getElementById("custNameLabel").textContent = t.custNameLabel;
         document.getElementById("custSkinLabel").textContent = t.custSkin;
         document.getElementById("custStyleLabel").textContent = t.custStyle;
         document.getElementById("custColorLabel").textContent = t.custColor;
         document.getElementById("custFaceLabel").textContent = t.custFace;
         document.getElementById("customName").textContent = heroDisplayName();
-        var nameIn = document.getElementById("customNameInput");
-        if (nameIn && document.activeElement !== nameIn) nameIn.value = state.name || "";
         document.getElementById("customSkins").innerHTML = SKIN_TONES.map(function (c) {
           return '<button class="cust-swatch" type="button" data-cust-skin="' + c + '" style="background:' + c + '" aria-pressed="' + String(state.custom.skin === c) + '" aria-label="Skin ' + c + '"></button>';
         }).join("");
@@ -20978,7 +21075,7 @@
            player by NAME — never the generic noun — in all three
            languages. Unset (first run / guest): generic stays.
            The heading wraps rather than truncates a long name. */
-        var dnT = (state.displayName || "").trim();
+        var dnT = accountName();
         document.getElementById("startChooseTitle").textContent = state.started
           ? (dnT && t.startChooseBackName ? t.startChooseBackName(dnT) : t.startChooseBack)
           : t.startChoose;
@@ -20996,17 +21093,16 @@
         var rpl = document.getElementById("creatorPresetLabel");
         if (rpl) rpl.textContent = t.custPreset;
         renderPresetRow(document.getElementById("creatorPresets"));
-        document.getElementById("creatorNameLabel").textContent = t.creatorNameLabel;
         document.getElementById("creatorSkinLabel").textContent = t.custSkin;
         document.getElementById("creatorStyleLabel").textContent = t.custStyle;
         document.getElementById("creatorColorLabel").textContent = t.custColor;
         document.getElementById("creatorFaceLabel").textContent = t.custFace;
         document.getElementById("creatorGo").textContent = t.creatorGo;
         document.getElementById("creatorBack").textContent = t.creatorBack;
-        var nm = document.getElementById("creatorName");
-        if (document.activeElement !== nm) nm.value = state.name || "";
-        nm.setAttribute("placeholder", t.defaultName);
-        document.getElementById("creatorNameEcho").textContent = state.name || t.defaultName;
+        /* NAME MODEL: the creator has NO name step — the stage
+           nameplate shows the one account name (signed in) or the
+           default hero name (guest), via heroDisplayName(). */
+        document.getElementById("creatorNameEcho").textContent = heroDisplayName();
         document.getElementById("creatorSkins").innerHTML = SKIN_TONES.map(function (c) {
           return '<button class="cust-swatch" type="button" data-cr-skin="' + c + '" style="background:' + c + '" aria-pressed="' + String(state.custom.skin === c) + '" aria-label="Skin ' + c + '"></button>';
         }).join("");
@@ -21032,8 +21128,8 @@
       }
       function closeCreator() { document.getElementById("creatorScreen").hidden = true; }
       function finishCreator() {
-        var v = document.getElementById("creatorName").value.trim().slice(0, 12);
-        state.name = v || L().defaultName;
+        /* NAME MODEL: confirming the look IS the start — there is
+           no hero name to collect here any more. */
         save();
         closeCreator();
         renderHeroGrids();
@@ -22459,10 +22555,8 @@
         save(); audioInit(); applyMute(); renderSoundBtn();
         if (!state.muted) sfx("open");
       });
-      document.getElementById("langBtn").addEventListener("click", function () {
-        state.lang = nextLang();
-        save(); sfx("move"); renderAll();
-        if (currentId) openDetail(currentId);
+      document.querySelectorAll("[data-lang-opt]").forEach(function (b) {
+        b.addEventListener("click", function () { setLang(b.getAttribute("data-lang-opt")); });
       });
 
       /* --- immersive pass wiring --- */
@@ -22497,11 +22591,6 @@
         if (co) { state.custom.hair = co.getAttribute("data-cr-color"); save(); sfx("move"); renderCreator(); renderHeroGrids(); return; }
         var fc = ev.target.closest("[data-cr-face]");
         if (fc) { state.custom.face = fc.getAttribute("data-cr-face"); save(); sfx("move"); renderCreator(); renderHeroGrids(); }
-      });
-      document.getElementById("creatorName").addEventListener("input", function () {
-        state.name = this.value.slice(0, 12);
-        save();
-        document.getElementById("creatorNameEcho").textContent = state.name || L().defaultName;
       });
       document.getElementById("creatorGo").addEventListener("click", finishCreator);
       document.getElementById("creatorBack").addEventListener("click", function () { sfx("back"); closeCreator(); });
@@ -22788,12 +22877,6 @@
       document.getElementById("narrBar").addEventListener("click", hideNarr);
       document.getElementById("gachaGrid").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-gacha-item]"); if (b) equipItem(b.getAttribute("data-gacha-item"));
-      });
-      document.getElementById("customNameInput").addEventListener("input", function () {
-        state.name = this.value.slice(0, 12);
-        save();
-        document.getElementById("customName").textContent = heroDisplayName();
-        renderHero();
       });
       document.getElementById("hsegCustom").addEventListener("click", function (ev) {
         if (!state.custom) state.custom = presetCustom(state.hero);
@@ -23364,6 +23447,14 @@
           var fresh = JSON.parse(JSON.stringify(cloud));
           Object.keys(state).forEach(function (k) { if (!(k in fresh)) delete state[k]; });
           Object.keys(fresh).forEach(function (k) { state[k] = fresh[k]; });
+          /* Q-143: an explicit language choice made on THIS device
+             outranks the cloud record's lang — re-impose it before
+             anything is saved or rendered, so a cloud apply can
+             never flip the player's chosen language back. */
+          try {
+            var lco = JSON.parse(localStorage.getItem("tql_lang_choice") || "null");
+            if (lco && (lco.lang === "en" || lco.lang === "ja" || lco.lang === "zh")) state.lang = lco.lang;
+          } catch (e) { /* ignore */ }
           origSave();
           applyTheme(state.theme, false);
           renderAll();
@@ -23414,11 +23505,10 @@
            button's ellipsis CSS) — the email never appears on the
            title screen; it lives only inside the auth window and
            the account / settings surfaces. Guest label unchanged. */
-        var tqlDn = (typeof state !== "undefined" && state.displayName || "").trim();
-        /* Q-125 + guest-name rule (Zoe): wherever a displayName
-           is set the player is called by it — the title button
-           included, guest or logged in. The generic labels are
-           only for players with no name yet. */
+        /* NAME MODEL (Zoe ruling 2026-10-29 16:17): the account
+           name shows only while SIGNED IN — a guest never carries
+           a custom name on any surface, the title button included. */
+        var tqlDn = authUser ? (typeof state !== "undefined" && state.displayName || "").trim() : "";
         $("titleLoginBtn").textContent = tqlDn || (authUser ? t.account : t.login);
         $("titleAcctState").textContent = authUser ? "" : t.guestState;
         $("lblAccount").textContent = t.account;
@@ -23458,7 +23548,22 @@
         $("verBannerText").textContent = t.verNew;
         if (authUser) setSyncMark(false);
       }
-      function refreshAcctUI() { refreshAuthTexts(); }
+      function refreshAcctUI() {
+        /* NAME MODEL: publish the signed-in flag the main script's
+           name surfaces read (window.tqlSignedIn). When it flips,
+           re-render once so every name surface — status bar, hero
+           nameplate, title heading — switches between the account
+           name and the guest default in the same moment. */
+        var si = !!authUser;
+        if (!!window.tqlSignedIn !== si) {
+          window.tqlSignedIn = si;
+          refreshAuthTexts();
+          try { if (typeof renderAll === "function") renderAll(); } catch (e) { /* ignore */ }
+          return;
+        }
+        window.tqlSignedIn = si;
+        refreshAuthTexts();
+      }
 
       function friendlyErr(err, kind) {
         var m = (err && err.message) || "";
@@ -23588,7 +23693,7 @@
         });
       });
       document.addEventListener("click", function (e) {
-        if (e.target && e.target.closest && e.target.closest("#langBtn")) setTimeout(refreshAuthTexts, 80);
+        if (e.target && e.target.closest && e.target.closest("[data-lang-opt]")) setTimeout(refreshAuthTexts, 80);
       });
 
       /* ---------- boot: restore session, OAuth return, version check ---------- */
@@ -23893,10 +23998,15 @@
 
       /* ---------- display name ---------- */
       function displayNameOf() {
-        var d = (state.displayName || "").trim();
+        /* NAME MODEL: the account name exists only while signed
+           in; everyone else resolves to the default hero name. */
+        var d = (typeof authUser !== "undefined" && authUser) ? (state.displayName || "").trim() : "";
         return d || heroDisplayName();
       }
       function openNameStep() {
+        /* NAME MODEL: naming exists only for signed-in players —
+           there is no guest naming path, from any door. */
+        if (typeof authUser === "undefined" || !authUser) return;
         ["Main", "Email", "Code", "Done"].forEach(function (k) { var s = $("authStep" + k); if (s) s.hidden = true; });
         var step = $("authStepName"); if (!step) return;
         step.hidden = false;
@@ -23908,7 +24018,7 @@
         $("authNameSave").textContent = t.nameSave;
         $("authNameSkip").textContent = t.nameSkip;
         var inp = $("authNameInput");
-        inp.value = (state.displayName || "").trim() || (state.name || "").trim();
+        inp.value = (state.displayName || "").trim();
         try { inp.focus(); } catch (e) { /* ignore */ }
       }
       function finishNameStep() {
@@ -23934,6 +24044,7 @@
         var panel = $("stylePanel"); if (!panel) return;
         var fb = $("feedbackBtn"); var fbBar = fb ? fb.parentNode : null;
         var nameBar = document.createElement("div");
+        nameBar.id = "extNameBar";
         nameBar.className = "win-flat themebar ext-namebar";
         nameBar.setAttribute("role", "group"); nameBar.setAttribute("aria-label", "Adventurer name");
         nameBar.innerHTML = '<span class="flabel" id="extNameLabel"></span><span class="acct-status" id="extNameVal"></span>' +
@@ -24028,8 +24139,13 @@
         var sv = $("titleSurveyBtn"); if (sv) sv.textContent = t.survey;
         var bb = $("titleBetaBtn"); if (bb) bb.textContent = t.betaBtn;
         var eb = $("authEditNameBtn"); if (eb) eb.textContent = t.editName;
+        /* NAME MODEL: the settings name row — the ONE place an
+           account name is changed — exists only for signed-in
+           players. Guests get no naming row at all. */
+        var signedIn = (typeof authUser !== "undefined" && !!authUser);
+        var nb = $("extNameBar"); if (nb) nb.style.display = signedIn ? "" : "none";
         var nl = $("extNameLabel"); if (nl) nl.textContent = t.nameRowLabel;
-        var nv = $("extNameVal"); if (nv) nv.textContent = (state.displayName || "").trim() || "—";
+        var nv = $("extNameVal"); if (nv) nv.textContent = signedIn ? ((state.displayName || "").trim() || "—") : "—";
         var ne = $("extNameEdit"); if (ne) ne.textContent = t.editName;
         var pt = $("extPrivText"); if (pt) pt.textContent = t.privacy;
         var pl = $("extPrivLink"); if (pl) pl.textContent = t.privacyLink;
@@ -24041,11 +24157,11 @@
            #titleAcctState is retired so the name shows exactly
            once, on the button body. Keep the button in sync here
            too, for name changes made from the settings row. */
-        var dn = (state.displayName || "").trim();
+        var dn = signedIn ? (state.displayName || "").trim() : "";
         var tlb = $("titleLoginBtn");
-        /* guest-name rule: a locally set name rides the title
-           button for guests too; with no name set, the base
-           label from refreshAuthTexts stands. */
+        /* NAME MODEL: the account name rides the title button only
+           while signed in; for guests the base label from
+           refreshAuthTexts stands. */
         if (tlb && dn) tlb.textContent = dn;
         if (!$("betaScreen").hidden) renderBeta();
         renderRunBanner();
@@ -24055,7 +24171,7 @@
       var _origRefreshAuthTexts = refreshAuthTexts;
       refreshAuthTexts = function () { _origRefreshAuthTexts(); refreshExtTexts(); };
       document.addEventListener("click", function (e) {
-        if (e.target && e.target.closest && e.target.closest("#langBtn")) setTimeout(refreshExtTexts, 120);
+        if (e.target && e.target.closest && e.target.closest("[data-lang-opt]")) setTimeout(refreshExtTexts, 120);
       });
 
       /* ---------- at-home daily quests ----------
