@@ -11920,6 +11920,209 @@
         :root:not([data-theme="emerald"]) .wish-win .wish-hint { color: #5a6a76; }
       }
     </style>
+    <style>
+      /* ==========================================================
+         FIX9 (2026-10-29) — MINI-GAME PROPORTIONS BATCH (Q-157 /
+         Q-152 device reignition, Q-164, Q-165). One late block;
+         the fix8 map and the fix7 colour pairings are untouched.
+
+         --- (1) Q-157: THE SHARED STAGE SIZING SCHEME (this is
+         the scheme batch-3 games inherit — .run-stage + a canvas
+         + one ratio rule, nothing else to wire). The fix7 scheme
+         flex-stretched the stage box to whatever height the
+         capped window left over and letterboxed the bitmap
+         inside it with object-fit: contain — on device the
+         painted field ended up vertically centred in an
+         over-tall blue box: elements floated, the catcher left
+         the stage's bottom edge, and drawn bands hung in the
+         middle of the stage. The scheme is now REVERSE-SIZED,
+         like the Pairs grid below:
+           · .run-stage is a SIZE CONTAINER slot (flex: 1 1 auto,
+             min-height: 0) — it takes whatever rectangle the
+             window leaves between the fixed furniture.
+           · The canvas is sized FROM the slot:
+             width = min(100cqw, 100cqh × bitmapW / bitmapH),
+             with aspect-ratio pinning height = width ×
+             bitmapH / bitmapW. So the canvas box IS the bitmap's
+             box at every viewport: no letterbox, no object-fit,
+             every element sits exactly where the draw code put
+             it (catcher on the bottom edge), and the pointer
+             handlers' rect mapping stays exact (their letterbox
+             offsets now just resolve to 0). When the window is
+             short the stage shrinks NARROWER, centred — it never
+             stretches. Ratios: dash / jump 360:400 (90cqh cap),
+             catch / whack 360:340 via .stage-340 (105.88cqh cap).
+         --- (2) Q-152: MEMORY PAIRS grid, reverse-sized the same
+         way. The grid is no longer a scroller that can hide rows
+         under the goal line: it lives in a size-container slot
+         (.mem-slot) between the fixed HUD/progress and the fixed
+         footer, and its box is min(100cqw, 79cqh) at the board's
+         authored aspect 79:100 (3 cols × card 1:0.94 + gaps,
+         exact at the 336×425 design size, within ~1% at any
+         size). Rows are 1fr tracks of that box, so all 3 columns
+         and all 4 rows are inside the frame at the shortest
+         viewport, with the message / buttons / help footer
+         visible below — by construction, not by scroll.
+         --- (3) Q-164: game-window controls take the main
+         command bar's GBA grammar — 3px dark outline
+         (var(--line-c)), hard 0 4px 0 shadow that sinks to 1px
+         on press, saturated fills, the primary action red. The
+         QUIT ghost (dashed, shadowless, floating) is abolished
+         inside game windows. CSS only: the Dash ◀ ▶ pointerdown
+         binding (one press = one lane) is untouched.
+         --- (4) Q-165 lives in the markup: the progress-track
+         end flag is now a finish flag with the goal in its own
+         unit (🏁 300m / 🏁 30 / 🏁 6 / 🏁 300) — the 🎟 icon no
+         longer sits next to a goal count; it appears only as
+         the ticket's reward state in goal/result lines.
+         ========================================================== */
+
+      /* --- (1) stages: slot + reverse-sized canvas. The slot
+             ALSO carries the bitmap's aspect-ratio: that is what
+             gives it its height in a hugging (content-sized)
+             window, where a size container's intrinsic height
+             would otherwise be 0. When the capped window bites,
+             flex shrink (min-height: 0) compresses the slot and
+             the canvas reverse-sizes from the slot's real box. --- */
+      .run-stage {
+        flex: 1 1 auto; min-height: 0; position: relative; overflow: hidden;
+        aspect-ratio: 360 / 400;
+        container-type: size;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .run-stage.stage-340 { aspect-ratio: 360 / 340; }
+      .run-stage #runCanvas, .run-stage #jumpCanvas,
+      .run-stage #catchCanvas, .run-stage #whackCanvas {
+        position: static; inset: auto; flex: none;
+        box-sizing: border-box;
+        width: 100%; height: auto;
+        width: min(100cqw, 90cqh);
+        aspect-ratio: 360 / 400;
+        object-fit: fill;
+      }
+      .run-stage.stage-340 #catchCanvas, .run-stage.stage-340 #whackCanvas {
+        width: 100%;
+        width: min(100cqw, 105.88cqh);
+        aspect-ratio: 360 / 340;
+      }
+
+      /* --- (2) Pairs: slot + reverse-sized grid --- */
+      #memoryScreen .mem-slot {
+        flex: 1 1 auto; min-height: 0; width: 100%;
+        aspect-ratio: 79 / 100;
+        container-type: size;
+        display: flex; align-items: center; justify-content: center;
+      }
+      #memoryScreen .mem-grid {
+        flex: none; min-width: 0; min-height: 0;
+        margin: 0; padding: 0; max-width: none;
+        overflow: visible; align-content: stretch;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: repeat(4, minmax(0, 1fr));
+        gap: 8px;
+        width: 100%; height: auto; max-height: 100%;
+        width: min(100cqw, 79cqh);
+        aspect-ratio: 79 / 100;
+      }
+      #memoryScreen .mem-card { aspect-ratio: auto; min-width: 0; min-height: 0; }
+      @media (max-height: 740px) {
+        #memoryScreen .mem-glyph { font-size: 23px; }
+        #memoryScreen .mem-label { font-size: 9.5px; }
+        #memoryScreen .mem-card .mem-back { font-size: 21px; }
+      }
+
+      /* --- (3) GBA controls inside game windows --- */
+      .run-win .auth-btn {
+        border: 3px solid var(--line-c); border-radius: 12px;
+        box-shadow: 0 4px 0 var(--edge);
+      }
+      .run-win .auth-btn.primary {
+        background: linear-gradient(180deg, #ff8a7a, #f4503c);
+        border-color: var(--line-c); color: #fff;
+        box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 4px 0 var(--edge);
+      }
+      .run-win .auth-btn.ghost {
+        background: #fffdf4; color: #43301a;
+        border-style: solid;
+        box-shadow: 0 4px 0 var(--edge);
+      }
+      .run-win .auth-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--edge); }
+      .run-win .auth-btn.primary:active { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 1px 0 var(--edge); }
+      .run-win .run-lane-btn {
+        border: 3px solid var(--line-c);
+        box-shadow: 0 4px 0 var(--edge);
+      }
+      .run-win .run-lane-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--edge); }
+
+      /* --- (5) Q-166: the hero marker + accuracy ring in the
+             screen-space pin layer keep the paint order they had
+             inside the plane — above the base map, below the
+             pins (DOM order keeps the marker above her ring) --- */
+      #pinLayer .me-marker, #pinLayer .me-radius { z-index: -1; }
+
+      /* --- (6) Q-167: the RECORDS header band flows with the
+             content. The shared tab bar is un-fixed (JS moves it
+             into the active panel's scroll flow), and the panels
+             give back the 98px top reservation the pin needed —
+             the list now takes the full window once the header
+             scrolls away. The Q-139 frame itself is untouched. --- */
+      #recTabsShared { position: static; margin: 0 0 10px; }
+      /* Q-108's retire rule (#hsegX .rec-tabs { display:none
+         !important }) matches the shared bar too once it lives
+         inside a panel — out-specify it for the in-panel
+         placement so the moved bar actually renders (and still
+         hides when [hidden]). */
+      #hsegStatus #recTabsShared, #hsegBadges #recTabsShared, #hsegAdvlog #recTabsShared { display: flex !important; }
+      #hsegStatus #recTabsShared[hidden], #hsegBadges #recTabsShared[hidden], #hsegAdvlog #recTabsShared[hidden] { display: none !important; }
+      #view-hero #hsegStatus, #view-hero #hsegBadges, #view-hero #hsegAdvlog {
+        padding-top: calc(10px + env(safe-area-inset-top, 0px));
+      }
+
+      /* --- (7) title slogan cursor: the typewriter's solid
+             10x15 block read as a tofu "■" (audit P2, standing).
+             It is now a slim 3px caret — unmistakably a text
+             cursor, still blinking on the same stepped beat. --- */
+      .start-screen .start-card .start-sub::after {
+        width: 3px; height: 15px; margin-left: 5px; vertical-align: -2px;
+      }
+
+      /* --- (8) Q-171/Q-170: roster window furniture. The shell
+             is the shared .auth-win / .auth-scroll pair (Q-139);
+             the status line is context, not a button, and there
+             is no destination-less oversized PLAY button. --- */
+      .mg-hub-status {
+        flex: none; margin: 0 0 10px;
+        font-size: 12.5px; font-weight: 700; line-height: 1.55; color: #5a6a76;
+      }
+      .mg-hub-scroll .mg-list { margin-top: 0; }
+      .mg-badge.ticket { background: #63b96f; color: #fff; }
+
+      /* --- (9) Q-175: the DAILY HUD bar takes its colors as a
+             PAIR on both dark paths. Root cause: .daily-hud
+             borrowed background: var(--ink) — a TEXT ink that
+             flips near-white at night (#f0f3ff / #eef2ff on both
+             dark paths) — while its text stayed the hardcoded
+             day partner #fffdf4, so at night the bar went cream
+             with pale text. Every other ink-backed surface
+             (.tab[aria-selected], .cluster-pin,
+             .dock-btn[aria-pressed]) pairs var(--ink) with
+             var(--window) and inverts cleanly; this bar took
+             only one side. Pin bg + text together under the
+             midnight attribute path (any scheme — the in-app
+             WebView case) and under the Auto media path
+             (emerald excluded, same guard as the fix7 pins).
+             Day values are untouched. Chrome sweep: .tabs,
+             .statusbar, .chip-btn, .icon-btn pair flipping
+             vars on both sides; .hud-ticket/.ticket-pill sit
+             on the non-flipping --highlight accent with fixed
+             dark text; .loc-chip/.area-label are pair-fixed —
+             .daily-hud was the only one-sided chrome surface. --- */
+      :root[data-theme="midnight"] .daily-hud { background: #10142e; color: #fffdf4; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="emerald"]) .daily-hud { background: #10142e; color: #fffdf4; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -12185,7 +12388,7 @@
           <button class="auth-x" id="runClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span><span class="run-speed" id="runSpeed"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🎟 300m</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🏁 300m</span></div>
         <div class="run-stage"><canvas id="runCanvas" width="360" height="400"></canvas></div>
         <!-- lane controls (Zoe, 2026-10-29): the ONLY steering
              while running — two big buttons in the window's fixed
@@ -12236,7 +12439,7 @@
           <button class="auth-x" id="catchClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="catchDist">0</span><span class="run-goal" id="catchGoal"></span><span class="run-best" id="catchBest"></span><span class="run-speed" id="catchLives"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag">🎟 30</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag">🏁 30</span></div>
         <div class="run-stage stage-340"><canvas id="catchCanvas" width="360" height="340" role="button" aria-label="Catch stage — drag to move the hero"></canvas></div>
         <div class="run-lane-row" role="group" aria-label="Move controls">
           <button class="run-lane-btn" id="catchLeftBtn" type="button" disabled aria-label="Move left">◀</button>
@@ -12262,8 +12465,8 @@
           <button class="auth-x" id="memoryClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="memoryPairs">0/6</span><span class="run-goal" id="memoryGoal"></span><span class="run-speed" id="memoryTime"></span><span class="run-speed" id="memoryFlips"></span><span class="run-best" id="memoryBest"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="memoryProgFill"></div><span class="run-prog-flag">🎟 6</span></div>
-        <div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="memoryProgFill"></div><span class="run-prog-flag">🏁 6</span></div>
+        <div class="mem-slot"><div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div></div>
         <p class="run-msg" id="memoryMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="memoryStartBtn" type="button"></button>
@@ -12284,7 +12487,7 @@
           <button class="auth-x" id="whackClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="whackScore">0</span><span class="run-goal" id="whackGoal"></span><span class="run-speed" id="whackTime"></span><span class="run-best" id="whackBest"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="whackProgFill"></div><span class="run-prog-flag">🎟 300</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="whackProgFill"></div><span class="run-prog-flag">🏁 300</span></div>
         <div class="run-stage stage-340"><canvas id="whackCanvas" width="360" height="340" role="button" aria-label="Whack stage — tap the critters that pop up"></canvas></div>
         <p class="run-msg" id="whackMsg"></p>
         <div class="run-btnrow">
@@ -12292,6 +12495,28 @@
           <button class="auth-btn ghost" id="whackQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="whackHelp"></p>
+      </div>
+    </div>
+
+    <!-- ===== MINI-GAME HUB window (Q-171, 2026-10-29): the
+         7-game roster as an INDEPENDENT window in the shared
+         Q-139 shell (capped frame, inner scroll, ✕ inside the
+         frame). The hero page keeps only the one-line duty door;
+         opening / closing this window never reflows the page,
+         moves its scroll position, or touches the scene. Rows
+         are the launch buttons — one unified ▶ PLAY badge per
+         playable row (Q-170); the duty row's ticket state rides
+         as its own 🎟 ✓ chip only once earned (Q-165). ===== -->
+    <div class="auth-screen" id="mgHubScreen" hidden role="dialog" aria-modal="true" aria-labelledby="mgHubWinTitle">
+      <div class="win auth-win mg-hub-win">
+        <div class="auth-head">
+          <span class="auth-title" id="mgHubWinTitle"></span>
+          <button class="auth-x" id="mgHubClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <p class="mg-hub-status" id="mgHubStatus"></p>
+        <div class="auth-scroll mg-hub-scroll">
+          <div class="mg-list" id="mgList"></div>
+        </div>
       </div>
     </div>
 
@@ -12781,14 +13006,11 @@
             </span>
             <span class="mg-duty-go" aria-hidden="true">▶</span>
           </button>
-          <button class="mg-fold-btn" id="mgFoldBtn" type="button" aria-expanded="false"></button>
-          <div class="mg-fold" id="mgFold">
-          <div class="mg-list" id="mgList"></div>
-          <div class="run-cab-foot">
-            <span class="run-cab-status" id="runBannerName"></span>
-            <button class="run-start-btn" id="runCabStart" type="button"></button>
-          </div>
-          </div>
+          <!-- Q-171: the in-page fold is abolished — the cabinet
+               keeps ONLY the duty door; tapping it opens the
+               roster as an independent window (#mgHubScreen), so
+               the hero page never reflows. The roster list and
+               the status line live in that window now. -->
         </div>
         <div class="hero-dock" id="heroDock">
           <button class="dock-btn" type="button" data-openwin="records" aria-pressed="false"><span class="dock-ico" data-dock="records"></span><span data-dockname="records"></span></button>
@@ -13156,7 +13378,7 @@
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-2216-fix8-6d3b8e47";
+        var BUILD_ID = "tql-20261029-2257-fix9-e3d394b2";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -20515,8 +20737,39 @@
         var pxu = (g.pw * zoom.s) / 960.07;
         var dia = 2 * acc * 0.01265 * pxu;
         dia = Math.max(26, Math.min(Math.min(g.w, g.h) * 0.42, dia));
+        if (rad.parentNode === pinLayerEl) {
+          /* Q-166: in the screen-space pin layer the computed
+             screen diameter IS the box — no plane-% conversion */
+          rad.style.width = dia + "px";
+          rad.style.height = dia + "px";
+          return;
+        }
         rad.style.width = (dia / (g.pw * zoom.s) * 100) + "%";
         rad.style.height = (dia / (g.ph * zoom.s) * 100) + "%";
+      }
+      /* Q-166 (Zoe device on fix8, 2026-10-29: "the little
+         person goes blurry at max zoom"): the hero marker and
+         her ground pool rode the zoom-transformed plane,
+         counter-scaled by --u. The on-screen SIZE stayed right,
+         but a plane child's raster is produced at plane scale
+         and compositor-scaled, so at the 8x cap her 16px sprite
+         was smeared across the screen (the base map and pins
+         are screen-space and stayed sharp). Marker + accuracy
+         ring now live in #pinLayer with the pins (Q-150's
+         screen-space layer): positioned in screen px from the
+         same dataset.px/py point + zoom transform the pins use
+         (applyZoom's pin loop repositions them on every pan /
+         zoom), sized at --u = 1, so the pixel art rasterises at
+         full size at every zoom. The clamped plane-% point,
+         positioning and follow behaviour are unchanged — only
+         the host layer moved. GL mode keeps the plane host. */
+      function placeMeScreenEl(el) {
+        if (!el || el.parentNode !== pinLayerEl) return;
+        var g = layoutMap(); if (!g) return;
+        var px = parseFloat(el.dataset.px), py = parseFloat(el.dataset.py);
+        if (isNaN(px) || isNaN(py)) return;
+        el.style.left = (zoom.tx + g.pw * zoom.s * px / 100) + "px";
+        el.style.top = (zoom.ty + g.ph * zoom.s * py / 100) + "px";
       }
       function renderMeMarker() {
         var oldM = document.getElementById("meMarker"); if (oldM) oldM.remove();
@@ -20528,15 +20781,21 @@
         var acc = myPos.acc || 120;
         var rad = document.createElement("div");
         rad.className = "me-radius"; rad.id = "meRadius";
+        rad.dataset.px = cx; rad.dataset.py = cy;
         rad.style.left = cx + "%"; rad.style.top = cy + "%";
         /* accuracy ring: sized by sizeMeRadius() in screen px
            from the reported accuracy at the map's real scale —
            never a plane-percentage disc (see its comment) */
         rad.dataset.acc = acc;
-        mapZoom.appendChild(rad);
+        /* Q-166: screen-space host in DOM mode (placeMeScreenEl
+           positions it); GL mode keeps the plane host */
+        var meHost = (!glActive && pinLayerEl) ? pinLayerEl : mapZoom;
+        meHost.appendChild(rad);
+        if (meHost === pinLayerEl) placeMeScreenEl(rad);
         sizeMeRadius();
         var m = document.createElement("div");
         m.className = "me-marker" + (out ? " is-edge" : ""); m.id = "meMarker";
+        m.dataset.px = cx; m.dataset.py = cy;
         m.style.left = cx + "%"; m.style.top = cy + "%";
         var arrow = "";
         if (out) {
@@ -20552,7 +20811,8 @@
            full-screen map, so both get the same treatment. */
         m.innerHTML = '<span class="me-ground"></span>' +
           '<span class="me-hero"><canvas class="me-hero-canvas" width="16" height="16" aria-hidden="true"></canvas></span>' + arrow;
-        mapZoom.appendChild(m);
+        meHost.appendChild(m);
+        if (meHost === pinLayerEl) placeMeScreenEl(m);
         var meCv = m.querySelector(".me-hero-canvas");
         if (meCv) drawHeroEquipped(meCv, state.hero, state.gacha.equipped);
         if (glActive) glPlaceAll();
@@ -22325,7 +22585,6 @@
         document.getElementById("dailyCards").innerHTML = list.map(function (q) {
           var done = state.daily.done.indexOf(q.idx) !== -1;
           return '<button class="drow' + (done ? " done" : "") + (q.lucky ? " lucky" : "") + '" type="button" data-daily="' + q.idx + '"' + (done ? " disabled" : "") + ">" +
-            '<span class="dr-catbox" aria-hidden="true">' + esc((t.dailyCats || {})[q.cat] || "") + "</span>" +
             '<span class="dr-main"><span class="dr-name">' + esc(q.name) +
               (q.lucky ? '<span class="dr-lucky">' + esc(t.luckyTag) + "</span>" : "") +
               '</span><span class="dr-desc">' + esc(q.desc) + "</span></span>" +
@@ -22844,7 +23103,7 @@
           var routeLayerEl = document.getElementById("routeLayer");
           if (routeLayerEl) routeLayerEl.style.setProperty("--u", (1 / zoom.s).toFixed(4));
           var pwS = g.pw * zoom.s, phS = g.ph * zoom.s;
-          pinLayerEl.querySelectorAll(".pin, .cluster-pin, .area-label").forEach(function (p) {
+          pinLayerEl.querySelectorAll(".pin, .cluster-pin, .area-label, .me-marker, .me-radius").forEach(function (p) {
             var px = parseFloat(p.dataset.px), py = parseFloat(p.dataset.py);
             if (isNaN(px) || isNaN(py)) return;
             p.style.left = (zoom.tx + pwS * px / 100) + "px";
@@ -23373,6 +23632,23 @@
         if (rts) {
           var isRec = (name === "status" || name === "badges" || name === "advlog");
           rts.hidden = !isRec;
+          if (isRec) {
+            /* Q-167 (Zoe, 2026-10-29: "don't pin it when
+               scrolling"): the shared bar leaves its fixed pin
+               and moves INTO the active panel's own scroll flow,
+               exactly where the panel's retired private tab bar
+               sits — so the tab row + heading scroll away with
+               the content and the list takes the full window.
+               It stays ONE element with one handler set; only
+               its parent changes. The Q-139 frame (max-height +
+               inner scroll) is untouched. */
+            var panel = document.getElementById("hseg" + name.charAt(0).toUpperCase() + name.slice(1));
+            var priv = panel ? panel.querySelector(".rec-tabs") : null;
+            if (panel && rts.parentNode !== panel) {
+              if (priv && priv.parentNode === panel) panel.insertBefore(rts, priv.nextSibling);
+              else panel.appendChild(rts);
+            }
+          }
           if (isRec) fitRecTabs();
           if (isRec) rts.querySelectorAll("[data-rectab]").forEach(function (b) {
             b.setAttribute("aria-pressed", String(b.getAttribute("data-rectab") === name));
@@ -24634,6 +24910,7 @@
           runReward: "300m! GACHA TICKET +1 ✓ Keep going for a best distance!",
           runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; },
           runReadyPractice: "Practice mode — today's gacha ticket is in today's game (see the mini-game hub). Retry as much as you like.",
+          runReadyDone: "Today's ticket is already yours ✓ — now run for a best distance!",
           mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgAllGames: "ALL 7 GAMES ▾", mgHideGames: "HIDE ▴", mgSoon: "COMING SOON",
           runNearMiss: "NEAR MISS!", mgStageJump: "Jump stage — press and hold to charge, release to jump", mgStageCatch: "Catch stage — drag to move the hero", mgStageWhack: "Whack stage — tap the critters that pop up", mgStageMemory: "Memory cards",
           mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
@@ -24646,12 +24923,14 @@
           jumpHelp: "Press & hold anywhere on the stage to charge, release to leap. Land on the next roof for +1 — miss and the run ends.",
           jumpReadyDuty: "Hold… release… land! 15 landings in a row wins today's gacha ticket.",
           jumpReadyPractice: "Hold… release… land! Goal: 15 landings in a row (practice — today's ticket is in today's game).",
+          jumpReadyDone: "Hold… release… land! Goal: 15 landings in a row (ticket earned ✓ — this one's just for score).",
           jumpClear: "15 LANDINGS IN A ROW!", jumpFall: function (n) { return "Fell after " + n + " landings… one more try!"; },
           jumpBest: function (b) { return "BEST " + b; },
           catchTitle: "COIN CATCH", catchStart: "▶ START", catchAgain: "↻ AGAIN", catchQuit: "QUIT",
           catchHelp: "Drag on the stage, or hold the ◀ ▶ buttons, to move. Catch coins & EXP orbs — 3 bomb hits end the run.",
           catchReadyDuty: "Catch 30 coins & orbs in total to win today's gacha ticket. Mind the bombs!",
           catchReadyPractice: "Goal: 30 catches in total (practice — today's ticket is in today's game).",
+          catchReadyDone: "Goal: 30 catches in total (ticket earned ✓ — this one's just for score).",
           catchClear: "30 CATCHES — GOAL REACHED!", catchOver: function (n) { return "Three bombs… run over at " + n + " catches. Again!"; },
           catchQuitMsg: function (n) { return "Run over — " + n + " catches. Come back anytime today."; },
           catchBest: function (b) { return "BEST " + b; },
@@ -24659,6 +24938,7 @@
           memHelp: "Tap a card to flip it. Pair up the Tokyo trinkets — all 6 pairs before the clock runs out!",
           memReadyDuty: "Match all 6 pairs within 90 seconds to win today's gacha ticket.",
           memReadyPractice: "Goal: match all 6 pairs within 90 seconds (practice — today's ticket is in today's game).",
+          memReadyDone: "Goal: match all 6 pairs within 90 seconds (ticket earned ✓ — this one's just for score).",
           memClear: function (s, f) { return "ALL 6 PAIRS in " + s + "s with " + f + " flips!"; },
           memOver: function (p) { return "Time up — " + p + "/6 pairs. One more try!"; },
           memQuitMsg: function (p) { return "Run over — " + p + "/6 pairs. Come back anytime today."; },
@@ -24670,6 +24950,7 @@
           whackHelp: "Tap the critters as they pop up — +20 points each. The boss cat costs −50, so paws off!",
           whackReadyDuty: "Score 300 points in 45 seconds to win today's gacha ticket. Don't whack the boss cat!",
           whackReadyPractice: "Goal: 300 points in 45 seconds (practice — today's ticket is in today's game).",
+          whackReadyDone: "Goal: 300 points in 45 seconds (ticket earned ✓ — this one's just for score).",
           whackClear: function (s) { return "Time! " + s + " points — goal smashed!"; },
           whackShort: function (s) { return "Time! " + s + " points — the 300-point goal is still out there. Again!"; },
           whackGoalHit: "300 POINTS! GACHA TICKET +1 ✓ Keep whacking for a best score!",
@@ -24708,6 +24989,7 @@
           runReward: "300m到達！ガチャ券 +1 ✓ ベスト記録を目指して続けよう！",
           runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; },
           runReadyPractice: "練習モード——本日のガチャ券は今日のゲームにあります（ミニゲーム参照）。何度でも再挑戦OK。",
+          runReadyDone: "本日の券は獲得済み ✓ ここからはベスト記録狙いで走ろう！",
           mgHub: "ミニゲーム", mgTag: "GAMES", mgToday: "今日のゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgAllGames: "全7ゲーム ▾", mgHideGames: "とじる ▴", mgSoon: "準備中",
           runNearMiss: "ニアミス！", mgStageJump: "ジャンプステージ — 長押しで力を溜めて、離すとジャンプ", mgStageCatch: "キャッチステージ — ドラッグで移動", mgStageWhack: "もぐらたたきステージ — 出てきた小動物をタップ", mgStageMemory: "神経衰弱のカード",
           mgNames: { dash: "東京ダッシュ", jump: "屋根ジャンプ", catch: "コインキャッチ", memory: "神経衰弱", whack: "もぐらたたき", stack: "積み上げタワー", fish: "釣り" },
@@ -24720,12 +25002,14 @@
           jumpHelp: "画面を長押しで力を溜めて、離すとジャンプ。次の屋根に着地で+1、外したら終了。",
           jumpReadyDuty: "長押し→離して次の屋根へ！15回連続着地で本日のガチャ券。",
           jumpReadyPractice: "長押し→離して次の屋根へ！目標は15回連続着地（練習：券は今日のゲームのみ）。",
+          jumpReadyDone: "長押し→離して次の屋根へ！目標は15回連続着地（券は獲得済み ✓ ここからは記録だけ）。",
           jumpClear: "15回連続着地達成！", jumpFall: function (n) { return n + "回着地で落下… もう一度挑戦！"; },
           jumpBest: function (b) { return "ベスト " + b + "回"; },
           catchTitle: "コインキャッチ", catchStart: "▶ スタート", catchAgain: "↻ もう一度", catchQuit: "やめる",
           catchHelp: "ドラッグか ◀ ▶ ボタンで移動。金貨とEXPオーブをキャッチ——爆弾に3回当たると終了。",
           catchReadyDuty: "金貨・オーブ合計30個キャッチで本日のガチャ券。爆弾に気をつけて！",
           catchReadyPractice: "目標は金貨・オーブ合計30個キャッチ（練習：券は今日のゲームのみ）。",
+          catchReadyDone: "目標は金貨・オーブ合計30個キャッチ（券は獲得済み ✓ ここからは記録だけ）。",
           catchClear: "30個キャッチ達成！", catchOver: function (n) { return "爆弾3回… " + n + "個で終了。もう一度！"; },
           catchQuitMsg: function (n) { return "終了 — " + n + "個キャッチ。今日中ならいつでも再挑戦できます。"; },
           catchBest: function (b) { return "ベスト " + b + "個"; },
@@ -24733,6 +25017,7 @@
           memHelp: "カードをタップしてめくろう。東京小物のペアを揃えて、制限時間内に6ペア全部そろえよう！",
           memReadyDuty: "90秒以内に6ペア全部そろえると本日のガチャ券！",
           memReadyPractice: "目標は90秒以内に6ペア（練習：券は今日のゲームのみ）。",
+          memReadyDone: "目標は90秒以内に6ペア（券は獲得済み ✓ ここからは記録だけ）。",
           memClear: function (s, f) { return "6ペア完成！" + s + "秒・" + f + "枚めくったよ！"; },
           memOver: function (p) { return "時間切れ — " + p + "/6ペア。もう一度！"; },
           memQuitMsg: function (p) { return "終了 — " + p + "/6ペア。今日中ならいつでも再挑戦できます。"; },
@@ -24744,6 +25029,7 @@
           whackHelp: "顔を出した小動物をタップ！1匹+20点。ボス猫を叩くと−50点、叩いちゃダメ！",
           whackReadyDuty: "45秒で300点を取ると本日のガチャ券。ボス猫は叩くな！",
           whackReadyPractice: "目標は45秒で300点（練習：券は今日のゲームのみ）。",
+          whackReadyDone: "目標は45秒で300点（券は獲得済み ✓ ここからは記録だけ）。",
           whackClear: function (s) { return "終了！" + s + "点 — 目標達成！"; },
           whackShort: function (s) { return "終了！" + s + "点 — 300点の目標はまだ先。もう一度！"; },
           whackGoalHit: "300点到達！ガチャ券 +1 ✓ ベスト記録を目指して叩き続けよう！",
@@ -24782,6 +25068,7 @@
           runReward: "300m 达成！扭蛋券 +1 ✓ 继续冲最佳距离吧！",
           runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; },
           runReadyPractice: "练习模式——今日扭蛋券在当值游戏里（见小游戏 hub）。可以随便重开。",
+          runReadyDone: "今日扭蛋券已到手 ✓ 接下来冲最佳距离吧！",
           mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgAllGames: "全部 7 个游戏 ▾", mgHideGames: "收起 ▴", mgSoon: "准备中",
           runNearMiss: "险些撞上！", mgStageJump: "跳跃舞台 — 长按蓄力，松手起跳", mgStageCatch: "接取舞台 — 拖动移动主人公", mgStageWhack: "打地鼠舞台 — 点探头的小动物", mgStageMemory: "翻牌区",
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
@@ -24794,12 +25081,14 @@
           jumpHelp: "长按蓄力，松手起跳。落在下一块屋顶 +1，掉下去就结束。",
           jumpReadyDuty: "长按→松手，跳到下一块屋顶！连续落地15次赢今日扭蛋券。",
           jumpReadyPractice: "长按→松手，跳到下一块屋顶！目标连续落地15次（练习：券只在当值游戏）。",
+          jumpReadyDone: "长按→松手，跳到下一块屋顶！目标连续落地15次（券已到手 ✓ 接下来只记分）。",
           jumpClear: "连续落地15次，达成！", jumpFall: function (n) { return "落地 " + n + " 次后掉下去了……再来一局！"; },
           jumpBest: function (b) { return "最佳 " + b + " 次"; },
           catchTitle: "接金币", catchStart: "▶ 开始", catchAgain: "↻ 再来一局", catchQuit: "结束",
           catchHelp: "拖动画面或按住 ◀ ▶ 移动。接金币和EXP球——炸弹碰满3次就结束。",
           catchReadyDuty: "金币+EXP球合计接住30个，赢今日扭蛋券。小心炸弹！",
           catchReadyPractice: "目标：金币+EXP球合计接住30个（练习：券只在当值游戏）。",
+          catchReadyDone: "目标：金币+EXP球合计接住30个（券已到手 ✓ 接下来只记分）。",
           catchClear: "接满30个，达成！", catchOver: function (n) { return "炸弹碰满3次……本局接了 " + n + " 个。再来！"; },
           catchQuitMsg: function (n) { return "本局结束 — 接了 " + n + " 个。今天随时可以再来。"; },
           catchBest: function (b) { return "最佳 " + b + " 个"; },
@@ -24807,6 +25096,7 @@
           memHelp: "点一张牌把它翻开，配对东京小物——在时间用完前配齐全部6对！",
           memReadyDuty: "90秒内配齐6对，赢今日扭蛋券！",
           memReadyPractice: "目标：90秒内配齐6对（练习：券只在当值游戏）。",
+          memReadyDone: "目标：90秒内配齐6对（券已到手 ✓ 接下来只记分）。",
           memClear: function (s, f) { return "6对全配齐！用时 " + s + " 秒，翻了 " + f + " 张牌！"; },
           memOver: function (p) { return "时间到——配齐了 " + p + "/6 对。再来一局！"; },
           memQuitMsg: function (p) { return "本局结束 — 配齐 " + p + "/6 对。今天随时可以再来。"; },
@@ -24818,6 +25108,7 @@
           whackHelp: "点探头的小动物得分，每只+20分。猫老大千万别打，打到扣50分！",
           whackReadyDuty: "45秒内得300分，赢今日扭蛋券。猫老大别打！",
           whackReadyPractice: "目标：45秒内得300分（练习：券只在当值游戏）。",
+          whackReadyDone: "目标：45秒内得300分（券已到手 ✓ 接下来只记分）。",
           whackClear: function (s) { return "时间到！" + s + " 分——达标啦！"; },
           whackShort: function (s) { return "时间到！" + s + " 分——300分的目标还在前面。再来！"; },
           whackGoalHit: "300分达成！扭蛋券 +1 ✓ 继续冲最佳分数吧！",
@@ -25254,6 +25545,15 @@
         else { openRun(); startRun(); }
       }
       function mgOpenDuty() { mgOpen(mgDutyId()); }
+      /* Q-171: the roster is an independent window now — open
+         refreshes the rows (bests / ticket state) and shows the
+         shell; the hero page underneath is never reflowed, so
+         its scroll position and scene survive open + close. */
+      function openMgHub() {
+        renderRunBanner();
+        var s = $("mgHubScreen"); if (s) s.hidden = false;
+      }
+      function closeMgHub() { var s = $("mgHubScreen"); if (s) s.hidden = true; }
       var mgHubOpen = false; /* Q-151: roster folded by default */
 
       /* ---------- DASH RUN mini-game ---------- */
@@ -25263,12 +25563,13 @@
         if (state.runner.date !== TODAY) { state.runner.date = TODAY; state.runner.rewarded = false; state.runner.plays = 0; }
       }
       function renderRunBanner() {
-        var el = $("runBannerName"); if (!el) return;
+        var el = $("mgHubStatus"); if (!el) return;
         ensureRunnerDay(); ensureGames();
         var t = X();
         var duty = mgDutyId(), sched = mgScheduledId(), done = mgTicketDone();
         el.textContent = t.mgStatus(mgName(duty), done);
         var hubT = $("mgHubTitle"); if (hubT) hubT.textContent = t.mgHub;
+        var hubW = $("mgHubWinTitle"); if (hubW) hubW.textContent = t.mgHub;
         var tag = $("runTag"); if (tag) tag.textContent = t.mgTag;
         var rule = $("runCabRule");
         if (rule) { rule.textContent = done ? t.runGoal(true) : t.mgRule(mgName(duty)); rule.classList.toggle("is-done", done); }
@@ -25290,12 +25591,17 @@
             var row = document.createElement(g.soon ? "div" : "button");
             if (!g.soon) row.type = "button";
             row.className = "mg-row" + (isDuty ? " is-duty" : "") + (g.soon ? " is-soon" : "");
+            /* Q-170: ONE launch badge (▶ PLAY) on every playable
+               row, Monday Dash included — the roster is the full
+               MG_GAMES array in weekday order. Q-165: a ticket
+               icon rides the duty row ONLY as the earned state
+               (🎟 ✓ chip), never as the launch affordance. */
             var badge = g.soon ? '<span class="mg-badge soon">' + t.mgSoon + "</span>"
-              : isDuty ? '<span class="mg-badge">🎟</span>'
               : '<span class="mg-badge play">' + t.mgPlay + "</span>";
+            var ticket = (isDuty && done) ? '<span class="mg-badge ticket">🎟 ✓</span>' : "";
             row.innerHTML = '<span class="mg-dow">' + t.mgDow[g.dow] + '</span><span class="mg-name">' + mgName(g.id) + '</span>' +
-              (g.soon ? "" : '<span class="mg-best">' + t.mgBest(g.id, mgBest(g.id)) + "</span>") + badge;
-            if (!g.soon) row.addEventListener("click", function () { mgOpen(g.id); });
+              (g.soon ? "" : '<span class="mg-best">' + t.mgBest(g.id, mgBest(g.id)) + "</span>") + ticket + badge;
+            if (!g.soon) row.addEventListener("click", function () { closeMgHub(); mgOpen(g.id); });
             list.appendChild(row);
           });
         }
@@ -25430,7 +25736,7 @@
         $("runGoal").textContent = mgTicketDone() ? t.runGoal(true) : (mgDutyId() === "dash" ? t.runGoal(false) : t.mgGoal("dash"));
         $("runBest").textContent = t.runBest(state.runner.best || 0);
         $("runDist").textContent = "0m";
-        $("runMsg").textContent = (mgDutyId() === "dash" && !mgTicketDone()) ? t.runReady : t.runReadyPractice;
+        $("runMsg").textContent = mgTicketDone() ? t.runReadyDone : (mgDutyId() === "dash" ? t.runReady : t.runReadyPractice);
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
         $("runQuitBtn").textContent = t.runQuit;
@@ -25722,7 +26028,7 @@
         $("jumpGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("jump");
         $("jumpBest").textContent = t.jumpBest(mgBest("jump"));
         $("jumpDist").textContent = "0";
-        $("jumpMsg").textContent = mgDutyId() === "jump" && !mgTicketDone() ? t.jumpReadyDuty : t.jumpReadyPractice;
+        $("jumpMsg").textContent = mgTicketDone() ? t.jumpReadyDone : (mgDutyId() === "jump" ? t.jumpReadyDuty : t.jumpReadyPractice);
         $("jumpHelp").textContent = t.jumpHelp;
         var sb = $("jumpStartBtn"); sb.disabled = false; sb.textContent = t.jumpStart;
         $("jumpQuitBtn").textContent = t.jumpQuit;
@@ -25869,7 +26175,7 @@
         $("catchBest").textContent = t.catchBest(mgBest("catch"));
         $("catchDist").textContent = "0";
         $("catchLives").textContent = "💣 0/3";
-        $("catchMsg").textContent = mgDutyId() === "catch" && !mgTicketDone() ? t.catchReadyDuty : t.catchReadyPractice;
+        $("catchMsg").textContent = mgTicketDone() ? t.catchReadyDone : (mgDutyId() === "catch" ? t.catchReadyDuty : t.catchReadyPractice);
         $("catchHelp").textContent = t.catchHelp;
         var sb = $("catchStartBtn"); sb.disabled = false; sb.textContent = t.catchStart;
         $("catchQuitBtn").textContent = t.catchQuit;
@@ -26044,7 +26350,7 @@
         var mgr = $("memoryGrid"); if (mgr && t.mgStageMemory) mgr.setAttribute("aria-label", t.mgStageMemory);
         $("memoryGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("memory");
         $("memoryBest").textContent = t.memBest(mgBest("memory"));
-        $("memoryMsg").textContent = mgDutyId() === "memory" && !mgTicketDone() ? t.memReadyDuty : t.memReadyPractice;
+        $("memoryMsg").textContent = mgTicketDone() ? t.memReadyDone : (mgDutyId() === "memory" ? t.memReadyDuty : t.memReadyPractice);
         $("memoryHelp").textContent = t.memHelp;
         var sb = $("memoryStartBtn"); sb.disabled = false; sb.textContent = t.memStart;
         $("memoryQuitBtn").textContent = t.memQuit;
@@ -26157,7 +26463,7 @@
         var wcv = $("whackCanvas"); if (wcv && t.mgStageWhack) wcv.setAttribute("aria-label", t.mgStageWhack);
         $("whackGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("whack");
         $("whackBest").textContent = t.whackBest(mgBest("whack"));
-        $("whackMsg").textContent = mgDutyId() === "whack" && !mgTicketDone() ? t.whackReadyDuty : t.whackReadyPractice;
+        $("whackMsg").textContent = mgTicketDone() ? t.whackReadyDone : (mgDutyId() === "whack" ? t.whackReadyDuty : t.whackReadyPractice);
         $("whackHelp").textContent = t.whackHelp;
         var sb = $("whackStartBtn"); sb.disabled = false; sb.textContent = t.whackStart;
         $("whackQuitBtn").textContent = t.whackQuit;
@@ -26387,8 +26693,12 @@
          cabinet's lemon START is the only door into the game */
       /* the hub's START + the big duty door both launch
          TODAY'S duty game straight into play */
-      $("runCabStart").addEventListener("click", function () { mgOpenDuty(); });
-      $("mgDutyBtn").addEventListener("click", function () { mgOpenDuty(); });
+      /* Q-171: the duty door opens the roster WINDOW (the
+         in-page fold and its destination-less cabinet START are
+         abolished); the window's rows launch the games, its ✕
+         closes back to the untouched hero page */
+      $("mgDutyBtn").addEventListener("click", function () { openMgHub(); });
+      $("mgHubClose").addEventListener("click", closeMgHub);
       var mgFbEl = $("mgFoldBtn");
       if (mgFbEl) mgFbEl.addEventListener("click", function () { mgHubOpen = !mgHubOpen; renderRunBanner(); });
       $("runClose").addEventListener("click", closeRun);
