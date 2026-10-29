@@ -15733,7 +15733,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0137-q184-10d686ed";
+        var BUILD_ID = "tql-20261030-0144-q186-c665ca27";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -22466,6 +22466,26 @@ var qrcode = function() {
         }
         save(); sfx("move"); renderAll();
         if (currentId) openDetail(currentId);
+        /* Q-186 (QA, 2026-10-30): renderAll() re-renders the pages
+           and the records window's chrome (the shared tab bar is
+           re-labelled immediately), but the records bodies that are
+           only rendered at open time (the titles ladder / adventure
+           log / collection) kept the previous language until a tab
+           switch forced a re-render. Re-render the OPEN window's
+           body in place — deliberately NOT openHeroWin(), which
+           would reset the panel's scroll position and the ladder
+           page — and do the same for the other windows whose
+           bodies render only on open (beta board, mini-game hub,
+           calendar grid; the calendar keeps its current month). */
+        if (heroWinOpen === "status") renderLadder();
+        else if (heroWinOpen === "advlog") renderAdvLog();
+        else if (heroWinOpen === "collection") renderCollection();
+        var bs186 = document.getElementById("betaScreen");
+        if (bs186 && !bs186.hidden) renderBeta();
+        var mh186 = document.getElementById("mgHubScreen");
+        if (mh186 && !mh186.hidden) renderRunBanner();
+        var cs186 = document.getElementById("calScreen");
+        if (cs186 && !cs186.hidden) renderCal();
       }
       function renderCatChips() {
         var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: c, icon: CAT_ICON[c] }; }));
