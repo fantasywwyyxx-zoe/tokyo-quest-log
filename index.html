@@ -228,7 +228,7 @@
         box-shadow: inset 0 0 0 3px rgba(13, 19, 56, 0.22), inset 0 0 70px rgba(13, 19, 56, 0.16);
       }
       @media (min-width: 760px) { .map-box { aspect-ratio: 16 / 10.5; } }
-      .map-box svg.scenery { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .map-box svg.scenery { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
       /* no dot-dither overlay on the map (user: "what are those
          dots?" — removed 2026-10-26; the land reads as clean flat
          GBA colour with coarse two-tone block patches baked into
@@ -826,6 +826,8 @@
       /* #mapZoom IS the map plane: layoutMap() sizes it in px to the
          geographically true 400×270 plane, letterboxed and centred
          inside the box by the zoom transform's home offset. */
+      #pinLayer { position: absolute; inset: 0; z-index: 25; pointer-events: none; --u: 1; }
+      #pinLayer .pin, #pinLayer .cluster-pin, #pinLayer .area-label { pointer-events: auto; }
       .map-zoom { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; will-change: transform; }
       /* the plane's margin land (user device report 2026-10-27
          14:25 — "the edges are broken"): the baked geography ends
@@ -836,7 +838,7 @@
          now reads as open country, not a void. It pans and zooms
          with the plane and follows the day/night land palette. */
       .map-backdrop {
-        position: absolute; left: -40%; top: -55%; width: 180%; height: 210%;
+        position: absolute; left: 0; top: 0; width: 180%; height: 210%; transform-origin: 0 0;
         background-color: var(--map-land);
         background-image:
           repeating-linear-gradient(90deg, rgba(70, 90, 40, 0.05) 0 26px, transparent 26px 53px),
@@ -3861,6 +3863,7 @@
       }
       .map-box.gl-on { background: var(--map-land); }
       .map-box.gl-on svg.scenery { display: none !important; }
+      .map-box.gl-on .map-backdrop { display: none !important; }
       .map-box.gl-on .map-zoom { z-index: 5; }
       /* in GL mode the overlay plane must let drags reach the canvas:
          only the interactive children take pointer events */
@@ -5982,8 +5985,7 @@
 
       /* --- photo pins --- */
       .pin .pin-body { overflow: hidden; }
-      .pin .pin-body.has-photo { background: #fffdf4; }
-      .pin .pin-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .pin .pin-body.has-photo { background-color: #fffdf4; background-size: cover; background-position: center; background-repeat: no-repeat; }
 
       /* --- 6. loc band: slim, padded, closable --- */
       .loc-chip {
@@ -7229,7 +7231,7 @@
       .ms-row.is-epic { border-color: var(--epic-deep); box-shadow: 0 2px 0 var(--epic-deep), inset 0 0 0 2px var(--epic-gold); }
       .ms-row.is-epic .ms-banner { box-shadow: inset 0 0 0 2px var(--epic-gold); }
       .pin.is-epic .pin-body { background: var(--epic); box-shadow: inset 0 0 0 3px var(--epic-gold), 0 3px 0 rgba(30,20,60,.55); }
-      .pin.is-epic .pin-body.has-photo { box-shadow: inset 0 0 0 3px var(--epic-gold), 0 3px 0 rgba(30,20,60,.55); }
+      .pin.is-epic .pin-body.has-photo { background-size: cover; background-position: center; background-repeat: no-repeat; box-shadow: inset 0 0 0 3px var(--epic-gold), 0 3px 0 rgba(30,20,60,.55); }
       dialog#detail.is-epic .detail-win { border-color: var(--epic-deep); box-shadow: 0 0 0 3px var(--epic-gold), 0 10px 0 rgba(30,20,60,.35); }
       dialog#detail.is-epic .detail-head h2 { color: var(--epic-deep); }
       :root[data-theme="midnight"] dialog#detail.is-epic .detail-head h2 { color: #cdbcf5; }
@@ -7928,7 +7930,9 @@
 
       /* --- 1. map air wall --- */
       .map-zoom.snap-back { transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
+      .map-box svg.scenery.snap-back, .map-backdrop.snap-back { transition: transform 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2); }
       @media (prefers-reduced-motion: reduce) { .map-zoom.snap-back { transition: none; } }
+      @media (prefers-reduced-motion: reduce) { .map-box svg.scenery.snap-back, .map-backdrop.snap-back { transition: none; } }
       /* margin land in the sheet's own two-tone patchwork (tile
          ≈ the baked mapLandTex block size at fit zoom), so past
          the rim the world continues as open country in the same
@@ -10734,15 +10738,15 @@
       .mg-duty {
         display: flex; align-items: center; gap: 9px; width: 100%; text-align: left; cursor: pointer;
         background: linear-gradient(180deg, #fff6dc, #ffe9a8); color: var(--ink);
-        border: 3px solid var(--line-c); border-radius: 12px; padding: 9px 11px;
+        border: 3px solid var(--line-c); border-radius: 12px; padding: 7px 10px;
         box-shadow: inset 0 0 0 2px #d9a400, 0 3px 0 var(--edge);
         font-family: inherit;
       }
       .mg-duty:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #d9a400, 0 1px 0 var(--edge); }
-      .mg-duty-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+      .mg-duty-main { flex: 1; min-width: 0; display: flex; flex-direction: row; flex-wrap: wrap; align-items: baseline; column-gap: 8px; row-gap: 1px; }
       .mg-duty-kicker { font-size: 10.5px; font-weight: 800; letter-spacing: 0.1em; color: #a8651e; }
-      .mg-duty-name { font-size: 20px; font-weight: 800; line-height: 1.15; letter-spacing: 0.03em; }
-      .mg-duty-meta { font-size: 11.5px; font-weight: 700; color: var(--ink-dim); line-height: 1.35; }
+      .mg-duty-name { font-size: 17px; font-weight: 800; line-height: 1.15; letter-spacing: 0.03em; }
+      .mg-duty-meta { flex-basis: 100%; font-size: 11.5px; font-weight: 700; color: var(--ink-dim); line-height: 1.35; }
       .mg-duty-go {
         flex: none; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
         background: #ffd83d; color: #231a00; border: 2.5px solid var(--line-c); border-radius: 50%;
@@ -10750,6 +10754,19 @@
       }
       .mg-duty.is-done { background: linear-gradient(180deg, #e6f7e9, #cdeeda); box-shadow: inset 0 0 0 2px #63b96f, 0 3px 0 var(--edge); }
       .mg-list { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+      /* Q-151 (Zoe ruling): the hub is FOLDED by default — one
+         compact duty line + this toggle; the roster expands on
+         tap and scrolls inside its own capped box, so even open
+         it can never crush the hero scene at 390x600. */
+      .mg-fold-btn {
+        width: 100%; margin-top: 6px; padding: 5px 8px; cursor: pointer;
+        background: var(--window-hi); color: var(--ink-dim);
+        border: 2px solid var(--line-c); border-radius: 9px;
+        font-family: inherit; font-weight: 800; font-size: 11.5px; letter-spacing: 0.06em;
+      }
+      .mg-fold-btn:active { transform: translateY(1px); }
+      .run-cabinet:not(.mg-open) .mg-fold { display: none; }
+      .run-cabinet.mg-open #mgList { max-height: min(280px, 32vh); overflow-y: auto; overscroll-behavior: contain; }
       .mg-row {
         display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
         background: var(--window-hi); color: var(--ink); border: 2.5px solid var(--line-c); border-radius: 10px;
@@ -10765,11 +10782,31 @@
       .mg-badge { flex: none; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; border: 2px solid var(--line-c); border-radius: 999px; padding: 2px 7px; background: #ffd83d; color: #231a00; }
       .mg-badge.soon { background: var(--window-deep); color: var(--ink-dim); }
       .mg-badge.play { background: var(--window); color: var(--ink); }
-      #jumpCanvas, #catchCanvas {
+      #jumpCanvas, #catchCanvas, #whackCanvas {
         width: 100%; height: auto; display: block; image-rendering: pixelated;
         border: 2.5px solid var(--edge); border-radius: 10px; background: #79b5e0;
         touch-action: none;
       }
+      /* MEMORY PAIRS board (batch 2): a 3x4 grid of chunky
+         flip cards inside the same one-screen window frame */
+      .mem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 2px auto 4px; width: 100%; max-width: 336px; }
+      .mem-card {
+        position: relative; aspect-ratio: 1 / 0.94; padding: 0; cursor: pointer; font-family: inherit;
+        border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 3px 0 var(--edge);
+        background: repeating-linear-gradient(45deg, #ffd83d 0 10px, #f2c63c 10px 20px);
+      }
+      .mem-card:active { transform: translateY(1px); box-shadow: 0 2px 0 var(--edge); }
+      .mem-card .mem-back {
+        display: flex; align-items: center; justify-content: center; height: 100%;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-size: 27px; font-weight: 800; color: #a8651e;
+      }
+      .mem-card .mem-front { display: none; flex-direction: column; align-items: center; justify-content: center; gap: 1px; height: 100%; }
+      .mem-card.is-up, .mem-card.is-matched { background: #fffdf4; }
+      .mem-card.is-up .mem-back, .mem-card.is-matched .mem-back { display: none; }
+      .mem-card.is-up .mem-front, .mem-card.is-matched .mem-front { display: flex; }
+      .mem-card.is-matched { border-color: #3f9e4d; box-shadow: inset 0 0 0 2px #63b96f, 0 3px 0 var(--edge); cursor: default; }
+      .mem-glyph { font-size: 31px; line-height: 1.15; }
+      .mem-label { font-size: 11px; font-weight: 800; color: var(--ink); letter-spacing: 0.04em; }
       .mg-charge {
         height: 14px; margin: 0 0 8px; overflow: hidden;
         border: 2.5px solid #43301a; border-radius: 999px; background: #fff;
@@ -11986,6 +12023,50 @@
       </div>
     </div>
 
+    <!-- ===== MEMORY PAIRS window (mini-game hub batch 2):
+         tap cards to flip them and pair up Tokyo trinkets.
+         All 6 pairs inside 90 seconds is the goal line. Same
+         window contract as DASH. ===== -->
+    <div class="auth-screen" id="memoryScreen" hidden role="dialog" aria-modal="true" aria-labelledby="memoryTitle">
+      <div class="win auth-win run-win">
+        <div class="auth-head">
+          <span class="auth-title" id="memoryTitle"></span>
+          <button class="auth-x" id="memoryClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="run-hud"><span class="run-dist" id="memoryPairs">0/6</span><span class="run-goal" id="memoryGoal"></span><span class="run-speed" id="memoryTime"></span><span class="run-speed" id="memoryFlips"></span><span class="run-best" id="memoryBest"></span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="memoryProgFill"></div><span class="run-prog-flag">🎟 6</span></div>
+        <div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div>
+        <p class="run-msg" id="memoryMsg"></p>
+        <div class="run-btnrow">
+          <button class="auth-btn primary" id="memoryStartBtn" type="button"></button>
+          <button class="auth-btn ghost" id="memoryQuitBtn" type="button"></button>
+        </div>
+        <p class="run-help" id="memoryHelp"></p>
+      </div>
+    </div>
+
+    <!-- ===== WHACK-A-MOLE window (mini-game hub batch 2):
+         critters pop out of holes — tap them for points, but
+         the boss cat costs points. 300 points in 45 seconds
+         is the goal line. Same window contract as DASH. ===== -->
+    <div class="auth-screen" id="whackScreen" hidden role="dialog" aria-modal="true" aria-labelledby="whackTitle">
+      <div class="win auth-win run-win">
+        <div class="auth-head">
+          <span class="auth-title" id="whackTitle"></span>
+          <button class="auth-x" id="whackClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="run-hud"><span class="run-dist" id="whackScore">0</span><span class="run-goal" id="whackGoal"></span><span class="run-speed" id="whackTime"></span><span class="run-best" id="whackBest"></span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="whackProgFill"></div><span class="run-prog-flag">🎟 300</span></div>
+        <div class="run-stage"><canvas id="whackCanvas" width="360" height="340" role="button" aria-label="Whack stage — tap the critters that pop up"></canvas></div>
+        <p class="run-msg" id="whackMsg"></p>
+        <div class="run-btnrow">
+          <button class="auth-btn primary" id="whackStartBtn" type="button"></button>
+          <button class="auth-btn ghost" id="whackQuitBtn" type="button"></button>
+        </div>
+        <p class="run-help" id="whackHelp"></p>
+      </div>
+    </div>
+
     <!-- ===== WISH FLAG editor (2026-10-29): a GBA-style small
          window for the one wish line. Display only — saving it
          touches nothing but state.wishText. ===== -->
@@ -12199,10 +12280,8 @@
               <div class="mf-mood-label" id="mfMoodLabel"></div>
               <div class="mf-chip-row" id="mfSheetMoods"></div>
             </div>
-            <div class="map-zoom" id="mapZoom">
-            <div id="routeLayer" hidden aria-hidden="true"></div>
-            <div class="map-backdrop" aria-hidden="true"></div>
-            <svg class="scenery osm-map" viewBox="0 0 960.07 857.71" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <div class="map-backdrop" id="mapBackdrop" aria-hidden="true"></div>
+            <svg class="scenery osm-map" id="mapScenery" viewBox="0 0 960.07 857.71" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <!-- REAL GEOGRAPHY, BAKED IN AT BUILD TIME: coastline, Tokyo Bay,
                    rivers and canals, parks, railways and the road network are
                    real OpenStreetMap data (Overpass export, OSM base
@@ -12233,7 +12312,10 @@
                   <linearGradient id="rimFadeL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--map-land-2)" stop-opacity="0.6"/><stop offset="1" stop-color="var(--map-land-2)" stop-opacity="0"/></linearGradient>
                   <linearGradient id="rimFadeR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="var(--map-land-2)" stop-opacity="0.6"/><stop offset="1" stop-color="var(--map-land-2)" stop-opacity="0"/></linearGradient>
                 </defs><rect x="0" y="0" width="960.07" height="11" fill="url(#rimFadeT)"/><rect x="0" y="846.71" width="960.07" height="11" fill="url(#rimFadeB)"/><rect x="0" y="0" width="11" height="857.71" fill="url(#rimFadeL)"/><rect x="949.07" y="0" width="11" height="857.71" fill="url(#rimFadeR)"/><rect x="3.6" y="3.6" width="952.87" height="850.51" fill="none" stroke="#ffffff" stroke-width="0.7" opacity="0.22"/><rect x="1.6" y="1.6" width="956.87" height="854.51" fill="none" stroke="var(--map-label)" stroke-width="1.15" stroke-dasharray="5.5 3.2" opacity="0.55"/><g fill="var(--map-label)" opacity="0.6"><rect x="0" y="0" width="4.6" height="4.6"/><rect x="955.47" y="0" width="4.6" height="4.6"/><rect x="0" y="853.11" width="4.6" height="4.6"/><rect x="955.47" y="853.11" width="4.6" height="4.6"/></g></g></svg>
+            <div class="map-zoom" id="mapZoom">
+            <div id="routeLayer" hidden aria-hidden="true"></div>
             </div>
+            <div id="pinLayer"></div>
             <div class="pin-preview" id="pinPreview" hidden>
               <span class="pp-thumb" id="ppThumb"></span>
               <span class="pp-main">
@@ -12456,10 +12538,13 @@
             </span>
             <span class="mg-duty-go" aria-hidden="true">▶</span>
           </button>
+          <button class="mg-fold-btn" id="mgFoldBtn" type="button" aria-expanded="false"></button>
+          <div class="mg-fold" id="mgFold">
           <div class="mg-list" id="mgList"></div>
           <div class="run-cab-foot">
             <span class="run-cab-status" id="runBannerName"></span>
             <button class="run-start-btn" id="runCabStart" type="button"></button>
+          </div>
           </div>
         </div>
         <div class="hero-dock" id="heroDock">
@@ -12828,7 +12913,7 @@
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261029-1855-mg1-4d8a2c71";
+        var BUILD_ID = "tql-20261029-2107-mg2q-4a812a0b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16383,7 +16468,7 @@
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, games: { jump: 0, catch: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -16448,7 +16533,7 @@
                state.runner.best). state.runner.rewarded remains
                THE single daily-ticket flag for every game. */
             if (parsed.games && typeof parsed.games === "object") {
-              state.games = { jump: typeof parsed.games.jump === "number" ? parsed.games.jump : 0, catch: typeof parsed.games.catch === "number" ? parsed.games.catch : 0 };
+              state.games = { jump: typeof parsed.games.jump === "number" ? parsed.games.jump : 0, catch: typeof parsed.games.catch === "number" ? parsed.games.catch : 0, memory: typeof parsed.games.memory === "number" ? parsed.games.memory : 0, whack: typeof parsed.games.whack === "number" ? parsed.games.whack : 0 };
             }
             if (parsed.homeProg && typeof parsed.homeProg === "object") {
               state.homeProg = { date: typeof parsed.homeProg.date === "string" ? parsed.homeProg.date : "", details: Array.isArray(parsed.homeProg.details) ? parsed.homeProg.details.filter(function (x) { return typeof x === "string"; }) : [], acts: (parsed.homeProg.acts && typeof parsed.homeProg.acts === "object" && !Array.isArray(parsed.homeProg.acts)) ? parsed.homeProg.acts : {} };
@@ -19126,6 +19211,9 @@
       /* ============ Rendering ============ */
       var mapBox = document.getElementById("mapBox");
       var mapZoom = document.getElementById("mapZoom");
+      var mapSceneryEl = document.getElementById("mapScenery");
+      var mapBackdropEl = document.getElementById("mapBackdrop");
+      var pinLayerEl = document.getElementById("pinLayer");
       var detail = document.getElementById("detail");
       var currentId = null;
       var filterCat = "All", filterFree = false;
@@ -19566,11 +19654,12 @@
       }
       function renderMap() {
         renderMapFilterChips();
-        mapZoom.querySelectorAll(".pin,.area-label").forEach(function (n) { n.remove(); });
+        mapZoom.querySelectorAll(".area-label").forEach(function (n) { n.remove(); });
+        if (pinLayerEl) pinLayerEl.querySelectorAll(".pin,.cluster-pin,.area-label").forEach(function (n) { n.remove(); });
         AREA_LABELS.forEach(function (a) {
           var el = document.createElement("span");
           el.className = "area-label tier" + (a.tier || 1);
-          el.style.left = a.x + "%"; el.style.top = a.y + "%";
+          el.dataset.px = a.x; el.dataset.py = a.y;
           el._ll = pctToLngLat(a.x, a.y);
           /* edge labels anchor inward so their plaque is never clipped
              by the frame (the east-side names — Ueno, Akihabara,
@@ -19588,7 +19677,7 @@
           sub.className = "al-sub";
           sub.textContent = a.en;
           el.appendChild(main); el.appendChild(sub);
-          mapZoom.appendChild(el);
+          (pinLayerEl || mapZoom).appendChild(el);
         });
         VISIBLE.filter(mapFilterMatch).forEach(function (e) {
           var b = document.createElement("button");
@@ -19596,8 +19685,8 @@
           b.className = "pin" + (isCleared(e.id) ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "");
           /* clamp inside the plane so a pin is never half-clipped by
              the frame edge, whatever the projection gives */
-          b.style.left = Math.max(2.5, Math.min(97.5, e.x)) + "%";
-          b.style.top = Math.max(3.5, Math.min(96.5, e.y)) + "%";
+          b.dataset.px = Math.max(2.5, Math.min(97.5, e.x));
+          b.dataset.py = Math.max(3.5, Math.min(96.5, e.y));
           var nz = PIN_NUDGE[e.id];
           if (nz) { b.style.setProperty("--ox", nz[0] + "px"); b.style.setProperty("--oy", nz[1] + "px"); }
           b.setAttribute("aria-label", L().pinLabel(e));
@@ -19611,7 +19700,7 @@
              as a broken image). Photo-less events keep their
              category glyph on the category colour. */
           b.innerHTML = flag + (e.img
-            ? '<span class="pin-body has-photo"><img class="pin-img" src="' + e.img + '" alt="" loading="lazy"></span>'
+            ? '<span class="pin-body has-photo" style="background-image:url(\'' + e.img + '\')"></span>'
             : '<span class="pin-body ' + CAT_CLASS[e.category] + '"><span class="pin-ico">' + ICONS[CAT_ICON[e.category]] + "</span></span>");
           b.addEventListener("click", function (ev) {
             ev.stopPropagation();
@@ -19622,7 +19711,7 @@
             selectQuest(e.id, false);
             showPinPreview(e.id);
           });
-          mapZoom.appendChild(b);
+          (pinLayerEl || mapZoom).appendChild(b);
         });
         if (mapFilter === "legend") {
           /* one star pin per LEGEND route, anchored at the route's
@@ -19634,8 +19723,8 @@
             var b = document.createElement("button");
             b.type = "button";
             b.className = "pin is-legend" + (legendDone(lg.id) ? " is-cleared" : "");
-            b.style.left = Math.max(4, Math.min(96, anchor.x)) + "%";
-            b.style.top = Math.max(5.5, Math.min(94.5, anchor.y)) + "%";
+            b.dataset.px = Math.max(4, Math.min(96, anchor.x));
+            b.dataset.py = Math.max(5.5, Math.min(94.5, anchor.y));
             b.dataset.qid = anchor.id;
             b._ll = eventLngLat(anchor);
             b.setAttribute("aria-label", legendName(lg));
@@ -19645,7 +19734,7 @@
               if (suppressPinClick) return;
               openLegend(lg.id);
             });
-            mapZoom.appendChild(b);
+            (pinLayerEl || mapZoom).appendChild(b);
           });
         }
         buildClusters();
@@ -19662,11 +19751,11 @@
          coins over the labels again. */
       function buildClusters() {
         if (glActive) { buildClustersGL(); return; }
-        mapZoom.querySelectorAll(".cluster-pin").forEach(function (c) { c.remove(); });
-        mapZoom.querySelectorAll(".pin").forEach(function (p) { p.classList.remove("is-clustered"); });
+        (pinLayerEl || mapZoom).querySelectorAll(".cluster-pin").forEach(function (c) { c.remove(); });
+        (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) { p.classList.remove("is-clustered"); });
         var pts = [];
-        mapZoom.querySelectorAll(".pin").forEach(function (p) {
-          pts.push({ el: p, id: p.dataset.qid, x: parseFloat(p.style.left), y: parseFloat(p.style.top), used: false });
+        (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) {
+          pts.push({ el: p, id: p.dataset.qid, x: parseFloat(p.dataset.px), y: parseFloat(p.dataset.py), used: false });
         });
         /* screen-distance threshold: the pin's on-screen diameter
            plus a small gap, expressed in plane units at this zoom */
@@ -19686,7 +19775,7 @@
           var cl = document.createElement("button");
           cl.type = "button";
           cl.className = "cluster-pin";
-          cl.style.left = cx + "%"; cl.style.top = cy + "%";
+          cl.dataset.px = cx; cl.dataset.py = cy;
           cl.setAttribute("aria-label", grp.length + " quests");
           cl.innerHTML = '<span class="cp-n">' + grp.length + "</span>";
           cl.addEventListener("click", function (ev) {
@@ -19697,7 +19786,7 @@
                retired with that mode) */
             selectQuest(grp[0].id, false); showPinPreview(grp[0].id);
           });
-          mapZoom.appendChild(cl);
+          (pinLayerEl || mapZoom).appendChild(cl);
         });
       }
 
@@ -19965,7 +20054,7 @@
       function selectQuest(id, pan) {
         var e = byId(id); if (!e) return;
         selQid = id;
-        mapZoom.querySelectorAll(".pin").forEach(function (p) {
+        (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) {
           p.classList.toggle("sel", p.dataset.qid === id);
         });
       }
@@ -21457,7 +21546,7 @@
         if (flow.sel === "pin") {
           var box = document.getElementById("mapBox");
           var boxR = box ? box.getBoundingClientRect() : null;
-          var pins = document.querySelectorAll("#mapZoom .pin:not(.is-clustered)");
+          var pins = document.querySelectorAll("#pinLayer .pin:not(.is-clustered)");
           var first = null;
           for (var i = 0; i < pins.length; i++) {
             if (!first) first = pins[i];
@@ -22334,8 +22423,10 @@
         if (Math.abs(tx - zoom.tx) < 0.5 && Math.abs(ty - zoom.ty) < 0.5) return;
         zoom.tx = tx; zoom.ty = ty;
         mapZoom.classList.add("snap-back");
+        if (mapSceneryEl) mapSceneryEl.classList.add("snap-back");
+        if (mapBackdropEl) mapBackdropEl.classList.add("snap-back");
         applyZoom();
-        setTimeout(function () { mapZoom.classList.remove("snap-back"); }, 240);
+        setTimeout(function () { mapZoom.classList.remove("snap-back"); if (mapSceneryEl) mapSceneryEl.classList.remove("snap-back"); if (mapBackdropEl) mapBackdropEl.classList.remove("snap-back"); }, 240);
       }
       /* Pin scale against displayed density (Q-149): pins grow from
          0.78 at fit view to full size at pxu 2.9, then shrink again
@@ -22345,6 +22436,17 @@
         if (pxu <= 2.9) return Math.min(1, Math.max(0.78, pxu / 2.9));
         return Math.max(0.65, 1 - (pxu - 2.9) * 0.13);
       }
+      /* Q-150: pin photos are CSS backgrounds on .pin-body
+         (set inline at pin creation), NOT <img> elements.
+         Two generations of img-based fixes (native lazy, then
+         a JS src-assignment pump) still left deep-zoom pins
+         white in the field: inside the CSS-transformed plane,
+         an <img>'s fetch can be starved by layout-box-based
+         heuristics no matter how it is triggered. A background
+         image is painted by the compositor itself: it is
+         fetched when the pin is actually painted, and pins
+         hidden inside clusters (display:none) cost nothing
+         until they appear — the wide-view economy is kept. */
       function applyZoom() {
         if (glActive) {
           layoutMap();
@@ -22358,6 +22460,22 @@
         if (!g) return;
         clampZoom(g);
         mapZoom.style.transform = "translate(" + zoom.tx + "px," + zoom.ty + "px) scale(" + zoom.s + ")";
+        /* Q-150(b): the baked scenery SVG and the land backdrop
+           ride OUTSIDE the scaled plane, sized in layout px to
+           the plane's on-screen box. An SVG laid out at display
+           size renders its vectors at full resolution, so the
+           base map stays crisp at the 5.5x ceiling instead of
+           being an upscale of a fit-view raster. */
+        if (mapSceneryEl) {
+          mapSceneryEl.style.width = (g.pw * zoom.s) + "px";
+          mapSceneryEl.style.height = (g.ph * zoom.s) + "px";
+          mapSceneryEl.style.transform = "translate(" + zoom.tx + "px," + zoom.ty + "px)";
+        }
+        if (mapBackdropEl) {
+          mapBackdropEl.style.width = (g.pw * zoom.s * 1.8) + "px";
+          mapBackdropEl.style.height = (g.ph * zoom.s * 2.1) + "px";
+          mapBackdropEl.style.transform = "translate(" + (zoom.tx - g.pw * zoom.s * 0.4) + "px," + (zoom.ty - g.ph * zoom.s * 0.55) + "px)";
+        }
         /* Pins and district labels are counter-scaled against the
            zoom transform only, so their ON-SCREEN size is constant:
            a pin stays full-size whether the plane was contain-fit
@@ -22381,6 +22499,25 @@
            on a chrome element existing */
         var zpe = document.getElementById("zoomPct"); if (zpe) zpe.textContent = Math.round(zoom.s * 100) + "%";
         mapBox.classList.toggle("is-pannable", g.pw * zoom.s > g.w + 0.5 || g.ph * zoom.s > g.h + 0.5);
+        /* Q-150(c): pins, cluster badges and area labels live in
+           #pinLayer, OUTSIDE the transformed plane, positioned
+           here in screen px on every zoom/pan. Inside the plane
+           they were counter-scaled by --u (= 1/zoom), so at max
+           zoom a pin's layout box shrank to ~7px and its photo
+           content — <img> element or CSS background alike —
+           never reached the screen (white pins at deep zoom,
+           fine at fit view where --u is ~1). In the layer they
+           lay out at full size at every zoom, so photos paint. */
+        if (pinLayerEl) {
+          pinLayerEl.style.setProperty("--ps", curPinScale.toFixed(3));
+          var pwS = g.pw * zoom.s, phS = g.ph * zoom.s;
+          pinLayerEl.querySelectorAll(".pin, .cluster-pin, .area-label").forEach(function (p) {
+            var px = parseFloat(p.dataset.px), py = parseFloat(p.dataset.py);
+            if (isNaN(px) || isNaN(py)) return;
+            p.style.left = (zoom.tx + pwS * px / 100) + "px";
+            p.style.top = (zoom.ty + phS * py / 100) + "px";
+          });
+        }
       }
       function setZoom(s, cx, cy) {
         if (glActive) {
@@ -24123,11 +24260,11 @@
           runReward: "300m! GACHA TICKET +1 ✓ Keep going for a best distance!",
           runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; },
           runReadyPractice: "Practice mode — today's gacha ticket is in today's game (see the mini-game hub). Retry as much as you like.",
-          mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgSoon: "COMING SOON",
+          mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgAllGames: "ALL 7 GAMES ▾", mgHideGames: "HIDE ▴", mgSoon: "COMING SOON",
           mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
           mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
-          mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : "GOAL 30 CATCHES"; },
-          mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : ""); },
+          mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : id === "catch" ? "GOAL 30 CATCHES" : id === "memory" ? "GOAL 6 PAIRS IN 90s" : "GOAL 300 PTS IN 45s"; },
+          mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 TODAY: " + name; },
           mgStatus: function (name, done) { return done ? "Today's ticket is yours ✓ — every game stays open for practice." : "Hit the goal in today's game (" + name + ") to win today's gacha ticket. The others are practice — scores only."; },
           jumpTitle: "ROOF JUMP", jumpStart: "▶ START", jumpAgain: "↻ AGAIN", jumpQuit: "QUIT",
@@ -24142,7 +24279,29 @@
           catchReadyPractice: "Goal: 30 catches in total (practice — today's ticket is in today's game).",
           catchClear: "30 CATCHES — GOAL REACHED!", catchOver: function (n) { return "Three bombs… run over at " + n + " catches. Again!"; },
           catchQuitMsg: function (n) { return "Run over — " + n + " catches. Come back anytime today."; },
-          catchBest: function (b) { return "BEST " + b; }
+          catchBest: function (b) { return "BEST " + b; },
+          memTitle: "MEMORY PAIRS", memStart: "▶ START", memAgain: "↻ AGAIN", memQuit: "QUIT",
+          memHelp: "Tap a card to flip it. Pair up the Tokyo trinkets — all 6 pairs before the clock runs out!",
+          memReadyDuty: "Match all 6 pairs within 90 seconds to win today's gacha ticket.",
+          memReadyPractice: "Goal: match all 6 pairs within 90 seconds (practice — today's ticket is in today's game).",
+          memClear: function (s, f) { return "ALL 6 PAIRS in " + s + "s with " + f + " flips!"; },
+          memOver: function (p) { return "Time up — " + p + "/6 pairs. One more try!"; },
+          memQuitMsg: function (p) { return "Run over — " + p + "/6 pairs. Come back anytime today."; },
+          memBest: function (b) { return "BEST " + b + "/6"; },
+          memTime: function (s) { return "⏱ " + s + "s"; },
+          memFlips: function (f) { return "FLIPS " + f; },
+          memItems: ["TRAIN", "DANGO", "LUCKY CAT", "TOWER", "LANTERN", "SAKURA"],
+          whackTitle: "WHACK-A-MOLE", whackStart: "▶ START", whackAgain: "↻ AGAIN", whackQuit: "QUIT",
+          whackHelp: "Tap the critters as they pop up — +20 points each. The boss cat costs −50, so paws off!",
+          whackReadyDuty: "Score 300 points in 45 seconds to win today's gacha ticket. Don't whack the boss cat!",
+          whackReadyPractice: "Goal: 300 points in 45 seconds (practice — today's ticket is in today's game).",
+          whackClear: function (s) { return "Time! " + s + " points — goal smashed!"; },
+          whackShort: function (s) { return "Time! " + s + " points — the 300-point goal is still out there. Again!"; },
+          whackGoalHit: "300 POINTS! GACHA TICKET +1 ✓ Keep whacking for a best score!",
+          whackGoalPractice: "300 POINTS — GOAL REACHED! Keep whacking for a best score!",
+          whackQuitMsg: function (s) { return "Run over — " + s + " points. Come back anytime today."; },
+          whackBest: function (b) { return "BEST " + b; },
+          whackTime: function (s) { return "⏱ " + s + "s"; }
         },
         ja: {
           survey: "アンケート", betaBtn: "★ BETA — お知らせ", newsLabel: "お知らせ",
@@ -24174,11 +24333,11 @@
           runReward: "300m到達！ガチャ券 +1 ✓ ベスト記録を目指して続けよう！",
           runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; },
           runReadyPractice: "練習モード——本日のガチャ券は当值ゲームにあります（小游戏hub参照）。何度でも再挑戦OK。",
-          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日の当值ゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgSoon: "準備中",
+          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日の当值ゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgAllGames: "全7ゲーム ▾", mgHideGames: "とじる ▴", mgSoon: "準備中",
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
           mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
-          mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : "目標 合計30個キャッチ"; },
-          mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : ""); },
+          mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : id === "catch" ? "目標 合計30個キャッチ" : id === "memory" ? "目標 90秒で6ペア" : "目標 45秒で300点"; },
+          mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 本日: " + name; },
           mgStatus: function (name, done) { return done ? "本日の券は獲得済み ✓ どのゲームも練習で遊べます。" : "当值ゲーム（" + name + "）の目標達成で本日のガチャ券GET。ほかのゲームは記録だけの練習です。"; },
           jumpTitle: "跳一跳", jumpStart: "▶ スタート", jumpAgain: "↻ もう一度", jumpQuit: "やめる",
@@ -24193,7 +24352,29 @@
           catchReadyPractice: "目標は金貨・オーブ合計30個キャッチ（練習：券は当值ゲームのみ）。",
           catchClear: "30個キャッチ達成！", catchOver: function (n) { return "爆弾3回… " + n + "個で終了。もう一度！"; },
           catchQuitMsg: function (n) { return "終了 — " + n + "個キャッチ。今日中ならいつでも再挑戦できます。"; },
-          catchBest: function (b) { return "ベスト " + b + "個"; }
+          catchBest: function (b) { return "ベスト " + b + "個"; },
+          memTitle: "翻牌对对碰", memStart: "▶ スタート", memAgain: "↻ もう一度", memQuit: "やめる",
+          memHelp: "カードをタップしてめくろう。东京小物のペアを揃えて、制限時間内に6ペア全部そろえよう！",
+          memReadyDuty: "90秒以内に6ペア全部そろえると本日のガチャ券！",
+          memReadyPractice: "目標は90秒以内に6ペア（練習：券は当值ゲームのみ）。",
+          memClear: function (s, f) { return "6ペア完成！" + s + "秒・" + f + "枚めくったよ！"; },
+          memOver: function (p) { return "時間切れ — " + p + "/6ペア。もう一度！"; },
+          memQuitMsg: function (p) { return "終了 — " + p + "/6ペア。今日中ならいつでも再挑戦できます。"; },
+          memBest: function (b) { return "ベスト " + b + "/6"; },
+          memTime: function (s) { return "⏱ " + s + "秒"; },
+          memFlips: function (f) { return "めくった " + f + "枚"; },
+          memItems: ["電車", "団子", "招き猫", "タワー", "提灯", "桜"],
+          whackTitle: "打地鼠", whackStart: "▶ スタート", whackAgain: "↻ もう一度", whackQuit: "やめる",
+          whackHelp: "顔を出した小動物をタップ！1匹+20点。猫老大を叩くと−50点、叩いちゃダメ！",
+          whackReadyDuty: "45秒で300点を取ると本日のガチャ券。猫老大は叩くな！",
+          whackReadyPractice: "目標は45秒で300点（練習：券は当值ゲームのみ）。",
+          whackClear: function (s) { return "終了！" + s + "点 — 目標達成！"; },
+          whackShort: function (s) { return "終了！" + s + "点 — 300点の目標はまだ先。もう一度！"; },
+          whackGoalHit: "300点到達！ガチャ券 +1 ✓ ベスト記録を目指して叩き続けよう！",
+          whackGoalPractice: "300点到達！目標達成！ベスト記録を目指して叩き続けよう！",
+          whackQuitMsg: function (s) { return "終了 — " + s + "点。今日中ならいつでも再挑戦できます。"; },
+          whackBest: function (b) { return "ベスト " + b + "点"; },
+          whackTime: function (s) { return "⏱ " + s + "秒"; }
         },
         zh: {
           survey: "问卷", betaBtn: "★ BETA — 公告", newsLabel: "公告",
@@ -24225,11 +24406,11 @@
           runReward: "300m 达成！扭蛋券 +1 ✓ 继续冲最佳距离吧！",
           runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; },
           runReadyPractice: "练习模式——今日扭蛋券在当值游戏里（见小游戏 hub）。可以随便重开。",
-          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgSoon: "准备中",
+          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgAllGames: "全部 7 个游戏 ▾", mgHideGames: "收起 ▴", mgSoon: "准备中",
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
           mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-          mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : "目标 合计接住30个"; },
-          mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : ""); },
+          mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : id === "catch" ? "目标 合计接住30个" : id === "memory" ? "目标 90秒内配齐6对" : "目标 45秒内得300分"; },
+          mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
           mgRule: function (name) { return "🎟 今日: " + name; },
           mgStatus: function (name, done) { return done ? "今日扭蛋券已到手 ✓ 所有游戏都可以继续练习。" : "完成今日当值游戏（" + name + "）的目标，赢今日扭蛋券；其他游戏只记分。"; },
           jumpTitle: "跳一跳", jumpStart: "▶ 开始", jumpAgain: "↻ 再来一局", jumpQuit: "结束",
@@ -24244,7 +24425,29 @@
           catchReadyPractice: "目标：金币+EXP球合计接住30个（练习：券只在当值游戏）。",
           catchClear: "接满30个，达成！", catchOver: function (n) { return "炸弹碰满3次……本局接了 " + n + " 个。再来！"; },
           catchQuitMsg: function (n) { return "本局结束 — 接了 " + n + " 个。今天随时可以再来。"; },
-          catchBest: function (b) { return "最佳 " + b + " 个"; }
+          catchBest: function (b) { return "最佳 " + b + " 个"; },
+          memTitle: "翻牌对对碰", memStart: "▶ 开始", memAgain: "↻ 再来一局", memQuit: "结束",
+          memHelp: "点一张牌把它翻开，配对东京小物——在时间用完前配齐全部6对！",
+          memReadyDuty: "90秒内配齐6对，赢今日扭蛋券！",
+          memReadyPractice: "目标：90秒内配齐6对（练习：券只在当值游戏）。",
+          memClear: function (s, f) { return "6对全配齐！用时 " + s + " 秒，翻了 " + f + " 张牌！"; },
+          memOver: function (p) { return "时间到——配齐了 " + p + "/6 对。再来一局！"; },
+          memQuitMsg: function (p) { return "本局结束 — 配齐 " + p + "/6 对。今天随时可以再来。"; },
+          memBest: function (b) { return "最佳 " + b + "/6"; },
+          memTime: function (s) { return "⏱ " + s + " 秒"; },
+          memFlips: function (f) { return "已翻 " + f + " 张"; },
+          memItems: ["电车", "团子", "招财猫", "铁塔", "灯笼", "樱花"],
+          whackTitle: "打地鼠", whackStart: "▶ 开始", whackAgain: "↻ 再来一局", whackQuit: "结束",
+          whackHelp: "点探头的小动物得分，每只+20分。猫老大千万别打，打到扣50分！",
+          whackReadyDuty: "45秒内得300分，赢今日扭蛋券。猫老大别打！",
+          whackReadyPractice: "目标：45秒内得300分（练习：券只在当值游戏）。",
+          whackClear: function (s) { return "时间到！" + s + " 分——达标啦！"; },
+          whackShort: function (s) { return "时间到！" + s + " 分——300分的目标还在前面。再来！"; },
+          whackGoalHit: "300分达成！扭蛋券 +1 ✓ 继续冲最佳分数吧！",
+          whackGoalPractice: "300分达成！目标完成！继续冲最佳分数吧！",
+          whackQuitMsg: function (s) { return "本局结束 — " + s + " 分。今天随时可以再来。"; },
+          whackBest: function (b) { return "最佳 " + b + " 分"; },
+          whackTime: function (s) { return "⏱ " + s + " 秒"; }
         }
       };
       function X() { return EXT_STR[state.lang] || EXT_STR.en; }
@@ -24252,18 +24455,21 @@
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-29", s: "sparkle", t: "[News] Two new mini-games have arrived: Memory Pairs and Whack-a-Mole!", b: "Thursday is Memory Pairs, Friday is Whack-a-Mole — hit the goal in the day's game to win its gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] Mini-games are here!", b: "A different game every day — hit the goal to win today's gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] The map has grown!", b: "Your adventure now reaches Hachioji, Saitama, and Yokohama."},
           { d: "2026-10-29", s: "wave", t: "Public beta is open!", b: "Tokyo Quest Log is now in public beta (Oct 29 – Nov 5). Explore Tokyo, clear quests, and send us your feedback — survey respondents enter a draw for 3 × ¥1,000 Amazon gift cards (see the lottery note below). Coming next: more evergreen quests and the road to the app release." },
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-29", s: "sparkle", t: "【お知らせ】小游戏に「翻牌对对碰」と「打地鼠」が加わりました！", b: "木曜は翻牌对对碰、金曜は打地鼠が当值です。目標達成でその日のガチャ券GET！"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】小游戏が増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】マップが大きくなりました！", b: "冒険の範囲が八王子・埼玉・横浜方面まで広がりました。"},
           { d: "2026-10-29", s: "wave", t: "オープンベータ開始！", b: "東京クエストログは本日よりオープンベータ（10/29–11/5）です。東京を歩いてクエストをクリアして、感想をぜひ送ってください——アンケート回答者の中から抽選で3名にAmazonギフト券¥1,000をプレゼント（下記の抽選説明をご覧ください）。今後の予定：常駐クエストの拡充と、アプリ版への準備を進めています。" },
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏新增「翻牌对对碰」和「打地鼠」！", b: "周四是翻牌对对碰、周五是打地鼠——完成当值游戏的目标，就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏阵容来了！", b: "每天轮换一款，达标就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】地图变大了！", b: "冒险范围扩展到八王子、埼玉、横滨一带。"},
           { d: "2026-10-29", s: "wave", t: "公开内测开启！", b: "《东京冒险日志》今天起公开内测（10月29日–11月5日）。在东京散步、完成任务，把感想发给我们——填写问卷的玩家将参与抽奖，3个名额 × ¥1,000 亚马逊礼品卡（见下方抽奖说明）。后续计划：继续扩充常驻任务，并推进 App 版的准备。" },
@@ -24600,10 +24806,10 @@
       };
 
       /* ---------- MINI-GAME HUB (batch 1, 2026-10-29) ----------
-         Seven games, one per weekday. Only dash / jump / catch
-         are playable in this batch; the rest sit in the roster
-         as COMING SOON, and on their weekdays DASH fills in as
-         the duty game so no day is ever ticketless.
+         Seven games, one per weekday. Batch 2 (2026-10-29) adds
+         memory (Thu) and whack (Fri): stack / fish still sit in
+         the roster as COMING SOON, and on their weekdays DASH
+         fills in as the duty game so no day is ever ticketless.
          THE TICKET: state.runner.rewarded is the ONE daily
          ticket flag for every game (the old dash-only ledger,
          unified — dash's own rewarded run now flows through
@@ -24614,16 +24820,18 @@
         { id: "dash", dow: 1 },
         { id: "jump", dow: 2 },
         { id: "catch", dow: 3 },
-        { id: "memory", dow: 4, soon: true },
-        { id: "whack", dow: 5, soon: true },
+        { id: "memory", dow: 4 },
+        { id: "whack", dow: 5 },
         { id: "stack", dow: 6, soon: true },
         { id: "fish", dow: 0, soon: true }
       ];
-      var MG_GOALS = { dash: 300, jump: 15, catch: 30 };
+      var MG_GOALS = { dash: 300, jump: 15, catch: 30, memory: 6, whack: 300 };
       function ensureGames() {
-        if (!state.games || typeof state.games !== "object") state.games = { jump: 0, catch: 0 };
+        if (!state.games || typeof state.games !== "object") state.games = { jump: 0, catch: 0, memory: 0, whack: 0 };
         if (typeof state.games.jump !== "number") state.games.jump = 0;
         if (typeof state.games.catch !== "number") state.games.catch = 0;
+        if (typeof state.games.memory !== "number") state.games.memory = 0;
+        if (typeof state.games.whack !== "number") state.games.whack = 0;
       }
       function mgScheduledId() {
         var d = new Date().getDay();
@@ -24664,9 +24872,12 @@
       function mgOpen(id) {
         if (id === "jump") openJump();
         else if (id === "catch") openCatch();
+        else if (id === "memory") openMemory();
+        else if (id === "whack") openWhack();
         else { openRun(); startRun(); }
       }
       function mgOpenDuty() { mgOpen(mgDutyId()); }
+      var mgHubOpen = false; /* Q-151: roster folded by default */
 
       /* ---------- DASH RUN mini-game ---------- */
       var RUN_TARGET = 300;
@@ -24691,6 +24902,9 @@
         if (dm) dm.textContent = t.mgGoal(duty) + " · " + t.mgBest(duty, mgBest(duty)) + (done ? " · 🎟 ✓" : "");
         var db = $("mgDutyBtn"); if (db) db.classList.toggle("is-done", done);
         var stb = $("runCabStart"); if (stb) stb.textContent = t.mgPlay;
+        var cab = $("runCabinet"); if (cab) cab.classList.toggle("mg-open", !!mgHubOpen);
+        var fb = $("mgFoldBtn");
+        if (fb) { fb.textContent = mgHubOpen ? t.mgHideGames : t.mgAllGames; fb.setAttribute("aria-expanded", mgHubOpen ? "true" : "false"); }
         var list = $("mgList");
         if (list) {
           list.innerHTML = "";
@@ -25409,6 +25623,371 @@
         if (cat.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.25)"; ctx.fillRect(0, 0, W, H); }
       }
 
+      /* ---------- MEMORY PAIRS (batch 2, Thursday) ----------
+         Tap cards to flip them; pair up the Tokyo trinkets.
+         Goal: all 6 pairs within 90 seconds. The HUD shows the
+         pair count, the flip count and the time left. Best =
+         most pairs matched in one run (6 = a clear), kept in
+         state.games.memory like every other game's record. */
+      var MEM_TIME = 90;
+      var MEM_GLYPHS = ["🚃", "🍡", "🐱", "🗼", "🏮", "🌸"];
+      var mem = null;
+      function memHud() {
+        if (!mem) return;
+        var t = X();
+        $("memoryPairs").textContent = mem.pairs + "/6";
+        $("memoryFlips").textContent = t.memFlips(mem.flips);
+        $("memoryTime").textContent = t.memTime(Math.max(0, Math.ceil(mem.left)));
+        var pf = $("memoryProgFill"); if (pf) pf.style.width = (mem.pairs / 6 * 100) + "%";
+      }
+      function memBuildBoard() {
+        var t = X();
+        var deck = [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5];
+        for (var i = deck.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var tmp = deck[i]; deck[i] = deck[j]; deck[j] = tmp; }
+        mem.deck = deck; mem.cards = []; mem.btns = [];
+        var grid = $("memoryGrid"); grid.innerHTML = "";
+        deck.forEach(function (kind, idx) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "mem-card";
+          b.setAttribute("aria-label", t.memItems[kind]);
+          b.innerHTML = '<span class="mem-back">?</span><span class="mem-front"><span class="mem-glyph">' + MEM_GLYPHS[kind] + '</span><span class="mem-label">' + t.memItems[kind] + "</span></span>";
+          b.addEventListener("click", function () { memFlip(idx); });
+          grid.appendChild(b);
+          mem.cards.push({ up: false, matched: false });
+          mem.btns.push(b);
+        });
+      }
+      function openMemory() {
+        ensureRunnerDay(); ensureGames();
+        $("memoryScreen").hidden = false;
+        var t = X();
+        $("memoryTitle").textContent = t.memTitle;
+        $("memoryGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("memory");
+        $("memoryBest").textContent = t.memBest(mgBest("memory"));
+        $("memoryMsg").textContent = mgDutyId() === "memory" && !mgTicketDone() ? t.memReadyDuty : t.memReadyPractice;
+        $("memoryHelp").textContent = t.memHelp;
+        var sb = $("memoryStartBtn"); sb.disabled = false; sb.textContent = t.memStart;
+        $("memoryQuitBtn").textContent = t.memQuit;
+        if (mem && mem.raf) cancelAnimationFrame(mem.raf);
+        mem = { mode: "idle", deck: [], cards: [], btns: [], openIdx: -1, lock: false, pairs: 0, flips: 0, left: MEM_TIME, last: 0, lastSec: -1, raf: 0, run: 0 };
+        memBuildBoard();
+        memHud();
+        if (window.markHomeAct) window.markHomeAct("runner");
+      }
+      function closeMemory() {
+        if (mem && mem.raf) cancelAnimationFrame(mem.raf);
+        mem = null;
+        $("memoryScreen").hidden = true;
+        renderRunBanner();
+      }
+      function startMemory() {
+        if (!mem || mem.mode === "running") return;
+        mem.run += 1;
+        mem.mode = "running"; mem.openIdx = -1; mem.lock = false;
+        mem.pairs = 0; mem.flips = 0; mem.left = MEM_TIME; mem.lastSec = -1; mem.last = 0;
+        memBuildBoard();
+        memHud();
+        $("memoryMsg").textContent = "";
+        var sb = $("memoryStartBtn"); sb.disabled = true;
+        if (mem.raf) cancelAnimationFrame(mem.raf);
+        mem.raf = requestAnimationFrame(memTick);
+      }
+      function memTick(ts) {
+        if (!mem || mem.mode !== "running") { if (mem) mem.raf = 0; return; }
+        /* delta-accumulated clock, clamped per frame like jump /
+           catch / whack: a stalled or backgrounded frame gap can
+           never eat the player's remaining time in one jump */
+        if (!mem.last) mem.last = ts;
+        var mdt = Math.min(0.05, (ts - mem.last) / 1000); mem.last = ts;
+        mem.left -= mdt;
+        var sec = Math.ceil(mem.left);
+        if (sec !== mem.lastSec) { mem.lastSec = sec; $("memoryTime").textContent = X().memTime(Math.max(0, sec)); }
+        if (mem.left <= 0) { mem.left = 0; memHud(); endMemory(false, false); return; }
+        mem.raf = requestAnimationFrame(memTick);
+      }
+      function memFlip(idx) {
+        if (!mem || mem.mode !== "running" || mem.lock) return;
+        var card = mem.cards[idx];
+        if (!card || card.up || card.matched) return;
+        card.up = true; mem.btns[idx].classList.add("is-up");
+        mem.flips += 1;
+        try { sfx("move"); } catch (e) { /* ignore */ }
+        memHud();
+        if (mem.openIdx < 0) { mem.openIdx = idx; return; }
+        var j = mem.openIdx; mem.openIdx = -1;
+        if (mem.deck[j] === mem.deck[idx]) {
+          card.matched = true; mem.cards[j].matched = true;
+          mem.btns[idx].classList.add("is-matched"); mem.btns[j].classList.add("is-matched");
+          mem.pairs += 1;
+          try { sfx("accept"); } catch (e) { /* ignore */ }
+          memHud();
+          if (mem.pairs >= 6) endMemory(true, false);
+        } else {
+          mem.lock = true;
+          var runId = mem.run, a = idx, b = j;
+          setTimeout(function () {
+            if (!mem || mem.run !== runId) return;
+            mem.cards[a].up = false; mem.cards[b].up = false;
+            mem.btns[a].classList.remove("is-up"); mem.btns[b].classList.remove("is-up");
+            mem.lock = false;
+          }, 650);
+        }
+      }
+      function endMemory(cleared, quit) {
+        if (!mem) return;
+        mem.mode = "over";
+        if (mem.raf) cancelAnimationFrame(mem.raf); mem.raf = 0;
+        mgSetBest("memory", mem.pairs);
+        var t = X();
+        $("memoryBest").textContent = t.memBest(mgBest("memory"));
+        if (cleared) {
+          var used = Math.max(1, Math.round(MEM_TIME - mem.left));
+          var won = mgAward("memory");
+          $("memoryMsg").textContent = t.memClear(used, mem.flips) + (won ? " 🎟 +1 ✓" : "");
+          if (won) $("memoryGoal").textContent = t.runGoal(true);
+        } else {
+          $("memoryMsg").textContent = quit ? t.memQuitMsg(mem.pairs) : t.memOver(mem.pairs);
+          try { sfx("back"); } catch (e) { /* ignore */ }
+        }
+        var sb = $("memoryStartBtn"); sb.disabled = false; sb.textContent = t.memAgain;
+        renderRunBanner();
+      }
+
+      /* ---------- WHACK-A-MOLE (batch 2, Friday) ----------
+         Little critters pop out of 9 holes — tap one for +20.
+         The boss cat (dark fur, lemon crown) costs -50. Goal:
+         300 points within 45 seconds. Best = highest score,
+         kept in state.games.whack. The ticket, when earned,
+         goes through mgAward and nothing else. */
+      var WHACK_TIME = 45, WHACK_GOAL = 300, WHACK_HIT = 20, WHACK_BOSS = -50;
+      var whk = null;
+      var WHACK_POS = [];
+      (function () { for (var r = 0; r < 3; r++) for (var c = 0; c < 3; c++) WHACK_POS.push({ x: 62 + c * 118, y: 104 + r * 80 }); })();
+      function whackHud() {
+        if (!whk) return;
+        $("whackScore").textContent = whk.score;
+        $("whackTime").textContent = X().whackTime(Math.max(0, Math.ceil(whk.left)));
+        var pf = $("whackProgFill"); if (pf) pf.style.width = Math.min(100, Math.max(0, whk.score) / WHACK_GOAL * 100) + "%";
+      }
+      function openWhack() {
+        ensureRunnerDay(); ensureGames();
+        $("whackScreen").hidden = false;
+        var t = X();
+        $("whackTitle").textContent = t.whackTitle;
+        $("whackGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("whack");
+        $("whackBest").textContent = t.whackBest(mgBest("whack"));
+        $("whackMsg").textContent = mgDutyId() === "whack" && !mgTicketDone() ? t.whackReadyDuty : t.whackReadyPractice;
+        $("whackHelp").textContent = t.whackHelp;
+        var sb = $("whackStartBtn"); sb.disabled = false; sb.textContent = t.whackStart;
+        $("whackQuitBtn").textContent = t.whackQuit;
+        if (whk && whk.raf) cancelAnimationFrame(whk.raf);
+        whk = { mode: "idle", score: 0, left: WHACK_TIME, elapsed: 0, moles: [], floats: [], spawnT: 0, last: 0, lastSec: -1, raf: 0, goalDone: false, won: false };
+        whackHud();
+        drawWhack(0);
+        whk.raf = requestAnimationFrame(whackTick);
+        if (window.markHomeAct) window.markHomeAct("runner");
+      }
+      function closeWhack() {
+        if (whk && whk.raf) cancelAnimationFrame(whk.raf);
+        whk = null;
+        $("whackScreen").hidden = true;
+        renderRunBanner();
+      }
+      function startWhack() {
+        if (!whk || whk.mode === "running") return;
+        whk.mode = "running"; whk.score = 0; whk.left = WHACK_TIME; whk.elapsed = 0;
+        whk.moles = []; whk.floats = []; whk.spawnT = 0.25; whk.lastSec = -1; whk.goalDone = false; whk.won = false;
+        whackHud();
+        $("whackMsg").textContent = "";
+        var sb = $("whackStartBtn"); sb.disabled = true;
+      }
+      function endWhack(quit) {
+        if (!whk) return;
+        whk.mode = "over";
+        mgSetBest("whack", Math.max(0, whk.score));
+        var t = X();
+        $("whackBest").textContent = t.whackBest(mgBest("whack"));
+        if (whk.score >= WHACK_GOAL) {
+          if (mgAward("whack")) whk.won = true;
+          $("whackMsg").textContent = t.whackClear(whk.score) + (whk.won ? " 🎟 ✓" : "");
+        } else {
+          $("whackMsg").textContent = quit ? t.whackQuitMsg(whk.score) : t.whackShort(whk.score);
+          try { sfx("back"); } catch (e) { /* ignore */ }
+        }
+        var sb = $("whackStartBtn"); sb.disabled = false; sb.textContent = t.whackAgain;
+        renderRunBanner();
+      }
+      function whackTick(ts) {
+        if (!whk) return;
+        if (!whk.last) whk.last = ts;
+        var dt = Math.min(0.05, (ts - whk.last) / 1000); whk.last = ts;
+        if (whk.mode === "running") {
+          whk.elapsed += dt;
+          whk.left = WHACK_TIME - whk.elapsed;
+          var sec = Math.ceil(whk.left);
+          if (sec !== whk.lastSec) { whk.lastSec = sec; $("whackTime").textContent = X().whackTime(Math.max(0, sec)); }
+          whk.spawnT -= dt;
+          if (whk.spawnT <= 0 && whk.moles.length < 4) {
+            whk.spawnT = Math.max(0.48, 0.84 - whk.elapsed * 0.007) * (0.75 + Math.random() * 0.5);
+            var free = [];
+            for (var h = 0; h < 9; h++) { var busy = false; for (var k = 0; k < whk.moles.length; k++) if (whk.moles[k].hole === h) busy = true; if (!busy) free.push(h); }
+            if (free.length) {
+              var hole = free[Math.floor(Math.random() * free.length)];
+              var kind = Math.random() < 0.22 ? 3 : Math.floor(Math.random() * 3);
+              whk.moles.push({ hole: hole, kind: kind, age: 0, dur: Math.max(0.72, 1.05 - whk.elapsed * 0.006) });
+            }
+          }
+          for (var i = whk.moles.length - 1; i >= 0; i--) { whk.moles[i].age += dt; if (whk.moles[i].age >= whk.moles[i].dur) whk.moles.splice(i, 1); }
+          for (var f = whk.floats.length - 1; f >= 0; f--) { whk.floats[f].age += dt; if (whk.floats[f].age > 0.8) whk.floats.splice(f, 1); }
+          if (whk.left <= 0) { whk.left = 0; whackHud(); endWhack(false); }
+        }
+        if (whk) { drawWhack(ts); whk.raf = requestAnimationFrame(whackTick); }
+      }
+      function whackRise(m) {
+        var p = m.age / m.dur;
+        if (p < 0.18) return p / 0.18;
+        if (p > 0.82) return Math.max(0, (1 - p) / 0.18);
+        return 1;
+      }
+      function drawCritter(ctx, x, y, kind) {
+        /* head */
+        if (kind === 1) { /* rabbit: long ears first */
+          ctx.fillStyle = "#f4f1ea";
+          ctx.fillRect(x - 15, y - 44, 10, 26); ctx.fillRect(x + 5, y - 44, 10, 26);
+          ctx.fillStyle = "#f2a7bb";
+          ctx.fillRect(x - 12, y - 40, 4, 18); ctx.fillRect(x + 8, y - 40, 4, 18);
+        } else if (kind === 3) { /* boss cat: pointed ears */
+          ctx.fillStyle = "#2b3049";
+          ctx.beginPath(); ctx.moveTo(x - 20, y - 12); ctx.lineTo(x - 17, y - 30); ctx.lineTo(x - 5, y - 19); ctx.closePath(); ctx.fill();
+          ctx.beginPath(); ctx.moveTo(x + 20, y - 12); ctx.lineTo(x + 17, y - 30); ctx.lineTo(x + 5, y - 19); ctx.closePath(); ctx.fill();
+        } else if (kind === 2) { /* bear: round ears */
+          ctx.fillStyle = "#8a5a33";
+          ctx.beginPath(); ctx.arc(x - 17, y - 16, 8, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(x + 17, y - 16, 8, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#c99a68";
+          ctx.beginPath(); ctx.arc(x - 17, y - 16, 4, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(x + 17, y - 16, 4, 0, Math.PI * 2); ctx.fill();
+        } else { /* dog: floppy ears */
+          ctx.fillStyle = "#a4713e";
+          ctx.beginPath(); ctx.ellipse(x - 22, y - 2, 7, 14, 0.25, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(x + 22, y - 2, 7, 14, -0.25, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = kind === 0 ? "#d9a05b" : kind === 1 ? "#f4f1ea" : kind === 2 ? "#8a5a33" : "#2b3049";
+        ctx.beginPath(); ctx.arc(x, y, 23, 0, Math.PI * 2); ctx.fill();
+        if (kind === 3) { /* lemon crown */
+          ctx.fillStyle = "#ffd83d"; ctx.strokeStyle = "#43301a"; ctx.lineWidth = 1.6;
+          ctx.beginPath();
+          ctx.moveTo(x - 11, y - 24); ctx.lineTo(x - 11, y - 33); ctx.lineTo(x - 5, y - 27);
+          ctx.lineTo(x, y - 34); ctx.lineTo(x + 5, y - 27); ctx.lineTo(x + 11, y - 33); ctx.lineTo(x + 11, y - 24);
+          ctx.closePath(); ctx.fill(); ctx.stroke();
+        }
+        /* muzzle */
+        if (kind !== 3) {
+          ctx.fillStyle = kind === 1 ? "#fdf6ec" : "#f0d7ae";
+          ctx.beginPath(); ctx.ellipse(x, y + 8, 10, 7, 0, 0, Math.PI * 2); ctx.fill();
+        }
+        /* eyes */
+        ctx.fillStyle = kind === 3 ? "#ffd83d" : "#23283b";
+        if (kind === 3) { /* angry slanted eyes */
+          ctx.strokeStyle = "#ffd83d"; ctx.lineWidth = 2.6;
+          ctx.beginPath(); ctx.moveTo(x - 13, y - 6); ctx.lineTo(x - 4, y - 2); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + 13, y - 6); ctx.lineTo(x + 4, y - 2); ctx.stroke();
+          ctx.strokeStyle = "#0f1220"; ctx.lineWidth = 2;
+          ctx.beginPath(); ctx.moveTo(x - 14, y - 11); ctx.lineTo(x - 3, y - 7); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + 14, y - 11); ctx.lineTo(x + 3, y - 7); ctx.stroke();
+          /* frown + whiskers */
+          ctx.strokeStyle = "#e8e4da"; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.arc(x, y + 13, 5, Math.PI * 1.15, Math.PI * 1.85); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x - 26, y + 4); ctx.lineTo(x - 15, y + 6); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(x + 26, y + 4); ctx.lineTo(x + 15, y + 6); ctx.stroke();
+        } else {
+          ctx.beginPath(); ctx.arc(x - 8, y - 3, 2.6, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(x + 8, y - 3, 2.6, 0, Math.PI * 2); ctx.fill();
+          /* nose + mouth */
+          ctx.fillStyle = kind === 1 ? "#e87a95" : "#5d3a1e";
+          ctx.beginPath(); ctx.ellipse(x, y + 5, 3.4, 2.6, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.strokeStyle = "#5d3a1e"; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.arc(x, y + 7, 5, Math.PI * 0.15, Math.PI * 0.85); ctx.stroke();
+        }
+      }
+      function drawWhack(ts) {
+        var cv = $("whackCanvas"); if (!cv || !whk) return;
+        var ctx = cv.getContext("2d");
+        var W = 360, H = 340;
+        ctx.imageSmoothingEnabled = false;
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, H);
+        ctx.fillStyle = "#ffd76a"; ctx.fillRect(316, 12, 24, 24);
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(26, 18, 46, 9); ctx.fillRect(150, 10, 34, 7); ctx.fillRect(238, 30, 44, 8);
+        /* field */
+        ctx.fillStyle = "#63b96f"; ctx.fillRect(0, 56, W, H - 56);
+        ctx.fillStyle = "#57ab62"; ctx.fillRect(0, 128, W, 12); ctx.fillRect(0, 214, W, 12); ctx.fillRect(0, 296, W, 12);
+        ctx.fillStyle = "#5d84a8";
+        [8, 300].forEach(function (x, i) { var h = 26 + i * 8; ctx.fillRect(x, 56 - h, 24, h); });
+        /* holes + critters */
+        WHACK_POS.forEach(function (pos, hi) {
+          var mole = null;
+          for (var k = 0; k < whk.moles.length; k++) if (whk.moles[k].hole === hi) mole = whk.moles[k];
+          if (mole) {
+            var f = whackRise(mole);
+            ctx.save();
+            ctx.beginPath(); ctx.rect(pos.x - 48, pos.y - 78, 96, 80); ctx.clip();
+            drawCritter(ctx, pos.x, pos.y + 8 - 30 * f, mole.kind);
+            ctx.restore();
+          }
+          /* hole: dark mouth + front lip */
+          ctx.fillStyle = "#3a2a18";
+          ctx.beginPath(); ctx.ellipse(pos.x, pos.y + 6, 42, 12, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#2c1f10";
+          ctx.beginPath(); ctx.ellipse(pos.x, pos.y + 5, 34, 8.5, 0, 0, Math.PI * 2); ctx.fill();
+          ctx.fillStyle = "#57ab62";
+          ctx.beginPath(); ctx.ellipse(pos.x, pos.y + 11, 42, 8, 0, 0, Math.PI); ctx.fill();
+        });
+        /* floating score text */
+        whk.floats.forEach(function (fl) {
+          ctx.font = "800 16px 'Baloo 2', sans-serif"; ctx.textAlign = "center";
+          ctx.fillStyle = fl.bad ? "#e8762b" : "#fff6dc";
+          ctx.strokeStyle = "rgba(16,24,46,0.8)"; ctx.lineWidth = 3;
+          var yy = fl.y - fl.age * 26;
+          ctx.strokeText(fl.txt, fl.x, yy); ctx.fillText(fl.txt, fl.x, yy);
+        });
+        if (whk.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.25)"; ctx.fillRect(0, 0, W, H); }
+      }
+      function whackTap(e) {
+        if (!whk || whk.mode !== "running") return;
+        e.preventDefault();
+        var cv = $("whackCanvas"); var r = cv.getBoundingClientRect();
+        var gx = (e.clientX - r.left) / r.width * 360;
+        var gy = (e.clientY - r.top) / r.height * 340;
+        for (var i = whk.moles.length - 1; i >= 0; i--) {
+          var m = whk.moles[i]; var pos = WHACK_POS[m.hole];
+          var f = whackRise(m);
+          if (f < 0.35) continue;
+          var hx = pos.x, hy = pos.y + 8 - 30 * f;
+          var dx = gx - hx, dy = gy - hy;
+          if (dx * dx + dy * dy <= 32 * 32) {
+            whk.moles.splice(i, 1);
+            if (m.kind === 3) {
+              whk.score = Math.max(0, whk.score + WHACK_BOSS);
+              whk.floats.push({ x: hx, y: hy - 30, txt: String(WHACK_BOSS), bad: true, age: 0 });
+              try { sfx("back"); } catch (err) { /* ignore */ }
+            } else {
+              whk.score += WHACK_HIT;
+              whk.floats.push({ x: hx, y: hy - 30, txt: "+" + WHACK_HIT, bad: false, age: 0 });
+              try { sfx("move"); } catch (err) { /* ignore */ }
+            }
+            whackHud();
+            if (whk.score >= WHACK_GOAL && !whk.goalDone) {
+              whk.goalDone = true;
+              var won = mgAward("whack"); whk.won = won;
+              $("whackMsg").textContent = won ? X().whackGoalHit : X().whackGoalPractice;
+              if (won) $("whackGoal").textContent = X().runGoal(true);
+            }
+            return;
+          }
+        }
+      }
+
+
       /* wiring: title plaques, beta window, name step, runner */
       $("titleBetaBtn").addEventListener("click", openBeta);
       var listBetaBtnEl = $("listBetaBtn"); if (listBetaBtnEl) listBetaBtnEl.addEventListener("click", openBeta);
@@ -25424,6 +26003,8 @@
          TODAY'S duty game straight into play */
       $("runCabStart").addEventListener("click", function () { mgOpenDuty(); });
       $("mgDutyBtn").addEventListener("click", function () { mgOpenDuty(); });
+      var mgFbEl = $("mgFoldBtn");
+      if (mgFbEl) mgFbEl.addEventListener("click", function () { mgHubOpen = !mgHubOpen; renderRunBanner(); });
       $("runClose").addEventListener("click", closeRun);
       $("runStartBtn").addEventListener("click", startRun);
       $("runQuitBtn").addEventListener("click", function () { if (run && run.mode === "running") endRun(false); else closeRun(); });
@@ -25517,6 +26098,14 @@
           else if (e.key === "ArrowRight") cat.dirR = false;
         });
       })();
+      /* memory + whack wiring (batch 2) */
+      $("memoryClose").addEventListener("click", closeMemory);
+      $("memoryStartBtn").addEventListener("click", startMemory);
+      $("memoryQuitBtn").addEventListener("click", function () { if (mem && mem.mode === "running") endMemory(false, true); else closeMemory(); });
+      $("whackClose").addEventListener("click", closeWhack);
+      $("whackStartBtn").addEventListener("click", startWhack);
+      $("whackQuitBtn").addEventListener("click", function () { if (whk && whk.mode === "running") endWhack(true); else closeWhack(); });
+      $("whackCanvas").addEventListener("pointerdown", whackTap);
       /* map START menu: NEWS item opens the same beta window, and
          carries its label (renderMapNav's name table predates it) */
       $("mapNavGrid").addEventListener("click", function (ev) {
