@@ -11624,6 +11624,14 @@
         padding-right: calc(12px + var(--sar));
       }
       #view-hero .hseg-panel.hero-win > .win { max-width: 100%; }
+      /* Q-177 (2026-10-30, Zoe device 23:47): the records window's
+         tab row and status band painted past the right edge. The
+         scene line is a long joined prop list — its min-content
+         must never widen the status box; the top rows are capped
+         at the window's own width. */
+      #view-hero .hseg-panel .rec-tabs { min-width: 0; max-width: 100%; }
+      #hsegStatus .hstat-box { min-width: 0; max-width: 100%; }
+      #hsegStatus .hstat-scene { white-space: normal; overflow-wrap: anywhere; }
       /* the gacha frame itself: full content-box width, never
          a pixel wider — head row (title + ticket pill) wraps
          inside the frame instead of pushing past it */
@@ -15690,7 +15698,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0018-posterrow-ba765aff";
+        var BUILD_ID = "tql-20261030-0041-q177-65e76daf";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
