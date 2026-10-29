@@ -641,3 +641,6 @@ Zoe 三连通则（少文字/简洁易懂、多用折叠与跳转）已写入 qa
 ## QA 立案 Q-137 + Q-130 追补（Zoe 实机，2026-10-29 14:31–14:32）
 - Q-137：列表页玩家卡称号行（titleFor(Lv)＋副题）尾字被票券胶囊（#hudTicket）盖住、无省略号；ZH Lv.3「任务猎人·东京任务猎人」390 宽必现。工单 qa/reports/2026-10-29-q137-header-title-covered-by-ticket-pill.md。
 - Q-130 追补：便利店道具接地线与街道透视地面线不对齐，像异图层贴纸——随 Q-130 场景布局一并处理。qa/reports/2026-10-29-q130-addendum-konbini-grounding.md。
+
+## QA 立案 Q-138（Zoe 实机，2026-10-29 14:56）
+- 捏人窗在 iPhone Safari 实机上：窗顶出画（头部被屏幕顶边切）＋滚动区尾行（HAIRSTYLE 末行）被钉住页脚盖住一半。与 Q-134 同族（窗口高度契约对可视视口不成立）；Q-128 的实验室关闭（headless 布局视口）不覆盖实机动态工具栏高度。工单 qa/reports/2026-10-29-q138-creator-device-top-clip-footer-cover.md。
