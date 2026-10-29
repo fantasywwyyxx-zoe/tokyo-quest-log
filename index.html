@@ -1165,7 +1165,15 @@
       }
       .statusbar.is-min .mini-stats { display: block; }
       .statusbar.is-min .avatar { width: 38px; height: 38px; }
-      .statusbar.is-min .adventurer-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46vw; }
+      .statusbar.is-min .adventurer-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+      /* Q-137: the name/sub column must actually be squeezed by the
+         ticket pill in the flex row — the inner column gets
+         min-width: 0 so it can shrink below its nowrap content, and
+         the sub's box (max-width: 100% of that column, above) ends
+         where the column ends, i.e. BEFORE the pill. The old 46vw
+         cap let the box run underneath the pill, so the clip (and
+         the missing ellipsis) happened behind it. */
+      .statusbar .who > div { flex: 1 1 auto; min-width: 0; }
 
       /* --- LIST filter panel: minimized = one-line summary --- */
       .filter-head { margin-bottom: 2px; }
@@ -11032,12 +11040,28 @@
         width: 100%; height: 100%; object-fit: contain;
       }
       .run-win .run-hud, .run-win .run-prog, .run-win .run-msg,
-      .run-win .run-btnrow, .run-win .run-help { flex: none; }
+      .run-win .run-btnrow, .run-win .run-help, .run-win .run-lane-row { flex: none; }
+      /* lane buttons: fixed furniture under the stage — big,
+         chunky, with a real press sink; they exist in every
+         state (disabled unless running) so the window's frame
+         never changes shape between states */
+      .run-lane-row { display: flex; gap: 10px; margin-top: 8px; }
+      .run-lane-btn {
+        flex: 1 1 0; min-height: 58px; padding: 6px 0; cursor: pointer;
+        touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-size: 27px; font-weight: 800; line-height: 1;
+        color: var(--ink); background: var(--window-hi);
+        border: 3px solid var(--edge); border-radius: 14px; box-shadow: 0 4px 0 var(--shadow);
+      }
+      .run-lane-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--shadow); }
+      .run-lane-btn[disabled] { opacity: 0.45; cursor: default; }
       @media (max-height: 740px) {
         .run-win { padding: 12px 14px 12px; }
         .run-win .auth-head { margin-bottom: 8px; }
         .run-win .run-msg { margin: 6px 0 2px; }
         .run-win .run-help { margin-top: 5px; }
+        .run-lane-btn { min-height: 50px; }
+        .run-lane-row { margin-top: 6px; }
       }
 
       /* --- daily window (Q-124): the hug-when-short sizing stays
@@ -11583,6 +11607,14 @@
         <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span><span class="run-speed" id="runSpeed"></span></div>
         <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🎟 300m</span></div>
         <div class="run-stage"><canvas id="runCanvas" width="360" height="400"></canvas></div>
+        <!-- lane controls (Zoe, 2026-10-29): the ONLY steering
+             while running — two big buttons in the window's fixed
+             furniture BELOW the stage, never over the road. One
+             tap = exactly one lane. -->
+        <div class="run-lane-row" role="group" aria-label="Lane controls">
+          <button class="run-lane-btn" id="runLeftBtn" type="button" disabled aria-label="Move left">◀</button>
+          <button class="run-lane-btn" id="runRightBtn" type="button" disabled aria-label="Move right">▶</button>
+        </div>
         <p class="run-msg" id="runMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="runStartBtn" type="button"></button>
@@ -23480,7 +23512,8 @@
           runGoal: function (done) { return done ? "TODAY'S TICKET ✓ GOT IT" : "GOAL 300m = 🎟 ×1 / DAY"; },
           runBest: function (b) { return "BEST " + b + "m"; },
           runStart: "▶ START RUN", runRunning: "RUNNING…", runAgain: "↻ RUN AGAIN", runQuit: "QUIT",
-          runHelp: "Swipe ◀ ▶, tap the left / right half, or use the arrow keys to switch lanes. Dodge the barriers!",
+          runLeft: "Move one lane left", runRight: "Move one lane right",
+          runHelp: "Steer with the ◀ ▶ buttons — one tap, one lane. Arrow keys work too. Dodge the barriers!",
           runReady: "Reach 300m to win today's gacha ticket. Crash? Retry as much as you like — the ticket waits.",
           runCrash: function (d) { return "CRASHED at " + d + "m! " + (d >= 300 ? "Ticket earned ✓" : "The 300m ticket is still out there — run again!"); },
           runReward: "300m! GACHA TICKET +1 ✓ Keep going for a best distance!",
@@ -23509,7 +23542,8 @@
           runGoal: function (done) { return done ? "本日の券 ✓ 獲得済み" : "目標 300m = 🎟 ×1 / 日"; },
           runBest: function (b) { return "ベスト " + b + "m"; },
           runStart: "▶ スタート", runRunning: "走行中…", runAgain: "↻ もう一度", runQuit: "やめる",
-          runHelp: "左右スワイプ／画面の左右タップ／方向キーでレーン変更。障害物をよけろ！",
+          runLeft: "左へ1レーン移動", runRight: "右へ1レーン移動",
+          runHelp: "◀ ▶ ボタンでレーン変更——1タップで1レーン。方向キーでもOK。障害物をよけろ！",
           runReady: "300m走ると今日のガチャ券がもらえます。ぶつかっても何度でも再挑戦OK——券は逃げません。",
           runCrash: function (d) { return d + "mでクラッシュ！" + (d >= 300 ? " 券は獲得済み ✓" : " 300mの券はまだ先——もう一度！"); },
           runReward: "300m到達！ガチャ券 +1 ✓ ベスト記録を目指して続けよう！",
@@ -23538,7 +23572,8 @@
           runGoal: function (done) { return done ? "今日扭蛋券 ✓ 已到手" : "目标 300m = 🎟 ×1 / 天"; },
           runBest: function (b) { return "最佳 " + b + "m"; },
           runStart: "▶ 开始跑", runRunning: "奔跑中…", runAgain: "↻ 再来一局", runQuit: "结束",
-          runHelp: "左右滑动 / 点屏幕左半或右半 / 方向键换道。躲开障碍物！",
+          runLeft: "向左换一条道", runRight: "向右换一条道",
+          runHelp: "用 ◀ ▶ 按钮换道——点一次，换一条道。方向键也可以。躲开障碍物！",
           runReady: "跑满300m就能赢得今天的扭蛋券。撞了也没关系，可以一直重开——券跑不掉。",
           runCrash: function (d) { return "在 " + d + "m 撞啦！" + (d >= 300 ? " 券已到手 ✓" : " 300m 的券还在前面——再来一局！"); },
           runReward: "300m 达成！扭蛋券 +1 ✓ 继续冲最佳距离吧！",
@@ -24026,6 +24061,9 @@
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
         $("runQuitBtn").textContent = t.runQuit;
+        var lb = $("runLeftBtn"), rb = $("runRightBtn");
+        lb.setAttribute("aria-label", t.runLeft); rb.setAttribute("aria-label", t.runRight);
+        lb.disabled = true; rb.disabled = true; /* steering arms only while running */
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
         var sp = $("runSpeed"); if (sp) sp.textContent = "";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
@@ -24051,6 +24089,7 @@
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
         var sb = $("runStartBtn"); sb.disabled = true; sb.textContent = X().runRunning;
+        $("runLeftBtn").disabled = false; $("runRightBtn").disabled = false;
         run.raf = requestAnimationFrame(runTick);
       }
       function endRun(crashed) {
@@ -24064,6 +24103,7 @@
         $("runBest").textContent = X().runBest(state.runner.best || 0);
         $("runMsg").textContent = crashed ? X().runCrash(d) : X().runQuitMsg(d);
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = X().runAgain;
+        $("runLeftBtn").disabled = true; $("runRightBtn").disabled = true;
         var win = document.querySelector(".run-win");
         if (win) { win.classList.add("is-over"); win.classList.toggle("is-crashed", !!crashed); }
         if (crashed) { try { sfx("back"); } catch (e) { /* ignore */ } }
@@ -24315,25 +24355,22 @@
       });
       $("authNameSkip").addEventListener("click", function () { state.nameAsked = true; save(); finishNameStep(); });
       $("authEditNameBtn").addEventListener("click", openNameStep);
-      /* runner touch: swipe = change lane by direction; tap = side */
+      /* runner steering (Zoe, 2026-10-29): the on-screen ◀ ▶
+         buttons are the ONLY touch steering. One pointerdown =
+         exactly one lane step: runMove is a synchronous lane
+         change with no lock and no queue, so rapid taps each
+         register, and a held button cannot auto-repeat (a
+         pointerdown fires once per press). The old canvas
+         swipe / half-screen tap steering is REMOVED — on device
+         it mis-read as "didn't move" / "moved twice". Arrow
+         keys stay, with key-repeat held to the same one-press-
+         one-lane rule. */
       (function () {
-        var cv = $("runCanvas"), sx = null;
-        cv.addEventListener("touchstart", function (e) { sx = e.touches[0].clientX; }, { passive: true });
-        cv.addEventListener("touchend", function (e) {
-          if (sx == null) return;
-          var ex = e.changedTouches[0].clientX, dx = ex - sx; sx = null;
-          if (Math.abs(dx) > 24) runMove(dx > 0 ? 1 : -1);
-          else { var r = cv.getBoundingClientRect(); runMove(ex - r.left < r.width / 2 ? -1 : 1); }
-        }, { passive: true });
-        cv.addEventListener("mousedown", function (e) { sx = e.clientX; });
-        cv.addEventListener("mouseup", function (e) {
-          if (sx == null) return;
-          var dx = e.clientX - sx; sx = null;
-          if (Math.abs(dx) > 24) runMove(dx > 0 ? 1 : -1);
-          else { var r = cv.getBoundingClientRect(); runMove(e.clientX - r.left < r.width / 2 ? -1 : 1); }
-        });
+        var lb = $("runLeftBtn"), rb = $("runRightBtn");
+        lb.addEventListener("pointerdown", function (e) { e.preventDefault(); runMove(-1); });
+        rb.addEventListener("pointerdown", function (e) { e.preventDefault(); runMove(1); });
         document.addEventListener("keydown", function (e) {
-          if ($("runScreen").hidden) return;
+          if ($("runScreen").hidden || e.repeat) return;
           if (e.key === "ArrowLeft") runMove(-1);
           else if (e.key === "ArrowRight") runMove(1);
         });
