@@ -9728,6 +9728,13 @@
         display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 0 rgba(20,14,4,0.45); }
       #routeLayer .route-dot.is-next { background: #171208; color: #ffd83d; border-color: #ffd83d; }
       #routeLayer .route-dot.is-done { background: var(--lemon, #ffd83d); }
+      /* Q-180: in DOM mode the dots live in #pinLayer at full device
+         resolution (see addRouteDot) — same geometry, no counter-scale */
+      #pinLayer .route-dot { position: absolute; z-index: 4; transform: translate(-50%, -50%); width: 21px; height: 21px; border-radius: 50%;
+        border: 2.5px solid #171208; background: #fffdf6; color: #171208; font-size: 11.5px; font-weight: 800;
+        display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 0 rgba(20,14,4,0.45); }
+      #pinLayer .route-dot.is-next { background: #171208; color: #ffd83d; border-color: #ffd83d; }
+      #pinLayer .route-dot.is-done { background: var(--lemon, #ffd83d); }
 
       /* --- zone stamp art frame --- */
       .stamp-ring { position: relative; }
@@ -15707,7 +15714,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0055-eg7-d7ac8465";
+        var BUILD_ID = "tql-20261030-0103-q180-d1ec2e7a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -20935,26 +20942,50 @@ var qrcode = function() {
           pl.style.strokeLinecap = "round";
         });
       }
+      /* Q-180: LEGEND checkpoint dots were DOM spans inside the
+         zoom-transformed plane, counter-scaled by --u (Q-158), so at
+         working zoom their layout box shrank and the number raster
+         smeared while the vector base map stayed sharp. Like the
+         Q-166 hero marker, the dots now live in screen space in
+         #pinLayer at full device resolution: dataset.px/py carry the
+         plane-% point, placeMeScreenEl positions them, and
+         applyZoom's pin loop repositions them on every pan/zoom.
+         Only the SVG line stays in the plane. GL mode is unchanged
+         (its dots are already projected px, move-hooked). */
+      function clearRouteDots() {
+        if (!pinLayerEl) return;
+        pinLayerEl.querySelectorAll(".route-dot").forEach(function (n) { n.remove(); });
+      }
+      function addRouteDot(e, i, st) {
+        if (!pinLayerEl) return;
+        var d = document.createElement("span");
+        d.className = "route-dot is-" + st;
+        d.dataset.px = e.x; d.dataset.py = e.y;
+        d.textContent = st === "done" ? "✓" : String(i + 1);
+        pinLayerEl.appendChild(d);
+        placeMeScreenEl(d);
+      }
       function drawRouteOverlay() {
         var layer = document.getElementById("routeLayer");
         if (!layer) return;
+        clearRouteDots();
         if (typeof mapFilter !== "undefined" && mapFilter === "legend") {
           /* LEGEND filter mode: every route is on the board, each
              with its own line and numbered stamp dots */
-          var svg = "", dotsAll = "";
+          var svg = "";
           var rv = routeSvgOpen();
           LEGENDS.forEach(function (route) {
             var rp = legendProg(route);
             var rpts = route.cps.map(function (cpId) { return byId(cpId); }).filter(Boolean);
             if (rpts.length < 2) return;
             svg += '<polyline points="' + rpts.map(function (e) { return (e.x * rv.fx).toFixed(1) + "," + (e.y * rv.fy).toFixed(1); }).join(" ") + '" />';
-            dotsAll += rpts.map(function (e, i) {
+            rpts.forEach(function (e, i) {
               var st = rp.indexOf(e.id) !== -1 ? "done" : (legendNext(route) === e.id ? "next" : "todo");
-              return '<span class="route-dot is-' + st + '" style="left:' + e.x + "%;top:" + e.y + '%">' + (st === "done" ? "✓" : (i + 1)) + "</span>";
-            }).join("");
+              addRouteDot(e, i, st);
+            });
           });
           layer.hidden = !svg;
-          layer.innerHTML = svg ? rv.open + svg + "</svg>" + dotsAll : "";
+          layer.innerHTML = svg ? rv.open + svg + "</svg>" : "";
           styleRouteLines();
           return;
         }
@@ -20982,8 +21013,11 @@ var qrcode = function() {
         }
         var rv2 = routeSvgOpen();
         var line = pts.map(function (e) { return (e.x * rv2.fx).toFixed(1) + "," + (e.y * rv2.fy).toFixed(1); }).join(" ");
-        var dots = pts.map(function (e, i) { return dot(e, i, e.x + "%;top:" + e.y + "%"); }).join("");
-        layer.innerHTML = rv2.open + '<polyline points="' + line + '" /></svg>' + dots;
+        layer.innerHTML = rv2.open + '<polyline points="' + line + '" /></svg>';
+        pts.forEach(function (e, i) {
+          var st = p.indexOf(e.id) !== -1 ? "done" : (legendNext(lg) === e.id ? "next" : "todo");
+          addRouteDot(e, i, st);
+        });
         styleRouteLines();
       }
       var ALL_ITEMS = GACHA_ITEMS.concat(REWARD_ITEMS);
@@ -25978,7 +26012,7 @@ var qrcode = function() {
           var routeLayerEl = document.getElementById("routeLayer");
           if (routeLayerEl) routeLayerEl.style.setProperty("--u", (1 / zoom.s).toFixed(4));
           var pwS = g.pw * zoom.s, phS = g.ph * zoom.s;
-          pinLayerEl.querySelectorAll(".pin, .cluster-pin, .area-label, .me-marker, .me-radius").forEach(function (p) {
+          pinLayerEl.querySelectorAll(".pin, .cluster-pin, .area-label, .me-marker, .me-radius, .route-dot").forEach(function (p) {
             var px = parseFloat(p.dataset.px), py = parseFloat(p.dataset.py);
             if (isNaN(px) || isNaN(py)) return;
             p.style.left = (zoom.tx + pwS * px / 100) + "px";
