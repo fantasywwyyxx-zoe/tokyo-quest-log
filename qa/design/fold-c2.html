@@ -1,0 +1,36 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN",sans-serif;}
+body{background:#333;}
+.panel{width:390px;height:400px;position:relative;background:url('maptex.png');background-size:390px 460px;margin:0 auto 10px;overflow:hidden;}
+.tag{position:absolute;top:8px;left:8px;background:#22303C;color:#FFD83D;font-weight:800;font-size:14px;padding:4px 12px;border-radius:999px;z-index:6;}
+.fbtn{position:absolute;right:14px;top:150px;width:58px;height:58px;border-radius:50%;background:#FFF8E7;border:3px solid #22303C;box-shadow:0 3px 0 rgba(34,48,60,.35);display:flex;align-items:center;justify-content:center;z-index:5;}
+.fbtn .bdg{position:absolute;top:-9px;right:-10px;background:#FFD83D;border:2.5px solid #22303C;border-radius:999px;font-size:12px;font-weight:800;color:#22303C;padding:1px 7px;}
+.hintbub{position:absolute;right:84px;top:158px;background:#FFF8E7;border:3px solid #22303C;border-radius:14px;padding:8px 12px;font-size:14px;font-weight:800;color:#22303C;z-index:5;}
+.hintbub:after{content:"";position:absolute;right:-11px;top:50%;margin-top:-7px;border:7px solid transparent;border-left:9px solid #22303C;border-right:0;}
+.hintbub small{display:block;font-size:11px;font-weight:700;color:#E8443A;margin-top:2px;}
+.sheet{position:absolute;left:10px;right:10px;bottom:10px;background:#FFF8E7;border:3px solid #22303C;border-radius:18px;padding:10px 12px 12px;z-index:5;box-shadow:0 -3px 0 rgba(34,48,60,.2);}
+.grab{width:44px;height:5px;border-radius:3px;background:#22303C;opacity:.35;margin:0 auto 8px;}
+.sheet-h{display:flex;align-items:center;gap:8px;margin-bottom:9px;}
+.sheet-t{font-size:16px;font-weight:800;color:#22303C;}
+.xbtn{margin-left:auto;width:30px;height:30px;border-radius:9px;background:#E8443A;border:2.5px solid #22303C;color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;}
+.chip{border:2.5px solid #22303C;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:800;color:#22303C;background:#fff;}
+.chip.on{background:#E8443A;color:#fff;}
+.chip small{opacity:.75;}
+.moodlab{font-size:12px;font-weight:800;color:#22303C;opacity:.65;margin:10px 0 6px;}
+</style></head><body>
+<div class="panel"><div class="tag">C · 折叠态（打磨版）</div>
+  <div class="hintbub">クエストを絞り込み<small>↑ この気泡は初回だけ · タップで消える</small></div>
+  <div class="fbtn"><svg width="27" height="27" viewBox="0 0 24 24"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2E7FB8" stroke="#22303C" stroke-width="1.8" stroke-linejoin="round"/></svg><div class="bdg">180</div></div>
+</div>
+<div class="panel"><div class="tag">C · 展开态（底部シート）</div>
+  <div class="sheet"><div class="grab"></div>
+    <div class="sheet-h"><svg width="19" height="19" viewBox="0 0 24 24"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2E7FB8" stroke="#22303C" stroke-width="1.8" stroke-linejoin="round"/></svg><div class="sheet-t">絞り込み</div><div class="xbtn">✕</div></div>
+    <div class="chips">
+      <div class="chip on">すべて <small>180</small></div><div class="chip">期間限定 <small>41</small></div><div class="chip">EPIC <small>139</small></div><div class="chip">LEGEND <small>4</small></div><div class="chip">✓ クリア済</div>
+    </div>
+    <div class="moodlab">♥ 気分で選ぶ</div>
+    <div class="chips"><div class="chip">癒し</div><div class="chip">わくわく</div><div class="chip">アート</div><div class="chip">穴場</div></div>
+  </div>
+</div>
+</body></html>
