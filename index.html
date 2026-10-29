@@ -15722,7 +15722,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0121-q154r4-cb9eccdd";
+        var BUILD_ID = "tql-20261030-0126-q182-7dcebbf9";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25663,6 +25663,28 @@ var qrcode = function() {
           '<span class="cal-stat"><span class="cs-k">' + esc(t.calFullK) + '</span><span class="cs-v">★ ' + fullN + " / " + days + "</span></span>";
         if (cl) cl.innerHTML = "<span>" + esc(t.calLegendFull) + "</span><span>" + esc(t.calLegendDot) + "</span><span>" + esc(t.calLegendToday) + "</span>";
       }
+      /* Q-182: diary entries store the task name as rendered at
+         completion time, which froze the completion language into
+         the record calendar (a day played in Japanese kept showing
+         Japanese task names under a Chinese UI). Pool order is
+         identical across languages, so a stored name resolves back
+         to its pool index and re-renders in the CURRENT language.
+         Names matching no pool entry (home-generated dailies) pass
+         through unchanged. Storage format untouched. */
+      function diaryNameNow(stored) {
+        try {
+          var cur = L().dailyPool || [];
+          for (var i = 0; i < cur.length; i++) { if (cur[i].n === stored) return stored; }
+          var langs = ["en", "ja", "zh"];
+          for (var li = 0; li < langs.length; li++) {
+            var p = (STR[langs[li]] || {}).dailyPool || [];
+            for (var j = 0; j < p.length; j++) {
+              if (p[j].n === stored && cur[j]) return cur[j].n;
+            }
+          }
+        } catch (e) {}
+        return stored;
+      }
       function openCalDay(ds) {
         var t = L();
         var dy = state.diary[ds];
@@ -25670,7 +25692,7 @@ var qrcode = function() {
         document.getElementById("calDayTitle").textContent = fmtDate(ds) + (state.dayLog[ds] ? " ★" : "");
         var tk = document.getElementById("calDayTasks");
         if (dy && dy.tasks && dy.tasks.length) {
-          tk.innerHTML = "<span>" + esc(t.diaryTasksK) + "</span>" + dy.tasks.map(function (n) { return "<span>✓ " + esc(n) + "</span>"; }).join("");
+          tk.innerHTML = "<span>" + esc(t.diaryTasksK) + "</span>" + dy.tasks.map(function (n) { return "<span>✓ " + esc(diaryNameNow(n)) + "</span>"; }).join("");
         } else {
           tk.innerHTML = "<span>" + esc(t.diaryEmpty) + "</span>";
         }
