@@ -31,11 +31,15 @@ const KOFI_URL = "https://ko-fi.com/tokyoquestlog";
   .lat{font-family:"Baloo 2","M PLUS Rounded 1c",sans-serif;}
 
   /* ---------- language switcher (same pattern as /beta/) ---------- */
-  .langbar{display:flex; justify-content:center; gap:8px; margin:0 auto 14px;}
+  .langbar{
+    display:flex; justify-content:center; gap:4px; margin:0 auto 16px;
+    background:var(--paper); border:3.5px solid var(--ink); border-radius:999px;
+    padding:4px; box-shadow:0 3px 0 rgba(38,34,46,.85);
+  }
   .langbar button{
-    font-family:inherit; font-weight:800; font-size:14.5px; cursor:pointer;
-    background:var(--paper); color:var(--ink); border:3px solid var(--ink); border-radius:999px;
-    padding:6px 17px;
+    font-family:inherit; font-weight:800; font-size:15px; cursor:pointer;
+    background:transparent; color:var(--ink); border:none; border-radius:999px;
+    padding:9px 19px; min-height:42px;
   }
   .langbar button.on{background:var(--red); color:#fff;}
   .lang{display:none;}
