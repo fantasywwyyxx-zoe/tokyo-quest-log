@@ -10535,6 +10535,113 @@
     </style>
     <style>
       /* ================================================================
+         DASH RUN POLISH (2026-10-29, Zoe device order: "too rough,
+         move it up, it doesn't read as a game"): the hero page's
+         entry is now an arcade CABINET directly under the hero
+         scene — marquee head (title + the daily-ticket rule), a
+         live preview screen in a thick bezel (3 lanes, the hero,
+         obstacles), and a chunky lemon START that launches
+         straight into a run. The old one-line .run-banner is gone.
+         The game window itself gains a 300m progress track, a
+         speed readout, a bigger distance readout and a stamped
+         result state. Rules, controls and the daily ticket are
+         unchanged; Q-114 window clearance is untouched (the run
+         window keeps its own overlay scroll).
+         ================================================================ */
+      .run-cabinet {
+        flex: none; margin-top: 8px; padding: 7px 8px 8px; position: relative;
+        background: linear-gradient(180deg, var(--window-hi), var(--window));
+        border: 3.5px solid var(--line-c); border-radius: 14px;
+        box-shadow: inset 0 0 0 2px var(--window-deep), 0 4px 0 var(--edge), 0 12px 22px rgba(9, 12, 44, 0.2);
+      }
+      .run-cab-head { display: flex; align-items: center; gap: 7px; margin: 0 1px 6px; }
+      .run-cab-tag {
+        flex: none; font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 10.5px; letter-spacing: 0.08em;
+        background: var(--primary, #e2483a); color: #fff; border: 2px solid var(--line-c); border-radius: 5px; padding: 3px 6px;
+      }
+      .run-cab-title { font-size: 17px; letter-spacing: 0.05em; color: var(--ink); line-height: 1; }
+      .run-cab-rule {
+        margin-left: auto; flex: none; max-width: 52%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        background: #ffd83d; color: #231a00; border: 2px solid var(--line-c); border-radius: 999px;
+        padding: 2px 8px; font-size: 11px; font-weight: 800;
+      }
+      .run-cab-rule.is-done { background: var(--green, #63b96f); color: #fff; }
+      .run-screen {
+        position: relative; display: block; width: 100%; padding: 0; cursor: pointer;
+        border: 3px solid var(--line-c); border-radius: 10px; overflow: hidden; background: #79b5e0;
+        box-shadow: inset 0 0 0 2px rgba(6, 10, 24, 0.4), 0 2px 0 var(--edge);
+      }
+      .run-screen:active { transform: translateY(1px); }
+      .run-screen canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+      .run-screen-best {
+        position: absolute; left: 6px; bottom: 6px; pointer-events: none;
+        background: rgba(13, 20, 43, 0.85); color: #ffd83d; border: 1.5px solid rgba(255, 255, 255, 0.6); border-radius: 999px;
+        font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 11px; line-height: 1; padding: 4px 8px;
+      }
+      .run-screen-go {
+        position: absolute; right: 6px; bottom: 6px; pointer-events: none;
+        width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+        background: #ffd83d; color: #231a00; border: 2px solid var(--line-c); border-radius: 50%;
+        font-size: 12px; box-shadow: 0 2px 0 rgba(9, 12, 44, 0.45);
+        animation: run-go-pulse 1.6s steps(2, end) infinite;
+      }
+      @keyframes run-go-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+      .run-cab-foot { display: flex; align-items: center; gap: 9px; margin-top: 7px; }
+      .run-cab-status {
+        flex: 1; min-width: 0; font-size: 11.5px; font-weight: 700; line-height: 1.4; color: var(--ink-dim);
+        display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      }
+      .run-start-btn {
+        flex: none; min-width: 132px; padding: 10px 16px; cursor: pointer;
+        background: linear-gradient(180deg, #fff176, #ffd83d); color: #231a00;
+        border: 3px solid var(--line-c); border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #d9a400, 0 4px 0 var(--edge);
+        font-family: "Baloo 2", "M PLUS Rounded 1c", "Noto Sans SC", sans-serif; font-weight: 800; font-size: 15px; letter-spacing: 0.03em; line-height: 1.2;
+        animation: run-start-glow 1.8s steps(2, end) infinite;
+      }
+      @keyframes run-start-glow { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.09); } }
+      .run-start-btn:active { transform: translateY(2px); box-shadow: inset 0 0 0 2px #d9a400, 0 1px 0 var(--edge); }
+      @media (max-height: 740px) {
+        .run-cabinet { padding: 6px 7px 7px; margin-top: 6px; }
+        .run-cab-head { margin-bottom: 5px; }
+        .run-cab-title { font-size: 15.5px; }
+        .run-cab-foot { margin-top: 6px; }
+        .run-start-btn { padding: 8px 14px; min-width: 122px; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .run-start-btn, .run-screen-go { animation: none; }
+      }
+      /* --- the game window: HUD + progress + result stamp --- */
+      .run-hud { align-items: center; }
+      .run-hud .run-dist {
+        font-size: 25px; line-height: 1.15; background: #10182e; color: #ffd83d;
+        border: 2.5px solid #10182e; border-radius: 8px; padding: 2px 10px;
+        box-shadow: inset 0 0 0 2px rgba(255, 253, 244, 0.35);
+        font-variant-numeric: tabular-nums;
+      }
+      .run-hud .run-speed { font-size: 11.5px; font-weight: 800; color: #a8651e; white-space: nowrap; }
+      .run-prog {
+        position: relative; height: 17px; margin: 0 0 9px; overflow: hidden;
+        border: 2.5px solid #43301a; border-radius: 999px; background: #fff;
+      }
+      .run-prog-fill {
+        height: 100%; width: 0%;
+        background: repeating-linear-gradient(45deg, #ffd83d 0 8px, #f0b429 8px 16px);
+        transition: width 0.18s linear;
+      }
+      .run-prog-flag {
+        position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+        font-size: 10.5px; font-weight: 800; color: #43301a; letter-spacing: 0.02em;
+      }
+      #runCanvas { border: 3px solid #43301a; box-shadow: inset 0 0 0 2px rgba(6, 10, 24, 0.28); }
+      .run-win.is-over .run-msg {
+        background: #eef7e6; border: 3px solid #63b96f; color: #1f6b2e; border-radius: 10px;
+        padding: 8px 10px; transform: rotate(-1.2deg);
+      }
+      .run-win.is-crashed .run-msg { background: #ffe3de; border-color: #d63a2e; color: #8f2318; }
+    </style>
+    <style>
+      /* ================================================================
          Q-118 + Q-119 POLISH (2026-10-29, Zoe device reports)
          Q-118 — the map filter bar's FINISH is reworked; the fold
          mechanics verified in b190f3e (geometry variables, four-state
@@ -10915,7 +11022,8 @@
           <span class="auth-title" id="runTitle"></span>
           <button class="auth-x" id="runClose" type="button" aria-label="Close">✕</button>
         </div>
-        <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span></div>
+        <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span><span class="run-speed" id="runSpeed"></span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🎟 300m</span></div>
         <canvas id="runCanvas" width="360" height="400"></canvas>
         <p class="run-msg" id="runMsg"></p>
         <div class="run-btnrow">
@@ -11319,6 +11427,30 @@
             <button class="slot" type="button" data-slotcycle="scarf"><span class="slot-view"><canvas width="16" height="16" aria-hidden="true"></canvas><span class="slot-ico" aria-hidden="true"></span></span><span class="slot-cap"></span><span class="slot-name"></span></button>
           </div>
         </div>
+        <!-- DASH RUN cabinet (polish round, 2026-10-29): the
+             mini-game now sits DIRECTLY under the hero scene as an
+             arcade cabinet — marquee head (title + the daily
+             ticket rule), a live preview screen in a thick bezel
+             (3 lanes, the hero, obstacles), and a chunky lemon
+             START that launches straight into a run. Tapping the
+             preview screen opens the game window on its ready
+             screen instead. -->
+        <div class="run-cabinet" id="runCabinet">
+          <div class="run-cab-head">
+            <span class="run-cab-tag" id="runTag">RUN</span>
+            <span class="run-cab-title ps">DASH RUN</span>
+            <span class="run-cab-rule" id="runCabRule"></span>
+          </div>
+          <button class="run-screen" id="runOpenBtn" type="button" aria-label="DASH RUN">
+            <canvas id="runPreview" width="360" height="104" aria-hidden="true"></canvas>
+            <span class="run-screen-best" id="runCabBest"></span>
+            <span class="run-screen-go" aria-hidden="true">▶</span>
+          </button>
+          <div class="run-cab-foot">
+            <span class="run-cab-status" id="runBannerName"></span>
+            <button class="run-start-btn" id="runCabStart" type="button"></button>
+          </div>
+        </div>
         <div class="hero-dock" id="heroDock">
           <button class="dock-btn" type="button" data-openwin="records" aria-pressed="false"><span class="dock-ico" data-dock="records"></span><span data-dockname="records"></span></button>
           <button class="dock-btn" type="button" data-openwin="gacha" aria-pressed="false"><span class="dock-ico" data-dock="gacha"></span><span data-dockname="gacha"></span></button>
@@ -11329,11 +11461,6 @@
           <button class="hero-acct" id="heroAcctRow" type="button"><span id="heroAcctText"></span></button>
           <button class="hero-acct hero-support" id="heroSupportBtn" type="button"></button>
         </div>
-        <button class="run-banner" id="runOpenBtn" type="button">
-          <span class="db-tag" id="runTag">RUN</span>
-          <span class="db-name" id="runBannerName"></span>
-          <span class="db-go">▶</span>
-        </button>
         <!-- the old dress-up studio stays in the DOM (its render
              code feeds the gacha grids) but is never shown: the
              stage slots above ARE the dress-up UI now -->
@@ -22144,6 +22271,126 @@
         var el = $("runBannerName"); if (!el) return;
         ensureRunnerDay();
         el.textContent = X().runBanner(state.runner.best || 0, !!state.runner.rewarded);
+        var rule = $("runCabRule");
+        if (rule) { rule.textContent = X().runGoal(!!state.runner.rewarded); rule.classList.toggle("is-done", !!state.runner.rewarded); }
+        var bst = $("runCabBest"); if (bst) bst.textContent = X().runBest(state.runner.best || 0);
+        var stb = $("runCabStart"); if (stb) stb.textContent = X().runStart;
+        startRunAttract();
+      }
+
+      /* --- cabinet preview (attract mode): the SAME road, hero
+         and obstacles as the game, idling in the cabinet screen
+         so the block reads as a playable game at a glance. One
+         throttled rAF loop; it only runs while the hero view is
+         on screen, the game window is closed, and the user has
+         not asked for reduced motion (then one still frame). --- */
+      var attractOn = false, attractLast = 0;
+      function runPreviewVisible() {
+        var hv = $("view-hero"), pv = $("runPreview"), rs = $("runScreen");
+        return !!(pv && hv && !hv.hidden && rs && rs.hidden && !document.hidden);
+      }
+      function startRunAttract() {
+        if (attractOn) return;
+        var pv = $("runPreview"); if (!pv) return;
+        var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduced) { drawRunPreview(1200); return; }
+        attractOn = true;
+        attractLast = 0;
+        requestAnimationFrame(attractTick);
+      }
+      function attractTick(ts) {
+        if (!runPreviewVisible()) { attractOn = false; return; }
+        if (!attractLast || ts - attractLast >= 66) { attractLast = ts; drawRunPreview(ts); }
+        requestAnimationFrame(attractTick);
+      }
+      function drawRunPreview(ts) {
+        var cv = $("runPreview"); if (!cv) return;
+        /* short screens: the preview stage itself gets shorter
+           (a true redraw at 76px, never a squashed 104px) so the
+           hero scene above the cabinet keeps its room at 600px */
+        var wantH = (window.matchMedia && window.matchMedia("(max-height: 740px)").matches) ? 76 : 104;
+        if (cv.height !== wantH) cv.height = wantH;
+        var ctx = cv.getContext("2d");
+        var W = 360, H = cv.height, HOR = H < 90 ? 26 : 34;
+        ctx.imageSmoothingEnabled = false;
+        /* sky, sun, skyline */
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, HOR);
+        ctx.fillStyle = "#a5dcff"; ctx.fillRect(0, HOR - 8, W, 8);
+        ctx.fillStyle = "#ffd76a"; ctx.fillRect(322, 6, 16, 16);
+        ctx.fillStyle = "#5d84a8";
+        [6, 34, 66, 268, 296, 330].forEach(function (x, i) { var h = 12 + (i % 3) * 5; ctx.fillRect(x, HOR - h, 22, h); });
+        ctx.fillStyle = "#ffffff"; ctx.fillRect(28, 8, 34, 6); ctx.fillRect(120, 5, 26, 5);
+        /* grass shoulders */
+        ctx.fillStyle = "#63b96f"; ctx.fillRect(0, HOR, W, H - HOR);
+        ctx.fillStyle = "#57ab62"; ctx.fillRect(0, HOR + 22, W, 10); ctx.fillRect(0, HOR + 48, W, 12);
+        /* road trapezoid: horizon lanes HX, bottom lanes BX */
+        var HX = [164, 180, 196], BX = [64, 180, 296];
+        ctx.fillStyle = "#5d6673"; ctx.beginPath();
+        ctx.moveTo(156, HOR); ctx.lineTo(204, HOR); ctx.lineTo(340, H); ctx.lineTo(20, H); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "#68727f"; ctx.beginPath();
+        ctx.moveTo(172, HOR); ctx.lineTo(188, HOR); ctx.lineTo(212, H); ctx.lineTo(148, H); ctx.closePath(); ctx.fill();
+        /* scrolling lane dashes */
+        ctx.fillStyle = "#fff6dc";
+        var phase = (ts / 900) % 1;
+        [0, 1].forEach(function (k) {
+          for (var i = 0; i < 4; i++) {
+            var p = ((i + phase) / 4); p = p * p;
+            var y = HOR + p * (H - HOR), x = HX[k] + (BX[k] - HX[k]) * p;
+            ctx.fillRect(x - 1.5, y, 3, 3 + p * 6);
+          }
+        });
+        /* obstacles ahead: barricade far-left lane, cone near-right */
+        drawObstacleAt(ctx, 0, 0.52, 0, ts, HOR, H);
+        drawObstacleAt(ctx, 2, 0.86, 2, ts, HOR, H);
+        drawObstacleAt(ctx, 1, 0.3, 1, ts, HOR, H);
+        /* hero, centre lane, running in place */
+        var frames = [0, 1, 2, 1];
+        var fr = frames[Math.floor(ts / 180) % 4];
+        var hctx = runHeroCv.getContext("2d");
+        hctx.clearRect(0, 0, 16, 16);
+        try { drawRunnerFrame(hctx, fr, false); } catch (e) { /* sprite unavailable */ }
+        var bob = fr === 1 ? -2 : 0, S = H < 90 ? 40 : 52;
+        ctx.fillStyle = "rgba(20,20,30,0.3)";
+        ctx.beginPath(); ctx.ellipse(180, H - 4, 20, 4, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.drawImage(runHeroCv, 180 - S / 2, H - S - 2 + bob, S, S);
+      }
+      /* one obstacle on an arbitrary horizon/height stage (shared
+         by the preview; the game keeps its own full-size stage) */
+      function drawObstacleAt(ctx, lane, p, kind, ts, HOR, H) {
+        var HX = [164, 180, 196], BX = [64, 180, 296];
+        var y = HOR + p * (H - HOR - 6);
+        var cx = HX[lane] + (BX[lane] - HX[lane]) * p;
+        var s = 0.4 + 0.8 * p;
+        drawObstacleShape(ctx, cx, y, 62 * s, 34 * s, kind, ts);
+      }
+      function drawObstacleShape(ctx, cx, baseY, w, h, kind, ts) {
+        var x = cx - w / 2, yy = baseY - h;
+        ctx.fillStyle = "rgba(20,20,30,0.28)";
+        ctx.beginPath(); ctx.ellipse(cx, baseY + 1, w * 0.44, Math.max(2, h * 0.1), 0, 0, Math.PI * 2); ctx.fill();
+        if (kind === 0) {
+          /* striped barricade with a blinking lamp */
+          ctx.fillStyle = "#5d3a1e"; ctx.fillRect(x + w * 0.08, yy + h * 0.5, w * 0.09, h * 0.5); ctx.fillRect(x + w * 0.83, yy + h * 0.5, w * 0.09, h * 0.5);
+          ctx.fillStyle = "#e8762b"; ctx.fillRect(x, yy, w, h * 0.52);
+          ctx.fillStyle = "#fff6dc";
+          for (var i = 0; i < 3; i++) ctx.fillRect(x + i * w / 3 + w * 0.05, yy + h * 0.07, w / 6, h * 0.38);
+          ctx.fillStyle = "#8a4d16"; ctx.fillRect(x, yy + h * 0.52 - 2, w, 2);
+          var on = Math.floor(ts / 420) % 2 === 0;
+          ctx.fillStyle = on ? "#ffd83d" : "#b98a1e"; ctx.fillRect(cx - 3, yy - 6, 6, 5);
+          ctx.fillStyle = "#5d3a1e"; ctx.fillRect(cx - 1, yy - 1, 2, 2);
+        } else if (kind === 2) {
+          /* traffic cone */
+          ctx.fillStyle = "#8a4d16"; ctx.fillRect(x + w * 0.18, yy + h * 0.86, w * 0.64, h * 0.14);
+          ctx.fillStyle = "#e8762b"; ctx.beginPath();
+          ctx.moveTo(cx - w * 0.2, yy + h * 0.88); ctx.lineTo(cx, yy); ctx.lineTo(cx + w * 0.2, yy + h * 0.88); ctx.closePath(); ctx.fill();
+          ctx.fillStyle = "#fff6dc"; ctx.fillRect(cx - w * 0.11, yy + h * 0.42, w * 0.22, h * 0.17);
+          ctx.fillStyle = "#c65a1d"; ctx.fillRect(cx - w * 0.2, yy + h * 0.82, w * 0.4, h * 0.06);
+        } else {
+          /* rock pile */
+          ctx.fillStyle = "#8d99b5"; ctx.fillRect(x + w * 0.1, yy + h * 0.32, w * 0.8, h * 0.68);
+          ctx.fillStyle = "#aab6cc"; ctx.fillRect(x + w * 0.3, yy + h * 0.06, w * 0.42, h * 0.42);
+          ctx.fillStyle = "#c3cede"; ctx.fillRect(x + w * 0.38, yy + h * 0.12, w * 0.16, h * 0.14);
+          ctx.fillStyle = "#6d7890"; ctx.fillRect(x + w * 0.56, yy + h * 0.58, w * 0.3, h * 0.18);
+        }
       }
       var _origRenderHero = renderHero;
       renderHero = function () { _origRenderHero(); renderRunBanner(); };
@@ -22163,7 +22410,10 @@
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
         $("runQuitBtn").textContent = t.runQuit;
-        run = { mode: "idle", lane: 1, x: LANES_X[1], dist: 0, obs: [], spawnT: 0, last: 0, raf: 0, frameT: 0 };
+        var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
+        var sp = $("runSpeed"); if (sp) sp.textContent = "";
+        var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
+        run = { mode: "idle", lane: 1, x: LANES_X[1], dist: 0, obs: [], spawnT: 0, last: 0, raf: 0, frameT: 0, fx: [], puffs: [], puffT: 0, nears: 0, lastShown: -1, crashed: false, crashAt: 0 };
         drawRun(0);
         if (window.markHomeAct) window.markHomeAct("runner"); /* at-home daily: play once */
       }
@@ -22172,6 +22422,7 @@
         run = null;
         $("runScreen").hidden = true;
         renderRunBanner();
+        startRunAttract();
       }
       function stopRunLoop() { if (run && run.raf) cancelAnimationFrame(run.raf); if (run) run.raf = 0; }
       function startRun() {
@@ -22179,21 +22430,40 @@
         ensureRunnerDay();
         state.runner.plays = (state.runner.plays || 0) + 1; save();
         run.mode = "running"; run.dist = 0; run.obs = []; run.spawnT = 0.6; run.lane = 1; run.x = LANES_X[1]; run.last = 0;
+        run.fx = []; run.puffs = []; run.puffT = 0; run.nears = 0; run.lastShown = -1; run.crashed = false; run.crashAt = 0;
         $("runMsg").textContent = "";
+        var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
+        var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
         var sb = $("runStartBtn"); sb.disabled = true; sb.textContent = X().runRunning;
         run.raf = requestAnimationFrame(runTick);
       }
       function endRun(crashed) {
         if (!run) return;
         run.mode = "over";
+        run.crashed = !!crashed;
+        run.crashAt = performance.now();
         stopRunLoop();
         var d = Math.floor(run.dist);
         if (d > (state.runner.best || 0)) { state.runner.best = d; save(); }
         $("runBest").textContent = X().runBest(state.runner.best || 0);
         $("runMsg").textContent = crashed ? X().runCrash(d) : X().runQuitMsg(d);
         var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = X().runAgain;
+        var win = document.querySelector(".run-win");
+        if (win) { win.classList.add("is-over"); win.classList.toggle("is-crashed", !!crashed); }
+        if (crashed) { try { sfx("back"); } catch (e) { /* ignore */ } }
         renderStatus(); renderRunBanner();
-        drawRun(0);
+        if (crashed) {
+          /* impact beat: ~0.55s of shake / flash / burst, drawn by
+             the normal renderer reading run.crashAt, then it rests */
+          var crashFx = function (ts) {
+            if (!run || run.mode !== "over") return;
+            drawRun(ts);
+            if (ts - run.crashAt < 560) requestAnimationFrame(crashFx);
+          };
+          requestAnimationFrame(crashFx);
+        } else {
+          drawRun(0);
+        }
       }
       function runTick(ts) {
         if (!run || run.mode !== "running") return;
@@ -22209,18 +22479,33 @@
           run.spawnT = Math.max(0.5, 0.95 - run.dist * 0.0012);
           var lanes = [0, 1, 2];
           var first = lanes.splice(Math.floor(Math.random() * 3), 1)[0];
-          run.obs.push({ lane: first, p: 0, kind: Math.floor(Math.random() * 2) });
+          run.obs.push({ lane: first, p: 0, kind: Math.floor(Math.random() * 3) });
           if (Math.random() < 0.25 && run.dist > 60) {
             var second = lanes[Math.floor(Math.random() * lanes.length)];
-            run.obs.push({ lane: second, p: 0, kind: 1 });
+            run.obs.push({ lane: second, p: 0, kind: Math.floor(Math.random() * 3) });
           }
         }
+        /* dust puffs at the hero's feet */
+        run.puffT -= dt;
+        if (run.puffT <= 0) { run.puffT = 0.13; run.puffs.push({ x: run.x + (Math.random() * 18 - 9), y: HERO_Y + HERO_S - 1, a: 0.85, s: 4 + Math.random() * 4 }); }
+        for (var pi = run.puffs.length - 1; pi >= 0; pi--) { var pu = run.puffs[pi]; pu.a -= dt * 2.4; pu.y += dt * 26; pu.s += dt * 14; if (pu.a <= 0) run.puffs.splice(pi, 1); }
         /* advance + collide */
         for (var i = run.obs.length - 1; i >= 0; i--) {
           var o = run.obs[i];
           o.p += v * dt / 300;
           if (o.p > 1.05) { run.obs.splice(i, 1); continue; }
+          /* a genuine dodge: the obstacle was in the hero's lane
+             while it approached, and is not when it arrives */
+          if (!o.checked && o.p > 0.68) { o.checked = true; o.wasThreat = (o.lane === run.lane); }
           if (o.lane === run.lane && o.p > 0.86 && o.p < 1.0 && Math.abs(run.x - LANES_X[run.lane]) < 52) { endRun(true); return; }
+          if (!o.passed && o.p >= 0.99) {
+            o.passed = true;
+            if (o.wasThreat && o.lane !== run.lane) {
+              run.nears = (run.nears || 0) + 1;
+              run.fx.push({ txt: "NEAR MISS!", x: run.x, y: HERO_Y - 30, at: ts });
+              try { sfx("accept"); } catch (e) { /* ignore */ }
+            }
+          }
         }
         /* daily ticket at the goal line */
         if (!state.runner.rewarded && run.dist >= RUN_TARGET) {
@@ -22231,34 +22516,92 @@
           $("runMsg").textContent = X().runReward;
           try { sfx("fanfare"); } catch (e) { /* ignore */ }
         }
-        $("runDist").textContent = Math.floor(run.dist) + "m";
+        /* HUD: distance + 300m progress + speed tier, refreshed
+           when the metre count changes (not every frame) */
+        var di = Math.floor(run.dist);
+        if (di !== run.lastShown) {
+          run.lastShown = di;
+          $("runDist").textContent = di + "m";
+          var pf2 = $("runProgFill"); if (pf2) pf2.style.width = Math.min(100, run.dist / RUN_TARGET * 100) + "%";
+          var sp2 = $("runSpeed"); if (sp2) sp2.textContent = "SPD Lv." + Math.min(5, 1 + Math.floor(run.dist / 75));
+        }
         drawRun(ts);
         run.raf = requestAnimationFrame(runTick);
       }
       function drawRun(ts) {
         var cv = $("runCanvas"); if (!cv || !run) return;
         var ctx = cv.getContext("2d");
-        var W = 360, H = 400;
+        var W = 360, H = 400, HOR = 92;
         ctx.imageSmoothingEnabled = false;
-        /* sky + horizon */
-        ctx.fillStyle = "#79b5e0"; ctx.fillRect(0, 0, W, 92);
-        ctx.fillStyle = "#a5dcff"; ctx.fillRect(0, 60, W, 32);
+        /* crash impact: shake + red flash decay over ~0.55s */
+        var crashAge = (run.mode === "over" && run.crashed) ? (performance.now() - run.crashAt) / 560 : 1;
+        var shake = crashAge < 1 ? (1 - crashAge) * 7 : 0;
+        ctx.save();
+        if (shake) ctx.translate(Math.round((Math.random() - 0.5) * 2 * shake), Math.round((Math.random() - 0.5) * 2 * shake));
+        /* sky + horizon: sun, drifting clouds, a two-tone skyline */
+        ctx.fillStyle = "#79b5e0"; ctx.fillRect(-10, -10, W + 20, HOR + 10);
+        ctx.fillStyle = "#a5dcff"; ctx.fillRect(-10, HOR - 26, W + 20, 26);
         ctx.fillStyle = "#ffd76a"; ctx.fillRect(316, 14, 26, 26);
-        ctx.fillStyle = "#ffffff"; ctx.fillRect(30, 22, 52, 10); ctx.fillRect(44, 14, 28, 8); ctx.fillRect(210, 36, 44, 9);
-        /* road: trapezoid with scrolling lane dashes */
+        ctx.fillStyle = "#ffe9a8"; ctx.fillRect(320, 18, 18, 18);
+        ctx.fillStyle = "#5d84a8";
+        [2, 38, 74, 236, 272, 306].forEach(function (x, i) { var h = 20 + (i % 3) * 11; ctx.fillRect(x, HOR - h, 26, h); });
+        ctx.fillStyle = "#8ecdf2";
+        [10, 46, 244, 282, 314].forEach(function (x, i) { ctx.fillRect(x + 5, HOR - 26 - (i % 3) * 11, 4, 4); ctx.fillRect(x + 15, HOR - 18 - (i % 3) * 11, 4, 4); });
+        var cloudOff = run.mode === "running" ? (run.dist * 2 % 420) : 0;
+        ctx.fillStyle = "#ffffff";
+        [[30, 22], [210, 36], [120, 12]].forEach(function (c) {
+          var cx = ((c[0] - cloudOff) % (W + 90) + W + 90) % (W + 90) - 45;
+          ctx.fillRect(cx, c[1], 52, 10); ctx.fillRect(cx + 14, c[1] - 8, 28, 8);
+        });
+        /* grass shoulders with scrolling mow bands (speed you can see) */
+        ctx.fillStyle = "#63b96f"; ctx.fillRect(-10, HOR, W + 20, H - HOR + 10);
+        var bandPhase = run.mode === "running" ? (run.dist * 0.9 % 1) : 0.35;
+        for (var bi = 0; bi < 5; bi++) {
+          var bp = ((bi + bandPhase) / 5); bp = bp * bp;
+          ctx.fillStyle = bi % 2 ? "#57ab62" : "#6fc478";
+          ctx.fillRect(-10, HOR + bp * (H - HOR), W + 20, 3 + bp * 15);
+        }
+        /* road: two-tone trapezoid, kerb edges, scrolling lane dashes */
         ctx.fillStyle = "#5d6673"; ctx.beginPath();
-        ctx.moveTo(118, 92); ctx.lineTo(242, 92); ctx.lineTo(348, H); ctx.lineTo(12, H); ctx.closePath(); ctx.fill();
-        ctx.fillStyle = "#63b96f"; ctx.fillRect(0, 92, 118, H - 92); ctx.fillRect(242, 92, W - 242, H - 92);
-        ctx.strokeStyle = "#fff6dc"; ctx.lineWidth = 4; ctx.setLineDash([18, 22]);
-        ctx.lineDashOffset = run.mode === "running" ? -(run.dist * 9 % 40) : 0;
+        ctx.moveTo(118, HOR); ctx.lineTo(242, HOR); ctx.lineTo(348, H + 10); ctx.lineTo(12, H + 10); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "#68727f"; ctx.beginPath();
+        ctx.moveTo(160, HOR); ctx.lineTo(200, HOR); ctx.lineTo(240, H + 10); ctx.lineTo(120, H + 10); ctx.closePath(); ctx.fill();
+        ctx.strokeStyle = "#fff6dc"; ctx.lineWidth = 5; ctx.beginPath();
+        ctx.moveTo(118, HOR); ctx.lineTo(12, H + 10); ctx.moveTo(242, HOR); ctx.lineTo(348, H + 10); ctx.stroke();
+        ctx.fillStyle = "#fff6dc";
+        var dashPhase = run.mode === "running" ? (run.dist * 0.55 % 1) : 0.3;
         [0, 1].forEach(function (k) {
           var hx = k === 0 ? 160 : 200, bx = k === 0 ? 120 : 240;
-          ctx.beginPath(); ctx.moveTo(hx, 96); ctx.lineTo(bx, H); ctx.stroke();
+          for (var di2 = 0; di2 < 5; di2++) {
+            var dp = ((di2 + dashPhase) / 5); dp = dp * dp;
+            var dy = HOR + 4 + dp * (H - HOR), dx = hx + (bx - hx) * dp;
+            ctx.fillRect(dx - 1 - dp * 2, dy, 2 + dp * 4, 3 + dp * 13);
+          }
         });
-        ctx.setLineDash([]);
-        /* obstacles */
-        run.obs.forEach(function (o) { drawObstacle(ctx, o); });
-        /* hero (the game's own walking frames) */
+        /* distance posts every 50m on the right shoulder */
+        if (run.mode !== "idle") {
+          var next50 = Math.ceil((run.dist + 1) / 50) * 50;
+          for (var mi = 0; mi < 2; mi++) {
+            var md = next50 + mi * 50, mp = (md - run.dist) / 130;
+            if (mp <= 0 || mp > 1) continue;
+            var my = HOR + mp * mp * (H - HOR - 30), mx = 252 + mp * 118;
+            var ms = 0.5 + mp;
+            ctx.fillStyle = "#5d3a1e"; ctx.fillRect(mx, my - 22 * ms, 3 * ms, 22 * ms);
+            ctx.fillStyle = "#fff6dc"; ctx.fillRect(mx - 11 * ms, my - 34 * ms, 26 * ms, 13 * ms);
+            ctx.fillStyle = "#43301a"; ctx.font = "800 " + Math.round(9 * ms) + "px 'Baloo 2', sans-serif"; ctx.textAlign = "center";
+            ctx.fillText(md + "m", mx + 2 * ms, my - 24 * ms);
+          }
+        }
+        /* obstacles, far to near */
+        var sorted = run.obs.slice().sort(function (a, b) { return a.p - b.p; });
+        sorted.forEach(function (o) { drawObstacle(ctx, o, ts); });
+        /* dust puffs */
+        (run.puffs || []).forEach(function (pu) {
+          ctx.fillStyle = "rgba(255,246,220," + Math.max(0, pu.a * 0.55) + ")";
+          ctx.fillRect(pu.x - pu.s / 2, pu.y - pu.s / 2, pu.s, pu.s * 0.7);
+        });
+        /* hero (the game's own walking frames), leaning into a
+           lane change; on a crash he tips over inside a burst */
         run.frameT += 1;
         var frames = [0, 1, 2, 1];
         var fr = run.mode === "running" ? frames[Math.floor(ts / 110) % 4] : 1;
@@ -22268,28 +22611,45 @@
         var bob = run.mode === "running" && fr === 1 ? -3 : 0;
         ctx.fillStyle = "rgba(20,20,30,0.3)";
         ctx.beginPath(); ctx.ellipse(run.x, HERO_Y + HERO_S + 4, 30, 7, 0, 0, Math.PI * 2); ctx.fill();
-        ctx.drawImage(runHeroCv, run.x - HERO_S / 2, HERO_Y + bob, HERO_S, HERO_S);
-        if (run.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.35)"; ctx.fillRect(0, 0, W, H); }
+        var lean = Math.max(-0.16, Math.min(0.16, (LANES_X[run.lane] - run.x) / 300));
+        ctx.save();
+        ctx.translate(run.x, HERO_Y + HERO_S / 2 + bob);
+        if (run.mode === "over" && run.crashed) ctx.rotate(0.62);
+        else if (run.mode === "running") ctx.rotate(lean);
+        ctx.drawImage(runHeroCv, -HERO_S / 2, -HERO_S / 2, HERO_S, HERO_S);
+        ctx.restore();
+        if (run.mode === "over" && run.crashed && crashAge < 1) {
+          /* star burst at the impact point */
+          ctx.fillStyle = "rgba(255,216,61," + (0.85 * (1 - crashAge)) + ")";
+          var bx2 = run.x, by2 = HERO_Y + 26, br = 12 + crashAge * 30;
+          ctx.beginPath();
+          for (var si = 0; si < 8; si++) {
+            var a1 = si * Math.PI / 4, a2 = a1 + Math.PI / 8;
+            ctx.lineTo(bx2 + Math.cos(a1) * br, by2 + Math.sin(a1) * br);
+            ctx.lineTo(bx2 + Math.cos(a2) * br * 0.45, by2 + Math.sin(a2) * br * 0.45);
+          }
+          ctx.closePath(); ctx.fill();
+          ctx.fillStyle = "rgba(224,72,58," + (0.3 * (1 - crashAge)) + ")"; ctx.fillRect(-10, -10, W + 20, H + 20);
+        }
+        /* near-miss callouts float up and fade */
+        (run.fx || []).forEach(function (f) {
+          var age = (ts - f.at) / 800;
+          if (age < 0 || age > 1) return;
+          ctx.font = "800 17px 'Baloo 2', 'M PLUS Rounded 1c', sans-serif"; ctx.textAlign = "center";
+          ctx.fillStyle = "rgba(16,24,46," + (0.9 * (1 - age)) + ")";
+          ctx.fillText(f.txt, f.x + 2, f.y - age * 30 + 2);
+          ctx.fillStyle = "rgba(255,216,61," + (1 - age) + ")";
+          ctx.fillText(f.txt, f.x, f.y - age * 30);
+        });
+        if (run.mode === "over") { ctx.fillStyle = "rgba(23,18,8,0.28)"; ctx.fillRect(-10, -10, W + 20, H + 20); }
+        ctx.restore();
       }
-      function drawObstacle(ctx, o) {
+      function drawObstacle(ctx, o, ts) {
         var p = o.p;
         var y = 92 + p * 292;
         var cx = LANES_HX[o.lane] + (LANES_X[o.lane] - LANES_HX[o.lane]) * p;
         var s = 0.45 + 0.75 * p;
-        var w = 74 * s, h = 40 * s;
-        var x = cx - w / 2, yy = y - h;
-        if (o.kind === 0) {
-          /* striped barricade */
-          ctx.fillStyle = "#e8762b"; ctx.fillRect(x, yy, w, h * 0.52);
-          ctx.fillStyle = "#fff6dc";
-          for (var i = 0; i < 3; i++) ctx.fillRect(x + i * w / 3 + 3 * s, yy + 3 * s, w / 6, h * 0.52 - 6 * s);
-          ctx.fillStyle = "#5d3a1e"; ctx.fillRect(x + 5 * s, yy + h * 0.52, 6 * s, h * 0.48); ctx.fillRect(x + w - 11 * s, yy + h * 0.52, 6 * s, h * 0.48);
-        } else {
-          /* rock pile */
-          ctx.fillStyle = "#8d99b5"; ctx.fillRect(x + w * 0.12, yy + h * 0.3, w * 0.76, h * 0.7);
-          ctx.fillStyle = "#aab6cc"; ctx.fillRect(x + w * 0.3, yy + h * 0.08, w * 0.4, h * 0.4);
-          ctx.fillStyle = "#6d7890"; ctx.fillRect(x + w * 0.55, yy + h * 0.55, w * 0.3, h * 0.2);
-        }
+        drawObstacleShape(ctx, cx, y, 76 * s, 42 * s, o.kind, ts || 0);
       }
       function runMove(dir) {
         if (!run || run.mode !== "running") return;
@@ -22300,6 +22660,8 @@
       $("titleBetaBtn").addEventListener("click", openBeta);
       $("betaClose").addEventListener("click", closeBeta);
       $("runOpenBtn").addEventListener("click", openRun);
+      /* the cabinet's lemon START launches straight into a run */
+      $("runCabStart").addEventListener("click", function () { openRun(); startRun(); });
       $("runClose").addEventListener("click", closeRun);
       $("runStartBtn").addEventListener("click", startRun);
       $("runQuitBtn").addEventListener("click", function () { if (run && run.mode === "running") endRun(false); else closeRun(); });
