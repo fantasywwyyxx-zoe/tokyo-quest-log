@@ -12686,6 +12686,48 @@
     </div>
 
     <script>
+      /* ============ Q-145: boot-time freshness check (2026-10-29) ====
+         The home-screen (standalone) app can hold a stale snapshot of
+         this document indefinitely — iOS decides on its own schedule
+         whether to re-download, and a shipped fix may never reach the
+         device (the fogged-detail S1 sat in exactly that trap). This
+         build carries a unique BUILD_ID; the shipping side places the
+         same token in /version.txt at the site root. At boot — before
+         any title-screen state is decided — the app fetches that file
+         cache-free; a different token means a newer build is live, so
+         it reloads ONCE into the fresh document. Loop safety: the
+         fetched marker is recorded in a sessionStorage guard first,
+         and a marker already in the guard never reloads again (a CDN
+         still serving the old document cannot spin the app). Any
+         failure — offline, 404, no version.txt on this origin (the
+         preview) — is completely silent and boot proceeds untouched.
+         Progress lives in localStorage + the cloud save, so the one
+         boot reload loses nothing. Boot-time only: nothing here can
+         fire after startup. */
+      (function () {
+        var BUILD_ID = "tql-20261029-1815-fix3-4644a28c";
+        window.TQL_BUILD_ID = BUILD_ID;
+        try {
+          if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
+          fetch("/version.txt?_=" + Date.now(), { cache: "no-store" }).then(function (r) {
+            if (!r || !r.ok) return null;
+            return r.text();
+          }).then(function (txt) {
+            if (txt == null) return;
+            var marker = String(txt).trim();
+            if (!marker || marker === BUILD_ID) return;
+            var GUARD_KEY = "tql_ver_guard";
+            var seen = null;
+            try { seen = sessionStorage.getItem(GUARD_KEY); } catch (e) { /* storage unavailable */ }
+            if (seen === marker) return;
+            try { sessionStorage.setItem(GUARD_KEY, marker); } catch (e) { /* storage unavailable */ }
+            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + Date.now() + (location.hash || ""));
+          }).catch(function () { /* offline / no version.txt: boot normally, silently */ });
+        } catch (e) { /* the check must never block or break boot */ }
+      })();
+    </script>
+    <script>
       "use strict";
 
       /* ============ Pixel-style SVG icons (16x16 grid, crisp edges) ============ */
@@ -19901,7 +19943,22 @@
          are actually noticed on a real phone. */
       function showLocChip(text, ms) {
         var chip = document.getElementById("locChip");
-        if (!chip) return;
+        if (!chip) {
+          /* Q-146 chip-path audit: the chip is the ONLY feedback
+             channel for a LOCATE press — if its element is ever
+             missing, rebuild it on the spot inside the map box
+             rather than letting the press go unanswered. */
+          var mb = document.querySelector(".map-box");
+          if (!mb) return;
+          chip = document.createElement("div");
+          chip.className = "loc-chip"; chip.id = "locChip"; chip.hidden = true;
+          chip.innerHTML = '<span class="loc-chip-text" id="locChipText"></span><button class="loc-chip-x" id="locChipX" type="button" aria-label="Close">✕</button>';
+          mb.appendChild(chip);
+          chip.querySelector(".loc-chip-x").addEventListener("click", function (ev) {
+            ev.stopPropagation(); chip.hidden = true;
+            if (locTimer) { clearTimeout(locTimer); locTimer = null; }
+          });
+        }
         var tx = document.getElementById("locChipText");
         if (tx) tx.textContent = text || "";
         else chip.textContent = text || "";
@@ -19961,7 +20018,13 @@
            centred + found, denied, failed, unsupported, or the
            watchdog below if the platform never calls back at all
            (some webviews swallow the request silently). No path
-           out of this function leaves the tap unanswered. */
+           out of this function leaves the tap unanswered.
+           Q-146 both-causes fix (2026-10-29): the watchdog and the
+           platform timeout are both 10s — QA's R20 observation
+           window was 15s and a 13.5s watchdog could land after the
+           observer had already given up; a never-resolving
+           permission prompt now terminates on the chip at 10s,
+           and the chip itself then stays up a full 16s. */
         showLocChip(t.locFinding, 0);
         if (!navigator.geolocation || typeof navigator.geolocation.getCurrentPosition !== "function") {
           showLocChip(t.locUnsupported, 12000);
@@ -19974,7 +20037,7 @@
           locSettled = true;
           showLocChip(t.locFailed, 16000);
           sfx("back");
-        }, 13500);
+        }, 10000);
         function locDone() { locSettled = true; clearTimeout(locWatchdog); }
         try {
         navigator.geolocation.getCurrentPosition(function (pos) {
@@ -20013,7 +20076,7 @@
           locDone();
           showLocChip(err && err.code === 1 ? t.locDenied : t.locFailed, 16000);
           sfx("back");
-        }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+        }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 });
         } catch (e) {
           /* the platform threw instead of calling back — the tap
              still gets its answer */
@@ -20504,7 +20567,15 @@
          narrations, hero grids) reads through this one function.
          Guests have no custom name: they always see the base
          hero's default name. The legacy `name` field is never
-         read for display. */
+         read for display.
+         GUEST NAME (Zoe ruling 2026-10-29 17:34 — 「游客都叫勇者吧」):
+         a guest's display name is the locale's default label (the
+         base hero YUSHA's name — 勇者 in JP/ZH) NO MATTER which
+         appearance preset is selected. A preset's built-in name
+         (AOI / アオイ / 小葵 …) is the preset's own label inside the
+         appearance picker only; it never surfaces AS the player's
+         name anywhere. Signed-in players are untouched: their
+         displayName still wins on every surface. */
       function accountName() {
         return window.tqlSignedIn ? (state.displayName || "").trim() : "";
       }
@@ -20512,7 +20583,7 @@
         var dn = accountName();
         if (dn) return dn;
         var t = L();
-        return (t.heroes[state.hero] || t.heroes.yusha).name;
+        return t.heroes.yusha.name;
       }
       var narrTypeTimer = null, narrHideTimer = null;
       function hideNarr() {
@@ -22618,9 +22689,13 @@
       function syncHeroSums() {
         function set(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
         var t = L(), info = levelInfo();
-        var h = t.heroes[state.hero] || t.heroes.aoi;
         var ownedN = ALL_ITEMS.filter(function (i) { return ownsItem(i.id); }).length;
-        set("hsegSum-style", (h ? h.name : "") + " · " + ownedN + "/" + ALL_ITEMS.length);
+        /* the style fold's summary names the PLAYER, not the
+           selected preset — it reads through heroDisplayName()
+           like every other name surface, so a guest's summary
+           shows the default label (勇者), never the preset's
+           built-in name (Zoe ruling 2026-10-29 17:34) */
+        set("hsegSum-style", heroDisplayName() + " · " + ownedN + "/" + ALL_ITEMS.length);
         set("hsegSum-gacha", t.ticketsLabel(ticketsLeft()));
         set("hsegSum-status", "Lv." + info.lv + " · EXP " + info.xp);
         var bp = badgeProgress();
@@ -23003,7 +23078,25 @@
       document.getElementById("mapZoomIn").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("move"); setZoom(zoom.s * 1.4); });
       document.getElementById("mapZoomOut").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("move"); setZoom(zoom.s / 1.4); });
       document.getElementById("mapZoomHome").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); goHomeView(); });
-      document.getElementById("locBtn").addEventListener("click", function (ev) { ev.stopPropagation(); locate(); });
+      /* Q-146 both-causes fix (2026-10-29): LOCATE used to listen for
+         click ONLY — in QA's environment the tap never produced one
+         (synthetic / webview taps can deliver pointer events without
+         a click), so the press went entirely unanswered. The button
+         now answers on pointerdown AND on click, deduped by press
+         time: a real tap delivers both and locate() runs once; an
+         environment that delivers only one of them still gets its
+         one run. */
+      var locBtnEl = document.getElementById("locBtn");
+      var locPressAt = 0;
+      function onLocPress(ev) {
+        if (ev) ev.stopPropagation();
+        var now = Date.now();
+        if (now - locPressAt < 900) return;
+        locPressAt = now;
+        locate();
+      }
+      locBtnEl.addEventListener("pointerdown", onLocPress);
+      locBtnEl.addEventListener("click", onLocPress);
       document.getElementById("ivClose").addEventListener("click", closeViewer);
       document.getElementById("detailPreview").addEventListener("click", function () {
         if (!currentId) return;
