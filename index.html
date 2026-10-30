@@ -12499,6 +12499,60 @@
         padding: 7px 10px;
       }
     </style>
+    <style>
+      /* Q-214b (Zoe's clarification: the target was the two map
+         CAPSULES, not the windows — 「最好有点动态动画 更精细一
+         点」, Final Fantasy mobile UI as the reference): the
+         capsule stack gets light life — a gentle float (the two
+         capsules out of phase), a gloss sheen that sweeps the
+         pill and rests, the icon breathing, the go-arrow nudging,
+         and the unearned ticket pill glowing softly in lemon
+         (the earned state stays the still lemon fill). Movement,
+         light and glow only — no tilts (Q-198). Position, stack
+         and the mgYieldSync yield are untouched; on :active the
+         float hands over to the existing press dip. Reduced
+         motion stills everything. */
+      #mapCaps .mg-map-btn { overflow: hidden; animation: capsFloat 3.4s ease-in-out infinite; }
+      #mapCaps #evMapBtn { animation-delay: -1.7s; }
+      #mapCaps .mg-map-btn:active { animation: none; }
+      @keyframes capsFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      #mapCaps .mg-map-btn::after {
+        content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 55%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.38) 50%, rgba(255, 255, 255, 0) 100%);
+        transform: translateX(-170%); pointer-events: none;
+        animation: capsSheen 3.8s ease-in-out infinite;
+      }
+      #mapCaps #evMapBtn::after { animation-delay: 1.4s; }
+      @keyframes capsSheen {
+        0% { transform: translateX(-170%); }
+        24% { transform: translateX(300%); }
+        100% { transform: translateX(300%); }
+      }
+      #mapCaps .mmb-ico { display: inline-block; animation: icoPulse 2.6s ease-in-out infinite; }
+      #mapCaps #evMapBtn .mmb-ico { animation-delay: -1.3s; }
+      @keyframes icoPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+      }
+      #mapCaps .mmb-go { display: inline-block; animation: goNudge 2.6s ease-in-out infinite; }
+      #mapCaps #evMapBtn .mmb-go { animation-delay: -1.3s; }
+      @keyframes goNudge {
+        0%, 100% { transform: translateX(0); }
+        50% { transform: translateX(2px); }
+      }
+      #mapCaps .mmb-ticket:not(.is-done) { animation: ticketGlow 2.2s ease-in-out infinite; }
+      @keyframes ticketGlow {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(255, 216, 61, 0); }
+        50% { box-shadow: 0 0 0 4px rgba(255, 216, 61, 0.45); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        #mapCaps .mg-map-btn, #mapCaps .mg-map-btn::after, #mapCaps .mmb-ico,
+        #mapCaps .mmb-go, #mapCaps .mmb-ticket:not(.is-done) { animation: none; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -16055,7 +16109,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1727-q214-0ea33cb6";
+        var BUILD_ID = "tql-20261030-1729-q214b-bbef231b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
