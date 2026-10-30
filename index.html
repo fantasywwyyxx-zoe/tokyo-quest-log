@@ -12553,6 +12553,34 @@
         #mapCaps .mmb-go, #mapCaps .mmb-ticket:not(.is-done) { animation: none; }
       }
     </style>
+    <style>
+      /* Q-215 (Zoe's device, two verdicts on the new event
+         surfaces): (1) the Guess window read "too small" — its
+         View-quest button sat at the bottom of the inner scroll
+         area and was sliced by the frame. The button is now a
+         pinned footer of the window (always visible), the window
+         is a capped flex column, and the photo is height-capped
+         so the whole done state fits one screen. (2) The event
+         CAPSULE read "too fat": measured from her screenshot it
+         stood ~60px against the game capsule's ~46px with the
+         pills identical — the driver was the 📍 emoji, whose
+         line metrics on iOS inflate the capsule by ~14px (the
+         game capsule's 🎮 does not). The pin is now a drawn SVG
+         in a fixed 24px icon cell shared by both capsules, the
+         text stack's line-heights are tightened, and both pills
+         slim to the same padding — the pair stands equal. */
+      .ev-win { display: flex; flex-direction: column; max-height: calc(100dvh - 48px); }
+      .ev-foot { flex: none; padding-top: 10px; }
+      .ev-foot:has(.ev-see[hidden]) { display: none; }
+      .ev-photo img { max-height: 235px; object-fit: cover; }
+      #mapCaps .mg-map-btn { padding: 6px 10px; }
+      #mapCaps .mmb-ico {
+        width: 24px; height: 24px; flex: none;
+        display: inline-flex; align-items: center; justify-content: center;
+      }
+      #mapCaps .mmb-kick { line-height: 1.1; }
+      #mapCaps .mmb-name { line-height: 1.15; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -12966,8 +12994,8 @@
           <div class="ev-photo"><img id="evPhoto" alt=""></div>
           <div class="ev-choices" id="evChoices"></div>
           <p class="ev-result" id="evResult"></p>
-          <button class="ev-see" id="evSee" type="button" hidden></button>
         </div>
+        <div class="ev-foot"><button class="ev-see" id="evSee" type="button" hidden></button></div>
       </div>
     </div>
 
@@ -13139,7 +13167,7 @@
                  follows the active filter instantly; separate
                  from the LIST search modal. -->
             <div class="map-caps" id="mapCaps">
-              <button class="mg-map-btn" id="evMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">📍</span><span class="mmb-txt"><span class="mmb-kick" id="evMapKick"></span><span class="mmb-name" id="evMapName"></span></span><span class="mmb-ticket" id="evMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+              <button class="mg-map-btn" id="evMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 22c4.4-4.1 7-7.6 7-11a7 7 0 1 0-14 0c0 3.4 2.6 6.9 7 11z" fill="#e2483a"/><circle cx="12" cy="11" r="2.6" fill="#ffffff"/></svg></span><span class="mmb-txt"><span class="mmb-kick" id="evMapKick"></span><span class="mmb-name" id="evMapName"></span></span><span class="mmb-ticket" id="evMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
               <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
             </div>
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
@@ -16109,7 +16137,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1729-q214b-bbef231b";
+        var BUILD_ID = "tql-20261030-1736-q215-36453bbb";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
