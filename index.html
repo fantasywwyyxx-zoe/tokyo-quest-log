@@ -12266,30 +12266,38 @@
       }
     </style>
     <style>
-      /* Q-201 D: floating mini-game capsule on the map — above
-         the bottom bar, stacked clear of the map's own control
-         cluster, GBA pill grammar. The ticket pill inside is
-         the single display of the game-ticket state. */
+      /* Q-201 D: floating mini-game capsule on the map; the
+         ticket pill inside it is the single display of the
+         game-ticket state.
+         Q-204 (Zoe's device, 2026-10-30): the first version
+         hardcoded bottom: 64px — but the map box bleeds under
+         the bottom bar, whose clearance is var(--bar-clear)
+         (103px + safe-area), so the capsule landed half inside
+         the bar. Map overlays ALWAYS anchor to var(--bar-clear):
+         the control cluster sits at +2, the stacked slot above
+         it is +58 (the pin-preview pattern). The capsule now
+         uses +58, and its metrics are tightened (it read as
+         ~70% of the screen width). */
       .mg-map-btn {
-        position: absolute; left: 10px; bottom: 64px; z-index: 37;
-        display: flex; align-items: center; gap: 7px;
+        position: absolute; left: 10px; bottom: calc(var(--bar-clear) + 58px); z-index: 37;
+        display: flex; align-items: center; gap: 6px;
         max-width: calc(100% - 20px);
-        padding: 8px 12px; cursor: pointer; font-family: inherit;
+        padding: 7px 10px; cursor: pointer; font-family: inherit;
         background: var(--window); color: var(--ink);
         border: 3px solid var(--line-c); border-radius: 999px;
         box-shadow: 0 3px 0 var(--edge);
       }
       .mg-map-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
-      .mg-map-btn .mmb-ico { font-size: 15px; line-height: 1; }
-      .mg-map-btn .mmb-kick { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--ink-dim); white-space: nowrap; }
-      .mg-map-btn .mmb-name { font-size: 14.5px; font-weight: 800; white-space: nowrap; }
+      .mg-map-btn .mmb-ico { font-size: 14px; line-height: 1; }
+      .mg-map-btn .mmb-kick { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; color: var(--ink-dim); white-space: nowrap; }
+      .mg-map-btn .mmb-name { font-size: 13.5px; font-weight: 800; white-space: nowrap; }
       .mg-map-btn .mmb-ticket {
-        flex: none; font-size: 11.5px; font-weight: 800; line-height: 1;
-        padding: 4px 7px; border-radius: 999px;
+        flex: none; font-size: 11px; font-weight: 800; line-height: 1;
+        padding: 3px 6px; border-radius: 999px;
         border: 2px solid var(--line-c); color: var(--ink-dim);
       }
       .mg-map-btn .mmb-ticket.is-done { background: var(--lemon, #ffd83d); color: #231a00; }
-      .mg-map-btn .mmb-go { font-size: 11px; color: var(--ink-dim); }
+      .mg-map-btn .mmb-go { font-size: 10px; color: var(--ink-dim); }
     </style>
     <style>
       /* Q-203 (Zoe 2026-10-30): the detail header breathed too
@@ -15836,7 +15844,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1609-q203-9c876013";
+        var BUILD_ID = "tql-20261030-1613-q204-236c9835";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
