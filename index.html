@@ -15821,7 +15821,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1551-q200-b3f8118e";
+        var BUILD_ID = "tql-20261030-1602-q202-8a8c95dc";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -19977,6 +19977,18 @@ var qrcode = function() {
         if (state.lang === "zh") return AREA_ZH[a] || a;
         return a;
       }
+      /* Q-202 (Zoe 2026-10-30): category LABELS follow the UI
+         language, like areas and moods already do. The raw EN
+         value stays the internal key everywhere (filtering,
+         colours, icons, counts); only display text localizes.
+         Event names are never translated — this is labels only. */
+      var CAT_JA = { Art: "アート", Fashion: "ファッション", Film: "映画", Workshop: "ワークショップ", Games: "ゲーム", Anime: "アニメ", Landmark: "ランドマーク" };
+      var CAT_ZH = { Art: "艺术", Fashion: "时尚", Film: "电影", Workshop: "工作坊", Games: "游戏", Anime: "动漫", Landmark: "地标" };
+      function catName(c) {
+        if (state.lang === "ja") return CAT_JA[c] || c;
+        if (state.lang === "zh") return CAT_ZH[c] || c;
+        return c;
+      }
       function esc(s) {
         return String(s).replace(/[&<>"']/g, function (c) {
           return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
@@ -22626,7 +22638,7 @@ var qrcode = function() {
       var statusMin = false, filterMin = false;
 
       function catChip(e) {
-        return '<span class="cat-chip ' + CAT_CLASS[e.category] + '">' + ICONS[CAT_ICON[e.category]] + esc(e.category) + "</span>";
+        return '<span class="cat-chip ' + CAT_CLASS[e.category] + '">' + ICONS[CAT_ICON[e.category]] + esc(catName(e.category)) + "</span>";
       }
       function stateBadges(e) {
         var s = "";
@@ -22845,7 +22857,7 @@ var qrcode = function() {
         }
       }
       function renderCatChips() {
-        var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: c, icon: CAT_ICON[c] }; }));
+        var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: catName(c), icon: CAT_ICON[c] }; }));
         document.getElementById("msCats").innerHTML = all.map(function (o) {
           return '<button class="chip-btn" type="button" data-mscat="' + o.key + '" aria-pressed="' + String(filterCat === o.key) + '">' +
             (o.icon ? ICONS[o.icon] : "") + esc(o.label) + "</button>";
@@ -23351,7 +23363,7 @@ var qrcode = function() {
       function moodBucketLabel(id) { return (L().moodBuckets || {})[id] || id; }
       function questMatchesQuery(e, q) {
         if (!q) return true;
-        var hay = [e.name_en, e.name_ja, e.area, AREA_JA[e.area] || "", AREA_ZH[e.area] || "", e.category, e.venue,
+        var hay = [e.name_en, e.name_ja, e.area, AREA_JA[e.area] || "", AREA_ZH[e.area] || "", e.category, CAT_JA[e.category] || "", CAT_ZH[e.category] || "", e.venue,
           (e.mood || []).join(" "), evBuckets(e).map(moodBucketLabel).join(" ")].join(" ").toLowerCase();
         return q.split(/\s+/).every(function (w) { return !w || hay.indexOf(w) !== -1; });
       }
@@ -23399,7 +23411,7 @@ var qrcode = function() {
         return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
-          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(e.category) + " · " + esc(e.price) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
+          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(e.price) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
       }
