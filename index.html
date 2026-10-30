@@ -12291,6 +12291,18 @@
       .mg-map-btn .mmb-ticket.is-done { background: var(--lemon, #ffd83d); color: #231a00; }
       .mg-map-btn .mmb-go { font-size: 11px; color: var(--ink-dim); }
     </style>
+    <style>
+      /* Q-203 (Zoe 2026-10-30): the detail header breathed too
+         little — the chip row nearly touched the quest name,
+         and the name nearly touched the No. line. Chips get a
+         clear 10px below the whole block (so a wrapped second
+         row per Q-199 keeps the same breathing), the title's
+         own margins are zeroed so the rhythm is set by these
+         two gaps alone, and the No. line gains air above it. */
+      #detailChips { margin-bottom: 10px; }
+      #detailName { margin-top: 0; margin-bottom: 0; }
+      #detailNo { margin-top: 5px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15824,7 +15836,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1606-q201-e6aabe43";
+        var BUILD_ID = "tql-20261030-1609-q203-9c876013";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
