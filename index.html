@@ -12312,19 +12312,6 @@
       #detailNo { margin-top: 5px; }
     </style>
     <style>
-      /* Q-205 (Zoe's device verdict on Q-197, 2026-10-30):
-         the two small pager squares left most of the row
-         empty — the badge pager is now two large blocks that
-         fill the row: prev on the left half, next on the
-         right half, 44px tall for a solid tap. ID selectors
-         supersede the Q-197 sizing; its other rulings (no
-         position number, smaller cards, the lift off the
-         bottom bar) and the disabled greying are unchanged,
-         and the pin-preview pager is not matched. */
-      #badgePager { justify-content: stretch; gap: 10px; }
-      #badgePager .pp-pg-btn { flex: 1 1 0; width: auto; height: 44px; font-size: 17px; }
-    </style>
-    <style>
       /* Q-206: the capsule's own display:flex would override the
          hidden attribute's UA rule, so the yield state needs an
          explicit rule (showPinPreview / hidePinPreview toggle it). */
@@ -12342,7 +12329,17 @@
          badges do not), and the pager's outer margins (its
          window's lift off the bottom bar). The pin-preview
          pager is not matched. */
-      #badgePager { justify-content: space-between; align-items: center; gap: 8px; }
+      /* Q-207 addendum: the mirror above was missing the ladder
+         container's own display:flex — .pp-pager's only flex rule
+         is scoped to .pin-preview, so this container stayed
+         display:block, justify-content never applied, and the
+         two buttons sat at the left on device (Zoe's screenshot;
+         the R60/R62 audits checked cascade winners but never the
+         container's own display). Now a flex container like the
+         ladder's; the generic [hidden] !important rule still
+         wins when the pager is hidden. The dead Q-205 block was
+         removed in the same release. */
+      #badgePager { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
       #badgePager .pp-pg-btn {
         flex: 0 0 auto; width: auto; height: auto;
         min-width: 70px; padding: 6px 10px;
@@ -15887,7 +15884,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1624-q205b-87ecdd5a";
+        var BUILD_ID = "tql-20261030-1659-q207-d64dcb13";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
