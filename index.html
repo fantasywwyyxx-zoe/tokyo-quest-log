@@ -15742,7 +15742,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0906-daily3-1df4cbd1";
+        var BUILD_ID = "tql-20261030-0916-s1guard-202884d5";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -27355,12 +27355,17 @@ var qrcode = function() {
         origSave();
         schedulePush();
       };
+      var OWNER_KEY = "tql_cloud_owner";
+      function cloudOwner() { try { return localStorage.getItem(OWNER_KEY) || ""; } catch (e) { return ""; } }
+      function setCloudOwner(id) { try { if (id) localStorage.setItem(OWNER_KEY, id); } catch (e) { /* ignore */ } }
       function pushCloud() {
         if (!authUser || !sbClient) return Promise.resolve(false);
+        var _ow = cloudOwner();
+        if (_ow && _ow !== authUser.id) { setSyncMark(true); return Promise.resolve(false); }
         var snap;
         try { snap = JSON.parse(JSON.stringify(state)); } catch (e) { return Promise.resolve(false); }
         return sbClient.from("saves").upsert({ user_id: authUser.id, data: snap, updated_at: new Date().toISOString() })
-          .then(function (r) { if (r.error) { setSyncMark(true); return false; } setSyncMark(false); return true; },
+          .then(function (r) { if (r.error) { setSyncMark(true); return false; } setSyncMark(false); setCloudOwner(authUser.id); return true; },
                 function () { setSyncMark(true); return false; });
       }
 
@@ -27449,13 +27454,25 @@ var qrcode = function() {
             if (res.error) { setSyncMark(true); lastSyncNote = A().syncFail; return lastSyncNote; }
             var cloud = res.data ? res.data.data : null;
             var localEmpty = isEmptySave(state), cloudEmpty = isEmptySave(cloud);
+            /* S1 guard (2026-10-30): a local record owned by ANOTHER
+               account must never be pushed into this one and never
+               wins a comparison — the signed-in account's cloud
+               record applies instead. (Incident: a demo account's
+               local record was pushed over the owner's cloud row
+               seconds after sign-in.) */
+            var _owner = cloudOwner();
+            if (_owner && _owner !== authUser.id && !localEmpty) {
+              if (!cloudEmpty) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; }
+              else { setSyncMark(true); lastSyncNote = A().syncFail; }
+              return lastSyncNote;
+            }
             if (cloudEmpty && localEmpty) { await pushCloud(); lastSyncNote = A().syncDone; return lastSyncNote; }
             if (cloudEmpty) { await pushCloud(); lastSyncNote = A().syncUploaded; return lastSyncNote; }
             if (localEmpty) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; return lastSyncNote; }
             var cmp = compareSaves(state, cloud);
             if (cmp > 0) { await pushCloud(); lastSyncNote = A().syncUploaded; }
             else if (cmp < 0) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; }
-            else lastSyncNote = A().syncDone;
+            else { setCloudOwner(authUser.id); lastSyncNote = A().syncDone; }
             return lastSyncNote;
           } catch (e) { setSyncMark(true); lastSyncNote = A().syncFail; return lastSyncNote; }
           finally { syncPromise = null; }
@@ -27529,6 +27546,7 @@ var qrcode = function() {
           if (scB && !scB.hidden && typeof showStart === "function") showStart(false);
           if (typeof refreshAcctUI === "function") refreshAcctUI();
         } catch (e) { /* in-place apply failed partway: the record is already in localStorage and takes effect on the next natural load — still no reload */ }
+        if (authUser) setCloudOwner(authUser.id);
         showSyncDone(A().syncLoaded);
       }
 
