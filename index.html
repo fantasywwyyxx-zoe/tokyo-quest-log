@@ -15753,7 +15753,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1425-q194-c596a683";
+        var BUILD_ID = "tql-20261030-1427-q195-952f8ea1";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29838,6 +29838,7 @@ var qrcode = function() {
         var v = ($("authNameInput").value || "").trim().slice(0, 12);
         if (v) state.displayName = v;
         state.nameAsked = true; save();
+        renderStatus(); /* Q-195: the list header chip (#advName) re-reads the name only when renderStatus runs — refresh it at the mutation point */
         finishNameStep();
       });
       $("authNameSkip").addEventListener("click", function () { state.nameAsked = true; save(); finishNameStep(); });
