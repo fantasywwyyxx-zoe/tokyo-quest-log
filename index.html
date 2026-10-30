@@ -15742,7 +15742,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0916-s1guard-202884d5";
+        var BUILD_ID = "tql-20261030-0937-q176tap-dc5259b9";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23577,6 +23577,8 @@ var qrcode = function() {
           dp.hidden = false;
           dp.style.cursor = "zoom-in";
           dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(e.venue) + " · " + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
+          var _fb = dp.querySelector("#btnPoster");
+          if (_fb) _fb.addEventListener("click", function (ev) { ev.stopPropagation(); sfx("accept"); shareQuestPoster(); });
           bn.hidden = true; bn.innerHTML = "";
         } else {
           /* photo-less events get a designed NO PHOTO window — a
@@ -27060,6 +27062,13 @@ var qrcode = function() {
       document.getElementById("ivClose").addEventListener("click", closeViewer);
       document.getElementById("detailPreview").addEventListener("click", function (ev) {
         var fab = ev.target && ev.target.closest ? ev.target.closest("#btnPoster") : null;
+        if (!fab && typeof ev.clientX === "number" && this.querySelector) {
+          var fabEl = this.querySelector("#btnPoster");
+          if (fabEl) {
+            var fr = fabEl.getBoundingClientRect();
+            if (ev.clientX >= fr.left && ev.clientX <= fr.right && ev.clientY >= fr.top && ev.clientY <= fr.bottom) fab = fabEl;
+          }
+        }
         if (fab) { ev.stopPropagation(); sfx("accept"); shareQuestPoster(); return; }
         if (!currentId) return;
         var e = byId(currentId);
