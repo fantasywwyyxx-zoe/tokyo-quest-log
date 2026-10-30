@@ -875,7 +875,8 @@
       .pin-preview .pp-meta { font-size: 12.5px; color: var(--paper-dim); margin-top: 2px; }
       .pin-preview .pp-pager { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
       .pin-preview .pp-pager[hidden] { display: none; }
-      .badge-pager { justify-content: center; margin-top: 9px; }
+      .badge-pager { justify-content: center; gap: 16px; margin-top: 6px; margin-bottom: 14px; }
+      .badge-pager .pp-pg-btn { width: 48px; height: 40px; font-size: 16px; border-radius: 9px; }
       .pp-pg-btn {
         width: 30px; height: 26px; padding: 0; cursor: pointer; border-radius: 7px; border: 2px solid var(--shadow);
         font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 11px; line-height: 1;
@@ -915,16 +916,16 @@
       .hero-head .hh-name { font-size: 13.5px; }
       .hero-head .hh-title { font-size: 14.5px; color: var(--gold); margin-top: 2px; }
       .hero-head .hh-desc { font-size: 13.5px; color: var(--ink-dim); margin-top: 4px; line-height: 1.45; }
-      .badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 6px; }
+      .badge-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 2px; }
       @media (min-width: 640px) { .badge-grid { grid-template-columns: repeat(3, 1fr); } }
       .badge {
-        padding: 11px 12px; display: flex; gap: 10px; align-items: center; color: var(--ink);
+        padding: 8px 10px; display: flex; gap: 8px; align-items: center; color: var(--ink);
       }
       .badge .b-ico {
-        width: 38px; height: 38px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+        width: 32px; height: 32px; flex: none; border-radius: 50%; display: flex; align-items: center; justify-content: center;
         background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #231a00; border: 2px solid #fff7dd;
       }
-      .badge .b-ico svg { width: 19px; height: 19px; }
+      .badge .b-ico svg { width: 16px; height: 16px; }
       .badge.locked { opacity: 0.55; filter: saturate(0.4); }
       .badge.locked .b-ico { background: var(--chip); color: var(--ink-dim); border-color: var(--window-edge); }
       .badge .b-name { font-size: 13.5px; font-weight: bold; line-height: 1.3; }
@@ -13257,7 +13258,7 @@
         </div>
         <h2 class="log-sec-title"><span id="badgeTitle"></span><span class="n" id="badgeCount"></span></h2>
         <div class="badge-grid" id="badgeGrid"></div>
-        <div class="pp-pager badge-pager" id="badgePager" hidden><button class="pp-pg-btn" id="badgePrev" type="button" aria-label="Previous">◀</button><span class="pp-pg-pos" id="badgePos"></span><button class="pp-pg-btn" id="badgeNext" type="button" aria-label="Next">▶</button></div>
+        <div class="pp-pager badge-pager" id="badgePager" hidden><button class="pp-pg-btn" id="badgePrev" type="button" aria-label="Previous">◀</button><button class="pp-pg-btn" id="badgeNext" type="button" aria-label="Next">▶</button></div>
         </div>
         <!-- the PUZZLE case window is retired from the UI (user,
              2026-10-27): no dock tile, no window, no drops. Saved
@@ -15753,7 +15754,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1529-eg9-1ab14990";
+        var BUILD_ID = "tql-20261030-1535-q197-60820d11";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25711,7 +25712,7 @@ var qrcode = function() {
         var bpgEl = document.getElementById("badgePager");
         if (bpgEl) {
           bpgEl.hidden = badgePages <= 1;
-          document.getElementById("badgePos").textContent = (badgePage + 1) + " / " + badgePages;
+          
           var bPrev = document.getElementById("badgePrev"), bNext = document.getElementById("badgeNext");
           bPrev.disabled = badgePage <= 0;
           bNext.disabled = badgePage >= badgePages - 1;
