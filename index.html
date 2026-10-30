@@ -12324,6 +12324,12 @@
       #badgePager { justify-content: stretch; gap: 10px; }
       #badgePager .pp-pg-btn { flex: 1 1 0; width: auto; height: 44px; font-size: 17px; }
     </style>
+    <style>
+      /* Q-206: the capsule's own display:flex would override the
+         hidden attribute's UA rule, so the yield state needs an
+         explicit rule (showPinPreview / hidePinPreview toggle it). */
+      .mg-map-btn[hidden] { display: none; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15857,7 +15863,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1615-q205-774423bd";
+        var BUILD_ID = "tql-20261030-1619-q206-dca2501e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26772,9 +26778,13 @@ var qrcode = function() {
         document.getElementById("ppName").textContent = evName(e);
         document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + e.price + (isCleared(id) ? " · " + L().clearedBtn : isAccepted(id) ? " · " + L().accepted : "");
         document.getElementById("pinPreview").hidden = false;
+        /* Q-206: the preview owns the +58 band while it is open —
+           the game capsule yields (the locChip already does the
+           same above), so the open-detail button is never covered. */
+        var mb206 = document.getElementById("mgMapBtn"); if (mb206) mb206.hidden = true;
         updatePager();
       }
-      function hidePinPreview() { previewId = null; previewGrp = null; previewIdx = 0; document.getElementById("pinPreview").hidden = true; }
+      function hidePinPreview() { previewId = null; previewGrp = null; previewIdx = 0; document.getElementById("pinPreview").hidden = true; var mb206b = document.getElementById("mgMapBtn"); if (mb206b) mb206b.hidden = false; }
       document.getElementById("ppPrev").addEventListener("click", function () { ppStep(-1); });
       document.getElementById("ppNext").addEventListener("click", function () { ppStep(1); });
 
