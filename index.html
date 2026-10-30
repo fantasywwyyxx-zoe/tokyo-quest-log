@@ -12440,6 +12440,65 @@
       #advBody .adv-stamps { gap: 3px; }
       #advBody .adv-stamp { padding: 1px 6px; line-height: 1.15; }
     </style>
+    <style>
+      /* Q-214 (Zoe: 「游戏和活动的UI有点简陋，再加工一下」): the
+         game windows and the event window get the full cabinet
+         treatment in the game's own grammar — a marquee strip in
+         the three palette colours (straight, Q-198), the title as
+         a red title BAR (the auth-title span already flexes full
+         width), the HUD's plain-text spans finished as stat chips
+         matching the scoreboard chip, the message line as a real
+         dialogue box in its normal state (the over/crashed state
+         frames outrank this rule and still win), and the event
+         photo bezelled with an overlay ring. All surfaces ride
+         the theme variables, so day D1 and night Y3 stay paired.
+         CSS only — no game logic touched. */
+      .run-win::before, .ev-win::before, .mg-hub-win::before {
+        content: ""; display: block; height: 10px; border-radius: 5px;
+        background: repeating-linear-gradient(90deg, var(--red) 0 16px, var(--lemon, #ffd83d) 16px 32px, var(--gold) 32px 48px);
+        margin-bottom: 10px; flex: none;
+      }
+      .run-win .auth-title, .ev-win .auth-title, .mg-hub-win .auth-title {
+        background: var(--red); color: #ffffff; border: var(--bw-s) solid var(--line-c);
+        border-bottom: var(--bw-s) solid var(--line-c);
+        border-radius: 8px; box-shadow: 0 2px 0 var(--edge);
+        padding: 3px 12px 4px; letter-spacing: 0.05em;
+      }
+      .run-win .run-hud > span:empty { display: none; }
+      .run-win .run-hud .run-goal, .run-win .run-hud .run-speed, .run-win .run-hud .run-best {
+        background: var(--window-hi); border: var(--bw-s) solid var(--line-c);
+        border-radius: 8px; box-shadow: 0 2px 0 var(--edge);
+        padding: 2px 8px; line-height: 1.3;
+      }
+      .run-win .run-hud .run-goal { border-left: 7px solid var(--lemon, #ffd83d); }
+      .run-win .run-msg {
+        background: var(--window-hi); border: var(--bw-s) solid var(--line-c);
+        border-radius: var(--rad-card); box-shadow: 0 2px 0 var(--edge);
+        padding: 7px 10px;
+      }
+      .ev-ask {
+        background: var(--window-hi); border: var(--bw-s) solid var(--line-c);
+        border-radius: var(--rad-card); box-shadow: 0 2px 0 var(--edge);
+        padding: 8px 10px; text-align: center;
+      }
+      .ev-photo { position: relative; border: 3px solid var(--edge); box-shadow: 0 3px 0 var(--edge); }
+      .ev-photo::after {
+        content: ""; position: absolute; inset: 0; pointer-events: none;
+        box-shadow: inset 0 0 0 2px rgba(255, 253, 244, 0.35); border-radius: 6px;
+      }
+      .ev-choice::before { content: "▸ "; color: var(--red); }
+      .ev-result:empty { min-height: 0; margin: 0; }
+      .ev-result:not(:empty) {
+        background: var(--window-hi); border: var(--bw-s) solid var(--line-c);
+        border-radius: var(--rad-card); box-shadow: 0 2px 0 var(--edge);
+        padding: 7px 10px; text-align: center;
+      }
+      .mg-hub-status:not(:empty) {
+        background: var(--window-hi); border: var(--bw-s) solid var(--line-c);
+        border-radius: var(--rad-card); box-shadow: 0 2px 0 var(--edge);
+        padding: 7px 10px;
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15996,7 +16055,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1723-q213-9be566df";
+        var BUILD_ID = "tql-20261030-1727-q214-0ea33cb6";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
