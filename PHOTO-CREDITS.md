@@ -65,3 +65,20 @@ Note: Round 3 (eg8 daily batch, 2026-10-30) adds the 山下公園 / 神奈川県
 
 Note: 通貨博物館 uses a venue-provided photo served from the official site
 (CloudFront AVIF, decoded for self-hosting) — not a CC work, no attribution required.
+
+## Round 4 (eg9 evergreen batch, 2026-10-30)
+
+CC / public-domain photos in this batch (same lines as the in-game credits):
+
+- 青梅鉄道公園 — Nyao148 — CC BY-SA 4.0
+- 肥後細川庭園 — Irina Gelbukh — CC BY-SA 3.0
+- さいたま市岩槻人形博物館 — 京浜にけ — CC BY-SA 3.0
+- 横浜中華街 — Aimaimyi — CC BY-SA 3.0
+- 横浜人形の家 — Steven Byles — CC BY-SA 2.0
+- 横浜港大さん橋国際客船ターミナル — Syced — CC0
+- よこはまコスモワールド — TTTNIS — Public domain
+- 夢の島熱帯植物館 — Kakidai — CC BY-SA 4.0
+- 東京大空襲・戦災資料センター — Nick-D — CC BY-SA 4.0
+- 目黒区美術館 — Abasaa — Public domain
+
+The other 15 photos in this batch are official / municipal sources （夕やけ小やけふれあいの里 = Hachioji City, 町田リス園, 薬師池公園， 府中市美術館 = Fuchu City, 武者小路実篤記念館 = Chofu City, ファーレ立川アート, はけの森美術館, 埼玉県立歴史と民俗の博物館, さいたま市立漫画会館 = Saitama City, 川越まつり会館, 大宮盆栽村， 横浜開港資料館, 小石川植物園 = University of Tokyo, 板橋区立熱帯環境植物館 = Itabashi City, 渋谷区ふれあい植物センター), no attribution required.
