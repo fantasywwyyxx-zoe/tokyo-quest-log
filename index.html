@@ -15996,7 +15996,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1721-q212-b5ff7a8c";
+        var BUILD_ID = "tql-20261030-1723-q213-9be566df";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23854,6 +23854,14 @@ var qrcode = function() {
             if (locTimer) { clearTimeout(locTimer); locTimer = null; }
           });
         }
+        /* Q-213: the two bottom bands are mutually exclusive.
+           showPinPreview already force-hides this chip; the
+           reverse was missing, so locating with the preview open
+           stacked the banner over the preview and buried its
+           close button under the card. The banner takes the
+           band: close the preview first. */
+        var pp213 = document.getElementById("pinPreview");
+        if (text && pp213 && !pp213.hidden) hidePinPreview();
         var tx = document.getElementById("locChipText");
         if (tx) tx.textContent = text || "";
         else chip.textContent = text || "";
