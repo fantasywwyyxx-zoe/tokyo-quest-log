@@ -15742,7 +15742,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0858-q176c-e9681ee0";
+        var BUILD_ID = "tql-20261030-0906-daily3-1df4cbd1";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25523,15 +25523,19 @@ var qrcode = function() {
          the same task does not come back for weeks. Pool order
          is identical across languages — an index always means
          the same quest in every language. */
+      /* Zoe 2026-10-30: 2 pool + 1 home = 3 dailies per day (was
+         3 pool + 1 home = 4) — the daily page needs the room for
+         the mini-game frame. Home entries are excluded from the
+         pool picks so every day is exactly 2 + 1. */
       function todaysDaily() {
         var pool = L().dailyPool;
         var month = new Date().getMonth() + 1;
         var elig = [];
-        pool.forEach(function (q, i) { if (!q.mo || q.mo.indexOf(month) !== -1) elig.push(i); });
+        pool.forEach(function (q, i) { if ((!q.mo || q.mo.indexOf(month) !== -1) && q.c !== "home") elig.push(i); });
         var dayN = Math.floor(parseD(TODAY).getTime() / 86400000);
         var picked = [], guard = 0;
         var start = ((dayN * 3) % elig.length + elig.length) % elig.length;
-        while (picked.length < 3 && guard < elig.length * 2) {
+        while (picked.length < 2 && guard < elig.length * 2) {
           var cand = elig[(start + guard * 7) % elig.length];
           if (picked.indexOf(cand) === -1) picked.push(cand);
           guard++;
@@ -28402,7 +28406,7 @@ var qrcode = function() {
       /* ---------- at-home daily quests ----------
          The pool gained five c:"home" entries per language (same
          indices in all three). One of them joins every day's list
-         as a 4th quest, rotating by day. They complete by DOING
+         as the final quest (3rd since 2026-10-30), rotating by day. They complete by DOING
          the thing (progress is tracked in state.homeProg), never
          by a bare tap — a tap on an unfinished home row jumps to
          where the action lives instead. */
