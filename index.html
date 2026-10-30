@@ -875,6 +875,7 @@
       .pin-preview .pp-meta { font-size: 12.5px; color: var(--paper-dim); margin-top: 2px; }
       .pin-preview .pp-pager { display: flex; align-items: center; gap: 8px; margin-top: 5px; }
       .pin-preview .pp-pager[hidden] { display: none; }
+      .badge-pager { justify-content: center; margin-top: 9px; }
       .pp-pg-btn {
         width: 30px; height: 26px; padding: 0; cursor: pointer; border-radius: 7px; border: 2px solid var(--shadow);
         font-family: "Baloo 2", "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 11px; line-height: 1;
@@ -13256,6 +13257,7 @@
         </div>
         <h2 class="log-sec-title"><span id="badgeTitle"></span><span class="n" id="badgeCount"></span></h2>
         <div class="badge-grid" id="badgeGrid"></div>
+        <div class="pp-pager badge-pager" id="badgePager" hidden><button class="pp-pg-btn" id="badgePrev" type="button" aria-label="Previous">◀</button><span class="pp-pg-pos" id="badgePos"></span><button class="pp-pg-btn" id="badgeNext" type="button" aria-label="Next">▶</button></div>
         </div>
         <!-- the PUZZLE case window is retired from the UI (user,
              2026-10-27): no dock tile, no window, no drops. Saved
@@ -15752,7 +15754,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1002-q154pager-40631835";
+        var BUILD_ID = "tql-20261030-1055-q189badges-3aedc99c";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25394,6 +25396,7 @@ var qrcode = function() {
         }
       }
       var colPage = 0;
+      var badgePage = 0;
       function stickerIdxFor(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return h % BADGE_PIX.length; }
       function renderCollection() {
         var t = L(), body = document.getElementById("colBody"); if (!body) return;
@@ -25503,10 +25506,19 @@ var qrcode = function() {
         document.getElementById("heroDescLine").textContent = h.desc;
         var prog = badgeProgress();
         var gotN = 0;
-        document.getElementById("badgeGrid").innerHTML = t.badges.map(function (b, i) {
+        t.badges.forEach(function (b, i) { var p0 = prog[i] || [0, 1]; if (p0[0] >= p0[1]) gotN++; });
+        /* Q-189: the badges tab fits ONE screen and pages with
+           clamped arrows (Zoe's design) — 9 per page (3x3 at the
+           current card size); order, progress and the header
+           count are unchanged. */
+        var BADGE_PER_PAGE = 9;
+        var badgePages = Math.max(1, Math.ceil(t.badges.length / BADGE_PER_PAGE));
+        if (badgePage < 0) badgePage = 0;
+        if (badgePage > badgePages - 1) badgePage = badgePages - 1;
+        var bStart = badgePage * BADGE_PER_PAGE;
+        document.getElementById("badgeGrid").innerHTML = t.badges.slice(bStart, bStart + BADGE_PER_PAGE).map(function (b, k) { var i = bStart + k;
           var p = prog[i] || [0, 1];
           var got = p[0] >= p[1];
-          if (got) gotN++;
           var pct = Math.min(100, Math.round((p[0] / p[1]) * 100));
           return '<div class="win-flat badge' + (got ? " got" : " locked") + '">' +
             '<span class="b-ico">' + badgeIconSVG(i) + (got ? '<span class="b-check" aria-hidden="true">✓</span>' : "") + "</span>" +
@@ -25517,6 +25529,16 @@ var qrcode = function() {
         }).join("");
         var bcEl = document.getElementById("badgeCount");
         if (bcEl) bcEl.textContent = "(" + gotN + "/" + t.badges.length + ")";
+        var bpgEl = document.getElementById("badgePager");
+        if (bpgEl) {
+          bpgEl.hidden = badgePages <= 1;
+          document.getElementById("badgePos").textContent = (badgePage + 1) + " / " + badgePages;
+          var bPrev = document.getElementById("badgePrev"), bNext = document.getElementById("badgeNext");
+          bPrev.disabled = badgePage <= 0;
+          bNext.disabled = badgePage >= badgePages - 1;
+          bPrev.onclick = function () { if (badgePage > 0) { badgePage--; renderHero(); } };
+          bNext.onclick = function () { if (badgePage < badgePages - 1) { badgePage++; renderHero(); } };
+        }
         renderLadder();
         /* the stamp COLLECTION is retired (user, 2026-10-26):
            cleared quests still get their CLEAR stamp effect in
