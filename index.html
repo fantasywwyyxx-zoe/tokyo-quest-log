@@ -12375,7 +12375,7 @@
         left: auto;
         right: calc(8px + env(safe-area-inset-right, 0px));
       }
-      #mgMapBtn .mmb-txt {
+      #mapCaps .mmb-txt {
         display: flex; flex-direction: column; align-items: flex-start;
         gap: 0; line-height: 1.2; min-width: 0;
       }
@@ -12580,6 +12580,16 @@
       }
       #mapCaps .mmb-kick { line-height: 1.1; }
       #mapCaps .mmb-name { line-height: 1.15; }
+    </style>
+    <style>
+      /* Q-216 (Zoe: the event capsule is STILL fat): the Q-215
+         icon fix was real but not the whole story — the two-line
+         text-stack rule from Q-208 was scoped to #mgMapBtn only
+         (the game capsule was the only capsule then), so the
+         event capsule's kicker/name laid out as loose inline
+         text inside the button: taller AND wider than its twin.
+         The stack rule now scopes to the shared stack container
+         (#mapCaps .mmb-txt) and both capsules lay out identically. */
     </style>
   </head>
   <body data-view="map">
@@ -16137,7 +16147,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1736-q215-36453bbb";
+        var BUILD_ID = "tql-20261030-1739-q216-b367c078";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
