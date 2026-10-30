@@ -57,6 +57,11 @@ the in-game photo-credits fold (25 rows total with round 1).
 | 市川市動植物園 | 四葉亭四迷 | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Ichikawa_Zoo_Main_Gate_20170204.jpg |
 | 足立区生物園 | westnac | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Onshitsu.JPG |
 | 葛飾区郷土と天文の博物館 | Abasaa | Public domain | https://commons.wikimedia.org/wiki/File:Katsushika_City_Museum.JPG |
+| 山下公園 | Manish Prabhune | CC BY | https://commons.wikimedia.org/wiki/File:Mosaic_tiles_of_Indian_Water_Tower_at_Yamashita_Park.jpg |
+| 神奈川県立歴史博物館 | U-Kane | CC BY-SA | https://commons.wikimedia.org/wiki/File:Museum_of_Cultural_History_Yokohama.jpg |
+| 江戸川区自然動物園 | しんぎんぐきゃっと | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Edogawa_Shizen_Zoo.jpg |
+
+Note: Round 3 (eg8 daily batch, 2026-10-30) adds the 山下公園 / 神奈川県立歴史博物館 / 江戸川区自然動物園 rows above; the other 7 eg8 photos are official-site photos, no attribution required.
 
 Note: 通貨博物館 uses a venue-provided photo served from the official site
 (CloudFront AVIF, decoded for self-hosting) — not a CC work, no attribution required.
