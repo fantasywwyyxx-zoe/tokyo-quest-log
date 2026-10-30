@@ -12197,6 +12197,50 @@
          inline top from updateWinMore places it. */
       .win-more, .win-more.pin-fix { position: absolute; bottom: auto; }
 </style>
+    <style>
+      /* ==========================================================
+         Q-196 PLAN B (Zoe's pick from the QA mock sheet,
+         2026-10-30): the creator window splits into a fixed LEFT
+         stage (about 42%: a full-height scene band, the hero large
+         on the ground line, the display-name plate under the hero)
+         and a scrolling RIGHT options column (about 58%: base
+         heroes and hairstyles in 2-column grids, then the swatch
+         rows). The footer stays full-width and pinned (Q-128);
+         the window cap + inner scroll contract (Q-123/124) is
+         unchanged — the scroller simply lives inside the row.
+         The scroll-hint plaque recentres over the right column.
+         ========================================================== */
+      .creator-body { display: flex; flex: 1 1 auto; min-height: 0; gap: 12px; }
+      .creator-win .cust-stage {
+        flex: 0 0 42%; min-width: 0; margin: 0; position: relative; overflow: hidden;
+        flex-direction: column; align-items: center; justify-content: flex-end;
+        gap: 6px; padding: 10px 6px 8px;
+        background: var(--window-hi);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+      }
+      .creator-win .cust-stage::after {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30px;
+        background: color-mix(in srgb, var(--gold) 30%, var(--window));
+        border-top: 3px solid var(--line-c);
+      }
+      .creator-win .cust-stage canvas {
+        position: relative; z-index: 1;
+        width: 104px; height: 104px;
+        background: transparent; border: none; border-radius: 0; box-shadow: none;
+      }
+      .creator-win .cust-name {
+        position: relative; z-index: 1; font-size: 15px; text-align: center;
+      }
+      .creator-body .creator-scroll { flex: 1 1 auto; min-width: 0; min-height: 0; padding-bottom: 48px; }
+      .creator-win .cust-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+      .creator-win .cust-preset { width: 100%; }
+      .creator-win .cust-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+      .creator-win .cust-chip { width: 100%; text-align: center; }
+      .creator-win .win-more { left: 71%; }
+      @media (max-height: 740px) {
+        .creator-body .creator-scroll { padding-bottom: 40px; }
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -12267,6 +12311,7 @@
     <div class="creator-screen" id="creatorScreen" hidden role="dialog" aria-modal="true" aria-labelledby="creatorTab">
       <div class="win creator-win">
         <span class="creator-tab" id="creatorTab"></span>
+        <div class="creator-body">
         <div class="cust-stage">
           <canvas id="creatorCanvas" width="16" height="16" aria-hidden="true"></canvas>
           <span class="cust-name" id="creatorNameEcho"></span>
@@ -12291,6 +12336,7 @@
         <div class="cust-group">
           <span class="cust-label" id="creatorFaceLabel"></span>
           <div class="cust-chips" id="creatorFaces"></div>
+        </div>
         </div>
         </div>
         <!-- Q-128: the exits are PINNED — this footer sits OUTSIDE
@@ -15751,7 +15797,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1540-q198-87acc29f";
+        var BUILD_ID = "tql-20261030-1545-q196-0f7d2364";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
