@@ -12424,6 +12424,22 @@
       }
       .ev-see:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
     </style>
+    <style>
+      /* Q-212 (Zoe's device verdict on Q-210): a log page must be
+         ONE screen — at 8 per page only 3 rows fully showed and
+         the 4th was cut above the pager. The row's height driver
+         is the stamp stack (two bordered stamps ≈ 46px), so the
+         compression lands there plus the thumb and the row/body
+         gaps, all scoped to the log body; at 4 per page a page
+         now measures ≈ 230px against the ≈ 250px her device
+         showed for the body. Titles (5) and badges (3x3) already
+         fit their screens; the log now fits its own. */
+      #advBody { gap: 6px; }
+      #advBody .adv-row { padding: 5px 8px; }
+      #advBody .adv-thumb { width: 46px; height: 32px; }
+      #advBody .adv-stamps { gap: 3px; }
+      #advBody .adv-stamp { padding: 1px 6px; line-height: 1.15; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15980,7 +15996,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1716-q211-cf801192";
+        var BUILD_ID = "tql-20261030-1721-q212-b5ff7a8c";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25982,7 +25998,7 @@ var qrcode = function() {
         /* Q-210 (Zoe): the adventure log pages like the titles
            and badges tabs — one page of rows at a time under the
            family pager, instead of one long scrolling list. */
-        var LOG_PER_PAGE = 8;
+        var LOG_PER_PAGE = 4;
         var logPages = Math.max(1, Math.ceil(rows.length / LOG_PER_PAGE));
         if (logPage < 0) logPage = 0;
         if (logPage > logPages - 1) logPage = logPages - 1;
