@@ -12241,6 +12241,20 @@
         .creator-body .creator-scroll { padding-bottom: 40px; }
       }
     </style>
+    <style>
+      /* ==========================================================
+         Q-199 (Zoe's rule, 2026-10-30): a chip row that cannot fit
+         WRAPS to a second row — chips are never compressed,
+         overlapped or tilted, and the second row aligns with the
+         first (same left edge, same gaps). The detail header is
+         the case she caught: its cleared pill carried an
+         auto left margin that shoved it against the right edge
+         when it wrapped. Scoped to #detailChips — stateBadges()
+         feeds this row only.
+         ========================================================== */
+      #detailChips > span { flex: none; }
+      #detailChips .state-badge { margin-left: 0; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15797,7 +15811,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1545-q196-0f7d2364";
+        var BUILD_ID = "tql-20261030-1547-q199-55f4b202";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
