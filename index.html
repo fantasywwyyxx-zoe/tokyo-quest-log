@@ -12340,9 +12340,13 @@
          wins when the pager is hidden. The dead Q-205 block was
          removed in the same release. */
       #badgePager { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+      /* Q-207 addition (Zoe's word): not only both ends — the
+         buttons themselves are LONGER than the ladder's box
+         (min-width 112px here against the ladder's 70px); the
+         box look (frame, radius, shadow, press) is unchanged. */
       #badgePager .pp-pg-btn {
         flex: 0 0 auto; width: auto; height: auto;
-        min-width: 70px; padding: 6px 10px;
+        min-width: 112px; padding: 6px 10px;
         font-family: inherit; font-size: var(--fs-s); letter-spacing: 0.04em; line-height: normal;
         color: var(--ink); background: var(--window);
         border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
@@ -15909,7 +15913,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1703-q208-cff3c05a";
+        var BUILD_ID = "tql-20261030-1705-q207b-3b32cc0a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
