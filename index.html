@@ -15753,7 +15753,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-0522-q193-cc266a4e";
+        var BUILD_ID = "tql-20261030-1425-q194-c596a683";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -20266,11 +20266,17 @@ var qrcode = function() {
       ["pointerdown", "touchend", "click", "keydown"].forEach(function (evName) {
         document.addEventListener(evName, audioInit, { passive: true });
       });
-      document.addEventListener("visibilitychange", function () {
-        if (!document.hidden && AC && AC.state === "suspended" && !state.muted) {
-          var p = AC.resume(); if (p && p.catch) p.catch(function () {});
-        }
-      });
+      function bgmHealOnReturn() {
+        if (document.hidden || !AC || state.muted || AC.state === "running") return;
+        var p = AC.resume(); if (p && p.catch) p.catch(function () {});
+        /* Q-194: an iOS interruption can kill the looping source while
+           bgmSrc still looks alive, and startBgm early-returns on a
+           live-looking source, so rebuild the track from scratch
+           whenever the context was not running at the moment of return. */
+        if (bgmCurrentId) restartBgm();
+      }
+      document.addEventListener("visibilitychange", bgmHealOnReturn);
+      window.addEventListener("pageshow", bgmHealOnReturn);
 
       /* ============ Hero sprites (4 selectable adventurers, drawn on canvas) ============ */
       /* KAIRO-STYLE SPRITE (user direction, 2026-10-26): chibi
