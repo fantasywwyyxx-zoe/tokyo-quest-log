@@ -12311,6 +12311,19 @@
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
+    <style>
+      /* Q-205 (Zoe's device verdict on Q-197, 2026-10-30):
+         the two small pager squares left most of the row
+         empty — the badge pager is now two large blocks that
+         fill the row: prev on the left half, next on the
+         right half, 44px tall for a solid tap. ID selectors
+         supersede the Q-197 sizing; its other rulings (no
+         position number, smaller cards, the lift off the
+         bottom bar) and the disabled greying are unchanged,
+         and the pin-preview pager is not matched. */
+      #badgePager { justify-content: stretch; gap: 10px; }
+      #badgePager .pp-pg-btn { flex: 1 1 0; width: auto; height: 44px; font-size: 17px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15844,7 +15857,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1613-q204-236c9835";
+        var BUILD_ID = "tql-20261030-1615-q205-774423bd";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
