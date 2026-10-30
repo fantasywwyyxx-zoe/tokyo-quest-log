@@ -15913,7 +15913,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1705-q207b-3b32cc0a";
+        var BUILD_ID = "tql-20261030-1708-q209-0052dd83";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23735,6 +23735,19 @@ var qrcode = function() {
       /* Toast-style status for locate: sticky while searching (ms = 0),
          ~9s on success, longer on errors so the reason + retry steps
          are actually noticed on a real phone. */
+      /* Q-209: the game capsule shares the +58 band with the
+         locate banner, the same contention Q-206 settled for the
+         pin preview. One state-derived guard now owns the
+         capsule's visibility: it yields while EITHER the pin
+         preview or the locate banner is up, and returns when
+         both are gone. Every show/hide transition of either
+         element calls it. */
+      function mgYieldSync() {
+        var mb = document.getElementById("mgMapBtn"); if (!mb) return;
+        var pp = document.getElementById("pinPreview");
+        var lc = document.getElementById("locChip");
+        mb.hidden = !!((pp && !pp.hidden) || (lc && !lc.hidden));
+      }
       function showLocChip(text, ms) {
         var chip = document.getElementById("locChip");
         if (!chip) {
@@ -23749,21 +23762,21 @@ var qrcode = function() {
           chip.innerHTML = '<span class="loc-chip-text" id="locChipText"></span><button class="loc-chip-x" id="locChipX" type="button" aria-label="Close">✕</button>';
           mb.appendChild(chip);
           chip.querySelector(".loc-chip-x").addEventListener("click", function (ev) {
-            ev.stopPropagation(); chip.hidden = true;
+            ev.stopPropagation(); chip.hidden = true; mgYieldSync();
             if (locTimer) { clearTimeout(locTimer); locTimer = null; }
           });
         }
         var tx = document.getElementById("locChipText");
         if (tx) tx.textContent = text || "";
         else chip.textContent = text || "";
-        chip.hidden = !text;
+        chip.hidden = !text; mgYieldSync();
         if (locTimer) clearTimeout(locTimer);
-        if (text && ms !== 0) locTimer = setTimeout(function () { chip.hidden = true; }, ms || 9000);
+        if (text && ms !== 0) locTimer = setTimeout(function () { chip.hidden = true; mgYieldSync(); }, ms || 9000);
       }
       document.getElementById("locChipX").addEventListener("click", function (ev) {
         ev.stopPropagation();
         var chip = document.getElementById("locChip");
-        if (chip) chip.hidden = true;
+        if (chip) { chip.hidden = true; mgYieldSync(); }
         if (locTimer) { clearTimeout(locTimer); locTimer = null; }
       });
       /* GPS accuracy ring (Zoe device verdict, 2026-10-29 22:02:
@@ -26831,10 +26844,10 @@ var qrcode = function() {
         /* Q-206: the preview owns the +58 band while it is open —
            the game capsule yields (the locChip already does the
            same above), so the open-detail button is never covered. */
-        var mb206 = document.getElementById("mgMapBtn"); if (mb206) mb206.hidden = true;
+        mgYieldSync();
         updatePager();
       }
-      function hidePinPreview() { previewId = null; previewGrp = null; previewIdx = 0; document.getElementById("pinPreview").hidden = true; var mb206b = document.getElementById("mgMapBtn"); if (mb206b) mb206b.hidden = false; }
+      function hidePinPreview() { previewId = null; previewGrp = null; previewIdx = 0; document.getElementById("pinPreview").hidden = true; mgYieldSync(); }
       document.getElementById("ppPrev").addEventListener("click", function () { ppStep(-1); });
       document.getElementById("ppNext").addEventListener("click", function () { ppStep(1); });
 
