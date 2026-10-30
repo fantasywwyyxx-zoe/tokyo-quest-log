@@ -12380,6 +12380,50 @@
         gap: 0; line-height: 1.2; min-width: 0;
       }
     </style>
+    <style>
+      /* Q-211 (Zoe): a monthly-event capsule stacks on the map
+         above the mini-game capsule, same arrangement. Both
+         capsules now live in one right-anchored stack pinned at
+         var(--bar-clear) + 58; the stack owns the anchor, the
+         buttons are plain rows inside it (their old per-button
+         anchors are neutralised below), and the stack itself
+         never eats map taps (pointer-events only on buttons).
+         Both capsules yield together via mgYieldSync (Q-206 /
+         Q-209). The guess window is the auth-screen family. */
+      .map-caps {
+        position: absolute; right: calc(8px + env(safe-area-inset-right, 0px));
+        bottom: calc(var(--bar-clear) + 58px); z-index: 37;
+        display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+        pointer-events: none;
+      }
+      #mapCaps .mg-map-btn {
+        position: relative; left: auto; right: auto; bottom: auto;
+        pointer-events: auto;
+      }
+      .ev-win { max-width: 400px; }
+      .ev-ask { font-weight: 800; font-size: 15px; margin: 2px 0 10px; }
+      .ev-photo { border: 3px solid var(--line-c); border-radius: var(--rad-card); overflow: hidden; margin-bottom: 10px; }
+      .ev-photo img { display: block; width: 100%; height: auto; }
+      .ev-choices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .ev-choice {
+        padding: 10px 8px; font-family: inherit; font-weight: 800; font-size: 14px;
+        color: var(--ink); background: var(--window);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+        box-shadow: 0 3px 0 var(--edge); cursor: pointer;
+      }
+      .ev-choice:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+      .ev-choice[disabled] { opacity: 0.42; pointer-events: none; }
+      .ev-choice.is-wrong { text-decoration: line-through; }
+      .ev-choice.is-right { background: var(--lemon, #ffd83d); color: #231a00; opacity: 1; }
+      .ev-result { min-height: 20px; font-weight: 800; font-size: 13.5px; margin: 10px 0 4px; }
+      .ev-see {
+        width: 100%; padding: 10px; font-family: inherit; font-weight: 800; font-size: 14px;
+        color: #231a00; background: var(--lemon, #ffd83d);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+        box-shadow: 0 3px 0 var(--edge); cursor: pointer;
+      }
+      .ev-see:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+    </style>
   </head>
   <body data-view="map">
 
@@ -12779,6 +12823,25 @@
       </div>
     </div>
 
+    <!-- ===== MONTHLY EVENT: Guess the Place (Q-211, 2026-10-30).
+         The at-home programme's isolated addition: existing quest
+         photos + this independent window + a daily flag only. ===== -->
+    <div class="auth-screen" id="evScreen" hidden role="dialog" aria-modal="true" aria-labelledby="evWinTitle">
+      <div class="win auth-win ev-win">
+        <div class="auth-head">
+          <span class="auth-title" id="evWinTitle"></span>
+          <button class="auth-x" id="evClose" type="button" aria-label="Close">✕</button>
+        </div>
+        <div class="auth-scroll ev-scroll">
+          <p class="ev-ask" id="evAsk"></p>
+          <div class="ev-photo"><img id="evPhoto" alt=""></div>
+          <div class="ev-choices" id="evChoices"></div>
+          <p class="ev-result" id="evResult"></p>
+          <button class="ev-see" id="evSee" type="button" hidden></button>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== WISH FLAG editor (2026-10-29): a GBA-style small
          window for the one wish line. Display only — saving it
          touches nothing but state.wishText. ===== -->
@@ -12946,7 +13009,10 @@
                  rows). The count is the bar's first segment and
                  follows the active filter instantly; separate
                  from the LIST search modal. -->
-            <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+            <div class="map-caps" id="mapCaps">
+              <button class="mg-map-btn" id="evMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">📍</span><span class="mmb-txt"><span class="mmb-kick" id="evMapKick"></span><span class="mmb-name" id="evMapName"></span></span><span class="mmb-ticket" id="evMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+              <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+            </div>
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
               <span class="mf-side" id="mapSideTag"></span>
               <span class="mf-count" id="mapCount"></span>
@@ -15914,7 +15980,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1711-q210-81ab6be5";
+        var BUILD_ID = "tql-20261030-1716-q211-cf801192";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -19852,7 +19918,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, guess: { date: "", done: false }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -19911,6 +19977,9 @@ var qrcode = function() {
             state.mfHintSeen = !!parsed.mfHintSeen;
             if (parsed.runner && typeof parsed.runner === "object") {
               state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0 };
+            }
+            if (parsed.guess && typeof parsed.guess === "object") {
+              state.guess = { date: typeof parsed.guess.date === "string" ? parsed.guess.date : "", done: !!parsed.guess.done };
             }
             /* MINI-GAME HUB (batch 1, 2026-10-29): per-game best
                records for the new games (dash keeps its record in
@@ -22937,6 +23006,7 @@ var qrcode = function() {
         var mh186 = document.getElementById("mgHubScreen");
         if (mh186 && !mh186.hidden) renderRunBanner();
         renderMgCapsule();
+        renderEvCapsule();
         var cs186 = document.getElementById("calScreen");
         if (cs186 && !cs186.hidden) {
           var cd187 = document.getElementById("calDay");
@@ -23744,10 +23814,11 @@ var qrcode = function() {
          both are gone. Every show/hide transition of either
          element calls it. */
       function mgYieldSync() {
-        var mb = document.getElementById("mgMapBtn"); if (!mb) return;
         var pp = document.getElementById("pinPreview");
         var lc = document.getElementById("locChip");
-        mb.hidden = !!((pp && !pp.hidden) || (lc && !lc.hidden));
+        var y = !!((pp && !pp.hidden) || (lc && !lc.hidden));
+        var mb = document.getElementById("mgMapBtn"); if (mb) mb.hidden = y;
+        var eb = document.getElementById("evMapBtn"); if (eb) eb.hidden = y;
       }
       function showLocChip(text, ms) {
         var chip = document.getElementById("locChip");
@@ -28530,7 +28601,7 @@ var qrcode = function() {
           runQuitMsg: function (d) { return "Run over — " + d + "m. Come back anytime today."; },
           runReadyPractice: "Practice mode — today's gacha ticket is in today's game (see the mini-game hub). Retry as much as you like.",
           runReadyDone: "Today's ticket is already yours ✓ — now run for a best distance!",
-          mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgAllGames: "ALL 7 GAMES ▾", mgHideGames: "HIDE ▴", mgSoon: "COMING SOON",
+          mgHub: "MINI GAMES", mgTag: "GAMES", mgToday: "TODAY'S GAME", evKick: "MONTHLY EVENT", evName: "Guess the Place", evAsk: "Where is this?", evRight: "Correct! +10 EXP", evWrong: "Not there — try again.", evDone: "Done for today — see you tomorrow.", evSee: "View this quest", mgProxy: "FILLING IN TODAY", mgPlay: "▶ PLAY", mgAllGames: "ALL 7 GAMES ▾", mgHideGames: "HIDE ▴", mgSoon: "COMING SOON",
           runNearMiss: "NEAR MISS!", mgStageJump: "Jump stage — press and hold to charge, release to jump", mgStageCatch: "Catch stage — drag to move the hero", mgStageWhack: "Whack stage — tap the critters that pop up", mgStageMemory: "Memory cards",
           mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
           mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
@@ -28609,7 +28680,7 @@ var qrcode = function() {
           runQuitMsg: function (d) { return "ラン終了 — " + d + "m。今日中ならいつでも再挑戦できます。"; },
           runReadyPractice: "練習モード——本日のガチャ券は今日のゲームにあります（ミニゲーム参照）。何度でも再挑戦OK。",
           runReadyDone: "本日の券は獲得済み ✓ ここからはベスト記録狙いで走ろう！",
-          mgHub: "ミニゲーム", mgTag: "GAMES", mgToday: "今日のゲーム", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgAllGames: "全7ゲーム ▾", mgHideGames: "とじる ▴", mgSoon: "準備中",
+          mgHub: "ミニゲーム", mgTag: "GAMES", mgToday: "今日のゲーム", evKick: "今月のイベント", evName: "場所あて", evAsk: "ここはどこでしょう？", evRight: "正解！ +10 EXP", evWrong: "ちがいます。もう一度！", evDone: "今日はここまで。また明日！", evSee: "このクエストを見る", mgProxy: "本日は代行", mgPlay: "▶ あそぶ", mgAllGames: "全7ゲーム ▾", mgHideGames: "とじる ▴", mgSoon: "準備中",
           runNearMiss: "ニアミス！", mgStageJump: "ジャンプステージ — 長押しで力を溜めて、離すとジャンプ", mgStageCatch: "キャッチステージ — ドラッグで移動", mgStageWhack: "もぐらたたきステージ — 出てきた小動物をタップ", mgStageMemory: "神経衰弱のカード",
           mgNames: { dash: "東京ダッシュ", jump: "屋根ジャンプ", catch: "コインキャッチ", memory: "神経衰弱", whack: "もぐらたたき", stack: "積み上げタワー", fish: "釣り" },
           mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
@@ -28688,7 +28759,7 @@ var qrcode = function() {
           runQuitMsg: function (d) { return "本局结束 — " + d + "m。今天随时可以再来。"; },
           runReadyPractice: "练习模式——今日扭蛋券在当值游戏里（见小游戏 hub）。可以随便重开。",
           runReadyDone: "今日扭蛋券已到手 ✓ 接下来冲最佳距离吧！",
-          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", mgProxy: "今日代行", mgPlay: "▶ 玩", mgAllGames: "全部 7 个游戏 ▾", mgHideGames: "收起 ▴", mgSoon: "准备中",
+          mgHub: "小游戏", mgTag: "GAMES", mgToday: "今日当值游戏", evKick: "本月活动", evName: "每日猜地点", evAsk: "这里是哪里？", evRight: "猜对了！+10 EXP", evWrong: "不是这里，再想想", evDone: "今天已经玩过了，明天再来", evSee: "查看这个任务", mgProxy: "今日代行", mgPlay: "▶ 玩", mgAllGames: "全部 7 个游戏 ▾", mgHideGames: "收起 ▴", mgSoon: "准备中",
           runNearMiss: "险些撞上！", mgStageJump: "跳跃舞台 — 长按蓄力，松手起跳", mgStageCatch: "接取舞台 — 拖动移动主人公", mgStageWhack: "打地鼠舞台 — 点探头的小动物", mgStageMemory: "翻牌区",
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
           mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
@@ -28742,6 +28813,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-30", s: "sparkle", t: "[News] A monthly event has landed on the map!", b: "A new capsule is stacked above the mini-game capsule on the map: Guess the Place, a daily photo quiz. One real quest photo a day — guess the area it is in for a little EXP. New every day!" },
           { d: "2026-10-30", s: "guts", t: "Oct 29 update roundup", b: "• New: Poster share — make a poster with the quest's real photo right from its detail page and share it. The QR code on the poster leads straight to the beta.\n• The map got a big polish pass: zoom now goes to 8x, the route line and the location ring are clearer, and crowded pins spread out.\n• Mini-game stages and buttons were rebalanced, and the mini-games now live in one window.\n• Fixed hard-to-read night screens, the records window, and the daily cards.\nGrowing a little every day — thanks for playing!"},
           { d: "2026-10-29", s: "sparkle", t: "[News] Two new mini-games have arrived: Memory Pairs and Whack-a-Mole!", b: "Thursday is Memory Pairs, Friday is Whack-a-Mole — hit the goal in the day's game to win its gacha ticket."},
           { d: "2026-10-29", s: "sparkle", t: "[News] Mini-games are here!", b: "A different game every day — hit the goal to win today's gacha ticket."},
@@ -28750,6 +28822,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-30", s: "sparkle", t: "【お知らせ】地図に月次イベントが登場！", b: "地図の右下、ミニゲームのカプセルの上に新しいカプセルが積まれました。1日1枚、クエストの実写真を見てエリアを当てる「場所あて」。正解でEXPが少しもらえます。毎日替わるよ！" },
           { d: "2026-10-30", s: "guts", t: "10月29日のアップデートまとめ", b: "・新機能「ポスター共有」：クエストの詳細から、写真入りのポスターを作ってそのままシェアできるようになりました。QRコードからベータに参加できます。\n・ちずを大きく直しました：最大8倍まで拡大でき、ルートの点線や現在地の丸も見やすく、ピンの重なりが減りました。\n・ミニゲームの画面バランスとボタンの見た目を整え、ミニゲームを1つの窓にまとめました。\n・夜の画面で文字が見づらかった場所や、記録の窓、毎日のカードを直しました。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームに「神経衰弱」と「もぐらたたき」が加わりました！", b: "木曜は神経衰弱、金曜はもぐらたたきが当番です。目標達成でその日のガチャ券GET！"},
           { d: "2026-10-29", s: "sparkle", t: "【お知らせ】ミニゲームが増えました！", b: "曜日ごとに替わる今日のゲームで、毎日のガチャチケットを手に入れよう。"},
@@ -28758,6 +28831,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-30", s: "sparkle", t: "【公告】地图上多了个月度活动！", b: "地图右下角、小游戏胶囊的上方，新叠了一个活动胶囊：「每日猜地点」。每天一张任务实景照片，猜它在哪个区域，猜对有少量EXP。每天更新，来看看吧！" },
           { d: "2026-10-30", s: "guts", t: "10月29日更新汇总", b: "・新功能「海报分享」：在任务详情里就能生成带照片的海报直接分享，扫海报上的二维码可以参加内测。\n・地図做了一轮大修整：最大能放大到8倍，路线虚线和定位圈更清楚，图钉挤成一团的情况也少了。\n・小游戏的画面比例和按钮样式都调好了，小游戏都集中到一个窗口里。\n・修好了夜里有些文字看不清的问题，还有记录窗口和每日卡片的小毛病。\n今天也成长了一点，谢谢大家来玩！"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏新增「翻牌对对碰」和「打地鼠」！", b: "周四是翻牌对对碰、周五是打地鼠——完成当值游戏的目标，就能赢当天的扭蛋券。"},
           { d: "2026-10-29", s: "sparkle", t: "【公告】小游戏阵容来了！", b: "每天轮换一款，达标就能赢当天的扭蛋券。"},
@@ -29199,6 +29273,78 @@ var qrcode = function() {
         if (tk) { tk.textContent = done ? "🎟 ✓" : "🎟"; tk.classList.toggle("is-done", done); }
         btn.classList.toggle("is-done", done);
       }
+      /* Q-211 (Zoe): the monthly-event capsule stacked above the
+         game capsule opens GUESS THE PLACE — one real quest photo
+         a day (deterministic by date), guess its area. Correct =
+         +10 EXP once a day (state.guess daily flag only; the
+         at-home programme's isolated-addition rules). Wrong picks
+         just grey out; after the win the quest is revealed and
+         its detail is one tap away. */
+      var evJustWon = false;
+      function ensureGuessDay() {
+        if (!state.guess || typeof state.guess !== "object") state.guess = { date: "", done: false };
+        if (state.guess.date !== TODAY) { state.guess.date = TODAY; state.guess.done = false; }
+      }
+      function evHash(s) { var h = 7; for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) | 0; } return Math.abs(h); }
+      function evQuestToday() {
+        var pool = EVENTS.filter(function (e) { return !!e.img; });
+        if (!pool.length) return null;
+        return pool[evHash("guess:" + TODAY) % pool.length];
+      }
+      function evChoicesFor(e) {
+        var seen = {}, areas = [];
+        EVENTS.forEach(function (q) { if (!seen[q.area]) { seen[q.area] = 1; areas.push(q.area); } });
+        var others = areas.filter(function (a) { return a !== e.area; });
+        var seed = evHash("guess:ch:" + TODAY + ":" + e.id);
+        function rnd() { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; }
+        function shuf(arr) { for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(rnd() * (i + 1)); var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp; } return arr; }
+        var picks = shuf(others).slice(0, 3); picks.push(e.area);
+        return shuf(picks);
+      }
+      function renderEvCapsule() {
+        var btn = $("evMapBtn"); if (!btn) return;
+        ensureGuessDay();
+        var t = X();
+        var kick = $("evMapKick"); if (kick) kick.textContent = t.evKick;
+        var nm = $("evMapName"); if (nm) nm.textContent = t.evName;
+        var tk = $("evMapTicket");
+        if (tk) { tk.textContent = state.guess.done ? "✓" : "?"; tk.classList.toggle("is-done", state.guess.done); }
+        btn.classList.toggle("is-done", state.guess.done);
+      }
+      function evOpen() { evJustWon = false; ensureGuessDay(); renderEv(); var s = $("evScreen"); if (s) s.hidden = false; }
+      function closeEv() { var s = $("evScreen"); if (s) s.hidden = true; }
+      function renderEv() {
+        var t = X(); var e = evQuestToday(); if (!e) return;
+        ensureGuessDay();
+        var title = $("evWinTitle"); if (title) title.textContent = t.evName;
+        var ask = $("evAsk"); if (ask) ask.textContent = state.guess.done ? t.evDone : t.evAsk;
+        var ph = $("evPhoto"); if (ph) ph.src = e.img;
+        var res = $("evResult");
+        if (res) res.textContent = state.guess.done ? (evJustWon ? t.evRight : evName(e) + " · " + areaName(e.area)) : "";
+        var box = $("evChoices"); if (!box) return;
+        box.innerHTML = "";
+        evChoicesFor(e).forEach(function (a) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "ev-choice"; b.textContent = areaName(a);
+          if (state.guess.done) { b.disabled = true; if (a === e.area) b.classList.add("is-right"); }
+          else b.addEventListener("click", function () { evGuess(a, b); });
+          box.appendChild(b);
+        });
+        var see = $("evSee");
+        if (see) { see.hidden = !state.guess.done; see.textContent = t.evSee; see.onclick = function () { closeEv(); openDetail(e.id); }; }
+      }
+      function evGuess(a, btn) {
+        var e = evQuestToday(); if (!e || state.guess.done) return;
+        if (a === e.area) {
+          state.guess.done = true; evJustWon = true;
+          state.bonusExp += 10; save(); renderStatus();
+          renderEvCapsule(); renderEv();
+        } else {
+          btn.disabled = true; btn.classList.add("is-wrong");
+          var res = $("evResult"); if (res) res.textContent = X().evWrong;
+        }
+      }
+      document.getElementById("evClose").addEventListener("click", function () { closeEv(); });
       function renderRunBanner() {
         var el = $("mgHubStatus"); if (!el) return;
         ensureRunnerDay(); ensureGames();
@@ -29243,6 +29389,7 @@ var qrcode = function() {
           });
         }
         renderMgCapsule();
+        renderEvCapsule();
         startRunAttract();
       }
 
@@ -30336,6 +30483,7 @@ var qrcode = function() {
          abolished); the window's rows launch the games, its ✕
          closes back to the untouched hero page */
       $("mgMapBtn").addEventListener("click", function () { mgOpenDuty(); });
+      $("evMapBtn").addEventListener("click", function () { evOpen(); });
       $("mgHubClose").addEventListener("click", closeMgHub);
       var mgFbEl = $("mgFoldBtn");
       if (mgFbEl) mgFbEl.addEventListener("click", function () { mgHubOpen = !mgHubOpen; renderRunBanner(); });
