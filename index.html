@@ -13355,8 +13355,7 @@
             <div id="detailChips" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center"></div>
             <h2 id="detailName"></h2>
             <div class="detail-no" id="detailNo"></div>
-            <p class="detail-side-line" id="detailSideLine"></p>
-          </div>
+            </div>
           <button class="close-btn" id="detailClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="detail-body">
@@ -15754,7 +15753,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1419-slim-86d83073";
+        var BUILD_ID = "tql-20261030-0522-q193-cc266a4e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23604,7 +23603,6 @@ var qrcode = function() {
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
         document.getElementById("detailName").textContent = evName(e);
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
-        var dsl = document.getElementById("detailSideLine"); if (dsl) dsl.textContent = t.sideLine || "";
         detail.classList.toggle("has-photo", !!e.img);
         detail.classList.toggle("is-epic", !!e.evergreen);
         renderEpicReward(e);
