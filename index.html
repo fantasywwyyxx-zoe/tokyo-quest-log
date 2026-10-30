@@ -12351,6 +12351,31 @@
       #badgePager .pp-pg-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
       #badgePager .pp-pg-btn[disabled] { opacity: 0.38; pointer-events: none; }
     </style>
+    <style>
+      /* Q-208 (Zoe's device verdict on the map bottom, 2026-10-30):
+         the Q-204 overlap was gone, but the bottom floaters read
+         as three unrelated placements — the capsule a long
+         one-row bar hugging the left (about 60% of the width in
+         ZH, kicker and name side by side), the control cluster
+         right-anchored below it with no shared edge. Now the
+         capsule joins the cluster's system: same right inset
+         (8px + safe-area), stacked directly above it with the
+         right edges flush, and its kicker/name stack in two
+         lines so the pill shrinks to its text block instead of
+         a full row. Bottom stays at var(--bar-clear) + 58 (the
+         10px of air over the cluster from Q-204); the loc chip
+         keeps the band's left side (left: 66px) and the capsule
+         still yields to the pin preview (Q-206). The filter FAB
+         keeps its Plan C mid-right station. */
+      #mgMapBtn {
+        left: auto;
+        right: calc(8px + env(safe-area-inset-right, 0px));
+      }
+      #mgMapBtn .mmb-txt {
+        display: flex; flex-direction: column; align-items: flex-start;
+        gap: 0; line-height: 1.2; min-width: 0;
+      }
+    </style>
   </head>
   <body data-view="map">
 
@@ -12917,7 +12942,7 @@
                  rows). The count is the bar's first segment and
                  follows the active filter instantly; separate
                  from the LIST search modal. -->
-            <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+            <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
               <span class="mf-side" id="mapSideTag"></span>
               <span class="mf-count" id="mapCount"></span>
@@ -15884,7 +15909,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1659-q207-d64dcb13";
+        var BUILD_ID = "tql-20261030-1703-q208-cff3c05a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
