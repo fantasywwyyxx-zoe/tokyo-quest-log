@@ -12330,6 +12330,30 @@
          explicit rule (showPinPreview / hidePinPreview toggle it). */
       .mg-map-btn[hidden] { display: none; }
     </style>
+    <style>
+      /* Q-205 REPLACED (Zoe's latest word, 2026-10-30):
+         the badge pager now mirrors the TITLES (ladder) pager
+         exactly — space-between container, ladder button box
+         (min-width 70px, padding 6px 10px, var(--fs-s), window
+         ground, card radius, 3px press shadow, disabled at
+         0.38 opacity). The Q-205 two-block flex and the Q-197
+         48x40 sizing are superseded. Kept from the badge side's
+         settled rulings: NO centre number (the ladder has one;
+         badges do not), and the pager's outer margins (its
+         window's lift off the bottom bar). The pin-preview
+         pager is not matched. */
+      #badgePager { justify-content: space-between; align-items: center; gap: 8px; }
+      #badgePager .pp-pg-btn {
+        flex: 0 0 auto; width: auto; height: auto;
+        min-width: 70px; padding: 6px 10px;
+        font-family: inherit; font-size: var(--fs-s); letter-spacing: 0.04em; line-height: normal;
+        color: var(--ink); background: var(--window);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+        box-shadow: 0 3px 0 var(--edge);
+      }
+      #badgePager .pp-pg-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+      #badgePager .pp-pg-btn[disabled] { opacity: 0.38; pointer-events: none; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -15863,7 +15887,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1619-q206-dca2501e";
+        var BUILD_ID = "tql-20261030-1624-q205b-87ecdd5a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
