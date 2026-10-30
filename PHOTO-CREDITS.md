@@ -82,3 +82,11 @@ CC / public-domain photos in this batch (same lines as the in-game credits):
 - 目黒区美術館 — Abasaa — Public domain
 
 The other 15 photos in this batch are official / municipal sources （夕やけ小やけふれあいの里 = Hachioji City, 町田リス園, 薬師池公園， 府中市美術館 = Fuchu City, 武者小路実篤記念館 = Chofu City, ファーレ立川アート, はけの森美術館, 埼玉県立歴史と民俗の博物館, さいたま市立漫画会館 = Saitama City, 川越まつり会館, 大宮盆栽村， 横浜開港資料館, 小石川植物園 = University of Tokyo, 板橋区立熱帯環境植物館 = Itabashi City, 渋谷区ふれあい植物センター), no attribution required.
+
+## Round 5 (tm9 timed batch, 2026-10-30)
+
+One Commons photograph in this batch (the same line as the in-game credits):
+
+- サンシャイン60 — 本屋 — CC BY-SA 3.0
+
+The Sunshine 60 photo serves the three Sunshine City quests in this batch （ポケピース×サンシャインシティ / Dr.STONE サンシャインシティ / BLACK LAGOON 25th at てんぼうパーク); the single credit line covers all three uses. All other 22 photos are official-source photos (Tokyo National Museum ×2 incl. exhibition artwork, NMWA/Tate exhibition site, Tokyo Metropolitan Art Museum (© Musée d'Orsay), Artizon Museum, Mitsubishi Ichigokan Museum (Courtesy Fondazione Torino Musei), Tokyo Opera City Art Gallery, MOMAT, SOMPO Museum of Art (© MuMa Le Havre), Nezu Museum, Yamatane Museum of Art, Kadokawa Culture Museum, Anime Tokyo Station, Sanrio Puroland, Yokohama Landmark Tower, Tokyo Anime Center, Tokyo Mega Illumination, Yomiuriland, Showa Kinen Park, Marunouchi (Mitsubishi Estate), Yokohama Red Brick Warehouse, Sunshine City), no attribution required.
