@@ -13449,6 +13449,7 @@
         <h2 class="log-sec-title"><span id="advLogTitleEl"></span><span class="n" id="advLogCount"></span></h2>
         <div class="adv-body win-scroller" id="advBody"></div>
         <p class="adv-empty" id="advEmpty" hidden></p>
+        <div class="ladder-pager" id="logPager" hidden><button class="ladder-pg-btn" id="logPrev" type="button" aria-label="Previous">◀</button><span class="ladder-pg-num" id="logPos"></span><button class="ladder-pg-btn" id="logNext" type="button" aria-label="Next">▶</button></div>
         </div>
         <!-- Q-108: ONE shared RECORDS tab bar, pinned OUTSIDE the
              three records panels — switching tabs swaps only the
@@ -15913,7 +15914,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261030-1708-q209-0052dd83";
+        var BUILD_ID = "tql-20261030-1711-q210-81ab6be5";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25837,6 +25838,7 @@ var qrcode = function() {
       }
       var colPage = 0;
       var badgePage = 0;
+      var logPage = 0;
       function stickerIdxFor(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return h % BADGE_PIX.length; }
       function renderCollection() {
         var t = L(), body = document.getElementById("colBody"); if (!body) return;
@@ -25906,7 +25908,16 @@ var qrcode = function() {
         document.getElementById("advLogCount").textContent = "(" + rows.length + ")";
         document.getElementById("advEmpty").hidden = rows.length > 0;
         document.getElementById("advEmpty").textContent = t.advEmpty;
-        body.innerHTML = rows.map(function (o) {
+        /* Q-210 (Zoe): the adventure log pages like the titles
+           and badges tabs — one page of rows at a time under the
+           family pager, instead of one long scrolling list. */
+        var LOG_PER_PAGE = 8;
+        var logPages = Math.max(1, Math.ceil(rows.length / LOG_PER_PAGE));
+        if (logPage < 0) logPage = 0;
+        if (logPage > logPages - 1) logPage = logPages - 1;
+        var lStart = logPage * LOG_PER_PAGE;
+        body.scrollTop = 0;
+        body.innerHTML = rows.slice(lStart, lStart + LOG_PER_PAGE).map(function (o) {
           var when = o.c.clearedAt ? fmtDate(localDay(o.c.clearedAt)) : t.advNoDate;
           var method = o.c.method === "remote" ? t.advRemote : o.c.method === "gps" ? t.advOnsite : "";
           var venue = o.e.venue ? o.e.venue.split(",")[0] : areaName(o.e.area);
@@ -25918,6 +25929,16 @@ var qrcode = function() {
             '<span class="ms-chev" aria-hidden="true">▶</span></button>';
         }).join("");
         body.querySelectorAll("[data-open]").forEach(function (el) { el.addEventListener("click", function () { openDetail(el.getAttribute("data-open")); }); });
+        var lpEl = document.getElementById("logPager");
+        if (lpEl) {
+          lpEl.hidden = logPages <= 1;
+          var lPrev = document.getElementById("logPrev"), lNext = document.getElementById("logNext");
+          document.getElementById("logPos").textContent = t.ladderPageOf(logPage + 1, logPages);
+          lPrev.disabled = logPage <= 0;
+          lNext.disabled = logPage >= logPages - 1;
+          lPrev.onclick = function () { if (logPage > 0) { logPage--; renderAdvLog(); } };
+          lNext.onclick = function () { if (logPage < logPages - 1) { logPage++; renderAdvLog(); } };
+        }
       }
       function renderHero() {
         var t = L();
