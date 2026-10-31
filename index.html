@@ -16269,7 +16269,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1536-q239b-35d5b05d";
+        var BUILD_ID = "tql-20261031-1543-q239c-0edac72b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25499,7 +25499,19 @@ var qrcode = function() {
         gm.parentElement.classList.toggle("has-maps", gmOn);
         if (gmOn) {
           var gv = VENUES[e.id];
-          gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+          /* Zoe (2026-10-31): iPhones go to Apple Maps
+             automatically; everyone else keeps Google. One
+             button, only the destination branches. Apple link
+             form: coordinates ride ll with the venue name as
+             the pin label q; name quests use q alone. */
+          var isAppleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent || "") ||
+            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+          if (isAppleMobile) {
+            gm.href = gv ? ("https://maps.apple.com/?ll=" + gv.lat + "," + gv.lng + "&q=" + encodeURIComponent(e.venue))
+                         : ("https://maps.apple.com/?q=" + encodeURIComponent(e.venue + ", " + e.area));
+          } else {
+            gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+          }
           gm.innerHTML = ICONS.map + "<span>" + esc(t.mapsBtn) + "</span>";
         }
         refreshDetailButtons();
