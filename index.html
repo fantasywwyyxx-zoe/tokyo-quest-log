@@ -12628,6 +12628,23 @@
       .run-win .run-btnrow .auth-btn { padding-top: 9px; padding-bottom: 9px; }
       .run-win .run-help { font-size: 11.5px; line-height: 1.45; margin-top: 5px; }
     </style>
+    <style>
+      /* Q-219 (Zoe's device: both capsules' right ends run off
+         the screen — pill and arrow clipped — while the cluster
+         below sits correctly; the lab could not reproduce it):
+         the stack was shrink-to-fit, so its width depended on
+         intrinsic text metrics resolving inside a flex column
+         (and on the buttons' legacy percentage max-width from
+         their standalone era). The stack now has definite
+         geometry — pinned by both insets, buttons right-aligned
+         inside it — and each capsule is capped at the stack's
+         width, so no content combination in any language can
+         push past the right inset. Position, equal heights
+         (Q-216), yielding (Q-209) and the animation (Q-214b)
+         are untouched. */
+      .map-caps { left: calc(8px + env(safe-area-inset-left, 0px)); max-width: none; }
+      #mapCaps .mg-map-btn { max-width: 100%; min-width: 0; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -16185,7 +16202,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1027-q218-52d6006b";
+        var BUILD_ID = "tql-20261031-1031-q219-fef37fe4";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
