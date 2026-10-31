@@ -16200,7 +16200,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1256-q223-fa7b8a92";
+        var BUILD_ID = "tql-20261031-1310-q224q225-2171090c";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -21593,7 +21593,7 @@ var qrcode = function() {
             shareText: L().shareQuest(legendName(lg)),
             prevInfo: prevInfo, newInfo: levelInfo(), leveledTo: 0, badges: badgeUnlocks(badgesBefore)
           });
-          narrate(L().narrCheckin(heroDisplayName(), legendName(lg)));
+          narrate(L().narrCheckin(heroDisplayName(), legendName(lg)), true);
         }
       }
       /* --- legend route sheet (its own window, calendar pattern) --- */
@@ -25031,7 +25031,7 @@ var qrcode = function() {
           leveledTo: newInfo.lv > prevInfo.lv ? newInfo.lv : 0,
           badges: badgeUnlocks(badgesBefore)
         });
-        narrate(L().narrCheckin(heroDisplayName(), evName(e)));
+        narrate(L().narrCheckin(heroDisplayName(), evName(e)), true);
       }
       function undoClear(id) {
         var rec = null;
@@ -25118,7 +25118,12 @@ var qrcode = function() {
         var bar = document.getElementById("narrBar");
         if (bar) { bar.hidden = true; popHide(bar); }
       }
-      function narrate(text) {
+      /* Q-225 (Zoe, device): narrate(text, true) = sticky — no
+         auto-hide timer; the bar waits for a tap (its click
+         handler already calls hideNarr). Used for the check-in
+         completion line, which she was still reading when the
+         2.8s auto-hide took it away. */
+      function narrate(text, sticky) {
         var bar = document.getElementById("narrBar"), tx = document.getElementById("narrTxt");
         if (!bar || !tx || !text) return;
         hideNarr();
@@ -25128,7 +25133,7 @@ var qrcode = function() {
         var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         if (reduced) {
           tx.textContent = text;
-          narrHideTimer = setTimeout(hideNarr, 3200);
+          if (!sticky) narrHideTimer = setTimeout(hideNarr, 3200);
           return;
         }
         var i = 0;
@@ -25137,7 +25142,7 @@ var qrcode = function() {
           tx.textContent = text.slice(0, i);
           if (i >= text.length) {
             clearInterval(narrTypeTimer); narrTypeTimer = null;
-            narrHideTimer = setTimeout(hideNarr, 2800);
+            if (!sticky) narrHideTimer = setTimeout(hideNarr, 2800);
           }
         }, 24);
       }
@@ -29676,8 +29681,15 @@ var qrcode = function() {
               : '<span class="mg-badge practice">' + t.mgPractice + "</span>";
             var ticket = "";
             if (inTrio) ticket = state.runner.won[g.id] ? '<span class="mg-badge ticket is-done">🎟 ✓</span>' : '<span class="mg-badge ticket-open">🎟</span>';
-            row.innerHTML = '<span class="mg-dow">' + t.mgDow[g.dow] + '</span><span class="mg-name">' + mgName(g.id) + '</span>' +
-              (g.soon ? "" : '<span class="mg-best">' + t.mgGoal(g.id) + " · " + t.mgBest(g.id, mgBest(g.id)) + "</span>") + ticket + badge;
+            /* Q-224 (Zoe, device): hub rows carry the game NAME only.
+               The goal/best text squeezed the names out of the row
+               (one name vanished entirely, another kept one kanji);
+               goals and how-to live inside each game's own window.
+               The weekday chip goes too — under the daily rotation
+               it no longer says anything true about the row. Ticket
+               state and the play/practice/soon badge stay: state,
+               as pure UI marks, not text. */
+            row.innerHTML = '<span class="mg-name">' + mgName(g.id) + '</span>' + ticket + badge;
             if (!g.soon) row.addEventListener("click", function () { closeMgHub(); mgOpen(g.id); });
             list.appendChild(row);
           });
