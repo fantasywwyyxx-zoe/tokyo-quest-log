@@ -13892,6 +13892,7 @@
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
             <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
+            <a class="rpg-btn btn-official" id="btnMaps" href="#" target="_blank" rel="noopener"></a>
             <button class="undo-link" id="btnUndo" type="button" hidden></button>
             <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
           </div>
@@ -16267,7 +16268,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1438-q236-787e6eb0";
+        var BUILD_ID = "tql-20261031-1534-q239-71ed26f6";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16928,7 +16929,7 @@ var qrcode = function() {
           kWhen: "WHEN", kHours: "HOURS", kWhere: "WHERE", kPrice: "PRICE", kMood: "MOOD",
           monthlyLabel: "Monthly workshop",
           monthlyNote: "This quest runs every month. The next session's date is announced on the official page — check there before you set out.",
-          official: "OFFICIAL PAGE",
+          official: "OFFICIAL PAGE", mapsBtn: "MAP",
           accept: "ACCEPT QUEST", accepted: "ON QUEST ✓", undoAccept: "Remove from my quest log",
           clear: "CLEAR!", clearedBtn: "CLEARED ✓",
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
@@ -17801,7 +17802,7 @@ var qrcode = function() {
           kWhen: "日時", kHours: "時間", kWhere: "場所", kPrice: "料金", kMood: "気分",
           monthlyLabel: "毎月開催のワークショップ",
           monthlyNote: "このクエストは毎月開催です。次回の日程は公式ページで発表されるので、出発前に確認してください。",
-          official: "公式ページ",
+          official: "公式ページ", mapsBtn: "マップ",
           accept: "クエストを受ける", accepted: "受注中 ✓", undoAccept: "クエストログから外す",
           clear: "クリア！", clearedBtn: "クリア済み ✓",
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
@@ -18674,7 +18675,7 @@ var qrcode = function() {
           kWhen: "日期", kHours: "时间", kWhere: "地点", kPrice: "费用", kMood: "氛围",
           monthlyLabel: "每月举办的工作坊",
           monthlyNote: "这个任务每月举办。下次的日期会在官方页面公布，出发前请确认。",
-          official: "官方页面",
+          official: "官方页面", mapsBtn: "地图",
           accept: "接受任务", accepted: "进行中 ✓", undoAccept: "从任务日志中移除",
           clear: "完成！", clearedBtn: "已完成 ✓",
           clearedOn: "完成日期：", undoClear: "撤销完成",
@@ -25481,6 +25482,15 @@ var qrcode = function() {
         var off = document.getElementById("btnOfficial");
         off.href = e.url;
         off.innerHTML = ICONS.ext + "<span>" + t.official + "</span>";
+        /* Q-239 (Zoe, relaying beta feedback): one tap from the
+           venue row to Google Maps. The check-in coordinate from
+           VENUES wins when the quest has one (233 of 308); the
+           rest fall back to the venue's searchable name + area.
+           Official Maps URL API search form, opens externally. */
+        var gm = document.getElementById("btnMaps");
+        var gv = VENUES[e.id];
+        gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+        gm.innerHTML = ICONS.map + "<span>" + esc(t.mapsBtn) + "</span>";
         refreshDetailButtons();
         checkinMsg("", "");
         syncVisibleH();
