@@ -16224,7 +16224,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1321-q228-2713f47d";
+        var BUILD_ID = "tql-20261031-1324-q229-b4b200fd";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25223,8 +25223,8 @@ var qrcode = function() {
            panel that pops ONCE; the CLEAR! head strip, the stamp,
            the result lines, the level-up row and the badge row
            all live INSIDE it and step in quickly as rows of the
-           same window. One tap (or the timer) closes the one
-           window — nothing else ever appears. */
+           same window. One tap closes the one window —
+           nothing else ever appears. */
         var lines = "";
         /* the EXP line states the METHOD and its rate honestly
            (spec D): on-site 100% vs remote 30% */
@@ -25337,7 +25337,16 @@ var qrcode = function() {
         if (o.badges && o.badges.length) celebLater(function () {
           var b = box.querySelector(".cp-badgerow"); if (b) b.hidden = false;
         }, reduced ? 40 : 330 + lineEls.length * 140 + (o.leveledTo ? 320 : 60));
-        celebLater(endCelebrate, reduced ? (o.mini ? 1300 : 1700) : (o.mini ? 2100 : 2900));
+        /* Q-229 (Zoe, device, twice in one day): NO auto-dismiss.
+           This timer closed the settlement window 2.9s after it
+           opened — she was still reading / about to tap the
+           achievement share when it vanished. The window now
+           waits for her tap (box.onclick = endCelebrate; the
+           wear/share buttons stopPropagation as before). This
+           covers the mini daily-complete panels too: same
+           family, same reading problem. (Corrects the old
+           Q-188-era audit note that claimed there was no
+           auto-dismiss timer — there was, on this line.) */
       }
 
       /* ============ Color themes (GBA palette variants) ============ */
