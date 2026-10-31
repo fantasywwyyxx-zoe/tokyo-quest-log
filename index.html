@@ -12602,6 +12602,32 @@
       .ev-foot .ev-see { flex: 1 1 0; width: auto; }
       .ev-next { background: var(--window-hi); color: var(--ink); }
     </style>
+    <style>
+      /* Q-218 (Zoe's device: the actual game picture is far too
+         small — everything else in the window is oversized, and
+         the disabled "running..." button is pointless): the
+         shared .run-win frame slims down so the stage becomes
+         the window's main body. The empty message band collapses
+         (the event window's empty-result rule, applied here too);
+         lane buttons, HUD, progress bar, help and paddings all
+         shrink a step; the start button now HIDES while a game
+         runs (quit stays), and returns for start / retry. The
+         one-screen window contract is unchanged — the reclaimed
+         height goes to the stage, which flexes. */
+      .run-win { padding: 12px 14px 12px; }
+      .run-win::before { height: 7px; margin-bottom: 7px; }
+      .run-win .auth-head { margin-bottom: 6px; }
+      .run-win .auth-title { padding: 2px 10px 3px; }
+      .run-win .run-hud { margin: 0 0 6px; }
+      .run-win .run-hud .run-dist { font-size: 21px; padding: 1px 8px; }
+      .run-win .run-prog { height: 12px; margin: 0 0 6px; }
+      .run-win .run-msg:empty { display: none; }
+      .run-win .run-msg { margin: 7px 0 3px; padding: 6px 10px; }
+      .run-win .run-lane-row { margin-top: 6px; }
+      .run-win .run-lane-btn { min-height: 44px; font-size: 22px; }
+      .run-win .run-btnrow .auth-btn { padding-top: 9px; padding-bottom: 9px; }
+      .run-win .run-help { font-size: 11.5px; line-height: 1.45; margin-top: 5px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -16159,7 +16185,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-refresh-c27-c28";
+        var BUILD_ID = "tql-20261031-1027-q218-52d6006b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29750,7 +29776,7 @@ var qrcode = function() {
         $("runDist").textContent = "0m";
         $("runMsg").textContent = mgTicketDone() ? t.runReadyDone : (mgDutyId() === "dash" ? t.runReady : t.runReadyPractice);
         $("runHelp").textContent = t.runHelp;
-        var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = t.runStart;
+        var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.runStart;
         $("runQuitBtn").textContent = t.runQuit;
         var lb = $("runLeftBtn"), rb = $("runRightBtn");
         lb.setAttribute("aria-label", t.runLeft); rb.setAttribute("aria-label", t.runRight);
@@ -29779,7 +29805,7 @@ var qrcode = function() {
         $("runMsg").textContent = "";
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
-        var sb = $("runStartBtn"); sb.disabled = true; sb.textContent = X().runRunning;
+        var sb = $("runStartBtn"); sb.disabled = true; sb.hidden = true;
         $("runLeftBtn").disabled = false; $("runRightBtn").disabled = false;
         run.raf = requestAnimationFrame(runTick);
       }
@@ -29793,7 +29819,7 @@ var qrcode = function() {
         if (d > (state.runner.best || 0)) { state.runner.best = d; save(); }
         $("runBest").textContent = X().runBest(state.runner.best || 0);
         $("runMsg").textContent = crashed ? X().runCrash(d, mgTicketDone()) : X().runQuitMsg(d);
-        var sb = $("runStartBtn"); sb.disabled = false; sb.textContent = X().runAgain;
+        var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = X().runAgain;
         $("runLeftBtn").disabled = true; $("runRightBtn").disabled = true;
         var win = document.querySelector(".run-win");
         if (win) { win.classList.add("is-over"); win.classList.toggle("is-crashed", !!crashed); }
@@ -30042,7 +30068,7 @@ var qrcode = function() {
         $("jumpDist").textContent = "0";
         $("jumpMsg").textContent = mgTicketDone() ? t.jumpReadyDone : (mgDutyId() === "jump" ? t.jumpReadyDuty : t.jumpReadyPractice);
         $("jumpHelp").textContent = t.jumpHelp;
-        var sb = $("jumpStartBtn"); sb.disabled = false; sb.textContent = t.jumpStart;
+        var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpStart;
         $("jumpQuitBtn").textContent = t.jumpQuit;
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
         if (jmp && jmp.raf) cancelAnimationFrame(jmp.raf);
@@ -30068,7 +30094,7 @@ var qrcode = function() {
         jmp.hx = 70; jmp.hy = jmp.plats[0].y; jmp.vx = 0; jmp.vy = 0; jmp.cam = 0;
         $("jumpDist").textContent = "0";
         $("jumpMsg").textContent = "";
-        var sb = $("jumpStartBtn"); sb.disabled = true;
+        var sb = $("jumpStartBtn"); sb.disabled = true; sb.hidden = true;
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
       }
       function endJump(cleared) {
@@ -30085,7 +30111,7 @@ var qrcode = function() {
           $("jumpMsg").textContent = t.jumpFall(jmp.score);
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
-        var sb = $("jumpStartBtn"); sb.disabled = false; sb.textContent = t.jumpAgain;
+        var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpAgain;
         renderRunBanner();
       }
       function jumpTick(ts) {
@@ -30189,7 +30215,7 @@ var qrcode = function() {
         $("catchLives").textContent = "💣 0/3";
         $("catchMsg").textContent = mgTicketDone() ? t.catchReadyDone : (mgDutyId() === "catch" ? t.catchReadyDuty : t.catchReadyPractice);
         $("catchHelp").textContent = t.catchHelp;
-        var sb = $("catchStartBtn"); sb.disabled = false; sb.textContent = t.catchStart;
+        var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchStart;
         $("catchQuitBtn").textContent = t.catchQuit;
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
         var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
@@ -30213,7 +30239,7 @@ var qrcode = function() {
         $("catchLives").textContent = "💣 0/3";
         $("catchMsg").textContent = "";
         var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
-        var sb = $("catchStartBtn"); sb.disabled = true; sb.textContent = X().catchStart;
+        var sb = $("catchStartBtn"); sb.disabled = true; sb.hidden = true;
         $("catchLeftBtn").disabled = false; $("catchRightBtn").disabled = false;
       }
       function endCatch(cleared, quit) {
@@ -30230,7 +30256,7 @@ var qrcode = function() {
           $("catchMsg").textContent = quit ? t.catchQuitMsg(cat.count) : t.catchOver(cat.count);
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
-        var sb = $("catchStartBtn"); sb.disabled = false; sb.textContent = t.catchAgain;
+        var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchAgain;
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
         renderRunBanner();
       }
@@ -30364,7 +30390,7 @@ var qrcode = function() {
         $("memoryBest").textContent = t.memBest(mgBest("memory"));
         $("memoryMsg").textContent = mgTicketDone() ? t.memReadyDone : (mgDutyId() === "memory" ? t.memReadyDuty : t.memReadyPractice);
         $("memoryHelp").textContent = t.memHelp;
-        var sb = $("memoryStartBtn"); sb.disabled = false; sb.textContent = t.memStart;
+        var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memStart;
         $("memoryQuitBtn").textContent = t.memQuit;
         if (mem && mem.raf) cancelAnimationFrame(mem.raf);
         mem = { mode: "idle", deck: [], cards: [], btns: [], openIdx: -1, lock: false, pairs: 0, flips: 0, left: MEM_TIME, last: 0, lastSec: -1, raf: 0, run: 0 };
@@ -30386,7 +30412,7 @@ var qrcode = function() {
         memBuildBoard();
         memHud();
         $("memoryMsg").textContent = "";
-        var sb = $("memoryStartBtn"); sb.disabled = true;
+        var sb = $("memoryStartBtn"); sb.disabled = true; sb.hidden = true;
         if (mem.raf) cancelAnimationFrame(mem.raf);
         mem.raf = requestAnimationFrame(memTick);
       }
@@ -30447,7 +30473,7 @@ var qrcode = function() {
           $("memoryMsg").textContent = quit ? t.memQuitMsg(mem.pairs) : t.memOver(mem.pairs);
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
-        var sb = $("memoryStartBtn"); sb.disabled = false; sb.textContent = t.memAgain;
+        var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memAgain;
         renderRunBanner();
       }
 
@@ -30477,7 +30503,7 @@ var qrcode = function() {
         $("whackBest").textContent = t.whackBest(mgBest("whack"));
         $("whackMsg").textContent = mgTicketDone() ? t.whackReadyDone : (mgDutyId() === "whack" ? t.whackReadyDuty : t.whackReadyPractice);
         $("whackHelp").textContent = t.whackHelp;
-        var sb = $("whackStartBtn"); sb.disabled = false; sb.textContent = t.whackStart;
+        var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackStart;
         $("whackQuitBtn").textContent = t.whackQuit;
         if (whk && whk.raf) cancelAnimationFrame(whk.raf);
         whk = { mode: "idle", score: 0, left: WHACK_TIME, elapsed: 0, moles: [], floats: [], spawnT: 0, last: 0, lastSec: -1, raf: 0, goalDone: false, won: false };
@@ -30498,7 +30524,7 @@ var qrcode = function() {
         whk.moles = []; whk.floats = []; whk.spawnT = 0.25; whk.lastSec = -1; whk.goalDone = false; whk.won = false;
         whackHud();
         $("whackMsg").textContent = "";
-        var sb = $("whackStartBtn"); sb.disabled = true;
+        var sb = $("whackStartBtn"); sb.disabled = true; sb.hidden = true;
       }
       function endWhack(quit) {
         if (!whk) return;
@@ -30513,7 +30539,7 @@ var qrcode = function() {
           $("whackMsg").textContent = quit ? t.whackQuitMsg(whk.score) : t.whackShort(whk.score);
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
-        var sb = $("whackStartBtn"); sb.disabled = false; sb.textContent = t.whackAgain;
+        var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackAgain;
         renderRunBanner();
       }
       function whackTick(ts) {
