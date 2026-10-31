@@ -7336,6 +7336,8 @@
         padding: 10px 18px; cursor: pointer; box-shadow: 0 3px 0 var(--epic-deep);
       }
       .cp-wear:active { transform: translateY(2px); box-shadow: none; }
+      .cp-itemrow { display: flex; justify-content: center; margin-top: 8px; }
+      .cp-itemrow canvas { width: 56px; height: 56px; image-rendering: pixelated; background: var(--window-hi); border: 2px solid var(--window-edge); border-radius: 8px; }
       /* --- puzzle case window --- */
       .pz-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
       .pz-grid {
@@ -16265,7 +16267,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1356-q235-aaa6dffc";
+        var BUILD_ID = "tql-20261031-1436-q238-02e2f39f";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26174,7 +26176,10 @@ var qrcode = function() {
           celebHome = null;
         }
       }
-      function endCelebrate() { endCelebrateQuiet(); renderStatus(); }
+      function endCelebrate() {
+        endCelebrateQuiet(); renderStatus();
+        if (pendingNarr) { var pn = pendingNarr; pendingNarr = null; narrate(pn.text, pn.sticky); }
+      }
       /* ============ Narrative message bar ============
          One DQ-style line, typed out in the dialogue window at
          the big moments: a quest CLEAR check-in, a full daily
@@ -26206,6 +26211,12 @@ var qrcode = function() {
         return t.heroes.yusha.name;
       }
       var narrTypeTimer = null, narrHideTimer = null;
+      /* Q-238: a narration requested while the celebration panel
+         is open waits here and is shown when the panel closes --
+         the bar must never cover the panel's buttons (Zoe device:
+         the sticky check-in line sat on top of the share button
+         and the panel's last line, and taps landed on the bar). */
+      var pendingNarr = null;
       function hideNarr() {
         if (narrTypeTimer) { clearInterval(narrTypeTimer); narrTypeTimer = null; }
         if (narrHideTimer) { clearTimeout(narrHideTimer); narrHideTimer = null; }
@@ -26220,6 +26231,8 @@ var qrcode = function() {
       function narrate(text, sticky) {
         var bar = document.getElementById("narrBar"), tx = document.getElementById("narrTxt");
         if (!bar || !tx || !text) return;
+        var celBox = document.getElementById("celebrate");
+        if (celBox && celBox.classList.contains("show")) { pendingNarr = { text: text, sticky: !!sticky }; return; }
         hideNarr();
         bar.hidden = false;
         popShow(bar);
@@ -26280,6 +26293,7 @@ var qrcode = function() {
       }
       function celebrate(o) {
         endCelebrateQuiet();
+        hideNarr();
         var box = document.getElementById("celebrate"), t = L();
         var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         var catCol = (o.cat && CAT_COLOR[o.cat]) || "#f5b81d";
@@ -26331,6 +26345,7 @@ var qrcode = function() {
           (o.mini ? "" : '<div class="cp-stamp ps" hidden>' + esc(t.clearedStamp) + "</div>") +
           '<div class="cp-name">' + esc(o.name) + "</div>" +
           '<div class="cp-lines">' + lines + "</div>" +
+          (o.rewardItem ? '<div class="cp-itemrow"><canvas class="cp-item-cv" width="16" height="16"></canvas></div>' : "") +
           (o.rewardItem ? '<button class="cp-wear" type="button" data-cp-wear="' + o.rewardItem + '">' + esc(t.wearNow) + "</button>" : "") +
           (o.shareText ? '<button class="cp-share" type="button" data-cp-share>' + esc(t.shareBtn) + '</button><span class="cp-share-note" data-cp-share-note></span>' : "") +
           (o.flavor ? '<div class="cflavor">' + esc(o.flavor) + "</div>" : "") +
@@ -26380,6 +26395,8 @@ var qrcode = function() {
           endCelebrate();
           wearNowEquip(wid);
         });
+        var itemCv = box.querySelector(".cp-item-cv");
+        if (itemCv && o.rewardItem) { var rit = gachaItem(o.rewardItem); if (rit) drawItemPreview(itemCv, rit); }
         var shareB = box.querySelector("[data-cp-share]");
         if (shareB) shareB.addEventListener("click", function (ev) {
           ev.stopPropagation();
