@@ -12911,7 +12911,7 @@
           <span class="auth-title" id="runTitle"></span>
           <button class="auth-x" id="runClose" type="button" aria-label="Close">✕</button>
         </div>
-        <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span><span class="run-speed" id="runSpeed"></span></div>
+        <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span></div>
         <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🏁 300m</span></div>
         <div class="run-stage"><canvas id="runCanvas" width="360" height="400"></canvas></div>
         <!-- lane controls (Zoe, 2026-10-29): the ONLY steering
@@ -12925,7 +12925,6 @@
         <p class="run-msg" id="runMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="runStartBtn" type="button"></button>
-          <button class="auth-btn ghost" id="runQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="runHelp"></p>
       </div>
@@ -12946,7 +12945,6 @@
         <p class="run-msg" id="jumpMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="jumpStartBtn" type="button"></button>
-          <button class="auth-btn ghost" id="jumpQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="jumpHelp"></p>
       </div>
@@ -12972,7 +12970,6 @@
         <p class="run-msg" id="catchMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="catchStartBtn" type="button"></button>
-          <button class="auth-btn ghost" id="catchQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="catchHelp"></p>
       </div>
@@ -12994,7 +12991,6 @@
         <p class="run-msg" id="memoryMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="memoryStartBtn" type="button"></button>
-          <button class="auth-btn ghost" id="memoryQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="memoryHelp"></p>
       </div>
@@ -13016,7 +13012,6 @@
         <p class="run-msg" id="whackMsg"></p>
         <div class="run-btnrow">
           <button class="auth-btn primary" id="whackStartBtn" type="button"></button>
-          <button class="auth-btn ghost" id="whackQuitBtn" type="button"></button>
         </div>
         <p class="run-help" id="whackHelp"></p>
       </div>
@@ -16202,7 +16197,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1241-q221-b6244c55";
+        var BUILD_ID = "tql-20261031-1250-q222-974820dc";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29798,12 +29793,10 @@ var qrcode = function() {
         $("runMsg").textContent = mgTicketDone() ? t.runReadyDone : (mgDutyId() === "dash" ? t.runReady : t.runReadyPractice);
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.runStart;
-        $("runQuitBtn").textContent = t.runQuit;
         var lb = $("runLeftBtn"), rb = $("runRightBtn");
         lb.setAttribute("aria-label", t.runLeft); rb.setAttribute("aria-label", t.runRight);
         lb.disabled = true; rb.disabled = true; /* steering arms only while running */
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
-        var sp = $("runSpeed"); if (sp) sp.textContent = "";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
         run = { mode: "idle", lane: 1, x: LANES_X[1], dist: 0, obs: [], spawnT: 0, last: 0, raf: 0, frameT: 0, fx: [], puffs: [], puffT: 0, nears: 0, lastShown: -1, crashed: false, crashAt: 0 };
         drawRun(0);
@@ -29908,14 +29901,13 @@ var qrcode = function() {
           $("runGoal").textContent = X().runGoal(true);
           $("runMsg").textContent = X().runReward;
         }
-        /* HUD: distance + 300m progress + speed tier, refreshed
+        /* HUD: distance + 300m progress, refreshed (Q-222: the SPD Lv chip display is gone; the tier number fed nothing else)
            when the metre count changes (not every frame) */
         var di = Math.floor(run.dist);
         if (di !== run.lastShown) {
           run.lastShown = di;
           $("runDist").textContent = di + "m";
           var pf2 = $("runProgFill"); if (pf2) pf2.style.width = Math.min(100, run.dist / RUN_TARGET * 100) + "%";
-          var sp2 = $("runSpeed"); if (sp2) sp2.textContent = "SPD Lv." + Math.min(5, 1 + Math.floor(run.dist / 75));
         }
         drawRun(ts);
         run.raf = requestAnimationFrame(runTick);
@@ -30090,7 +30082,6 @@ var qrcode = function() {
         $("jumpMsg").textContent = mgTicketDone() ? t.jumpReadyDone : (mgDutyId() === "jump" ? t.jumpReadyDuty : t.jumpReadyPractice);
         $("jumpHelp").textContent = t.jumpHelp;
         var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpStart;
-        $("jumpQuitBtn").textContent = t.jumpQuit;
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
         if (jmp && jmp.raf) cancelAnimationFrame(jmp.raf);
         jmp = { mode: "idle", score: 0, power: 0, pdir: 1, hx: 70, hy: 0, vx: 0, vy: 0, cam: 0, last: 0, raf: 0, plats: [], cur: 0 };
@@ -30237,7 +30228,6 @@ var qrcode = function() {
         $("catchMsg").textContent = mgTicketDone() ? t.catchReadyDone : (mgDutyId() === "catch" ? t.catchReadyDuty : t.catchReadyPractice);
         $("catchHelp").textContent = t.catchHelp;
         var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchStart;
-        $("catchQuitBtn").textContent = t.catchQuit;
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
         var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
         if (cat && cat.raf) cancelAnimationFrame(cat.raf);
@@ -30412,7 +30402,6 @@ var qrcode = function() {
         $("memoryMsg").textContent = mgTicketDone() ? t.memReadyDone : (mgDutyId() === "memory" ? t.memReadyDuty : t.memReadyPractice);
         $("memoryHelp").textContent = t.memHelp;
         var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memStart;
-        $("memoryQuitBtn").textContent = t.memQuit;
         if (mem && mem.raf) cancelAnimationFrame(mem.raf);
         mem = { mode: "idle", deck: [], cards: [], btns: [], openIdx: -1, lock: false, pairs: 0, flips: 0, left: MEM_TIME, last: 0, lastSec: -1, raf: 0, run: 0 };
         memBuildBoard();
@@ -30525,7 +30514,6 @@ var qrcode = function() {
         $("whackMsg").textContent = mgTicketDone() ? t.whackReadyDone : (mgDutyId() === "whack" ? t.whackReadyDuty : t.whackReadyPractice);
         $("whackHelp").textContent = t.whackHelp;
         var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackStart;
-        $("whackQuitBtn").textContent = t.whackQuit;
         if (whk && whk.raf) cancelAnimationFrame(whk.raf);
         whk = { mode: "idle", score: 0, left: WHACK_TIME, elapsed: 0, moles: [], floats: [], spawnT: 0, last: 0, lastSec: -1, raf: 0, goalDone: false, won: false };
         whackHud();
@@ -30763,7 +30751,6 @@ var qrcode = function() {
       if (mgFbEl) mgFbEl.addEventListener("click", function () { mgHubOpen = !mgHubOpen; renderRunBanner(); });
       $("runClose").addEventListener("click", closeRun);
       $("runStartBtn").addEventListener("click", startRun);
-      $("runQuitBtn").addEventListener("click", function () { if (run && run.mode === "running") endRun(false); else closeRun(); });
       $("authNameSave").addEventListener("click", function () {
         var v = ($("authNameInput").value || "").trim().slice(0, 12);
         if (v) state.displayName = v;
@@ -30796,7 +30783,6 @@ var qrcode = function() {
       /* jump + catch wiring */
       $("jumpClose").addEventListener("click", closeJump);
       $("jumpStartBtn").addEventListener("click", startJump);
-      $("jumpQuitBtn").addEventListener("click", function () { closeJump(); });
       (function () {
         var cv = $("jumpCanvas");
         cv.addEventListener("pointerdown", function (e) {
@@ -30821,7 +30807,6 @@ var qrcode = function() {
       })();
       $("catchClose").addEventListener("click", closeCatch);
       $("catchStartBtn").addEventListener("click", startCatch);
-      $("catchQuitBtn").addEventListener("click", function () { if (cat && cat.mode === "running") endCatch(false, true); else closeCatch(); });
       (function () {
         var cv = $("catchCanvas");
         function toGameX(e) {
@@ -30864,10 +30849,8 @@ var qrcode = function() {
       /* memory + whack wiring (batch 2) */
       $("memoryClose").addEventListener("click", closeMemory);
       $("memoryStartBtn").addEventListener("click", startMemory);
-      $("memoryQuitBtn").addEventListener("click", function () { if (mem && mem.mode === "running") endMemory(false, true); else closeMemory(); });
       $("whackClose").addEventListener("click", closeWhack);
       $("whackStartBtn").addEventListener("click", startWhack);
-      $("whackQuitBtn").addEventListener("click", function () { if (whk && whk.mode === "running") endWhack(true); else closeWhack(); });
       $("whackCanvas").addEventListener("pointerdown", whackTap);
       /* map START menu: NEWS item opens the same beta window, and
          carries its label (renderMapNav's name table predates it) */
