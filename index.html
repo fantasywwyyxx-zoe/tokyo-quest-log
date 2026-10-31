@@ -10037,13 +10037,52 @@
          framed .win inside it becomes the scroller, so the
          frame, the ✕ and the title stay put */
       #hsegCustom { overflow: hidden; }
+      /* Q-230 (Zoe, 2026-10-31): the hero-page customize panel
+         takes the creator's two-pane layout (Q-196 Plan B) --
+         fixed stage on the left, scrolling options on the
+         right, edits preview live on the stage. The panel
+         itself no longer scrolls; the right column does. */
       #hsegCustom .cust-panel {
-        flex: 1 1 auto; min-height: 0;
+        display: flex; flex-direction: row; gap: 12px;
+        flex: 1 1 auto; min-height: 0; overflow: hidden;
+      }
+      #hsegCustom .cust-scroll {
+        flex: 1 1 auto; min-width: 0; min-height: 0;
         overflow-y: auto; overflow-x: hidden;
         -webkit-overflow-scrolling: touch; touch-action: pan-y;
         overscroll-behavior: contain; scrollbar-width: none;
+        padding-bottom: 48px;
       }
-      #hsegCustom .cust-panel::-webkit-scrollbar { display: none; }
+      #hsegCustom .cust-scroll::-webkit-scrollbar { display: none; }
+      #hsegCustom .cust-stage {
+        flex: 0 0 42%; min-width: 0; margin: 0; position: relative; overflow: hidden;
+        flex-direction: column; align-items: center; justify-content: flex-end;
+        gap: 6px; padding: 10px 6px 8px;
+        background: var(--window-hi);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+      }
+      #hsegCustom .cust-stage::after {
+        content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30px;
+        background: color-mix(in srgb, var(--gold) 30%, var(--window));
+        border-top: 3px solid var(--line-c);
+      }
+      #hsegCustom .cust-stage canvas {
+        position: relative; z-index: 1;
+        width: 104px; height: 104px;
+        background: transparent; border: none; border-radius: 0; box-shadow: none;
+      }
+      #hsegCustom .cust-name {
+        position: relative; z-index: 1; font-size: 15px; text-align: center;
+      }
+      #hsegCustom .cust-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+      #hsegCustom .cust-preset { width: 100%; }
+      #hsegCustom .cust-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+      #hsegCustom .cust-chip { width: 100%; text-align: center; }
+      #hsegCustom .win-more { left: 71%; }
+      @media (max-height: 740px) {
+        #hsegCustom .cust-stage canvas { width: 84px; height: 84px; }
+        #hsegCustom .cust-scroll { padding-bottom: 40px; }
+      }
       /* sibling case windows keep their panel-level scroll —
          same containment + touch treatment throughout */
       #view-hero .hseg-panel.hero-win {
@@ -13661,11 +13700,12 @@
         <div class="hseg-panel hero-win" id="hsegCustom" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
         <h2 class="log-sec-title"><span id="customTitle"></span></h2>
-        <div class="win cust-panel win-scroller">
+        <div class="win cust-panel">
           <div class="cust-stage">
             <canvas id="customCanvas" width="16" height="16" aria-hidden="true"></canvas>
             <span class="cust-name" id="customName"></span>
           </div>
+          <div class="cust-scroll win-scroller">
           <div class="cust-group">
             <span class="cust-label" id="custPresetLabel"></span>
             <div class="cust-presets" id="customPresets"></div>
@@ -13685,6 +13725,7 @@
           <div class="cust-group">
             <span class="cust-label" id="custFaceLabel"></span>
             <div class="cust-chips" id="customFaces"></div>
+          </div>
           </div>
         </div>
         <div class="win-more" aria-hidden="true" hidden>▾</div>
@@ -16224,7 +16265,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1324-q229-b4b200fd";
+        var BUILD_ID = "tql-20261031-1329-q230-0cfd7fed";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
