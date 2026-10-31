@@ -12119,6 +12119,9 @@
       }
       .mg-hub-scroll .mg-list { margin-top: 0; }
       .mg-badge.ticket { background: #63b96f; color: #fff; }
+      .mg-badge.ticket-open { background: var(--window); color: var(--ink); }
+      .mg-badge.ticket.is-done { background: var(--lemon, #ffd83d); color: #231a00; }
+      .mg-badge.practice { background: var(--window-deep); color: var(--ink-dim); }
 
       /* --- (9) Q-175: the DAILY HUD bar takes its colors as a
              PAIR on both dark paths. Root cause: .daily-hud
@@ -16197,7 +16200,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1250-q222-974820dc";
+        var BUILD_ID = "tql-20261031-1256-q223-fa7b8a92";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -20141,7 +20144,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0 }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -20199,7 +20202,7 @@ var qrcode = function() {
                once, ever — same saved-state base as the tutorial flag */
             state.mfHintSeen = !!parsed.mfHintSeen;
             if (parsed.runner && typeof parsed.runner === "object") {
-              state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0 };
+              state.runner = { date: typeof parsed.runner.date === "string" ? parsed.runner.date : "", best: typeof parsed.runner.best === "number" ? parsed.runner.best : 0, rewarded: !!parsed.runner.rewarded, plays: typeof parsed.runner.plays === "number" ? parsed.runner.plays : 0, won: (parsed.runner.won && typeof parsed.runner.won === "object" && !Array.isArray(parsed.runner.won)) ? parsed.runner.won : {} };
             }
             if (parsed.guess && typeof parsed.guess === "object") {
               state.guess = { date: typeof parsed.guess.date === "string" ? parsed.guess.date : "", solved: Array.isArray(parsed.guess.solved) ? parsed.guess.solved.filter(function (x) { return typeof x === "string"; }) : [], done: !!parsed.guess.done };
@@ -28842,8 +28845,8 @@ var qrcode = function() {
           mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
           mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : id === "catch" ? "GOAL 30 CATCHES" : id === "memory" ? "GOAL 6 PAIRS IN 90s" : id === "whack" ? "GOAL 300 PTS IN 45s" : "COMING SOON"; },
           mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
-          mgRule: function (name) { return "🎟 TODAY: " + name; },
-          mgStatus: function (name, done) { return done ? "Today's ticket is yours ✓ — every game stays open for practice." : "Hit the goal in today's game (" + name + ") to win today's gacha ticket. The others are practice — scores only."; },
+          mgToday3: "Today's 3 games", mgPractice: "Practice",
+          mgStatus3: function (n) { return n >= 3 ? "All 3 of today's mini-game tickets are yours ✓ — every game stays open for practice." : "Three games rotate in every day, one gacha ticket each — hit the goal to win it (" + n + "/3 won). The others are practice — scores only."; },
           jumpTitle: "ROOF JUMP", jumpStart: "▶ START", jumpAgain: "↻ AGAIN", jumpQuit: "QUIT",
           jumpHelp: "Press & hold anywhere on the stage to charge, release to leap. Land on the next roof for +1 — miss and the run ends.",
           jumpReadyDuty: "Hold… release… land! 15 landings in a row wins today's gacha ticket.",
@@ -28921,8 +28924,8 @@ var qrcode = function() {
           mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
           mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : id === "catch" ? "目標 合計30個キャッチ" : id === "memory" ? "目標 90秒で6ペア" : id === "whack" ? "目標 45秒で300点" : "準備中"; },
           mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
-          mgRule: function (name) { return "🎟 本日: " + name; },
-          mgStatus: function (name, done) { return done ? "本日の券は獲得済み ✓ どのゲームも練習で遊べます。" : "今日のゲーム（" + name + "）の目標達成で本日のガチャ券GET。ほかのゲームは記録だけの練習です。"; },
+          mgToday3: "今日の3ゲーム", mgPractice: "練習",
+          mgStatus3: function (n) { return n >= 3 ? "今日のミニゲーム券は3枚そろいました ✓ どのゲームも練習で遊べます。" : "毎日3種がローテーション、目標達成で各種ガチャ券1枚（現在 " + n + "/3 枚）。ほかのゲームは記録だけの練習です。"; },
           jumpTitle: "屋根ジャンプ", jumpStart: "▶ スタート", jumpAgain: "↻ もう一度", jumpQuit: "やめる",
           jumpHelp: "画面を長押しで力を溜めて、離すとジャンプ。次の屋根に着地で+1、外したら終了。",
           jumpReadyDuty: "長押し→離して次の屋根へ！15回連続着地で本日のガチャ券。",
@@ -29000,8 +29003,8 @@ var qrcode = function() {
           mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
           mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : id === "catch" ? "目标 合计接住30个" : id === "memory" ? "目标 90秒内配齐6对" : id === "whack" ? "目标 45秒内得300分" : "准备中"; },
           mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
-          mgRule: function (name) { return "🎟 今日: " + name; },
-          mgStatus: function (name, done) { return done ? "今日扭蛋券已到手 ✓ 所有游戏都可以继续练习。" : "完成今日当值游戏（" + name + "）的目标，赢今日扭蛋券；其他游戏只记分。"; },
+          mgToday3: "今日3个游戏", mgPractice: "练习",
+          mgStatus3: function (n) { return n >= 3 ? "今天的3张小游戏券都到手了 ✓ 所有游戏都可以继续练习。" : "每天轮换3个游戏，每个达标可得1张扭蛋券（已得 " + n + "/3）。其他游戏是练习，只记分。"; },
           jumpTitle: "跳一跳", jumpStart: "▶ 开始", jumpAgain: "↻ 再来一局", jumpQuit: "结束",
           jumpHelp: "长按蓄力，松手起跳。落在下一块屋顶 +1，掉下去就结束。",
           jumpReadyDuty: "长按→松手，跳到下一块屋顶！连续落地15次赢今日扭蛋券。",
@@ -29048,6 +29051,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-31", s: "sparkle", t: "[News] Mini-games: now 3 every day", b: "The mini-game capsule on the map now opens today's list: three different games rotate in every day, and hitting the goal in each earns a gacha ticket — up to 3 a day. The line-up changes daily, so come and see today's three!" },
           { d: "2026-10-30", s: "sparkle", t: "[News] Guess the Place: now 5 a day!", b: "The photo quiz on the map just grew \u2014 five photos to guess every day instead of one. Each correct answer earns +10 EXP. Try to clear all five!" },
           { d: "2026-10-30", s: "sparkle", t: "[News] A monthly event has landed on the map!", b: "A new capsule is stacked above the mini-game capsule on the map: Guess the Place, a daily photo quiz. One real quest photo a day — guess the area it is in for a little EXP. New every day!" },
           { d: "2026-10-30", s: "guts", t: "Oct 29 update roundup", b: "• New: Poster share — make a poster with the quest's real photo right from its detail page and share it. The QR code on the poster leads straight to the beta.\n• The map got a big polish pass: zoom now goes to 8x, the route line and the location ring are clearer, and crowded pins spread out.\n• Mini-game stages and buttons were rebalanced, and the mini-games now live in one window.\n• Fixed hard-to-read night screens, the records window, and the daily cards.\nGrowing a little every day — thanks for playing!"},
@@ -29058,6 +29062,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ミニゲームが1日3種に", b: "地図のミニゲームカプセルから、その日の3ゲームが開けるようになりました。顔ぶれは毎日ローテーションで、各種の目標を達成するとガチャチケットが1枚、1日最大3枚もらえます。今日の3種をチェック！" },
           { d: "2026-10-30", s: "sparkle", t: "【お知らせ】場所あてが1日5問に増量！", b: "地図の写真クイズが増えました。1日1問から5問に！正解1つで +10 EXP。5問ぜんぶ当ててみよう。" },
           { d: "2026-10-30", s: "sparkle", t: "【お知らせ】地図に月次イベントが登場！", b: "地図の右下、ミニゲームのカプセルの上に新しいカプセルが積まれました。1日1枚、クエストの実写真を見てエリアを当てる「場所あて」。正解でEXPが少しもらえます。毎日替わるよ！" },
           { d: "2026-10-30", s: "guts", t: "10月29日のアップデートまとめ", b: "・新機能「ポスター共有」：クエストの詳細から、写真入りのポスターを作ってそのままシェアできるようになりました。QRコードからベータに参加できます。\n・ちずを大きく直しました：最大8倍まで拡大でき、ルートの点線や現在地の丸も見やすく、ピンの重なりが減りました。\n・ミニゲームの画面バランスとボタンの見た目を整え、ミニゲームを1つの窓にまとめました。\n・夜の画面で文字が見づらかった場所や、記録の窓、毎日のカードを直しました。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
@@ -29068,6 +29073,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-31", s: "sparkle", t: "【公告】小游戏改为每天3种", b: "点地图上的小游戏胶囊，就能打开今天的游戏列表：每天轮换3个游戏，每个达标可得1张扭蛋券，每天最多3张。阵容每天都换，来看看今天的三个！" },
           { d: "2026-10-30", s: "sparkle", t: "【公告】猜地点增量：每天5题！", b: "地图上的照片问答变多了：从每天1题增加到5题。每猜对一题 +10 EXP，5题全对更有成就感，快来试试！" },
           { d: "2026-10-30", s: "sparkle", t: "【公告】地图上多了个月度活动！", b: "地图右下角、小游戏胶囊的上方，新叠了一个活动胶囊：「每日猜地点」。每天一张任务实景照片，猜它在哪个区域，猜对有少量EXP。每天更新，来看看吧！" },
           { d: "2026-10-30", s: "guts", t: "10月29日更新汇总", b: "・新功能「海报分享」：在任务详情里就能生成带照片的海报直接分享，扫海报上的二维码可以参加内测。\n・地図做了一轮大修整：最大能放大到8倍，路线虚线和定位圈更清楚，图钉挤成一团的情况也少了。\n・小游戏的画面比例和按钮样式都调好了，小游戏都集中到一个窗口里。\n・修好了夜里有些文字看不清的问题，还有记录窗口和每日卡片的小毛病。\n今天也成长了一点，谢谢大家来玩！"},
@@ -29383,7 +29389,7 @@ var qrcode = function() {
       function homeShortcut(q) {
         try { sfx("open"); } catch (e) { /* ignore */ }
         if (q.act === "detail") switchView("list");
-        else if (q.act === "runner") { switchView("hero"); mgOpenDuty(); }
+        else if (q.act === "runner") { switchView("hero"); openMgHub(); }
         else if (q.act === "gacha") { switchView("hero"); var b = document.querySelector('[data-openwin="gacha"]'); if (b) b.click(); }
         else if (q.act === "news") openBeta();
         else if (q.act === "legend" && LEGENDS.length) openLegend(LEGENDS[0].id);
@@ -29407,16 +29413,17 @@ var qrcode = function() {
       };
 
       /* ---------- MINI-GAME HUB (batch 1, 2026-10-29) ----------
-         Seven games, one per weekday. Batch 2 (2026-10-29) adds
-         memory (Thu) and whack (Fri): stack / fish still sit in
-         the roster as COMING SOON, and on their weekdays DASH
-         fills in as the duty game so no day is ever ticketless.
-         THE TICKET: state.runner.rewarded is the ONE daily
-         ticket flag for every game (the old dash-only ledger,
-         unified — dash's own rewarded run now flows through
-         mgAward like everything else). One flag, one ticket a
-         day, whichever game is on duty. Practice plays in any
-         non-duty game can never touch it. */
+         Seven games in the roster; stack / fish still sit as
+         COMING SOON. Q-223 (Zoe, 2026-10-31): THREE of the five
+         live games rotate in each day on a fixed weekday table
+         (MG_ROTATION), and EACH carries its own daily ticket
+         flag (state.runner.won[id]) — up to 3 tickets a day, all
+         through the one mgAward door and the ticketBonus ledger.
+         The other two stay open as practice: playable, goal and
+         all, but mgAward never pays them. The old single flag
+         (state.runner.rewarded) survives only as the migration
+         input in ensureRunnerDay; the old weekday-duty /
+         fill-in (proxy) mechanism is retired outside it. */
       var MG_GAMES = [
         { id: "dash", dow: 1 },
         { id: "jump", dow: 2 },
@@ -29440,6 +29447,24 @@ var qrcode = function() {
         return "dash";
       }
       function mgGame(id) { for (var i = 0; i < MG_GAMES.length; i++) if (MG_GAMES[i].id === id) return MG_GAMES[i]; return MG_GAMES[0]; }
+      /* Q-223: the fixed weekly rotation — three of the five
+         live games per day (Date.getDay(): 0 = Sunday). Across
+         the week dash appears 5 times, the others 4 each;
+         stack / fish join the table when they ship. */
+      var MG_ROTATION = {
+        0: ["jump", "whack", "dash"],
+        1: ["dash", "jump", "catch"],
+        2: ["memory", "whack", "dash"],
+        3: ["jump", "catch", "whack"],
+        4: ["dash", "memory", "jump"],
+        5: ["catch", "whack", "memory"],
+        6: ["dash", "catch", "memory"]
+      };
+      function mgTodayGames() { var t = MG_ROTATION[new Date().getDay()] || MG_ROTATION[1]; return t.slice(); }
+      function mgInToday(id) { return mgTodayGames().indexOf(id) >= 0; }
+      /* legacy weekday duty (with the fill-in proxy) — retained
+         ONLY so ensureRunnerDay can migrate a pre-Q-223 save's
+         single earned flag to the game that earned it. */
       function mgDutyId() {
         var s = mgScheduledId();
         return mgGame(s).soon ? "dash" : s;
@@ -29455,19 +29480,21 @@ var qrcode = function() {
         else { ensureGames(); if (v > (state.games[id] || 0)) state.games[id] = v; }
         save();
       }
-      function mgTicketDone() { ensureRunnerDay(); return !!state.runner.rewarded; }
-      /* the ONLY door to a ticket: duty game + goal reached +
-         today's single flag still free. Returns true when the
-         ticket was actually granted by this call. */
+      function mgWon(id) { ensureRunnerDay(); return !!state.runner.won[id]; }
+      function mgEarnedCount() { ensureRunnerDay(); var n = 0, trio = mgTodayGames(); for (var i = 0; i < trio.length; i++) if (state.runner.won[trio[i]]) n++; return n; }
+      /* the ONLY door to a ticket: the game must be in today's
+         trio, reach its goal, and its own daily flag must still
+         be free. Returns true when the ticket was actually
+         granted by this call. */
       function mgAward(id) {
         ensureRunnerDay();
-        if (id !== mgDutyId()) return false;
-        if (state.runner.rewarded) return false;
-        state.runner.rewarded = true;
+        if (!mgInToday(id)) return false;
+        if (state.runner.won[id]) return false;
+        state.runner.won[id] = true;
         state.ticketBonus = (state.ticketBonus || 0) + 1;
-        save(); renderStatus();
+        save(); renderStatus(); renderMgCapsule();
         try { sfx("fanfare"); } catch (e) { /* ignore */ }
-        if (window.markHomeAct) window.markHomeAct("runner"); /* home daily follows the duty game's goal */
+        if (window.markHomeAct) window.markHomeAct("runner"); /* home daily follows a game ticket */
         return true;
       }
       function mgOpen(id) {
@@ -29477,7 +29504,6 @@ var qrcode = function() {
         else if (id === "whack") openWhack();
         else { openRun(); startRun(); }
       }
-      function mgOpenDuty() { mgOpen(mgDutyId()); }
       /* Q-171: the roster is an independent window now — open
          refreshes the rows (bests / ticket state) and shows the
          shell; the hero page underneath is never reflowed, so
@@ -29492,24 +29518,35 @@ var qrcode = function() {
       /* ---------- DASH RUN mini-game ---------- */
       var RUN_TARGET = 300;
       function ensureRunnerDay() {
-        if (!state.runner || typeof state.runner !== "object") state.runner = { date: "", best: 0, rewarded: false, plays: 0 };
-        if (state.runner.date !== TODAY) { state.runner.date = TODAY; state.runner.rewarded = false; state.runner.plays = 0; }
+        if (!state.runner || typeof state.runner !== "object") state.runner = { date: "", best: 0, rewarded: false, plays: 0, won: {} };
+        if (!state.runner.won || typeof state.runner.won !== "object" || Array.isArray(state.runner.won)) state.runner.won = {};
+        var cleanWon = {};
+        for (var wi = 0; wi < MG_GAMES.length; wi++) if (state.runner.won[MG_GAMES[wi].id] === true) cleanWon[MG_GAMES[wi].id] = true;
+        state.runner.won = cleanWon;
+        if (state.runner.date !== TODAY) { state.runner.date = TODAY; state.runner.rewarded = false; state.runner.plays = 0; state.runner.won = {}; }
+        else if (state.runner.rewarded && !Object.keys(state.runner.won).length) {
+          /* Q-223 migration: a save that already earned today's
+             single ticket under the old one-flag system keeps it —
+             the old duty game's per-game flag starts set, so the
+             ticket is neither lost nor doubled. */
+          state.runner.won[mgDutyId()] = true;
+        }
       }
       /* Q-201 D (Zoe's pick, 2026-10-30): the mini-game entrance
-         is a floating capsule on the MAP — today's game and the
-         ticket state in one pill; it is the ONLY surface that
-         displays the game-ticket state. Tapping it opens the
-         duty game directly (mgOpenDuty). */
+         is a floating capsule on the MAP, and the ONLY surface
+         that displays the game-ticket state. Q-223: its face is
+         the day's ticket progress (n/3) and tapping it opens
+         the games list window (openMgHub). */
       function renderMgCapsule() {
         var btn = $("mgMapBtn"); if (!btn) return;
         ensureRunnerDay();
         var t = X();
-        var duty = mgDutyId(), done = mgTicketDone();
+        var n = mgEarnedCount(), all = n >= 3;
         var kick = $("mgMapKick"); if (kick) kick.textContent = t.mgToday;
-        var nm = $("mgMapName"); if (nm) nm.textContent = mgName(duty);
+        var nm = $("mgMapName"); if (nm) nm.textContent = t.mgToday3;
         var tk = $("mgMapTicket");
-        if (tk) { tk.textContent = done ? "🎟 ✓" : "🎟"; tk.classList.toggle("is-done", done); }
-        btn.classList.toggle("is-done", done);
+        if (tk) { tk.textContent = all ? "✓" : (n + "/3"); tk.classList.toggle("is-done", all); }
+        btn.classList.toggle("is-done", all);
       }
       /* Q-211 (Zoe): the monthly-event capsule stacked above the
          game capsule opens GUESS THE PLACE — one real quest photo
@@ -29618,41 +29655,29 @@ var qrcode = function() {
         var el = $("mgHubStatus"); if (!el) return;
         ensureRunnerDay(); ensureGames();
         var t = X();
-        var duty = mgDutyId(), sched = mgScheduledId(), done = mgTicketDone();
-        el.textContent = t.mgStatus(mgName(duty), done);
-        var hubT = $("mgHubTitle"); if (hubT) hubT.textContent = t.mgHub;
+        var trio = mgTodayGames(), earned = mgEarnedCount();
+        el.textContent = t.mgStatus3(earned);
         var hubW = $("mgHubWinTitle"); if (hubW) hubW.textContent = t.mgHub;
-        var tag = $("runTag"); if (tag) tag.textContent = t.mgTag;
-        var rule = $("runCabRule");
-        if (rule) { rule.textContent = done ? t.runGoal(true) : t.mgRule(mgName(duty)); rule.classList.toggle("is-done", done); }
-        var kick = $("mgDutyKicker");
-        if (kick) kick.textContent = t.mgToday + (sched !== duty ? " · " + t.mgProxy : "");
-        var dn = $("mgDutyName"); if (dn) dn.textContent = mgName(duty);
-        var dm = $("mgDutyMeta");
-        if (dm) dm.textContent = t.mgGoal(duty) + " · " + t.mgBest(duty, mgBest(duty)) + (done ? " · 🎟 ✓" : "");
-        var db = $("mgDutyBtn"); if (db) db.classList.toggle("is-done", done);
-        var stb = $("runCabStart"); if (stb) stb.textContent = t.mgPlay;
-        var cab = $("runCabinet"); if (cab) cab.classList.toggle("mg-open", !!mgHubOpen);
-        var fb = $("mgFoldBtn");
-        if (fb) { fb.textContent = mgHubOpen ? t.mgHideGames : t.mgAllGames; fb.setAttribute("aria-expanded", mgHubOpen ? "true" : "false"); }
         var list = $("mgList");
         if (list) {
           list.innerHTML = "";
           MG_GAMES.forEach(function (g) {
-            var isDuty = g.id === duty;
+            var inTrio = trio.indexOf(g.id) >= 0;
             var row = document.createElement(g.soon ? "div" : "button");
             if (!g.soon) row.type = "button";
-            row.className = "mg-row" + (isDuty ? " is-duty" : "") + (g.soon ? " is-soon" : "");
-            /* Q-170: ONE launch badge (▶ PLAY) on every playable
-               row, Monday Dash included — the roster is the full
-               MG_GAMES array in weekday order. Q-165: a ticket
-               icon rides the duty row ONLY as the earned state
-               (🎟 ✓ chip), never as the launch affordance. */
+            row.className = "mg-row" + (inTrio ? " is-duty" : "") + (g.soon ? " is-soon" : "");
+            /* Q-223: trio rows carry the ticket state (🎟 still
+               to win / 🎟 ✓ lemon once won); the other live games
+               stay playable as practice and carry a practice tag
+               instead — reaching their goal pays no ticket
+               (mgAward's trio guard). Soon rows unchanged. */
             var badge = g.soon ? '<span class="mg-badge soon">' + t.mgSoon + "</span>"
-              : '<span class="mg-badge play">' + t.mgPlay + "</span>";
-            var ticket = (isDuty && done) ? '<span class="mg-badge ticket">🎟 ✓</span>' : "";
+              : inTrio ? '<span class="mg-badge play">' + t.mgPlay + "</span>"
+              : '<span class="mg-badge practice">' + t.mgPractice + "</span>";
+            var ticket = "";
+            if (inTrio) ticket = state.runner.won[g.id] ? '<span class="mg-badge ticket is-done">🎟 ✓</span>' : '<span class="mg-badge ticket-open">🎟</span>';
             row.innerHTML = '<span class="mg-dow">' + t.mgDow[g.dow] + '</span><span class="mg-name">' + mgName(g.id) + '</span>' +
-              (g.soon ? "" : '<span class="mg-best">' + t.mgBest(g.id, mgBest(g.id)) + "</span>") + ticket + badge;
+              (g.soon ? "" : '<span class="mg-best">' + t.mgGoal(g.id) + " · " + t.mgBest(g.id, mgBest(g.id)) + "</span>") + ticket + badge;
             if (!g.soon) row.addEventListener("click", function () { closeMgHub(); mgOpen(g.id); });
             list.appendChild(row);
           });
@@ -29787,10 +29812,10 @@ var qrcode = function() {
         $("runScreen").hidden = false;
         var t = X();
         $("runTitle").textContent = t.runTitle;
-        $("runGoal").textContent = mgTicketDone() ? t.runGoal(true) : (mgDutyId() === "dash" ? t.runGoal(false) : t.mgGoal("dash"));
+        $("runGoal").textContent = mgWon("dash") ? t.runGoal(true) : (mgInToday("dash") ? t.runGoal(false) : t.mgGoal("dash"));
         $("runBest").textContent = t.runBest(state.runner.best || 0);
         $("runDist").textContent = "0m";
-        $("runMsg").textContent = mgTicketDone() ? t.runReadyDone : (mgDutyId() === "dash" ? t.runReady : t.runReadyPractice);
+        $("runMsg").textContent = mgWon("dash") ? t.runReadyDone : (mgInToday("dash") ? t.runReady : t.runReadyPractice);
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.runStart;
         var lb = $("runLeftBtn"), rb = $("runRightBtn");
@@ -29832,7 +29857,7 @@ var qrcode = function() {
         var d = Math.floor(run.dist);
         if (d > (state.runner.best || 0)) { state.runner.best = d; save(); }
         $("runBest").textContent = X().runBest(state.runner.best || 0);
-        $("runMsg").textContent = crashed ? X().runCrash(d, mgTicketDone()) : X().runQuitMsg(d);
+        $("runMsg").textContent = crashed ? X().runCrash(d, mgWon("dash")) : X().runQuitMsg(d);
         var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = X().runAgain;
         $("runLeftBtn").disabled = true; $("runRightBtn").disabled = true;
         var win = document.querySelector(".run-win");
@@ -29895,8 +29920,8 @@ var qrcode = function() {
           }
         }
         /* daily ticket at the goal line — through the ONE
-           unified door (mgAward): only when dash is today's
-           duty game and today's single flag is still free */
+           unified door (mgAward): only when dash is in today's
+           trio and its own daily flag is still free */
         if (run.dist >= RUN_TARGET && mgAward("dash")) {
           $("runGoal").textContent = X().runGoal(true);
           $("runMsg").textContent = X().runReward;
@@ -30076,10 +30101,10 @@ var qrcode = function() {
         var t = X();
         $("jumpTitle").textContent = t.jumpTitle;
         var jcv = $("jumpCanvas"); if (jcv && t.mgStageJump) jcv.setAttribute("aria-label", t.mgStageJump);
-        $("jumpGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("jump");
+        $("jumpGoal").textContent = mgWon("jump") ? t.runGoal(true) : t.mgGoal("jump");
         $("jumpBest").textContent = t.jumpBest(mgBest("jump"));
         $("jumpDist").textContent = "0";
-        $("jumpMsg").textContent = mgTicketDone() ? t.jumpReadyDone : (mgDutyId() === "jump" ? t.jumpReadyDuty : t.jumpReadyPractice);
+        $("jumpMsg").textContent = mgWon("jump") ? t.jumpReadyDone : (mgInToday("jump") ? t.jumpReadyDuty : t.jumpReadyPractice);
         $("jumpHelp").textContent = t.jumpHelp;
         var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpStart;
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
@@ -30221,11 +30246,11 @@ var qrcode = function() {
         var t = X();
         $("catchTitle").textContent = t.catchTitle;
         var ccv = $("catchCanvas"); if (ccv && t.mgStageCatch) ccv.setAttribute("aria-label", t.mgStageCatch);
-        $("catchGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("catch");
+        $("catchGoal").textContent = mgWon("catch") ? t.runGoal(true) : t.mgGoal("catch");
         $("catchBest").textContent = t.catchBest(mgBest("catch"));
         $("catchDist").textContent = "0";
         $("catchLives").textContent = "💣 0/3";
-        $("catchMsg").textContent = mgTicketDone() ? t.catchReadyDone : (mgDutyId() === "catch" ? t.catchReadyDuty : t.catchReadyPractice);
+        $("catchMsg").textContent = mgWon("catch") ? t.catchReadyDone : (mgInToday("catch") ? t.catchReadyDuty : t.catchReadyPractice);
         $("catchHelp").textContent = t.catchHelp;
         var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchStart;
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
@@ -30397,9 +30422,9 @@ var qrcode = function() {
         var t = X();
         $("memoryTitle").textContent = t.memTitle;
         var mgr = $("memoryGrid"); if (mgr && t.mgStageMemory) mgr.setAttribute("aria-label", t.mgStageMemory);
-        $("memoryGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("memory");
+        $("memoryGoal").textContent = mgWon("memory") ? t.runGoal(true) : t.mgGoal("memory");
         $("memoryBest").textContent = t.memBest(mgBest("memory"));
-        $("memoryMsg").textContent = mgTicketDone() ? t.memReadyDone : (mgDutyId() === "memory" ? t.memReadyDuty : t.memReadyPractice);
+        $("memoryMsg").textContent = mgWon("memory") ? t.memReadyDone : (mgInToday("memory") ? t.memReadyDuty : t.memReadyPractice);
         $("memoryHelp").textContent = t.memHelp;
         var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memStart;
         if (mem && mem.raf) cancelAnimationFrame(mem.raf);
@@ -30509,9 +30534,9 @@ var qrcode = function() {
         var t = X();
         $("whackTitle").textContent = t.whackTitle;
         var wcv = $("whackCanvas"); if (wcv && t.mgStageWhack) wcv.setAttribute("aria-label", t.mgStageWhack);
-        $("whackGoal").textContent = mgTicketDone() ? t.runGoal(true) : t.mgGoal("whack");
+        $("whackGoal").textContent = mgWon("whack") ? t.runGoal(true) : t.mgGoal("whack");
         $("whackBest").textContent = t.whackBest(mgBest("whack"));
-        $("whackMsg").textContent = mgTicketDone() ? t.whackReadyDone : (mgDutyId() === "whack" ? t.whackReadyDuty : t.whackReadyPractice);
+        $("whackMsg").textContent = mgWon("whack") ? t.whackReadyDone : (mgInToday("whack") ? t.whackReadyDuty : t.whackReadyPractice);
         $("whackHelp").textContent = t.whackHelp;
         var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackStart;
         if (whk && whk.raf) cancelAnimationFrame(whk.raf);
@@ -30744,7 +30769,7 @@ var qrcode = function() {
          in-page fold and its destination-less cabinet START are
          abolished); the window's rows launch the games, its ✕
          closes back to the untouched hero page */
-      $("mgMapBtn").addEventListener("click", function () { mgOpenDuty(); });
+      $("mgMapBtn").addEventListener("click", function () { openMgHub(); });
       $("evMapBtn").addEventListener("click", function () { evOpen(); });
       $("mgHubClose").addEventListener("click", closeMgHub);
       var mgFbEl = $("mgFoldBtn");
