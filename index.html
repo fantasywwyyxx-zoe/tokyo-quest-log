@@ -10145,6 +10145,8 @@
       .auth-btnrow .auth-btn { flex: 1; width: auto; }
       .auth-label { font-family: "Baloo 2", "M PLUS Rounded 1c", "Noto Sans SC", sans-serif; font-weight: 800; font-size: 13px; color: #a8651e; margin: 0; }
       .auth-sub { font-size: 13px; color: #8a6b42; margin: 0; line-height: 1.5; }
+      .auth-promo { font-size: 13.5px; font-weight: 800; color: #43301a; background: var(--lemon, #ffd83d); border: 2px solid #e8cfa0; border-radius: 10px; padding: 7px 10px; margin: 8px 0 0; line-height: 1.45; text-align: center; }
+      .auth-promo:empty { display: none; }
       .auth-input {
         width: 100%; padding: 12px; border: 3px solid #e8cfa0; border-radius: 10px; background: #fff;
         font: inherit; font-size: 16px; color: #43301a;
@@ -12808,6 +12810,7 @@
           <button class="auth-btn primary" id="authShowEmail" type="button"></button>
           <button class="auth-btn" id="authGoogleBtn" type="button"></button>
           <p class="auth-sub" id="authNewNote"></p>
+          <p class="auth-promo" id="authPromo"></p>
           <button class="auth-btn ghost" id="authGuestBtn" type="button"></button>
           <p class="auth-msg" id="authMainMsg" hidden></p>
           <a class="auth-migrate" id="authMigrate" href="https://fantasywwyyxx-zoe.github.io/tql-migrate/" target="_blank" rel="noopener"></a>
@@ -16200,7 +16203,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1310-q224q225-2171090c";
+        var BUILD_ID = "tql-20261031-1313-q226-09f84a88";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16898,6 +16901,7 @@ var qrcode = function() {
           resExp: "EXP GAINED", resProg: "PROGRESS", resTicket: "NEXT TICKET",
           resTicketIn: function (n) { return n + " EXP to go"; },
           narrCheckin: function (hero, ev) { return hero + " checked in at " + ev + "!"; },
+          loginBonusNarr: "Sign-in bonus! You got 10 gacha tickets!",
           narrDailyAll: function (hero) { return hero + " completed today's daily quests!"; },
           narrGot: function (item) { return "Got " + item + "!"; },
           narrDupe: function (item) { return item + " — already in the wardrobe! +10 EXP"; },
@@ -17771,6 +17775,7 @@ var qrcode = function() {
           resExp: "獲得EXP", resProg: "進捗", resTicket: "次のチケットまで",
           resTicketIn: function (n) { return "あと " + n + " EXP"; },
           narrCheckin: function (hero, ev) { return hero + " は 「" + ev + "」 に チェックインした！"; },
+          loginBonusNarr: "ログイン特典！ガチャ券10枚を手に入れた！",
           narrDailyAll: function (hero) { return hero + " は 今日のデイリーを すべて達成した！"; },
           narrGot: function (item) { return item + " を てにいれた！"; },
           narrDupe: function (item) { return item + " は もう持っていた！ +10 EXP"; },
@@ -18644,6 +18649,7 @@ var qrcode = function() {
           resExp: "获得EXP", resProg: "进度", resTicket: "下一张券",
           resTicketIn: function (n) { return "还差 " + n + " EXP"; },
           narrCheckin: function (hero, ev) { return hero + " 在「" + ev + "」打卡成功！"; },
+          loginBonusNarr: "登录奖励！获得10张扭蛋券！",
           narrDailyAll: function (hero) { return hero + " 完成了今日每日任务！"; },
           narrGot: function (item) { return "获得了 " + item + "！"; },
           narrDupe: function (item) { return item + " 已经有了！+10 EXP"; },
@@ -20144,7 +20150,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "en", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -20227,6 +20233,7 @@ var qrcode = function() {
                legacy photo-diary entries are reduced to their
                task lists — photos and notes are discarded) */
             state.ticketBonus = typeof parsed.ticketBonus === "number" ? parsed.ticketBonus : 0;
+            state.loginBonus = !!parsed.loginBonus;
             state.sharedEver = !!parsed.sharedEver;
             state.shareDate = typeof parsed.shareDate === "string" ? parsed.shareDate : "";
             state.dayLog = (parsed.dayLog && typeof parsed.dayLog === "object") ? parsed.dayLog : {};
@@ -28155,7 +28162,7 @@ var qrcode = function() {
           supportTitle: "SUPPORT", kofiBtn: "♥ SUPPORT ON KO-FI", feedback: "FEEDBACK (BETA TEST)",
           supportText: "Tokyo Quest Log is still in preparation for its official release. Your support keeps development going — and as the game grows, we hope to team up with events and shops around the city to bring real perks back to players. Only tip if you can; every bit of support means a lot!",
           verNew: "A new version is available — tap to reload",
-          heroGuest: "ACCOUNT: Guest (tap to log in)", heroIn: function (e) { return "ACCOUNT: " + e; }
+          heroGuest: "ACCOUNT: Guest (log in for \U0001f39f\u00d710)", loginPromo: "Sign in and get 10 gacha tickets!", heroIn: function (e) { return "ACCOUNT: " + e; }
         },
         ja: {
           login: "ログイン", account: "アカウント", guestState: "ゲスト — 記録はこの端末に保存されます",
@@ -28183,7 +28190,7 @@ var qrcode = function() {
           supportTitle: "応援する", kofiBtn: "♥ Ko-fiで応援する", feedback: "フィードバック（ベータテスト）",
           supportText: "東京クエストログは、正式リリースに向けて準備中です。応援は開発の大きな励みになります。もっと人気が出たら、街のイベントやお店とコラボして、プレイヤーのみんなに還元できる企画も狙っています。無理のない範囲で応援してもらえたら嬉しいです！",
           verNew: "新しいバージョンがあります — タップで再読み込み",
-          heroGuest: "アカウント：ゲスト（タップでログイン）", heroIn: function (e) { return "アカウント：" + e; }
+          heroGuest: "アカウント：ゲスト（ログインで\U0001f39f\u00d710）", loginPromo: "ログインするとガチャ券10枚プレゼント！", heroIn: function (e) { return "アカウント：" + e; }
         },
         zh: {
           login: "登录", account: "账号", guestState: "游客 — 进度保存在这台设备上",
@@ -28211,7 +28218,7 @@ var qrcode = function() {
           supportTitle: "应援", kofiBtn: "♥ 在 Ko-fi 应援", feedback: "反馈（内测）",
           supportText: "东京冒险日志还在为正式上线做准备。你的应援是开发最大的动力；等游戏更火一些，我们想和城市里的活动、店铺联动，为大家争取玩家福利。量力而行就好，每一份支持都非常感谢！",
           verNew: "有新版本 — 点按重新加载",
-          heroGuest: "账号：游客（点按登录）", heroIn: function (e) { return "账号：" + e; }
+          heroGuest: "账号：游客（登录送\U0001f39f\u00d710）", loginPromo: "登录账号即送10张扭蛋券！", heroIn: function (e) { return "账号：" + e; }
         }
       };
       function A() { return AUTH_STR[state.lang] || AUTH_STR.en; }
@@ -28321,6 +28328,22 @@ var qrcode = function() {
         setTimeout(settleCloudGate, 6000);
       }
 
+      /* Q-226 (Zoe): sign-in bonus — once an account's own record
+         is in place after a sync, it gains +10 gacha tickets via
+         ticketBonus, once per account ever (state.loginBonus).
+         The owner re-check keeps the grant out of any foreign-
+         account local record (the S1 guard case): after a settled
+         sync the owner tag is this user or unset. */
+      function maybeLoginBonus() {
+        if (!authUser) return;
+        var ow = cloudOwner();
+        if (ow && ow !== authUser.id) return;
+        if (state.loginBonus) return;
+        state.loginBonus = true;
+        state.ticketBonus = (typeof state.ticketBonus === "number" ? state.ticketBonus : 0) + 10;
+        save(); renderStatus();
+        try { narrate(L().loginBonusNarr); } catch (e) { /* ignore */ }
+      }
       /* ---------- the one sync that runs right after login ---------- */
       function syncOnce() {
         if (syncPromise) return syncPromise;
@@ -28479,6 +28502,7 @@ var qrcode = function() {
         $("heroSupportBtn").textContent = t.support;
         var tsb = $("titleSupportBtn"); if (tsb) tsb.textContent = t.supportShort;
         $("heroAcctText").textContent = authUser ? t.heroIn(authUser.email || "") : t.heroGuest;
+        var apEl = $("authPromo"); if (apEl) apEl.textContent = t.loginPromo;
         $("buildVerLine").textContent = TQL_BUILD;
         /* QA R24 follow-up: the settings sheet also shows the
            session's live BUILD_ID token verbatim (same value as
@@ -28586,6 +28610,7 @@ var qrcode = function() {
           $("authDoneMail").textContent = pendingEmail;
           showMsg("authSyncNote", "", true);
           var note = await syncOnce();
+          maybeLoginBonus();
           if (!$("authScreen").hidden && authUser) showSyncDone(note);
         } catch (e) { showMsg("authCodeMsg", A().errNet); }
         finally { btn.disabled = false; btn.textContent = A().verifyBtn; }
@@ -28733,7 +28758,7 @@ var qrcode = function() {
                the title state is only ever decided after the
                cloud record has had its say. */
             if (isEmptySave(state)) armCloudGate();
-            syncOnce().then(function (note) { settleCloudGate(); maybeOAuthWelcome(note); });
+            syncOnce().then(function (note) { settleCloudGate(); maybeLoginBonus(); maybeOAuthWelcome(note); });
           } else if (oauthReturn.error || oauthReturn.code || oauthReturn.tokens) {
             /* Back from Google with no session: the provider returned an
                error, or the PKCE exchange failed — the code verifier lives
@@ -28750,6 +28775,7 @@ var qrcode = function() {
             if (isNew && isEmptySave(state)) armCloudGate();
             if (isNew) syncOnce().then(function (note) {
               settleCloudGate();
+              maybeLoginBonus();
               /* A login that just completed via an OAuth return gets an
                  explicit welcome confirmation (welcome title + email +
                  which save was kept), confirmed by the player's tap —
@@ -29056,6 +29082,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-10-31", s: "sparkle", t: "[News] Sign in and get 10 gacha tickets!", b: "Log in with a free account (email or Google) and 10 gacha tickets are yours — one gift per account. Your progress also saves to the cloud, so it stays safe even if you change phones." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Mini-games: now 3 every day", b: "The mini-game capsule on the map now opens today's list: three different games rotate in every day, and hitting the goal in each earns a gacha ticket — up to 3 a day. The line-up changes daily, so come and see today's three!" },
           { d: "2026-10-30", s: "sparkle", t: "[News] Guess the Place: now 5 a day!", b: "The photo quiz on the map just grew \u2014 five photos to guess every day instead of one. Each correct answer earns +10 EXP. Try to clear all five!" },
           { d: "2026-10-30", s: "sparkle", t: "[News] A monthly event has landed on the map!", b: "A new capsule is stacked above the mini-game capsule on the map: Guess the Place, a daily photo quiz. One real quest photo a day — guess the area it is in for a little EXP. New every day!" },
@@ -29067,6 +29094,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ログインでガチャ券10枚プレゼント！", b: "メールかGoogleの無料アカウントでログインすると、ガチャ券10枚をプレゼント（1アカウント1回まで）。セーブデータもクラウドに保存されるので、機種変更でも安心です。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ミニゲームが1日3種に", b: "地図のミニゲームカプセルから、その日の3ゲームが開けるようになりました。顔ぶれは毎日ローテーションで、各種の目標を達成するとガチャチケットが1枚、1日最大3枚もらえます。今日の3種をチェック！" },
           { d: "2026-10-30", s: "sparkle", t: "【お知らせ】場所あてが1日5問に増量！", b: "地図の写真クイズが増えました。1日1問から5問に！正解1つで +10 EXP。5問ぜんぶ当ててみよう。" },
           { d: "2026-10-30", s: "sparkle", t: "【お知らせ】地図に月次イベントが登場！", b: "地図の右下、ミニゲームのカプセルの上に新しいカプセルが積まれました。1日1枚、クエストの実写真を見てエリアを当てる「場所あて」。正解でEXPが少しもらえます。毎日替わるよ！" },
@@ -29078,6 +29106,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-10-31", s: "sparkle", t: "【公告】登录账号就送10张扭蛋券！", b: "用邮箱或 Google 免费登录，10张扭蛋券直接到账（每个账号限领一次）。存档也会同步到云端，换手机也不怕丢。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】小游戏改为每天3种", b: "点地图上的小游戏胶囊，就能打开今天的游戏列表：每天轮换3个游戏，每个达标可得1张扭蛋券，每天最多3张。阵容每天都换，来看看今天的三个！" },
           { d: "2026-10-30", s: "sparkle", t: "【公告】猜地点增量：每天5题！", b: "地图上的照片问答变多了：从每天1题增加到5题。每猜对一题 +10 EXP，5题全对更有成就感，快来试试！" },
           { d: "2026-10-30", s: "sparkle", t: "【公告】地图上多了个月度活动！", b: "地图右下角、小游戏胶囊的上方，新叠了一个活动胶囊：「每日猜地点」。每天一张任务实景照片，猜它在哪个区域，猜对有少量EXP。每天更新，来看看吧！" },
