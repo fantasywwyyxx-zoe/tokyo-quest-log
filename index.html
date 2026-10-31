@@ -16202,7 +16202,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1233-q220-cf780a63";
+        var BUILD_ID = "tql-20261031-1241-q221-b6244c55";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -22690,7 +22690,7 @@ var qrcode = function() {
         titleEl.textContent = t.gachaTitle;
         var ghl = document.getElementById("gachaHowLabel"); if (ghl) ghl.textContent = "▶ " + t.tutReplay;
         document.getElementById("gachaSub").textContent = t.gachaSub;
-        document.getElementById("ticketPill").textContent = t.ticketsLabel(left);
+        document.getElementById("ticketPill").textContent = "🎟 " + t.ticketsLabel(left); /* Q-221 (Zoe): the gacha pill carries the same ticket glyph as the daily games */
         var xp = totalExp();
         document.getElementById("gachaNext").innerHTML = t.nextTicket(50 - (xp % 50));
         var btn = document.getElementById("gachaPullBtn");
