@@ -12627,6 +12627,14 @@
       .run-win .run-hud .run-dist { font-size: 21px; padding: 1px 8px; }
       .run-win .run-prog { height: 12px; margin: 0 0 6px; }
       .run-win .run-msg:empty { display: none; }
+      /* Q-227 (QA filing, Zoe device \u2014 her Coin Catch shot
+         showed iOS text-selection handles sitting on the help
+         line mid-play): the whole game window is a play surface,
+         so no text selection and no iOS long-press callout
+         anywhere inside .run-win. The help line sits directly
+         under the lane buttons in the thumb drag path. Reading
+         surfaces outside the game windows stay selectable. */
+      .run-win, .run-win * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
       .run-win .run-msg { margin: 7px 0 3px; padding: 6px 10px; }
       .run-win .run-lane-row { margin-top: 6px; }
       .run-win .run-lane-btn { min-height: 44px; font-size: 22px; }
@@ -16203,7 +16211,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1313-q226-09f84a88";
+        var BUILD_ID = "tql-20261031-1316-q227-e8b99bd0";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
