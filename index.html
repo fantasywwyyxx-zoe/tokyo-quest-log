@@ -2627,7 +2627,7 @@
         background: var(--green); color: #fff;
         border: 3px solid var(--line-c); box-shadow: 0 3px 0 var(--edge);
       }
-      .btn-official { background: var(--window); color: var(--ink); }
+      .btn-official, .btn-maps { background: var(--window); color: var(--ink); }
       .ds-ghost { border: 2.5px dashed var(--line-c); color: var(--paper-ink); background: transparent; box-shadow: none; }
       .undo-link { color: var(--gold-deep); font-weight: 800; }
       .tab { background: var(--window); color: var(--ink-dim); border: 2.5px solid var(--line-c); border-radius: 12px; box-shadow: 0 2px 0 var(--edge); font-weight: 800; }
@@ -12217,6 +12217,7 @@
       dialog#detail .detail-actions .btn-checkin,
       dialog#detail .detail-actions .btn-back { grid-column: 1 / -1; }
       dialog#detail .detail-actions .btn-official { grid-column: 1 / -1; }
+      dialog#detail .detail-actions.has-maps .btn-official { grid-column: auto; }
       .poster-fab {
         position: absolute; right: 10px; bottom: 8px; z-index: 3;
         width: 40px; height: 40px; border-radius: 999px; padding: 0;
@@ -13892,7 +13893,7 @@
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
             <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
-            <a class="rpg-btn btn-official" id="btnMaps" href="#" target="_blank" rel="noopener"></a>
+            <a class="rpg-btn btn-maps" id="btnMaps" href="#" target="_blank" rel="noopener" hidden></a>
             <button class="undo-link" id="btnUndo" type="button" hidden></button>
             <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
           </div>
@@ -16268,7 +16269,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1534-q239-71ed26f6";
+        var BUILD_ID = "tql-20261031-1536-q239b-35d5b05d";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25483,14 +25484,24 @@ var qrcode = function() {
         off.href = e.url;
         off.innerHTML = ICONS.ext + "<span>" + t.official + "</span>";
         /* Q-239 (Zoe, relaying beta feedback): one tap from the
-           venue row to Google Maps. The check-in coordinate from
-           VENUES wins when the quest has one (233 of 308); the
-           rest fall back to the venue's searchable name + area.
-           Official Maps URL API search form, opens externally. */
+           venue row to Google Maps. PILOT ONLY (Zoe, 2026-10-31):
+           she wants a few quests verified first -- one tap must
+           land on the right venue and the button must not disturb
+           the game's own map experience -- before any full
+           rollout, which waits for her separate word. The target
+           logic is general (VENUES coordinate when present, else
+           the venue's searchable name + area), so expanding the
+           pilot set is the whole rollout change when she calls it. */
+        var MAPS_PILOT = { "eg-ghibli-museum": 1, "eg9-itabashi-nettaikan": 1, "sonic-exhibition": 1 };
         var gm = document.getElementById("btnMaps");
-        var gv = VENUES[e.id];
-        gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
-        gm.innerHTML = ICONS.map + "<span>" + esc(t.mapsBtn) + "</span>";
+        var gmOn = !!MAPS_PILOT[e.id];
+        gm.hidden = !gmOn;
+        gm.parentElement.classList.toggle("has-maps", gmOn);
+        if (gmOn) {
+          var gv = VENUES[e.id];
+          gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+          gm.innerHTML = ICONS.map + "<span>" + esc(t.mapsBtn) + "</span>";
+        }
         refreshDetailButtons();
         checkinMsg("", "");
         syncVisibleH();
