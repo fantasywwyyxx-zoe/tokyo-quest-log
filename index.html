@@ -16265,7 +16265,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1337-q231-1c61b6d4";
+        var BUILD_ID = "tql-20261031-1345-q233-d0d4b97d";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24886,7 +24886,7 @@ var qrcode = function() {
         return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
-          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(e.price) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
+          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
       }
@@ -26736,6 +26736,10 @@ var qrcode = function() {
           return '<button class="cust-chip" type="button" data-cust-face="' + f + '" aria-pressed="' + String((state.custom.face || "smile") === f) + '">' + esc(t.faceNames[i]) + "</button>";
         }).join("");
         drawHeroEquipped(document.getElementById("customCanvas"), state.hero, state.gacha.equipped);
+        /* Q-233: refresh the continuation plaque synchronously as
+           well as on the frame -- where rAF is throttled the plaque
+           state otherwise lags the render that created the overflow */
+        refreshWinMoreAll();
         requestAnimationFrame(function () { refreshWinMoreAll(); });
       }
       function applyCustom() {
@@ -28265,7 +28269,7 @@ var qrcode = function() {
         var lc = document.getElementById("locChip"); if (lc) lc.hidden = true;
         document.getElementById("ppThumb").innerHTML = previewSVG(e);
         document.getElementById("ppName").textContent = evName(e);
-        document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + e.price + (isCleared(id) ? " · " + L().clearedBtn : isAccepted(id) ? " · " + L().accepted : "");
+        document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + evPrice(e) + (isCleared(id) ? " · " + L().clearedBtn : isAccepted(id) ? " · " + L().accepted : "");
         document.getElementById("pinPreview").hidden = false;
         /* Q-206: the preview owns the +58 band while it is open —
            the game capsule yields (the locChip already does the
