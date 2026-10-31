@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#57b6e8" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -1413,6 +1413,19 @@
       .tabs, .statusbar, .map-frame, .topbar, .deck-nav, .big-map-head {
         -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
       }
+      /* Q-227 scope upgrade (Zoe, via QA): she widened the
+         no-selection fix from the game windows to the WHOLE
+         game — "long-press selecting text and double-tap zoom
+         are both unbearable on web games, you can't play".
+         Root-level: no long-press selection, no iOS callout,
+         and no double-tap zoom (touch-action: manipulation
+         still allows pan + pinch, so scrollers and the map's
+         own zoom keep working; canvases keep their stricter
+         per-element rules). HARD carve-out: real input
+         surfaces (rename, search, email/OTP, the wish editor)
+         keep full selection/editing/paste behaviour. */
+      html, body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; touch-action: manipulation; }
+      input, textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; touch-action: auto; }
       .wrap > * { min-width: 0; }
 
       /* --- (a) font choice: one rule per candidate, applied to the
@@ -16211,7 +16224,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1316-q227-e8b99bd0";
+        var BUILD_ID = "tql-20261031-1318-q227b-6344d9c0";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
