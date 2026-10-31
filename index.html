@@ -16265,7 +16265,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261031-1329-q230-0cfd7fed";
+        var BUILD_ID = "tql-20261031-1332-q232-7230e6a6";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17641,7 +17641,6 @@ var qrcode = function() {
           epicReward: function (name) { return name + " — yours on the first clear of this epic spot!"; },
           epicRewardGot: function (name) { return name + " — in your wardrobe ✓ (epic limited)"; },
           epicNote: "EPIC quest: clear it on site — GPS check-in at the venue. Manual clear is disabled for epic quests.",
-          epicNoManual: "Epic quests can't be cleared manually — on-site GPS check-in only.",
           legendTag: "LEGEND", legendRule: "A route quest above EPIC: stamp every waypoint IN ORDER with on-site GPS check-in. No manual clear, no time limit — progress is saved, pick it up any day.",
           legendProg: function (a, b) { return a + " / " + b + " WAYPOINTS"; }, legendCheckin: "GPS CHECK-IN", legendStamped: "STAMPED", legendNext: "NEXT", legendDoneT: "LEGEND COMPLETE!",
           legendGearK: "LEGEND LIMITED GEAR", legendMapBtn: "SHOW ROUTE ON MAP", legendOpenBtn: "ROUTE ▶", legendExpK: "ROUTE REWARD",
@@ -18515,7 +18514,6 @@ var qrcode = function() {
           epicReward: function (name) { return name + " — この史詩スポットの初回クリアで手に入る！"; },
           epicRewardGot: function (name) { return name + " — 入手済み ✓（史詩限定）"; },
           epicNote: "史詩クエスト：会場でのGPSチェックインでクリア。手動クリアは使えません。",
-          epicNoManual: "史詩クエストは手動クリアできません — 現地でのGPSチェックインのみ。",
           legendTag: "伝説級", legendRule: "EPICの上を行くルートクエスト：全地点を順番に、現地GPSチェックインで踏破。手動クリア不可・制限時間なし——進捗は保存され、いつでも続きから再開できます。",
           legendProg: function (a, b) { return a + " / " + b + " 地点"; }, legendCheckin: "GPSチェックイン", legendStamped: "踏破済み", legendNext: "次の地点", legendDoneT: "伝説踏破！",
           legendGearK: "伝説級限定装備", legendMapBtn: "地図でルートを見る", legendOpenBtn: "ルート ▶", legendExpK: "踏破報酬",
@@ -19389,7 +19387,6 @@ var qrcode = function() {
           epicReward: function (name) { return name + " — 首次完成这个史诗地点即可获得！"; },
           epicRewardGot: function (name) { return name + " — 已收入衣柜 ✓（史诗限定）"; },
           epicNote: "史诗任务：在场馆现场 GPS 打卡即可完成。不能手动完成。",
-          epicNoManual: "史诗任务不能手动完成 — 仅限现场 GPS 打卡。",
           legendTag: "传说级", legendRule: "高于史诗的路线任务：按顺序到每个地点现场 GPS 打卡。不能手动完成、没有时间限制——进度会保存，随时可以续走。",
           legendProg: function (a, b) { return a + " / " + b + " 个地点"; }, legendCheckin: "GPS打卡", legendStamped: "已踏破", legendNext: "下一站", legendDoneT: "传说踏破！",
           legendGearK: "传说级限定装备", legendMapBtn: "在地图上看路线", legendOpenBtn: "路线 ▶", legendExpK: "踏破奖励",
@@ -24497,22 +24494,19 @@ var qrcode = function() {
           note.hidden = false;
           note.innerHTML = ICONS.globe + "<span>" + esc(t.notStartedNote(daysUntilStart(curEv))) + "</span>";
         } else {
-          /* EPIC: the GPS rule is stated ONCE, by the purple
-             "» epicNoManual" line in the manual slot below —
-             the globe note used to repeat it verbatim in grey
-             (user device report, 2026-10-27 22:14: 重复信息),
-             so for evergreens the note stays hidden entirely */
+          /* EPIC: no rule text anywhere -- the reason line that
+             used to sit in the manual slot was removed at Zoe's
+             word (Q-232, 2026-10-31), the globe note stays hidden
+             for evergreens, and the distance box explains on a
+             check-in attempt. */
           note.hidden = clr || !acc || !hasVenue || !!(curEv && curEv.evergreen);
           if (!note.hidden) note.innerHTML = ICONS.globe + "<span>" + esc(t.checkinNote) + "</span>";
         }
         var man = document.getElementById("btnManualClear");
-        if (clr || !acc || ns) man.hidden = true;
-        else if (curEv && curEv.evergreen) {
-          /* EPIC: there is no manual route — the slot shows the
-             REASON, disabled, instead of a working link (spec B) */
-          man.hidden = false; man.disabled = true;
-          man.textContent = "» " + t.epicNoManual;
-        } else if (man.disabled) { man.disabled = false; }
+        /* EPIC: no manual route and no reason line either
+           (Q-232) — the slot simply stays hidden. */
+        if (clr || !acc || ns || (curEv && curEv.evergreen)) man.hidden = true;
+        else if (man.disabled) { man.disabled = false; }
         var line = document.getElementById("detailClearedLine");
         var rec = clearRec(currentId);
         line.hidden = !rec;
@@ -25503,18 +25497,18 @@ var qrcode = function() {
           checkinMsg(kind, text);
           /* the manual-clear rescue is only a small sub-link inside
              this result message, shown when the GPS check could not
-             complete the quest — and for EPIC quests it never
-             becomes a working link: the reason shows instead */
+             complete the quest — for EPIC quests it never appears
+             at all (GPS-only, and no reason line: Q-232) */
           if (kind === "err" && currentId && isAccepted(currentId) && !isCleared(currentId)) {
             var ev2 = byId(currentId);
-            man.hidden = false;
             if (ev2 && ev2.evergreen) {
-              man.disabled = true;
-              man.textContent = "» " + L().epicNoManual;
+              man.hidden = true;
             } else if (state.remoteDate === TODAY) {
+              man.hidden = false;
               man.disabled = true;
               man.textContent = "» " + L().remoteUsed;
             } else {
+              man.hidden = false;
               man.disabled = false;
               man.textContent = "» " + L().manualClear;
             }
