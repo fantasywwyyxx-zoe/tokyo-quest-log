@@ -16294,7 +16294,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2018-q244-e1335e1e";
+        var BUILD_ID = "tql-20261101-2023-q245-e9c958f8";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25483,7 +25483,21 @@ var qrcode = function() {
                     : ("https://maps.apple.com/?q=" + encodeURIComponent(e.venue + ", " + e.area));
         }
         if (p === "yahoo") {
-          return "https://map.yahoo.co.jp/search?q=" + encodeURIComponent(e.venue + ", " + e.area);
+          /* Q-245: Yahoo Maps matches Japanese place names --
+             the English venue string found nothing (or a
+             same-named place in another city). Search the
+             Japanese venue (Q-231 VENUE_JA), with the Japanese
+             area appended when it is not already in there. */
+          /* Evergreen quests ARE the place, so their Japanese
+             name is the searchable one (忠犬ハチ公像 hits, the
+             translated venue string ハチ公前広場 did not);
+             timed quests are events AT a place, so the venue's
+             Japanese form leads there. */
+          var vje = (typeof VENUE_JA !== "undefined" && VENUE_JA[e.venue]) || "";
+          var yq = e.evergreen ? (e.name_ja || vje || e.venue) : (vje || e.name_ja || e.venue);
+          var ya = (typeof AREA_JA !== "undefined" && AREA_JA[e.area]) || "";
+          if (ya && yq.indexOf(ya) === -1) yq += " " + ya;
+          return "https://map.yahoo.co.jp/search?q=" + encodeURIComponent(yq);
         }
         return "https://www.google.com/maps/search/?api=1&query=" +
           encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
