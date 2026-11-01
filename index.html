@@ -12218,6 +12218,12 @@
       dialog#detail .detail-actions .btn-back { grid-column: 1 / -1; }
       dialog#detail .detail-actions .btn-official { grid-column: 1 / -1; }
       dialog#detail .detail-actions .btn-maps { grid-column: 1 / -1; background: linear-gradient(180deg, #57b6e8, #2f9be8); color: #fff; min-height: 54px; font-size: 17px; }
+      .map-pick { position: fixed; inset: 0; z-index: 80; background: rgba(14, 18, 38, 0.5); display: flex; align-items: center; justify-content: center; }
+      .map-pick[hidden] { display: none; }
+      .map-pick-panel { background: var(--window); border: 3px solid var(--line-c); border-radius: 14px; padding: 16px; width: min(302px, calc(100vw - 48px)); display: grid; gap: 9px; box-shadow: 0 6px 0 rgba(10, 14, 40, 0.35); }
+      .map-pick-title { margin: 0 0 2px; text-align: center; font-weight: 700; color: var(--ink); }
+      .map-pick-btn { min-height: 48px; font-size: 16px; width: 100%; }
+      .map-pick-cancel { background: none; border: none; color: var(--ink-dim); font: inherit; padding: 6px; cursor: pointer; }
       .poster-fab {
         position: absolute; right: 10px; bottom: 8px; z-index: 3;
         width: 40px; height: 40px; border-radius: 999px; padding: 0;
@@ -13175,6 +13181,15 @@
           <button class="lang-opt" type="button" role="radio" data-lang-opt="zh" aria-checked="false">中文</button>
         </div>
       </div>
+      <div class="win-flat themebar" role="group" aria-label="Map app">
+        <span class="flabel" id="lblMapApp"></span>
+        <div class="lang-seg" role="radiogroup" aria-label="Map app">
+          <button class="lang-opt" type="button" role="radio" data-mapprov-opt="auto" aria-checked="false"></button>
+          <button class="lang-opt" type="button" role="radio" data-mapprov-opt="apple" aria-checked="false"></button>
+          <button class="lang-opt" type="button" role="radio" data-mapprov-opt="google" aria-checked="false"></button>
+          <button class="lang-opt" type="button" role="radio" data-mapprov-opt="yahoo" aria-checked="false"></button>
+        </div>
+      </div>
       <div class="win-flat themebar" role="group" aria-label="Color theme">
         <span class="flabel" id="lblTheme"></span>
         <span id="themeSwatches" style="display:contents"></span>
@@ -13898,6 +13913,15 @@
             <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
           </div>
           <p class="checkin-note" id="checkinNote"></p>
+        </div>
+      </div>
+      <div class="map-pick" id="mapPick" hidden>
+        <div class="map-pick-panel">
+          <p class="map-pick-title" id="mapPickTitle"></p>
+          <button class="rpg-btn map-pick-btn" type="button" data-mapprov="apple"></button>
+          <button class="rpg-btn map-pick-btn" type="button" data-mapprov="google"></button>
+          <button class="rpg-btn map-pick-btn" type="button" data-mapprov="yahoo"></button>
+          <button class="map-pick-cancel" type="button" id="mapPickCancel"></button>
         </div>
       </div>
     </dialog>
@@ -16269,7 +16293,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2003-q241-0c8cb920";
+        var BUILD_ID = "tql-20261101-2007-q242-2dadd187";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16936,7 +16960,7 @@ var qrcode = function() {
           kWhen: "WHEN", kHours: "HOURS", kWhere: "WHERE", kPrice: "PRICE", kMood: "MOOD",
           monthlyLabel: "Monthly workshop",
           monthlyNote: "This quest runs every month. The next session's date is announced on the official page — check there before you set out.",
-          official: "OFFICIAL PAGE", mapsBtn: "Open in Maps \u00b7 Navigate here",
+          official: "OFFICIAL PAGE", mapsBtn: "Open in Maps \u00b7 Navigate here", mapAppLabel: "Map app", mapPickTitle: "Open with which map?", mapPickCancel: "Cancel", mapProvAuto: "Auto", mapProvApple: "Apple Maps", mapProvGoogle: "Google Maps", mapProvYahoo: "Yahoo! Maps",
           accept: "ACCEPT QUEST", accepted: "ON QUEST ✓", undoAccept: "Remove from my quest log",
           clear: "CLEAR!", clearedBtn: "CLEARED ✓",
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
@@ -17809,7 +17833,7 @@ var qrcode = function() {
           kWhen: "日時", kHours: "時間", kWhere: "場所", kPrice: "料金", kMood: "気分",
           monthlyLabel: "毎月開催のワークショップ",
           monthlyNote: "このクエストは毎月開催です。次回の日程は公式ページで発表されるので、出発前に確認してください。",
-          official: "公式ページ", mapsBtn: "地図で開く・ここへ行く",
+          official: "公式ページ", mapsBtn: "地図で開く・ここへ行く", mapAppLabel: "地図アプリ", mapPickTitle: "どのマップで開く？", mapPickCancel: "キャンセル", mapProvAuto: "自動", mapProvApple: "Appleマップ", mapProvGoogle: "Googleマップ", mapProvYahoo: "Yahoo!マップ",
           accept: "クエストを受ける", accepted: "受注中 ✓", undoAccept: "クエストログから外す",
           clear: "クリア！", clearedBtn: "クリア済み ✓",
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
@@ -18682,7 +18706,7 @@ var qrcode = function() {
           kWhen: "日期", kHours: "时间", kWhere: "地点", kPrice: "费用", kMood: "氛围",
           monthlyLabel: "每月举办的工作坊",
           monthlyNote: "这个任务每月举办。下次的日期会在官方页面公布，出发前请确认。",
-          official: "官方页面", mapsBtn: "在地图中打开 · 导航到这里",
+          official: "官方页面", mapsBtn: "在地图中打开 · 导航到这里", mapAppLabel: "地图应用", mapPickTitle: "用哪个地图打开？", mapPickCancel: "取消", mapProvAuto: "自动", mapProvApple: "苹果地图", mapProvGoogle: "谷歌地图", mapProvYahoo: "雅虎地图",
           accept: "接受任务", accepted: "进行中 ✓", undoAccept: "从任务日志中移除",
           clear: "完成！", clearedBtn: "已完成 ✓",
           clearedOn: "完成日期：", undoClear: "撤销完成",
@@ -24209,6 +24233,7 @@ var qrcode = function() {
         renderThemeSwatches();
         document.getElementById("lblBgm").textContent = t.bgmLabel;
         renderBgmUI();
+        renderMapProvUI();
         document.getElementById("lblInfo").textContent = t.infoLabel;
         document.getElementById("infoNote").textContent = t.infoNote;
         var dmb = document.getElementById("detailMoreBtn");
@@ -25431,6 +25456,82 @@ var qrcode = function() {
           if (i >= text.length) { clearInterval(typeTimer); typeTimer = null; }
         }, 24);
       }
+      /* Q-242 (Zoe, 2026-11-01): the player chooses which map
+         app the detail Maps button opens -- Apple / Google /
+         Yahoo. Her final word was "choose the first time": with
+         nothing chosen, the first tap opens the chooser instead
+         of navigating; the pick is remembered on this device
+         (localStorage, the same pattern as the language choice)
+         and later taps go straight there. Settings can change
+         it any time, including back to Auto (the Q-239c
+         by-device branch). Yahoo always goes by venue-name
+         search, which is Yahoo Maps' strong form in Japan. */
+      var MAP_PROV_KEY = "tql_map_provider";
+      var mapPickEv = null;
+      function mapProvider() {
+        try {
+          var v = localStorage.getItem(MAP_PROV_KEY);
+          return (v === "apple" || v === "google" || v === "yahoo" || v === "auto") ? v : null;
+        } catch (err) { return null; }
+      }
+      function setMapProvider(v) {
+        try { localStorage.setItem(MAP_PROV_KEY, v); } catch (err) {}
+        renderMapProvUI();
+        var gm2 = document.getElementById("btnMaps");
+        if (gm2 && mapPickEv) {
+          gm2.href = mapsUrlFor(mapPickEv, v);
+          gm2.removeAttribute("data-pick");
+        }
+      }
+      function mapsUrlFor(e, prov) {
+        var gv = VENUES[e.id];
+        var p = prov;
+        if (p === "auto") {
+          p = (/iPhone|iPad|iPod/.test(navigator.userAgent || "") ||
+            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) ? "apple" : "google";
+        }
+        if (p === "apple") {
+          return gv ? ("https://maps.apple.com/?ll=" + gv.lat + "," + gv.lng + "&q=" + encodeURIComponent(e.venue))
+                    : ("https://maps.apple.com/?q=" + encodeURIComponent(e.venue + ", " + e.area));
+        }
+        if (p === "yahoo") {
+          return "https://map.yahoo.co.jp/search?q=" + encodeURIComponent(e.venue + ", " + e.area);
+        }
+        return "https://www.google.com/maps/search/?api=1&query=" +
+          encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+      }
+      function openMapPick() {
+        var mp = document.getElementById("mapPick");
+        if (!mp) return;
+        var t = L();
+        document.getElementById("mapPickTitle").textContent = t.mapPickTitle;
+        mp.querySelector('[data-mapprov="apple"]').textContent = t.mapProvApple;
+        mp.querySelector('[data-mapprov="google"]').textContent = t.mapProvGoogle;
+        mp.querySelector('[data-mapprov="yahoo"]').textContent = t.mapProvYahoo;
+        document.getElementById("mapPickCancel").textContent = t.mapPickCancel;
+        mp.hidden = false;
+      }
+      function closeMapPick() {
+        var mp = document.getElementById("mapPick");
+        if (mp) mp.hidden = true;
+      }
+      function pickMapProvider(prov) {
+        setMapProvider(prov);
+        closeMapPick();
+        if (mapPickEv) window.open(mapsUrlFor(mapPickEv, prov), "_blank");
+      }
+      function renderMapProvUI() {
+        var lbl = document.getElementById("lblMapApp");
+        if (!lbl) return;
+        var t = L();
+        lbl.textContent = t.mapAppLabel;
+        var cur = mapProvider();
+        document.querySelectorAll("[data-mapprov-opt]").forEach(function (b) {
+          var v = b.getAttribute("data-mapprov-opt");
+          b.textContent = v === "auto" ? t.mapProvAuto : v === "apple" ? t.mapProvApple : v === "google" ? t.mapProvGoogle : t.mapProvYahoo;
+          b.setAttribute("aria-checked", String(v === cur));
+        });
+      }
       function openDetail(id) {
         var e = byId(id);
         if (!e) return;
@@ -25503,19 +25604,16 @@ var qrcode = function() {
         gm.hidden = !gmOn;
         gm.parentElement.classList.toggle("has-maps", gmOn);
         if (gmOn) {
-          var gv = VENUES[e.id];
-          /* Zoe (2026-10-31): iPhones go to Apple Maps
-             automatically; everyone else keeps Google. One
-             button, only the destination branches. Apple link
-             form: coordinates ride ll with the venue name as
-             the pin label q; name quests use q alone. */
-          var isAppleMobile = /iPhone|iPad|iPod/.test(navigator.userAgent || "") ||
-            (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-          if (isAppleMobile) {
-            gm.href = gv ? ("https://maps.apple.com/?ll=" + gv.lat + "," + gv.lng + "&q=" + encodeURIComponent(e.venue))
-                         : ("https://maps.apple.com/?q=" + encodeURIComponent(e.venue + ", " + e.area));
+          mapPickEv = e;
+          var prov = mapProvider();
+          if (prov) {
+            gm.href = mapsUrlFor(e, prov);
+            gm.removeAttribute("data-pick");
           } else {
-            gm.href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(gv ? (gv.lat + "," + gv.lng) : (e.venue + ", " + e.area));
+            /* Q-242: nothing chosen yet -- the first tap opens
+               the chooser instead of navigating away. */
+            gm.href = "#";
+            gm.setAttribute("data-pick", "1");
           }
           gm.innerHTML = ICONS.map + "<span>" + esc(t.mapsBtn) + "</span>";
         }
@@ -28565,6 +28663,20 @@ var qrcode = function() {
       });
       document.querySelectorAll("[data-lang-opt]").forEach(function (b) {
         b.addEventListener("click", function () { setLang(b.getAttribute("data-lang-opt")); });
+      });
+      document.querySelectorAll("[data-mapprov-opt]").forEach(function (b) {
+        b.addEventListener("click", function () { setMapProvider(b.getAttribute("data-mapprov-opt")); });
+      });
+      var gmBind = document.getElementById("btnMaps");
+      if (gmBind) gmBind.addEventListener("click", function (ev) {
+        if (gmBind.getAttribute("data-pick")) { ev.preventDefault(); openMapPick(); }
+      });
+      var mpBind = document.getElementById("mapPick");
+      if (mpBind) mpBind.addEventListener("click", function (ev) {
+        if (ev.target === mpBind) { closeMapPick(); return; }
+        var pb = ev.target.closest ? ev.target.closest("[data-mapprov]") : null;
+        if (pb) { pickMapProvider(pb.getAttribute("data-mapprov")); return; }
+        if (ev.target.closest && ev.target.closest("#mapPickCancel")) closeMapPick();
       });
 
       /* --- immersive pass wiring --- */
