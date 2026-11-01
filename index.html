@@ -1575,7 +1575,7 @@
       .detail-body > * { flex: none; }
       .kv { font-size: 14.5px; gap: 3px 8px; margin-bottom: 8px; }
       .mood-row { margin-bottom: 0; }
-      .blurb-box { padding: 9px 11px; font-size: 14.5px; line-height: 1.65; margin-bottom: 4px; }
+      .blurb-box { padding: 8px 10px; font-size: 14.5px; line-height: 1.65; margin-bottom: 4px; }
       .blurb-box.is-collapsed {
         display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
       }
@@ -7915,12 +7915,12 @@
       }
 
       /* --- 5. detail: everything on one short screen --- */
-      dialog#detail .detail-head { padding: 7px 12px 5px; }
+      dialog#detail .detail-head { padding: 6px 12px 4px; }
       dialog#detail .detail-head h2 { font-size: 17px; margin-top: 2px; }
-      dialog#detail .detail-body { gap: 6px; padding: 6px 12px 9px; }
+      dialog#detail .detail-body { gap: 5px; padding: 6px 12px 8px; }
       dialog#detail .kv {
         grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
-        gap: 4px 7px; padding: 7px 9px; font-size: 12px; line-height: 1.35;
+        gap: 4px 7px; padding: 6px 8px; font-size: 12px; line-height: 1.35;
       }
       dialog#detail .kv dd { line-height: 1.35; }
       dialog#detail .kv dt { font-size: 11px; padding: 1px 5px; }
@@ -7930,12 +7930,12 @@
          .detail-preview outranks #detailPreview) — the band must flex
          with the screen again or short quests strand a dead gap */
       dialog#detail .detail-preview { flex: 1 1 auto; height: auto; min-height: 64px; }
-      dialog#detail .detail-period { padding: 5px 10px; font-size: 12.5px; }
+      dialog#detail .detail-period { padding: 4px 9px; font-size: 12.5px; }
       dialog#detail .checkin-msg { font-size: 12px; padding: 6px 9px; line-height: 1.45; }
       dialog#detail .manual-link { font-size: 12.5px; margin: 0; }
       dialog#detail .checkin-note { font-size: 11px; line-height: 1.45; }
       dialog#detail .checkin-note svg { width: 14px; height: 14px; margin-top: 1px; }
-      dialog#detail .epic-reward { order: 6; margin: 0; padding: 6px 9px; }
+      dialog#detail .epic-reward { order: 6; margin: 0; padding: 5px 8px; }
       dialog#detail .detail-actions .rpg-btn { padding: 9px 8px; min-height: 44px; }
       @media (max-height: 740px) {
         #detailPreview, dialog#detail .detail-banner { min-height: 36px; }
@@ -12224,6 +12224,16 @@
       .map-pick-title { margin: 0 0 2px; text-align: center; font-weight: 700; color: var(--ink); }
       .map-pick-btn { min-height: 48px; font-size: 16px; width: 100%; }
       .map-pick-cancel { background: none; border: none; color: var(--ink-dim); font: inherit; padding: 6px; cursor: pointer; }
+      /* Q-243 (Zoe): compact detail -- the state pill moves to
+         the No. row so the head chips fit one line, and the
+         action row (check-in / maps / official) stays pinned
+         at the body bottom instead of scrolling away under
+         long details (her "can't see the maps bar" report). */
+      .detail-no-row { display: flex; align-items: center; margin-top: 4px; }
+      .detail-no-row #detailNo { margin-top: 0; }
+      #detailState { margin-left: auto; display: inline-flex; }
+      #detailState .state-badge { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 9px; border-radius: 999px; font-size: 11.5px; line-height: 1; border-width: 2px; box-sizing: border-box; }
+      dialog#detail .detail-actions { position: sticky; bottom: 0; z-index: 5; margin-top: auto; padding-top: 6px; }
       .poster-fab {
         position: absolute; right: 10px; bottom: 8px; z-index: 3;
         width: 40px; height: 40px; border-radius: 999px; padding: 0;
@@ -12237,8 +12247,8 @@
       #detailChips .cat-chip, #detailChips .epic-badge, #detailChips .free-badge,
       #detailChips .soon-badge, #detailChips .state-badge {
         display: inline-flex; align-items: center; gap: 5px;
-        height: 26px; padding: 0 10px; border-radius: 999px;
-        font-size: 12px; line-height: 1; border-width: 2px; box-sizing: border-box;
+        height: 24px; padding: 0 9px; border-radius: 999px;
+        font-size: 11.5px; line-height: 1; border-width: 2px; box-sizing: border-box;
       }
       #detailChips .cat-chip svg { width: 13px; height: 13px; }
 
@@ -12373,7 +12383,7 @@
          row per Q-199 keeps the same breathing), the title's
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
-      #detailChips { margin-bottom: 10px; }
+      #detailChips { margin-bottom: 7px; }
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
@@ -13882,9 +13892,9 @@
       <div class="win detail-win">
         <div class="detail-head">
           <div>
-            <div id="detailChips" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center"></div>
+            <div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div>
             <h2 id="detailName"></h2>
-            <div class="detail-no" id="detailNo"></div>
+            <div class="detail-no-row"><div class="detail-no" id="detailNo"></div><span id="detailState"></span></div>
             </div>
           <button class="close-btn" id="detailClose" type="button" aria-label="Close">✕</button>
         </div>
@@ -16293,7 +16303,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2007-q242-2dadd187";
+        var BUILD_ID = "tql-20261101-2014-q243-ded93fb6";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24168,9 +24178,14 @@ var qrcode = function() {
         if (e.free) s += '<span class="free-badge">' + L().free + "</span>";
         if (!e.recurring && e.start && e.start <= TODAY && daysBetween(TODAY, e.end) <= 7)
           s += '<span class="soon-badge">' + L().endingSoon + "</span>";
-        if (isCleared(e.id)) s += '<span class="state-badge cleared">' + L().clearedBtn + "</span>";
-        else if (isAccepted(e.id)) s += '<span class="state-badge">' + L().accepted + "</span>";
         return s;
+      }
+      /* Q-243: the state pill renders beside the No. line, not
+         in the head chips row (keeps the chips to one line). */
+      function stateBadgeOnly(e) {
+        if (isCleared(e.id)) return '<span class="state-badge cleared">' + L().clearedBtn + "</span>";
+        if (isAccepted(e.id)) return '<span class="state-badge">' + L().accepted + "</span>";
+        return "";
       }
 
       /* Title-screen slogan typewriter (user copy decision,
@@ -25560,6 +25575,7 @@ var qrcode = function() {
           bn.innerHTML = '<span class="npw"></span>';
         }
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
+        document.getElementById("detailState").innerHTML = stateBadgeOnly(e);
         document.getElementById("detailName").textContent = evName(e);
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
         detail.classList.toggle("has-photo", !!e.img);
