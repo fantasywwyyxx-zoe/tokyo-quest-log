@@ -16294,7 +16294,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2041-q247-c4b9cef2";
+        var BUILD_ID = "tql-20261101-2045-q249-ae4c12f3";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25681,9 +25681,30 @@ var qrcode = function() {
          taps. Popover-painted so it sits above the modal detail
          dialog, exactly like the ceremony and narration bar. */
       var confirmCb = null;
+      var confirmHome = null;
+      function restoreConfirmHome() {
+        var box = document.getElementById("gbConfirm");
+        if (box && confirmHome) {
+          if (confirmHome.n) confirmHome.p.insertBefore(box, confirmHome.n);
+          else confirmHome.p.appendChild(box);
+          confirmHome = null;
+        }
+      }
       function showConfirm(tab, question, yesLabel, noLabel, cb) {
         var box = document.getElementById("gbConfirm");
         if (!box) { if (cb) cb(); return; }
+        /* Q-249: same lesson as the ceremony's dialog hosting --
+           where the popover layer does not rise above a modal
+           dialog, the confirm paints under it and taps land on
+           the dialog's own buttons. While a dialog is open,
+           host the confirm INSIDE it so it shares the top
+           layer; it returns home on hide. */
+        restoreConfirmHome();
+        var host = document.querySelector("dialog[open]");
+        if (host && box.parentNode !== host) {
+          confirmHome = { p: box.parentNode, n: box.nextSibling };
+          host.appendChild(box);
+        }
         document.getElementById("gcTab").textContent = tab;
         document.getElementById("gcQ").textContent = question;
         document.getElementById("gcYes").textContent = yesLabel;
@@ -25701,6 +25722,7 @@ var qrcode = function() {
         box.classList.remove("show");
         popHide(box);
         confirmCb = null;
+        restoreConfirmHome();
       }
       function closeDetail() {
         /* Q-247: the confirm popover outlives this dialog --
