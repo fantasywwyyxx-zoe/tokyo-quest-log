@@ -12383,7 +12383,7 @@
          row per Q-199 keeps the same breathing), the title's
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
-      #detailChips { margin: 0; } /* Q-246: chips live above the actions now */
+      #detailChips { margin: 0; } /* Q-250: chips live in the info card (.kv first row) */
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
@@ -13894,6 +13894,7 @@
           <div class="detail-period"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
+            <dt id="kCat"></dt><dd><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div></dd>
             <dt id="kHours"></dt><dd id="vHours"></dd>
             <dt id="kWhere"></dt><dd id="vWhere"></dd>
             <dt id="kPrice"></dt><dd id="vPrice"></dd>
@@ -13905,7 +13906,6 @@
           <p class="cleared-line" id="detailClearedLine" hidden></p>
           <p class="checkin-msg" id="checkinMsg" hidden></p>
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
-          <div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div>
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
             <a class="rpg-btn btn-maps" id="btnMaps" href="#" target="_blank" rel="noopener" hidden></a>
@@ -16294,7 +16294,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2045-q249-ae4c12f3";
+        var BUILD_ID = "tql-20261101-2049-q250-d2a3df86";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16958,7 +16958,7 @@ var qrcode = function() {
           infoLabel: "INFO",
           infoNote: "Every morning, every listed event is checked against its official page, and any changes are reflected here. Dates and tickets can still change after a check, so for the very latest, always confirm on each quest's OFFICIAL PAGE before you go. Quests whose run has ended drop off the board automatically.",
           noMatch: "No quests match that filter. Try clearing a filter — the city still has secrets.",
-          kWhen: "WHEN", kHours: "HOURS", kWhere: "WHERE", kPrice: "PRICE", kMood: "MOOD",
+          kCat: "CATEGORY", kWhen: "WHEN", kHours: "HOURS", kWhere: "WHERE", kPrice: "PRICE", kMood: "MOOD",
           monthlyLabel: "Monthly workshop",
           monthlyNote: "This quest runs every month. The next session's date is announced on the official page — check there before you set out.",
           official: "OFFICIAL PAGE", mapsBtn: "Open in Maps \u00b7 Navigate here", mapPickTitle: "Open with which map?", mapPickCancel: "Cancel", mapProvApple: "Apple Maps", mapProvGoogle: "Google Maps", mapProvYahoo: "Yahoo! Maps",
@@ -17831,7 +17831,7 @@ var qrcode = function() {
           infoLabel: "情報について",
           infoNote: "イベント情報は毎朝、公式ページで確認して、変更があれば反映しています。日程やチケットは変わることがあるので、確実な最新情報は、出かける前に各クエストの「公式ページ」で必ず確認してください。終了したクエストは自動でボードから消えます。",
           noMatch: "条件に合うクエストがありません。フィルターを外してみてください——街にはまだ秘密があります。",
-          kWhen: "日時", kHours: "時間", kWhere: "場所", kPrice: "料金", kMood: "気分",
+          kCat: "分類", kWhen: "日時", kHours: "時間", kWhere: "場所", kPrice: "料金", kMood: "気分",
           monthlyLabel: "毎月開催のワークショップ",
           monthlyNote: "このクエストは毎月開催です。次回の日程は公式ページで発表されるので、出発前に確認してください。",
           official: "公式ページ", mapsBtn: "地図で開く・ここへ行く", mapPickTitle: "どのマップで開く？", mapPickCancel: "キャンセル", mapProvApple: "Appleマップ", mapProvGoogle: "Googleマップ", mapProvYahoo: "Yahoo!マップ",
@@ -18704,7 +18704,7 @@ var qrcode = function() {
           infoLabel: "关于信息",
           infoNote: "每天早上都会对照官方页面核查每个活动的信息，有变更会反映在这里。但日期和门票仍可能变化，出发前请务必在各任务的「官方页面」确认最新信息。已结束的任务会自动从公告板消失。",
           noMatch: "没有符合条件的任务。试着去掉一些筛选——这座城市还有秘密。",
-          kWhen: "日期", kHours: "时间", kWhere: "地点", kPrice: "费用", kMood: "氛围",
+          kCat: "分类", kWhen: "日期", kHours: "时间", kWhere: "地点", kPrice: "费用", kMood: "氛围",
           monthlyLabel: "每月举办的工作坊",
           monthlyNote: "这个任务每月举办。下次的日期会在官方页面公布，出发前请确认。",
           official: "官方页面", mapsBtn: "在地图中打开 · 导航到这里", mapPickTitle: "用哪个地图打开？", mapPickCancel: "取消", mapProvApple: "苹果地图", mapProvGoogle: "谷歌地图", mapProvYahoo: "雅虎地图",
@@ -25564,6 +25564,7 @@ var qrcode = function() {
         var monthly = document.getElementById("detailMonthly");
         monthly.hidden = !e.recurring;
         if (e.recurring) monthly.textContent = "» " + t.monthlyNote;
+        document.getElementById("kCat").textContent = t.kCat;
         document.getElementById("kHours").textContent = t.kHours;
         document.getElementById("kWhere").textContent = t.kWhere;
         document.getElementById("kPrice").textContent = t.kPrice;
