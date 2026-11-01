@@ -7915,7 +7915,7 @@
       }
 
       /* --- 5. detail: everything on one short screen --- */
-      dialog#detail .detail-head { padding: 6px 12px 4px; }
+      dialog#detail .detail-head { padding: 5px 12px 4px; }
       dialog#detail .detail-head h2 { font-size: 17px; margin-top: 2px; }
       dialog#detail .detail-body { gap: 5px; padding: 6px 12px 8px; }
       dialog#detail .kv {
@@ -12383,7 +12383,7 @@
          row per Q-199 keeps the same breathing), the title's
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
-      #detailChips { margin-bottom: 7px; }
+      #detailChips { margin: 0; } /* Q-246: chips live above the actions now */
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
@@ -13883,7 +13883,6 @@
       <div class="win detail-win">
         <div class="detail-head">
           <div>
-            <div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div>
             <h2 id="detailName"></h2>
             <div class="detail-no-row"><div class="detail-no" id="detailNo"></div><span id="detailState"></span></div>
             </div>
@@ -13906,6 +13905,7 @@
           <p class="cleared-line" id="detailClearedLine" hidden></p>
           <p class="checkin-msg" id="checkinMsg" hidden></p>
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
+          <div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div>
           <div class="detail-actions">
             <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
             <a class="rpg-btn btn-maps" id="btnMaps" href="#" target="_blank" rel="noopener" hidden></a>
@@ -16294,7 +16294,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2023-q245-e9c958f8";
+        var BUILD_ID = "tql-20261101-2040-q246-2200cdc0";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
