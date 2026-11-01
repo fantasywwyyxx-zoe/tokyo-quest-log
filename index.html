@@ -16294,7 +16294,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-2040-q246-2200cdc0";
+        var BUILD_ID = "tql-20261101-2041-q247-c4b9cef2";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25698,6 +25698,9 @@ var qrcode = function() {
         confirmCb = null;
       }
       function closeDetail() {
+        /* Q-247: the confirm popover outlives this dialog --
+           dismiss it together with the detail it belongs to. */
+        hideConfirm();
         if (detail.open) detail.close();
         currentId = null;
       }
@@ -28620,10 +28623,14 @@ var qrcode = function() {
              time) and touches no EXP: accepting never granted
              any. List rows and map cards re-render through
              toggleAccept, so every surface agrees. */
-          var nm = evName(byId(currentId)), tt = L();
+          var nm = evName(byId(currentId)), tt = L(), qid = currentId;
+          /* Q-247: act on the id captured NOW -- reading the
+             live currentId at YES-time could hit a null (after
+             close: silent no-op under a success narration) or
+             a different quest opened meanwhile. */
           showConfirm(tt.confirmTab, tt.cancelQ(nm), tt.yesBtn, tt.noBtn, function () {
             checkinMsg("", "");
-            toggleAccept(currentId);
+            toggleAccept(qid);
             narrate(tt.narrCancelled(nm));
           });
         }
