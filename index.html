@@ -16269,7 +16269,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261101-0932-q240-ab13c86f";
+        var BUILD_ID = "tql-20261101-2003-q241-0c8cb920";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25493,17 +25493,13 @@ var qrcode = function() {
         off.href = e.url;
         off.innerHTML = ICONS.ext + "<span>" + t.official + "</span>";
         /* Q-239 (Zoe, relaying beta feedback): one tap from the
-           venue row to Google Maps. PILOT ONLY (Zoe, 2026-10-31):
-           she wants a few quests verified first -- one tap must
-           land on the right venue and the button must not disturb
-           the game's own map experience -- before any full
-           rollout, which waits for her separate word. The target
+           venue row to Google Maps. Piloted on 3 quests first
+           (Zoe, 2026-10-31), then FULL ROLLOUT to every quest
+           detail on her word (Zoe, 2026-11-01). The target
            logic is general (VENUES coordinate when present, else
-           the venue's searchable name + area), so expanding the
-           pilot set is the whole rollout change when she calls it. */
-        var MAPS_PILOT = { "eg-ghibli-museum": 1, "eg9-itabashi-nettaikan": 1, "sonic-exhibition": 1 };
+           the venue's searchable name + area). */
         var gm = document.getElementById("btnMaps");
-        var gmOn = !!MAPS_PILOT[e.id];
+        var gmOn = true;
         gm.hidden = !gmOn;
         gm.parentElement.classList.toggle("has-maps", gmOn);
         if (gmOn) {
