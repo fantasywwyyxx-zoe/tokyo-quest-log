@@ -25633,6 +25633,11 @@ var qrcode = function() {
         var acc = isAccepted(currentId), clr = isCleared(currentId);
         var curEv = byId(currentId);
         var ns = !clr && isNotStarted(curEv);
+        /* Q-248: the state pill beside the No. line is state
+           too -- re-render it here so accept / abandon / clear
+           update it in place, without closing the detail. */
+        var dsEl = document.getElementById("detailState");
+        if (dsEl) dsEl.innerHTML = curEv ? stateBadgeOnly(curEv) : "";
         var bQ = document.getElementById("btnQuest");
         bQ.disabled = clr || ns;
         bQ.dataset.state = clr ? "cleared" : ns ? "notstarted" : acc ? "checkin" : "accept";
