@@ -12428,6 +12428,15 @@
       dialog#detail .kv .kv-col + .kv-col { margin-top: 8px; }
       dialog#detail .kv .kv-col dd { overflow-wrap: break-word; }
       dialog#detail .blurb-box { font-size: 12.5px; line-height: 1.55; }
+      /* v13 (Zoe 10:49): one uniform 8px rhythm between
+         every block in the detail -- stray per-block
+         margins are zeroed, and the body gap, the body
+         bottom padding and the footer gap all share the
+         same 8px. (The photo's v12 negative margins are
+         set after this block and still win for the photo.) */
+      dialog#detail .detail-body { gap: 8px; padding-bottom: 8px; }
+      dialog#detail .detail-body > * { margin-top: 0; margin-bottom: 0; }
+      dialog#detail .detail-actions { gap: 8px; padding-top: 0; }
       /* v12 (Zoe 10:48): the photo merges with the title
          band -- no frame, no border, no rounded corners,
          no margins; it spans the full window width and
@@ -16349,7 +16358,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1049-q253v12-a3a9a38e";
+        var BUILD_ID = "tql-20261102-1051-q253v13-f1cb128f";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
