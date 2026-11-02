@@ -16530,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1847-q284-3187a8e3";
+        var BUILD_ID = "tql-20261102-1851-q285-a6f998a9";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -18065,7 +18065,7 @@ var qrcode = function() {
           luckyTag: "★ LUCKY",
           customTitle: "CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR", custFace: "EXPRESSION",
           hairStyles: ["Short", "Cap", "Long", "Twin Tails", "Ponytail", "Bob", "Bun", "Spiky", "Curly"],
-          faceNames: ["Smile", "Grin", "Wink", "Sleepy", "Star Eyes", "Heart Eyes"],
+          faceNames: ["Smile", "Grin", "Shy", "Sleepy", "Star Eyes", "Heart Eyes"],
           dailyPool: [
             { n: "Try a new onigiri flavor", d: "The flavor you never pick. Judge it fairly.", c: "food" },
             { n: "Buy a pastry from a local bakery", d: "That small bakery you always pass. Today you go in.", c: "food" },
@@ -18938,7 +18938,7 @@ var qrcode = function() {
           luckyTag: "★ 当たり",
           customTitle: "主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色", custFace: "表情",
           hairStyles: ["ショート", "キャップ", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子", "ツンツン", "くるくる"],
-          faceNames: ["えがお", "にっこり", "ウインク", "ねむねむ", "キラキラ", "ハート"],
+          faceNames: ["えがお", "にっこり", "照れ", "ねむねむ", "キラキラ", "ハート"],
           dailyPool: [
             { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を公平に判定。", c: "food" },
             { n: "近所のパン屋でパンを買う", d: "いつも素通りする小さなパン屋へ今日こそ入る。", c: "food" },
@@ -19811,7 +19811,7 @@ var qrcode = function() {
           luckyTag: "★ 幸运",
           customTitle: "自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色", custFace: "表情",
           hairStyles: ["短发", "棒球帽", "长发", "双马尾", "马尾", "波波头", "丸子头", "刺猬头", "卷发"],
-          faceNames: ["微笑", "咧嘴笑", "眨眼", "困困", "星星眼", "爱心眼"],
+          faceNames: ["微笑", "咧嘴笑", "害羞", "困困", "星星眼", "爱心眼"],
           dailyPool: [
             { n: "尝一种新的饭团口味", d: "便利店里你从不选的那个口味。公平地评判它。", c: "food" },
             { n: "在小面包店买面包", d: "那家你总是路过的小面包店。今天就进去。", c: "food" },
@@ -21865,7 +21865,7 @@ var qrcode = function() {
                 typeof parsed.custom.skin === "string" && typeof parsed.custom.hair === "string" &&
                 typeof parsed.custom.style === "string") {
               state.custom = { skin: parsed.custom.skin, hair: parsed.custom.hair, style: parsed.custom.style,
-                face: ["smile", "grin", "wink", "sleepy", "star"].indexOf(parsed.custom.face) >= 0 ? parsed.custom.face : "smile" };
+                face: parsed.custom.face === "wink" ? "shy" : (["smile", "grin", "shy", "sleepy", "star", "heart"].indexOf(parsed.custom.face) >= 0 ? parsed.custom.face : "smile") };
             }
             state.started = !!parsed.started;
             state.sceneSeen = typeof parsed.sceneSeen === "number" ? parsed.sceneSeen : 0;
@@ -23572,7 +23572,7 @@ var HERO_ROWS = [
       /* expressions (user, 2026-10-27 22:22 — a fourth custom
          axis): "smile" is the classic face baked into HERO_ROWS,
          so every existing save keeps its exact look by default */
-      var FACES = ["smile", "grin", "wink", "sleepy", "star", "heart"];
+      var FACES = ["smile", "grin", "shy", "sleepy", "star", "heart"];
       function presetCustom(id) {
         var p = heroPal(id);
         return { skin: p.S, hair: p.H, style: HERO_STYLES[id] || "short", face: "smile" };
@@ -23643,17 +23643,20 @@ function drawFace(ctx, face, pal, style) {
     brows();
     px(5, 7, E); px(6, 6, E); px(9, 6, E); px(10, 7, E);
     px(6, 8, M); px(7, 8, W); px(8, 8, W); px(9, 8, M);
-  } else if (face === "wink") {
-    /* Q-283 (Zoe: the wink "feels wrong too"; art dept redraw):
-       the closed eye was a flat dash on the bottom eye row, reading
-       tired next to the tall open eye, with a stray cheek dot at
-       (4,7) merging into it. Now a happy dip arc: (4,6)/(6,6) high,
-       (5,7) low; the open eye is smile's eye verbatim; the (4,7)
-       dot is gone (standard cheeks stay). */
+  } else if (face === "shy" || face === "wink") {
+    /* Q-285 (Zoe's call, supersedes Q-283): the wink SLOT is now
+       "shy" — she dropped wink entirely and picked the side-glance
+       from the swap sheet. Glyph: both pupils shifted to the right
+       columns (white left of each pupil), extra blush pixels at
+       (4,7)/(11,7) above the standard cheeks, one-dot mouth at
+       (7,8). The "wink" alias in the condition (and the boot
+       sanitizer's wink->shy mapping) keeps any save still carrying
+       face="wink" rendering as shy instead of breaking. */
     brows();
-    px(4, 6, E); px(5, 7, E); px(6, 6, E);
-    px(9, 6, W); px(10, 6, E); px(9, 7, E); px(10, 7, E);
-    px(7, 8, M); px(8, 8, M);
+    px(5, 6, W); px(6, 6, E); px(6, 7, E);
+    px(9, 6, W); px(10, 6, E); px(10, 7, E);
+    px(4, 7, C); px(11, 7, C);
+    px(7, 8, M);
   } else if (face === "sleepy") {
     px(6, 5, BR); px(9, 5, BR);
     px(5, 7, E); px(6, 7, E); px(9, 7, E); px(10, 7, E);
