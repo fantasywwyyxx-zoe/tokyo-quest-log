@@ -115,3 +115,6 @@ Root cause (code-verified): X() reads EXT_STR, a var assigned at line ~31913 of 
 
 ## 2026-11-02 Q-273 — selected-pin ring: red → lemon
 Zoe, from her device: the selection highlight is also red, and since Q-264 made red the TIMED frame color, the two reds are easy to mistake (her screenshot: a selected evergreen pin wearing the red selection ring next to red-framed timed pins). The .pin.sel outline and its pulse are now lemon #ffd83d — the game's highlight color — which collides with neither frame color (blue evergreen / red timed) nor the green cleared tick.
+
+## 2026-11-02 Q-274 — train: back on the ground (Zoe overruled the sky)
+Zoe's verdict on Q-265: the train does not belong in the sky — put it on the ground, properly, and don't let it cover the wish flag. The strip is full-width again but sits on the far horizon (base bottom:116px, under the Q-261 position), with a smaller distant car (56×10). Layering does the flag requirement: the wish-flag button and the hero paint above the props layer, so the train passes BEHIND them and never covers the flag. If she vetoes this too, the standing fallback is removal in favour of a grounded runner-carried street prop.
