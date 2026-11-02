@@ -8682,14 +8682,26 @@
       .stamp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
       .stamp-cell { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 2px; text-align: center; }
       .stamp-ring {
-        width: 52px; height: 52px; border-radius: 50%; flex: none;
-        border: 3px solid #b3402f; color: #b3402f;
+        width: 52px; height: 52px; flex: none; position: relative;
+        border: none; color: var(--stamp);
         display: flex; align-items: center; justify-content: center;
         font-size: 15px; font-weight: 800;
-        background: rgba(226, 72, 58, 0.07); padding: 3px; line-height: 1.1;
+        padding: 3px; line-height: 1.1;
       }
-      .stamp-cell.locked .stamp-ring { color: var(--ink-dim); border-style: dashed; background: none; transform: none; opacity: 0.55; }
-      .stamp-cell.complete .stamp-ring { background: rgba(226, 72, 58, 0.16); box-shadow: 0 0 0 2px rgba(226, 72, 58, 0.25); }
+      /* Q-280 frame B (Zoe picked the wavy-petal frame, art spec
+         2026-11-02): the ring is a CSS mask on a ::before layer —
+         20 petals + an inner hairline ring, hollow centre. Colour
+         follows --stamp (lemon under the midnight theme); the motif
+         canvas and the ✓/★ mark paint above it as before. */
+      .stamp-ring::before {
+        content: ""; position: absolute; inset: 0;
+        background: var(--stamp);
+        -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cg%20fill%3D%22%23fff%22%3E%3Ccircle%20cx%3D%2289.5%22%20cy%3D%2250.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2287.6%22%20cy%3D%2262.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2282.0%22%20cy%3D%2273.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2273.2%22%20cy%3D%2282.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2262.2%22%20cy%3D%2287.6%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250.0%22%20cy%3D%2289.5%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2237.8%22%20cy%3D%2287.6%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2226.8%22%20cy%3D%2282.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2218.0%22%20cy%3D%2273.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2262.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2210.5%22%20cy%3D%2250.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2237.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2218.0%22%20cy%3D%2226.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2226.8%22%20cy%3D%2218.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2237.8%22%20cy%3D%2212.4%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250.0%22%20cy%3D%2210.5%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2262.2%22%20cy%3D%2212.4%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2273.2%22%20cy%3D%2218.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2282.0%22%20cy%3D%2226.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2287.6%22%20cy%3D%2237.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2234.6%22%20fill%3D%22%23000%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2232.6%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.5%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+        mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cg%20fill%3D%22%23fff%22%3E%3Ccircle%20cx%3D%2289.5%22%20cy%3D%2250.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2287.6%22%20cy%3D%2262.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2282.0%22%20cy%3D%2273.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2273.2%22%20cy%3D%2282.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2262.2%22%20cy%3D%2287.6%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250.0%22%20cy%3D%2289.5%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2237.8%22%20cy%3D%2287.6%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2226.8%22%20cy%3D%2282.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2218.0%22%20cy%3D%2273.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2262.2%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2210.5%22%20cy%3D%2250.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2212.4%22%20cy%3D%2237.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2218.0%22%20cy%3D%2226.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2226.8%22%20cy%3D%2218.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2237.8%22%20cy%3D%2212.4%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250.0%22%20cy%3D%2210.5%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2262.2%22%20cy%3D%2212.4%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2273.2%22%20cy%3D%2218.0%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2282.0%22%20cy%3D%2226.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2287.6%22%20cy%3D%2237.8%22%20r%3D%227.6%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2241%22%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2234.6%22%20fill%3D%22%23000%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2232.6%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.5%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+      }
+      .stamp-cell.locked .stamp-ring { color: var(--ink-dim); }
+      .stamp-cell.locked .stamp-ring::before { background: #9aa4ae; opacity: 0.55; }
+      .stamp-cell.complete .stamp-ring { background: color-mix(in srgb, var(--stamp) 16%, transparent); border-radius: 50%; }
       .stamp-name { font-size: 11px; font-weight: 800; line-height: 1.25; }
       .stamp-count { font-size: 11px; font-weight: 700; color: var(--ink-dim); }
       .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -9758,7 +9770,7 @@
       /* --- zone stamp art frame --- */
       .stamp-ring { position: relative; }
       .stamp-ring .stamp-art { width: 40px; height: 40px; image-rendering: pixelated; display: block; }
-      .stamp-ring .stamp-mark { position: absolute; right: -7px; bottom: -5px; font-size: 13px; color: #b3402f; }
+      .stamp-ring .stamp-mark { position: absolute; right: -7px; bottom: -5px; font-size: 13px; color: var(--stamp); }
       .stamp-cell.locked .stamp-art { opacity: 0.75; }
     </style>
     <style>
@@ -16502,7 +16514,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1822-q278-70d6677b";
+        var BUILD_ID = "tql-20261102-1834-q280-ef877b92";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29147,45 +29159,47 @@ function drawRunnerFrame(ctx, frame, blink) {
          Bridge, tama=Chuo-line train, setagaya=Setagaya tram.
          Locked zones render as a pale single-tone silhouette
          of the same motif; got/complete render full colour. */
-      var ZONE_ART = {
-        ueno: { A: "#e5484d", B: "#ffd83d", rows: [
-          "................","......KKKK......",".....KAAAAK.....","....KAAAAAAK....","...KAAAAAAAAK...","...KAAAKKAAAK...","...KAAAKKAAAK...","...KAAAKKAAAK...","...KAAAAAAAAK...","....KAAAAAAK....",".....KAAAAK.....","......KKKK......",".......KK.......","......KBBK......","................","................"] },
-        akihabara: { A: "#2f7cd6", B: "#ffd83d", rows: [
-          "................",".......KK.......",".......AA.......","....KKKKKKKK....","....KABAABAK....","....KAAAABAK....","....KABAABAK....","....KAAAABAK....","....KABAABAK....","....KAAAAAAK....","...KKKKKKKKKK...","...K..K..K..K...","................","................","................","................"] },
-        ginza: { A: "#fff6dd", B: "#8a5a33", rows: [
-          "................",".......KK.......","......KAAK......",".....KAAAAK.....",".....KAKKAK.....",".....KAAAAK.....","....KKKKKKKK....","....KAAKKAAK....","....KAAKKAAK....","....KAAKKAAK....","....KAAAAAAK....","...KKKKKKKKKK...","................","................","................","................"] },
-        roppongi: { A: "#e8762b", B: "#b3402f", rows: [
-          ".......KK.......",".......AA.......",".......AA.......","......A..A......","......AAAA......",".....A....A.....",".....A.KK.A.....","....A......A....","....A..KK..A....","...A........A...","...A...KK...A...","..A..........A..","..AAAAAAAAAAAA..","................","................","................"] },
-        shibuya: { A: "#fffdf6", B: "#31456e", rows: [
-          "................","..KKKKKKKKKKKK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KKKKKKKKKKKK..","................","................","................","................","................"] },
-        shinjuku: { A: "#a5dcff", B: "#57b6e8", rows: [
-          "................","......KAAK......",".....KAAAAK.....",".....KABAAK.....",".....KAAAAK.....",".....KAAABK.....",".....KAAAAK.....",".....KABAAK.....",".....KAAAAK.....",".....KAAABK.....","......KAAK......","....KKKKKKKK....","................","................","................","................"] },
-        ikebukuro: { A: "#8a5a33", B: "#ffd83d", rows: [
-          "................","...KK......KK...","..KAAK....KAAK..","..KAAAAAAAAAAK..","..KAAKAAAAKAAK..","..KAAKAAAAKAAK..","..KAAAAAAAAAAK..","..KAAAABBAAAK...","..KAAAAAAAAAAK..","...KAAAAAAAAK...","....KAAAAAAK....",".....KAKAK......","................","................","................","................"] },
-        nakano: { A: "#ffd83d", B: "#e8762b", rows: [
-          ".......BB.......","..B....BB....B..","....K.KAAK.K....",".....KAAAAK.....","....KAAAAAAK....","....KAAAAAAK....",".....KAAAAK.....","......KAAK......","..B....BB....B..",".......BB.......","................","................","................","................","................","................"] },
-        odaiba: { A: "#fffdf6", B: "#2f7cd6", rows: [
-          "................","....K......K....","...KAK....KAK...","...K.KK..KK.K...","..K..KAKAKA..K..","..K...KAAK...K..","..KKKKKKKKKKKK..","................","..B.B.B.B.B.B...",".B.B.B.B.B.B.B..","..B.B.B.B.B.B...","................","................","................","................","................"] },
-        tama: { A: "#e8762b", B: "#2e9e5b", rows: [
-          "................","...KKKKKKKKKK...","..KAAAAAAAAAAK..","..KAKKKKKKKKAK..","..KAAAAAAAAAAK..","..KAAABBBBAAAK..","..KAAAAAAAAAAK..","..KKKKKKKKKKKK..","....K..KK..K....","...KK..KK..KK...","................","................","................","................","................","................"] },
-        setagaya: { A: "#2e9e5b", B: "#ffd83d", rows: [
-          "................","....KKKKKKKK....","...KAAAAAAAAK...","...KAKKAAKKAK...","...KAAAAAAAAK...","...KAAABBBBAA...","...KAAAAAAAAK...","...KKKKKKKKKK...",".....K..K.......","....KK..KK......","................","................","................","................","................","................"] }
-      };
-      function drawZoneStamp(cv, zoneId, mode) {
-        var art = ZONE_ART[zoneId]; if (!art || !cv || !cv.getContext) return;
-        var ctx = cv.getContext("2d");
-        ctx.clearRect(0, 0, 16, 16);
-        var pal = mode === "locked"
-          ? { K: "rgba(90,104,120,0.55)", A: "rgba(90,104,120,0.38)", B: "rgba(90,104,120,0.5)" }
-          : { K: "#26222e", A: art.A, B: art.B };
-        for (var y = 0; y < art.rows.length; y++) {
-          var row = art.rows[y];
-          for (var x = 0; x < row.length; x++) {
-            var c = pal[row[x]];
-            if (c) { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); }
-          }
-        }
-      }
+var ZONE_ART = {
+  ueno: { A: "#e5484d", B: "#ffd83d", rows: [
+    "................","................","......KKKK......",".....KAlAAaK....","....KAlAAAAaK...","...KAlAAAAAAaK..","...KAlAAKKAAaK..","...KAlAAKKAAaK..","...KAlAAKKAAaK..","...KAlAAAAAAaK..","....KAAAAAAaK...",".....KAAAAK.....","......KKKK......",".......KK.......","......KBdK......","................"] },
+  akihabara: { A: "#2f7cd6", B: "#ffd83d", rows: [
+    "................","................",".......KB.......",".......AA.......","....KKKKKKKK....","....KABlABaK....","....KAAAABaK....","....KABlABaK....","....KAAAABaK....","....KABAABaK....","....KAAAAAAK....","...KKKKKKKKKK...","...K..K..K..K...","..KKKKKKKKKKKK..","................","................"] },
+  ginza: { A: "#fff6dd", B: "#8a5a33", rows: [
+    "................","................","................",".......KK.......","......KBBK......",".....KAlAAK.....",".....KABBAK.....",".....KAAAaK.....","....KKKKKKKK....","....KAlKKAAK....","....KAAKKAaK....","....KAAKKAAK....","....KAAABBAK....","...KKKKKKKKKK...","................","................"] },
+  roppongi: { A: "#e8762b", B: "#b3402f", rows: [
+    "................",".......KK.......",".......AA.......",".......BA.......","......B..B......","......ABBA......",".....B....B.....",".....A.KK.B.....","....B......B....","....A..KK..B....","...B........B...","...A...KK...B...","..B..........B..","..AAAAAAAAAAAA..","..KK........KK..","................"] },
+  shibuya: { A: "#fffdf6", B: "#31456e", rows: [
+    "................","................","................","..KKKKKKKKKKKK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KBBBKBBBKBBK..","..KAAAKAAAKAAK..","..KdddKdddKddK..","..KaaaKaaaKaaK..","..KKKKKKKKKKKK..","................","................","................"] },
+  shinjuku: { A: "#a5dcff", B: "#57b6e8", rows: [
+    "................","................","................",".....KAK.KAK....","....KAAAKAAAK...","....KABAAABAK...","....KAAAAAAAK...","....KABAAABaK...","....KAAAAAAaK...","....KAAABAAaK...","....KAAAAAAaK...","....KABAAABaK...","....KAAAAAAK....","....KKKKKKKK....","................","................"] },
+  ikebukuro: { A: "#8a5a33", B: "#ffd83d", rows: [
+    "................","................","................","...KK......KK...","..KAAK....KAAK..","..KAAAAAAAAAAK..","..KaAKAAAAKaAK..","..KaAKAAAAKaAK..","..KAAAAAAAAAAK..","..KAAAABBAAAK...","..KAAAllllAAK...","...KAAllllAAK...","....KAAAAAAK....",".....BB..BB.....","................","................"] },
+  nakano: { A: "#ffd83d", B: "#e8762b", rows: [
+    "................","................","................",".......BB.......","..B....BB....B..","....K.KlAK.K....",".....KAlAAK.....","....KAlAAAAaK...","....KAAAAAAaK...",".....KAAAaK.....","......KAaK......","..B....BB....B..",".......BB.......","................","................","................"] },
+  odaiba: { A: "#fffdf6", B: "#2f7cd6", rows: [
+    "................","................","................",".....K......K...","....KAK....KAK..","....K.KK..KK.K..","...K..KAKAKA..K.","...K...KAAK...K.","...KKKKBKKKBKK..",".....A......A...","...B.BdB.B.BdB..","..B.B.BdB.B.B.B.","...B.B.B.BdB.B..","................","................","................"] },
+  tama: { A: "#e8762b", B: "#2e9e5b", rows: [
+    "................","................","................",".....K....K.....","...KKKKKKKKKK...","..KAllAAAAAAAaK.","..KAKKKKKKKKAK..","..KAAAAAAAAAaK..","..KAAABBBBAAAK..","..KAAKAAAAKAAK..","..KKKKKKKKKKKK..","....KK....KK....","..KKKKKKKKKKKK..","................","................","................"] },
+  setagaya: { A: "#2e9e5b", B: "#ffd83d", rows: [
+    "................","................","................",".....K....K.....","....KKKKKKKK....","...KAllAAAAAaK..","...KAKKAAKKAK...","...KAAAAAAAaK...","...KAAABBBBAAK..","...KAAAAAAAAK...","...KKKKKKKKKK...","....KK....KK....","..KKKKKKKKKKKK..","................","................","................"] },
+};
+function drawZoneStamp(cv, zoneId, mode) {
+  var art = ZONE_ART[zoneId]; if (!art || !cv || !cv.getContext) return;
+  var ctx = cv.getContext("2d");
+  ctx.clearRect(0, 0, 16, 16);
+  var pal = mode === "locked"
+    ? { K: "rgba(90,104,120,0.55)", A: "rgba(90,104,120,0.38)", B: "rgba(90,104,120,0.5)",
+        a: "rgba(90,104,120,0.30)", l: "rgba(90,104,120,0.46)", d: "rgba(90,104,120,0.42)" }
+    : { K: "#26222e", A: art.A, B: art.B,
+        a: shadeHex(art.A, 0.72), l: shadeHex(art.A, 1.3), d: shadeHex(art.B, 0.7) };
+  for (var y = 0; y < art.rows.length; y++) {
+    var row = art.rows[y];
+    for (var x = 0; x < row.length; x++) {
+      var c = pal[row[x]];
+      if (c) { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); }
+    }
+  }
+}
       var colPage = 0;
       var badgePage = 0;
       var logPage = 0;
@@ -32157,6 +32171,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] Zone stamps got prettier", b: "The stamp frames in your collection book are now wavy petal rings, and every zone motif sits right in the centre with finer shading. Take a look at the ZONE STAMPS page of your logbook."},
           {d: "2026-11-02", s: "sparkle", t: "[News] Your hero got a glow-up!", b: "The hero's pixel art is all-new: a bigger head, faces you can actually tell apart, and a brand-new Heart Eyes expression.\nEvery hat, outfit, scarf and hairstyle was redrawn to fit the new proportions - your whole wardrobe carries over."},
           {d: "2026-11-02", s: "sparkle", t: "[News] Mini-game posters are here", b: "Finished a mini-game run? The result screen now has a SHARE POSTER button: that run's screen, score and best, turned into a poster you can send to X or Threads in one tap. Mini-game posters carry no rewards — glory only."}, { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Threads", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself, and the X and Threads options save the image and open the composer with your text ready — just attach the picture." },
@@ -32174,6 +32189,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] 分区スタンプの枠が新しくなりました", b: "図鑑の分区スタンプの枠が、波うち花びらのリングになりました。モチーフも中央にそろえ、陰影を細かくしています。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 主人公のドット絵が新しくなりました！", b: "頭が大きくなって、表情がずっと分かりやすくなりました。新しい表情「ハート」も追加。\n帽子・服・マフラー・髪型はすべて新しい比率に合わせて描き直し。持っている装備はそのまま使えます。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] ミニゲームもポスターシェア対応", b: "ミニゲームの結果画面に「ポスターをシェア」が付きました。その回のプレイ画面＋スコアとベストをポスターにして、XやThreadsへワンタップで投稿できます。ミニゲームのポスターシェアは無報酬です。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Threadsへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有は画像そのものを送れます。X と Threads は画像を保存してから投稿画面を開くので、画像を添付してください。" },
@@ -32191,6 +32207,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] 分区印章变漂亮了", b: "图鉴里的分区印章换上了波浪花边框，每个图案都居中了，阴影也更细致。去日志本的印章页看看吧。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 主人公的像素形象焕新了！", b: "头更大了，表情一眼就能分清，还新增了「爱心眼」表情。\n所有帽子、衣服、围巾和发型都按新比例重画过，你的衣柜原样保留。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 小游戏也能分享海报了", b: "小游戏的结果画面新增了「分享海报」：把这一局的画面、得分和最佳成绩做成海报，一键发到 X 或 Threads。小游戏海报分享没有奖励，纯属炫耀。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Threads", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享能把图片本身发出去；选 X 或 Threads 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
