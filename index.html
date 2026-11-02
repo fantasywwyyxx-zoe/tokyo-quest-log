@@ -4,6 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
+    <script>
+      /* ============ Q-292: boot watchdog (2026-11-02) ============
+         Independent of every other script on the page. The main
+         script calls window.__tqlBootOk() as the last step of its
+         boot sequence; if the document finishes loading (or sits
+         parsed-but-idle) and that call never comes, the copy in
+         hand is broken or poisoned in cache — reload ONCE per try
+         (max 2, sessionStorage count) into the same URL plus a
+         fresh upd= query, exactly like the Q-145 freshness reload.
+         Same origin and path: localStorage (guest saves) is never
+         touched. A slow-but-alive load is never interrupted: while
+         the document is still loading, the watchdog only waits. */
+      (function () {
+        var KEY = "tql_boot_guard", MAX = 2, n = 0;
+        try { n = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0; } catch (e) { /* no storage: still guarded by MAX via reload URL churn */ }
+        var booted = false, waited = 0, idleSince = 0;
+        window.__tqlBootOk = function () {
+          booted = true;
+          try { sessionStorage.removeItem(KEY); } catch (e) {}
+        };
+        function tick() {
+          if (booted) return;
+          waited += 1;
+          var rs = document.readyState;
+          if (rs === "complete" || (rs === "interactive" && (idleSince += 1) >= 3)) {
+            if (n >= MAX) return;
+            try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {}
+            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[\?&]+/, "").replace(/[\?&]+$/, "");
+            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + Date.now() + (location.hash || ""));
+            return;
+          }
+          if (waited <= 20) setTimeout(tick, 1000);
+        }
+        setTimeout(tick, 2500);
+      })();
+    </script>
     <meta name="theme-color" content="#57b6e8" />
     <meta name="mobile-web-app-capable" content="yes" />
     <!-- Home-screen app (PWA): install from Safari/Chrome "Add to Home Screen" and it launches full-screen, no browser UI -->
@@ -16557,7 +16593,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2022-q291-f7474293";
+        var BUILD_ID = "tql-20261102-2104-q292-19e4fa47";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -31492,6 +31528,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       renderMapFilterFold();
       setStatusMin(true);
       showStart(false);
+      if (window.__tqlBootOk) window.__tqlBootOk(); /* Q-292: boot completed — stand the watchdog down */
     </script>
     <script>
       "use strict";
