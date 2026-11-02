@@ -12570,6 +12570,18 @@
       dialog#detail .detail-head > div { flex: 1 1 auto; min-width: 0; }
       .cal-nav #calNext { margin-right: 0; }
       .sort-segs { display: inline-flex; gap: 4px; flex: none; }
+      /* Q-264 (Zoe): pin frames tell the type — evergreen blue,
+         limited-period red. The frame is the pin body's own
+         border (the same element that carries the photo), so
+         photo and frame move as one box at any zoom or pan and
+         can never drift apart. Clusters stay neutral; legend
+         route pins are untouched. */
+      .pin.is-ever .pin-body { border-color: #2d77cd; }
+      .pin.is-timed .pin-body { border-color: #e5484d; }
+      .map-legend { position: absolute; top: 10px; left: 10px; z-index: 6; display: flex; gap: 9px; align-items: center; background: color-mix(in srgb, var(--window) 92%, transparent); border: 2px solid var(--line-c); border-radius: 999px; padding: 4px 11px; pointer-events: none; font-size: 11px; font-weight: 800; color: var(--ink); box-shadow: 0 2px 0 rgba(16, 23, 63, 0.25); }
+      .map-legend .ml-item { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+      .map-legend .ml-sw { width: 12px; height: 12px; border-radius: 4px; border: 3px solid #2d77cd; background: var(--window-hi); box-sizing: border-box; flex: none; }
+      .map-legend .ml-sw.timed { border-color: #e5484d; }
 </style>
     <style>
       /* Q-206: the capsule's own display:flex would override the
@@ -13608,6 +13620,7 @@
               </span>
             </div>
             <div class="loc-chip" id="locChip" hidden><span class="loc-chip-text" id="locChipText"></span><button class="loc-chip-x" id="locChipX" type="button" aria-label="Close">✕</button></div>
+            <div class="map-legend" id="mapLegend" aria-hidden="true"><span class="ml-item"><span class="ml-sw ever"></span><span id="mlEverLbl"></span></span><span class="ml-item"><span class="ml-sw timed"></span><span id="mlTimedLbl"></span></span></div>
             <div class="osm-attrib" id="osmAttrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</div>
           </div>
         </div>
@@ -16491,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1447-q263-7a1acbf8";
+        var BUILD_ID = "tql-20261102-1451-q264-7eec8854";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17964,7 +17977,7 @@ var qrcode = function() {
           cancelQ: function (name) { return "Give up “" + name + "”? It goes back on the board — you can accept it again any time. No penalty."; },
           confirmTab: "CONFIRM", yesBtn: "YES", noBtn: "NO",
           narrCancelled: function (name) { return "You gave up “" + name + "”."; },
-          evergreenLabel: "Always open",
+          evergreenLabel: "Always open", legendEver: "Always open", legendTimed: "Limited-time",
           epicBadge: "★ EPIC QUEST",
           epicRewardK: "LIMITED GEAR",
           epicReward: function (name) { return name + " — yours on the first clear of this epic spot!"; },
@@ -18837,7 +18850,7 @@ var qrcode = function() {
           cancelQ: function (name) { return "「" + name + "」をやめますか？掲示板に戻り、いつでも受け直せます。ペナルティはありません。"; },
           confirmTab: "かくにん", yesBtn: "はい", noBtn: "いいえ",
           narrCancelled: function (name) { return "「" + name + "」をやめた。"; },
-          evergreenLabel: "常設",
+          evergreenLabel: "常設", legendEver: "常設", legendTimed: "期間限定",
           epicBadge: "★ 史詩クエスト",
           epicRewardK: "限定装備",
           epicReward: function (name) { return name + " — この史詩スポットの初回クリアで手に入る！"; },
@@ -19710,7 +19723,7 @@ var qrcode = function() {
           cancelQ: function (name) { return "要放弃「" + name + "」吗？它会回到公告板，随时可以重新接受，没有惩罚。"; },
           confirmTab: "确认", yesBtn: "是", noBtn: "否",
           narrCancelled: function (name) { return "已放弃「" + name + "」。"; },
-          evergreenLabel: "常驻开放",
+          evergreenLabel: "常驻开放", legendEver: "常驻开放", legendTimed: "限时",
           epicBadge: "★ 史诗任务",
           epicRewardK: "限定装备",
           epicReward: function (name) { return name + " — 首次完成这个史诗地点即可获得！"; },
@@ -25620,6 +25633,8 @@ var qrcode = function() {
         document.getElementById("lblActive").textContent = t.active;
         document.getElementById("lblAreas").textContent = t.areas;
         document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
+        var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
+        var mlT = document.getElementById("mlTimedLbl"); if (mlT) mlT.textContent = t.legendTimed;
         var navGearEl = document.getElementById("navGear");
         if (navGearEl) navGearEl.innerHTML = ICONS.gear + "<span>" + t.styleBtn + "</span>";
         document.getElementById("tab-daily").innerHTML = ICONS.cal + "<span>" + t.tabDaily + "</span>";
@@ -26063,7 +26078,7 @@ var qrcode = function() {
         VISIBLE.filter(mapFilterMatch).forEach(function (e) {
           var b = document.createElement("button");
           b.type = "button";
-          b.className = "pin" + (isCleared(e.id) ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "");
+          b.className = "pin" + (e.evergreen ? " is-ever" : " is-timed") + (isCleared(e.id) ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "");
           /* clamp inside the plane so a pin is never half-clipped by
              the frame edge, whatever the projection gives */
           b.dataset.px = Math.max(2.5, Math.min(97.5, e.x));
