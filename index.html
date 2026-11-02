@@ -16487,7 +16487,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1422-q256eg10-9994ae1b";
+        var BUILD_ID = "tql-20261102-1425-q255b-da06c452";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -27597,9 +27597,14 @@ var qrcode = function() {
           exp: o.exp || (rec ? rec.exp : 0),
           date: rec && rec.clearedAt ? String(rec.clearedAt).slice(0, 10).replace(/-/g, ".") : TODAY.replace(/-/g, ".")
         };
-        buildClearPoster(e, info).then(function (cv) {
-          openSharePick({ cv: cv, text: o.shareText, url: SHARE_URL, fileName: "tql-clear.png", grant: grant, fallback: fallback });
-        }, function () { doShareCard(o.shareText, o.name, btn); });
+        var opened = false;
+        function openWith(cv, fname) {
+          if (opened) return; opened = true;
+          openSharePick({ cv: cv, text: o.shareText, url: SHARE_URL, fileName: fname, grant: grant, fallback: fallback });
+        }
+        buildClearPoster(e, info).then(function (cv) { openWith(cv, "tql-clear.png"); },
+          function () { openWith(buildShareCard(o.name), "tsq-card.png"); });
+        setTimeout(function () { openWith(buildShareCard(o.name), "tsq-card.png"); }, 2500);
       }
       /* Q-255 (Zoe, 2026-11-02): one share chooser for both poster
          flows. "system" hands the image FILE to the OS share sheet --
@@ -27618,6 +27623,9 @@ var qrcode = function() {
         shareHome = null;
       }
       function openSharePick(ctx) {
+        try { openSharePickInner(ctx); } catch (err) { try { sysShare(ctx); } catch (e2) {} }
+      }
+      function openSharePickInner(ctx) {
         var box = document.getElementById("sharePick");
         if (!box) { sysShare(ctx); return; }
         restoreShareHome();
@@ -27671,31 +27679,56 @@ var qrcode = function() {
           });
         } else ctx.fallback();
       }
-      function pickShare(kind) {
-        var ctx = pendingShare;
-        hideSharePick();
-        if (!ctx) return;
-        if (kind === "system") { sysShare(ctx); return; }
-        var saved = false;
+      function saveCtxImage(ctx) {
         try {
           var a = document.createElement("a");
           a.download = ctx.fileName;
           a.href = ctx.cv.toDataURL("image/png");
           document.body.appendChild(a); a.click(); a.remove();
-          saved = true;
-        } catch (err) {}
+          return true;
+        } catch (err) { return false; }
+      }
+      function igShare(ctx) {
+        /* Instagram accepts no image posts from the web: the
+           share sheet carrying the image file is its only door
+           (the app appears as a destination there). The first
+           version's save + open instagram.com route dead-ends --
+           the mobile web composer cannot post photos at all
+           (Zoe's device verdict, 2026-11-02). */
+        function degraded() {
+          var saved = saveCtxImage(ctx);
+          window.open("https://www.instagram.com/", "_blank");
+          ctx.grant(saved ? L().shareSavedNote : "");
+        }
+        if (navigator.share && ctx.cv && ctx.cv.toBlob) {
+          ctx.cv.toBlob(function (blob) {
+            if (!blob) { degraded(); return; }
+            var f = null;
+            try { f = new File([blob], ctx.fileName, { type: "image/png" }); } catch (err) {}
+            if (!f || !navigator.canShare || !navigator.canShare({ files: [f] })) { degraded(); return; }
+            navigator.share({ title: "Tokyo Quest Log", text: ctx.text, files: [f] }).then(function () { ctx.grant(""); }, function (err) {
+              if (!err || err.name !== "AbortError") degraded();
+            });
+          }, "image/png");
+        } else degraded();
+      }
+      function pickShare(kind) {
+        var ctx = pendingShare;
+        hideSharePick();
+        if (!ctx) return;
+        if (kind === "system") { sysShare(ctx); return; }
+        if (kind === "instagram") { igShare(ctx); return; }
+        var saved = saveCtxImage(ctx);
         if (kind === "x") {
           window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank");
-        } else if (kind === "instagram") {
-          window.open("https://www.instagram.com/", "_blank");
         }
         ctx.grant(saved ? L().shareSavedNote : "");
       }
-      (function () {
+            (function () {
         var box = document.getElementById("sharePick");
         if (!box) return;
         box.addEventListener("click", function (ev) {
-          if (ev.target === box) { hideSharePick(); return; }
+          if (!ev.target.closest || !ev.target.closest(".map-pick-panel")) { hideSharePick(); return; }
           var b = ev.target && ev.target.closest ? ev.target.closest("[data-sharekind]") : null;
           if (b) { sfx("accept"); pickShare(b.getAttribute("data-sharekind")); }
         });
@@ -27719,6 +27752,8 @@ var qrcode = function() {
               } catch (err) { checkinMsg("", t.posterFail); }
             }
           });
+        }, function () {
+          openSharePick({ cv: buildShareCard(evName(e)), text: evName(e) + " — Tokyo Quest Log", fileName: "tsq-card.png", grant: function (prefix) { if (prefix) checkinMsg("", prefix); }, fallback: function () { checkinMsg("", t.posterFail); } });
         });
       }
 
@@ -31900,7 +31935,7 @@ var qrcode = function() {
       var ANNOUNCE = {
         en: [
           { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
-          { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Instagram", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the system share sheet sends the picture itself, and the X / Instagram options save the image and open the app with your text ready to post." },
+          { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Instagram", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself (choose Instagram there and the image is ready to post), and the X option saves the image and opens the composer with your text ready." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Quest details are easier to read", b: "The quest detail screen got a readability overhaul: larger, clearer type, and the title and photo now scroll together with the text. Multi-tier prices show as a tidy list, repeated labels were removed so each fact appears just once, and quest info (hours, prices, venues) is now shown in Chinese when the UI language is Chinese." },
           { d: "2026-11-02", s: "sparkle", t: "[News] EPIC quests are now truly rare", b: "EPIC is now a rare tier kept by just 10 hidden-gem spots: Meguro Parasitological Museum, Game Center Mikado, the Paper Museum, Super Potato Akihabara, the Tobacco and Salt Museum, Tokiwaso Manga Museum, Kisho Shrine, Shirohige's Cream Puff Factory, GAS MUSEUM and the Itabashi Tropical Botanical Garden. Every other evergreen quest is a regular quest now -- the purple EPIC styling is gone, and remote clear (30% EXP, once a day) works on them too. Gear you have already earned stays yours, exactly as before." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Sign in and get 10 gacha tickets!", b: "Log in with a free account (email or Google) and 10 gacha tickets are yours — one gift per account. Your progress also saves to the cloud, so it stays safe even if you change phones." },
@@ -31916,7 +31951,7 @@ var qrcode = function() {
         ],
         ja: [
           { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
-          { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Instagramへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有は画像そのものを送れます。X / Instagram は画像を保存してからアプリを開くので、投稿画面で画像を添付してください。" },
+          { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Instagramへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有と Instagram は画像そのものを送れます（Instagram は共有先リストから選ぶだけ）。X は画像を保存してから投稿画面を開くので、画像を添付してください。" },
           { d: "2026-11-02", s: "sparkle", t: "【お知らせ】クエスト詳細が見やすくなりました", b: "クエスト詳細画面を読みやすく刷新しました：文字が大きくはっきりし、タイトルと写真も本文と一緒にスクロールします。複数ある料金はリスト表示になり、同じ情報の重複表示もなくなりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史詩クエストが本当にレアになりました", b: "史詩（EPIC）は、特別な穴場10件だけの称号になりました：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。その他の常設クエストは通常のクエストになり、紫の史詩表示が外れ、遠隔クリア（30% EXP・1日1回）も使えるようになりました。すでに手に入れた装備は、これまで通りあなたのものです。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ログインでガチャ券10枚プレゼント！", b: "メールかGoogleの無料アカウントでログインすると、ガチャ券10枚をプレゼント（1アカウント1回まで）。セーブデータもクラウドに保存されるので、機種変更でも安心です。" },
@@ -31932,7 +31967,7 @@ var qrcode = function() {
         ],
         zh: [
           { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
-          { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Instagram", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享会把图片本身发出去；选 X / Instagram 会先保存图片再打开应用，文字已备好，在发布界面附上图片即可。" },
+          { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Instagram", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享和 Instagram 都能把图片本身发出去（Instagram 在分享列表里选一下即可，图片自动带上）；选 X 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 任务详情更好读了", b: "任务详情页完成易读性改造：字体更大更清晰，标题和照片会随正文一起滚动；多档票价改为列表显示，重复信息只保留一处。中文界面下，时间、票价、地点也都显示中文了。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史诗任务现在真正稀有了", b: "史诗（EPIC）现在只属于 10 个特别的冷门好去处：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。其他常驻任务都变回普通任务：紫色史诗外观取消，也可以用远程完成（30% 经验、每天 1 次）了。已经获得的装备仍然归你，一件不少。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】登录账号就送10张扭蛋券！", b: "用邮箱或 Google 免费登录，10张扭蛋券直接到账（每个账号限领一次）。存档也会同步到云端，换手机也不怕丢。" },

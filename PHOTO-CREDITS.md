@@ -96,7 +96,6 @@ The Sunshine 60 photo serves the three Sunshine City quests in this batch （ポ
 
 One credit line per quest photo: id | source | licence | author.
 
-- # eg10 photo credits — format: id | source | licence | author
 - eg10-machida-hanga | https://hanga-museum.jp/about | Official website photo (© venue / operator) | Machida City Museum of Graphic Arts
 - eg10-okunitama | https://www.ookunitamajinja.or.jp/meguri/haiden.php | Official website photo (© venue / operator) | Okunitama Jinja (worship hall)
 - eg10-yuzo-yamamoto | https://mitaka-sportsandculture.or.jp/yuzo/ | Official website photo (© venue / operator) | Mitaka City Sports and Culture Foundation
