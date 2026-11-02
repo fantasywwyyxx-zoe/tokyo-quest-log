@@ -97,3 +97,6 @@ After the 2026-11-02 save scare (server-verified no-loss: the cloud record had i
 
 ## 2026-11-02 Q-267 — LEGEND cards: no head-pinning either (Zoe's correction)
 Zoe, on the live list: "这些传说级怎么还是置顶，我都说的不需要置頂他们" — her no-pinning ruling covers LEGEND route cards too, superseding the Q-259 design decision that kept them leading the unfiltered board (and QA's R115 pass on that basis). The four route cards now sort with everything else: by their current anchor's distance in NEAREST order; dateless (the evergreen tail block) in the date orders and the no-position fallback. They still appear only on the unfiltered board, as before.
+
+## 2026-11-02 Q-268 — mini-game poster share
+Zoe: mini-games get the poster treatment too — capture the current game screen into the poster layout, same share entry as the quest poster. All five games: a SHARE POSTER button in the result row; the poster is the shared 1080×1350 frame (brand header, capture zone, game name + SCORE + BEST, the Q-260 intro band + QR). Canvas games (dash/jump/catch/whack) draw the live canvas at tap time, pixel-crisp; memory has no canvas, so its board is drawn as it stands (face-up/matched cards shown, matched ringed in lemon). Sharing runs through the same #sharePick chooser; reward-free like the quest poster (Q-176). Also removes a dead line left by Q-267.

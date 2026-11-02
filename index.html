@@ -13205,7 +13205,7 @@
         </div>
         <p class="run-msg" id="runMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="runStartBtn" type="button"></button>
+          <button class="auth-btn primary" id="runStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="dash"></button>
         </div>
         <p class="run-help" id="runHelp"></p>
       </div>
@@ -13225,7 +13225,7 @@
         <div class="run-stage"><canvas id="jumpCanvas" width="360" height="400" role="button" aria-label="Jump stage — press and hold to charge, release to jump"></canvas></div>
         <p class="run-msg" id="jumpMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="jumpStartBtn" type="button"></button>
+          <button class="auth-btn primary" id="jumpStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="jump"></button>
         </div>
         <p class="run-help" id="jumpHelp"></p>
       </div>
@@ -13250,7 +13250,7 @@
         </div>
         <p class="run-msg" id="catchMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="catchStartBtn" type="button"></button>
+          <button class="auth-btn primary" id="catchStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="catch"></button>
         </div>
         <p class="run-help" id="catchHelp"></p>
       </div>
@@ -13271,7 +13271,7 @@
         <div class="mem-slot"><div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div></div>
         <p class="run-msg" id="memoryMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="memoryStartBtn" type="button"></button>
+          <button class="auth-btn primary" id="memoryStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="memory"></button>
         </div>
         <p class="run-help" id="memoryHelp"></p>
       </div>
@@ -13292,7 +13292,7 @@
         <div class="run-stage stage-340"><canvas id="whackCanvas" width="360" height="340" role="button" aria-label="Whack stage — tap the critters that pop up"></canvas></div>
         <p class="run-msg" id="whackMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="whackStartBtn" type="button"></button>
+          <button class="auth-btn primary" id="whackStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="whack"></button>
         </div>
         <p class="run-help" id="whackHelp"></p>
       </div>
@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1459-q267-e8e468b2";
+        var BUILD_ID = "tql-20261102-1503-q268-392cf12b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25633,6 +25633,7 @@ var qrcode = function() {
         document.getElementById("lblActive").textContent = t.active;
         document.getElementById("lblAreas").textContent = t.areas;
         document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
+        document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = X().mgShareBtn; });
         var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
         var mlT = document.getElementById("mlTimedLbl"); if (mlT) mlT.textContent = t.legendTimed;
         var navGearEl = document.getElementById("navGear");
@@ -26478,7 +26479,6 @@ var qrcode = function() {
            dateless — the evergreen tail block — in the date
            orders and in the no-position fallback. */
         var showLg = !parts.length && !msQuery.trim();
-        var lgHTML = showLg ? "" : "";
         if (list.length) {
           var rows = list.map(searchRowHTML);
           if (showLg) {
@@ -27689,6 +27689,112 @@ var qrcode = function() {
          open the app with the text ready (neither service accepts
          image posts from a web page directly). The chooser is a
          popover re-parented into an open dialog, the Q-249 lesson. */
+      /* Q-268 (Zoe, 2026-11-02): mini-game poster share — the
+         game screen itself, captured at tap time, laid out as a
+         quest poster (Q-260 band included). Reward-free, like
+         the quest poster (Q-176). Memory has no canvas: its
+         board is drawn as it stands. */
+      var MG_LIVE = {
+        dash: function () { return (typeof run !== "undefined" && run) ? Math.floor(run.dist) : 0; },
+        jump: function () { return (typeof jmp !== "undefined" && jmp) ? jmp.score : 0; },
+        catch: function () { return (typeof cat !== "undefined" && cat) ? cat.count : 0; },
+        memory: function () { return (typeof mem !== "undefined" && mem) ? mem.pairs : 0; },
+        whack: function () { return (typeof whk !== "undefined" && whk) ? Math.max(0, whk.score) : 0; }
+      };
+      var MG_CANVAS = { dash: "runCanvas", jump: "jumpCanvas", catch: "catchCanvas", whack: "whackCanvas" };
+      function buildMgPoster(id, score) {
+        var t = L(), xt = X();
+        var W = 1080, H = 1350;
+        var cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+        var x = cv.getContext("2d");
+        x.fillStyle = "#10142e"; x.fillRect(0, 0, W, 104);
+        x.textBaseline = "middle";
+        x.fillStyle = "#fff6dd";
+        x.font = "900 52px 'Baloo 2','M PLUS Rounded 1c',sans-serif";
+        x.textAlign = "left";
+        x.fillText("TOKYO QUEST LOG", 44, 57);
+        x.font = "700 30px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.textAlign = "right";
+        x.fillText("東京クエストログ", W - 44, 57);
+        x.textAlign = "left";
+        var phY = 104, phH = 700;
+        var srcCv = MG_CANVAS[id] ? document.getElementById(MG_CANVAS[id]) : null;
+        if (srcCv) {
+          var sc = Math.max(W / srcCv.width, phH / srcCv.height);
+          var dw = srcCv.width * sc, dh = srcCv.height * sc;
+          x.save(); x.beginPath(); x.rect(0, phY, W, phH); x.clip();
+          x.imageSmoothingEnabled = false;
+          x.drawImage(srcCv, (W - dw) / 2, phY + (phH - dh) / 2, dw, dh);
+          x.restore();
+        } else {
+          x.fillStyle = "#1d2a4a"; x.fillRect(0, phY, W, phH);
+          var cw = 200, chh = 150, gx = 24, gy = 24;
+          var gw = 4 * cw + 3 * gx, gh = 3 * chh + 2 * gy;
+          var ox = (W - gw) / 2, oy = phY + (phH - gh) / 2;
+          for (var ci = 0; ci < 12; ci++) {
+            var cx0 = ox + (ci % 4) * (cw + gx), cy0 = oy + Math.floor(ci / 4) * (chh + gy);
+            var card = (typeof mem !== "undefined" && mem && mem.cards) ? mem.cards[ci] : null;
+            var face = !!(card && (card.up || card.matched));
+            x.fillStyle = face ? "#fffdf4" : "#31456e";
+            x.fillRect(cx0, cy0, cw, chh);
+            if (card && card.matched) { x.strokeStyle = "#ffd83d"; x.lineWidth = 8; x.strokeRect(cx0 + 4, cy0 + 4, cw - 8, chh - 8); }
+            x.font = "84px sans-serif"; x.textAlign = "center";
+            x.fillStyle = face ? "#10142e" : "#a5dcff";
+            x.fillText(face && mem.deck && mem.deck[ci] ? mem.deck[ci] : "?", cx0 + cw / 2, cy0 + chh / 2 + 4);
+          }
+          x.textAlign = "left";
+        }
+        x.fillStyle = "#fff6dd"; x.fillRect(0, phY + phH, W, H - phY - phH);
+        var name = mgName(id), ns = 76;
+        x.fillStyle = "#10142e";
+        x.font = "900 " + ns + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        while (ns > 30 && x.measureText(name).width > W - 96) { ns -= 4; x.font = "900 " + ns + "px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif"; }
+        x.fillText(name, 48, phY + phH + 78);
+        x.font = "900 54px 'Baloo 2','M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.fillStyle = "#d63c30";
+        x.fillText(xt.mgScore(id, score), 48, phY + phH + 160);
+        x.font = "700 38px 'Baloo 2','M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.fillStyle = "#5a627a";
+        x.fillText(xt.mgBest(id, mgBest(id)), 48, phY + phH + 218);
+        var by = H - 216;
+        x.fillStyle = "#10142e"; x.fillRect(0, by, W, 216);
+        x.fillStyle = "#fff6dd";
+        x.font = "700 30px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.fillText(t.posterIntro, 48, by + 38);
+        x.fillStyle = "#ffd83d";
+        x.font = "900 48px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.fillText(t.posterCta, 48, by + 88);
+        x.fillStyle = "#fff6dd";
+        x.font = "700 32px 'M PLUS Rounded 1c','Noto Sans SC',sans-serif";
+        x.fillText(t.posterScan, 48, by + 134);
+        x.fillStyle = "#a5dcff";
+        x.font = "700 28px 'Baloo 2',sans-serif";
+        x.fillText("tokyoquestlog.com/beta/", 48, by + 176);
+        drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
+        x.strokeStyle = "#10142e"; x.lineWidth = 10;
+        x.strokeRect(5, 5, W - 10, H - 10);
+        return cv;
+      }
+      function doShareMg(id) {
+        var score = MG_LIVE[id] ? MG_LIVE[id]() : 0;
+        var cv = buildMgPoster(id, score);
+        openSharePick({
+          cv: cv, text: mgName(id) + " " + X().mgScore(id, score) + " — Tokyo Quest Log", url: SHARE_URL, fileName: "tql-mg-" + id + ".png",
+          grant: function (prefix) { if (prefix) narrate(prefix); },
+          fallback: function () {
+            try {
+              var a = document.createElement("a");
+              a.download = "tql-mg-" + id + ".png";
+              a.href = cv.toDataURL("image/png");
+              document.body.appendChild(a); a.click(); a.remove();
+              narrate(L().posterSaved);
+            } catch (err) { narrate(L().posterFail); }
+          }
+        });
+      }
+      document.querySelectorAll(".mg-share-btn").forEach(function (b) {
+        b.addEventListener("click", function () { sfx("accept"); doShareMg(b.getAttribute("data-mgid")); });
+      });
       var pendingShare = null, shareHome = null;
       /* F2 (R113): the chooser's own box does not cover the screen,
          so outside taps never reached its listener (and taps at the
@@ -31852,7 +31958,7 @@ var qrcode = function() {
           mgNames: { dash: "TOKYO DASH", jump: "ROOF JUMP", catch: "COIN CATCH", memory: "PAIRS", whack: "WHACK-A-MOLE", stack: "TOWER STACK", fish: "FISHING" },
           mgDow: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
           mgGoal: function (id) { return id === "dash" ? "GOAL 300m" : id === "jump" ? "GOAL 15 LANDINGS IN A ROW" : id === "catch" ? "GOAL 30 CATCHES" : id === "memory" ? "GOAL 6 PAIRS IN 90s" : id === "whack" ? "GOAL 300 PTS IN 45s" : "COMING SOON"; },
-          mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
+          mgBest: function (id, b) { return "BEST " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); }, mgScore: function (id, b) { return "SCORE " + b + ((id === "dash" || id === "jump") ? "m" : id === "memory" ? "/6" : ""); }, mgShareBtn: "Share poster",
           mgToday3: "Today's 3 games", mgPractice: "Practice",
           mgStatus3: function (n) { return n >= 3 ? "All 3 of today's mini-game tickets are yours ✓ — every game stays open for practice." : "Three games rotate in every day, one gacha ticket each — hit the goal to win it (" + n + "/3 won). The others are practice — scores only."; },
           jumpTitle: "ROOF JUMP", jumpStart: "▶ START", jumpAgain: "↻ AGAIN", jumpQuit: "QUIT",
@@ -31931,7 +32037,7 @@ var qrcode = function() {
           mgNames: { dash: "東京ダッシュ", jump: "屋根ジャンプ", catch: "コインキャッチ", memory: "神経衰弱", whack: "もぐらたたき", stack: "積み上げタワー", fish: "釣り" },
           mgDow: ["日曜", "月曜", "火曜", "水曜", "木曜", "金曜", "土曜"],
           mgGoal: function (id) { return id === "dash" ? "目標 300m" : id === "jump" ? "目標 15回連続着地" : id === "catch" ? "目標 合計30個キャッチ" : id === "memory" ? "目標 90秒で6ペア" : id === "whack" ? "目標 45秒で300点" : "準備中"; },
-          mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
+          mgBest: function (id, b) { return "ベスト " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); }, mgScore: function (id, b) { return "スコア " + b + ((id === "dash" || id === "jump") ? "m" : id === "memory" ? "/6" : ""); }, mgShareBtn: "ポスターをシェア",
           mgToday3: "今日の3ゲーム", mgPractice: "練習",
           mgStatus3: function (n) { return n >= 3 ? "今日のミニゲーム券は3枚そろいました ✓ どのゲームも練習で遊べます。" : "毎日3種がローテーション、目標達成で各種ガチャ券1枚（現在 " + n + "/3 枚）。ほかのゲームは記録だけの練習です。"; },
           jumpTitle: "屋根ジャンプ", jumpStart: "▶ スタート", jumpAgain: "↻ もう一度", jumpQuit: "やめる",
@@ -32010,7 +32116,7 @@ var qrcode = function() {
           mgNames: { dash: "东京Dash", jump: "跳一跳", catch: "接金币", memory: "翻牌对对碰", whack: "打地鼠", stack: "叠叠塔", fish: "钓鱼" },
           mgDow: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
           mgGoal: function (id) { return id === "dash" ? "目标 300m" : id === "jump" ? "目标 连续落地15次" : id === "catch" ? "目标 合计接住30个" : id === "memory" ? "目标 90秒内配齐6对" : id === "whack" ? "目标 45秒内得300分" : "准备中"; },
-          mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); },
+          mgBest: function (id, b) { return "最佳 " + b + (id === "dash" ? "m" : id === "memory" ? "/6" : ""); }, mgScore: function (id, b) { return "得分 " + b + ((id === "dash" || id === "jump") ? "m" : id === "memory" ? "/6" : ""); }, mgShareBtn: "分享海报",
           mgToday3: "今日3个游戏", mgPractice: "练习",
           mgStatus3: function (n) { return n >= 3 ? "今天的3张小游戏券都到手了 ✓ 所有游戏都可以继续练习。" : "每天轮换3个游戏，每个达标可得1张扭蛋券（已得 " + n + "/3）。其他游戏是练习，只记分。"; },
           jumpTitle: "跳一跳", jumpStart: "▶ 开始", jumpAgain: "↻ 再来一局", jumpQuit: "结束",
@@ -32059,7 +32165,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
-          { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
+          {d: "2026-11-02", s: "sparkle", t: "[News] Mini-game posters are here", b: "Finished a mini-game run? The result screen now has a SHARE POSTER button: that run's screen, score and best, turned into a poster you can send to X or Instagram in one tap. Mini-game posters carry no rewards — glory only."}, { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Instagram", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself (choose Instagram there and the image is ready to post), and the X option saves the image and opens the composer with your text ready." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Quest details are easier to read", b: "The quest detail screen got a readability overhaul: larger, clearer type, and the title and photo now scroll together with the text. Multi-tier prices show as a tidy list, repeated labels were removed so each fact appears just once, and quest info (hours, prices, venues) is now shown in Chinese when the UI language is Chinese." },
           { d: "2026-11-02", s: "sparkle", t: "[News] EPIC quests are now truly rare", b: "EPIC is now a rare tier kept by just 10 hidden-gem spots: Meguro Parasitological Museum, Game Center Mikado, the Paper Museum, Super Potato Akihabara, the Tobacco and Salt Museum, Tokiwaso Manga Museum, Kisho Shrine, Shirohige's Cream Puff Factory, GAS MUSEUM and the Itabashi Tropical Botanical Garden. Every other evergreen quest is a regular quest now -- the purple EPIC styling is gone, and remote clear (30% EXP, once a day) works on them too. Gear you have already earned stays yours, exactly as before." },
@@ -32075,7 +32181,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
-          { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
+          {d: "2026-11-02", s: "sparkle", t: "[News] ミニゲームもポスターシェア対応", b: "ミニゲームの結果画面に「ポスターをシェア」が付きました。その回のプレイ画面＋スコアとベストをポスターにして、XやInstagramへワンタップで投稿できます。ミニゲームのポスターシェアは無報酬です。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Instagramへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有と Instagram は画像そのものを送れます（Instagram は共有先リストから選ぶだけ）。X は画像を保存してから投稿画面を開くので、画像を添付してください。" },
           { d: "2026-11-02", s: "sparkle", t: "【お知らせ】クエスト詳細が見やすくなりました", b: "クエスト詳細画面を読みやすく刷新しました：文字が大きくはっきりし、タイトルと写真も本文と一緒にスクロールします。複数ある料金はリスト表示になり、同じ情報の重複表示もなくなりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史詩クエストが本当にレアになりました", b: "史詩（EPIC）は、特別な穴場10件だけの称号になりました：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。その他の常設クエストは通常のクエストになり、紫の史詩表示が外れ、遠隔クリア（30% EXP・1日1回）も使えるようになりました。すでに手に入れた装備は、これまで通りあなたのものです。" },
@@ -32091,7 +32197,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
-          { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
+          {d: "2026-11-02", s: "sparkle", t: "[News] 小游戏也能分享海报了", b: "小游戏的结果画面新增了「分享海报」：把这一局的画面、得分和最佳成绩做成海报，一键发到 X 或 Instagram。小游戏海报分享没有奖励，纯属炫耀。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Instagram", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享和 Instagram 都能把图片本身发出去（Instagram 在分享列表里选一下即可，图片自动带上）；选 X 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 任务详情更好读了", b: "任务详情页完成易读性改造：字体更大更清晰，标题和照片会随正文一起滚动；多档票价改为列表显示，重复信息只保留一处。中文界面下，时间、票价、地点也都显示中文了。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史诗任务现在真正稀有了", b: "史诗（EPIC）现在只属于 10 个特别的冷门好去处：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。其他常驻任务都变回普通任务：紫色史诗外观取消，也可以用远程完成（30% 经验、每天 1 次）了。已经获得的装备仍然归你，一件不少。" },
