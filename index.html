@@ -16530,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1837-q281-e0a6a200";
+        var BUILD_ID = "tql-20261102-1839-q282-508a3477";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23661,10 +23661,14 @@ function drawFace(ctx, face, pal, style) {
     px(7, 8, M); px(8, 8, M);
     px(4, 6, G); px(11, 6, G);
   } else if (face === "heart") {
-    brows();
-    px(5, 6, HT); px(6, 6, W); px(9, 6, W); px(10, 6, HT);
-    px(5, 7, HT); px(6, 7, HT); px(9, 7, HT); px(10, 7, HT);
-    px(7, 8, HT); px(8, 8, HT);
+    /* Q-282 (Zoe's device verdict on Q-278: the 2x2 + white-dot
+       glyph did not read as a heart): art dept redraw — a 3x4 plump
+       heart per eye at x4-6 / x9-11, rows 5-8. brows() is NOT called:
+       brow pixels would fill the hearts' top notch. No mouth: row 8
+       carries the cheeks (4,8)/(11,8) and the heart points (5,8)/
+       (10,8); a centre mouth would crush the row into one line. */
+    px(4, 5, HT); px(6, 5, HT); px(4, 6, HT); px(5, 6, HT); px(6, 6, HT); px(4, 7, HT); px(5, 7, HT); px(6, 7, HT); px(5, 8, HT);
+    px(9, 5, HT); px(11, 5, HT); px(9, 6, HT); px(10, 6, HT); px(11, 6, HT); px(9, 7, HT); px(10, 7, HT); px(11, 7, HT); px(10, 8, HT);
   }
 }
 function drawBaseSprite(ctx, pal, style, face) {
