@@ -16530,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1844-q283-704888bb";
+        var BUILD_ID = "tql-20261102-1847-q284-3187a8e3";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17560,7 +17560,7 @@ var qrcode = function() {
           nextTicket: function (n) { return "Next ticket in <b>" + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "Gacha time — " + n + (n === 1 ? " ticket" : " tickets") + " ready!" : "Gacha: earn 50 EXP for a ticket"; },
           wardrobeTitle: "WARDROBE",
-          kindNames: { hat: "Hat", outfit: "Outfit", scarf: "Scarf", hero: "Secret hero" },
+          kindNames: { hat: "Hat", outfit: "Outfit", scarf: "Neckwear", hero: "Secret hero" },
           equipState: "EQUIPPED ✓", equipHint: "Tap to equip", ownedState: "OWNED", lockedState: "NOT YET",
           resultDupe: function (name) { return name + " — already owned! Converted to +10 EXP."; },
           resultHero: "A secret hero joins the diary — tap the HERO slot on the stage to switch!",
@@ -18024,7 +18024,7 @@ var qrcode = function() {
           puzzleRewardLine: function (name) { return "★ LIMITED TITLE: " + name + " — the finished panorama is yours to admire!"; },
           segRecords: "RECORDS",
           segPuzzle: "PUZZLE", segCollection: "LOGBOOK", segAdvLog: "ADVENTURE QUEST LOG",
-          colTitle: "HERO'S LOGBOOK", advLogTitle: "ADVENTURE QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Scarves", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "DAILY DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear an adventure quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared adventure quests yet. Clear an adventure quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
+          colTitle: "HERO'S LOGBOOK", advLogTitle: "ADVENTURE QUEST LOG", colWardrobe: "WARDROBE", colHats: "Hats", colOutfits: "Outfits", colScarves: "Neckwear", colEpicShelf: "EPIC LIMITED GEAR", colTitles: "TITLES", colStreet: "MY STREET PROPS", colCalDays: "DAILY DAYS", colZones: "ZONE STAMPS", colBadges: "BADGES", colHeroes: "SECRET HEROES", colStickers: "STICKER BOOK", stickerEmpty: "Clear an adventure quest to earn its pixel sticker — one per clear, kept in this book.", bookPrev: "◀ PREV PAGE", bookNext: "NEXT PAGE ▶", bookPageOf: function (p, n) { return "PAGE " + p + " / " + n; }, pageGear: "GEAR & BADGES", advStampPage: "LOG PAGE", advEmpty: "No cleared adventure quests yet. Clear an adventure quest and a new page lands in this log.", advNoDate: "Date not recorded", advOnsite: "ON-SITE 100%", advRemote: "REMOTE 30%", zoneBonusLine: function (z) { return "ZONE COMPLETE: " + z + " — BONUS TICKET ×2"; }, epicAllLine: "ALL EPIC COMPLETE — BONUS TICKET ×5",
           puzzleBanner: function (n) { return "Tokyo panorama — " + n + "/16 pieces"; },
           createTab: "NEW ADVENTURER",
           creatorNameLabel: "NAME",
@@ -18433,7 +18433,7 @@ var qrcode = function() {
           nextTicket: function (n) { return "次のチケットまで <b>あと " + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "ガチャの時間 — チケット " + n + "枚あるよ！" : "ガチャ：50 EXPでチケット1枚"; },
           wardrobeTitle: "クローゼット",
-          kindNames: { hat: "帽子", outfit: "服", scarf: "スカーフ", hero: "シークレット主人公" },
+          kindNames: { hat: "帽子", outfit: "服", scarf: "首まわり", hero: "シークレット主人公" },
           equipState: "着用中 ✓", equipHint: "タップで着る", ownedState: "所持済み", lockedState: "まだ",
           resultDupe: function (name) { return name + " — もう持ってる！ +10 EXP に変換しました。"; },
           resultHero: "シークレット主人公が手帳に加入！ステージの主人公スロットをタップして切り替えよう。",
@@ -18897,7 +18897,7 @@ var qrcode = function() {
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成したパノラマを眺められます！"; },
           segRecords: "記録",
           segPuzzle: "パズル", segCollection: "手帳", segAdvLog: "冒険クエストログ",
-          colTitle: "勇者のクエスト手帳", advLogTitle: "冒険クエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "マフラー", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "デイリー記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "冒険クエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。冒険クエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
+          colTitle: "勇者のクエスト手帳", advLogTitle: "冒険クエストログ", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服", colScarves: "首まわり", colEpicShelf: "EPIC限定装備", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "デイリー記録日数", colZones: "ゾーンスタンプ", colBadges: "バッジ", colHeroes: "シークレット勇者", colStickers: "ステッカー帳", stickerEmpty: "冒険クエストをクリアすると、そのクエストのピクセルステッカーがこの帳に残ります。", bookPrev: "◀ 前のページ", bookNext: "次のページ ▶", bookPageOf: function (p, n) { return p + " / " + n + " ページ"; }, pageGear: "装備とバッジ", advStampPage: "ログ頁", advEmpty: "まだクリア記録がありません。冒険クエストをクリアすると、ここにログのページが増えていきます。", advNoDate: "日付の記録なし", advOnsite: "現地 100%", advRemote: "遠隔 30%", zoneBonusLine: function (z) { return "ゾーン制覇: " + z + " — ボーナスチケット ×2"; }, epicAllLine: "EPIC全制覇 — ボーナスチケット ×5",
           puzzleBanner: function (n) { return "東京パノラマ — ピース " + n + "/16"; },
           createTab: "あたらしい勇者",
           creatorNameLabel: "名前",
@@ -19306,7 +19306,7 @@ var qrcode = function() {
           nextTicket: function (n) { return "下一张券还差 <b>" + n + " EXP</b>"; },
           gachaBanner: function (n) { return n > 0 ? "扭蛋时间——有 " + n + " 张券！" : "扭蛋：50 EXP 换 1 张券"; },
           wardrobeTitle: "衣橱",
-          kindNames: { hat: "帽子", outfit: "服装", scarf: "围巾", hero: "秘密主人公" },
+          kindNames: { hat: "帽子", outfit: "服装", scarf: "颈饰", hero: "秘密主人公" },
           equipState: "已穿戴 ✓", equipHint: "点击穿戴", ownedState: "已拥有", lockedState: "未获得",
           resultDupe: function (name) { return name + " — 已经有了！已转换为 +10 EXP。"; },
           resultHero: "秘密主人公加入手帐——点舞台上的主人公格子就能切换！",
@@ -19770,7 +19770,7 @@ var qrcode = function() {
           puzzleRewardLine: function (name) { return "★ 限定称号：" + name + " — 完成的全景图可以慢慢欣赏了！"; },
           segRecords: "记录",
           segPuzzle: "拼图", segCollection: "手帐", segAdvLog: "冒险任务日志",
-          colTitle: "勇者任务手帐", advLogTitle: "冒险任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "围巾", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "每日记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成冒险任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成冒险任务后，这里会多出一页日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
+          colTitle: "勇者任务手帐", advLogTitle: "冒险任务日志", colWardrobe: "衣装", colHats: "帽子", colOutfits: "服装", colScarves: "颈饰", colEpicShelf: "EPIC限定装备", colTitles: "称号", colStreet: "MY STREET 小物", colCalDays: "每日记录天数", colZones: "分区印章", colBadges: "徽章", colHeroes: "秘密勇者", colStickers: "贴纸册", stickerEmpty: "完成冒险任务后，那个任务的像素贴纸会留在这本册子里。", bookPrev: "◀ 上一页", bookNext: "下一页 ▶", bookPageOf: function (p, n) { return "第 " + p + " / " + n + " 页"; }, pageGear: "装备与徽章", advStampPage: "日志页", advEmpty: "还没有完成记录。完成冒险任务后，这里会多出一页日志。", advNoDate: "未记录日期", advOnsite: "到场 100%", advRemote: "远程 30%", zoneBonusLine: function (z) { return "区域全清: " + z + " — 奖励券 ×2"; }, epicAllLine: "EPIC全清 — 奖励券 ×5",
           puzzleBanner: function (n) { return "东京全景 — 碎片 " + n + "/16"; },
           createTab: "新勇者",
           creatorNameLabel: "名字",

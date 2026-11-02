@@ -142,3 +142,6 @@ Zoe on the Q-278 heart: 「爱心眼好像不是爱心」 — the 2×2 red block
 
 ## 2026-11-02 Q-283 — wink expression redrawn (Zoe via art dept)
 Zoe: the wink "feels wrong too". Art's diagnosis: the closed eye was a flat dash on the bottom eye row (row 7), reading tired/glitchy next to the tall open eye, plus a stray cheek dot at (4,7) merging into the dash. Redraw (V1 of 3): the closed eye becomes a happy dip arc — (4,6)/(6,6) high, (5,7) low, using one pixel outward; the open eye is smile's eye verbatim (highlight position included); the (4,7) dot is removed, standard cheeks stay; mouth and brows unchanged. Dev gate: d1 reference suite shows 16 renders identical, face-wink changed, face-heart differing only by the already-shipped Q-282 redraw. QA retest joins the R133 face pass; Zoe's device is final.
+
+## 2026-11-02 Q-284 — third gear category renamed: 围巾 → 颈饰
+Zoe's pick from dev's options: the third slot holds far more than scarves (necklaces, pendants, brooches, bowties, bells), so the category label changes in all three languages — ZH 围巾→颈饰, JA マフラー/スカーフ→首まわり, EN Scarves/Scarf→Neckwear (colScarves + kindNames.scarf). Item NAMES are untouched (an item actually named …围巾 keeps its name). This rename opens her wider order the same hour: refine the whole neck category (audit + de-duplication + polish) — tracked as the neck refinement programme below.
