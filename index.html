@@ -16491,7 +16491,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1440-q261-e83a958b";
+        var BUILD_ID = "tql-20261102-1444-q262-1476cbb5";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -27469,10 +27469,10 @@ var qrcode = function() {
           function withImg() {
             if (e.img) {
               var im = new Image();
-              im.onload = function () { start(im); };
-              im.onerror = function () { start(null); };
+              im.onload = function () { try { start(im); } catch (err) { resolve(null); } };
+              im.onerror = function () { try { start(null); } catch (err) { resolve(null); } };
               im.src = e.img;
-            } else start(null);
+            } else { try { start(null); } catch (err) { resolve(null); } }
           }
           if (document.fonts && document.fonts.ready) {
             var to = new Promise(function (r) { setTimeout(r, 700); });
@@ -27595,10 +27595,10 @@ var qrcode = function() {
           function withImg() {
             if (e.img) {
               var im = new Image();
-              im.onload = function () { start(im); };
-              im.onerror = function () { start(null); };
+              im.onload = function () { try { start(im); } catch (err) { resolve(null); } };
+              im.onerror = function () { try { start(null); } catch (err) { resolve(null); } };
               im.src = e.img;
-            } else start(null);
+            } else { try { start(null); } catch (err) { resolve(null); } }
           }
           if (document.fonts && document.fonts.ready) {
             var to = new Promise(function (r) { setTimeout(r, 700); });
@@ -27629,13 +27629,15 @@ var qrcode = function() {
           date: rec && rec.clearedAt ? String(rec.clearedAt).slice(0, 10).replace(/-/g, ".") : TODAY.replace(/-/g, ".")
         };
         var opened = false;
+        function safeCard() { try { return buildShareCard(o.name); } catch (err) { return null; } }
         function openWith(cv, fname) {
           if (opened) return; opened = true;
+          if (!cv) { cv = safeCard(); fname = "tsq-card.png"; }
           openSharePick({ cv: cv, text: o.shareText, url: SHARE_URL, fileName: fname, grant: grant, fallback: fallback });
         }
+        setTimeout(function () { openWith(null, "tsq-card.png"); }, 2500);
         buildClearPoster(e, info).then(function (cv) { openWith(cv, "tql-clear.png"); },
-          function () { openWith(buildShareCard(o.name), "tsq-card.png"); });
-        setTimeout(function () { openWith(buildShareCard(o.name), "tsq-card.png"); }, 2500);
+          function () { openWith(null, "tsq-card.png"); });
       }
       /* Q-255 (Zoe, 2026-11-02): one share chooser for both poster
          flows. "system" hands the image FILE to the OS share sheet --
@@ -27645,6 +27647,27 @@ var qrcode = function() {
          image posts from a web page directly). The chooser is a
          popover re-parented into an open dialog, the Q-249 lesson. */
       var pendingShare = null, shareHome = null;
+      /* F2 (R113): the chooser's own box does not cover the screen,
+         so outside taps never reached its listener (and taps at the
+         edge fell through to the detail dialog, closing both). A
+         document-level capture listener, armed only while the
+         chooser is open, closes it on any tap outside the panel
+         and swallows that tap. */
+      var sharePickDocH = null;
+      function armSharePickDoc() {
+        disarmSharePickDoc();
+        sharePickDocH = function (ev) {
+          if (ev.target && ev.target.closest && ev.target.closest(".map-pick-panel")) return;
+          ev.stopPropagation();
+          hideSharePick();
+        };
+        var h = sharePickDocH;
+        setTimeout(function () { if (sharePickDocH === h) document.addEventListener("click", h, true); }, 0);
+      }
+      function disarmSharePickDoc() {
+        if (sharePickDocH) document.removeEventListener("click", sharePickDocH, true);
+        sharePickDocH = null;
+      }
       function restoreShareHome() {
         var box = document.getElementById("sharePick");
         if (box && shareHome && shareHome.p) {
@@ -27674,9 +27697,11 @@ var qrcode = function() {
         pendingShare = ctx;
         box.hidden = false;
         popShow(box);
+        armSharePickDoc();
         sfx("open");
       }
       function hideSharePick() {
+        disarmSharePickDoc();
         var box = document.getElementById("sharePick");
         if (!box) return;
         box.hidden = true;
