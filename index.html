@@ -12567,6 +12567,7 @@
          42px offset on its next button; the row is symmetric now. */
       dialog#detail .detail-head > div { flex: 1 1 auto; min-width: 0; }
       .cal-nav #calNext { margin-right: 0; }
+      .sort-segs { display: inline-flex; gap: 4px; flex: none; }
 </style>
     <style>
       /* Q-206: the capsule's own display:flex would override the
@@ -13652,7 +13653,7 @@
         <button class="list-beta-btn" id="listBetaBtn" type="button"></button>
         <div class="list-subbar">
           <span class="search-summary" id="searchSummary"></span>
-          <button class="sort-near-btn" id="sortNearBtn" type="button" aria-pressed="false"></button>
+          <span class="sort-segs" role="group" aria-label="Sort"><button class="sort-near-btn" type="button" data-sortmode="near" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-sortmode="start" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-sortmode="end" aria-pressed="false"></button></span>
           <p class="sort-msg" id="sortMsg" hidden></p>
         </div>
         <div class="liseg-panel" id="lisegIndex">
@@ -16488,7 +16489,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1430-q258-1ba51e6d";
+        var BUILD_ID = "tql-20261102-1433-q259-cefa58ea";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17910,7 +17911,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + (n === 1 ? " quest" : " quests"); },
           searchEmpty: "No quests match. Try another word — the city still has secrets.",
           searchBtn: "SEARCH", searchAll: "Showing every quest — tap SEARCH to filter.",
-          sortNear: "NEAREST FIRST", sortLocating: "LOCATING…",
+          sortNear: "NEAREST FIRST", sortStart: "BY START", sortEnd: "BY END", sortLocating: "LOCATING…",
           sortNoGeo: "This browser can't share your location, so distance sort is unavailable — the list keeps its usual order.",
           sortDenied: "Location permission was denied, so distance sort couldn't run — the list keeps its usual order.",
           sortFailed: "Couldn't read your location, so distance sort couldn't run — the list keeps its usual order.",
@@ -18783,7 +18784,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + "件のクエスト"; },
           searchEmpty: "見つからなかった。別の言葉で探してみて——街にはまだ秘密がある。",
           searchBtn: "検索", searchAll: "全クエスト表示中——「検索」で絞り込める。",
-          sortNear: "近い順", sortLocating: "位置を取得中…",
+          sortNear: "近い順", sortStart: "開始順", sortEnd: "終了順", sortLocating: "位置を取得中…",
           sortNoGeo: "このブラウザは位置情報を共有できないため、距離順は使えません——並びは通常のままです。",
           sortDenied: "位置情報の許可が得られなかったため、距離順にできませんでした——並びは通常のままです。",
           sortFailed: "位置情報を取得できなかったため、距離順にできませんでした——並びは通常のままです。",
@@ -19656,7 +19657,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + " 件任务"; },
           searchEmpty: "没有找到。换个词试试——这座城市还有秘密。",
           searchBtn: "搜索", searchAll: "正在显示全部任务——点「搜索」可以筛选。",
-          sortNear: "离我最近", sortLocating: "正在定位…",
+          sortNear: "离我最近", sortStart: "开始时间", sortEnd: "结束时间", sortLocating: "正在定位…",
           sortNoGeo: "这个浏览器无法共享定位，没法按距离排序——列表保持原来的顺序。",
           sortDenied: "没有获得定位许可，没法按距离排序——列表保持原来的顺序。",
           sortFailed: "没能获取定位，没法按距离排序——列表保持原来的顺序。",
@@ -26212,16 +26213,23 @@ var qrcode = function() {
       var msQuery = "";
       var filterArea = "All";
       var filterMoods = {};
-      /* NEAREST-FIRST sort for the quest index (user, 2026-10-27):
-         off by default — the board keeps its usual end-date order.
-         The position is read ONLY on the tap that turns the sort on
-         (same privacy rule as check-in: used for this sort, never
-         tracked, never saved — it lives in this memory-only var and
-         is dropped when the sort is switched off). */
-      var listSortNear = false;
+      /* Sort for the quest index (Zoe, 2026-11-02, Q-259):
+         NEAREST is the default order -- the board opens sorted
+         by distance, and EPIC quests mix in by distance like
+         everything else (no class is pinned to the top). START
+         and END order by the event dates; evergreens, which have
+         neither, sit last in both (the board's 9999 convention).
+         The position is read only when the distance order needs
+         it (the first opening of this screen, or tapping
+         NEAREST); it lives in a memory-only var -- never
+         tracked, never saved -- and if it cannot be read, the
+         board keeps the end-date order and says so in one line
+         under the bar. */
+      var listSortMode = "near";
       var sortPos = null;
       var sortMsg = "";
       var sortBusy = false;
+      var sortTried = false;
       function questDistM(e) {
         var v = VENUES[e.id];
         if (!v || !sortPos) return null;
@@ -26315,13 +26323,22 @@ var qrcode = function() {
            by the same distance). Quests without a venue coordinate
            keep their usual order at the end. Ties fall back to the
            default end-date order the list already carries. */
-        if (listSortNear && sortPos) {
+        if (listSortMode === "near" && sortPos) {
           list = list.map(function (e, i) { return { e: e, i: i, d: questDistM(e) }; })
             .sort(function (a, b) {
               if (a.d == null && b.d == null) return a.i - b.i;
               if (a.d == null) return 1;
               if (b.d == null) return -1;
               return (a.d - b.d) || (a.i - b.i);
+            })
+            .map(function (o) { return o.e; });
+        } else if (listSortMode === "start" || listSortMode === "end") {
+          var key = listSortMode;
+          list = list.map(function (e, i) { return { e: e, i: i }; })
+            .sort(function (a, b) {
+              var av = (key === "start" ? a.e.start : a.e.end) || "9999-12-31";
+              var bv = (key === "start" ? b.e.start : b.e.end) || "9999-12-31";
+              return av < bv ? -1 : av > bv ? 1 : (a.i - b.i);
             })
             .map(function (o) { return o.e; });
         }
@@ -26338,7 +26355,7 @@ var qrcode = function() {
       function searchRowHTML(e) {
         var clr = isCleared(e.id);
         var distTxt = "";
-        if (listSortNear && sortPos) {
+        if (listSortMode === "near" && sortPos) {
           var d = questDistM(e);
           if (d != null) distTxt = " · " + esc(L().distAway(fmtDist(d)));
         }
@@ -26428,14 +26445,12 @@ var qrcode = function() {
         if (filterFree) parts.push(t.freeOnly);
         if (filterAccepted) parts.push(t.acceptedOnly);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
-        if (listSortNear) parts.push(t.sortNear);
         document.getElementById("searchSummary").textContent = parts.length ? t.summaryFiltered(list.length, parts) : t.searchAll;
-        var snb = document.getElementById("sortNearBtn");
-        if (snb) {
-          snb.textContent = sortBusy ? t.sortLocating : t.sortNear;
-          snb.setAttribute("aria-pressed", String(listSortNear));
-          snb.disabled = sortBusy;
-        }
+        document.querySelectorAll("[data-sortmode]").forEach(function (b) {
+          var k = b.getAttribute("data-sortmode");
+          b.textContent = (sortBusy && k === "near") ? t.sortLocating : (k === "near" ? t.sortNear : k === "start" ? t.sortStart : t.sortEnd);
+          b.setAttribute("aria-pressed", String(listSortMode === k));
+        });
         var smg = document.getElementById("sortMsg");
         if (smg) { smg.hidden = !sortMsg; smg.textContent = sortMsg || ""; }
         /* LEGEND route cards lead the unfiltered board */
@@ -28382,7 +28397,7 @@ var qrcode = function() {
         if (name === "hero") renderHero();
         else stopWalk();
         if (name === "daily") renderDaily();
-        if (name === "list") { renderSearch(); renderLog(); }
+        if (name === "list") { maybeRequestSortPos(); renderSearch(); renderLog(); }
         var panel = document.getElementById("view-" + name);
         if (panel) panel.scrollTop = 0;
         sfx("move");
@@ -30097,27 +30112,37 @@ var qrcode = function() {
          on this tap (check-in's privacy rule — sort-only, never
          tracked or saved). Any failure leaves the default order in
          place and explains itself in one line under the bar. */
-      document.getElementById("sortNearBtn").addEventListener("click", function () {
+      function requestSortPos() {
         var t = L();
-        if (listSortNear) {
-          listSortNear = false; sortPos = null; sortMsg = "";
-          sfx("back"); renderSearch();
-          return;
-        }
-        if (sortBusy) return;
+        if (sortBusy || sortPos) return;
         if (!navigator.geolocation) { sortMsg = t.sortNoGeo; sfx("back"); renderSearch(); return; }
         sortBusy = true; sortMsg = "";
         renderSearch();
         navigator.geolocation.getCurrentPosition(function (pos) {
           sortBusy = false;
           sortPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-          listSortNear = true; sortMsg = "";
+          sortMsg = "";
           sfx("accept"); renderSearch();
         }, function (err) {
           sortBusy = false;
           sortMsg = err && err.code === 1 ? t.sortDenied : t.sortFailed;
           sfx("back"); renderSearch();
         }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+      }
+      function maybeRequestSortPos() {
+        if (listSortMode !== "near" || sortPos || sortBusy || sortTried) return;
+        sortTried = true;
+        requestSortPos();
+      }
+      document.querySelectorAll("[data-sortmode]").forEach(function (b) {
+        b.addEventListener("click", function () {
+          var k = b.getAttribute("data-sortmode");
+          if (k === listSortMode && k !== "near") return;
+          listSortMode = k;
+          sortMsg = "";
+          if (k === "near" && !sortPos) { sortTried = true; requestSortPos(); }
+          sfx("move"); renderSearch();
+        });
       });
       function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); }
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
