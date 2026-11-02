@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1457-q266-15f0f20b";
+        var BUILD_ID = "tql-20261102-1459-q267-e8e468b2";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26470,11 +26470,39 @@ var qrcode = function() {
         });
         var smg = document.getElementById("sortMsg");
         if (smg) { smg.hidden = !sortMsg; smg.textContent = sortMsg || ""; }
-        /* LEGEND route cards lead the unfiltered board */
-        var lgHTML = (!parts.length && !msQuery.trim()) ? LEGENDS.map(legendCardHTML).join("") : "";
-        document.getElementById("msResults").innerHTML = lgHTML + (list.length
-          ? list.map(searchRowHTML).join("")
-          : '<p class="ms-empty">' + esc(L().searchEmpty) + "</p>");
+        /* LEGEND route cards join the unfiltered board IN SORT
+           ORDER (Zoe, 2026-11-02: no head-pinning for anything —
+           her "no pinning" ruling covers LEGEND too, superseding
+           the Q-259 keep-the-lead decision). A route sorts by its
+           current anchor's distance in NEAREST order, and is
+           dateless — the evergreen tail block — in the date
+           orders and in the no-position fallback. */
+        var showLg = !parts.length && !msQuery.trim();
+        var lgHTML = showLg ? "" : "";
+        if (list.length) {
+          var rows = list.map(searchRowHTML);
+          if (showLg) {
+            var keyOf = function (e) {
+              if (listSortMode === "near" && sortPos) { var dd = questDistM(e); return dd == null ? Infinity : dd; }
+              return (listSortMode === "start" ? e.start : e.end) || "9999-12-31";
+            };
+            var keys = list.map(keyOf);
+            LEGENDS.forEach(function (lg) {
+              var anchor = byId(legendNext(lg) || lg.cps[lg.cps.length - 1]);
+              var key;
+              if (listSortMode === "near" && sortPos) { var dl = anchor ? questDistM(anchor) : null; key = dl == null ? Infinity : dl; }
+              else key = "9999-12-31";
+              var idx = keys.length;
+              for (var i2 = 0; i2 < keys.length; i2++) { if (keys[i2] > key) { idx = i2; break; } }
+              keys.splice(idx, 0, key);
+              rows.splice(idx, 0, legendCardHTML(lg));
+            });
+          }
+          document.getElementById("msResults").innerHTML = rows.join("");
+        } else {
+          document.getElementById("msResults").innerHTML = (showLg ? LEGENDS.map(legendCardHTML).join("") : "")
+            + '<p class="ms-empty">' + esc(L().searchEmpty) + "</p>";
+        }
         document.querySelectorAll("[data-legend-open]").forEach(function (el) {
           el.addEventListener("click", function (ev) { ev.stopPropagation(); openLegend(el.getAttribute("data-legend-open")); });
         });
