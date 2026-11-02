@@ -7130,7 +7130,7 @@
       .sp-fireworks svg { animation: fw-pulse 1.6s steps(2) infinite; }
       @keyframes fw-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
       .sp-monument { width: 34px; height: 46px; }
-      .sp-train { left: 44%; right: 0; bottom: 128px; height: 20px; }
+      .sp-train { left: 44%; right: 0; top: 19%; bottom: auto; height: 14px; }
       /* --- art-dept batches 2+3 (2026-10-28): the grounded set
          rides the runner carriers, so these rules only fix each
          prop's natural size (the carrier sets position/scale);
@@ -7170,11 +7170,11 @@
       .sp-pigeons { left: 28%; bottom: var(--ground-b, 30px); width: 50px; height: 25px; }
       .sp-sparrows { right: 7%; top: 10.5%; width: 64px; height: 20px; }
       .sp-train .train-car {
-        position: absolute; bottom: 3px; left: -92px; width: 84px; height: 15px;
-        animation: train-pass 15s steps(110) infinite;
+        position: absolute; bottom: 2px; left: -72px; width: 64px; height: 11px;
+        animation: train-pass 19s steps(110) infinite;
       }
       @keyframes train-pass {
-        0% { left: -92px; }
+        0% { left: -72px; }
         30% { left: 100%; }
         100% { left: 100%; }
       }
@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1451-q264-7eec8854";
+        var BUILD_ID = "tql-20261102-1455-q265-6b528d63";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
