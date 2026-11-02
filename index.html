@@ -14045,6 +14045,7 @@
                free-text keyword box — category / area / mood chips
                plus this free-only toggle do all the narrowing -->
           <button class="ms-free" id="msFree" type="button" aria-pressed="false"></button>
+          <button class="ms-free" id="msAccepted" type="button" aria-pressed="false"></button>
         </div>
         <div class="ms-group-label" id="lblFilterCat"></div>
         <div class="ms-cats" id="msCats"></div>
@@ -16487,7 +16488,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1425-q255b-da06c452";
+        var BUILD_ID = "tql-20261102-1430-q258-1ba51e6d";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17239,7 +17240,7 @@ var qrcode = function() {
           progress: "PROGRESS",
           audioHint: "♪ Tap anywhere — the BGM starts with your first tap. Two tracks for day and two for night; pick your favourites under BGM in SETTINGS — the music follows the day/night mode automatically.",
           legendNote: "Tap a pin for a quick preview, then open its briefing; at the real venue, tap <b>CHECK IN</b> there — your location clears the quest. Pins you accepted show <b>!</b>; cleared quests get a stamp.",
-          category: "CATEGORY", all: "All", freeOnly: "FREE only", surprise: "SURPRISE ME",
+          category: "CATEGORY", all: "All", freeOnly: "FREE only", acceptedOnly: "Accepted only", surprise: "SURPRISE ME",
           filterTitle: "FILTER", minBtn: "MINIMIZE", maxBtn: "EXPAND",
           filterSummary: function (n, cat, free) { return n + (n === 1 ? " quest" : " quests") + " · " + cat + (free ? " · FREE only" : ""); },
           deckPrev: "Previous quest", deckNext: "Next quest",
@@ -18112,7 +18113,7 @@ var qrcode = function() {
           progress: "進捗",
           audioHint: "♪ どこかをタップするとBGMが流れ始めます。BGMは昼・夜それぞれ2曲から選べます（設定のBGMで選択、保存されます）。カラーモードに合わせて昼／夜が自動で切り替わります。",
           legendNote: "ピンをタップすると小さなプレビューが出ます。そこから詳細を開き、実際の会場で<b>チェックイン</b>を押すと位置情報でクリアになります。受注中のピンには<b>！</b>、クリア済みにはスタンプが付きます。",
-          category: "カテゴリ", all: "すべて", freeOnly: "無料のみ", surprise: "おまかせ",
+          category: "カテゴリ", all: "すべて", freeOnly: "無料のみ", acceptedOnly: "受注中のみ", surprise: "おまかせ",
           filterTitle: "フィルター", minBtn: "たたむ", maxBtn: "ひらく",
           filterSummary: function (n, cat, free) { return n + "件 · " + cat + (free ? " · 無料のみ" : ""); },
           deckPrev: "前のクエスト", deckNext: "次のクエスト",
@@ -18985,7 +18986,7 @@ var qrcode = function() {
           progress: "进度",
           audioHint: "♪ 点一下任意位置，BGM 就会开始播放。白天和夜晚各有 2 首可选（在设置的 BGM 中选择并保存），音乐会随昼夜模式自动切换。",
           legendNote: "点图钉会弹出小预览，从那里打开详情；到了真实场馆点<b>打卡</b>，用定位完成任务。已接受的图钉带 <b>!</b>，已完成的会盖上印章。",
-          category: "分类", all: "全部", freeOnly: "仅免费", surprise: "随机一个",
+          category: "分类", all: "全部", freeOnly: "仅免费", acceptedOnly: "仅受注中", surprise: "随机一个",
           filterTitle: "筛选", minBtn: "收起", maxBtn: "展开",
           filterSummary: function (n, cat, free) { return n + " 件任务 · " + cat + (free ? " · 仅免费" : ""); },
           deckPrev: "上一个任务", deckNext: "下一个任务",
@@ -25553,7 +25554,7 @@ var qrcode = function() {
       var pinLayerEl = document.getElementById("pinLayer");
       var detail = document.getElementById("detail");
       var currentId = null;
-      var filterCat = "All", filterFree = false;
+      var filterCat = "All", filterFree = false, filterAccepted = false;
       var statusMin = false, filterMin = false;
 
       function catChip(e) {
@@ -25651,6 +25652,8 @@ var qrcode = function() {
         /* keyword input retired: filtering is chips-only now */
         document.getElementById("msFree").innerHTML = ICONS.sword + "<span>" + t.freeOnly + "</span>";
         document.getElementById("msFree").setAttribute("aria-pressed", String(filterFree));
+        document.getElementById("msAccepted").innerHTML = ICONS.pin + "<span>" + t.acceptedOnly + "</span>";
+        document.getElementById("msAccepted").setAttribute("aria-pressed", String(filterAccepted));
         document.getElementById("logActiveTitle").textContent = t.logActive;
         document.getElementById("logClearedTitle").textContent = t.logCleared;
         document.getElementById("logActiveEmpty").textContent = t.logActiveEmpty;
@@ -26295,10 +26298,14 @@ var qrcode = function() {
         return q.split(/\s+/).every(function (w) { return !w || hay.indexOf(w) !== -1; });
       }
       function currentBoardList() {
+        /* Q-258 (Zoe, 2026-11-02): an accepted-only toggle in the
+           search window -- one tap lists every quest she has taken
+           on and not yet cleared (the same semantics as the map
+           sheet's accepted chip). */
         var q = msQuery.trim().toLowerCase();
         var selMoods = Object.keys(filterMoods).filter(function (m) { return filterMoods[m]; });
         var list = sortedVisible().filter(function (e) {
-          return (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) &&
+          return (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) && (!filterAccepted || (isAccepted(e.id) && !isCleared(e.id))) &&
             (filterArea === "All" || zoneOf(e) === filterArea) &&
             (!selMoods.length || selMoods.some(function (b) { return evBuckets(e).indexOf(b) !== -1; })) &&
             questMatchesQuery(e, q);
@@ -26419,6 +26426,7 @@ var qrcode = function() {
         if (filterArea !== "All") parts.push(zoneName(filterArea));
         Object.keys(filterMoods).forEach(function (m) { if (filterMoods[m]) parts.push(moodBucketLabel(m)); });
         if (filterFree) parts.push(t.freeOnly);
+        if (filterAccepted) parts.push(t.acceptedOnly);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
         if (listSortNear) parts.push(t.sortNear);
         document.getElementById("searchSummary").textContent = parts.length ? t.summaryFiltered(list.length, parts) : t.searchAll;
@@ -30115,14 +30123,20 @@ var qrcode = function() {
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
       document.getElementById("searchDone").addEventListener("click", function () { sfx("move"); closeSearchModal(); });
       document.getElementById("searchReset").addEventListener("click", function () {
-        filterCat = "All"; filterArea = "All"; filterMoods = {}; filterFree = false; msQuery = "";
+        filterCat = "All"; filterArea = "All"; filterMoods = {}; filterFree = false; filterAccepted = false; msQuery = "";
         document.getElementById("msFree").setAttribute("aria-pressed", "false");
+        document.getElementById("msAccepted").setAttribute("aria-pressed", "false");
         sfx("back"); renderSearch();
       });
       searchModal.addEventListener("click", function (ev) { if (ev.target === searchModal) closeSearchModal(); });
       document.getElementById("msFree").addEventListener("click", function () {
         filterFree = !filterFree;
         this.setAttribute("aria-pressed", String(filterFree));
+        sfx("move"); renderSearch();
+      });
+      document.getElementById("msAccepted").addEventListener("click", function () {
+        filterAccepted = !filterAccepted;
+        this.setAttribute("aria-pressed", String(filterAccepted));
         sfx("move"); renderSearch();
       });
       document.getElementById("msResults").addEventListener("click", function (ev) {
