@@ -15,23 +15,76 @@
          fresh upd= query, exactly like the Q-145 freshness reload.
          Same origin and path: localStorage (guest saves) is never
          touched. A slow-but-alive load is never interrupted: while
-         the document is still loading, the watchdog only waits. */
+         the document is still loading, the watchdog only waits.
+         Q-293 stage 2: if even the reloads do not produce a boot,
+         the watchdog shows its own guidance panel (below) — the
+         save data itself may be damaged; the player can reload, or
+         back the save up under a side key and start fresh. Nothing
+         is deleted silently: the backup stays in localStorage. */
       (function () {
         var KEY = "tql_boot_guard", MAX = 2, n = 0;
-        try { n = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0; } catch (e) { /* no storage: still guarded by MAX via reload URL churn */ }
-        var booted = false, waited = 0, idleSince = 0;
+        try { n = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0; } catch (e) { /* no storage: the panel still offers the manual path */ }
+        var booted = false, waited = 0, idleSince = 0, guided = false;
         window.__tqlBootOk = function () {
           booted = true;
           try { sessionStorage.removeItem(KEY); } catch (e) {}
         };
+        var TEXTS = {
+          en: { title: "The game couldn't start", body: "Your save data may be damaged. Reloading will not erase your progress. If you have an account, signing in restores your cloud progress.", reload: "Reload", fresh: "Back up save & start fresh" },
+          ja: { title: "ゲームを起動できませんでした", body: "セーブデータが壊れている可能性があります。再読み込みしても進捗は消えません。アカウントをお持ちの方は、ログインするとクラウドの進捗を復元できます。", reload: "再読み込み", fresh: "セーブを退避して最初から" },
+          zh: { title: "游戏没能启动", body: "存档数据可能已损坏。重新加载不会丢失进度；如果你有账号，登录后可以恢复云端进度。", reload: "重新加载", fresh: "备份存档并重新开始" }
+        };
+        function showGuidance() {
+          if (guided || !document.body) return;
+          guided = true;
+          var lg = "en";
+          try { lg = (navigator.language || "en").slice(0, 2); } catch (e) {}
+          var T = TEXTS[lg] || TEXTS.en;
+          var btnCss = "display:block;width:100%;margin-top:8px;padding:10px;font:inherit;font-weight:800;font-size:14px;color:#26303c;background:#ffd83d;border:2px solid #26303c;border-radius:9px;cursor:pointer";
+          var d = document.createElement("div");
+          d.setAttribute("style", "position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#fffbe8;color:#26303c;border:3px solid #26303c;border-radius:12px;padding:14px;font-family:sans-serif;box-shadow:0 6px 0 rgba(0,0,0,.35)");
+          var h = document.createElement("div");
+          h.setAttribute("style", "font-weight:800;font-size:15px;margin-bottom:6px");
+          h.textContent = T.title;
+          var p = document.createElement("div");
+          p.setAttribute("style", "font-size:13px;line-height:1.5");
+          p.textContent = T.body;
+          var b1 = document.createElement("button");
+          b1.setAttribute("style", btnCss);
+          b1.textContent = T.reload;
+          b1.addEventListener("click", function () {
+            try { sessionStorage.removeItem(KEY); sessionStorage.removeItem("tql_boot_quarantine"); } catch (e) {}
+            location.reload();
+          });
+          var b2 = document.createElement("button");
+          b2.setAttribute("style", btnCss + ";background:#ffffff");
+          b2.textContent = T.fresh;
+          b2.addEventListener("click", function () {
+            try {
+              var raw = localStorage.getItem("tql_state_v1") || localStorage.getItem("tsq_state_v1");
+              if (raw) localStorage.setItem("tql_state_backup_" + Date.now(), raw);
+              localStorage.removeItem("tql_state_v1");
+              localStorage.removeItem("tsq_state_v1");
+              sessionStorage.removeItem(KEY);
+              sessionStorage.removeItem("tql_boot_quarantine");
+            } catch (e) {}
+            location.reload();
+          });
+          d.appendChild(h); d.appendChild(p); d.appendChild(b1); d.appendChild(b2);
+          document.body.appendChild(d);
+        }
         function tick() {
           if (booted) return;
           waited += 1;
           var rs = document.readyState;
           if (rs === "complete" || (rs === "interactive" && (idleSince += 1) >= 3)) {
-            if (n >= MAX) return;
+            if (n >= MAX) {
+              if (document.body) { showGuidance(); return; }
+              if (waited <= 20) setTimeout(tick, 1000);
+              return;
+            }
             try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {}
-            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[\?&]+/, "").replace(/[\?&]+$/, "");
+            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
             location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + Date.now() + (location.hash || ""));
             return;
           }
@@ -16593,7 +16646,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2104-q292-19e4fa47";
+        var BUILD_ID = "tql-20261102-2108-q293-32f4849e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -18062,6 +18115,7 @@ var qrcode = function() {
           sceneTitle: "MY STREET",
           sceneNames: ["Flower Planter", "Sakura Tree", "Street Lamp", "Vending Machine", "Park Bench", "Hachiko Statue", "Bicycle", "Red Postbox", "Tokyo Tower", "Yatai Stall", "Stone Lantern", "Street Clock", "Maple Tree", "Bus Stop", "Torii Gate", "Street Cat", "Gachapon Machine", "Scramble Crossing", "Fountain", "Lantern String", "Fireworks", "Ferris Wheel", "Roadside Shrine", "Rainbow Bridge", "Tokyo Skytree", "Phone Booth", "Suspension Bridge", "Park Slide", "Taxi", "Golden Monument"],
           sceneUnlock: function (n) { return "Your street grew — the " + n + " appeared!"; },
+          recoveryNote: "Your save data looked damaged, so I backed it up and started fresh. If you have an account, sign in to restore your progress.",
           cancelQuest: "Give up this quest",
           cancelQ: function (name) { return "Give up “" + name + "”? It goes back on the board — you can accept it again any time. No penalty."; },
           confirmTab: "CONFIRM", yesBtn: "YES", noBtn: "NO",
@@ -18935,6 +18989,7 @@ var qrcode = function() {
           sceneTitle: "マイストリート",
           sceneNames: ["花壇", "桜の木", "街灯", "自動販売機", "ベンチ", "忠犬ハチ公像", "自転車", "赤ポスト", "東京タワー", "屋台", "石灯籠", "街角時計", "紅葉の木", "バス停", "鳥居", "路地の猫", "ガチャポン", "スクランブル交差点", "噴水", "提灯の連なり", "花火", "観覧車", "祠", "レインボーブリッジ", "東京スカイツリー", "電話ボックス", "吊り橋", "滑り台", "タクシー", "黄金の記念碑"],
           sceneUnlock: function (n) { return "街が育った——" + n + "が現れた！"; },
+          recoveryNote: "セーブデータが壊れていたため、バックアップを取って初期状態で起動しました。アカウントをお持ちの方はログインすると進捗を復元できます。",
           cancelQuest: "クエストをやめる",
           cancelQ: function (name) { return "「" + name + "」をやめますか？掲示板に戻り、いつでも受け直せます。ペナルティはありません。"; },
           confirmTab: "かくにん", yesBtn: "はい", noBtn: "いいえ",
@@ -19808,6 +19863,7 @@ var qrcode = function() {
           sceneTitle: "我的街道",
           sceneNames: ["花坛", "樱花树", "街灯", "自动贩卖机", "长椅", "忠犬八公像", "自行车", "红邮筒", "东京塔", "屋台小吃摊", "石灯笼", "街角时钟", "红叶树", "巴士站", "鸟居", "街猫", "扭蛋机", "涩谷十字路口", "喷泉", "灯笼串", "烟花", "摩天轮", "小祠", "彩虹大桥", "晴空塔", "电话亭", "吊桥", "滑梯", "出租车", "黄金纪念碑"],
           sceneUnlock: function (n) { return "你的街道长大了——" + n + "出现了！"; },
+          recoveryNote: "存档数据似乎已损坏，已为你备份并以初始状态启动。如果你有账号，登录即可恢复进度。",
           cancelQuest: "放弃这个任务",
           cancelQ: function (name) { return "要放弃「" + name + "」吗？它会回到公告板，随时可以重新接受，没有惩罚。"; },
           confirmTab: "确认", yesBtn: "是", noBtn: "否",
@@ -31521,14 +31577,44 @@ function drawZoneStamp(cv, zoneId, mode) {
       window.addEventListener("touchend", vvhRelease, { passive: true });
       window.addEventListener("touchcancel", vvhRelease, { passive: true });
 
-      renderAll();
-      applyTheme(state.theme, false);
-      goHomeView();
-      tryGlInit();
-      renderMapFilterFold();
-      setStatusMin(true);
-      showStart(false);
-      if (window.__tqlBootOk) window.__tqlBootOk(); /* Q-292: boot completed — stand the watchdog down */
+      try {
+        renderAll();
+        applyTheme(state.theme, false);
+        goHomeView();
+        tryGlInit();
+        renderMapFilterFold();
+        setStatusMin(true);
+        showStart(false);
+        if (window.__tqlBootOk) window.__tqlBootOk(); /* Q-292: boot completed — stand the watchdog down */
+        try {
+          var rn = localStorage.getItem("tql_recovery_note");
+          if (rn) {
+            localStorage.removeItem("tql_recovery_note");
+            setTimeout(function () { narrate(L().recoveryNote); }, 600);
+          }
+        } catch (e) { /* note is best-effort */ }
+      } catch (bootErr) {
+        /* Q-293 fail-soft: a malformed save detonating anywhere in
+           the boot sequence must not leave a dead title screen.
+           Back the raw save up under a side key (nothing is lost),
+           clear the live keys and reload ONCE into a fresh boot;
+           the Q-292/Q-293 watchdog guidance panel is the backstop
+           if even a fresh boot fails. */
+        try {
+          if (!sessionStorage.getItem("tql_boot_quarantine")) {
+            sessionStorage.setItem("tql_boot_quarantine", "1");
+            var bqKey = "tql_state_backup_" + Date.now();
+            var rawQ = localStorage.getItem(LS_KEY) || localStorage.getItem(LS_KEY_OLD);
+            if (rawQ) {
+              localStorage.setItem(bqKey, rawQ);
+              localStorage.setItem("tql_recovery_note", bqKey);
+            }
+            localStorage.removeItem(LS_KEY);
+            localStorage.removeItem(LS_KEY_OLD);
+            location.reload();
+          }
+        } catch (e2) { /* storage unavailable: the watchdog panel takes over */ }
+      }
     </script>
     <script>
       "use strict";
