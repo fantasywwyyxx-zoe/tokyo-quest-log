@@ -14155,7 +14155,7 @@
         <p class="map-pick-title" id="sharePickTitle"></p>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="system"></button>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="x"></button>
-        <button class="rpg-btn map-pick-btn" type="button" data-sharekind="instagram"></button>
+        <button class="rpg-btn map-pick-btn" type="button" data-sharekind="threads"></button>
         <button class="map-pick-cancel" type="button" id="sharePickCancel"></button>
       </div>
     </div>
@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1503-q268-392cf12b";
+        var BUILD_ID = "tql-20261102-1505-q269-eee19916";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17328,7 +17328,7 @@ var qrcode = function() {
           listOpen: "DETAILS ▶",
           boardOpen: "OPEN",
           boardTitle: "QUEST BOARD", backBtn: "◀ BACK",
-          posterBtn: "🖼 SHARE POSTER", posterCta: "Public beta now on!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to join", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareIg: "Post to Instagram", shareSavedNote: "Image saved — attach it in the app that opened.",
+          posterBtn: "🖼 SHARE POSTER", posterCta: "Public beta now on!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to join", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareSavedNote: "Image saved — attach it in the app that opened.",
           viewPhoto: "View full photo",
           viewerClose: "✕ CLOSE",
           viewerHint: "Pinch or double-tap to zoom · drag to pan",
@@ -18201,7 +18201,7 @@ var qrcode = function() {
           listOpen: "詳細 ▶",
           boardOpen: "詳細",
           boardTitle: "クエスト掲示板", backBtn: "◀ もどる",
-          posterBtn: "🖼 ポスターで共有", posterCta: "公開βテスト開催中！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンして参加", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareIg: "Instagram に投稿", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
+          posterBtn: "🖼 ポスターで共有", posterCta: "公開βテスト開催中！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンして参加", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
           viewPhoto: "写真を全体表示",
           viewerClose: "✕ 閉じる",
           viewerHint: "ピンチ／ダブルタップで拡大 · ドラッグで移動",
@@ -19074,7 +19074,7 @@ var qrcode = function() {
           listOpen: "打开详情 ▶",
           boardOpen: "详情",
           boardTitle: "任务公告板", backBtn: "◀ 返回",
-          posterBtn: "🖼 海报分享", posterCta: "公测进行中！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码参加", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareIg: "发布到 Instagram", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
+          posterBtn: "🖼 海报分享", posterCta: "公测进行中！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码参加", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
           viewPhoto: "全屏查看照片",
           viewerClose: "✕ 关闭",
           viewerHint: "双指捏合／双击缩放 · 拖动平移",
@@ -27685,7 +27685,7 @@ var qrcode = function() {
       /* Q-255 (Zoe, 2026-11-02): one share chooser for both poster
          flows. "system" hands the image FILE to the OS share sheet --
          the only channel that carries the picture itself into X or
-         Instagram. The X / Instagram rows save the image first, then
+         Instagram. The X / Threads rows save the image first, then
          open the app with the text ready (neither service accepts
          image posts from a web page directly). The chooser is a
          popover re-parented into an open dialog, the Q-249 lesson. */
@@ -27841,7 +27841,7 @@ var qrcode = function() {
         document.getElementById("sharePickTitle").textContent = t.sharePickTitle;
         box.querySelector('[data-sharekind="system"]').textContent = t.shareSys;
         box.querySelector('[data-sharekind="x"]').textContent = t.shareX;
-        box.querySelector('[data-sharekind="instagram"]').textContent = t.shareIg;
+        box.querySelector('[data-sharekind="threads"]').textContent = t.shareThreads;
         document.getElementById("sharePickCancel").textContent = t.mapPickCancel;
         pendingShare = ctx;
         box.hidden = false;
@@ -27893,36 +27893,24 @@ var qrcode = function() {
           return true;
         } catch (err) { return false; }
       }
-      function igShare(ctx) {
-        /* Instagram accepts no image posts from the web: the
-           share sheet carrying the image file is its only door
-           (the app appears as a destination there). The first
-           version's save + open instagram.com route dead-ends --
-           the mobile web composer cannot post photos at all
-           (Zoe's device verdict, 2026-11-02). */
-        function degraded() {
-          var saved = saveCtxImage(ctx);
-          window.open("https://www.instagram.com/", "_blank");
-          ctx.grant(saved ? L().shareSavedNote : "");
-        }
-        if (navigator.share && ctx.cv && ctx.cv.toBlob) {
-          ctx.cv.toBlob(function (blob) {
-            if (!blob) { degraded(); return; }
-            var f = null;
-            try { f = new File([blob], ctx.fileName, { type: "image/png" }); } catch (err) {}
-            if (!f || !navigator.canShare || !navigator.canShare({ files: [f] })) { degraded(); return; }
-            navigator.share({ title: "Tokyo Quest Log", text: ctx.text, files: [f] }).then(function () { ctx.grant(""); }, function (err) {
-              if (!err || err.name !== "AbortError") degraded();
-            });
-          }, "image/png");
-        } else degraded();
+      function threadsShare(ctx) {
+        /* Threads has an official web intent (composer with the
+           text prefilled); like X it cannot take the image, so
+           the poster is saved first and the saved-note says to
+           attach it. Instagram has NO web posting route at all
+           (no intent exists, for any site); its row was removed
+           on Zoe's ruling (2026-11-02): no direct posting, no
+           Instagram row — Threads replaces it (Q-269). */
+        var saved = saveCtxImage(ctx);
+        try { window.open("https://www.threads.net/intent/post?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank"); } catch (e) { /* ignore */ }
+        ctx.grant(saved ? L().shareSavedNote : "");
       }
       function pickShare(kind) {
         var ctx = pendingShare;
         hideSharePick();
         if (!ctx) return;
         if (kind === "system") { sysShare(ctx); return; }
-        if (kind === "instagram") { igShare(ctx); return; }
+        if (kind === "threads") { threadsShare(ctx); return; }
         var saved = saveCtxImage(ctx);
         if (kind === "x") {
           window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank");
@@ -32165,8 +32153,8 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
-          {d: "2026-11-02", s: "sparkle", t: "[News] Mini-game posters are here", b: "Finished a mini-game run? The result screen now has a SHARE POSTER button: that run's screen, score and best, turned into a poster you can send to X or Instagram in one tap. Mini-game posters carry no rewards — glory only."}, { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
-          { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Instagram", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself (choose Instagram there and the image is ready to post), and the X option saves the image and opens the composer with your text ready." },
+          {d: "2026-11-02", s: "sparkle", t: "[News] Mini-game posters are here", b: "Finished a mini-game run? The result screen now has a SHARE POSTER button: that run's screen, score and best, turned into a poster you can send to X or Threads in one tap. Mini-game posters carry no rewards — glory only."}, { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
+          { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Threads", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself, and the X and Threads options save the image and open the composer with your text ready — just attach the picture." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Quest details are easier to read", b: "The quest detail screen got a readability overhaul: larger, clearer type, and the title and photo now scroll together with the text. Multi-tier prices show as a tidy list, repeated labels were removed so each fact appears just once, and quest info (hours, prices, venues) is now shown in Chinese when the UI language is Chinese." },
           { d: "2026-11-02", s: "sparkle", t: "[News] EPIC quests are now truly rare", b: "EPIC is now a rare tier kept by just 10 hidden-gem spots: Meguro Parasitological Museum, Game Center Mikado, the Paper Museum, Super Potato Akihabara, the Tobacco and Salt Museum, Tokiwaso Manga Museum, Kisho Shrine, Shirohige's Cream Puff Factory, GAS MUSEUM and the Itabashi Tropical Botanical Garden. Every other evergreen quest is a regular quest now -- the purple EPIC styling is gone, and remote clear (30% EXP, once a day) works on them too. Gear you have already earned stays yours, exactly as before." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Sign in and get 10 gacha tickets!", b: "Log in with a free account (email or Google) and 10 gacha tickets are yours — one gift per account. Your progress also saves to the cloud, so it stays safe even if you change phones." },
@@ -32181,8 +32169,8 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
-          {d: "2026-11-02", s: "sparkle", t: "[News] ミニゲームもポスターシェア対応", b: "ミニゲームの結果画面に「ポスターをシェア」が付きました。その回のプレイ画面＋スコアとベストをポスターにして、XやInstagramへワンタップで投稿できます。ミニゲームのポスターシェアは無報酬です。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
-          { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Instagramへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有と Instagram は画像そのものを送れます（Instagram は共有先リストから選ぶだけ）。X は画像を保存してから投稿画面を開くので、画像を添付してください。" },
+          {d: "2026-11-02", s: "sparkle", t: "[News] ミニゲームもポスターシェア対応", b: "ミニゲームの結果画面に「ポスターをシェア」が付きました。その回のプレイ画面＋スコアとベストをポスターにして、XやThreadsへワンタップで投稿できます。ミニゲームのポスターシェアは無報酬です。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
+          { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Threadsへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有は画像そのものを送れます。X と Threads は画像を保存してから投稿画面を開くので、画像を添付してください。" },
           { d: "2026-11-02", s: "sparkle", t: "【お知らせ】クエスト詳細が見やすくなりました", b: "クエスト詳細画面を読みやすく刷新しました：文字が大きくはっきりし、タイトルと写真も本文と一緒にスクロールします。複数ある料金はリスト表示になり、同じ情報の重複表示もなくなりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史詩クエストが本当にレアになりました", b: "史詩（EPIC）は、特別な穴場10件だけの称号になりました：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。その他の常設クエストは通常のクエストになり、紫の史詩表示が外れ、遠隔クリア（30% EXP・1日1回）も使えるようになりました。すでに手に入れた装備は、これまで通りあなたのものです。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ログインでガチャ券10枚プレゼント！", b: "メールかGoogleの無料アカウントでログインすると、ガチャ券10枚をプレゼント（1アカウント1回まで）。セーブデータもクラウドに保存されるので、機種変更でも安心です。" },
@@ -32197,8 +32185,8 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
-          {d: "2026-11-02", s: "sparkle", t: "[News] 小游戏也能分享海报了", b: "小游戏的结果画面新增了「分享海报」：把这一局的画面、得分和最佳成绩做成海报，一键发到 X 或 Instagram。小游戏海报分享没有奖励，纯属炫耀。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
-          { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Instagram", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享和 Instagram 都能把图片本身发出去（Instagram 在分享列表里选一下即可，图片自动带上）；选 X 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
+          {d: "2026-11-02", s: "sparkle", t: "[News] 小游戏也能分享海报了", b: "小游戏的结果画面新增了「分享海报」：把这一局的画面、得分和最佳成绩做成海报，一键发到 X 或 Threads。小游戏海报分享没有奖励，纯属炫耀。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
+          { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Threads", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享能把图片本身发出去；选 X 或 Threads 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 任务详情更好读了", b: "任务详情页完成易读性改造：字体更大更清晰，标题和照片会随正文一起滚动；多档票价改为列表显示，重复信息只保留一处。中文界面下，时间、票价、地点也都显示中文了。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史诗任务现在真正稀有了", b: "史诗（EPIC）现在只属于 10 个特别的冷门好去处：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。其他常驻任务都变回普通任务：紫色史诗外观取消，也可以用远程完成（30% 经验、每天 1 次）了。已经获得的装备仍然归你，一件不少。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】登录账号就送10张扭蛋券！", b: "用邮箱或 Google 免费登录，10张扭蛋券直接到账（每个账号限领一次）。存档也会同步到云端，换手机也不怕丢。" },
