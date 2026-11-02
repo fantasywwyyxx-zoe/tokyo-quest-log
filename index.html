@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1455-q265-6b528d63";
+        var BUILD_ID = "tql-20261102-1457-q266-15f0f20b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -31235,6 +31235,8 @@ var qrcode = function() {
         return !o || (!o.started && rawExp(o) === 0 &&
           !(Array.isArray(o.clears) && o.clears.length) && !(Array.isArray(o.accepted) && o.accepted.length));
       }
+      /* retired from the sign-in path by Zoe's cloud-always-wins
+         rule (Q-266, 2026-11-02) — kept for reference */
       function compareSaves(a, b) {
         var d = rawLevel(a) - rawLevel(b); if (d) return d;
         d = rawExp(a) - rawExp(b); if (d) return d;
@@ -31300,18 +31302,26 @@ var qrcode = function() {
                local record was pushed over the owner's cloud row
                seconds after sign-in.) */
             var _owner = cloudOwner();
-            if (_owner && _owner !== authUser.id && !localEmpty) {
-              if (!cloudEmpty) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; }
-              else { setSyncMark(true); lastSyncNote = A().syncFail; }
+            if (_owner && _owner !== authUser.id && !localEmpty && cloudEmpty) {
+              /* another account's local record and no cloud row of
+                 our own: fail safe, never upload it (S1 guard) */
+              setSyncMark(true); lastSyncNote = A().syncFail;
               return lastSyncNote;
             }
             if (cloudEmpty && localEmpty) { await pushCloud(); lastSyncNote = A().syncDone; return lastSyncNote; }
             if (cloudEmpty) { await pushCloud(); lastSyncNote = A().syncUploaded; return lastSyncNote; }
-            if (localEmpty) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; return lastSyncNote; }
-            var cmp = compareSaves(state, cloud);
-            if (cmp > 0) { await pushCloud(); lastSyncNote = A().syncUploaded; }
-            else if (cmp < 0) { applyCloud(cloud, res.data ? res.data.updated_at : null); lastSyncNote = A().syncLoaded; }
-            else { setCloudOwner(authUser.id); lastSyncNote = A().syncDone; }
+            /* Zoe's rule (2026-11-02): when a cloud save exists it
+               ALWAYS wins at sign-in — the local record is never
+               compared and never pushed over it. (Previously the
+               further-along record won wholesale, so a guest
+               session could displace the cloud save.) The one-shot
+               apply marker is cleared first, so a cloud version
+               that was applied once before can still rule a local
+               record that changed since; the marker guarded the
+               retired reload-apply and applies are in place now. */
+            try { localStorage.removeItem("tqlCloudAppliedVer"); } catch (e) { /* ignore */ }
+            applyCloud(cloud, res.data ? res.data.updated_at : null);
+            lastSyncNote = A().syncLoaded;
             return lastSyncNote;
           } catch (e) { setSyncMark(true); lastSyncNote = A().syncFail; return lastSyncNote; }
           finally { syncPromise = null; }
