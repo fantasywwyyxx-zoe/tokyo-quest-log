@@ -10058,13 +10058,17 @@
         overflow-y: auto; overflow-x: hidden;
         -webkit-overflow-scrolling: touch; touch-action: pan-y;
         overscroll-behavior: contain; scrollbar-width: none;
-        padding-bottom: 48px;
+        padding-bottom: 10px;
       }
       #hsegCustom .cust-scroll::-webkit-scrollbar { display: none; }
+      /* Q-281 (Zoe picked plan B + "one screen, no scrolling"):
+         the stage column slims from 42% to 24% and centres its
+         content; the options column uses the reclaimed width to
+         run denser grids so the whole panel fits one screen. */
       #hsegCustom .cust-stage {
-        flex: 0 0 42%; min-width: 0; margin: 0; position: relative; overflow: hidden;
-        flex-direction: column; align-items: center; justify-content: flex-end;
-        gap: 6px; padding: 10px 6px 8px;
+        flex: 0 0 24%; min-width: 0; margin: 0; position: relative; overflow: hidden;
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 6px; padding: 10px 4px 8px;
         background: var(--window-hi);
         border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
       }
@@ -10075,20 +10079,32 @@
       }
       #hsegCustom .cust-stage canvas {
         position: relative; z-index: 1;
-        width: 104px; height: 104px;
+        width: 72px; height: 72px;
         background: transparent; border: none; border-radius: 0; box-shadow: none;
       }
       #hsegCustom .cust-name {
-        position: relative; z-index: 1; font-size: 15px; text-align: center;
+        position: relative; z-index: 1; font-size: 13px; line-height: 1.2; text-align: center;
       }
-      #hsegCustom .cust-presets { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-      #hsegCustom .cust-preset { width: 100%; }
-      #hsegCustom .cust-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
-      #hsegCustom .cust-chip { width: 100%; text-align: center; }
-      #hsegCustom .win-more { left: 71%; }
+      #hsegCustom .cust-group { margin-top: 8px; }
+      #hsegCustom .cust-label { margin-bottom: 4px; }
+      #hsegCustom .cust-presets { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+      #hsegCustom .cust-preset { width: 100%; padding: 4px 2px 3px; font-size: 10px; gap: 1px; }
+      #hsegCustom .cust-preset canvas { width: 30px; height: 30px; }
+      #hsegCustom .cust-swatches { gap: 6px; }
+      #hsegCustom .cust-swatch { width: 30px; height: 30px; }
+      #hsegCustom .cust-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      #hsegCustom .cust-chip { width: 100%; text-align: center; padding: 4px 4px; font-size: 12.5px; }
+      #hsegCustom .win-more { left: 62%; }
       @media (max-height: 740px) {
-        #hsegCustom .cust-stage canvas { width: 84px; height: 84px; }
-        #hsegCustom .cust-scroll { padding-bottom: 40px; }
+        #hsegCustom .cust-stage canvas { width: 64px; height: 64px; }
+        #hsegCustom .cust-scroll { padding-bottom: 8px; }
+      }
+      @media (max-height: 620px) {
+        #hsegCustom .cust-stage canvas { width: 56px; height: 56px; }
+        #hsegCustom .cust-group { margin-top: 6px; }
+        #hsegCustom .cust-preset canvas { width: 26px; height: 26px; }
+        #hsegCustom .cust-swatch { width: 26px; height: 26px; }
+        #hsegCustom .cust-chip { padding: 3px 3px; font-size: 12px; }
       }
       /* sibling case windows keep their panel-level scroll —
          same containment + touch treatment throughout */
@@ -16514,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1834-q280-ef877b92";
+        var BUILD_ID = "tql-20261102-1837-q281-e0a6a200";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
