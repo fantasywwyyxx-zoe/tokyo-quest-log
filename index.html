@@ -12388,10 +12388,23 @@
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
       #detailChips { margin: 0; } /* Q-250: chips live in the info card (.kv first row) */
-      /* Q-252: the period strip is a .kv row now -- keep its
-         inner flex (icon / range / countdown note), strip the
-         band chrome (bg / border / shadow / padding). */
-      dialog#detail .kv dd.detail-period { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; font-size: 12.5px; align-self: center; }
+      /* Q-253 (Zoe-approved restructure, her principle: save
+         space, ideally one screen): the .kv 2-column grid is
+         abolished -- the card is a single-column stack of
+         label-over-value blocks (hours / where / price only),
+         and every tag (category + EPIC/free/soon chips, the
+         period as a pill, mood tags) lives in one flex-wrap
+         badge band directly under the photo. The photo is
+         height-capped so an EPIC detail can approach one
+         screen. Render paths (ids) unchanged. */
+      dialog#detail .detail-badges { order: 2; flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+      dialog#detail .detail-badges .detail-period { order: 0; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--window); border: 2px solid var(--line-c); box-shadow: none; font-size: 11.5px; }
+      dialog#detail .detail-badges .detail-period .dp-ico svg { width: 14px; height: 14px; }
+      dialog#detail .kv { display: block; padding: 8px 11px; }
+      dialog#detail .kv dt { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 7px 0 2px; text-align: left; color: var(--gold-deep); font-size: 10.5px; letter-spacing: 0.07em; align-self: auto; }
+      dialog#detail .kv dt:first-of-type { margin-top: 0; }
+      dialog#detail .kv dd { font-size: 13.5px; line-height: 1.4; }
+      dialog#detail .detail-preview { flex: none; height: 144px; min-height: 0; }
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
@@ -13899,14 +13912,12 @@
         <div class="detail-body">
           <div class="qpreview detail-preview" id="detailPreview" role="button" tabindex="0" aria-label="Event photo — tap to view full screen"></div>
           <div class="detail-banner" id="detailBanner" aria-hidden="true" hidden></div>
+          <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="detail-period period-pill"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></span><span class="mood-row" id="vMood" style="margin:0"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
-            <dt id="kCat"></dt><dd><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div></dd>
-            <dt id="kPeriod"></dt><dd class="detail-period"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></dd>
             <dt id="kHours"></dt><dd id="vHours"></dd>
             <dt id="kWhere"></dt><dd id="vWhere"></dd>
             <dt id="kPrice"></dt><dd id="vPrice"></dd>
-            <dt id="kMood"></dt><dd><span class="mood-row" id="vMood" style="margin:0"></span></dd>
           </dl>
           <div class="blurb-box" id="detailBlurb"></div>
           <p class="lang-note" id="detailLang"></p>
@@ -16302,7 +16313,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-refresh-c32-c33";
+        var BUILD_ID = "tql-20261102-0912-q253-2fd17c11";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25563,12 +25574,9 @@ var qrcode = function() {
         var monthly = document.getElementById("detailMonthly");
         monthly.hidden = !e.recurring;
         if (e.recurring) monthly.textContent = "» " + t.monthlyNote;
-        document.getElementById("kCat").textContent = t.kCat;
-        document.getElementById("kPeriod").textContent = t.kWhen;
         document.getElementById("kHours").textContent = t.kHours;
         document.getElementById("kWhere").textContent = t.kWhere;
         document.getElementById("kPrice").textContent = t.kPrice;
-        document.getElementById("kMood").textContent = t.kMood;
         document.getElementById("vHours").textContent = evHours(e);
         document.getElementById("vWhere").innerHTML = esc(evVenue(e)) + ' <span class="dim">(' + esc(areaName(e.area)) + ")</span>";
         /* no free pill in the price row: the detail head already
