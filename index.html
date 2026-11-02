@@ -815,7 +815,9 @@
         font-family: "Baloo 2", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", sans-serif; font-size: 14.5px; line-height: 1.5;
       }
       .start-btn:active { transform: translateY(2px); }
-      .start-foot { font-size: 12.5px; color: var(--ink-dim); text-align: center; margin: 10px 0 0; }
+      .lang-globe-btn { display: flex; width: fit-content; align-items: center; gap: 6px; margin: 10px auto 0; padding: 6px 14px; background: var(--window); color: var(--ink); border: 2px solid var(--line-c); border-radius: 999px; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 0 var(--edge); }
+        .lang-globe-btn:active { transform: translateY(1px); box-shadow: none; }
+        .start-foot { font-size: 12.5px; color: var(--ink-dim); text-align: center; margin: 10px 0 0; }
       @media (max-width: 560px) {
         .start-title { font-size: 18px; line-height: 1.65; text-shadow: 2px 2px 0 #a1272d, 4px 4px 0 rgba(16, 23, 63, 0.45); }
       }
@@ -13052,6 +13054,7 @@
             </div>
             <button class="auth-mini-btn is-beta" id="titleBetaBtn" type="button"></button>
           </div>
+          <button class="lang-globe-btn" id="titleLangBtn" type="button"></button>
           <p class="start-foot" id="startFoot"></p>
         </div>
       </div>
@@ -14224,6 +14227,16 @@
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="x"></button>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="threads"></button>
         <button class="map-pick-cancel" type="button" id="sharePickCancel"></button>
+      </div>
+    </div>
+
+    <div class="map-pick lang-pick" id="langPick" popover="manual" hidden role="dialog" aria-labelledby="langPickTitle">
+      <div class="map-pick-panel">
+        <p class="map-pick-title" id="langPickTitle"></p>
+        <button class="rpg-btn map-pick-btn" type="button" data-langpick="ja">日本語</button>
+        <button class="rpg-btn map-pick-btn" type="button" data-langpick="en">English</button>
+        <button class="rpg-btn map-pick-btn" type="button" data-langpick="zh">中文</button>
+        <button class="map-pick-cancel" type="button" id="langPickCancel"></button>
       </div>
     </div>
 
@@ -16571,7 +16584,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2149-q302-08793fd3";
+        var BUILD_ID = "tql-20261102-2151-q303-5c685d77";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26047,6 +26060,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         document.getElementById("startFoot").textContent = t.startFoot;
         var ssb = document.getElementById("startStyleBtn");
         if (ssb) ssb.textContent = "⚙ " + t.styleBtn;
+        var tlb = document.getElementById("titleLangBtn");
+        if (tlb) {
+          var langNames = { ja: "日本語", en: "English", zh: "中文" };
+          tlb.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><ellipse cx="12" cy="12" rx="3.8" ry="8.5"/><path d="M3.5 12h17M5.5 6.5h13M5.5 17.5h13"/></svg><span>' + (langNames[state.lang] || langNames.en) + "</span>";
+          tlb.setAttribute("aria-label", t.langLabel);
+        }
         document.getElementById("ppOpen").textContent = t.ppOpen;
         document.getElementById("locBtn").innerHTML = "<span aria-hidden=\"true\">◎</span><span>" + esc(t.locBtnShort) + "</span>";
         document.getElementById("ivClose").textContent = t.viewerClose;
@@ -30852,6 +30871,25 @@ function drawZoneStamp(cv, zoneId, mode) {
       /* the title screen reaches the SAME global settings sheet —
          one settings door on every screen, title included */
       document.getElementById("startStyleBtn").addEventListener("click", function () { document.getElementById("styleBtn").click(); });
+      document.getElementById("titleLangBtn").addEventListener("click", function () {
+        var box = document.getElementById("langPick");
+        if (!box) return;
+        document.getElementById("langPickTitle").textContent = L().langLabel;
+        document.getElementById("langPickCancel").textContent = L().mapPickCancel;
+        box.hidden = false;
+        popShow(box);
+        sfx("open");
+      });
+      document.getElementById("langPick").addEventListener("click", function (ev) {
+        var box = document.getElementById("langPick");
+        if (ev.target === box) { box.hidden = true; popHide(box); return; }
+        var row = ev.target.closest ? ev.target.closest("[data-langpick]") : null;
+        if (row) { box.hidden = true; popHide(box); setLang(row.getAttribute("data-langpick")); }
+      });
+      document.getElementById("langPickCancel").addEventListener("click", function () {
+        var box = document.getElementById("langPick");
+        if (box) { box.hidden = true; popHide(box); }
+      });
       document.getElementById("avatarBtn").addEventListener("click", function () { switchView("hero"); window.scrollTo({ top: 0, behavior: "smooth" }); });
       document.getElementById("dailyBanner").addEventListener("click", function () { switchView("daily"); });
       /* pause CSS animation while the tab is hidden */
