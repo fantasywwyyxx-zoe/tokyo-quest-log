@@ -12469,6 +12469,58 @@
       dialog#detail .er-body[hidden] { display: none; }
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
+      /* Q-253 v17 -- detail redesign (Zoe, 2026-11-02, plan A:
+         all-bold hierarchy). (1) The title band scrolls WITH
+         the content (it is the body's first child now), so the
+         top band's height is fully recovered on scroll; the
+         footer back button is the always-visible close path.
+         (2) One 5-step rem ladder: title 1.25 / values+blurb
+         1.0 / buttons+period 0.9375 / labels+tags 0.8125 /
+         aux 0.75. (3) The period is its own row under the tag
+         band. (4) Buttons go flat -- no gradients, no inset
+         highlights; maps and official share one row, so the
+         footer is about 120px. (5) The close button is a
+         neutral dark disc (red is reserved for the main
+         action) and no longer opens with a focus ring. (6) A
+         fade veil at the scroll area's lower edge says "more
+         below" without a marker glyph; it lifts at the end. */
+      dialog#detail .detail-head { order: 0; margin: -6px -12px 0; }
+      dialog#detail .detail-preview { margin-top: -8px; }
+      dialog#detail .detail-banner { margin-top: -8px; }
+      dialog#detail .detail-head h2 { font-size: 1.25rem; text-shadow: 0 1px 0 rgba(34, 48, 60, 0.28); word-break: auto-phrase; }
+      dialog#detail .detail-no { font-size: 0.75rem; text-shadow: 0 1px 0 rgba(34, 48, 60, 0.3); }
+      dialog#detail .detail-head .close-btn { background: rgba(20, 26, 44, 0.34); border: 2px solid rgba(255, 255, 255, 0.85); box-shadow: none; }
+      #detailState .state-badge { font-size: 0.8125rem; height: 26px; }
+      dialog#detail .detail-period-row { order: 2; display: flex; align-items: center; gap: 7px; font-size: 0.9375rem; font-weight: 700; }
+      dialog#detail .detail-period-row .dp-ico svg { width: 15px; height: 15px; }
+      dialog#detail .detail-period-row .dp-when { margin-left: auto; font-size: 0.9375rem; }
+      dialog#detail .detail-badges { order: 3; }
+      dialog#detail .detail-badges #detailChips .cat-chip, dialog#detail .detail-badges #detailChips .epic-badge { font-size: 0.8125rem; min-height: 24px; }
+      dialog#detail .detail-badges .mood { font-size: 0.8125rem; padding: 2px 7px; }
+      dialog#detail .blurb-box { order: 4; font-size: 1rem; line-height: 1.65; word-break: auto-phrase; }
+      dialog#detail .kv { order: 5; }
+      dialog#detail .kv dt { font-size: 0.8125rem; }
+      dialog#detail .kv dd { font-size: 1rem; word-break: auto-phrase; }
+      dialog#detail .price-line { display: block; }
+      dialog#detail .lang-note { font-size: 0.75rem; }
+      dialog#detail .monthly-note { font-size: 0.8125rem; }
+      dialog#detail .cleared-line { order: 7; font-size: 0.8125rem; }
+      dialog#detail .checkin-msg { order: 8; font-size: 0.8125rem; }
+      dialog#detail .manual-link { order: 9; font-size: 0.8125rem; }
+      dialog#detail .checkin-note { order: 10; font-size: 0.75rem; }
+      dialog#detail .detail-body .undo-link { order: 11; align-self: center; color: #a63a3a; text-decoration: none; font-size: 0.75rem; }
+      dialog#detail .er-toggle { font-size: 0.8125rem; }
+      dialog#detail .er-caret { font-size: 0.75rem; }
+      dialog#detail .detail-preview .qp-cap { font-size: 0.75rem; max-width: 62%; }
+      dialog#detail .detail-fade { flex: none; height: 26px; margin-top: -26px; position: relative; z-index: 3; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, 0), var(--bg)); transition: opacity 0.25s; }
+      dialog#detail.scrolled-end .detail-fade { opacity: 0; }
+      dialog#detail .btn-quest { font-size: 0.9375rem; }
+      dialog#detail .btn-quest[data-state="accept"] { box-shadow: 0 3px 0 var(--edge); }
+      dialog#detail .btn-quest[data-state="checkin"] { box-shadow: 0 3px 0 var(--edge); }
+      dialog#detail .btn-quest[data-state="cleared"] { box-shadow: 0 3px 0 var(--edge); }
+      dialog#detail .detail-actions .btn-maps { grid-column: auto; background: #2f9be8; font-size: 0.9375rem; min-height: 48px; box-shadow: 0 3px 0 var(--edge); }
+      dialog#detail .detail-actions .btn-official { grid-column: auto; background: var(--window); color: var(--ink); font-size: 0.9375rem; min-height: 48px; box-shadow: inset 0 0 0 2px var(--window-deep), 0 3px 0 var(--edge); }
+      dialog#detail .detail-actions .btn-back { font-size: 0.9375rem; min-height: 40px; }
     </style>
     <style>
       /* Q-206: the capsule's own display:flex would override the
@@ -13962,22 +14014,23 @@
       </div>
     </dialog>
 
-    <dialog id="detail" aria-labelledby="detailName">
+    <dialog id="detail" aria-labelledby="detailName" tabindex="-1">
       <div class="win detail-win">
-        <div class="detail-head">
-          <div>
-            <h2 id="detailName"></h2>
-            <div class="detail-no-row"><div class="detail-no" id="detailNo"></div><span id="detailState"></span></div>
-            </div>
-          <button class="close-btn" id="detailClose" type="button" aria-label="Close">✕</button>
-        </div>
         <div class="detail-body">
+          <div class="detail-head">
+            <div>
+              <h2 id="detailName"></h2>
+              <div class="detail-no-row"><div class="detail-no" id="detailNo"></div><span id="detailState"></span></div>
+              </div>
+            <button class="close-btn" id="detailClose" type="button" aria-label="Close">✕</button>
+          </div>
           <div class="qpreview detail-preview" id="detailPreview" role="button" tabindex="0" aria-label="Event photo — tap to view full screen"></div>
           <div class="detail-banner" id="detailBanner" aria-hidden="true" hidden></div>
           <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
+          <div class="detail-period detail-period-row"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
-            <div class="kv-time-head"><dt id="kHours"></dt><span class="detail-period"><span class="period-tag"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span></span><span class="dp-when" id="dpWhen"></span></span></div>
+            <div class="kv-time-head"><dt id="kHours"></dt></div>
             <dd id="vHours"></dd>
             <div class="kv-cols"><div class="kv-col"><dt id="kWhere"></dt><dd id="vWhere"></dd></div><div class="kv-col"><dt id="kPrice"></dt><dd id="vPrice"></dd></div></div>
           </dl>
@@ -13988,12 +14041,13 @@
           <p class="checkin-msg" id="checkinMsg" hidden></p>
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
           <p class="checkin-note" id="checkinNote"></p>
+          <button class="undo-link" id="btnUndo" type="button" hidden></button>
         </div>
+        <div class="detail-fade" aria-hidden="true"></div>
         <div class="detail-actions">
           <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
           <a class="rpg-btn btn-maps" id="btnMaps" href="#" target="_blank" rel="noopener" hidden></a>
           <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
-          <button class="undo-link" id="btnUndo" type="button" hidden></button>
           <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
         </div>
       </div>
@@ -16375,7 +16429,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1112-q253v16-739cd127";
+        var BUILD_ID = "tql-20261102-1158-q253v17-201b438d";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17051,7 +17105,7 @@ var qrcode = function() {
           geoError: "Couldn't read your location (GPS off or timed out). Try again at the venue.",
           geoInaccurate: function (a) { return "Location fix is too rough (about " + a + "). Wait for a steadier GPS signal and try again."; },
           geoUnsupported: "This browser can't share your location.",
-          notStartedBtn: function (d) { return d === 1 ? "STARTS TOMORROW" : "STARTS IN " + d + " DAYS"; },
+          notStartedBtn: function (d) { return "NOT YET OPEN"; },
           notStartedNote: function (d) { return "This quest hasn't started yet — " + (d === 1 ? "it begins tomorrow" : "it begins in " + d + " days") + ". Accept, check-in and remote clear unlock on the start date."; },
           themeLabel: "COLOR",
           langLabel: "LANGUAGE",
@@ -17924,7 +17978,7 @@ var qrcode = function() {
           geoError: "位置情報を取得できませんでした（GPSオフ／タイムアウト）。会場で再試行してください。",
           geoInaccurate: function (a) { return "位置情報の精度が粗すぎます（約" + a + "）。GPSが安定するまで待って、もう一度試してください。"; },
           geoUnsupported: "このブラウザは位置情報を共有できません。",
-          notStartedBtn: function (d) { return d === 1 ? "明日から開始" : "あと" + d + "日で開始"; },
+          notStartedBtn: function (d) { return "開催前"; },
           notStartedNote: function (d) { return "このクエストはまだ始まっていません——開始は" + (d === 1 ? "明日" : "あと" + d + "日") + "。受注・チェックイン・遠距離クリアは開始日からできます。"; },
           themeLabel: "カラー",
           langLabel: "言語",
@@ -18797,7 +18851,7 @@ var qrcode = function() {
           geoError: "无法获取定位（GPS 关闭或超时）。请在场馆再试一次。",
           geoInaccurate: function (a) { return "定位精度太粗（约 " + a + "）。等 GPS 稳定一点，再试一次。"; },
           geoUnsupported: "这个浏览器无法共享定位。",
-          notStartedBtn: function (d) { return d === 1 ? "明天开始" : "还有 " + d + " 天开始"; },
+          notStartedBtn: function (d) { return "尚未开始"; },
           notStartedNote: function (d) { return "这个任务还没开始——" + (d === 1 ? "明天开始" : "还有 " + d + " 天开始") + "。开始当天起才能接受、打卡和远程完成。"; },
           themeLabel: "颜色",
           langLabel: "语言",
@@ -20283,6 +20337,10 @@ var qrcode = function() {
          values fall back to English and get mapped in the
          next dev pass. ZH and EN UIs never consult these. */
       var HOURS_JA = {
+        "9:00–16:30 (last entry 16:00), open daily during the exhibition": "9:00–16:30（入場は16:00まで）、会期中無休",
+        "13:00–19:00, closed Mondays (open on public-holiday Mondays; closed Dec 28–Jan 4)": "13:00–19:00、月曜休館（祝日の場合は開館）、12月28日–1月4日は休館",
+        "00:00–24:00 on Nov 7 & Nov 19 only": "11月7日・19日のみ 00:00–24:00",
+        "Hours — see official site": "営業時間は公式サイトで確認",
         "10:00-16:00; closed Tue & New Year holidays": "10:00-16:00、火曜および年末年始は休み",
         "10:00-16:00; closed Tue (next weekday if holiday), early Jun/Sep/Dec & Dec 27-Jan 2": "10:00-16:00、火曜（祝日の場合は翌平日）、6月・9月・12月上旬および12月27日-1月2日は休み",
         "10:00-17:00 (entry by 16:30) daily; closed Dec 28-Jan 4": "10:00-17:00（入場は16:30まで）毎日開館、12月28日-1月4日は休館",
@@ -20718,6 +20776,10 @@ var qrcode = function() {
         "¥8,800 (materials included)": "8,800円（材料費込み）"
       };
       var VENUE_JA = {
+        "Civic Creative Base Tokyo (CCBT) + Cat Street plaza, Jingumae": "Civic Creative Base Tokyo（CCBT）＋キャットストリート広場、神宮前",
+        "Ohtori Shrine, Senzoku 3-18-7, Taito-ku": "大鳥神社、台東区千束3-18-7",
+        "Asakusa, Tawaramachi, Inaricho & Ueno Stations + 6 spots across Asakusa–Ueno": "浅草・田原町・稲荷町・上野の各駅＋浅草–上野エリア6か所",
+        "MoN Takanawa: The Museum of Narratives, Takanawa": "MoN Takanawa（The Museum of Narratives）、高輪",
         "21_21 DESIGN SIGHT, Tokyo Midtown, Roppongi": "トゥーワントゥーワン デザインサイト（東京ミッドタウン・六本木）",
         "A venue in Toyosu (see official page)": "豊洲の会場（詳細は公式ページ）",
         "ARTNIA, Square Enix HQ 1F, Shinjuku": "アートニア（スクウェア・エニックス本社ビル1階・新宿）",
@@ -21555,9 +21617,757 @@ var qrcode = function() {
         if (state.lang === "ja") return LANG_JA[e.lang] || e.lang;
         return state.lang === "zh" ? (LANG_ZH[e.id] || e.lang) : e.lang;
       }
-      function evHours(e) { return state.lang === "ja" ? (HOURS_JA[e.hours] || e.hours) : e.hours; }
-      function evPrice(e) { return state.lang === "ja" ? (PRICE_JA[e.price] || e.price) : e.price; }
-      function evVenue(e) { return state.lang === "ja" ? (VENUE_JA[e.venue] || e.venue) : e.venue; }
+      var HOURS_ZH = {
+        "10:00-16:00; closed Tue & New Year holidays": "10:00–16:00、周二及年末年初休息",
+        "10:00-16:00; closed Tue (next weekday if holiday), early Jun/Sep/Dec & Dec 27-Jan 2": "10:00–16:00、周二（节假日次个工作日）、6月・9月・12月上旬及12月27日–1月2日休息",
+        "10:00-17:00 (entry by 16:30) daily; closed Dec 28-Jan 4": "10:00–17:00（最后入场 16:30）每日开放、12月28日–1月4日休馆",
+        "10:00-17:00 (entry by 16:30); closed Mon (next day if holiday) & Dec 29-Jan 3": "10:00–17:00（最后入场 16:30）、周一（如遇节假日顺延至次日）及12月29日–1月3日休馆",
+        "10:00-17:00 (entry by 16:30); closed Mon (next weekday if holiday) & Dec 29-Jan 3": "10:00–17:00（最后入场 16:30）、周一（节假日次个工作日）及12月29日–1月3日休馆",
+        "10:00-17:00 (entry by 16:30); closed Mon (open if holiday, closed the next weekday)": "10:00–17:00（最后入场 16:30）、周一休馆（节假日开放，翌平日休馆）",
+        "10:00-18:00 (entry by 17:30); closed Mon & New Year holidays": "10:00–18:00（最后入场 17:30）、周一及年末年初休馆",
+        "10:00-18:00 (entry by 17:30); closed Mon (next day if holiday), New Year holidays & exhibition changeovers": "10:00–18:00（最后入场 17:30）、周一（如遇节假日顺延至次日）、年末年初及换展期间休馆",
+        "10:00-18:00; closed Thu & New Year holidays": "10:00–18:00、周四及年末年初休息",
+        "10:00-19:00 (entry by 18:30); closed Mon (next day if holiday), Dec 29-Jan 3 & exhibition changeovers": "10:00–19:00（最后入场 18:30）、周一（如遇节假日顺延至次日）、12月29日–1月3日及换展期间休馆",
+        "10:00-21:00 (entry by 20:30); closed Mon (next weekday if holiday) & New Year holidays": "10:00–21:00（最后入场 20:30）、周一（节假日次个工作日）及年末年初休息",
+        "10:00–16:00": "10:00–16:00",
+        "10:00–16:00, closed Thursdays": "10:00–16:00、周四休馆",
+        "10:00–16:30 (last entry 16:00), closed Thu & Nov 9–13": "10:00–16:30（最后入场16:00）、周四・11月9日–13日休息",
+        "10:00–16:30, closed Mondays": "10:00–16:30、周一休馆",
+        "10:00–17:00": "10:00–17:00",
+        "10:00–17:00 (Fri & Sat until 20:00), closed Mondays": "10:00–17:00（周五、周六20:00至）、周一休馆",
+        "10:00–17:00 (Fri & Sat until 20:00); closed Mondays (except Nov 23, Jan 11), Nov 24, Dec 28–Jan 1": "10:00–17:00（周五、周六20:00至）、周一（11月23日、1月11日除外）、11月24日、12月28日–1月1日休馆",
+        "10:00–17:00 (last entry 16:30), closed Mondays": "10:00–17:00（最后入场16:30）、周一休馆",
+        "10:00–17:00 (until 18:00 in season), closed Mondays": "10:00–17:00（季中18:00至）、周一休馆",
+        "10:00–17:00 (varies by day & season)": "10:00–17:00（・随季节变化）",
+        "10:00–17:00, closed Mon & Tue": "10:00–17:00、周一、周二休馆",
+        "10:00–17:00, closed Mondays": "10:00–17:00、周一休馆",
+        "10:00–17:00, closed Mondays & New Year holidays": "10:00–17:00、周一及年末年初休馆",
+        "10:00–17:00, closed Mondays & between exhibitions": "10:00–17:00、周一・换展期间休馆",
+        "10:00–17:00, closed Tuesdays (open during school holidays)": "10:00–17:00、周二休馆（学校的休暇期间中开放）",
+        "10:00–17:00; closed Mondays": "10:00–17:00、周一休馆",
+        "10:00–17:00; closed Mondays (except Nov 23) and Nov 24": "10:00–17:00、周一（11月23日除外）及11月24日休馆",
+        "10:00–17:00; closed Mondays and between exhibitions": "10:00–17:00、周一・换展期间休馆",
+        "10:00–17:00; closed Mondays, except Nov 23": "10:00–17:00、周一休馆（11月23日除外）",
+        "10:00–17:00; closed Tuesdays": "10:00–17:00、周二休馆",
+        "10:00–17:00; closed Wednesdays and on state-occasion days — check the official calendar": "10:00–17:00、周三及行事日休息 — 详情在官方日历确认",
+        "10:00–17:00; closed days vary by exhibition": "10:00–17:00、休馆日展览会而异",
+        "10:00–17:30": "10:00–17:30",
+        "10:00–17:30 (last entry 17:00), closed Mondays": "10:00–17:30（最后入场17:00）、周一休馆",
+        "10:00–17:30; closed Mondays": "10:00–17:30、周一休馆",
+        "10:00–18:00": "10:00–18:00",
+        "10:00–18:00 (Fri & Sat until 20:00), closed Tuesdays": "10:00–18:00（周五、周六20:00至）、周二休馆",
+        "10:00–18:00 (Fri & Sat until 20:00); closed Tuesdays": "10:00–18:00（周五・周六20:00至）、周二休馆",
+        "10:00–18:00 (Fri until 20:00), closed Mondays": "10:00–18:00（周五20:00至）、周一休馆",
+        "10:00–18:00 (Fri until 20:00); closed Mondays (except Nov 23), Nov 24": "10:00–18:00（周五20:00至）、周一（11月23日除外）、11月24日休馆",
+        "10:00–18:00 (Fri until 20:00); closed Mondays (except Nov 23, Jan 11), Nov 24, Dec 28–Jan 4, Jan 12": "10:00–18:00（周五20:00至）、周一（11月23日、1月11日除外）、11月24日、12月28日–1月4日、1月12日休馆",
+        "10:00–18:00 (Fri until 20:00); closed Mondays (open on holidays), Dec 31, Jan 1": "10:00–18:00（周五20:00至）、周一（祝日开放）、12月31日、1月1日休馆",
+        "10:00–18:00 (Fri until 21:00), closed Mondays": "10:00–18:00（周五21:00至）、周一休馆",
+        "10:00–18:00 (Thu & Fri until 20:00), closed Mondays": "10:00–18:00（周四・周五20:00至）、周一休馆",
+        "10:00–18:00 (final day until 17:00)": "10:00–18:00（最后一天17:00至）",
+        "10:00–18:00 (prayer hall viewing outside prayer times)": "10:00–18:00（拜殿的参观祈祷时间外仅）",
+        "10:00–18:00 (seasonal — sometimes 19:00)": "10:00–18:00（随季节19:00至的有时）",
+        "10:00–18:00 (until 20:00 on Nov 6, 13, 20, 21), closed Mondays except Nov 23": "10:00–18:00（11月6日・13日・20日・21日20:00至）、周一休馆（11月23日除外）",
+        "10:00–18:00 (varies); closed Tuesdays": "10:00–18:00（有变动）、周二休馆",
+        "10:00–18:00, closed Mondays": "10:00–18:00、周一休馆",
+        "10:00–18:00, closed Mondays; Saturday textile workshops (¥100 materials)": "10:00–18:00、周一休馆。周六染织工作坊（材料费¥100）",
+        "10:00–18:00, closed Tuesdays (see official page)": "10:00–18:00、周二休馆（详情官网）",
+        "10:00–18:00, closed Tuesdays; reservation only": "10:00–18:00、周二休馆、完全予约制",
+        "10:00–18:00, closed Wednesdays": "10:00–18:00、周三休馆",
+        "10:00–18:00; closed Mondays": "10:00–18:00、周一休馆",
+        "10:00–18:00; closed Mondays and between exhibitions": "10:00–18:00、周一及换展期间休馆",
+        "10:00–18:00; closed Tuesdays (open Nov 3)": "10:00–18:00、周二休馆（11月3日开放）",
+        "10:00–19:00 (varies by day)": "10:00–19:00（日而异）",
+        "10:00–19:00 both days": "两日均为 10:00–19:00",
+        "10:00–19:00, closed Tuesdays": "10:00–19:00、周二休馆",
+        "10:00–19:00; closed Dec 31 & Jan 1": "10:00–19:00、12月31日及1月1日休息",
+        "10:00–20:00": "10:00–20:00",
+        "10:00–20:00 (last entry 19:00), open daily": "10:00–20:00（最后入场19:00）、全年无休",
+        "10:00–20:00 (varies by day)": "10:00–20:00（日而异）",
+        "10:00–20:00 (weekends from 9:00)": "10:00–20:00（土日9:00起）",
+        "10:00–20:00; open daily during the run": "10:00–20:00、会期中每日开放",
+        "10:00–20:30, open daily": "10:00–20:30、全年无休",
+        "10:00–21:00 (Shibuya PARCO hours)": "10:00–21:00（以涩谷 PARCO 营业时间为准）",
+        "10:00–21:00 (varies by day; closed some Tuesdays)": "10:00–21:00（日而异、周二休馆的有时）",
+        "10:00–21:00 (weekends from 9:00), date-specific tickets": "10:00–21:00（土日祝9:00起）、日时指定门票制",
+        "10:00–22:00 (LO 21:00)": "10:00–22:00（最后点单21:00）",
+        "10:00–22:00 (Tue until 17:00)": "10:00–22:00（周二17:00至）",
+        "10:00–22:00 (Tuesdays until 17:00; last entry 30 minutes before close; open every day)": "10:00–22:00（周二17:00至、最終最后入场 闭馆30分前、全年无休）",
+        "10:00–22:00 (last entry 21:00)": "10:00–22:00（最后入场21:00）",
+        "10:00–22:30 (last entry 21:20); reservation recommended": "10:00–22:30（最后入场21:20）、事前予约推奨",
+        "10:00–24:00 (opening may shift for events — check the official top page)": "10:00–24:00（开放时间可能因活动而异 — 详见官网首页）",
+        "10:30-16:00; closed Mon (open if holiday, then closed Tue)": "10:30–16:00、周一休息（节假日开放，周二休息）",
+        "10:30–19:00, closed Tuesdays": "10:30–19:00、周二休馆",
+        "10:30–21:00 (LO 20:30)": "10:30–21:00（最后点单20:30）",
+        "11:00–16:00 (last entry 15:30), closed Wednesdays + irregular days — check the calendar": "11:00–16:00（最后入场15:30）、周三及不定期休息 — 日历确认",
+        "11:00–18:00 (Fri & Sat until 20:00), closed Mondays": "11:00–18:00（周五、周六20:00至）、周一休馆",
+        "11:00–18:00, closed Mondays": "11:00–18:00、周一休馆",
+        "11:00–19:00 (exhibition area last entry 18:30); closed Mondays (following weekday if Monday is a holiday) & New Year period": "11:00–19:00（展示区域最后入场18:30）、周一（周一节假日次个工作日）及年末年初休馆",
+        "11:00–19:00 (last admission 18:45), closed Mondays": "11:00–19:00（最后入场18:45）、周一休馆",
+        "11:00–19:00 (timed entry on busy days); open daily during the run": "11:00–19:00（混雑日日时指定入场制）、会期中每日开放",
+        "11:00–19:00, closed Mondays": "11:00–19:00、周一休馆",
+        "11:00–19:00; closed Dec 11 (costume changeover)": "11:00–19:00、12月11日服装展换展的因休馆",
+        "11:00–19:00; closed Mondays (except Nov 23) and Nov 24": "11:00–19:00、周一（11月23日除外）及11月24日休馆",
+        "11:00–21:00": "11:00–21:00",
+        "11:00–21:00 (final day Nov 1 until 18:00)": "11:00–21:00（最后一天11月1日18:00至）",
+        "11:00–21:00 (last entry 20:00)": "11:00–21:00（最后入场20:00）",
+        "11:00–21:00 (until 22:00 from Dec 5); Nov 20 from 17:00; open daily": "11:00–21:00（12月5日从22:00至）、11月20日17:00起、全年无休",
+        "11:00–21:30 (first day from 16:00)": "11:00–21:30（初日16:00起）",
+        "11:00–22:00": "11:00–22:00",
+        "11:00–22:00 (first day from 16:00)": "11:00–22:00（初日16:00起）",
+        "11:00–25:00, open daily": "11:00–25:00、全年无休",
+        "14:00–23:00 (Nov 1, 3, 7); 17:00–23:00 (Nov 2, 4–6); final day to 18:00": "14:00–23:00（11月1日・3日・7日）、17:00–23:00（11月2日・4日–6日）、最后一天18:00至",
+        "16:00–23:00 (until 24:00 in December); open daily": "16:00–23:00（12月24:00至）、全年无休",
+        "16:30–21:00 (last entry 20:00); closed on race days, Nov 16–20, Nov 30–Dec 4, Dec 24–Jan 1": "16:30–21:00（最后入场20:00）、赛事举办日、11月16日–20日、11月30日–12月4日、12月24日–1月1日休息",
+        "17:00–20:30 (last entry 20:00), nightly": "每夜17:00–20:30（最后入场20:00）",
+        "18:00–20:30 (last entry 19:30), nightly": "每夜18:00–20:30（最后入场19:30）",
+        "8:00–17:00 (seasonal; Dec–Mar until 16:00)": "8:00–17:00（随季节变动、12月–3月16:00至）",
+        "9:00-16:30 (entry by 16:00); closed Mon (next day if holiday) & New Year holidays": "9:00–16:30（最后入场 16:00）、周一（如遇节假日顺延至次日）及年末年初休息",
+        "9:00-16:30 in summer / 9:00-16:00 in winter; open daily": "夏季9:00–16:30、冬季9:00–16:00、全年无休",
+        "9:00-17:00 (Fri & Sat to 21:00 unless holiday); closed Mon, 2nd & 4th Tue, Dec 28-Jan 4 (with exceptions)": "9:00–17:00（周五、周六21:00至、祝日除外）、周一、第2・第4周二、12月28日–1月4日休息（有例外）",
+        "9:00-17:00 (entry by 16:00); closed Mon (next day if holiday) & Dec 29-Jan 3": "9:00–17:00（最后入场 16:00）、周一（如遇节假日顺延至次日）及12月29日–1月3日休馆",
+        "9:00-17:00 (entry by 16:30); closed Dec 26-31": "9:00–17:00（最后入场 16:30）、12月26日–31日休息",
+        "9:00-17:00; closed Mon (next weekday if holiday) & New Year holidays": "9:00–17:00、周一（节假日次个工作日）及年末年初休息",
+        "9:00–16:30 (varies by season), closed Mondays": "9:00–16:30（随季节变化）、周一休息",
+        "9:00–16:30 (varies by season); closed Mon & Fri": "9:00–16:30（随季节变化）、周一・周五休息",
+        "9:00–17:00 (last entry 16:30)": "9:00–17:00（最后入场16:30）",
+        "9:00–17:00 (last entry 16:30); admission ¥150": "9:00–17:00（最后入场16:30）、入场料¥150",
+        "9:00–17:00 (some evenings until 20:00), closed Tuesdays": "9:00–17:00（一部日程夜间20:00至）、周二休馆",
+        "9:00–17:00; closed Mondays": "9:00–17:00、周一休馆",
+        "9:00–19:30 (last day until 19:00)": "9:00–19:30（最后一天19:00至）",
+        "9:00–20:00": "9:00–20:00",
+        "9:00–22:00 (1F from 7:00 in the morning)": "9:00–22:00（1階朝7:00起）",
+        "9:30-16:30 (entry by 16:00); closed Mon (next day if holiday) & New Year holidays": "9:30–16:30（最后入场 16:00）、周一（如遇节假日顺延至次日）及年末年初休息",
+        "9:30-16:30 (entry by 16:00); closed Tue & New Year holidays": "9:30–16:30（最后入场 16:00）、周二及年末年初休息",
+        "9:30-17:00 (entry by 16:00); closed Mon (open if holiday, then closed Tue) & Dec 29-Jan 3": "9:30–17:00（最后入场 16:00）、周一（节假日开放，周二休息）及12月29日–1月3日休息",
+        "9:30-17:00 (entry by 16:30); closed Mon (next day if holiday) & New Year holidays": "9:30–17:00（最后入场 16:30）、周一休馆（如遇节假日顺延至次日）・年末年初休馆",
+        "9:30–16:30, closed Mondays": "9:30–16:30、周一休馆",
+        "9:30–16:50; closed Wednesdays": "9:30–16:50、周三休息",
+        "9:30–17:00 (Fri & Sat until 20:00); closed Mondays": "9:30–17:00（周五・周六20:00至）、周一休馆",
+        "9:30–17:00 (last entry 16:30), closed 2nd & 4th Mondays": "9:30–17:00（最后入场16:30）、第2・第4周一休馆",
+        "9:30–17:00 (last entry 16:30), closed Mondays": "9:30–17:00（最后入场16:30）、周一休馆",
+        "9:30–17:00 (seasonal)": "9:30–17:00（随季节变动）",
+        "9:30–17:00, closed Mondays": "9:30–17:00、周一休馆",
+        "9:30–17:00, closed Mondays, national holidays & 3rd Wednesdays": "9:30–17:00、周一・祝日・第3周三休馆",
+        "9:30–17:00, closed Wednesdays": "9:30–17:00、周三休馆",
+        "9:30–17:00; closed Mondays": "9:30–17:00、周一休馆",
+        "9:30–17:00; closed Wednesdays": "9:30–17:00、周三休馆",
+        "9:30–17:30 (Fri & Sat until 20:00); closed Mondays": "9:30–17:30（周五・周六20:00至）、周一休馆",
+        "9:30–17:30 (Fri & Sat until 20:00); closed Mondays, Nov 24, Dec 28–Jan 1, Jan 12": "9:30–17:30（周五、周六20:00至）、周一、11月24日、12月28日–1月1日、1月12日休馆",
+        "9:30–17:30 (Fri until 20:00); closed Mondays, Nov 24, Dec 22–Jan 3, Jan 12": "9:30–17:30（周五20:00至）、周一、11月24日、12月22日–1月3日、1月12日休馆",
+        "9:30–17:30 (Oct–Mar until 16:30); closed Mondays": "9:30–17:30（10月–3月16:30至）、周一休馆",
+        "9:30–17:30 (Sat until 19:30), closed Mondays": "9:30–17:30（周六19:30至）、周一休馆",
+        "9:30–17:30, closed Mondays (special shows vary)": "9:30–17:30、周一休馆（特别展不同有时）",
+        "9:30–17:30; closed Mondays": "9:30–17:30、周一休馆",
+        "9:30–23:00 (observatory closed days vary)": "9:30–23:00（展望台的休业日日而异）",
+        "Always open (fountain plaza restricted during park renewal works)": "常时开放（公园翻新工事中喷泉广场的使用有限制）",
+        "Bars mostly 19:00–late; stroll any time": "酒吧大约19:00起深夜至（漫步随时可）",
+        "Bldg 1 10:00-19:00, Bldg 2 11:00-20:00 (closed on inspection days)": "1号馆10:00–19:00、2号馆11:00–20:00（点检日休馆）",
+        "Box office 10:00–19:00; atrium cafés & shops": "门票窗口10:00–19:00、中庭咖啡・商店",
+        "Closed 1st & 3rd Tuesdays (+ following day) & New Year holidays": "第1・第3周二（及翌日）、年末年初休息",
+        "Closed 2nd & 4th Wed (next day if holiday) & New Year holidays": "第2・第4周三（如遇节假日顺延至次日）及年末年初休息",
+        "Closed Mon (next weekday if holiday), day after holidays & New Year holidays": "周一（节假日次个工作日）、祝日的翌日及年末年初休息",
+        "Closed Mon (open if holiday) & New Year holidays": "周一（节假日开放）及年末年初休息",
+        "Closed Mon (open if holiday, exceptions apply) & New Year holidays": "周一（节假日开放、有例外）及年末年初休息",
+        "Closed Mon (or the next weekday) & New Year holidays; hours on the official site": "周一（或翌平日）及年末年初休息、营业时间在官网确认",
+        "Closed Mondays & Dec 29–Jan 4": "周一及12月29日–1月4日休馆",
+        "Closed Mondays & Nov 4; parade through Shibuya on final day Nov 23": "周一・11月4日休息、最后一天（11月23日）涩谷游行巡游",
+        "Closed Mondays & between exhibitions": "周一及换展期间休馆",
+        "Closed Mondays (or next day if holiday) & Dec 30–Jan 3": "周一（如遇节假日顺延至次日）及12月30日–1月3日休馆",
+        "Closed Mondays (or next weekday if holiday) & New Year holidays": "周一（节假日次个工作日）及年末年初休馆",
+        "Closed Mondays, changeovers & building holidays; no reservation needed": "周一、换展期间、大楼的休馆日休馆、予约不要",
+        "Closed Mondays, late-month changeovers & New Year holidays": "周一、月末的换展期间、年末年初休馆",
+        "Closed Mondays, maintenance days & Dec 29–Jan 3": "周一、维护日及12月29日–1月3日休馆",
+        "Closed Mondays; socks required (no bare feet)": "周一休息、靴下着用必須（素足不可）",
+        "Closed Mondays; special & collection exhibitions only": "周一休馆、特别展・馆藏展仅举办",
+        "Closed Sundays (open Nov 1); other closures on official site": "周日休息（11月1日开放）、其他休馆日在官网确认",
+        "Closed Sundays, holidays & market holidays — check the official calendar": "周日・祝日・市场的休业日休息（在官方日历确认）",
+        "Closed Thu (open if holiday) & New Year holidays": "周四（节假日开放）及年末年初休息",
+        "Closed Tue & New Year holidays; hours on the official site": "周二及年末年初休息、营业时间在官网确认",
+        "Closed Tue (next day if holiday) & New Year holidays": "周二（如遇节假日顺延至次日）及年末年初休息",
+        "Closed Tue; hours on the official calendar": "周二休息、营业时间在官方日历确认",
+        "Closed irregular days (changeovers & maintenance) — check the official site": "不定期休息（换展、维护）— 详见官网",
+        "Dawn to dusk (varies by month); garden 9:00–16:30": "日出从日落至（月而异）、庭园9:00–16:30",
+        "Digital stamp rally — spot hours vary; see official page": "电子集章活动（各地点的营业时间不同、详情官网）",
+        "During facility hours (pop-up store Mon–Thu 10:00–20:00, Fri–Sun & holidays 10:00–21:00); café closed Jan 1": "施设的营业时间内（快闪商店周一–周四10:00–20:00、周五–周日・祝日10:00–21:00）、咖啡1月1日休息",
+        "Exhibition 11:00–18:30; closed Mondays": "展览会11:00–18:30、周一休馆",
+        "Feb-Oct 9:00-17:00 / Nov-Jan 9:00-16:30 (entry 30 min before close); closed Dec 28-Jan 4": "2月–10月9:00–17:00、11月–1月9:00–16:30（最后入场 闭馆30分前至）、12月28日–1月4日休息",
+        "Feb-Oct 9:30-17:00, Nov-Jan 9:30-16:30; closed Mon & Dec 29-Jan 1": "2月–10月9:30–17:00、11月–1月9:30–16:30、周一及12月29日–1月1日休息",
+        "Gardens mostly 9:00-17:00 (many closed Thu)": "庭园大约9:00–17:00（周四休园居多）",
+        "Gates 6:00–17:00 (varies by season); shrine office 8:00–16:00": "开门6:00–17:00（随季节变动）、社务所8:00–16:00",
+        "Grounds 6:00–21:00": "境内6:00–21:00",
+        "Grounds 9:00–17:00": "境内9:00–17:00",
+        "Grounds always open": "境内常时开放",
+        "Grounds always open (facility hours vary)": "场地常时开放（施设的时间各自不同）",
+        "Grounds always open (main hall hours vary by season)": "境内常时开放（本堂的时间随季节变动）",
+        "Grounds always open; guidance facility 9:00-17:00 (closed Dec 29-Jan 3)": "境内常时开放、案内施设9:00–17:00（12月29日–1月3日休息）",
+        "Grounds always open; prayer reception 9:00-16:00": "境内常时开放、祈祷受付9:00–16:00",
+        "Grounds daily; goma prayer times on official site": "境内每日开放（護摩祈祷的时间在官网确认）",
+        "Grounds open 24h; main hall 6:00–17:00": "境内24时间开放、本堂6:00–17:00",
+        "Grounds open 24h; shrine office 9:00–17:00": "境内24时间开放、社务所9:00–17:00",
+        "Grounds open daily; hall hours on official site": "境内每日开放、会馆的时间在官网确认",
+        "Grounds roughly 6:00–17:00 (varies by season)": "境内大约6:00–17:00（随季节变化）",
+        "Grounds until 17:00; shrine office 9:00–16:00": "境内17:00至、社务所9:00–16:00",
+        "Hours on the official calendar": "时间在官方日历确认",
+        "Hours on the official calendar (closed many Thu)": "时间在官方日历确认（周四休息居多）",
+        "Hours vary by day - see the official calendar": "营业时间日而异 – 详情在官方日历确认",
+        "Hours vary by day — see official page": "日而异（详情官网）",
+        "Illumination 16:00–20:30; closed on park closed days": "灯光秀16:00–20:30、休园日休息",
+        "Illumination from dusk (around 17:00) to 23:00": "日落（17:00左右）从23:00至亮灯",
+        "Illumination from dusk — see official page": "日落从亮灯（详情官网）",
+        "Illumination in the evening — see the official site": "夕方从亮灯（详情官网）",
+        "Interior open on stadium tours & event days only": "馆内体育场导览・活动举办日仅公开",
+        "Intermittent extra dates — session times on the official page, booking required": "不定期的追加举办（时间官网、需预约）",
+        "Main deck 9:00–22:30 (top deck tours from 9:00)": "主观景台9:00–22:30（顶部观景台的导览9:00起）",
+        "Main hall 6:00–16:00": "本堂6:00–16:00",
+        "Main hall 6:00–17:00; grounds always open": "本堂6:00–17:00、境内常时开放",
+        "Monthly Sunday session, 14:00–16:00 — November date announced on the reservation page": "每月周日举办、14:00–16:00（11月的日程在预约页面公布）",
+        "Mon–Fri 11:00–20:00; Sat & Sun 10:00–20:00": "周一–周五11:00–20:00、周六・周日10:00–20:00",
+        "Mon–Fri 13:00–22:00, Sat 10:00–22:00, Sun/holidays 10:00–20:00": "周一–周五13:00–22:00、周六10:00–22:00、周日・祝日10:00–20:00",
+        "Most shops 12:00–20:00, closed Wednesdays": "许多店12:00–20:00、周三定休",
+        "Museum hours — closed Mondays; check the official site": "博物馆的开放时间为准（周一休馆、详情官网）",
+        "Open air — any time": "屋外・24时间开放",
+        "Open air — any time; gallery 10:00–18:00": "屋外随时可、画廊10:00–18:00",
+        "Open mainly Tue–Sat; closed Sun, Mon & holidays": "主要周二–周六开放、周日、周一・祝日休馆",
+        "Open on Tokyo race days & Park Wins days only": "仅在东京赛马举办日及公园 WINS 销售日营业",
+        "Open year-round except New Year, facility checks & changeovers": "年末年初、设施检修日、换展期间除外，全年无休",
+        "Outdoor artworks - always open": "屋外作品 – 常时公开",
+        "Park 5:00–23:00": "公园5:00–23:00",
+        "Park 9:30–21:00 (light-up 16:30–20:30); open daily during the festival": "开园9:30–21:00（亮灯16:30–20:30）、举办期间中每日开园",
+        "Park always open": "公园常时开放",
+        "Park always open; aquarium closed Wednesdays": "公园常时开放、水族馆周三休馆",
+        "Park always open; zoo 9:30–17:00, closed Mondays": "公园常时开放、動物园9:30–17:00（周一休园）",
+        "Park hours vary by date; closed on scheduled park holidays (see official schedule)": "开园时间因日程而异，有休园日 — 详见官方日程表",
+        "Per-film schedule; tickets on sale Nov 6, 19:00": "上映时间作品而异、门票11月6日19:00发卖",
+        "Performances most days; gallery & rooftop garden on show days": "公演几乎每日（画廊・屋上庭园公演日仅）",
+        "Performances — check the schedule": "公演制（日程表确认）",
+        "Public User Day: Sat Nov 7 only, 9:00–17:00 (Nov 6 is business day)": "一般公开11月7日（土）仅9:00–17:00（11月6日商务日）",
+        "Public areas 7:00–23:30, open daily": "共用区域7:00–23:30、全年无休",
+        "Reservation only, 70-minute seatings; closed Tuesdays & Nov 4": "完全予约制（70分制）、周二・11月4日休息",
+        "Restaurants roughly 11:00–22:00": "餐厅大约11:00–22:00",
+        "Riverside path — any time": "河畔的步道随时可",
+        "Rooftop plaza open 24h; terminal 9:00-21:30": "屋上广场24时间开放、航站楼9:00–21:30",
+        "Roughly 10:00–17:00 — days & hours vary; check the calendar": "大约10:00–17:00（・时间变化因日历确认）",
+        "Roughly 5:00–14:00; many shops closed Sun & Wed": "大约5:00–14:00（周日・周三休息的店居多）",
+        "Screenings throughout the day; per-film schedule": "全天放映（放映时间因作品而异）",
+        "Shop hours vary": "营业时间店铺而异",
+        "Shop hours vary; many closed Sundays & holidays": "营业时间店铺而异（周日・祝日休息的店居多）",
+        "Shops & cafés roughly 11:00–19:00": "店铺・咖啡大约11:00–19:00",
+        "Shops roughly 10:00–19:00": "店铺大约10:00–19:00",
+        "Shops roughly 10:00–19:00 (many closed Sundays)": "店铺大约10:00–19:00（周日休息的店居多）",
+        "Shops roughly 10:00–19:00; grand market days on the 4th, 14th & 24th": "店铺大约10:00–19:00（大市4日・14日・24日）",
+        "Shops roughly 11:00–20:00": "店铺大约11:00–20:00",
+        "Shops roughly 11:00–21:00": "店铺大约11:00–21:00",
+        "Shrine grounds open daily (gates from 6:00)": "境内每日开放（开门6:00起）",
+        "Shrine office 9:00–17:00; grounds open": "社务所9:00–17:00、境内开放",
+        "Stalls roughly 12:00–23:00 (many from 17:00)": "屋台大约12:00–23:00（17:00起的店居多）",
+        "Statues outdoors any time; museum hours on official site": "屋外的像随时参观可（博物馆的时间在官网确认）",
+        "Store & venue hours — stamp rally across the Shibuhara area": "以店铺、场馆营业时间为准（涩谷原宿一带集章活动）",
+        "Store hours — check official page": "店铺的营业时间在官网确认",
+        "Streets always open (shop hours vary)": "街道随时可（各店铺营业时间不同）",
+        "Sumo museum hours on official site; tournaments in Jan / May / Sep": "相撲博物馆的时间在官网确认（本场所1月・5月・9月）",
+        "Sunset to dawn — one night only, across Roppongi": "日落至日出，六本木一带仅举办一夜",
+        "Temple grounds open daily": "境内每日开放",
+        "Temple grounds — daytime": "境内日中",
+        "Temple grounds — daytime; soba street from the morning": "境内日间开放（荞麦面街从早晨起）",
+        "Temple office 9:00–16:30; grounds from 6:00": "寺務所9:00–16:30、境内6:00起",
+        "Thu–Sun & holidays 11:00–17:30 (90-min slots); closed Mon–Wed": "周四–周日・祝日 11:00–17:30（90分轮换制）、周一–周三休息",
+        "Ticketed entry": "最后入场 门票制",
+        "Trails any time; cable car roughly 8:00–17:45": "登山道随时可、缆车大约8:00–17:45",
+        "Two days only — session times on the official page": "2日间仅举办（举办时间官网）",
+        "Varies by program": "项目而异",
+        "Viewing days & hours vary — check the official site": "公开日・时间变化因在官网确认",
+        "Weekdays 10:00–18:00, weekends & holidays 10:00–19:00; closed Nov 12": "平日10:00–18:00、土日・祝日10:00–19:00、11月12日休息",
+        "Weekdays 11:00-21:00, weekends & holidays 10:30-21:00; closed Dec 31-Jan 1": "平日11:00–21:00、土日・祝日10:30–21:00、12月31日–1月1日休息",
+        "Weekdays 11:00–20:00; weekends/holidays 11:00–21:00": "平日11:00–20:00、土日祝11:00–21:00",
+        "Weekdays 13:00–20:30; weekends 10:00–19:00 (closed Oct 29–30 for changeover)": "工作日 13:00–20:30，周末 10:00–19:00（因换展，10月29日–30日休息）",
+        "Weekends & holidays 4 shows/day; weekdays 19:30 show; ~120 min, teams up to 4": "周末及节假日每日 4 场，工作日 19:30 一场（约 120 分钟，每队最多 4 人）",
+        "9:00–16:30 (last entry 16:00), open daily during the exhibition": "9:00–16:30（最后入场 16:00），展览期间每日开放",
+        "13:00–19:00, closed Mondays (open on public-holiday Mondays; closed Dec 28–Jan 4)": "13:00–19:00，周一休馆（节假日周一开放），12月28日–1月4日休馆",
+        "00:00–24:00 on Nov 7 & Nov 19 only": "仅 11月7日与11月19日 00:00–24:00",
+        "Hours — see official site": "时间详见官网"
+      };
+      var PRICE_ZH = {
+        "1-day pass ¥3,000 / 3-day ¥6,000 / 4-day ¥10,000": "1日券¥3,000 / 3日券¥6,000 / 4日券¥10,000",
+        "Admission from ¥2,700 (dated tickets); figure programs extra": "入场费¥2,700 起（指定日期时间票）、手办项目另付",
+        "Admission varies by exhibition": "入场费展览而异",
+        "Admission varies by exhibition (garden-only ¥200)": "入场费展览而异（庭园仅¥200）",
+        "Admission varies by exhibition (online reservation)": "入场费展览而异（线上预约制）",
+        "Admission ¥1,300 + rides (free pass ¥3,300)": "入园费¥1,300＋游乐设施费（通玩票¥3,300）",
+        "Admission ¥1,500; passport ¥5,800": "入场费¥1,500、通票¥5,800",
+        "Admission ¥1,800; one-day pass ¥5,900": "入场费¥1,800、1日通票¥5,900",
+        "Adults from ¥1,800 (dated tickets, dynamic pricing)": "成人¥1,800 起（指定日期时间票、动态定价）",
+        "Adults from ¥3,800 (date-specific, dynamic pricing)": "成人¥3,800 起（指定日期、动态定价）",
+        "Adults ¥1,000": "成人¥1,000",
+        "Adults ¥1,000 (museum + memorial hall set)": "成人¥1,000（博物馆＋纪念馆套票）",
+        "Adults ¥1,000 weekdays / ¥1,500 weekends": "成人 工作日¥1,000 / 周末及节假日¥1,500",
+        "Adults ¥1,200 (both museums, cash only)": "成人¥1,200（两博物馆通用、仅限现金）",
+        "Adults ¥1,350": "成人¥1,350",
+        "Adults ¥100": "成人¥100",
+        "Adults ¥150": "成人¥150",
+        "Adults ¥2,000–2,300 (varies by exhibition)": "成人¥2,000–¥2,300（展览而异）",
+        "Adults ¥2,500": "成人¥2,500",
+        "Adults ¥2,600 and up (varies by day)": "成人¥2,600 起（价格随日期变动）",
+        "Adults ¥2,700 (online advance; varies)": "成人¥2,700（线上预售、变动）",
+        "Adults ¥2,700 / students ¥2,200 / elementary ¥1,500": "成人¥2,700 / 学生¥2,200 / 小学生¥1,500",
+        "Adults ¥200": "成人¥200",
+        "Adults ¥210": "成人¥210",
+        "Adults ¥220": "成人¥220",
+        "Adults ¥250": "成人¥250",
+        "Adults ¥300": "成人¥300",
+        "Adults ¥300 (cash only)": "成人¥300（仅限现金）",
+        "Adults ¥300 (planetarium extra)": "成人¥300（天文馆另付）",
+        "Adults ¥310": "成人¥310",
+        "Adults ¥400": "成人¥400",
+        "Adults ¥400; papermaking workshop extra": "成人¥400、手工造纸体验另付",
+        "Adults ¥440": "成人¥440",
+        "Adults ¥450": "成人¥450",
+        "Adults ¥500": "成人¥500",
+        "Adults ¥500 (cash only)": "成人¥500（仅限现金）",
+        "Adults ¥550": "成人¥550",
+        "Adults ¥600": "成人¥600",
+        "Adults ¥630 (special exhibitions extra)": "成人¥630（特別展另付）",
+        "Adults ¥700": "成人¥700",
+        "Adults ¥800": "成人¥800",
+        "Adults ¥900": "成人¥900",
+        "Adults ¥950": "成人¥950",
+        "Advance ¥1,700–1,800": "预售¥1,700–¥1,800",
+        "Advance ¥1,900 / door ¥2,200": "预售¥1,900 / 当天¥2,200",
+        "Advance ¥2,000 / door ¥2,300 (junior high & under ¥1,500 / ¥1,800)": "预售¥2,000 / 当天¥2,300（中学生以下 预售¥1,500 / 当天¥1,800）",
+        "Advance ¥2,000 / same-day ¥2,200": "预售¥2,000 / 当天¥2,200",
+        "Advance ¥2,500 / door ¥3,000": "预售¥2,500 / 当天¥3,000",
+        "Advance ¥4,500 / door ¥5,000": "预售¥4,500 / 当天¥5,000",
+        "Advance ¥800 / door ¥1,000": "预售¥800 / 当天¥1,000",
+        "Collection exhibition ¥200": "馆藏展¥200",
+        "Collection exhibition ¥200; special exhibitions vary": "馆藏展¥200、特別展内容而异",
+        "Collection show adults ¥500; special exhibitions vary": "馆藏展 成人¥500、特別展内容而异",
+        "Date-specific advance from ¥800 (child from ¥400)": "指定日期预售¥800 起（儿童¥400 起）",
+        "Day passport from ¥3,900 (adults, varies by day)": "一日通票¥3,900 起（成人、价格随日期变动）",
+        "Day passport from ¥3,900 (child/senior from ¥2,800); reservation required": "一日通票¥3,900 起（儿童、老年人¥2,800 起）、需预约",
+        "Entry fee on race days - see the JRA site": "活动日入场费（详情JRA网站）",
+        "Entry from ¥1,800 (park admission)": "入场费¥1,800 起（入园费）",
+        "Exhibition rooms ¥100 (planetarium ¥300)": "展示室¥100（天文馆¥300）",
+        "Exhibitions vary; lobby & cafés free": "展览而异（大堂、咖啡免费）",
+        "Free": "免费",
+        "Free (aquarium & wheel ticketed)": "免费（水族馆、摩天轮收费）",
+        "Free (cable car & lift ticketed)": "免费（缆车、索道收费）",
+        "Free (collab café & workshops charged)": "免费（联名咖啡、工作坊收费）",
+        "Free (donations welcome)": "免费（寄付歓迎）",
+        "Free (garden)": "免费（庭园）",
+        "Free (grounds)": "境内免费",
+        "Free (guided experience tours; web booking available, walk-ins if space)": "免费（导览附带体験导览、网上预约可、如有空位当天参加可）",
+        "Free (maneki-neko charms extra)": "免费（招财猫的护身符另付）",
+        "Free (most gardens)": "免费（大多数的庭园）",
+        "Free (museum ticketed)": "免费（博物馆入馆收费）",
+        "Free (museums & zoo ticketed)": "免费（博物馆、動物园收费）",
+        "Free (no reservation needed)": "免费（预约不要）",
+        "Free (public areas; halls event-only)": "免费（公共区域仅、大厅活动时仅）",
+        "Free (security check at entry)": "免费（入场时安检）",
+        "Free (shops & restaurants vary)": "免费（商店、餐厅内容而异）",
+        "Free (shops vary)": "免费（商店而异）",
+        "Free (some paid programs)": "免费（部分收费项目）",
+        "Free (station gallery ticketed)": "免费（站画廊收费）",
+        "Free (treasure house & garden ticketed)": "免费（宝物殿、庭园收费）",
+        "Free (zoo & boats ticketed)": "免费（動物园、小船收费）",
+        "Free entry": "入场免费",
+        "Free entry (arcade & shops ticketed)": "入场免费（游戏中心、商店收费）",
+        "Free entry (attractions extra)": "入场免费（游乐项目另付）",
+        "Free entry (café & workshops ticketed)": "入场免费（咖啡、工作坊收费）",
+        "Free entry (café menu ticketed)": "入场免费（咖啡菜单收费）",
+        "Free entry (display zone)": "入场免费（展示区）",
+        "Free entry (exhibitions are timed-ticket; same-day slots may remain)": "入场免费（展示指定日期时间票制、当天可能有剩余名额）",
+        "Free entry (food & drink orders)": "入场免费（餐饮点餐制）",
+        "Free entry (food & drink orders) — full advance reservation required": "入场免费（餐饮点餐制）、完全提前预约制",
+        "Free entry (food & drink orders) — reservations priority": "入场免费（餐饮点餐制）、预约优先",
+        "Free entry (food-sample making experience is ticketed, reservation required)": "入场免费（食品模型制作体验收费、需预约）",
+        "Free entry (games & food extra; some areas cashless only)": "入场免费（游戏、餐饮另付、部分区域无现金支付仅）",
+        "Free entry (numbered tickets on busy days)": "入场免费（混雑日整理券制）",
+        "Free entry · reservation only (1 order required)": "入场免费、仅预约（须至少点一份）",
+        "Free entry; cream puffs from around ¥500": "入场免费，泡芙约 ¥500 起",
+        "Free entry; custom notebooks & ink made to order": "入场免费（可定制笔记本与墨水）",
+        "Free entry; hands-on glass-cutting workshop ticketed": "入场免费（玻璃切割体验工作坊收费）",
+        "Free to browse": "入场免费",
+        "Free to browse (monja extra)": "入场免费（文字烧另行收费）",
+        "Free to browse (most shops sell retail)": "入场免费（大多数店铺有零售）",
+        "Free to stroll (bar cover charges extra)": "散步免费（酒吧的服务费另付）",
+        "Free to stroll (food & drink extra)": "散策免费（餐饮另付）",
+        "Free to visit (restaurants extra)": "入场免费（餐厅別料金）",
+        "From ¥500 (some areas free)": "¥500 起（部分区域免费）",
+        "General Pass ¥2,500 / Club Pass ¥4,000 (Youth 19 & under free)": "一般通票¥2,500 / 俱乐部通票¥4,000（19岁以下免费）",
+        "Main building & garden ¥2,000; garden only ¥300": "本馆＋庭园¥2,000、庭园仅¥300",
+        "Most sections ¥2,200 (special screenings up to ¥3,500)": "大多数的区域¥2,200（特別上映最大¥3,500）",
+        "Museum & events ticketed — see official site": "博物馆、活动收费（详见官网）",
+        "Night ticket ¥1,000 advance / ¥1,200 door": "夜间票 预售 ¥1,000 / 当日 ¥1,200",
+        "One-day pass - advance purchase recommended": "一日通票（建议提前购买）",
+        "Online ¥2,800 weekdays / ¥3,100 weekends (walk-in +¥500)": "线上购票 工作日¥2,800 / 周末及节假日¥3,100（当天+¥500）",
+        "Park ¥450; Japanese Garden night viewing +¥1,200 advance": "公园 ¥450，日式庭园夜间观赏预售另加 ¥1,200",
+        "Pay per play (coin games)": "按次收费（投币游戏）",
+        "Performances ticketed — see official site": "公演收费（详见官网）",
+        "Permanent exhibition (6–7F) adults ¥400; other floors free": "常设展（6–7F）成人 ¥400，其他楼层免费",
+        "Permanent exhibition ¥1,000": "常设展¥1,000",
+        "Permanent exhibition ¥500": "常设展¥500",
+        "Permanent exhibition ¥630": "常设展¥630",
+        "Screenings & exhibition — see official site": "上映、展示（详见官网）",
+        "See official site — reservation priority (walk-ins if space remains)": "详见官网、预约优先（如有空位当天入场可）",
+        "Show tickets vary": "演出票价因公演而异",
+        "Single-act tickets from around ¥1,000; full programmes ticketed": "单幕票约 ¥1,000 起，通场票收费",
+        "Stadium tours — advance booking (weekday adults ¥3,200 / weekends ¥3,500)": "体育场导览需预约（工作日 成人 ¥3,200 / 周末及节假日 ¥3,500）",
+        "Ticketed": "收费",
+        "Ticketed (exhibition fees vary)": "收费（料金展览而异）",
+        "Ticketed - advance purchase recommended": "收费（建议购买预售票）",
+        "Ticketed - see the official site for prices": "收费（票价详见官网）",
+        "Ticketed — dated tickets on official site": "收费（指定日期时间票官网）",
+        "Ticketed — see official site": "收费（详见官网）",
+        "Ticketed — see official site (cash only)": "收费（详见官网、仅限现金）",
+        "Ticketed — see official site (reopened permanent exhibition)": "收费（详见官网，常设展重新开放）",
+        "Ticketed — see official site (timed online reservations + same-day entry)": "收费（详见官网 / 线上日时指定预约＋当天入场）",
+        "Ticketed — see official site for prices": "收费（票价详见官网）",
+        "Timed reservation only — book on the official site": "日时指定、完全预约制（预约官网）",
+        "Varies by exhibition": "展览而异",
+        "Varies by exhibition (advance online tickets)": "展览而异（线上门票预售）",
+        "Varies by exhibition; collection shows ticketed": "展览而异（馆藏展收费）",
+        "Varies by exhibition; library free": "展览而异（图书馆免费）",
+        "Varies by exhibition; museum entry itself free": "展览而异（博物馆入馆自体免费）",
+        "Varies by exhibition; workshops extra": "展览而异（工作坊另付）",
+        "Varies by program (some lottery)": "项目而异（部分抽選）",
+        "Viewing ticket — check the official site": "观览券（详见官网）",
+        "Weekends & holidays ¥1,000; special performance ticket ¥1,500": "周末及节假日¥1,000、特別公演券¥1,500",
+        "Wristband from ¥440 (afternoon, advance)": "手环 ¥440 起（下午场、预售）",
+        "¥1,000": "¥1,000",
+        "¥1,000 (students ¥500)": "¥1,000（学生¥500）",
+        "¥1,400": "¥1,400",
+        "¥1,400 (timed entry)": "¥1,400（日时指定）",
+        "¥1,500": "¥1,500",
+        "¥1,500 (¥1,200 online)": "¥1,500（线上¥1,200）",
+        "¥1,600 (online timed entry; same-day +¥200)": "¥1,600（线上日时指定入场、当天+¥200）",
+        "¥1,800": "¥1,800",
+        "¥100": "¥100",
+        "¥150": "¥150",
+        "¥2,000": "¥2,000",
+        "¥2,000 (early-entry ¥3,000 / late-entry ¥1,000)": "¥2,000（先行入场 ¥3,000 / 迟入场 ¥1,000）",
+        "¥2,100": "¥2,100",
+        "¥2,200": "¥2,200",
+        "¥2,200 weekdays / ¥2,500 weekends": "工作日¥2,200 / 周末及节假日¥2,500",
+        "¥2,300": "¥2,300",
+        "¥2,400": "¥2,400",
+        "¥2,800 weekdays / ¥3,000 weekends & holidays (on-site prices)": "工作日¥2,800 / 周末及节假日¥3,000（当天料金）",
+        "¥20,000+ per group": "每组 ¥20,000 起",
+        "¥3,300 weekdays / ¥3,600 weekends": "工作日¥3,300 / 周末及节假日¥3,600",
+        "¥4,400+ (varies by day)": "¥4,400 起（价格随日期变动）",
+        "¥600 (¥400 with aquarium ticket)": "¥600（出示水族馆门票 ¥400）",
+        "¥8,800 (materials included)": "¥8,800（含材料费）"
+      };
+      var VENUE_ZH = {
+        "21_21 DESIGN SIGHT, Tokyo Midtown, Roppongi": "21_21 DESIGN SIGHT（东京中城・六本木）",
+        "A venue in Toyosu (see official page)": "豊洲会场（详见官方页面）",
+        "ARTNIA, Square Enix HQ 1F, Shinjuku": "ARTNIA（史克威尔艾尼克斯总部 1F・新宿）",
+        "Adachi Park of Living Things, Hokima, Adachi": "足立区生物园",
+        "Advertising Museum Tokyo, Caretta Shiodome": "广告博物馆东京（Caretta 汐留）",
+        "Akihabara Radio Kaikan, Akihabara": "秋叶原无线电会馆",
+        "Ameyoko shopping street, between Ueno and Okachimachi stations": "阿美横丁",
+        "An underground venue in Roppongi (see official page)": "六本木地下会场（详见官方页面）",
+        "Ancient Orient Museum, Sunshine City Bunka Kaikan 7F, Ikebukuro": "古代东方博物馆（阳光城文化会馆7阶）",
+        "Anime Tokyo Station, 2F": "动漫东京站（2阶）",
+        "Anime Tokyo Station, Minami-Ikebukuro": "动漫东京站（南池袋）",
+        "Arakawa Yuen, Nishi-Ogu, Arakawa": "荒川游园",
+        "Artizon Museum": "ARTIZON 美术馆",
+        "Artizon Museum, Kyobashi": "ARTIZON 美术馆（京桥）",
+        "Asakusa Hanayashiki, Asakusa": "浅草花屋敷",
+        "Atago Shrine, Atago Hill, Minato": "愛宕神社（愛宕山・港区）",
+        "Azabu-Juban shopping street": "麻布十番商店街",
+        "BEAM Gallery, Shibuya BEAM 4F": "BEAMS画廊（涩谷BEAMS4阶）",
+        "Bandai Namco Cross Store Tokyo, Sunshine City": "万代南梦宫 Cross Store 东京（阳光城）",
+        "Baseball Hall of Fame and Museum, Tokyo Dome City": "野球殿堂博物馆（东京巨蛋城）",
+        "Boroichi-dori, Setagaya": "旧货市大道（世田谷）",
+        "Bunka Gakuen Costume Museum, Shinjuku": "文化学园服飾博物馆",
+        "Capcom Cafe Ikebukuro, Q Plaza Ikebukuro": "卡普空咖啡池袋店（Q广场池袋）",
+        "Center of the Tokyo Raids and War Damage, Kitasuna, Koto City": "东京大空襲・戦災資料中心",
+        "Chihiro Art Museum Tokyo, Shimoishigami, Nerima": "岩崎知弘美术馆・东京",
+        "Chofu City Mushakoji Saneatsu Memorial Museum, Wakabacho, Chofu": "調布市武者小路実篤記念馆",
+        "Collabo Cafe Honpo Akihabara": "联名咖啡本舗 秋叶原店",
+        "Cup Noodles Museum Yokohama, Shinko, Naka-ku, Yokohama": "合味道博物馆 横滨",
+        "Currency Museum, Bank of Japan Annex, Nihonbashi": "日本银行金融研究所 貨幣博物馆",
+        "DECKS Tokyo Beach & 10+ spots around Odaiba Seaside Park": "DECKS东京海滩&台场海滨公园周边10处以上",
+        "Daiba Itchome Shotengai, DECKS Tokyo Beach 4F, Daiba": "台场一丁目商店街（DECKS东京海滩4阶）",
+        "Daikanyama T-SITE, Sarugaku-cho": "代官山 T-SITE（猿乐町）",
+        "Dramatic Nazotoki Game Store No.1 -CLASSIC-, Nishi-Shinjuku": "戏剧性解谜游戏店 No.1 -CLASSIC-（西新宿）",
+        "Edo-Tokyo Museum, Ryogoku": "江戸东京博物馆（两国）",
+        "Edo-Tokyo Open Air Architectural Museum, Koganei Park": "江戸东京建筑园（小金井公园内）",
+        "FabCafe Tokyo, Dogenzaka, Shibuya": "FabCafe 东京",
+        "Faret Tachikawa public art, Akebonocho, Tachikawa": "FARE 立川艺术",
+        "Fire Museum, directly linked to Yotsuya-sanchome Station, Yotsuya": "消防博物馆",
+        "Former capsule hotel, 3-11-15 Kanda-Nishikicho, Chiyoda-ku": "旧胶囊酒店（千代田区神田錦町3-11-15）",
+        "Fuchu Art Museum, Sengencho, Fuchu (Fuchu no Mori Park)": "府中市美术馆（府中之森公园）",
+        "Fuchu City Kyodo-no-Mori Museum, Minamicho, Fuchu": "府中市乡土之森博物馆",
+        "Fukagawa Edo Museum, Kiyosumi, Fukagawa": "深川江戸資料馆",
+        "Fukagawa Fudo-do Temple, Monzen-nakacho": "深川不动堂（門前仲町）",
+        "Game Center Mikado, Takadanobaba": "游戏中心Mikado",
+        "Ganso Food Sample Shop Kappabashi, Nishi-Asakusa, Kappabashi": "元祖食品样品屋 合羽桥店",
+        "Gas Museum, Onuma-cho, Kodaira (bus from Hanakoganei Station)": "煤气资料馆",
+        "Ghibli Museum, Mitaka": "三鷹之森吉卜力美术馆",
+        "Gotoh Museum, Kaminoge, Setagaya": "五岛美术馆（世田谷区上野毛）",
+        "Gotokuji Temple, Setagaya": "豪徳寺（世田谷）",
+        "Hachiko Square, in front of Shibuya Station": "八公前广场（涩谷站前）",
+        "Hachioji Castle Ruins, Moto-Hachioji, Hachioji": "八王子城跡",
+        "Hachioji City Yume Art Museum, Yahatacho, Hachioji": "八王子市夢美术馆",
+        "Hakenomori Art Museum (Nakamura Kenichi Memorial), Nakacho, Koganei": "崖之森美术馆",
+        "Hamarikyu Gardens, Chuo": "滨離宫恩賜庭园",
+        "Hasegawa Machiko Art Museum & Memorial Hall, Sakurashinmachi": "长谷川町子美术馆・記念馆（樱新町）",
+        "Hibiya Park, Hibiya": "日比谷公园",
+        "Hie Shrine, Nagatacho, Akasaka": "日枝神社",
+        "Higo Hosokawa Garden, Mejirodai, Bunkyo": "肥後細川庭园",
+        "Ichikawa City Zoo & Botanical Garden, Omachi, Ichikawa": "市川市动植物园",
+        "Ikebukuro Bosai-kan, Ikebukuro Fire Station 4F, Nishi-Ikebukuro": "池袋防災馆（池袋消防署4阶）",
+        "Imperial Palace East Gardens, Marunouchi": "皇居东御苑",
+        "Inokashira Park Zoo, Kichijoji": "井之头自然文化园（吉祥寺）",
+        "Inokashira Park, Kichijoji": "井之头恩賜公园（吉祥寺）",
+        "Intermediatheque, KITTE 2–3F, Marunouchi": "Intermediatheque（KITTE 2–3F，丸之内）",
+        "International Library of Children's Literature, Ueno Park, Ueno": "国立国会图书馆 国际儿童图书馆",
+        "Itabashi Tropical Botanical Garden, Takashimadaira, Itabashi": "板桥区立熱带環境植物馆",
+        "Japan Camera Museum, Ichibancho, Hanzomon": "日本相机博物馆",
+        "Japan Folk Crafts Museum, Komaba, Meguro": "日本民藝馆",
+        "Japan National Stadium (MUFG Stadium), Kasumigaoka, Gaien": "国立竞技场（MUFG体育场）",
+        "Japan Open-Air Folk House Museum, Ikuta Ryokuchi, Kawasaki": "川崎市立日本民家园",
+        "Jimbocho Book Town, Kanda": "神保町古书店街（神田）",
+        "Jimbocho book town, along Yasukuni-dori": "神保町古书店街（靖国大道沿线）",
+        "Jindai Botanical Gardens, Jindaiji, Chofu": "神代植物公园",
+        "Jindaiji Temple, Chofu": "深大寺（調布）",
+        "Jiyugakuen Myonichikan, Nishi-Ikebukuro": "自由学园明日馆（西池袋）",
+        "Jiyugaoka shopping streets": "自由之丘商店街",
+        "KK Line (former Tokyo Expressway), Nishi-Ginza entrance, Ginza 1-2-2": "KK线（旧・东京高速道路）西银座入口（银座1-2-2）",
+        "Kabuki-za, Ginza": "歌舞伎座（银座）",
+        "Kadokawa Culture Museum (Kadokawa Musashino Museum), 1F Grand Gallery": "角川武藏野博物馆（1F 大画廊）",
+        "Kadokawa Culture Museum, Higashi-Tokorozawa Wada, Tokorozawa": "角川武藏野博物馆",
+        "Kagurazaka main street & lanes, by Iidabashi Station": "神乐坂",
+        "Kakimori, Kuramae": "Kakimori（藏前）",
+        "Kameari Station area & KochiKame Memorial Museum": "龟有站周边 & 乌龙派出所纪念馆",
+        "Kameido Tenjin Shrine, Kameido": "龟戸天神社",
+        "Kanda Myojin Shrine, Kanda": "神田明神（神田）",
+        "Kappabashi-dori (Kitchen Town), Asakusa": "合羽桥道具街",
+        "Kasai Rinkai Park, Tokyo Bay": "葛西臨海公园",
+        "Katsushika City Museum, Shiratori, Katsushika": "葛飾区乡土与天文博物馆",
+        "Kawagoe Festival Museum, Motomachi, Kawagoe": "川越祭会馆",
+        "Kawagoe Hikawa Shrine, Miyashitamachi, Kawagoe": "川越氷川神社",
+        "Kawasaki Daishi Heikenji, Daishimachi, Kawasaki": "川崎大師平间寺",
+        "Keyakizaka, Roppongi Hills": "六本木新城 榉树坡",
+        "Kirby Café, Tokyo Solamachi East Yard 4F, Oshiage": "星之卡比咖啡（东京晴空塔城 东区 4F）",
+        "Kisho-jinja at Koenji Hikawa Shrine": "气象神社（高圆寺氷川神社内）",
+        "Kiyosumi Gardens, Fukagawa": "清澄庭园（深川）",
+        "Koenji Pal shopping street, Koenji": "高圆寺 PAL 商店街",
+        "Koishikawa Botanical Garden (University of Tokyo), Hakusan, Bunkyo": "小石川植物园（东京大学）",
+        "Koishikawa Korakuen Gardens, Korakuen": "小石川後乐园",
+        "Kuramae, along the Sumida River": "藏前（隅田川沿岸）",
+        "Kurazukuri Old Town (Ichibangai), Saiwaicho, Kawagoe": "川越 藏造老街（一番街）",
+        "Kyu-Furukawa Gardens, Nishigahara": "旧古河庭园（西原）",
+        "Kyu-Iwasaki-tei Gardens, Ikenohata": "旧岩崎邸庭园",
+        "Kyu-Shiba-Rikyu Gardens, Hamamatsucho": "旧芝離宫恩賜庭园（滨松町）",
+        "MUJI HOTEL GINZA (7–8F guest rooms) + Ginza Sony Park": "无印良品酒店银座（7–8F 客房）＋银座索尼公园",
+        "Machida Squirrel Garden, Yakushidai, Machida": "町田松鼠园",
+        "Marunouchi Naka-dori": "丸内仲大道",
+        "Matsuoka Museum of Art, Shirokanedai": "松岡美术馆",
+        "Maxell Aqua Park Shinagawa, Shinagawa Prince Hotel, Takanawa": "Maxell 水上乐园品川",
+        "Meguro Museum of Art, Meguro, Meguro City": "目黒区美术馆",
+        "Meguro Parasitological Museum, Shimomeguro": "目黒寄生虫馆",
+        "Meguro River, Nakameguro": "目黒川（中目黒）",
+        "Meiji Jingu Museum": "明治神宫博物馆",
+        "Meiji Jingu, Yoyogi": "明治神宫（代々木）",
+        "Miraikan, Aomi, Koto City": "日本科学未来馆（江东区青海）",
+        "Mitsubishi Ichigokan Museum, Marunouchi": "三菱一号馆美术馆",
+        "Mitsubishi Ichigokan Museum, Tokyo": "三菱一号馆美术馆",
+        "Mitsui Memorial Museum, Mitsui Main Building 7F, Nihonbashi-Muromachi": "三井記念美术馆（三井本馆7阶）",
+        "Mizu no Kagakukan, Ariake Water Supply Station site, Ariake": "东京都水科学馆",
+        "Moominvalley Park (Metsa), Miyazawako, Hanno": "姆明谷公园（Metza）",
+        "Mori Art Museum, 53F Roppongi Hills Mori Tower": "森美术馆（六本木新城森塔53阶）",
+        "Mori Art Museum, Roppongi Hills Mori Tower 53F": "森美术馆（六本木新城森塔53阶）",
+        "Mt. Takao, Hachioji (Takaosanguchi Station)": "高尾山（八王子・高尾山口站）",
+        "Mukojima-Hyakkaen Gardens, Higashi-Mukojima": "向岛百花园",
+        "Musashi Ichinomiya Hikawa Shrine, Takahanacho, Omiya, Saitama": "武藏一宫氷川神社",
+        "Museum of Contemporary Art Tokyo, Kiyosumi": "东京都現代美术馆（清澄）",
+        "NHK Museum of Broadcasting, Atagoyama, Atago": "NHK放送博物馆",
+        "NYK Hikawamaru, Yamashita Park, Yokohama": "日本郵船氷川丸（山下公园）",
+        "Nakano Antenna Street, Nakano": "中野 Antenna 大街",
+        "Nakano Broadway, Nakano": "中野百老汇",
+        "National Astronomical Observatory of Japan, Osawa, Mitaka": "国立天文台（三鷹校区）",
+        "National Film Archive of Japan, Kyobashi": "国立电影资料馆（京桥）",
+        "National Museum of Nature and Science, Ueno Park": "国立科学博物馆（上野公园）",
+        "National Museum of Western Art, Ueno Park": "国立西洋美术馆（上野公园）",
+        "Nezu Museum": "根津美术馆",
+        "Nezu Museum, Minami-Aoyama": "根津美术馆（南青山）",
+        "Nezu Shrine, Nezu": "根津神社",
+        "Nikon Museum, Nikon HQ 1F, Nishi-Oi, Shinagawa": "尼康博物馆（尼康本社1阶）",
+        "Nintendo TOKYO, Shibuya PARCO 6F, Shibuya": "Nintendo TOKYO（涩谷 PARCO 6F）",
+        "Nippori Fabric Town (Chuo-dori), Nippori": "日暮里繊維街",
+        "Odaiba Seaside Park, Daiba": "台场海滨公园",
+        "Oi Racecourse (Tokyo City Keiba)": "大井竞马场（东京城竞马）",
+        "Okura Shukokan Museum of Fine Arts, Toranomon": "大倉集古馆",
+        "Ome Railway Park, Katsunuma, Ome": "青梅铁道公园",
+        "Omiya Bonsai Art Museum, Torocho, Kita-ku, Saitama": "埼玉市大宫盆栽美术馆",
+        "Omiya Bonsai Village, Bonsaicho, Kita-ku, Saitama": "大宫盆栽村",
+        "Omoide Yokocho, Nishi-Shinjuku": "回忆横丁（西新宿）",
+        "Osanbashi Yokohama International Passenger Terminal, Kaigandori, Naka-ku, Yokohama": "大栈桥横滨国际客运码头（海岸大道，中区，横滨）",
+        "Ota Memorial Museum of Art, Jingumae, Harajuku": "太田記念美术馆",
+        "Oyane Plaza, Roppongi Hills": "六本木新城 大屋顶广场",
+        "PARCO FACTORY, Ikebukuro PARCO 7F": "PARCO FACTORY（池袋 PARCO 7F）",
+        "PIGMENT TOKYO": "PIGMENT TOKYO",
+        "Panasonic Shiodome Museum of Art, Shiodome": "松下汐留美术馆",
+        "Paper Museum, Asukayama Park, Oji": "紙博物馆（飛鳥山公园）",
+        "Pokémon Café, Nihonbashi Takashimaya S.C. East Building 5F": "宝可梦咖啡（日本桥高岛屋 S.C. 东馆 5F）",
+        "Pokémon Center Mega Tokyo, Sunshine City Alpa 2F, Ikebukuro": "宝可梦中心 Mega Tokyo（阳光城 Alpa 2F，池袋）",
+        "Postal Museum Japan, Tokyo Solamachi 9F, Oshiage": "郵政博物馆（东京晴空塔城9阶）",
+        "Printing Museum, Tokyo, Koishikawa": "印刷博物馆（小石川）",
+        "Rikugien Garden, Hon-Komagome": "六義园（本駒込）",
+        "Roppongi Hills, Mori Art Museum, The National Art Center & the streets of Roppongi": "六本木新城、森美术馆、国立新美术馆及六本木街道",
+        "Ryogoku Kokugikan, Ryogoku": "两国国技馆",
+        "SHIBUYA SKY, Shibuya Scramble Square Rooftop": "SHIBUYA SKY（涩谷 Scramble Square 屋顶）",
+        "SMALL WORLDS TOKYO, Ariake": "SMALL WORLDS TOKYO（有明）",
+        "SOMPO Museum of Art": "SOMPO美术馆",
+        "SOMPO Museum of Art, Nishi-Shinjuku": "SOMPO美术馆（西新宿）",
+        "Saitama City Iwatsuki Ningyo Museum, Honcho, Iwatsuki-ku, Saitama": "埼玉市岩槻人形博物馆（本町，岩槻区，埼玉）",
+        "Saitama City Manga Kaikan, Bonsaicho, Kita-ku, Saitama": "埼玉市立漫画会馆",
+        "Saitama Prefectural Museum of History and Folklore, Omiya Park, Saitama": "埼玉县立历史与民俗博物馆（大宫公园，埼玉）",
+        "Sangenjaya, under the Carrot Tower": "三軒茶屋（胡萝卜塔周边）",
+        "Sankeien Garden, Honmoku, Naka-ku, Yokohama": "三溪园",
+        "Sanrio Puroland": "三丽鸥彩虹乐园",
+        "Sanrio Puroland, Ochiai, Tama": "三丽鸥彩虹乐园（落合，多摩）",
+        "Science Museum, Kitanomaru Park": "科学技术馆（北丸公园）",
+        "Sen-Oku Hakukokan Museum Tokyo, Roppongi": "泉屋博古馆东京",
+        "Senso-ji Temple grounds, Asakusa": "浅草寺境内（浅草）",
+        "Senso-ji Temple, Asakusa": "浅草寺（浅草）",
+        "Setagaya Art Museum, Kinuta Park": "世田谷美术馆（砧公园）",
+        "Setagaya Literary Museum, Minami-Karasuyama": "世田谷文学馆",
+        "Shibuya Fureai Botanical Center, Higashi, Shibuya": "涩谷区交流植物中心（东，涩谷）",
+        "Shibuya–Harajuku area (Shibuhara)": "涩谷–原宿一带（涩原）",
+        "Shimokitazawa shopping streets": "下北泽商店街",
+        "Shin-Yokohama Ramen Museum, Shin-Yokohama, Kohoku-ku, Yokohama": "新横滨拉面博物馆",
+        "Shinagawa Aquarium, Shinagawa Kumin Park, Katsushima, Oi": "品川水族馆（品川区民公园，胜岛，大井）",
+        "Shinjuku Golden Gai, Kabukicho": "新宿黄金街（歌舞伎町）",
+        "Shinjuku Gyoen National Garden": "新宿御苑",
+        "Shinjuku Southern Terrace & Minami-Shinjuku area": "新宿南方露台及南新宿一带",
+        "Shirohige's Cream Puff Factory, Daita, Setagaya": "白胡子泡芙工房（代田，世田谷）",
+        "Shiseido Gallery, Ginza": "資生堂画廊",
+        "Shitamachi Museum, Shinobazu Pond side, Ueno": "下町博物馆（不忍池畔，上野）",
+        "Showa Kinen Park": "国营昭和記念公园",
+        "Showa Kinen Park, Tachikawa": "国营昭和記念公园（立川）",
+        "Showakan, Kudanminami, Kudanshita": "昭和馆",
+        "State Guest House, Akasaka Palace, Moto-Akasaka": "迎賓馆赤坂離宫",
+        "Sugamo Jizo-dori shopping street": "巢鸭地藏通商店街",
+        "Suginami Animation Museum, Suginami Kaikan 3F, Ogikubo": "杉并动画博物馆（杉并会馆 3F・荻洼）",
+        "Sumida Aquarium, Tokyo Skytree Town": "墨田水族馆（东京晴空塔城）",
+        "Sumida Edo Kiriko Hall, Kinshicho": "墨田江户切子馆（锦系町）",
+        "Sunshine 60 Observatory Tenbo Park Event Space, Sunshine City": "阳光60瞭望台 天望公园活动空间（阳光城）",
+        "Sunshine 60 Observatory Tenbo Park, Sunshine City, Ikebukuro": "阳光60瞭望台 天望公园（阳光城，池袋）",
+        "Sunshine Aquarium, Sunshine City": "阳光水族馆（阳光城）",
+        "Sunshine Aquarium, Sunshine City, Ikebukuro": "阳光水族馆（阳光城・池袋）",
+        "Sunshine City Exhibition Hall A, Ikebukuro": "阳光城 展示大厅A",
+        "Sunshine City Fountain Plaza (Alpa B1), Ikebukuro": "阳光城 喷水广场（Alpa地下1阶）",
+        "Suntory Museum of Art, Tokyo Midtown, Roppongi": "三得利美术馆（东京中城）",
+        "Super Potato Akihabara (Retro-kan), Sotokanda": "Super Potato 秋叶原（复古馆，外神田）",
+        "TAKAO 599 MUSEUM, Takaosanguchi": "高尾599博物馆",
+        "THE GUNDAM BASE TOKYO, DiverCity Tokyo Plaza 7F, Odaiba": "高达基地东京（DiverCity 东京广场 7F，台场）",
+        "TOHO Cinemas Hibiya, Marunouchi Piccadilly, Hulic Hall Tokyo and more": "TOHO 影院日比谷、丸之内 Piccadilly、Hulic Hall 东京等多处",
+        "TOKYO DREAM PARK 7F (EX STUDIO7), Ariake": "TOKYO DREAM PARK 7F（EX STUDIO7，有明）",
+        "TOKYO JOYPOLIS, DECKS Tokyo Beach 3–5F, Daiba": "TOKYO JOYPOLIS（DECKS 东京海滩 3–5F，台场）",
+        "TOKYO NODE GALLERY A/B/C, Toranomon Hills Station Tower 45F (+49F rooftop)": "TOKYO NODE GALLERY A/B/C（虎之门新城车站塔 45F，另 49F 屋顶）",
+        "TOKYO SKYTREE, Oshiage": "东京晴空塔（押上）",
+        "TOKYO TATEMONO Brillia HALL and other venues": "TOKYO TATEMONO Brillia HALL 等场馆",
+        "Taishakuten Temple (Kyoeizan Daikyo-ji), Shibamata": "柴又帝釈天（经荣山題经寺）",
+        "Takahata Fudoson Kongoji, Hino": "高幡不动尊金剛寺（日野）",
+        "Takeshita Street, Harajuku": "竹下大道（原宿）",
+        "Tama Zoological Park, Hodokubo, Hino": "多摩动物公园（日野市程久保）",
+        "The National Art Center, Tokyo, Roppongi": "国立新美术馆（六本木）",
+        "The National Museum of Modern Art, Tokyo (MOMAT)": "东京国立近代美术馆",
+        "The National Museum of Modern Art, Tokyo, Kitanomaru Park": "东京国立近代美术馆（北丸公园）",
+        "The National Museum of Western Art": "国立西洋美术馆",
+        "The Railway Museum, Onaricho, Omiya, Saitama": "铁道博物馆（大宫）",
+        "The Seiko Museum Ginza, Ginza": "精工博物馆银座（银座）",
+        "The Shoto Museum of Art": "松濤美术馆",
+        "The Shoto Museum of Art, Shoto, Shibuya": "涩谷区立松濤美术馆",
+        "The Sumida Hokusai Museum, Ryogoku": "墨田北斋博物馆（两国）",
+        "The Ueno Royal Museum, Ueno Park, Ueno": "上野之森美术馆",
+        "Tobacco and Salt Museum, Honjo, Sumida": "烟草与盐博物馆（本所，墨田）",
+        "Tobu Museum, Higashi-Mukojima": "东武博物馆（东向岛）",
+        "Todoroki Valley, Setagaya": "等々力渓谷（世田谷）",
+        "Toei Animation Museum, Higashi-Oizumi, Nerima": "东映动画博物馆（东大泉，练马）",
+        "Togoshi Ginza shopping street": "戸越银座商店街",
+        "Toguri Museum of Art, Shoto, Shibuya": "戸栗美术馆（涩谷区松濤）",
+        "Tokiwaso Manga Museum, Minami-Nagasaki, Toshima": "常盘庄漫画博物馆（南长崎，丰岛）",
+        "Tokyo Anime Center in DNP PLAZA SHIBUYA (Shibuya MODI 2F)": "东京动漫中心（DNP广场涩谷・涩谷MODI2阶）",
+        "Tokyo Anime Center, Shibuya MODI 2F, Shibuya": "东京动漫中心（涩谷MODI2阶）",
+        "Tokyo Big Sight, Ariake": "东京国际展示场（有明）",
+        "Tokyo Big Sight, South Exhibition Halls 1–4": "东京国际展示场（南展示栋 1–4）",
+        "Tokyo Camii & Diyanet Turkish Culture Center, Yoyogi-Uehara": "东京大清真寺及迪亚内特土耳其文化中心（代代木上原）",
+        "Tokyo Character Street, Tokyo Station First Avenue B1, Tokyo Station": "东京站一番街 B1 东京动漫人物街（东京站）",
+        "Tokyo Christmas Market — Shiba Park venue": "东京圣诞市集 — 芝公园会场",
+        "Tokyo Christmas Market — Shin-Toyosu venue": "东京圣诞市集 — 新丰洲会场",
+        "Tokyo Daijingu Shrine, Fujimi, Chiyoda": "东京大神宫（千代田区富士見）",
+        "Tokyo Fuji Art Museum, Hachioji (bus from Hachioji Station)": "东京富士美术馆",
+        "Tokyo International Forum, Marunouchi, by Yurakucho Station": "东京国际论坛",
+        "Tokyo Metro Museum, under the Kasai Station viaduct, Kasai": "地下铁博物馆",
+        "Tokyo Metropolitan Art Museum": "东京都美术馆",
+        "Tokyo Metropolitan Art Museum, Ueno Park": "东京都美术馆",
+        "Tokyo Metropolitan Government Building, Nishi-Shinjuku": "东京都厅（西新宿）",
+        "Tokyo Metropolitan Teien Art Museum": "东京都庭园美术馆",
+        "Tokyo Metropolitan Teien Art Museum, Shirokanedai": "东京都庭园美术馆（白金台）",
+        "Tokyo Metropolitan Theatre, Nishi-Ikebukuro": "东京艺术剧场（西池袋）",
+        "Tokyo Midtown Hibiya, Hibiya Step Square": "东京中城日比谷 日比谷Step广场",
+        "Tokyo National Museum": "东京国立博物馆",
+        "Tokyo National Museum (Heiseikan)": "东京国立博物馆 平成馆",
+        "Tokyo National Museum, Ueno Park": "东京国立博物馆（上野公园）",
+        "Tokyo Opera City Art Gallery": "东京歌剧城美术馆",
+        "Tokyo Opera City Art Gallery, Opera City Tower 3F, Hatsudai": "东京歌剧城美术馆（歌剧城塔 3F，初台）",
+        "Tokyo Photographic Art Museum, Ebisu Garden Place": "东京都写真美术馆（恵比寿花园广场）",
+        "Tokyo Racecourse, Hiyoshicho, Fuchu": "东京竞马场",
+        "Tokyo Sea Life Park, Kasai Rinkai Park": "葛西臨海水族园",
+        "Tokyo Station Marunouchi Building, Marunouchi": "东京站丸内站舎",
+        "Tokyo Tower, Shiba Park": "东京塔（芝公园）",
+        "Tokyo Toy Museum, Yotsuya (former elementary school)": "东京玩具博物馆（四谷，旧小学校舍）",
+        "Tokyo Trick Art Museum, DECKS Tokyo Beach 4F, Daiba": "东京幻视艺术迷宫馆（DECKS东京海滩4阶）",
+        "Tokyu Plaza Shibuya, 4F Special Event Space": "东急广场涩谷 4阶特设会场",
+        "Tomioka Hachimangu, Tomioka, Fukagawa (Monzen-nakacho)": "富岡八幡宫",
+        "Toyosu Market, Toyosu": "豊洲市场",
+        "Tsukiji Hongwanji Temple, Tsukiji": "築地本願寺",
+        "Tsukiji Outer Market": "築地场外市场",
+        "Tsukishima Monja Street (Nishinaka-dori), Tsukishima": "月岛文字烧街（西仲大道）",
+        "Ueno Park, Ueno": "上野恩賜公园",
+        "Ueno Zoological Gardens, Ueno Park": "恩賜上野动物园",
+        "Unko Museum TOKYO, DiverCity Tokyo Plaza 2F, Daiba": "便便博物馆 TOKYO（DiverCity 东京广场 2F，台场）",
+        "Watari-Um (Watarium), Jingumae": "Watari-Um 美术馆（神宫前）",
+        "Waterfront venues incl. Daiba Park, Tokyo International Cruise Terminal, WHAT MUSEUM": "台场公园、东京国际邮轮码头、WHAT MUSEUM 等滨水区场馆",
+        "Yakushiike Park (Shikisai no Mori), Nozutamachi, Machida": "薬師池公园（四季彩杜）",
+        "Yamatane Museum of Art": "山種美术馆",
+        "Yamatane Museum of Art, Hiroo": "山種美术馆",
+        "Yanaka Ginza shopping street": "谷中银座商店街",
+        "Yayoi & Yumeji Museums, Yayoi, Nezu": "弥生美术馆・竹久夢二美术馆",
+        "Yayoi Kusama Museum, Bentencho, Shinjuku": "草间彌生美术馆",
+        "Yokohama Archives of History, Nihon-odori, Naka-ku, Yokohama": "横滨开港資料馆",
+        "Yokohama Chinatown, Yamashitacho, Naka-ku, Yokohama": "横滨中華街",
+        "Yokohama Cosmoworld, Shinko, Naka-ku, Yokohama": "横滨太空世界",
+        "Yokohama Doll Museum, Yamashitacho, Naka-ku, Yokohama": "横滨人形家",
+        "Yokohama Landmark Tower (Landmark Plaza) & MARK IS Minatomirai": "横滨地标塔（地标广场）& MARK IS 港未来",
+        "Yokohama Museum of Art, Minato Mirai, Yokohama": "横滨美术馆",
+        "Yokohama Red Brick Warehouse Event Plaza & Red Brick Park": "横滨红砖倉庫 活动广场・红砖公园",
+        "Yokohama Red Brick Warehouse, Shinko, Naka-ku, Yokohama": "横滨红砖倉庫",
+        "Yokohama Zoo Zoorasia, Kamishiranecho, Asahi-ku, Yokohama": "横滨动物园Zoorasia",
+        "Yomiuriland": "读卖乐园",
+        "Yomiuriland, Inagi": "读卖乐园（稲城）",
+        "Yoshikawa Eiji Memorial Museum, Yugimachi, Ome": "青梅市吉川英治記念馆",
+        "Yoyogi Park": "代々木公园",
+        "Yumenoshima Tropical Greenhouse Dome, Yumenoshima, Koto City": "夢岛熱带植物馆",
+        "Yurakucho Asahi Hall, Marunouchi Piccadilly, Humantrust Cinema Yurakucho": "有乐町朝日大厅、丸之内 Piccadilly、Humantrust Cinema 有乐町等",
+        "Yushima Tenmangu, Yushima": "汤岛天満宫（汤岛天神・汤岛）",
+        "Yuyake Koyake Fureai no Sato, Kamiongata, Hachioji": "夕阳小径交流之里（上恩方，八王子）",
+        "ZA-KOENJI, Koenji-kita": "座・高圆寺（高圆寺北）",
+        "Zojoji Temple, Shiba Park": "增上寺（芝公园）",
+        "animate Ikebukuro Flagship Store, Ikebukuro": "Animate 池袋总店（池袋）",
+        "namco TOKYO, Tokyu Kabukicho Tower 3F, Kabukicho, Shinjuku": "namco 东京（东急歌舞伎町塔3阶）",
+        "teamLab Borderless, Azabudai Hills, Kamiyacho": "teamLab 无界（麻布台新城，神谷町）",
+        "Civic Creative Base Tokyo (CCBT) + Cat Street plaza, Jingumae": "Civic Creative Base Tokyo（CCBT）＋ Cat Street 广场，神宫前",
+        "Ohtori Shrine, Senzoku 3-18-7, Taito-ku": "大鸟神社，台东区千束 3-18-7",
+        "Asakusa, Tawaramachi, Inaricho & Ueno Stations + 6 spots across Asakusa–Ueno": "浅草、田原町、稻荷町、上野各站 ＋ 浅草–上野一带 6 处",
+        "MoN Takanawa: The Museum of Narratives, Takanawa": "MoN Takanawa 叙事博物馆，高轮"
+      };
+      function evHours(e) { if (state.lang === "ja") return HOURS_JA[e.hours] || e.hours; if (state.lang === "zh") return HOURS_ZH[e.hours] || e.hours; return e.hours; }
+      function evPrice(e) { if (state.lang === "ja") return PRICE_JA[e.price] || e.price; if (state.lang === "zh") return PRICE_ZH[e.price] || e.price; return e.price; }
+      function evVenue(e) { if (state.lang === "ja") return VENUE_JA[e.venue] || e.venue; if (state.lang === "zh") return VENUE_ZH[e.venue] || e.venue; return e.venue; }
       function areaName(a) {
         if (state.lang === "ja") return AREA_JA[a] || a;
         if (state.lang === "zh") return AREA_ZH[a] || a;
@@ -24090,7 +24900,7 @@ var qrcode = function() {
          strip, Fashion = runway + fabric patterns, Workshop = a
          workbench with tools. Real photos never appear on banners,
          only inside the briefing. */
-      var CAT_COLORS = { Art: "#e14b4f", Fashion: "#cf4d7d", Film: "#7558c9", Workshop: "#dd7f2a", Games: "#2f7cd6", Anime: "#14a38c", Landmark: "#b0722a" };
+      var CAT_COLORS = { Art: "#cf4548", Fashion: "#c64978", Film: "#7558c9", Workshop: "#ac6320", Games: "#2d77cd", Anime: "#108572", Landmark: "#a16826" };
       var BANNER_ART = {
         Art: function (band) {
           return '<polygon points="70,8 52,86 96,86" fill="#ffffff" opacity="0.10"/>' +
@@ -24208,7 +25018,7 @@ var qrcode = function() {
         }
       };
       function bannerSVG(e) {
-        var band = CAT_COLORS[e.category] || "#57b6e8";
+        var band = CAT_COLORS[e.category] || "#3b7b9d";
         var art = (BANNER_ART[e.category] || BANNER_ART.Art)(band);
         /* the shared frame: sky, night layer, the category interior,
            the same foreground ground band on the same horizon, the
@@ -24262,11 +25072,12 @@ var qrcode = function() {
         return '<span class="cat-chip ' + CAT_CLASS[e.category] + '">' + ICONS[CAT_ICON[e.category]] + esc(catName(e.category)) + "</span>";
       }
       function stateBadges(e) {
+        /* dedup (Zoe, 2026-11-02): the free mark lives only in
+           the price row and the ending-soon countdown only in
+           the period row -- the band keeps the EPIC tier mark,
+           which stands apart from the status slot. */
         var s = "";
         if (isEpicQuest(e)) s += '<span class="epic-badge">' + L().epicBadge + "</span>";
-        if (e.free) s += '<span class="free-badge">' + L().free + "</span>";
-        if (!e.recurring && e.start && e.start <= TODAY && daysBetween(TODAY, e.end) <= 7)
-          s += '<span class="soon-badge">' + L().endingSoon + "</span>";
         return s;
       }
       /* Q-243: the state pill renders beside the No. line, not
@@ -24991,7 +25802,7 @@ var qrcode = function() {
       function moodBucketLabel(id) { return (L().moodBuckets || {})[id] || id; }
       function questMatchesQuery(e, q) {
         if (!q) return true;
-        var hay = [e.name_en, e.name_ja, e.area, AREA_JA[e.area] || "", AREA_ZH[e.area] || "", e.category, CAT_JA[e.category] || "", CAT_ZH[e.category] || "", e.venue, VENUE_JA[e.venue] || "",
+        var hay = [e.name_en, e.name_ja, e.area, AREA_JA[e.area] || "", AREA_ZH[e.area] || "", e.category, CAT_JA[e.category] || "", CAT_ZH[e.category] || "", e.venue, VENUE_JA[e.venue] || "", VENUE_ZH[e.venue] || "",
           (e.mood || []).join(" "), evBuckets(e).map(moodBucketLabel).join(" ")].join(" ").toLowerCase();
         return q.split(/\s+/).every(function (w) { return !w || hay.indexOf(w) !== -1; });
       }
@@ -25619,6 +26430,22 @@ var qrcode = function() {
         closeMapPick();
         if (mapPickEv) window.open(mapsUrlFor(mapPickEv, prov), "_blank");
       }
+      /* title auto-fit (Zoe, 2026-11-02): step the title down
+         20 -> 18 -> 16px until it fits two lines; never smaller,
+         never more lines. */
+      function fitDetailTitle() {
+        var h = document.getElementById("detailName");
+        if (!h) return;
+        var sizes = ["1.25rem", "1.125rem", "1rem"];
+        for (var i = 0; i < sizes.length; i++) {
+          h.style.fontSize = sizes[i];
+          h.style.webkitLineClamp = "none";
+          var lh = parseFloat(window.getComputedStyle(h).lineHeight) || 26;
+          var lines = Math.round(h.scrollHeight / lh);
+          h.style.webkitLineClamp = "";
+          if (lines <= 2) break;
+        }
+      }
       function openDetail(id) {
         var e = byId(id);
         if (!e) return;
@@ -25634,7 +26461,7 @@ var qrcode = function() {
         if (e.img) {
           dp.hidden = false;
           dp.style.cursor = "zoom-in";
-          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(evVenue(e)) + " · " + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
+          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
           var _fb = dp.querySelector("#btnPoster");
           if (_fb) _fb.addEventListener("click", function (ev) { ev.stopPropagation(); sfx("accept"); shareQuestPoster(); });
           bn.hidden = true; bn.innerHTML = "";
@@ -25649,11 +26476,12 @@ var qrcode = function() {
         document.getElementById("detailChips").innerHTML = catChip(e) + stateBadges(e);
         document.getElementById("detailState").innerHTML = stateBadgeOnly(e);
         document.getElementById("detailName").textContent = evName(e);
+        fitDetailTitle();
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
         detail.classList.toggle("has-photo", !!e.img);
         detail.classList.toggle("is-epic", isEpicQuest(e));
         renderEpicReward(e);
-        detail.style.setProperty("--cat", CAT_COLORS[e.category] || "#57b6e8");
+        detail.style.setProperty("--cat", CAT_COLORS[e.category] || "#3b7b9d");
         /* the period is a plain text line — no HP-style gauge */
         document.querySelector(".dp-ico").innerHTML = ICONS.cal;
         document.getElementById("dpRange").textContent = fmtRange(e);
@@ -25665,13 +26493,35 @@ var qrcode = function() {
         document.getElementById("kHours").textContent = t.kHours;
         document.getElementById("kWhere").textContent = t.kWhere;
         document.getElementById("kPrice").textContent = t.kPrice;
-        document.getElementById("vHours").textContent = evHours(e);
-        document.getElementById("vWhere").innerHTML = esc(evVenue(e)) + ' <span class="dim">(' + esc(areaName(e.area)) + ")</span>";
-        /* no free pill in the price row: the detail head already
-           carries the free chip, and the in-row pill was torn in
-           half by long price text (device report 2026-10-27) */
-        document.getElementById("vPrice").innerHTML = esc(evPrice(e));
-        document.getElementById("vMood").innerHTML = evBuckets(e).map(function (b) { return '<span class="mood">#' + esc(moodBucketLabel(b)) + "</span>"; }).join("");
+        /* field fallbacks (Zoe, 2026-11-02): a row renders only
+           when it carries real content -- an hours string with no
+           clock time and a price string with no amount are not
+           content; multi-tier prices split into list lines. The
+           venue appears once (here); the photo caption carries
+           the area name only, so neither repeats. */
+        var hStr = evHours(e);
+        document.getElementById("vHours").textContent = hStr;
+        var hOk = /\d{1,2}:\d{2}/.test(hStr);
+        document.querySelector(".kv-time-head").style.display = hOk ? "" : "none";
+        document.getElementById("vHours").style.display = hOk ? "" : "none";
+        var vW = document.getElementById("vWhere");
+        vW.textContent = evVenue(e);
+        var wCol = vW.closest ? vW.closest(".kv-col") : null;
+        if (wCol) wCol.style.display = evVenue(e) ? "" : "none";
+        var pStr = evPrice(e);
+        var pOk = /(¥|円|￥|Free|無料|免费)/.test(pStr);
+        var vP = document.getElementById("vPrice");
+        var pCol = vP.closest ? vP.closest(".kv-col") : null;
+        if (pCol) pCol.style.display = pOk ? "" : "none";
+        var kvEl = vP.closest ? vP.closest(".kv") : null;
+        if (kvEl) kvEl.style.display = (!hOk && !pOk && !evVenue(e)) ? "none" : "";
+        var pParts = pStr.split(/\s*[/／]\s*/);
+        if (pOk && pParts.length >= 2 && pStr.indexOf("(") < 0 && pStr.indexOf("（") < 0 && pParts.filter(function (x) { return /(¥|円|￥)/.test(x); }).length >= 2) {
+          vP.innerHTML = pParts.map(function (x) { return '<span class="price-line">' + esc(x) + "</span>"; }).join("");
+        } else {
+          vP.textContent = pStr;
+        }
+        document.getElementById("vMood").innerHTML = evBuckets(e).slice(0, 2).map(function (b) { return '<span class="mood">#' + esc(moodBucketLabel(b)) + "</span>"; }).join("");
         var db = document.getElementById("detailBlurb");
         typeText(db, evBlurb(e));
         var dbody = document.querySelector(".detail-body");
@@ -25703,6 +26553,10 @@ var qrcode = function() {
         syncVisibleH();
         if (typeof detail.showModal === "function") detail.showModal();
         else detail.setAttribute("open", "");
+        /* focus the dialog shell, not the first button: the
+           close button no longer opens wearing the focus ring
+           (Zoe, 2026-11-02); keyboard focus-visible stays. */
+        try { detail.focus({ preventScroll: true }); } catch (err) { try { detail.focus(); } catch (e2) {} }
       }
       /* EPIC reward line in the detail: the spot's limited gear,
          previewed before the clear and marked once it is yours. */
@@ -25753,9 +26607,11 @@ var qrcode = function() {
         var note = document.getElementById("checkinNote");
         var hasVenue = !!VENUES[currentId];
         if (ns) {
-          /* the reason rides the note slot, visible before any tap */
-          note.hidden = false;
-          note.innerHTML = ICONS.globe + "<span>" + esc(t.notStartedNote(daysUntilStart(curEv))) + "</span>";
+          /* not-started: the countdown lives only in the period
+             row and the button just says it has not opened --
+             no third copy of the dates (Zoe dedup ruling). */
+          note.hidden = true;
+          note.innerHTML = "";
         } else {
           /* EPIC: no rule text anywhere -- the reason line that
              used to sit in the manual slot was removed at Zoe's
@@ -26403,7 +27259,7 @@ var qrcode = function() {
          unlocked badge slides in as a toast. ~2.5s (1.5s for a
          daily), tap anywhere on it to skip; reduced motion gets
          the quiet banner only. */
-      var CAT_COLOR = { Art: "#e14b4f", Anime: "#14a38c", Games: "#2f7cd6", Film: "#7558c9", Fashion: "#cf4d7d", Workshop: "#dd7f2a", Tech: "#3a9bc2", Experience: "#58a05c" };
+      var CAT_COLOR = { Art: "#cf4548", Anime: "#108572", Games: "#2d77cd", Film: "#7558c9", Fashion: "#c64978", Workshop: "#ac6320", Tech: "#2f7f9f", Experience: "#48834b", Landmark: "#a16826" };
       var celebTimers = [], celebCountTimer = null, celebHome = null;
       function celebLater(fn, ms) { celebTimers.push(setTimeout(fn, ms)); }
       /* top-layer helpers: the ceremony + narrative bar enter via
@@ -29324,6 +30180,11 @@ var qrcode = function() {
           }, true);
         });
       }
+      var detailBodyEl = document.querySelector(".detail-body");
+      if (detailBodyEl) detailBodyEl.addEventListener("scroll", function () {
+        var atEnd = detailBodyEl.scrollHeight - detailBodyEl.scrollTop - detailBodyEl.clientHeight < 24;
+        detail.classList.toggle("scrolled-end", atEnd);
+      }, { passive: true });
       document.getElementById("ivClose").addEventListener("click", closeViewer);
       document.getElementById("detailPreview").addEventListener("click", function (ev) {
         var fab = ev.target && ev.target.closest ? ev.target.closest("#btnPoster") : null;
@@ -30472,6 +31333,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-11-02", s: "sparkle", t: "[News] Quest details are easier to read", b: "The quest detail screen got a readability overhaul: larger, clearer type, and the title and photo now scroll together with the text. Multi-tier prices show as a tidy list, repeated labels were removed so each fact appears just once, and quest info (hours, prices, venues) is now shown in Chinese when the UI language is Chinese." },
           { d: "2026-11-02", s: "sparkle", t: "[News] EPIC quests are now truly rare", b: "EPIC is now a rare tier kept by just 10 hidden-gem spots: Meguro Parasitological Museum, Game Center Mikado, the Paper Museum, Super Potato Akihabara, the Tobacco and Salt Museum, Tokiwaso Manga Museum, Kisho Shrine, Shirohige's Cream Puff Factory, GAS MUSEUM and the Itabashi Tropical Botanical Garden. Every other evergreen quest is a regular quest now -- the purple EPIC styling is gone, and remote clear (30% EXP, once a day) works on them too. Gear you have already earned stays yours, exactly as before." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Sign in and get 10 gacha tickets!", b: "Log in with a free account (email or Google) and 10 gacha tickets are yours — one gift per account. Your progress also saves to the cloud, so it stays safe even if you change phones." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Mini-games: now 3 every day", b: "The mini-game capsule on the map now opens today's list: three different games rotate in every day, and hitting the goal in each earns a gacha ticket — up to 3 a day. The line-up changes daily, so come and see today's three!" },
@@ -30485,6 +31347,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-11-02", s: "sparkle", t: "【お知らせ】クエスト詳細が見やすくなりました", b: "クエスト詳細画面を読みやすく刷新しました：文字が大きくはっきりし、タイトルと写真も本文と一緒にスクロールします。複数ある料金はリスト表示になり、同じ情報の重複表示もなくなりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史詩クエストが本当にレアになりました", b: "史詩（EPIC）は、特別な穴場10件だけの称号になりました：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。その他の常設クエストは通常のクエストになり、紫の史詩表示が外れ、遠隔クリア（30% EXP・1日1回）も使えるようになりました。すでに手に入れた装備は、これまで通りあなたのものです。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ログインでガチャ券10枚プレゼント！", b: "メールかGoogleの無料アカウントでログインすると、ガチャ券10枚をプレゼント（1アカウント1回まで）。セーブデータもクラウドに保存されるので、機種変更でも安心です。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ミニゲームが1日3種に", b: "地図のミニゲームカプセルから、その日の3ゲームが開けるようになりました。顔ぶれは毎日ローテーションで、各種の目標を達成するとガチャチケットが1枚、1日最大3枚もらえます。今日の3種をチェック！" },
@@ -30498,6 +31361,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-11-02", s: "sparkle", t: "[News] 任务详情更好读了", b: "任务详情页完成易读性改造：字体更大更清晰，标题和照片会随正文一起滚动；多档票价改为列表显示，重复信息只保留一处。中文界面下，时间、票价、地点也都显示中文了。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 史诗任务现在真正稀有了", b: "史诗（EPIC）现在只属于 10 个特别的冷门好去处：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。其他常驻任务都变回普通任务：紫色史诗外观取消，也可以用远程完成（30% 经验、每天 1 次）了。已经获得的装备仍然归你，一件不少。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】登录账号就送10张扭蛋券！", b: "用邮箱或 Google 免费登录，10张扭蛋券直接到账（每个账号限领一次）。存档也会同步到云端，换手机也不怕丢。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】小游戏改为每天3种", b: "点地图上的小游戏胶囊，就能打开今天的游戏列表：每天轮换3个游戏，每个达标可得1张扭蛋券，每天最多3张。阵容每天都换，来看看今天的三个！" },
