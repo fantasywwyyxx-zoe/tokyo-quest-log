@@ -12443,12 +12443,12 @@
          grows to 200px, touching the band above it. The
          venue caption and the share button keep overlaying
          it; photo-less quests keep their framed banner. */
-      dialog#detail .detail-preview { flex: none; height: auto; aspect-ratio: 2 / 1; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; padding: 0; border: none; border-radius: 0; box-shadow: none; background: none; }
+      dialog#detail .detail-preview { flex: none; height: auto; aspect-ratio: 3 / 1; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; padding: 0; border: none; border-radius: 0; box-shadow: none; background: none; }
       dialog#detail .detail-preview img.qp-main { border-radius: 0; }
       /* v14: the photo-less banner takes the same merged,
          frameless treatment as the photo (QA R105 S3 --
          the old framed box clashed with the new style). */
-      dialog#detail .detail-banner { flex: none; height: auto; aspect-ratio: 2 / 1; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; border: none; border-radius: 0; box-shadow: none; }
+      dialog#detail .detail-banner { flex: none; height: auto; aspect-ratio: 3 / 1; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; border: none; border-radius: 0; box-shadow: none; }
       /* v15: an older rule (dialog:not(.has-photo), higher
          specificity) kept the banner at 76px -- QA R106's
          measurement was right. Same specificity, later
@@ -12542,6 +12542,23 @@
       dialog#detail .detail-banner { position: sticky; top: -6px; z-index: 0; }
       dialog#detail .detail-sheet { order: 2; position: relative; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 8px; margin-left: -12px; margin-right: -12px; padding-left: 12px; padding-right: 12px; }
       dialog#detail .detail-sheet > * { margin-top: 0; margin-bottom: 0; }
+      /* Q-253 v19 -- merged info card + 3:1 title photo
+         (Zoe, 2026-11-02, approved plan): order inside the
+         sheet is now tag row -> blurb -> ONE info card whose
+         first row is the period, then hours / venue / price,
+         rows split by hairlines; the card's frame is lighter
+         than the blurb's so the blurb stays the focal point.
+         The header photo is 3:1 with an upward-biased crop. */
+      dialog#detail .detail-badges { order: 1; }
+      dialog#detail .monthly-note { order: 1; }
+      dialog#detail .blurb-box { order: 2; }
+      dialog#detail .kv { order: 3; border: 2px solid color-mix(in srgb, var(--line-c) 55%, transparent); box-shadow: none; }
+      dialog#detail .kv .detail-period { margin: 0; padding: 0 0 8px; background: none; border: none; box-shadow: none; border-radius: 0; }
+      dialog#detail .kv .detail-period .dp-when { font-size: 0.875rem; margin-left: auto; }
+      dialog#detail .kv .kv-time-head { border-top: 1.5px solid color-mix(in srgb, var(--line-c) 30%, transparent); padding-top: 8px; }
+      dialog#detail .kv .kv-cols { border-top: 1.5px solid color-mix(in srgb, var(--line-c) 30%, transparent); padding-top: 8px; }
+      dialog#detail .kv .kv-col + .kv-col { border-top: 1.5px solid color-mix(in srgb, var(--line-c) 30%, transparent); padding-top: 8px; margin-top: 8px; }
+      dialog#detail .detail-preview img { object-position: 50% 30%; }
     </style>
     <style>
       /* Q-206: the capsule's own display:flex would override the
@@ -14049,9 +14066,9 @@
           <div class="detail-banner" id="detailBanner" aria-hidden="true" hidden></div>
           <div class="detail-sheet">
           <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
-          <div class="detail-period detail-period-row"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
+          <div class="detail-period detail-period-row"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
             <div class="kv-time-head"><dt id="kHours"></dt></div>
             <dd id="vHours"></dd>
             <div class="kv-cols"><div class="kv-col"><dt id="kWhere"></dt><dd id="vWhere"></dd></div><div class="kv-col"><dt id="kPrice"></dt><dd id="vPrice"></dd></div></div>
@@ -16452,7 +16469,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1213-q253v18-78e33d92";
+        var BUILD_ID = "tql-20261102-1356-q253v19-e30602eb";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17115,7 +17132,7 @@ var qrcode = function() {
           kCat: "CATEGORY", kWhen: "WHEN", kHours: "HOURS", kWhere: "WHERE", kPrice: "PRICE", kMood: "MOOD",
           monthlyLabel: "Monthly workshop",
           monthlyNote: "This quest runs every month. The next session's date is announced on the official page — check there before you set out.",
-          official: "OFFICIAL PAGE", mapsBtn: "Open in Maps \u00b7 Navigate here", mapPickTitle: "Open with which map?", mapPickCancel: "Cancel", mapProvApple: "Apple Maps", mapProvGoogle: "Google Maps", mapProvYahoo: "Yahoo! Maps",
+          official: "OFFICIAL PAGE", mapsBtn: "Open in Maps", mapPickTitle: "Open with which map?", mapPickCancel: "Cancel", mapProvApple: "Apple Maps", mapProvGoogle: "Google Maps", mapProvYahoo: "Yahoo! Maps",
           accept: "ACCEPT QUEST", accepted: "ON QUEST ✓", undoAccept: "Remove from my quest log",
           clear: "CLEAR!", clearedBtn: "CLEARED ✓",
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
@@ -17988,7 +18005,7 @@ var qrcode = function() {
           kCat: "分類", kWhen: "日時", kHours: "時間", kWhere: "場所", kPrice: "料金", kMood: "気分",
           monthlyLabel: "毎月開催のワークショップ",
           monthlyNote: "このクエストは毎月開催です。次回の日程は公式ページで発表されるので、出発前に確認してください。",
-          official: "公式ページ", mapsBtn: "地図で開く・ここへ行く", mapPickTitle: "どのマップで開く？", mapPickCancel: "キャンセル", mapProvApple: "Appleマップ", mapProvGoogle: "Googleマップ", mapProvYahoo: "Yahoo!マップ",
+          official: "公式ページ", mapsBtn: "地図で開く", mapPickTitle: "どのマップで開く？", mapPickCancel: "キャンセル", mapProvApple: "Appleマップ", mapProvGoogle: "Googleマップ", mapProvYahoo: "Yahoo!マップ",
           accept: "クエストを受ける", accepted: "受注中 ✓", undoAccept: "クエストログから外す",
           clear: "クリア！", clearedBtn: "クリア済み ✓",
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
@@ -18861,7 +18878,7 @@ var qrcode = function() {
           kCat: "分类", kWhen: "日期", kHours: "时间", kWhere: "地点", kPrice: "费用", kMood: "氛围",
           monthlyLabel: "每月举办的工作坊",
           monthlyNote: "这个任务每月举办。下次的日期会在官方页面公布，出发前请确认。",
-          official: "官方页面", mapsBtn: "在地图中打开 · 导航到这里", mapPickTitle: "用哪个地图打开？", mapPickCancel: "取消", mapProvApple: "苹果地图", mapProvGoogle: "谷歌地图", mapProvYahoo: "雅虎地图",
+          official: "官方页面", mapsBtn: "在地图中打开", mapPickTitle: "用哪个地图打开？", mapPickCancel: "取消", mapProvApple: "苹果地图", mapProvGoogle: "谷歌地图", mapProvYahoo: "雅虎地图",
           accept: "接受任务", accepted: "进行中 ✓", undoAccept: "从任务日志中移除",
           clear: "完成！", clearedBtn: "已完成 ✓",
           clearedOn: "完成日期：", undoClear: "撤销完成",
