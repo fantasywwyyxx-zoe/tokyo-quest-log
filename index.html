@@ -7100,11 +7100,13 @@
       .scene-props { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
       .scene-props .sp { position: absolute; display: block; }
       .scene-props svg { display: block; width: 100%; height: 100%; }
-      .sp-sakura { left: 1%; bottom: var(--ground-b, 30px); width: 62px; height: 56px; }
-      .sp-vending { right: 12%; bottom: var(--ground-b, 30px); width: 27px; height: 42px; }
-      .sp-hachiko { left: 15%; bottom: var(--ground-b, 30px); width: 42px; height: 37px; }
-      .sp-torii { right: 2%; bottom: var(--ground-b, 30px); width: 50px; height: 44px; }
-      .sp-tower { left: 50%; bottom: var(--ground-b, 30px); width: 44px; height: 118px; transform: translateX(-50%); }
+      /* grounded landmarks ride the runner carriers, which set their
+         position inline every frame — these rules carry size only */
+      .sp-sakura { width: 62px; height: 56px; }
+      .sp-vending { width: 27px; height: 42px; }
+      .sp-hachiko { width: 42px; height: 37px; }
+      .sp-torii { width: 50px; height: 44px; }
+      .sp-tower { width: 44px; height: 118px; }
       /* contact shadows: every grounded prop stands ON the street —
          one flat ellipse at its base, centred on the ground line,
          the same treatment the walker's shadow gets */
@@ -7122,13 +7124,13 @@
         background: rgba(18, 30, 16, 0.30); pointer-events: none;
       }
       .scene-props .sp svg { position: relative; z-index: 1; }
-      .sp-rainbow { left: 50%; bottom: 66px; width: 96%; height: 30px; transform: translateX(-50%); }
+      .sp-rainbow { left: 50%; top: 5%; bottom: auto; width: 62%; height: 48px; transform: translateX(-50%); }
       .sp-crossing { left: 0; right: 0; bottom: 4px; width: 100%; height: 18px; }
       .sp-fireworks { top: 12%; right: 5%; width: 92px; height: 56px; }
       .sp-fireworks svg { animation: fw-pulse 1.6s steps(2) infinite; }
       @keyframes fw-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
-      .sp-monument { right: 27%; bottom: var(--ground-b, 30px); width: 34px; height: 46px; }
-      .sp-train { left: 0; right: 0; bottom: 92px; width: 100%; height: 34px; }
+      .sp-monument { width: 34px; height: 46px; }
+      .sp-train { left: 44%; right: 0; bottom: 128px; height: 20px; }
       /* --- art-dept batches 2+3 (2026-10-28): the grounded set
          rides the runner carriers, so these rules only fix each
          prop's natural size (the carrier sets position/scale);
@@ -7153,7 +7155,7 @@
             .sp-lanterns { left: 5%; top: 11%; width: 128px; height: 49px; }
       .sp-ferris-wheel { right: 0; bottom: var(--ground-b, 30px); width: 108px; height: 108px; }
       .sp-skytree { left: 0; bottom: var(--ground-b, 30px); width: 40px; height: 124px; }
-      .sp-bridge { left: 50%; bottom: 36px; width: 94%; height: 34px; transform: translateX(-50%); }
+      .sp-bridge { left: 52px; bottom: 130px; width: 40%; height: 20px; }
       /* ambient creatures: butterflies drift in stepped hops by
          the sakura, the rest hold a still post on the street */
       .sp-butterflies { left: 17%; top: 33%; width: 30px; height: 21px; }
@@ -7168,13 +7170,13 @@
       .sp-pigeons { left: 28%; bottom: var(--ground-b, 30px); width: 50px; height: 25px; }
       .sp-sparrows { right: 7%; top: 10.5%; width: 64px; height: 20px; }
       .sp-train .train-car {
-        position: absolute; bottom: 9px; left: 0; width: 118px; height: 21px;
-        animation: train-pass 17s steps(120) infinite;
+        position: absolute; bottom: 3px; left: -92px; width: 84px; height: 15px;
+        animation: train-pass 15s steps(110) infinite;
       }
       @keyframes train-pass {
-        0% { transform: translateX(-140px); }
-        26% { transform: translateX(470px); }
-        100% { transform: translateX(470px); }
+        0% { left: -92px; }
+        30% { left: 100%; }
+        100% { left: 100%; }
       }
       /* silhouettes: slate by day, near-black against the night sky */
       .sp-sil { color: #31456e; }
@@ -16489,7 +16491,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1435-q260-cfd20f9e";
+        var BUILD_ID = "tql-20261102-1440-q261-e83a958b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
