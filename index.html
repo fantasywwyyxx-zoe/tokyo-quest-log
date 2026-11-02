@@ -16570,7 +16570,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2130-q297-afb40942";
+        var BUILD_ID = "tql-20261102-2133-q298-579eb3f4";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -31533,8 +31533,35 @@ function drawZoneStamp(cv, zoneId, mode) {
             localStorage.removeItem("tql_recovery_note");
             setTimeout(function () { narrate(L().recoveryNote); }, 600);
           }
+          var be = localStorage.getItem("tql_boot_error");
+          if (be) {
+            localStorage.removeItem("tql_boot_error");
+            try {
+              var bem = (JSON.parse(be) || {}).msg || "";
+              if (bem) setTimeout(function () {
+                var sf = document.getElementById("startFoot");
+                if (sf) sf.textContent = "\u26a0 prev boot error: " + bem.slice(0, 110);
+              }, 900);
+            } catch (e5) { /* display is best-effort */ }
+          }
         } catch (e) { /* note is best-effort */ }
       } catch (bootErr) {
+        /* Q-298: the fail-soft must not swallow the only evidence.
+           Paint the error into the title's start pill (the surface
+           every device report photographs) and record it in
+           localStorage, so the exact exception survives the
+           quarantine reload and can be read off a screenshot. */
+        try {
+          var em = String((bootErr && bootErr.message) || bootErr || "unknown");
+          try {
+            localStorage.setItem("tql_boot_error", JSON.stringify({
+              t: Date.now(), msg: em,
+              stack: String((bootErr && bootErr.stack) || "").slice(0, 400)
+            }));
+          } catch (e3) { /* record is best-effort */ }
+          var sb = document.getElementById("startBtn");
+          if (sb) sb.textContent = "\u26a0 " + em.slice(0, 80);
+        } catch (e4) { /* diagnostics are best-effort */ }
         /* Q-293 fail-soft: a malformed save detonating anywhere in
            the boot sequence must not leave a dead title screen.
            Back the raw save up under a side key (nothing is lost),
