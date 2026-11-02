@@ -12578,7 +12578,14 @@
          route pins are untouched. */
       .pin.is-ever .pin-body { border-color: #2d77cd; }
       .pin.is-timed .pin-body { border-color: #e5484d; }
-      .map-legend { position: absolute; top: 10px; left: 10px; z-index: 6; display: flex; gap: 9px; align-items: center; background: color-mix(in srgb, var(--window) 92%, transparent); border: 2px solid var(--line-c); border-radius: 999px; padding: 4px 11px; pointer-events: none; font-size: 11px; font-weight: 800; color: var(--ink); box-shadow: 0 2px 0 rgba(16, 23, 63, 0.25); }
+      /* Q-275 (Zoe device screenshot via QA, 2026-11-02): the legend pill
+         sat at z-index 6 while #pinLayer stacks at 25, so pins near the
+         top-left painted OVER the pill and hid the timed swatch + label.
+         The pill is display-only (pointer-events: none); it now rides
+         the operation-overlay layer (30, same as .map-chips/.osm-attrib),
+         above every pin incl. the selected pin (z 40 inside the layer
+         context, capped by the layer itself). */
+      .map-legend { position: absolute; top: 10px; left: 10px; z-index: 30; display: flex; gap: 9px; align-items: center; background: color-mix(in srgb, var(--window) 92%, transparent); border: 2px solid var(--line-c); border-radius: 999px; padding: 4px 11px; pointer-events: none; font-size: 11px; font-weight: 800; color: var(--ink); box-shadow: 0 2px 0 rgba(16, 23, 63, 0.25); }
       .map-legend .ml-item { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
       .map-legend .ml-sw { width: 12px; height: 12px; border-radius: 4px; border: 3px solid #2d77cd; background: var(--window-hi); box-sizing: border-box; flex: none; }
       .map-legend .ml-sw.timed { border-color: #e5484d; }
@@ -16504,7 +16511,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1616-q274-7976494f";
+        var BUILD_ID = "tql-20261102-1807-q275-b76a5136";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
