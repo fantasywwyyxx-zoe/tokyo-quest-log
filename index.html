@@ -12521,6 +12521,27 @@
       dialog#detail .detail-actions .btn-maps { grid-column: auto; background: #2f9be8; font-size: 0.9375rem; min-height: 48px; box-shadow: 0 3px 0 var(--edge); }
       dialog#detail .detail-actions .btn-official { grid-column: auto; background: var(--window); color: var(--ink); font-size: 0.9375rem; min-height: 48px; box-shadow: inset 0 0 0 2px var(--window-deep), 0 3px 0 var(--edge); }
       dialog#detail .detail-actions .btn-back { font-size: 0.9375rem; min-height: 40px; }
+      /* Q-253 v18 -- Zoe device verdicts on v17 (2026-11-02):
+         (1) type one notch smaller across the top of the ladder
+         (title 1.1875 / values+blurb 0.9375 / buttons+period
+         0.875; labels 0.8125 and aux 0.75 unchanged).
+         (2) Cover scroll: the photo sticks at the top of the
+         scroll area while the content sheet below (opaque,
+         full-bleed like the photo) slides up and covers it;
+         the title band scrolls away first as before. */
+      dialog#detail .detail-head h2 { font-size: 1.1875rem; }
+      dialog#detail .blurb-box { font-size: 0.9375rem; }
+      dialog#detail .kv dd { font-size: 0.9375rem; }
+      dialog#detail .detail-period-row { font-size: 0.875rem; }
+      dialog#detail .detail-period-row .dp-when { font-size: 0.875rem; }
+      dialog#detail .btn-quest { font-size: 0.875rem; }
+      dialog#detail .detail-actions .btn-maps { font-size: 0.875rem; }
+      dialog#detail .detail-actions .btn-official { font-size: 0.875rem; }
+      dialog#detail .detail-actions .btn-back { font-size: 0.875rem; }
+      dialog#detail .detail-preview { position: sticky; top: -6px; z-index: 0; }
+      dialog#detail .detail-banner { position: sticky; top: -6px; z-index: 0; }
+      dialog#detail .detail-sheet { order: 2; position: relative; z-index: 1; background: var(--bg); display: flex; flex-direction: column; gap: 8px; margin-left: -12px; margin-right: -12px; padding-left: 12px; padding-right: 12px; }
+      dialog#detail .detail-sheet > * { margin-top: 0; margin-bottom: 0; }
     </style>
     <style>
       /* Q-206: the capsule's own display:flex would override the
@@ -14026,6 +14047,7 @@
           </div>
           <div class="qpreview detail-preview" id="detailPreview" role="button" tabindex="0" aria-label="Event photo — tap to view full screen"></div>
           <div class="detail-banner" id="detailBanner" aria-hidden="true" hidden></div>
+          <div class="detail-sheet">
           <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
           <div class="detail-period detail-period-row"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
@@ -14042,6 +14064,7 @@
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
           <p class="checkin-note" id="checkinNote"></p>
           <button class="undo-link" id="btnUndo" type="button" hidden></button>
+          </div>
         </div>
         <div class="detail-fade" aria-hidden="true"></div>
         <div class="detail-actions">
@@ -16429,7 +16452,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1209-q253v17b-3e7aa891";
+        var BUILD_ID = "tql-20261102-1213-q253v18-78e33d92";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26436,7 +26459,7 @@ var qrcode = function() {
       function fitDetailTitle() {
         var h = document.getElementById("detailName");
         if (!h) return;
-        var sizes = ["1.25rem", "1.125rem", "1rem"];
+        var sizes = ["1.1875rem", "1.0625rem", "0.9375rem"];
         for (var i = 0; i < sizes.length; i++) {
           h.style.fontSize = sizes[i];
           h.style.webkitLineClamp = "none";
