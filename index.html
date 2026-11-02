@@ -12388,23 +12388,36 @@
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
       #detailChips { margin: 0; } /* Q-250: chips live in the info card (.kv first row) */
-      /* Q-253 (Zoe-approved restructure, her principle: save
-         space, ideally one screen): the .kv 2-column grid is
-         abolished -- the card is a single-column stack of
-         label-over-value blocks (hours / where / price only),
-         and every tag (category + EPIC/free/soon chips, the
-         period as a pill, mood tags) lives in one flex-wrap
-         badge band directly under the photo. The photo is
-         height-capped so an EPIC detail can approach one
-         screen. Render paths (ids) unchanged. */
-      dialog#detail .detail-badges { order: 2; flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
-      dialog#detail .detail-badges .detail-period { order: 0; display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px; background: var(--window); border: 2px solid var(--line-c); box-shadow: none; font-size: 11.5px; }
-      dialog#detail .detail-badges .detail-period .dp-ico svg { width: 14px; height: 14px; }
+      /* Q-253 v7 (Zoe-approved consolidation of the detail
+         restructure): tags stay together in the band under
+         the photo but smaller and slimmer, and the band's
+         flex children may shrink so pills wrap at phone
+         width instead of clipping; the period leaves the
+         band and joins the TIME group in the card (period
+         line, then hours); where / price become two
+         half-width columns (label over value, wrapping
+         inside their own column); body text keeps its
+         normal size; the epic reward folds behind a toggle
+         bar, collapsed by default. Render ids unchanged. */
+      dialog#detail .detail-badges { order: 2; flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: 100%; }
+      dialog#detail .detail-badges > * { min-width: 0; max-width: 100%; }
+      dialog#detail .detail-badges #detailChips .chip { height: 22px; padding: 0 8px; font-size: 11px; }
+      dialog#detail .detail-badges .mood { font-size: 11px; padding: 1px 7px; }
       dialog#detail .kv { display: block; padding: 8px 11px; }
       dialog#detail .kv dt { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 7px 0 2px; text-align: left; color: var(--gold-deep); font-size: 10.5px; letter-spacing: 0.07em; align-self: auto; }
       dialog#detail .kv dt:first-of-type { margin-top: 0; }
       dialog#detail .kv dd { font-size: 13.5px; line-height: 1.4; }
+      dialog#detail .kv .detail-period { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0 0 2px; order: 0; font-size: 13.5px; }
+      dialog#detail .kv .kv-cols { display: flex; gap: 10px; margin-top: 7px; }
+      dialog#detail .kv .kv-col { flex: 1 1 0; min-width: 0; }
+      dialog#detail .kv .kv-col dt { margin-top: 0; }
+      dialog#detail .kv .kv-col dd { overflow-wrap: break-word; }
       dialog#detail .detail-preview { flex: none; height: 144px; min-height: 0; }
+      dialog#detail .epic-reward { flex-direction: column; align-items: stretch; gap: 2px; }
+      dialog#detail .er-toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; background: none; border: none; padding: 2px 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; }
+      dialog#detail .er-toggle .er-caret { font-size: 11px; color: var(--epic); flex: none; }
+      dialog#detail .er-body { display: flex; align-items: center; gap: 8px; padding-top: 2px; }
+      dialog#detail .er-body[hidden] { display: none; }
       #detailName { margin-top: 0; margin-bottom: 0; }
       #detailNo { margin-top: 5px; }
     </style>
@@ -13912,12 +13925,12 @@
         <div class="detail-body">
           <div class="qpreview detail-preview" id="detailPreview" role="button" tabindex="0" aria-label="Event photo — tap to view full screen"></div>
           <div class="detail-banner" id="detailBanner" aria-hidden="true" hidden></div>
-          <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="detail-period period-pill"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></span><span class="mood-row" id="vMood" style="margin:0"></span></div>
+          <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
-            <dt id="kHours"></dt><dd id="vHours"></dd>
-            <dt id="kWhere"></dt><dd id="vWhere"></dd>
-            <dt id="kPrice"></dt><dd id="vPrice"></dd>
+            <dt id="kHours"></dt><dd class="detail-period"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></dd>
+            <dd id="vHours"></dd>
+            <div class="kv-cols"><div class="kv-col"><dt id="kWhere"></dt><dd id="vWhere"></dd></div><div class="kv-col"><dt id="kPrice"></dt><dd id="vPrice"></dd></div></div>
           </dl>
           <div class="blurb-box" id="detailBlurb"></div>
           <p class="lang-note" id="detailLang"></p>
@@ -16313,7 +16326,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-0912-q253-2fd17c11";
+        var BUILD_ID = "tql-20261102-0921-q253v7-38cab010";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25626,9 +25639,17 @@ var qrcode = function() {
         var name = it ? ((t.gachaItems[it.id] || {}).name || it.id) : "";
         var got = !!it && ownsItem(it.id);
         box.hidden = false;
-        box.innerHTML = (it ? '<canvas width="16" height="16" data-epic-canvas aria-hidden="true"></canvas>' : "") +
-          '<span><span class="er-k">' + esc(t.epicBadge) + " · " + esc(t.epicRewardK) + "</span>" +
-          esc(got ? t.epicRewardGot(name) : t.epicReward(name)) + "</span>";
+        box.innerHTML = '<button class="er-toggle" type="button" aria-expanded="false"><span class="er-k">' + esc(t.epicBadge) + " · " + esc(t.epicRewardK) + '</span><span class="er-caret" aria-hidden="true">\u25be</span></button>' +
+          '<div class="er-body" hidden>' + (it ? '<canvas width="16" height="16" data-epic-canvas aria-hidden="true"></canvas>' : "") +
+          "<span>" + esc(got ? t.epicRewardGot(name) : t.epicReward(name)) + "</span></div>";
+        var tg = box.querySelector(".er-toggle");
+        tg.addEventListener("click", function () {
+          var b = box.querySelector(".er-body");
+          var open = b.hidden;
+          b.hidden = !open;
+          tg.setAttribute("aria-expanded", String(open));
+          tg.querySelector(".er-caret").textContent = open ? "\u25b4" : "\u25be";
+        });
         var cv = box.querySelector("[data-epic-canvas]");
         if (cv && it) drawItemPreview(cv, it);
       }
