@@ -16339,7 +16339,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-0930-q253v9-5dd1e986";
+        var BUILD_ID = "tql-20261102-1029-q254-3f35182e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -22695,6 +22695,32 @@ var qrcode = function() {
         { id: "ep9-shibuya-fureai", kind: "scarf", rarity: "SR", scarf: "#8fd0c2", neck: "feather", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg9-shibuya-fureai" } },
         { id: "ep9-meguro-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#232323", c2: "#c0c6ce", epic: true, reward: { type: "epic", quest: "eg9-meguro-art" } }
       ];
+      /* Q-254 (Zoe, 2026-11-02): EPIC is no longer a synonym
+         for evergreen. Only these approved hidden-gem spots
+         keep the tier (GPS-only clear, limited gear, purple
+         styling); every other evergreen is a regular quest.
+         Item rows and reward links are NOT touched -- the
+         set only gates the epic treatment, so earned gear
+         is never affected. */
+      var EPIC_SET = { "eg6-kiseichu": 1, "eg6-mikado": 1, "eg5-paper": 1, "eg4-super-potato": 1, "eg5-tabashio": 1, "eg6-tokiwaso": 1, "eg3-kisho-jinja": 1, "eg5-shirohige": 1, "eg6-gasmuseum": 1, "eg9-itabashi-nettaikan": 1 };
+      function isEpicQuest(e) { return !!(e && e.evergreen && EPIC_SET[e.id]); }
+      /* One-time grandfather for badges 25-27 (Epic Hunter /
+         Slayer / Completionist), which used to count evergreen
+         clears: a save that already earned one under the old
+         rule keeps it stamped in state.badgeKeep, so the new
+         EPIC_SET counting never un-earns it. 239 = the
+         evergreen total on migration day. */
+      function epicBadgeKeepStamp() {
+        if (state.epicMig) return;
+        state.epicMig = 1;
+        var legacy = 0;
+        (state.clears || []).forEach(function (c) { var x = byId(c.id); if (x && x.evergreen) legacy++; });
+        var keep = [];
+        if (legacy >= 5) keep.push(25);
+        if (legacy >= 10) keep.push(26);
+        if (legacy >= 239) keep.push(27);
+        state.badgeKeep = keep;
+      }
       function epicItemFor(questId) {
         for (var i = 0; i < REWARD_ITEMS.length; i++) {
           var it = REWARD_ITEMS[i];
@@ -24201,7 +24227,7 @@ var qrcode = function() {
       }
       function stateBadges(e) {
         var s = "";
-        if (e.evergreen) s += '<span class="epic-badge">' + L().epicBadge + "</span>";
+        if (isEpicQuest(e)) s += '<span class="epic-badge">' + L().epicBadge + "</span>";
         if (e.free) s += '<span class="free-badge">' + L().free + "</span>";
         if (!e.recurring && e.start && e.start <= TODAY && daysBetween(TODAY, e.end) <= 7)
           s += '<span class="soon-badge">' + L().endingSoon + "</span>";
@@ -24516,7 +24542,7 @@ var qrcode = function() {
       var mapFiltersFolded = true;
       function mapFilterMatchAs(e, f) {
         if (f === "event") return !e.evergreen;
-        if (f === "epic") return !!e.evergreen;
+        if (f === "epic") return isEpicQuest(e);
         /* LEGEND is not an event tier — the routes themselves are
            the quests (renderMap draws one star pin per route and
            the count is the route count, both data-linked) */
@@ -24696,7 +24722,7 @@ var qrcode = function() {
         VISIBLE.filter(mapFilterMatch).forEach(function (e) {
           var b = document.createElement("button");
           b.type = "button";
-          b.className = "pin" + (isCleared(e.id) ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "");
+          b.className = "pin" + (isCleared(e.id) ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "");
           /* clamp inside the plane so a pin is never half-clipped by
              the frame edge, whatever the projection gives */
           b.dataset.px = Math.max(2.5, Math.min(97.5, e.x));
@@ -24974,9 +25000,9 @@ var qrcode = function() {
           var d = questDistM(e);
           if (d != null) distTxt = " · " + esc(L().distAway(fmtDist(d)));
         }
-        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
+        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
-          '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
+          '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (isEpicQuest(e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
           '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
@@ -25589,7 +25615,7 @@ var qrcode = function() {
         document.getElementById("detailName").textContent = evName(e);
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
         detail.classList.toggle("has-photo", !!e.img);
-        detail.classList.toggle("is-epic", !!e.evergreen);
+        detail.classList.toggle("is-epic", isEpicQuest(e));
         renderEpicReward(e);
         detail.style.setProperty("--cat", CAT_COLORS[e.category] || "#57b6e8");
         /* the period is a plain text line — no HP-style gauge */
@@ -25647,7 +25673,7 @@ var qrcode = function() {
       function renderEpicReward(e) {
         var box = document.getElementById("epicReward");
         if (!box) return;
-        if (!e.evergreen) { box.hidden = true; box.innerHTML = ""; return; }
+        if (!isEpicQuest(e)) { box.hidden = true; box.innerHTML = ""; return; }
         var it = epicItemFor(e.id), t = L();
         var name = it ? ((t.gachaItems[it.id] || {}).name || it.id) : "";
         var got = !!it && ownsItem(it.id);
@@ -25700,13 +25726,13 @@ var qrcode = function() {
              word (Q-232, 2026-10-31), the globe note stays hidden
              for evergreens, and the distance box explains on a
              check-in attempt. */
-          note.hidden = clr || !acc || !hasVenue || !!(curEv && curEv.evergreen);
+          note.hidden = clr || !acc || !hasVenue || !!(curEv && isEpicQuest(curEv));
           if (!note.hidden) note.innerHTML = ICONS.globe + "<span>" + esc(t.checkinNote) + "</span>";
         }
         var man = document.getElementById("btnManualClear");
         /* EPIC: no manual route and no reason line either
            (Q-232) — the slot simply stays hidden. */
-        if (clr || !acc || ns || (curEv && curEv.evergreen)) man.hidden = true;
+        if (clr || !acc || ns || (curEv && isEpicQuest(curEv))) man.hidden = true;
         else if (man.disabled) { man.disabled = false; }
         var line = document.getElementById("detailClearedLine");
         var rec = clearRec(currentId);
@@ -26255,7 +26281,7 @@ var qrcode = function() {
         var e = byId(id); if (!e || isCleared(id)) return;
         if (isNotStarted(e)) return;   /* date gate: no clear of any kind before the start date */
         method = method === "remote" ? "remote" : "gps";
-        if (e.evergreen && method !== "gps") return;   /* EPIC: on-site only, always */
+        if (isEpicQuest(e) && method !== "gps") return;   /* EPIC: on-site only, always */
         /* balance hardening (round 1, 2026-10-28): the daily
            remote cap lives HERE, in the single clear gateway,
            not only in the button handler — no caller, present
@@ -26288,10 +26314,10 @@ var qrcode = function() {
           if (z.complete && state.zoneBonus.indexOf(z.id) === -1) { state.zoneBonus.push(z.id); state.ticketBonus = (state.ticketBonus || 0) + 2; zoneBonusNames.push(zoneName(z.id)); }
         });
         var epicAllBonus = false;
-        var epicTot = EVENTS.filter(function (x) { return x.evergreen; }).length;
-        var epicDone = state.clears.filter(function (c) { var x = byId(c.id); return x && x.evergreen; }).length + 1;
+        var epicTot = Object.keys(EPIC_SET).length;
+        var epicDone = state.clears.filter(function (c) { var x = byId(c.id); return x && isEpicQuest(x); }).length + 1;
         if (epicDone >= epicTot && state.zoneBonus.indexOf("epic-all") === -1) { state.zoneBonus.push("epic-all"); state.ticketBonus = (state.ticketBonus || 0) + 5; epicAllBonus = true; }
-        var epicIt = e.evergreen ? epicItemFor(id) : null;
+        var epicIt = isEpicQuest(e) ? epicItemFor(id) : null;
         save();
         sfx("fanfare");
         var newInfo = levelInfo();
@@ -26733,7 +26759,7 @@ var qrcode = function() {
         var e0 = byId(currentId);
         var btn = document.getElementById("btnQuest");
         var man = document.getElementById("btnManualClear");
-        if (!(e0 && e0.evergreen)) man.hidden = true;
+        if (!(e0 && isEpicQuest(e0))) man.hidden = true;
         doCheckinFor(currentId, btn, function (kind, text) {
           checkinMsg(kind, text);
           /* the manual-clear rescue is only a small sub-link inside
@@ -26742,7 +26768,7 @@ var qrcode = function() {
              at all (GPS-only, and no reason line: Q-232) */
           if (kind === "err" && currentId && isAccepted(currentId) && !isCleared(currentId)) {
             var ev2 = byId(currentId);
-            if (ev2 && ev2.evergreen) {
+            if (ev2 && isEpicQuest(ev2)) {
               man.hidden = true;
             } else if (state.remoteDate === TODAY) {
               man.hidden = false;
@@ -27383,20 +27409,23 @@ var qrcode = function() {
         return '<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">' + out + "</svg>";
       }
       function badgeProgress() {
+        epicBadgeKeepStamp();
         var cleared = state.clears.filter(function (c) { return byId(c.id); });
         var freeCleared = cleared.filter(function (c) { var e = byId(c.id); return e && e.free; }).length;
         var zones = {}, catN = {}, epicN = 0;
-        cleared.forEach(function (c) { var e = byId(c.id); if (!e) return; zones[zoneOf(e)] = true; catN[e.category] = (catN[e.category] || 0) + 1; if (e.evergreen) epicN++; });
+        cleared.forEach(function (c) { var e = byId(c.id); if (!e) return; zones[zoneOf(e)] = true; catN[e.category] = (catN[e.category] || 0) + 1; if (isEpicQuest(e)) epicN++; });
         var nZones = Object.keys(zones).length;
         var maxCat = 0; Object.keys(catN).forEach(function (k) { if (catN[k] > maxCat) maxCat = catN[k]; });
-        var epicTotal = EVENTS.filter(function (e) { return e.evergreen; }).length;
+        var epicTotal = Object.keys(EPIC_SET).length;
         var active = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
         var lv = levelInfo().lv, dt = state.dailyTotal || 0, n = cleared.length;
         var sweeps = Object.keys(state.dayLog || {}).length;
         var streak = 0; try { streak = computeStreak().n; } catch (e) {}
         var ownedN = ALL_ITEMS.filter(function (it) { return it.kind !== "hero" && ownsItem(it.id); }).length;
         var zc = zoneCompleteCount();
-        return [[n,1],[n,5],[n,10],[n,20],[n,35],[freeCleared,2],[freeCleared,4],[freeCleared,8],[nZones,3],[nZones,5],[nZones,8],[nZones,11],[lv,3],[lv,5],[lv,10],[lv,20],[lv,30],[active,3],[dt,3],[dt,10],[dt,30],[sweeps,1],[sweeps,5],[streak,7],[streak,30],[epicN,5],[epicN,10],[epicN,Math.max(1,epicTotal)],[catN.Art||0,10],[maxCat,15],[state.puzzle.length,16],[ownedN,10],[ownedN,30],[state.sharedEver?1:0,1],[zc,1],[zc,3]];
+        var pairs = [[n,1],[n,5],[n,10],[n,20],[n,35],[freeCleared,2],[freeCleared,4],[freeCleared,8],[nZones,3],[nZones,5],[nZones,8],[nZones,11],[lv,3],[lv,5],[lv,10],[lv,20],[lv,30],[active,3],[dt,3],[dt,10],[dt,30],[sweeps,1],[sweeps,5],[streak,7],[streak,30],[epicN,5],[epicN,10],[epicN,Math.max(1,epicTotal)],[catN.Art||0,10],[maxCat,15],[state.puzzle.length,16],[ownedN,10],[ownedN,30],[state.sharedEver?1:0,1],[zc,1],[zc,3]];
+        (state.badgeKeep || []).forEach(function (ix) { if (pairs[ix]) pairs[ix] = [pairs[ix][1], pairs[ix][1]]; });
+        return pairs;
       }
       function zoneCompleteList() {
         return ZONES.map(function (z) {
@@ -27553,7 +27582,7 @@ var qrcode = function() {
           var method = o.c.method === "remote" ? t.advRemote : o.c.method === "gps" ? t.advOnsite : "";
           var venue = o.e.venue ? evVenue(o.e).split(",")[0] : areaName(o.e.area);
           return '<button type="button" class="adv-row" data-open="' + o.e.id + '">' + rowThumbHTML(o.e, "adv-thumb") +
-            '<span class="adv-main"><span class="adv-name">' + esc(evName(o.e)) + (o.e.evergreen ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
+            '<span class="adv-main"><span class="adv-name">' + esc(evName(o.e)) + (isEpicQuest(o.e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
             '<span class="adv-meta">' + esc(when) + (method ? " · " + esc(method) : "") + " · +" + (typeof o.c.exp === "number" ? o.c.exp : expFor(o.e)) + " EXP</span></span>" +
             '<span class="adv-sticker" aria-hidden="true">' + badgeIconSVG(stickerIdxFor(o.e.id)) + "</span>" +
             '<span class="adv-stamps"><span class="adv-stamp adv-stamp-date">' + esc(when) + '</span><span class="adv-stamp adv-stamp-venue">' + esc(venue) + "</span></span>" +
@@ -28637,7 +28666,7 @@ var qrcode = function() {
       document.getElementById("btnManualClear").addEventListener("click", function () {
         if (!currentId || this.disabled) return;
         var e = byId(currentId);
-        if (!e || e.evergreen) return;            /* EPIC: remote clear does not exist */
+        if (!e || isEpicQuest(e)) return;            /* EPIC: remote clear does not exist */
         if (isNotStarted(e)) return;              /* date gate: no remote clear before the start date */
         if (state.remoteDate === TODAY) return;   /* remote clear: once a day (spec D; enforced again inside doClear) */
         doClear(currentId, "remote");
@@ -30407,6 +30436,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          { d: "2026-11-02", s: "sparkle", t: "[News] EPIC quests are now truly rare", b: "EPIC is now a rare tier kept by just 10 hidden-gem spots: Meguro Parasitological Museum, Game Center Mikado, the Paper Museum, Super Potato Akihabara, the Tobacco and Salt Museum, Tokiwaso Manga Museum, Kisho Shrine, Shirohige's Cream Puff Factory, GAS MUSEUM and the Itabashi Tropical Botanical Garden. Every other evergreen quest is a regular quest now -- the purple EPIC styling is gone, and remote clear (30% EXP, once a day) works on them too. Gear you have already earned stays yours, exactly as before." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Sign in and get 10 gacha tickets!", b: "Log in with a free account (email or Google) and 10 gacha tickets are yours — one gift per account. Your progress also saves to the cloud, so it stays safe even if you change phones." },
           { d: "2026-10-31", s: "sparkle", t: "[News] Mini-games: now 3 every day", b: "The mini-game capsule on the map now opens today's list: three different games rotate in every day, and hitting the goal in each earns a gacha ticket — up to 3 a day. The line-up changes daily, so come and see today's three!" },
           { d: "2026-10-30", s: "sparkle", t: "[News] Guess the Place: now 5 a day!", b: "The photo quiz on the map just grew \u2014 five photos to guess every day instead of one. Each correct answer earns +10 EXP. Try to clear all five!" },
@@ -30419,6 +30449,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          { d: "2026-11-02", s: "sparkle", t: "[News] 史詩クエストが本当にレアになりました", b: "史詩（EPIC）は、特別な穴場10件だけの称号になりました：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。その他の常設クエストは通常のクエストになり、紫の史詩表示が外れ、遠隔クリア（30% EXP・1日1回）も使えるようになりました。すでに手に入れた装備は、これまで通りあなたのものです。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ログインでガチャ券10枚プレゼント！", b: "メールかGoogleの無料アカウントでログインすると、ガチャ券10枚をプレゼント（1アカウント1回まで）。セーブデータもクラウドに保存されるので、機種変更でも安心です。" },
           { d: "2026-10-31", s: "sparkle", t: "【お知らせ】ミニゲームが1日3種に", b: "地図のミニゲームカプセルから、その日の3ゲームが開けるようになりました。顔ぶれは毎日ローテーションで、各種の目標を達成するとガチャチケットが1枚、1日最大3枚もらえます。今日の3種をチェック！" },
           { d: "2026-10-30", s: "sparkle", t: "【お知らせ】場所あてが1日5問に増量！", b: "地図の写真クイズが増えました。1日1問から5問に！正解1つで +10 EXP。5問ぜんぶ当ててみよう。" },
@@ -30431,6 +30462,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          { d: "2026-11-02", s: "sparkle", t: "[News] 史诗任务现在真正稀有了", b: "史诗（EPIC）现在只属于 10 个特别的冷门好去处：目黒寄生虫館、ゲーセンミカド、紙の博物館、スーパーポテト秋葉原店、たばこと塩の博物館、トキワ荘マンガミュージアム、気象神社、白髭のシュークリーム工房、GAS MUSEUM、板橋区立熱帯環境植物館。其他常驻任务都变回普通任务：紫色史诗外观取消，也可以用远程完成（30% 经验、每天 1 次）了。已经获得的装备仍然归你，一件不少。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】登录账号就送10张扭蛋券！", b: "用邮箱或 Google 免费登录，10张扭蛋券直接到账（每个账号限领一次）。存档也会同步到云端，换手机也不怕丢。" },
           { d: "2026-10-31", s: "sparkle", t: "【公告】小游戏改为每天3种", b: "点地图上的小游戏胶囊，就能打开今天的游戏列表：每天轮换3个游戏，每个达标可得1张扭蛋券，每天最多3张。阵容每天都换，来看看今天的三个！" },
           { d: "2026-10-30", s: "sparkle", t: "【公告】猜地点增量：每天5题！", b: "地图上的照片问答变多了：从每天1题增加到5题。每猜对一题 +10 EXP，5题全对更有成就感，快来试试！" },
