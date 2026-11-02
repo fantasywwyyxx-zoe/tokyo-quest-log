@@ -3385,29 +3385,6 @@
       .adv-empty { padding: 10px; font-size: 13.5px; }
       #hsegBadges .badge .b-desc { display: block; font-size: 10.5px; line-height: 1.3; opacity: .78; font-weight: 700; }
     
-      /* Q-288 (Zoe's device verdict on Q-281: plan B still did not
-         fit — switching to plan A): the stage becomes a slim
-         horizontal band across the top (hero + name side by side)
-         and the options take the full width below: presets one row
-         of seven, hair colours one row of twelve, chips three
-         across. One screen, no scrolling, at phone sizes. */
-      #hsegCustom .cust-panel { flex-direction: column; gap: 8px; }
-      #hsegCustom .cust-stage {
-        flex: 0 0 auto; flex-direction: row; align-items: center; justify-content: center;
-        gap: 12px; padding: 6px 10px; background: var(--window-hi);
-        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
-      }
-      #hsegCustom .cust-stage::after { display: none; }
-      #hsegCustom .cust-stage canvas { width: 64px; height: 64px; }
-      #hsegCustom .cust-name { font-size: 15px; text-align: left; }
-      #hsegCustom .cust-presets { grid-template-columns: repeat(7, 1fr); gap: 5px; }
-      #hsegCustom .cust-preset canvas { width: 28px; height: 28px; }
-      #hsegCustom #customColors { flex-wrap: nowrap; gap: 4px; }
-      #hsegCustom #customColors .cust-swatch { width: 22px; height: 22px; flex: 0 0 auto; }
-      #hsegCustom .win-more { left: 50%; }
-      @media (max-height: 620px) {
-        #hsegCustom .cust-stage { padding: 4px 8px; }
-        #hsegCustom .cust-stage canvas { width: 52px; height: 52px; }
       }
 </style></style>
     <style>
@@ -10282,7 +10259,30 @@
       }
       .hero-acct:active { transform: translateY(1px); }
       .hero-acct.hero-support { flex: 0 0 auto; background: linear-gradient(180deg, #ff8a7a, #ff6f61); color: #fff; border-color: #fff; text-align: center; }
-    </style>
+          /* Q-289 (Zoe's device verdict on Q-281: plan B still did not
+         fit — switching to plan A; Q-288's first placement lost the cascade to the Q-230/Q-281 blocks in a later style element — this block now sits after them): the stage becomes a slim
+         horizontal band across the top (hero + name side by side)
+         and the options take the full width below: presets one row
+         of seven, hair colours one row of twelve, chips three
+         across. One screen, no scrolling, at phone sizes. */
+      #hsegCustom .cust-panel { flex-direction: column; gap: 8px; }
+      #hsegCustom .cust-stage {
+        flex: 0 0 auto; flex-direction: row; align-items: center; justify-content: center;
+        gap: 12px; padding: 6px 10px; background: var(--window-hi);
+        border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
+      }
+      #hsegCustom .cust-stage::after { display: none; }
+      #hsegCustom .cust-stage canvas { width: 64px; height: 64px; }
+      #hsegCustom .cust-name { font-size: 15px; text-align: left; }
+      #hsegCustom .cust-presets { grid-template-columns: repeat(7, 1fr); gap: 5px; }
+      #hsegCustom .cust-preset canvas { width: 28px; height: 28px; }
+      #hsegCustom #customColors { flex-wrap: nowrap; gap: 4px; }
+      #hsegCustom #customColors .cust-swatch { width: 22px; height: 22px; flex: 0 0 auto; }
+      #hsegCustom .win-more { left: 50%; }
+      @media (max-height: 620px) {
+        #hsegCustom .cust-stage { padding: 4px 8px; }
+        #hsegCustom .cust-stage canvas { width: 52px; height: 52px; }
+</style>
     <style>
       /* ================================================================
          QA2 PASS (2026-10-29, version TQL v2026.10.29-qa2)
@@ -16555,7 +16555,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1922-q288-64f8d550";
+        var BUILD_ID = "tql-20261102-1936-q289-9ff6b9f2";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
