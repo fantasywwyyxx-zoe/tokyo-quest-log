@@ -13193,6 +13193,7 @@
           <p class="auth-sub" id="authDoneMail"></p>
           <p class="auth-msg ok" id="authSyncNote" hidden></p>
           <button class="auth-btn ghost" id="authEditNameBtn" type="button"></button>
+          <button class="auth-btn ghost" id="authLogoutBtn" type="button"></button>
           <button class="auth-btn primary" id="authDoneClose" type="button"></button>
         </div>
         <div class="auth-step" id="authStepName" hidden>
@@ -16570,7 +16571,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2139-q299-e504f320";
+        var BUILD_ID = "tql-20261102-2142-q300-0d1515ee";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -32008,6 +32009,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("authDoneTitle").textContent = (tqlDn && t.welcomeBackName) ? t.welcomeBackName(tqlDn) : t.welcomeBack;
         $("authNewNote").textContent = t.newNote;
         $("authDoneClose").textContent = t.closeBtn;
+        $("authLogoutBtn").textContent = t.logout;
         $("supportTitle").textContent = t.supportTitle;
         $("supportText").textContent = t.supportText;
         $("supportKofi").textContent = t.kofiBtn;
@@ -32796,6 +32798,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var bb = $("titleBetaBtn"); if (bb) bb.textContent = t.betaBtn;
         var lb = $("listBetaBtn"); if (lb) lb.textContent = t.betaBtn;
         var eb = $("authEditNameBtn"); if (eb) eb.textContent = t.editName;
+        var lo = $("authLogoutBtn"); if (lo) lo.textContent = A().logout;
         /* NAME MODEL: the settings name row — the ONE place an
            account name is changed — exists only for signed-in
            players. Guests get no naming row at all. */
@@ -34337,6 +34340,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       });
       $("authNameSkip").addEventListener("click", function () { state.nameAsked = true; save(); finishNameStep(); });
       $("authEditNameBtn").addEventListener("click", openNameStep);
+      $("authLogoutBtn").addEventListener("click", doLogout);
       /* runner steering (Zoe, 2026-10-29): the on-screen ◀ ▶
          buttons are the ONLY touch steering. One pointerdown =
          exactly one lane step: runMove is a synchronous lane
