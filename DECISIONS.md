@@ -106,3 +106,6 @@ Zoe's device verdict on the Q-255b Instagram row: it only downloaded the poster 
 
 ## 2026-11-02 Q-270 — mini-game share buttons: label hardening
 QA's R121 walk found the result-screen share buttons working in all five games, but reading as unnamed white buttons in their a11y tree. The label IS set by design (STR mgShareBtn ×3, applied in renderStaticText); as belt-and-braces the label is now set as aria-label too, and also at wiring/init time in addition to renderStaticText. No behaviour change. QA rechecks the accessible name; the visual label is Zoe-device territory like the poster look.
+
+## 2026-11-02 Q-271 — precautionary rollback of Q-270
+QA escalation (16:03): on the Q-270 build, two QA profiles froze at the title screen (title renders, START unresponsive; syntax checks pass — a runtime failure, not parse). No fresh boot on Q-270 has succeeded anywhere yet; real-player impact could not be excluded, so the live build is rolled back to the Q-269 code (last build with successful QA walks, R121) under a fresh token so every client reloads onto known-good code. Q-270's change (aria-label + init-time label on the mg share buttons) is inert-looking; diagnosis of the Q-270 artifact continues offline before anything from it re-ships.
