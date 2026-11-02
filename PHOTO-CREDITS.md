@@ -90,3 +90,60 @@ One Commons photograph in this batch (the same line as the in-game credits):
 - サンシャイン60 — 本屋 — CC BY-SA 3.0
 
 The Sunshine 60 photo serves the three Sunshine City quests in this batch （ポケピース×サンシャインシティ / Dr.STONE サンシャインシティ / BLACK LAGOON 25th at てんぼうパーク); the single credit line covers all three uses. All other 22 photos are official-source photos (Tokyo National Museum ×2 incl. exhibition artwork, NMWA/Tate exhibition site, Tokyo Metropolitan Art Museum (© Musée d'Orsay), Artizon Museum, Mitsubishi Ichigokan Museum (Courtesy Fondazione Torino Musei), Tokyo Opera City Art Gallery, MOMAT, SOMPO Museum of Art (© MuMa Le Havre), Nezu Museum, Yamatane Museum of Art, Kadokawa Culture Museum, Anime Tokyo Station, Sanrio Puroland, Yokohama Landmark Tower, Tokyo Anime Center, Tokyo Mega Illumination, Yomiuriland, Showa Kinen Park, Marunouchi (Mitsubishi Estate), Yokohama Red Brick Warehouse, Sunshine City), no attribution required.
+
+
+## eg10 batch — 50 evergreen quests (2026-11-02)
+
+One credit line per quest photo: id | source | licence | author.
+
+- # eg10 photo credits — format: id | source | licence | author
+- eg10-machida-hanga | https://hanga-museum.jp/about | Official website photo (© venue / operator) | Machida City Museum of Graphic Arts
+- eg10-okunitama | https://www.ookunitamajinja.or.jp/meguri/haiden.php | Official website photo (© venue / operator) | Okunitama Jinja (worship hall)
+- eg10-yuzo-yamamoto | https://mitaka-sportsandculture.or.jp/yuzo/ | Official website photo (© venue / operator) | Mitaka City Sports and Culture Foundation
+- eg10-kichijoji-art | https://www.musashino.or.jp/museum/1002040/1002010.html | Official website photo (© venue / operator) | Kichijoji Art Museum (museum exterior/entrance, official overview page)
+- eg10-saitama-moma | https://pref.spec.ed.jp/momas/ | Official website photo (© venue / operator) | The Museum of Modern Art, Saitama (photo: Kazuyuki Matsumoto)
+- eg10-kitain | https://kitain.net/ | Official website photo (© venue / operator) | Kitain Temple
+- eg10-kawagoe-art | https://www.city.kawagoe.saitama.jp/artmuseum/ | Official website photo (© venue / operator) | Kawagoe City (museum exterior, official city page)
+- eg10-tonogayato | https://www.tokyo-park.or.jp/park/tonogayato/index.html | Official website photo (© venue / operator) | Tokyo Metropolitan Park Association
+- eg10-hamura-zoo | https://commons.wikimedia.org/wiki/File:Hamura_Zoo_20100425.jpg | CC BY-SA 3.0 (Wikimedia Commons) | Hanasakijijii
+- eg10-tama-forest | https://commons.wikimedia.org/wiki/File:Tama_Forest_Science_Garden_2012.jpg | CC BY-SA 3.0 (Wikimedia Commons) | Arashiyama
+- eg10-keio-rail-land | https://www.keio-rail-land.jp/ | Official website photo (© venue / operator) | Keio Rail Land (annex building, official site)
+- eg10-nipr-polar | https://www.nipr.ac.jp/science-museum/index.html | Official website photo (© venue / operator) | National Institute of Polar Research
+- eg10-akebono-mori | https://www.go2park.net/parks/moominvalley.html | © go2park.net (park-guide media) — all rights reserved | go2park.net (Koen e Ikou!) — Mushroom House view
+- eg10-yamashita-park | https://commons.wikimedia.org/wiki/File:Parque_Yamashita_2.JPG | CC BY 3.0 | 外国人
+- eg10-kanagawa-rekihaku | https://commons.wikimedia.org/wiki/File:Kanagawa_prefectural_museum_of_cultural_history01s3200.jpg | CC BY 2.5 | 663highland
+- eg10-fujiko-museum | https://commons.wikimedia.org/wiki/File:Fujiko%EF%BD%A5F%EF%BD%A5Fujio_Museum_-01.jpg | CC BY-SA 3.0 | Aimaimyi
+- eg10-yokohama-tram | https://commons.wikimedia.org/wiki/File:Yokohama_City_Tram_1104.jpg | CC BY-SA 4.0 | Suikotei
+- eg10-hara-railway | https://www.hara-mrm.com/img/photo01.jpg | Official website photo | Hara Model Railway Museum (official website)
+- eg10-mitsubishi-tech | https://commons.wikimedia.org/wiki/File:Mitsubishi_Minatomirai_Industrial_Museum_01.jpg | CC0 | Brakeet
+- eg10-newspark | https://commons.wikimedia.org/wiki/File:%E6%A8%AA%E6%B5%9C%E6%83%85%E5%A0%B1%E6%96%87%E5%8C%96%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E5%A4%96%E8%A6%B3.jpg | CC BY-SA 3.0 | T happyisland
+- eg10-silk-museum | https://commons.wikimedia.org/wiki/File:Yokohama_SilkCenter.JPG | CC BY-SA 3.0 | 妖精書士
+- eg10-minato-park | https://commons.wikimedia.org/wiki/File:Harbor_View_Park_(Yokohama)_Observation_deck.jpg | CC0 | 妖精書士
+- eg10-kanagawa-lit | https://commons.wikimedia.org/wiki/File:Kanabun004.jpg | CC BY-SA 3.0 | Kinnosuke at Japanese Wikipedia
+- eg10-kodomo-no-kuni | https://commons.wikimedia.org/wiki/File:Colorful_boats_kodomonokuni.jpg | CC BY-SA 2.0 | k yamada from Yokohama, Japan
+- eg10-gaikokan-no-ie | https://www.hama-midorinokyokai.or.jp/yamate-seiyoukan/gaikoukan/assets_c/2021/09/gaikoukan_top1-thumb-960x637-120736.jpg | Official website photo | Official website
+- eg10-berrick-hall | https://www.hama-midorinokyokai.or.jp/yamate-seiyoukan/Berrick-Hall/assets_c/2019/12/404bfdcbc6ad82c74acd2e0ae13a8003464e27f8-thumb-2400x1200-75357.jpg | Official website photo | Official website
+- eg10-yumemigasaki-zoo | https://www.kanagawa-kankou.or.jp/storage/post_picture/[1200_1200]_20240111132741_976-0.jpg | Kanagawa Prefecture official tourism site photo (Tourism Kanagawa NOW) | Kanagawa Prefecture Tourism Association
+- eg10-kawasaki-science | https://www.city.kawasaki.jp/300/cmsfiles/contents/0000157/157236/kagakukan.jpg | Kawasaki City official website photo | Kawasaki City
+- eg10-jaxa-sagamihara | https://www.isas.jaxa.jp/en/about/facilities/images/sagamihara/photo-visual.jpg | JAXA / ISAS official website photo | JAXA (ISAS)
+- eg10-shakujii-park | https://www.tokyo-park.or.jp/park/shakujii/assets/images/%E7%9F%B3%E7%A5%9E%E4%BA%95%E5%85%AC%E5%9C%92-%E7%B4%85%E8%91%89-05-%E7%A7%8B-2015.jpg | Tokyo Metropolitan Park Association official website photo | Tokyo Metropolitan Park Association
+- eg10-makino-garden | https://www.makinoteien.jp/wp/wp-content/uploads/2022/12/kv01.jpg | Official website photo (Nerima City Makino Memorial Garden) | Makino Memorial Garden
+- eg10-wb-studio-tour | https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Warner_Bros._Studio_Tour_Tokyo_entrance_%282%29_2023-08-17.jpg/1280px-Warner_Bros._Studio_Tour_Tokyo_entrance_%282%29_2023-08-17.jpg | CC0 | Asanagi
+- eg10-itabashi-art | https://image.walkerplus.com/wpimg/walkertouch/wtd/spot/42/l2/42742.jpg | Walker Plus spot photo (press/tourism listing) | Walker Plus
+- eg10-nishiarai-daishi | https://www.nishiaraidaishi.or.jp/img/top-about-head-img.webp | Official website photo (Nishiarai Daishi Sochiji) | Nishiarai Daishi
+- eg10-edogawa-zoo | https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Edogawa_Shizen_Zoo.jpg/1280px-Edogawa_Shizen_Zoo.jpg | CC BY-SA 4.0 (Wikimedia Commons) | しんぎんぐきゃっと
+- eg10-galaxcity | https://rstatic.enjoytokyo.jp/assets/images/article/04/4222/2153194.jpg?1737346065&p=t&w=1800 | Let's Enjoy Tokyo (Tokyo tourism portal) editorial photo | Let's Enjoy Tokyo
+- eg10-torasan | https://commons.wikimedia.org/wiki/Special:FilePath/Tora-san_Museum.JPG?width=1000 | Public domain | あばさー（Abasaa）
+- eg10-shoin-jinja | https://commons.wikimedia.org/wiki/Special:FilePath/Sh%C5%8Din-jinja%20(Tokyo)%2001.jpg?width=1000 | CC BY (Flickr import via Wikimedia Commons) — confirm exact version/author on file page before shipping | Flickr contributor via トトト (Wikimedia Commons)
+- eg10-nodai-museum | https://commons.wikimedia.org/wiki/File:Entryway_-_Food_and_Agriculture_Museum_-_Setagaya,_Tokyo,_Japan_-_DSC09666.jpg | CC0 | Daderot
+- eg10-toyo-bunko | https://commons.wikimedia.org/wiki/File:Toyobunko_new2.jpg | CC BY-SA 3.0 | Dzz77
+- eg10-seikado | https://commons.wikimedia.org/wiki/File:Seikado_Bunko_Art_Museum,_Marunouchi,_Chiyoda,_Tokyo.jpg | CC BY-SA 4.0 | SLIMHANNYA
+- eg10-eisei-bunko | https://commons.wikimedia.org/wiki/File:Eisei_Bunko_Museum.jpg | CC BY-SA 4.0 | Kakidai
+- eg10-hanazono | https://commons.wikimedia.org/wiki/File:Entrance_to_the_Hanazono_shrine_in_Shinjuku,_Tokyo.jpg | CC BY-SA 4.0 | Alexandar Vujadinovic
+- eg10-ana-hachiman | https://commons.wikimedia.org/wiki/File:Ana-Hachimang%C5%AB_-_Shinjuku,_Tokyo,_Japan_-_DSC07692.JPG | CC0 | Daderot
+- eg10-fumiko-hayashi | https://commons.wikimedia.org/wiki/File:Hayashi_Fumiko_Memorial_Hall_entrance_2016-03-24.jpg | CC0 | Asanagi
+- eg10-soseki-sambo | https://commons.wikimedia.org/wiki/File:Natsume_Soseki_Memorial_Museum_2017-10-08.jpg | CC0 | Asanagi
+- eg10-otaguro-park | https://commons.wikimedia.org/wiki/File:2019_Otaguro_garden_in_autumn_3.jpg | CC BY-SA 4.0 | Kakidai
+- eg10-tetsugakudo | https://commons.wikimedia.org/wiki/File:Tetsugakudo_Park(Philosophy_Hall_Park)_-_%E5%93%B2%E5%AD%A6%E5%A0%82%E5%85%AC%E5%9C%92_-_panoramio_(2).jpg | CC BY 3.0 | Carbonium
+- eg10-ikegami-honmonji | https://commons.wikimedia.org/wiki/File:Ikegami_Honmon-ji_temple_-_2025_March_6_various_12.jpg | CC BY 4.0 | Nesnad
+- eg10-showa-kurashi | https://commons.wikimedia.org/wiki/File:Showa_no_Kurashi_Museum_20260912.jpg | CC BY 4.0 | Suikotei
