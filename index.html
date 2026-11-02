@@ -12409,8 +12409,16 @@
       dialog#detail .kv dt { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 8px 0 2px; text-align: left; color: var(--gold-deep); font-size: 11px; letter-spacing: 0.06em; align-self: auto; }
       dialog#detail .kv dt:first-of-type { margin-top: 0; }
       dialog#detail .kv dd { font-size: 14.5px; line-height: 1.5; }
-      dialog#detail .kv .detail-period { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0 0 2px; order: 0; font-size: 13.5px; }
-      dialog#detail .kv .detail-period .dp-when { font-size: 12px; }
+      /* v9 (Zoe 09:30): the period is a small tag on the TIME
+         label line -- [label] [evergreen/date pill] [countdown
+         note] -- and the separate period line is gone. Same
+         pattern for evergreen and timed quests. */
+      dialog#detail .kv .kv-time-head { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+      dialog#detail .kv .kv-time-head dt { margin: 0; }
+      dialog#detail .kv .detail-period { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0; order: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
+      dialog#detail .kv .detail-period .period-tag { display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 8px; border-radius: 999px; background: var(--window); border: 2px solid var(--line-c); font-size: 11px; font-weight: 800; white-space: nowrap; }
+      dialog#detail .kv .detail-period .period-tag .dp-ico svg { width: 13px; height: 13px; }
+      dialog#detail .kv .detail-period .dp-when { font-size: 11px; }
       dialog#detail .kv .kv-cols { display: block; margin-top: 8px; }
       dialog#detail .kv .kv-col { min-width: 0; }
       dialog#detail .kv .kv-col dt { margin-top: 0; }
@@ -13933,7 +13941,7 @@
           <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
           <dl class="kv">
-            <dt id="kHours"></dt><dd class="detail-period"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></dd>
+            <div class="kv-time-head"><dt id="kHours"></dt><span class="detail-period"><span class="period-tag"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span></span><span class="dp-when" id="dpWhen"></span></span></div>
             <dd id="vHours"></dd>
             <div class="kv-cols"><div class="kv-col"><dt id="kWhere"></dt><dd id="vWhere"></dd></div><div class="kv-col"><dt id="kPrice"></dt><dd id="vPrice"></dd></div></div>
           </dl>
@@ -16331,7 +16339,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-0927-q253v8-c96b531f";
+        var BUILD_ID = "tql-20261102-0930-q253v9-5dd1e986";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
