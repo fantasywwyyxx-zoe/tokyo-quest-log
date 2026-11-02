@@ -16502,7 +16502,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1815-q277-0a936f51";
+        var BUILD_ID = "tql-20261102-1822-q278-70d6677b";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -18037,7 +18037,7 @@ var qrcode = function() {
           luckyTag: "★ LUCKY",
           customTitle: "CUSTOMIZE", custPreset: "BASE HERO", custSkin: "SKIN TONE", custStyle: "HAIRSTYLE", custColor: "HAIR COLOUR", custFace: "EXPRESSION",
           hairStyles: ["Short", "Cap", "Long", "Twin Tails", "Ponytail", "Bob", "Bun", "Spiky", "Curly"],
-          faceNames: ["Smile", "Grin", "Wink", "Sleepy", "Star Eyes"],
+          faceNames: ["Smile", "Grin", "Wink", "Sleepy", "Star Eyes", "Heart Eyes"],
           dailyPool: [
             { n: "Try a new onigiri flavor", d: "The flavor you never pick. Judge it fairly.", c: "food" },
             { n: "Buy a pastry from a local bakery", d: "That small bakery you always pass. Today you go in.", c: "food" },
@@ -18910,7 +18910,7 @@ var qrcode = function() {
           luckyTag: "★ 当たり",
           customTitle: "主人公カスタム", custPreset: "ベースの主人公", custSkin: "肌の色", custStyle: "髪型", custColor: "髪の色", custFace: "表情",
           hairStyles: ["ショート", "キャップ", "ロング", "ツインテール", "ポニーテール", "ボブ", "お団子", "ツンツン", "くるくる"],
-          faceNames: ["えがお", "にっこり", "ウインク", "ねむねむ", "キラキラ"],
+          faceNames: ["えがお", "にっこり", "ウインク", "ねむねむ", "キラキラ", "ハート"],
           dailyPool: [
             { n: "新しい味のおにぎりを試す", d: "コンビニで絶対選ばない味を公平に判定。", c: "food" },
             { n: "近所のパン屋でパンを買う", d: "いつも素通りする小さなパン屋へ今日こそ入る。", c: "food" },
@@ -19783,7 +19783,7 @@ var qrcode = function() {
           luckyTag: "★ 幸运",
           customTitle: "自定义主人公", custPreset: "基础主人公", custSkin: "肤色", custStyle: "发型", custColor: "发色", custFace: "表情",
           hairStyles: ["短发", "棒球帽", "长发", "双马尾", "马尾", "波波头", "丸子头", "刺猬头", "卷发"],
-          faceNames: ["微笑", "咧嘴笑", "眨眼", "困困", "星星眼"],
+          faceNames: ["微笑", "咧嘴笑", "眨眼", "困困", "星星眼", "爱心眼"],
           dailyPool: [
             { n: "尝一种新的饭团口味", d: "便利店里你从不选的那个口味。公平地评判它。", c: "food" },
             { n: "在小面包店买面包", d: "那家你总是路过的小面包店。今天就进去。", c: "food" },
@@ -23497,27 +23497,28 @@ var qrcode = function() {
          two-row eyes with a white sparkle, cheek blush, a small
          open mouth, and 2–3 tones per colour (base / shade /
          highlight, derived in drawBaseSprite). No flat fills.
-         The anchor rows the equipment pass is tuned to are kept:
-         hair 1–3, face 4–6, neck 7 (skin row, added 2026-10-28),
-         body top 8, belt 11, legs 12–13, shoes 14. */
-      var HERO_ROWS = [
-        "................",
-        ".....HHHHHH.....",
-        "....HHhhhhHH....",
-        "...HHhHHHHhHH...",
-        "...HSSSSSSSSH...",
-        "...HSEWSSWESH...",
-        "...HCEEMMEECH...",
-        "......SSss......",
-        "....BLBBBBbB....",
-        "...SBBBBBBbBS...",
-        "...SBBBBBBbBS...",
-        "....BBBRRBBB....",
-        "....PPP..PPP....",
-        "....PPp..PPp....",
-        "...KKK....KKK...",
-        "................"
-      ];
+         Q-278 (2026-11-02, Zoe picked direction D): bigger head,
+         4-row face. Anchor rows the equipment pass is tuned to:
+         hair 1–4, brows 5, eyes 6–7, mouth 8, neck 9, shoulders
+         10, torso 11, belt 12, legs 13–14, shoes 15. */
+var HERO_ROWS = [
+  "................",
+  ".....HHhHH......",
+  "....HHhhhhHH....",
+  "...HHhHHHHdHH...",
+  "...HSSSSSSSSH...",
+  "...HSddSSddSH...",
+  "...HSEWSSWESH...",
+  "...HSEESSEESH...",
+  "...HCSSMMSSCH...",
+  ".....dnnnnd.....",
+  "....BLBBBBbB....",
+  "...SbBBBBBbBS...",
+  "....BBRGGBBB....",
+  "....qPP..PPP....",
+  "....PPp..PPp....",
+  "...KkK....KkK..."
+];
       var HERO_PALS = {
         yusha: { H: "#5a3a22", S: "#ffd9b3", E: "#26222e", B: "#3dbe5a", P: "#8a5a33", R: "#f2c14e" },
         aoi:  { H: "#f8bc3d", S: "#f2c79b", E: "#23203a", B: "#2271d1", P: "#3a3f4a", R: "#e5484d" },
@@ -23543,7 +23544,7 @@ var qrcode = function() {
       /* expressions (user, 2026-10-27 22:22 — a fourth custom
          axis): "smile" is the classic face baked into HERO_ROWS,
          so every existing save keeps its exact look by default */
-      var FACES = ["smile", "grin", "wink", "sleepy", "star"];
+      var FACES = ["smile", "grin", "wink", "sleepy", "star", "heart"];
       function presetCustom(id) {
         var p = heroPal(id);
         return { skin: p.S, hair: p.H, style: HERO_STYLES[id] || "short", face: "smile" };
@@ -23558,108 +23559,117 @@ var qrcode = function() {
         function ch(v) { return Math.min(255, Math.max(0, Math.round(v * f))); }
         return "rgb(" + ch((n >> 16) & 255) + "," + ch((n >> 8) & 255) + "," + ch(n & 255) + ")";
       }
-      function drawHairStyle(ctx, style, hc, hl, hd) {
-        function px(x, y, c) { ctx.fillStyle = c || hc; ctx.fillRect(x, y, 1, 1); }
-        var y;
-        if (style === "long") {
-          for (y = 4; y <= 11; y++) { px(3, y); px(12, y); }
-          px(3, 5, hl); px(12, 6, hl); px(3, 11, hd); px(12, 11, hd);
-        } else if (style === "twin") {
-          for (y = 2; y <= 8; y++) { px(2, y); px(3, y, hd); px(12, y, hd); px(13, y); }
-          px(2, 3, hl); px(13, 4, hl); px(2, 8, hd); px(13, 8, hd);
-          px(3, 1, "#e5484d"); px(12, 1, "#e5484d");
-        } else if (style === "pony") {
-          px(12, 1); px(13, 2); px(13, 3); px(12, 4); px(13, 5); px(12, 6); px(13, 7); px(12, 8);
-          px(13, 3, hl); px(13, 5, hl); px(12, 8, hd);
-          px(11, 1, "#e5484d"); px(12, 1, "#e5484d");
-        } else if (style === "bob") {
-          for (y = 4; y <= 8; y++) { px(3, y); px(12, y); }
-          px(3, 5, hl); px(12, 5, hl); px(4, 8, hd); px(11, 8, hd);
-        } else if (style === "bun") {
-          px(7, 0); px(8, 0); px(7, 0, hl);
-          px(6, 1, hd); px(9, 1, hd);
-        } else if (style === "spiky") {
-          px(4, 0); px(6, 0, hl); px(8, 0); px(10, 0, hl); px(11, 0);
-          px(5, 1, hl); px(9, 1, hl);
-        } else if (style === "curly") {
-          px(5, 0); px(6, 0, hl); px(9, 0); px(10, 0, hl);
-          px(2, 3); px(13, 3); px(2, 4, hd); px(13, 4, hd); px(2, 5); px(13, 5);
-        } else if (style === "cap") {
-          /* YUSHA's cap (art dept 02b spec, 2026-10-28): dome rows
-             1–3 in cap blue #2e4bd0 (light #4a74e8 at row 2 x5–7),
-             row 4 a deep band #1d2f7a with the gold badge #f2c14e
-             at x10–12; the side hair at row 5 keeps the hair
-             colour. Fixed colours — the cap does NOT follow the
-             hair-colour axis, exactly as the source generator
-             (avatar_hero_16.py) paints it. */
-          var CAP = "#2e4bd0", CAPL = "#4a74e8", CAPD = "#1d2f7a", GOLD = "#f2c14e", cx;
-          for (cx = 5; cx <= 10; cx++) px(cx, 1, CAP);
-          for (cx = 4; cx <= 11; cx++) px(cx, 2, CAP);
-          px(5, 2, CAPL); px(6, 2, CAPL); px(7, 2, CAPL);
-          for (cx = 3; cx <= 12; cx++) px(cx, 3, CAP);
-          for (cx = 3; cx <= 12; cx++) px(cx, 4, CAPD);
-          px(10, 4, GOLD); px(11, 4, GOLD); px(12, 4, GOLD);
-          px(3, 5, hc); px(12, 5, hc);
-        } else {
-          /* short: a single cowlick strand, light-tipped */
-          px(7, 0, hc); px(8, 0, hl);
-        }
-      }
-      /* expression pass: repaints the eye/mouth zone (rows 5–6)
-         over the base rows; the cheeks at x4/x11 always stay.
-         "smile" (and any unknown value) = the classic face,
-         drawn by HERO_ROWS itself, so nothing is repainted */
-      function drawFace(ctx, face, pal) {
-        if (!face || face === "smile") return;
-        var S = pal.S, E = pal.E, W = "#ffffff", M = "#a34a38", G = "#f8bc3d";
-        function px(x, y, c) { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); }
-        [5, 6, 7, 8, 9, 10].forEach(function (x) { px(x, 5, S); px(x, 6, S); });
-        if (face === "grin") {
-          px(5, 5, E); px(6, 5, W); px(9, 5, W); px(10, 5, E);
-          px(6, 6, M); px(7, 6, M); px(8, 6, M); px(9, 6, M);
-        } else if (face === "wink") {
-          px(5, 5, E); px(6, 5, E);
-          px(9, 5, W); px(10, 5, E); px(9, 6, E); px(10, 6, E);
-          px(7, 6, M); px(8, 6, M);
-        } else if (face === "sleepy") {
-          px(5, 6, E); px(6, 6, E); px(9, 6, E); px(10, 6, E);
-          px(7, 6, M);
-        } else if (face === "star") {
-          px(5, 5, G); px(6, 5, G); px(5, 6, G); px(9, 5, G); px(10, 5, G); px(10, 6, G);
-          px(7, 6, M); px(8, 6, M);
-        }
-      }
-      function drawBaseSprite(ctx, pal, style, face) {
-        var P = {
-          ".": null,
-          "H": pal.H, "h": shadeHex(pal.H, 1.3), "d": shadeHex(pal.H, 0.7),
-          "S": pal.S, "s": shadeHex(pal.S, 0.86), "C": "#f49c8a", "M": "#a34a38",
-          "E": pal.E, "W": "#ffffff",
-          "B": pal.B, "L": shadeHex(pal.B, 1.24), "b": shadeHex(pal.B, 0.72),
-          "P": pal.P, "p": shadeHex(pal.P, 0.7),
-          "R": pal.R, "K": "#26222e"
-        };
-        for (var y = 0; y < HERO_ROWS.length; y++) {
-          var row = HERO_ROWS[y];
-          for (var x = 0; x < row.length; x++) {
-            var col = P[row[x]];
-            if (col) { ctx.fillStyle = col; ctx.fillRect(x, y, 1, 1); }
-          }
-        }
-        drawHairStyle(ctx, style, pal.H, P.h, P.d);
-        drawFace(ctx, face, pal);
-      }
+function drawHairStyle(ctx, style, hc, hl, hd) {
+  function px(x, y, c) { ctx.fillStyle = c || hc; ctx.fillRect(x, y, 1, 1); }
+  var y;
+  if (style === "long") {
+    for (y = 4; y <= 11; y++) { px(3, y); px(12, y); }
+    px(3, 5, hl); px(12, 6, hl); px(3, 11, hd); px(12, 11, hd);
+  } else if (style === "twin") {
+    for (y = 2; y <= 9; y++) { px(2, y); px(3, y, hd); px(12, y, hd); px(13, y); }
+    px(2, 3, hl); px(13, 4, hl); px(2, 9, hd); px(13, 9, hd);
+    px(3, 1, "#e5484d"); px(12, 1, "#e5484d");
+  } else if (style === "pony") {
+    px(12, 1); px(13, 2); px(13, 3); px(12, 4); px(13, 5); px(12, 6); px(13, 7); px(12, 8); px(12, 9, hd);
+    px(13, 3, hl); px(13, 5, hl);
+    px(11, 1, "#e5484d"); px(12, 1, "#e5484d");
+  } else if (style === "bob") {
+    for (y = 4; y <= 9; y++) { px(3, y); px(12, y); }
+    px(3, 6, hl); px(12, 6, hl); px(4, 9, hd); px(11, 9, hd);
+  } else if (style === "bun") {
+    px(7, 0); px(8, 0); px(7, 0, hl);
+    px(6, 1, hd); px(9, 1, hd);
+  } else if (style === "spiky") {
+    px(4, 0); px(6, 0, hl); px(8, 0); px(10, 0, hl); px(11, 0);
+    px(5, 1, hl); px(9, 1, hl);
+  } else if (style === "curly") {
+    px(5, 0); px(6, 0, hl); px(9, 0); px(10, 0, hl);
+    px(2, 3); px(13, 3); px(2, 4, hd); px(13, 4, hd); px(2, 5); px(13, 5); px(2, 6, hd); px(13, 6, hd);
+  } else if (style === "cap") {
+    var CAP = "#2e4bd0", CAPL = "#4a74e8", CAPD = "#1d2f7a", GOLD = "#f2c14e", cx;
+    for (cx = 5; cx <= 10; cx++) px(cx, 1, CAP);
+    for (cx = 4; cx <= 11; cx++) px(cx, 2, CAP);
+    px(5, 2, CAPL); px(6, 2, CAPL); px(7, 2, CAPL);
+    for (cx = 3; cx <= 12; cx++) px(cx, 3, CAP);
+    for (cx = 3; cx <= 12; cx++) px(cx, 4, CAPD);
+    px(10, 4, GOLD); px(11, 4, GOLD); px(12, 4, GOLD);
+    px(3, 5, hc); px(12, 5, hc);
+  } else {
+    px(7, 0, hc); px(8, 0, hl);
+  }
+}
+      /* expression pass (D geometry, Q-278): repaints the face
+         zone (brows 5, eyes 6–7, mouth 8) over the base rows;
+         the cheeks at (4,8)/(11,8) always stay. "smile" (and any
+         unknown value) = the face drawn by HERO_ROWS itself, so
+         nothing is repainted. Brows live on their own row 5, so
+         they are drawn under the cap style too. */
+function drawFace(ctx, face, pal, style) {
+  if (!face || face === "smile") return;
+  var S = pal.S, E = pal.E, W = "#ffffff", M = "#a34a38", G = "#f8bc3d", HT = "#e5484d";
+  var BR = shadeHex(pal.H, 0.7), C = "#f49c8a";
+  function px(x, y, c) { ctx.fillStyle = c; ctx.fillRect(x, y, 1, 1); }
+  [5, 6, 7, 8, 9, 10].forEach(function (x) { px(x, 5, S); px(x, 6, S); px(x, 7, S); px(x, 8, S); });
+  function brows() { px(5, 5, BR); px(6, 5, BR); px(9, 5, BR); px(10, 5, BR); }
+  if (face === "grin") {
+    brows();
+    px(5, 7, E); px(6, 6, E); px(9, 6, E); px(10, 7, E);
+    px(6, 8, M); px(7, 8, W); px(8, 8, W); px(9, 8, M);
+  } else if (face === "wink") {
+    brows();
+    px(5, 7, E); px(6, 7, E);
+    px(9, 6, W); px(10, 6, E); px(9, 7, E); px(10, 7, E);
+    px(7, 8, M); px(8, 8, M);
+    px(4, 7, C);
+  } else if (face === "sleepy") {
+    px(6, 5, BR); px(9, 5, BR);
+    px(5, 7, E); px(6, 7, E); px(9, 7, E); px(10, 7, E);
+    px(7, 8, M);
+    px(11, 6, "#bfe3ea");
+  } else if (face === "star") {
+    brows();
+    px(5, 6, G); px(6, 6, W); px(9, 6, W); px(10, 6, G);
+    px(5, 7, G); px(6, 7, G); px(9, 7, G); px(10, 7, G);
+    px(7, 8, M); px(8, 8, M);
+    px(4, 6, G); px(11, 6, G);
+  } else if (face === "heart") {
+    brows();
+    px(5, 6, HT); px(6, 6, W); px(9, 6, W); px(10, 6, HT);
+    px(5, 7, HT); px(6, 7, HT); px(9, 7, HT); px(10, 7, HT);
+    px(7, 8, HT); px(8, 8, HT);
+  }
+}
+function drawBaseSprite(ctx, pal, style, face) {
+  var P = {
+    ".": null,
+    "H": pal.H, "h": shadeHex(pal.H, 1.3), "d": shadeHex(pal.H, 0.64), "g": shadeHex(pal.H, 1.5),
+    "S": pal.S, "s": shadeHex(pal.S, 0.86), "n": shadeHex(pal.S, 0.66), "C": "#f49c8a", "M": "#a34a38",
+    "E": pal.E, "W": "#ffffff",
+    "B": pal.B, "L": shadeHex(pal.B, 1.24), "b": shadeHex(pal.B, 0.66),
+    "P": pal.P, "p": shadeHex(pal.P, 0.62), "q": shadeHex(pal.P, 1.22),
+    "R": pal.R, "G": "#f8bc3d", "K": "#26222e", "k": "#4a4458"
+  };
+  for (var y = 0; y < HERO_ROWS.length; y++) {
+    var row = HERO_ROWS[y];
+    for (var x = 0; x < row.length; x++) {
+      var col = P[row[x]];
+      if (col) { ctx.fillStyle = col; ctx.fillRect(x, y, 1, 1); }
+    }
+  }
+  drawHairStyle(ctx, style, pal.H, P.h, P.d);
+  drawFace(ctx, face, pal, style);
+}
       /* YUSHA's open jacket (art dept 02b spec): with the cap
          style and NO outfit item equipped, the torso's outermost
-         shirt-colour cells (rows 8–11, x4 / x11 — the only B/L/b
+         shirt-colour cells (rows 10–12, x4 / x11 — the only B/L/b
          cells the source generator's x<=4 / x>=11 rule reaches on
          this grid) turn jacket brown #8a5a33; the centre keeps
          the shirt green and the gold belt buckle (R) stays. */
-      var YUSHA_JACKET = [[4, 8], [11, 8], [4, 9], [11, 9], [4, 10], [11, 10], [4, 11], [11, 11]];
-      function drawYushaJacket(ctx) {
-        ctx.fillStyle = "#8a5a33";
-        YUSHA_JACKET.forEach(function (c) { ctx.fillRect(c[0], c[1], 1, 1); });
-      }
+var YUSHA_JACKET = [[4, 10], [11, 10], [4, 11], [11, 11], [4, 12], [11, 12]];
+function drawYushaJacket(ctx) {
+  ctx.fillStyle = "#8a5a33";
+  YUSHA_JACKET.forEach(function (c) { ctx.fillRect(c[0], c[1], 1, 1); });
+}
       function drawHero(canvas, id) {
         if (!canvas || !canvas.getContext) return;
         var ctx = canvas.getContext("2d");
@@ -24356,93 +24366,93 @@ var qrcode = function() {
       function allHeroIds() { return HERO_IDS.concat(unlockedHeroes()); }
 
       /* Hat shapes (c1 = main, c2 = accent). Drawn last, over hair. */
-      function drawHatShape(ctx, it, px, span) {
-        var c1 = it.c1, c2 = it.c2, y;
-        switch (it.hat) {
-          case "cap": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, c2); break;
-          case "starcap": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, c2); px(7, 1, "#ffd166"); px(8, 2, "#ffd166"); break;
-          case "straw": span(1, 6, 9, c1); span(2, 5, 10, c1); span(2, 6, 9, c2); span(3, 2, 13, c1); break;
-          case "clip": px(11, 2, c1); px(12, 2, c1); px(11, 3, c1); px(12, 3, c2); break;
-          case "ears": px(4, 0, c1); px(5, 0, c1); px(4, 1, c1); px(5, 1, c2); px(10, 0, c1); px(11, 0, c1); px(11, 1, c1); px(10, 1, c2); break;
-          case "wizard": px(7, 0, c1); px(8, 0, c1); span(1, 6, 9, c1); span(2, 5, 10, c2); span(3, 3, 12, c1); break;
-          case "crown": px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); px(11, 0, c1); span(1, 5, 11, c1); px(8, 1, c2); break;
-          case "hood":
-            for (y = 3; y <= 8; y++) { px(3, y, c1); px(12, y, c1); }
-            span(1, 4, 11, c1); span(2, 3, 12, c1);
-            px(4, 0, c1); px(5, 0, c1); px(10, 0, c1); px(11, 0, c1);
-            px(5, 1, c2); px(10, 1, c2);
-            break;
-          case "beret": span(1, 4, 10, c1); span(2, 3, 11, c1); px(11, 1, c1); px(12, 2, c1); px(7, 0, c2); break;
-          case "knit": px(7, 0, c2); px(8, 0, c2); span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 4, 11, c2); px(6, 1, c2); px(9, 2, c2); break;
-          case "detective": span(1, 6, 9, c1); span(2, 5, 10, c2); px(6, 2, c1); px(8, 2, c1); span(3, 3, 12, c1); break;
-          case "pointy": px(8, 0, c1); span(1, 7, 8, c1); px(7, 1, c2); span(2, 6, 9, c1); px(8, 2, c2); span(3, 3, 12, c1); break;
-          case "hachimaki": span(3, 4, 11, c1); px(7, 3, c2); px(8, 3, c2); px(12, 3, c1); px(12, 4, c1); px(13, 4, c1); break;
-          case "royalcrown": px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); px(11, 0, c1); span(1, 5, 11, c1); px(6, 1, c2); px(8, 1, "#e5484d"); px(10, 1, c2); break;
-          case "visor": span(2, 4, 11, c2); span(3, 4, 11, c2); span(4, 4, 11, c1); px(4, 4, "#ffffff"); px(5, 4, "#ffffff"); break;
-          case "bunny": px(4, 0, c1); px(5, 0, c1); px(4, 1, c1); px(5, 1, c2); px(10, 0, c1); px(11, 0, c1); px(11, 1, c1); px(10, 1, c2); span(2, 4, 11, c2); break;
-          case "aviator": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, "#5d3a1e"); px(5, 3, c2); px(6, 3, c2); px(9, 3, c2); px(10, 3, c2); px(3, 4, c1); px(12, 4, c1); break;
-          case "hairpin": px(13, 0, "#b5563c"); px(12, 1, "#b5563c"); px(11, 2, c1); px(12, 2, c1); px(11, 3, c1); px(12, 3, c2); px(12, 4, c1); break;
-          case "sprout": px(8, 1, c2); px(8, 0, c2); px(6, 0, c1); px(7, 0, c1); px(9, 0, c1); px(10, 0, c1); px(7, 1, c1); px(9, 1, c1); break;
-          case "halo": span(0, 6, 9, c1); px(5, 1, c1); px(10, 1, c1); px(7, 0, "#ffffff"); break;
-          case "horns": px(3, 0, c1); px(3, 1, c1); px(4, 1, c2); px(12, 0, c1); px(12, 1, c1); px(11, 1, c2); break;
-          case "chef": span(1, 5, 10, c1); span(2, 5, 10, c1); px(4, 1, c1); px(11, 1, c1); px(4, 2, c1); px(11, 2, c1); span(3, 5, 10, c2); break;
-          case "pirate": span(1, 4, 11, c1); span(2, 3, 12, c1); px(7, 1, "#ffffff"); px(8, 1, "#ffffff"); break;
-          case "flowercrown": span(2, 4, 11, c2); px(4, 1, c1); px(6, 1, "#ffd83d"); px(8, 1, c1); px(10, 1, "#ffffff"); px(5, 2, c1); px(9, 2, "#ffd83d"); break;
-        }
-      }
+function drawHatShape(ctx, it, px, span) {
+  var c1 = it.c1, c2 = it.c2, y;
+  switch (it.hat) {
+    case "cap": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, c2); break;
+    case "starcap": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, c2); px(7, 1, "#ffd166"); px(8, 2, "#ffd166"); break;
+    case "straw": span(1, 6, 9, c1); span(2, 5, 10, c1); span(2, 6, 9, c2); span(3, 2, 13, c1); break;
+    case "clip": px(11, 2, c1); px(12, 2, c1); px(11, 3, c1); px(12, 3, c2); break;
+    case "ears": px(4, 0, c1); px(5, 0, c1); px(4, 1, c1); px(5, 1, c2); px(10, 0, c1); px(11, 0, c1); px(11, 1, c1); px(10, 1, c2); break;
+    case "wizard": px(7, 0, c1); px(8, 0, c1); span(1, 6, 9, c1); span(2, 5, 10, c2); span(3, 3, 12, c1); break;
+    case "crown": px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); px(11, 0, c1); span(1, 5, 11, c1); px(8, 1, c2); break;
+    case "hood":
+      for (y = 3; y <= 9; y++) { px(3, y, c1); px(12, y, c1); }
+      span(1, 4, 11, c1); span(2, 3, 12, c1);
+      px(4, 0, c1); px(5, 0, c1); px(10, 0, c1); px(11, 0, c1);
+      px(5, 1, c2); px(10, 1, c2);
+      break;
+    case "beret": span(1, 4, 10, c1); span(2, 3, 11, c1); px(11, 1, c1); px(12, 2, c1); px(7, 0, c2); break;
+    case "knit": px(7, 0, c2); px(8, 0, c2); span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 4, 11, c2); px(6, 1, c2); px(9, 2, c2); break;
+    case "detective": span(1, 6, 9, c1); span(2, 5, 10, c2); px(6, 2, c1); px(8, 2, c1); span(3, 3, 12, c1); break;
+    case "pointy": px(8, 0, c1); span(1, 7, 8, c1); px(7, 1, c2); span(2, 6, 9, c1); px(8, 2, c2); span(3, 3, 12, c1); break;
+    case "hachimaki": span(3, 4, 11, c1); px(7, 3, c2); px(8, 3, c2); px(12, 3, c1); px(12, 4, c1); px(13, 4, c1); break;
+    case "royalcrown": px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); px(11, 0, c1); span(1, 5, 11, c1); px(6, 1, c2); px(8, 1, "#e5484d"); px(10, 1, c2); break;
+    case "visor": span(2, 4, 11, c2); span(3, 4, 11, c2); span(4, 4, 11, c1); px(4, 4, "#ffffff"); px(5, 4, "#ffffff"); break;
+    case "bunny": px(4, 0, c1); px(5, 0, c1); px(4, 1, c1); px(5, 1, c2); px(10, 0, c1); px(11, 0, c1); px(11, 1, c1); px(10, 1, c2); span(2, 4, 11, c2); break;
+    case "aviator": span(1, 5, 10, c1); span(2, 4, 11, c1); span(3, 3, 12, "#5d3a1e"); px(5, 3, c2); px(6, 3, c2); px(9, 3, c2); px(10, 3, c2); px(3, 4, c1); px(12, 4, c1); break;
+    case "hairpin": px(13, 0, "#b5563c"); px(12, 1, "#b5563c"); px(11, 2, c1); px(12, 2, c1); px(11, 3, c1); px(12, 3, c2); px(12, 4, c1); break;
+    case "sprout": px(8, 1, c2); px(8, 0, c2); px(6, 0, c1); px(7, 0, c1); px(9, 0, c1); px(10, 0, c1); px(7, 1, c1); px(9, 1, c1); break;
+    case "halo": span(0, 6, 9, c1); px(5, 1, c1); px(10, 1, c1); px(7, 0, "#ffffff"); break;
+    case "horns": px(3, 0, c1); px(3, 1, c1); px(4, 1, c2); px(12, 0, c1); px(12, 1, c1); px(11, 1, c2); break;
+    case "chef": span(1, 5, 10, c1); span(2, 5, 10, c1); px(4, 1, c1); px(11, 1, c1); px(4, 2, c1); px(11, 2, c1); span(3, 5, 10, c2); break;
+    case "pirate": span(1, 4, 11, c1); span(2, 3, 12, c1); px(7, 1, "#ffffff"); px(8, 1, "#ffffff"); break;
+    case "flowercrown": span(2, 4, 11, c2); px(4, 1, c1); px(6, 1, "#ffd83d"); px(8, 1, c1); px(10, 1, "#ffffff"); px(5, 2, c1); px(9, 2, "#ffd83d"); break;
+  }
+}
       /* Neck-slot styles: scarves wrap; jewellery and bows sit
          on the neck / chest instead. c2 = pattern / jewel accent. */
-      function drawNeckShape(ctx, it, px, span) {
-        var sc = it.scarf, nk = it.neck || "scarf", c2 = it.c2, j;
-        if (nk === "rainbow") {
-          var rc = ["#e5484d", "#e8762b", "#ffd83d", "#2e9e5b", "#2f7cd6", "#7558c9", "#e5484d", "#e8762b"];
-          for (j = 0; j < 8; j++) px(4 + j, 8, rc[j]);
-          px(11, 9, "#7558c9"); px(11, 10, "#2f7cd6");
-        } else if (nk === "bowtie") {
-          px(7, 7, sc); px(8, 7, sc); px(5, 8, sc); px(6, 8, sc); px(9, 8, sc); px(10, 8, sc); px(7, 8, sc); px(8, 8, sc);
-        } else if (nk === "bell") {
-          px(6, 7, "#9aa5ad"); px(7, 7, "#9aa5ad"); px(8, 7, "#9aa5ad"); px(9, 7, "#9aa5ad");
-          px(7, 8, sc); px(8, 8, sc); px(8, 9, sc);
-        } else if (nk === "pendant") {
-          px(6, 7, sc); px(9, 7, sc); px(6, 8, sc); px(9, 8, sc);
-          px(7, 8, c2 || "#ffd83d"); px(8, 8, c2 || "#ffd83d"); px(7, 9, c2 || "#ffd83d"); px(8, 9, c2 || "#ffd83d");
-        } else if (nk === "pearls") {
-          for (j = 5; j <= 10; j++) px(j, 7, j % 2 ? "#ffffff" : "#dfe6ea");
-        } else if (nk === "choker") {
-          span(7, 6, 9, sc); px(7, 8, c2 || "#f8bc3d"); px(8, 8, c2 || "#f8bc3d");
-        } else if (nk === "ribbon") {
-          px(10, 6, sc); px(11, 6, sc); px(12, 6, sc); px(10, 7, sc); px(11, 7, sc); px(12, 7, sc); px(11, 8, sc);
-        } else if (nk === "brooch") {
-          px(5, 8, sc); px(4, 9, sc); px(5, 9, "#ffffff"); px(6, 9, sc); px(5, 10, sc);
-        } else if (nk === "feather") {
-          span(8, 4, 11, "#8a5a33"); px(12, 8, sc); px(12, 9, sc); px(12, 10, "#2b8a7d"); px(11, 9, sc);
-        } else if (nk === "bandana") {
-          span(8, 4, 11, sc); px(7, 9, sc); px(8, 9, sc); px(11, 9, sc);
-        } else {
-          span(8, 4, 11, sc);
-          if (c2) { px(5, 8, c2); px(7, 8, c2); px(9, 8, c2); px(11, 9, c2); }
-          px(11, 9, sc); px(11, 10, sc);
-        }
-      }
+function drawNeckShape(ctx, it, px, span) {
+  var sc = it.scarf, nk = it.neck || "scarf", c2 = it.c2, j;
+  if (nk === "rainbow") {
+    var rc = ["#e5484d", "#e8762b", "#ffd83d", "#2e9e5b", "#2f7cd6", "#7558c9", "#e5484d", "#e8762b"];
+    for (j = 0; j < 8; j++) px(4 + j, 10, rc[j]);
+    px(11, 11, "#7558c9"); px(11, 12, "#2f7cd6");
+  } else if (nk === "bowtie") {
+    px(7, 9, sc); px(8, 9, sc); px(5, 10, sc); px(6, 10, sc); px(9, 10, sc); px(10, 10, sc); px(7, 10, sc); px(8, 10, sc);
+  } else if (nk === "bell") {
+    px(6, 9, "#9aa5ad"); px(7, 9, "#9aa5ad"); px(8, 9, "#9aa5ad"); px(9, 9, "#9aa5ad");
+    px(7, 10, sc); px(8, 10, sc); px(8, 11, sc);
+  } else if (nk === "pendant") {
+    px(6, 9, sc); px(9, 9, sc); px(6, 10, sc); px(9, 10, sc);
+    px(7, 10, c2 || "#ffd83d"); px(8, 10, c2 || "#ffd83d"); px(7, 11, c2 || "#ffd83d"); px(8, 11, c2 || "#ffd83d");
+  } else if (nk === "pearls") {
+    for (j = 5; j <= 10; j++) px(j, 9, j % 2 ? "#ffffff" : "#dfe6ea");
+  } else if (nk === "choker") {
+    span(9, 6, 9, sc); px(7, 10, c2 || "#f8bc3d"); px(8, 10, c2 || "#f8bc3d");
+  } else if (nk === "ribbon") {
+    px(11, 7, sc); px(12, 7, sc); px(13, 7, sc); px(11, 8, sc); px(12, 8, sc); px(13, 8, sc); px(12, 9, sc);
+  } else if (nk === "brooch") {
+    px(5, 10, sc); px(4, 11, sc); px(5, 11, "#ffffff"); px(6, 11, sc); px(5, 12, sc);
+  } else if (nk === "feather") {
+    span(10, 4, 11, "#8a5a33"); px(12, 10, sc); px(12, 11, sc); px(12, 12, "#2b8a7d"); px(11, 11, sc);
+  } else if (nk === "bandana") {
+    span(10, 4, 11, sc); px(7, 11, sc); px(8, 11, sc); px(11, 11, sc);
+  } else {
+    span(10, 4, 11, sc);
+    if (c2) { px(5, 10, c2); px(7, 10, c2); px(9, 10, c2); px(11, 11, c2); }
+    px(11, 11, sc); px(11, 12, sc);
+  }
+}
       /* Outfit detail passes (fx): collars, aprons, sashes, panels
          drawn over the flat body colour so each outfit reads. */
-      function drawOutfitFx(ctx, it, px, span) {
-        switch (it.fx) {
-          case "sailor": span(8, 4, 11, "#ffffff"); px(7, 9, "#e5484d"); px(8, 9, "#e5484d"); px(8, 10, "#e5484d"); break;
-          case "maid": span(8, 6, 9, "#ffffff"); span(9, 6, 9, "#ffffff"); span(10, 6, 9, "#ffffff"); span(11, 5, 10, "#ffffff"); break;
-          case "happi": span(10, 4, 11, "#fffdf4"); px(5, 8, "#fffdf4"); px(10, 8, "#fffdf4"); px(7, 11, "#fffdf4"); px(8, 11, "#fffdf4"); break;
-          case "sagerobe": px(6, 8, "#f8bc3d"); px(9, 8, "#f8bc3d"); px(6, 9, "#f8bc3d"); px(9, 9, "#f8bc3d"); px(6, 10, "#f8bc3d"); px(9, 10, "#f8bc3d"); span(11, 4, 11, "#f8bc3d"); break;
-          case "hoodie": px(3, 6, it.body); px(12, 6, it.body); px(6, 8, "#ffffff"); px(9, 8, "#ffffff"); span(11, 6, 9, "rgba(0,0,0,0.16)"); break;
-          case "denim": px(7, 9, "#cfd8dc"); px(7, 10, "#cfd8dc"); px(10, 9, "rgba(0,0,0,0.18)"); px(5, 9, "rgba(0,0,0,0.18)"); break;
-          case "kimono": px(6, 8, "#ffffff"); px(9, 8, "#ffffff"); px(7, 9, "#ffffff"); px(8, 9, "#ffffff"); span(11, 4, 11, "#f8bc3d"); px(5, 9, "#ffd9e8"); px(10, 10, "#ffd9e8"); break;
-          case "spacesuit": px(4, 8, "#e8762b"); px(11, 8, "#e8762b"); span(9, 6, 9, "#cfd8dc"); px(6, 9, "#e5484d"); px(9, 9, "#2e9e5b"); span(11, 4, 11, "#9fb3bd"); break;
-          case "apron": px(5, 8, "#f5e9c9"); px(10, 8, "#f5e9c9"); span(9, 6, 9, "#f5e9c9"); span(10, 6, 9, "#f5e9c9"); span(11, 6, 9, "#f5e9c9"); break;
-          case "armor": px(3, 8, "#e8eef2"); px(12, 8, "#e8eef2"); px(3, 9, "#e8eef2"); px(12, 9, "#e8eef2"); px(5, 8, "#ffffff"); px(7, 9, "#e5484d"); px(8, 9, "#e5484d"); span(11, 4, 11, "#8a5a33"); break;
-          case "raincoat": px(3, 6, it.body); px(12, 6, it.body); px(5, 9, "rgba(255,255,255,0.55)"); px(9, 10, "rgba(255,255,255,0.55)"); px(7, 9, "#e0a92e"); px(7, 10, "#e0a92e"); break;
-          case "suit": px(7, 8, "#ffffff"); px(8, 8, "#ffffff"); px(7, 9, "#b02a2e"); px(7, 10, "#b02a2e"); px(10, 9, "#ffffff"); break;
-          case "dress": span(11, 4, 11, "#ffd83d"); span(12, 3, 12, it.body); span(13, 4, 11, it.body); span(14, 6, 9, it.body); px(5, 12, "#ffd83d"); px(10, 12, "#ffffff"); px(7, 13, "#ffd83d"); px(9, 13, "#ffffff"); break;
-        }
-      }
+function drawOutfitFx(ctx, it, px, span) {
+  switch (it.fx) {
+    case "sailor": span(10, 4, 11, "#ffffff"); px(7, 11, "#e5484d"); px(8, 11, "#e5484d"); px(8, 12, "#e5484d"); break;
+    case "maid": span(10, 6, 9, "#ffffff"); span(11, 6, 9, "#ffffff"); span(12, 5, 10, "#ffffff"); break;
+    case "happi": span(11, 4, 11, "#fffdf4"); px(5, 10, "#fffdf4"); px(10, 10, "#fffdf4"); px(7, 12, "#fffdf4"); px(8, 12, "#fffdf4"); break;
+    case "sagerobe": px(6, 10, "#f8bc3d"); px(9, 10, "#f8bc3d"); px(6, 11, "#f8bc3d"); px(9, 11, "#f8bc3d"); span(12, 4, 11, "#f8bc3d"); break;
+    case "hoodie": px(3, 7, it.body); px(12, 7, it.body); px(6, 10, "#ffffff"); px(9, 10, "#ffffff"); span(12, 6, 9, "rgba(0,0,0,0.16)"); break;
+    case "denim": px(7, 10, "#cfd8dc"); px(7, 11, "#cfd8dc"); px(10, 11, "rgba(0,0,0,0.18)"); px(5, 11, "rgba(0,0,0,0.18)"); break;
+    case "kimono": px(6, 10, "#ffffff"); px(9, 10, "#ffffff"); px(7, 11, "#ffffff"); px(8, 11, "#ffffff"); span(12, 4, 11, "#f8bc3d"); px(5, 11, "#ffd9e8"); px(10, 11, "#ffd9e8"); break;
+    case "spacesuit": px(4, 10, "#e8762b"); px(11, 10, "#e8762b"); span(11, 6, 9, "#cfd8dc"); px(6, 11, "#e5484d"); px(9, 11, "#2e9e5b"); span(12, 4, 11, "#9fb3bd"); break;
+    case "apron": px(5, 10, "#f5e9c9"); px(10, 10, "#f5e9c9"); span(11, 6, 9, "#f5e9c9"); span(12, 6, 9, "#f5e9c9"); break;
+    case "armor": px(3, 10, "#e8eef2"); px(12, 10, "#e8eef2"); px(3, 11, "#e8eef2"); px(12, 11, "#e8eef2"); px(5, 10, "#ffffff"); px(7, 11, "#e5484d"); px(8, 11, "#e5484d"); span(12, 4, 11, "#8a5a33"); break;
+    case "raincoat": px(3, 7, it.body); px(12, 7, it.body); px(5, 11, "rgba(255,255,255,0.55)"); px(9, 11, "rgba(255,255,255,0.55)"); px(7, 10, "#e0a92e"); px(7, 11, "#e0a92e"); break;
+    case "suit": px(7, 10, "#ffffff"); px(8, 10, "#ffffff"); px(7, 11, "#b02a2e"); px(7, 12, "#b02a2e"); px(10, 11, "#ffffff"); break;
+    case "dress": span(12, 4, 11, "#ffd83d"); span(13, 3, 12, it.body); span(14, 4, 11, it.body); span(15, 6, 9, it.body); px(5, 13, "#ffd83d"); px(10, 13, "#ffffff"); px(7, 14, "#ffd83d"); px(9, 14, "#ffffff"); break;
+  }
+}
       /* The full palette + items for a hero wearing an equipment
          set — shared by the front sprite and the side (walking)
          sprite so the little walker wears exactly what the
@@ -24497,159 +24507,152 @@ var qrcode = function() {
          The street itself grows with level: SCENE_PROPS unlock
          Tokyo landmarks one milestone at a time. */
       var sideBuf = null, sideSil = null;
-      function drawSideSprite(ctx, E, frame, blink) {
-        /* flat Kairo-style pass (art redo, 2026-10-27): the sprite
-           is drawn into a buffer with a strict 3-tone ramp per
-           colour, then stamped onto the scene over a hard 1px ink
-           silhouette — a crisp outline, no soft shading anywhere */
-        if (!sideBuf) {
-          sideBuf = document.createElement("canvas"); sideBuf.width = 16; sideBuf.height = 16;
-          sideSil = document.createElement("canvas"); sideSil.width = 16; sideSil.height = 16;
-        }
-        var pal = E.pal;
-        var H = pal.H, HL = shadeHex(H, 1.22), HD = shadeHex(H, 0.74);
-        var S = pal.S, SS = shadeHex(S, 0.88);
-        var B = pal.B, BD = shadeHex(B, 0.74), BL = shadeHex(B, 1.22);
-        var Pn = pal.P, PD = shadeHex(Pn, 0.74), K = "#26222e";
-        var dctx = sideBuf.getContext("2d");
-        dctx.clearRect(0, 0, 16, 16);
-        function px(x, y, c) { if (c) { dctx.fillStyle = c; dctx.fillRect(x, y, 1, 1); } }
-        function rect(x, y, w, h, c) { if (c) { dctx.fillStyle = c; dctx.fillRect(x, y, w, h); } }
-        /* legs (behind the body hem) */
-        if (frame === 0) {
-          rect(8, 11, 2, 3, Pn); rect(8, 14, 3, 1, K);
-          rect(5, 11, 2, 3, PD); rect(4, 14, 3, 1, K);
-        } else if (frame === 2) {
-          rect(5, 11, 2, 3, Pn); rect(4, 14, 3, 1, K);
-          rect(8, 11, 2, 3, PD); rect(8, 14, 3, 1, K);
-        } else {
-          rect(6, 11, 2, 3, Pn); rect(6, 14, 3, 1, K);
-          rect(8, 11, 2, 2, PD); rect(8, 13, 3, 1, K);
-        }
-        /* neck (skin, between head and torso) */
-        rect(7, 7, 3, 1, S); px(9, 7, SS);
-        /* body */
-        rect(5, 8, 5, 3, B); rect(5, 8, 1, 3, BD); rect(9, 8, 1, 3, BL);
-        px(7, 10, pal.R); px(8, 10, pal.R);
-        /* arm swing (opposite the stride) */
-        if (frame === 0) { px(10, 8, BD); px(11, 9, BD); px(11, 10, S); }
-        else if (frame === 2) { px(9, 8, BD); px(8, 9, BD); px(8, 10, S); }
-        else { px(10, 8, BD); px(10, 9, BD); px(10, 10, S); }
-        /* scarf / neckpiece: a band + a fluttering tail behind */
-        if (E.scarfIt) {
-          var sc = E.scarfIt.scarf, nk = E.scarfIt.neck || "scarf";
-          if (nk === "scarf" || nk === "rainbow") {
-            rect(6, 7, 4, 1, sc);
-            var fl = frame === 1 ? 1 : 0;
-            px(4, 7 + fl, sc); px(3, 8 + fl, sc);
-            if (E.scarfIt.c2) px(3, 9 + fl, E.scarfIt.c2);
-          } else {
-            px(9, 8, E.scarfIt.c2 || sc); px(9, 9, sc);
-          }
-        }
-        /* head: face, cheek, eye (with the Kairo white sparkle) */
-        rect(6, 3, 6, 4, S);
-        rect(7, 6, 4, 1, SS);
-        px(10, 6, "#f49c8a");
-        if (blink) { px(10, 5, pal.E); px(11, 5, pal.E); }
-        else { px(10, 4, pal.E); px(10, 5, pal.E); px(11, 4, "#ffffff"); }
-        /* hair: dome with a light band, dark back fall, fringe */
-        rect(4, 1, 8, 2, H); rect(6, 1, 4, 1, HL); px(4, 1, HD);
-        rect(10, 3, 2, 1, H);
-        rect(4, 3, 2, 5, HD);
-        var sty = E.cust.style;
-        if (sty === "long") rect(4, 8, 2, 3, HD);
-        else if (sty === "twin") { rect(3, 3, 1, 4, H); px(3, 7, HD); px(3, 2, "#e5484d"); }
-        else if (sty === "pony") { px(3, 2, H); px(3, 3, H); px(3, 4, HL); px(3, 5, H); px(3, 6, HD); }
-        else if (sty === "bob") { rect(4, 3, 2, 4, H); px(5, 7, HD); }
-        else if (sty === "bun") { px(6, 0, H); px(7, 0, HL); }
-        if (sty === "cap") {
-          /* side view of the same cap: blue dome over rows 1–2,
-             light band on row 1, deep band + gold badge at the
-             front of row 3 */
-          rect(4, 1, 8, 2, "#2e4bd0"); rect(6, 1, 3, 1, "#4a74e8");
-          rect(10, 3, 2, 1, "#1d2f7a"); px(11, 3, "#f2c14e");
-        }
-        /* hat, side view (simplified silhouettes, same colours) */
-        if (E.hatIt) {
-          var c1 = E.hatIt.c1, c2 = E.hatIt.c2;
-          switch (E.hatIt.hat) {
-            case "cap": case "starcap":
-              rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c1); rect(11, 2, 3, 1, c2);
-              if (E.hatIt.hat === "starcap") px(7, 0, "#ffd166");
-              break;
-            case "crown": case "royalcrown":
-              px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); rect(4, 1, 8, 1, c1); px(8, 1, c2);
-              break;
-            case "ears": case "bunny":
-              rect(5, 0, 1, 2, c1); px(5, 1, c2); rect(9, 0, 1, 2, c1); px(9, 1, c2);
-              break;
-            case "straw":
-              rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c2); rect(3, 2, 11, 1, c1);
-              break;
-            case "wizard": case "pointy":
-              px(8, 0, c1); rect(7, 1, 3, 1, c1); rect(3, 2, 11, 1, c1);
-              if (E.hatIt.hat === "wizard") px(7, 1, "#ffd166");
-              break;
-            case "knit":
-              rect(4, 1, 8, 1, c1); rect(4, 2, 8, 1, c2); px(7, 0, c2);
-              break;
-            case "beret":
-              rect(4, 1, 7, 1, c1); rect(3, 2, 4, 1, c1); px(7, 0, c2);
-              break;
-            case "hood":
-              rect(4, 1, 8, 2, c1); rect(4, 3, 2, 4, c1); px(5, 0, c1); px(9, 0, c1);
-              break;
-            case "visor":
-              rect(4, 1, 8, 1, c2); rect(11, 2, 3, 1, c1);
-              break;
-            case "detective":
-              px(6, 0, c1); px(9, 0, c1); rect(5, 1, 6, 1, c2); rect(3, 2, 11, 1, c1);
-              break;
-            case "hachimaki":
-              rect(4, 2, 8, 1, c1); px(7, 2, c2); px(3, 3, c1);
-              break;
-            case "aviator":
-              rect(4, 1, 8, 1, c1); rect(4, 2, 8, 1, "#5d3a1e"); px(10, 2, c2); px(11, 2, c2);
-              break;
-            case "clip": case "hairpin":
-              px(11, 2, c1); px(11, 3, c2);
-              break;
-            case "halo":
-              rect(5, 0, 6, 1, c1);
-              break;
-            case "sprout":
-              px(6, 0, c1); px(7, 0, c1); px(8, 0, c2);
-              break;
-            case "horns":
-              px(4, 0, c1); px(11, 0, c1); px(4, 1, c2); px(11, 1, c2);
-              break;
-            case "chef":
-              rect(5, 0, 6, 2, c1); rect(4, 2, 8, 1, c2);
-              break;
-            case "pirate":
-              rect(4, 1, 8, 1, c1); rect(3, 2, 11, 1, c1); px(8, 1, "#ffffff");
-              break;
-            case "flowercrown":
-              rect(4, 2, 8, 1, c2); px(5, 1, c1); px(8, 1, "#ffd83d"); px(11, 1, c1);
-              break;
-            default:
-              rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c1);
-          }
-        }
-        /* hard outline: stamp the ink silhouette under the sprite */
-        var sctx = sideSil.getContext("2d");
-        sctx.clearRect(0, 0, 16, 16);
-        sctx.globalCompositeOperation = "source-over";
-        sctx.drawImage(sideBuf, 0, 0);
-        sctx.globalCompositeOperation = "source-in";
-        sctx.fillStyle = K;
-        sctx.fillRect(0, 0, 16, 16);
-        sctx.globalCompositeOperation = "source-over";
-        ctx.drawImage(sideSil, -1, 0); ctx.drawImage(sideSil, 1, 0);
-        ctx.drawImage(sideSil, 0, -1); ctx.drawImage(sideSil, 0, 1);
-        ctx.drawImage(sideBuf, 0, 0);
-      }
+function drawSideSprite(ctx, E, frame, blink) {
+  if (!sideBuf) {
+    sideBuf = document.createElement("canvas"); sideBuf.width = 16; sideBuf.height = 16;
+    sideSil = document.createElement("canvas"); sideSil.width = 16; sideSil.height = 16;
+  }
+  var pal = E.pal;
+  var H = pal.H, HL = shadeHex(H, 1.22), HD = shadeHex(H, 0.74);
+  var S = pal.S, SS = shadeHex(S, 0.88);
+  var B = pal.B, BD = shadeHex(B, 0.74), BL = shadeHex(B, 1.22);
+  var Pn = pal.P, PD = shadeHex(Pn, 0.74), K = "#26222e";
+  var dctx = sideBuf.getContext("2d");
+  dctx.clearRect(0, 0, 16, 16);
+  function px(x, y, c) { if (c) { dctx.fillStyle = c; dctx.fillRect(x, y, 1, 1); } }
+  function rect(x, y, w, h, c) { if (c) { dctx.fillStyle = c; dctx.fillRect(x, y, w, h); } }
+  /* legs (behind the body hem): D legs are 2 rows + shoe row 15 */
+  if (frame === 0) {
+    rect(8, 13, 2, 2, Pn); rect(8, 15, 3, 1, K);
+    rect(5, 13, 2, 2, PD); rect(4, 15, 3, 1, K);
+  } else if (frame === 2) {
+    rect(5, 13, 2, 2, Pn); rect(4, 15, 3, 1, K);
+    rect(8, 13, 2, 2, PD); rect(8, 15, 3, 1, K);
+  } else {
+    rect(6, 13, 2, 2, Pn); rect(6, 15, 3, 1, K);
+    rect(8, 13, 2, 1, PD); rect(8, 14, 3, 1, K);
+  }
+  /* neck: skin row 8 + shaded band row 9 (the front neck, in profile) */
+  rect(7, 8, 3, 1, S); rect(7, 9, 3, 1, SS);
+  /* body rows 10-12 */
+  rect(5, 10, 5, 3, B); rect(5, 10, 1, 3, BD); rect(9, 10, 1, 3, BL);
+  px(7, 12, pal.R); px(8, 12, pal.R);
+  /* arm swing (opposite the stride) */
+  if (frame === 0) { px(10, 10, BD); px(11, 11, BD); px(11, 12, S); }
+  else if (frame === 2) { px(9, 10, BD); px(8, 11, BD); px(8, 12, S); }
+  else { px(10, 10, BD); px(10, 11, BD); px(10, 12, S); }
+  /* scarf / neckpiece: band on neck row 9 + fluttering tail behind */
+  if (E.scarfIt) {
+    var sc = E.scarfIt.scarf, nk = E.scarfIt.neck || "scarf";
+    if (nk === "scarf" || nk === "rainbow") {
+      rect(6, 9, 4, 1, sc);
+      var fl = frame === 1 ? 1 : 0;
+      px(4, 9 + fl, sc); px(3, 10 + fl, sc);
+      if (E.scarfIt.c2) px(3, 11 + fl, E.scarfIt.c2);
+    } else {
+      px(9, 10, E.scarfIt.c2 || sc); px(9, 11, sc);
+    }
+  }
+  /* head: face rows 3-7, jaw shade, cheek, 2-tall eye with sparkle */
+  rect(6, 3, 6, 5, S);
+  rect(7, 7, 4, 1, SS);
+  px(10, 7, "#f49c8a");
+  if (blink) { px(10, 5, pal.E); px(11, 5, pal.E); }
+  else { px(10, 4, pal.E); px(10, 5, pal.E); px(11, 4, "#ffffff"); }
+  /* hair: dome rows 1-2, fringe, dark back fall rows 3-8 */
+  rect(4, 1, 8, 2, H); rect(6, 1, 4, 1, HL); px(4, 1, HD);
+  rect(10, 3, 2, 1, H);
+  rect(4, 3, 2, 6, HD);
+  var sty = E.cust.style;
+  if (sty === "long") rect(4, 9, 2, 3, HD);
+  else if (sty === "twin") { rect(3, 3, 1, 5, H); px(3, 8, HD); px(3, 2, "#e5484d"); }
+  else if (sty === "pony") { px(3, 2, H); px(3, 3, H); px(3, 4, HL); px(3, 5, H); px(3, 6, H); px(3, 7, HD); }
+  else if (sty === "bob") { rect(4, 3, 2, 5, H); px(5, 8, HD); }
+  else if (sty === "bun") { px(6, 0, H); px(7, 0, HL); }
+  if (sty === "cap") {
+    rect(4, 1, 8, 2, "#2e4bd0"); rect(6, 1, 3, 1, "#4a74e8");
+    rect(10, 3, 2, 1, "#1d2f7a"); px(11, 3, "#f2c14e");
+  }
+  /* hat, side view (production silhouettes; hood fall extended) */
+  if (E.hatIt) {
+    var c1 = E.hatIt.c1, c2 = E.hatIt.c2;
+    switch (E.hatIt.hat) {
+      case "cap": case "starcap":
+        rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c1); rect(11, 2, 3, 1, c2);
+        if (E.hatIt.hat === "starcap") px(7, 0, "#ffd166");
+        break;
+      case "crown": case "royalcrown":
+        px(5, 0, c1); px(7, 0, c1); px(9, 0, c1); rect(4, 1, 8, 1, c1); px(8, 1, c2);
+        break;
+      case "ears": case "bunny":
+        rect(5, 0, 1, 2, c1); px(5, 1, c2); rect(9, 0, 1, 2, c1); px(9, 1, c2);
+        break;
+      case "straw":
+        rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c2); rect(3, 2, 11, 1, c1);
+        break;
+      case "wizard": case "pointy":
+        px(8, 0, c1); rect(7, 1, 3, 1, c1); rect(3, 2, 11, 1, c1);
+        if (E.hatIt.hat === "wizard") px(7, 1, "#ffd166");
+        break;
+      case "knit":
+        rect(4, 1, 8, 1, c1); rect(4, 2, 8, 1, c2); px(7, 0, c2);
+        break;
+      case "beret":
+        rect(4, 1, 7, 1, c1); rect(3, 2, 4, 1, c1); px(7, 0, c2);
+        break;
+      case "hood":
+        rect(4, 1, 8, 2, c1); rect(4, 3, 2, 6, c1); px(5, 0, c1); px(9, 0, c1);
+        break;
+      case "visor":
+        rect(4, 1, 8, 1, c2); rect(11, 2, 3, 1, c1);
+        break;
+      case "detective":
+        px(6, 0, c1); px(9, 0, c1); rect(5, 1, 6, 1, c2); rect(3, 2, 11, 1, c1);
+        break;
+      case "hachimaki":
+        rect(4, 2, 8, 1, c1); px(7, 2, c2); px(3, 3, c1);
+        break;
+      case "aviator":
+        rect(4, 1, 8, 1, c1); rect(4, 2, 8, 1, "#5d3a1e"); px(10, 2, c2); px(11, 2, c2);
+        break;
+      case "clip": case "hairpin":
+        px(11, 2, c1); px(11, 3, c2);
+        break;
+      case "halo":
+        rect(5, 0, 6, 1, c1);
+        break;
+      case "sprout":
+        px(6, 0, c1); px(7, 0, c1); px(8, 0, c2);
+        break;
+      case "horns":
+        px(4, 0, c1); px(11, 0, c1); px(4, 1, c2); px(11, 1, c2);
+        break;
+      case "chef":
+        rect(5, 0, 6, 2, c1); rect(4, 2, 8, 1, c2);
+        break;
+      case "pirate":
+        rect(4, 1, 8, 1, c1); rect(3, 2, 11, 1, c1); px(8, 1, "#ffffff");
+        break;
+      case "flowercrown":
+        rect(4, 2, 8, 1, c2); px(5, 1, c1); px(8, 1, "#ffd83d"); px(11, 1, c1);
+        break;
+      default:
+        rect(5, 0, 6, 1, c1); rect(4, 1, 8, 1, c1);
+    }
+  }
+  /* hard outline: stamp the ink silhouette under the sprite */
+  var sctx = sideSil.getContext("2d");
+  sctx.clearRect(0, 0, 16, 16);
+  sctx.globalCompositeOperation = "source-over";
+  sctx.drawImage(sideBuf, 0, 0);
+  sctx.globalCompositeOperation = "source-in";
+  sctx.fillStyle = K;
+  sctx.fillRect(0, 0, 16, 16);
+  sctx.globalCompositeOperation = "source-over";
+  ctx.drawImage(sideSil, -1, 0); ctx.drawImage(sideSil, 1, 0);
+  ctx.drawImage(sideSil, 0, -1); ctx.drawImage(sideSil, 0, 1);
+  ctx.drawImage(sideBuf, 0, 0);
+}
 
       /* --- the street that grows: level-milestone Tokyo props --- */
       var SCENE_PROPS = [
@@ -24765,31 +24768,29 @@ var qrcode = function() {
       function groundB() { return (window.matchMedia && window.matchMedia("(max-height: 740px)").matches) ? 24 : 30; }
 
       var runBuf = null;
-      function drawRunnerFrame(ctx, frame, blink) {
-        if (!runBuf) { runBuf = document.createElement("canvas"); runBuf.width = 16; runBuf.height = 16; }
-        drawHeroEquipped(runBuf, state.hero, state.gacha.equipped);
-        var b = runBuf.getContext("2d");
-        var E = equippedPal(state.hero, state.gacha.equipped);
-        var P = E.pal.P, pd = shadeHex(P, 0.68), K = "#26222e", S = E.pal.S;
-        function R(x, y, w, h, c) { b.fillStyle = c; b.fillRect(x, y, w, h); }
-        if (blink) { R(5, 5, 2, 1, S); R(9, 5, 2, 1, S); }
-        /* front-view stride: legs now live at rows 12–14 (the
-           neck row pushed the body down one); clear that zone,
-           then paint this frame's step (planted leg full length,
-           lifted leg shorter with its shoe raised a row) */
-        b.clearRect(3, 12, 10, 4);
-        if (frame === 0) {
-          R(4, 12, 3, 2, P); R(6, 12, 1, 2, pd); R(3, 14, 4, 1, K);
-          R(9, 12, 3, 1, P); R(11, 12, 1, 1, pd); R(10, 13, 3, 1, K);
-        } else if (frame === 2) {
-          R(9, 12, 3, 2, P); R(11, 12, 1, 2, pd); R(9, 14, 4, 1, K);
-          R(4, 12, 3, 1, P); R(6, 12, 1, 1, pd); R(3, 13, 3, 1, K);
-        } else {
-          R(4, 12, 3, 2, P); R(6, 12, 1, 2, pd); R(3, 14, 4, 1, K);
-          R(9, 12, 3, 2, P); R(11, 12, 1, 2, pd); R(9, 14, 4, 1, K);
-        }
-        ctx.drawImage(runBuf, 0, 0);
-      }
+function drawRunnerFrame(ctx, frame, blink) {
+  if (!runBuf) { runBuf = document.createElement("canvas"); runBuf.width = 16; runBuf.height = 16; }
+  drawHeroEquipped(runBuf, state.hero, state.gacha.equipped);
+  var b = runBuf.getContext("2d");
+  var E = equippedPal(state.hero, state.gacha.equipped);
+  var P = E.pal.P, pd = shadeHex(P, 0.68), K = "#26222e", S = E.pal.S;
+  function R(x, y, w, h, c) { b.fillStyle = c; b.fillRect(x, y, w, h); }
+  if (blink) { R(5, 6, 2, 1, S); R(9, 6, 2, 1, S); }
+  /* stride zone = rows 13-15 (legs 13-14, shoes 15); belt row 12
+     is never cleared */
+  b.clearRect(3, 13, 10, 3);
+  if (frame === 0) {
+    R(4, 13, 3, 2, P); R(6, 13, 1, 2, pd); R(3, 15, 4, 1, K);
+    R(9, 13, 3, 1, P); R(11, 13, 1, 1, pd); R(10, 14, 3, 1, K);
+  } else if (frame === 2) {
+    R(9, 13, 3, 2, P); R(11, 13, 1, 2, pd); R(9, 15, 4, 1, K);
+    R(4, 13, 3, 1, P); R(6, 13, 1, 1, pd); R(3, 14, 3, 1, K);
+  } else {
+    R(4, 13, 3, 2, P); R(6, 13, 1, 2, pd); R(3, 15, 4, 1, K);
+    R(9, 13, 3, 2, P); R(11, 13, 1, 2, pd); R(9, 15, 4, 1, K);
+  }
+  ctx.drawImage(runBuf, 0, 0);
+}
       function walkDraw() {
         var cv = document.getElementById("walkCanvas");
         if (!cv || !walkSt) return;
@@ -32156,6 +32157,7 @@ var qrcode = function() {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] Your hero got a glow-up!", b: "The hero's pixel art is all-new: a bigger head, faces you can actually tell apart, and a brand-new Heart Eyes expression.\nEvery hat, outfit, scarf and hairstyle was redrawn to fit the new proportions - your whole wardrobe carries over."},
           {d: "2026-11-02", s: "sparkle", t: "[News] Mini-game posters are here", b: "Finished a mini-game run? The result screen now has a SHARE POSTER button: that run's screen, score and best, turned into a poster you can send to X or Threads in one tap. Mini-game posters carry no rewards — glory only."}, { d: "2026-11-02", s: "sparkle", t: "[News] 50 new evergreen quests!", b: "Fifty new always-open quests have been added across Machida, Fuchu, Kawagoe, Yokohama, Kawasaki and central Tokyo: print and doll museums, shrines, gardens, a polar science museum and more. The catalog is now 359 quests strong." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Sharing upgraded: post straight to X or Threads", b: "Quest posters and clear records can now be shared as images. Tap Share on a quest poster or on the clear screen, then pick a destination: the share sheet sends the picture itself, and the X and Threads options save the image and open the composer with your text ready — just attach the picture." },
           { d: "2026-11-02", s: "sparkle", t: "[News] Quest details are easier to read", b: "The quest detail screen got a readability overhaul: larger, clearer type, and the title and photo now scroll together with the text. Multi-tier prices show as a tidy list, repeated labels were removed so each fact appears just once, and quest info (hours, prices, venues) is now shown in Chinese when the UI language is Chinese." },
@@ -32172,6 +32174,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] 主人公のドット絵が新しくなりました！", b: "頭が大きくなって、表情がずっと分かりやすくなりました。新しい表情「ハート」も追加。\n帽子・服・マフラー・髪型はすべて新しい比率に合わせて描き直し。持っている装備はそのまま使えます。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] ミニゲームもポスターシェア対応", b: "ミニゲームの結果画面に「ポスターをシェア」が付きました。その回のプレイ画面＋スコアとベストをポスターにして、XやThreadsへワンタップで投稿できます。ミニゲームのポスターシェアは無報酬です。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常駐クエストが50件増えました！", b: "町田・府中・川越・横浜・川崎・都心などに、いつでも行ける常駐クエストを50件追加しました。版画美術館、人形博物館、神社、庭園、南極・北極科学館など盛りだくさん。クエスト総数は359件になりました。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] シェアがパワーアップ：X・Threadsへ投稿", b: "クエストのポスターやクリアの記録を、画像のままシェアできるようになりました。ポスターやクリア画面の「シェア」から共有先を選んでください。システム共有は画像そのものを送れます。X と Threads は画像を保存してから投稿画面を開くので、画像を添付してください。" },
           { d: "2026-11-02", s: "sparkle", t: "【お知らせ】クエスト詳細が見やすくなりました", b: "クエスト詳細画面を読みやすく刷新しました：文字が大きくはっきりし、タイトルと写真も本文と一緒にスクロールします。複数ある料金はリスト表示になり、同じ情報の重複表示もなくなりました。" },
@@ -32188,6 +32191,7 @@ var qrcode = function() {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          {d: "2026-11-02", s: "sparkle", t: "[News] 主人公的像素形象焕新了！", b: "头更大了，表情一眼就能分清，还新增了「爱心眼」表情。\n所有帽子、衣服、围巾和发型都按新比例重画过，你的衣柜原样保留。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 小游戏也能分享海报了", b: "小游戏的结果画面新增了「分享海报」：把这一局的画面、得分和最佳成绩做成海报，一键发到 X 或 Threads。小游戏海报分享没有奖励，纯属炫耀。"}, { d: "2026-11-02", s: "sparkle", t: "[News] 常驻任务新增50个！", b: "町田、府中、川越、横滨、川崎和都心等地新增了50个随时可去的常驻任务：版画美术馆、人偶博物馆、神社、庭园、南极北极科学馆等应有尽有。任务总数达到359个。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 分享升级：直达 X 和 Threads", b: "任务海报和打卡完成图现在可以直接以图片形式分享。在海报或完成画面点「分享」后选择去向：系统分享能把图片本身发出去；选 X 或 Threads 会先保存图片再打开编辑界面，文字已备好，附上图片即可。" },
           { d: "2026-11-02", s: "sparkle", t: "[News] 任务详情更好读了", b: "任务详情页完成易读性改造：字体更大更清晰，标题和照片会随正文一起滚动；多档票价改为列表显示，重复信息只保留一处。中文界面下，时间、票价、地点也都显示中文了。" },
