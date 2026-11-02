@@ -12401,9 +12401,10 @@
          TIME group (period line, then hours); the epic
          reward folds behind a toggle bar, collapsed by
          default. Render ids unchanged. */
-      /* v10 (Zoe 10:42): the tag band swaps places with the
-         blurb -- order is now card, blurb, band, reward. */
-      dialog#detail .detail-badges { order: 6; flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: 100%; }
+      /* v11 (Zoe 10:44, superseding the v8 below-card move
+         and the v10 swap): the tag band sits directly under
+         the photo again -- photo, band, card, blurb, reward. */
+      dialog#detail .detail-badges { order: 2; flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: 100%; }
       dialog#detail .detail-badges > * { min-width: 0; max-width: 100%; }
       dialog#detail .detail-badges #detailChips .chip { height: 20px; padding: 0 7px; font-size: 10.5px; }
       dialog#detail .detail-badges .mood { font-size: 10.5px; padding: 1px 6px; }
@@ -16341,7 +16342,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1043-q253v10-c4d5360e";
+        var BUILD_ID = "tql-20261102-1044-q253v11-0393a3e5";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
