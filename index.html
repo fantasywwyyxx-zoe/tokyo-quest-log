@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1603-q271-13c4ae84";
+        var BUILD_ID = "tql-20261102-1610-q272-ad1c200e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25633,7 +25633,7 @@ var qrcode = function() {
         document.getElementById("lblActive").textContent = t.active;
         document.getElementById("lblAreas").textContent = t.areas;
         document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
-        document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = X().mgShareBtn; });
+        document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = X().mgShareBtn; b.setAttribute("aria-label", X().mgShareBtn); });
         var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
         var mlT = document.getElementById("mlTimedLbl"); if (mlT) mlT.textContent = t.legendTimed;
         var navGearEl = document.getElementById("navGear");
