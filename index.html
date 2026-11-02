@@ -3282,12 +3282,12 @@
       .pin.sel { z-index: 40; }
       .pin.sel .pin-body {
         transform: scale(1.22);
-        outline: 3px solid var(--primary); outline-offset: 1.5px;
+        outline: 3px solid #ffd83d; outline-offset: 1.5px;
         animation: pinPulse 1.15s steps(6) infinite;
       }
       @keyframes pinPulse {
-        0% { box-shadow: 0 0 0 0 rgba(226, 72, 58, 0.55); }
-        100% { box-shadow: 0 0 0 12px rgba(226, 72, 58, 0); }
+        0% { box-shadow: 0 0 0 0 rgba(255, 216, 61, 0.6); }
+        100% { box-shadow: 0 0 0 12px rgba(255, 216, 61, 0); }
       }
       /* --- A: quest board --- */
       #view-list .board {
@@ -16504,7 +16504,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1610-q272-ad1c200e";
+        var BUILD_ID = "tql-20261102-1612-q273-2f2ba10f";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
