@@ -16429,7 +16429,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1158-q253v17-201b438d";
+        var BUILD_ID = "tql-20261102-1209-q253v17b-3e7aa891";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -26509,7 +26509,7 @@ var qrcode = function() {
         var wCol = vW.closest ? vW.closest(".kv-col") : null;
         if (wCol) wCol.style.display = evVenue(e) ? "" : "none";
         var pStr = evPrice(e);
-        var pOk = /(¥|円|￥|Free|無料|免费)/.test(pStr);
+        var pOk = /(¥|円|￥|Free|無料|免费|有料|收费|Ticketed|Paid)/.test(pStr);
         var vP = document.getElementById("vPrice");
         var pCol = vP.closest ? vP.closest(".kv-col") : null;
         if (pCol) pCol.style.display = pOk ? "" : "none";
