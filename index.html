@@ -23,11 +23,28 @@
          is deleted silently: the backup stays in localStorage. */
       (function () {
         var KEY = "tql_boot_guard", MAX = 2, n = 0;
-        try { n = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0; } catch (e) { /* no storage: the panel still offers the manual path */ }
+        /* Q-294: the retry count rides in the upd= query value
+           itself (upd=<n>.<ts>) — sessionStorage does not survive
+           reloads in some in-app browsers, and a storage-only cap
+           looped forever on a real device (S1, 2026-11-02). The
+           URL is the one counter that always persists. Storage is
+           kept only as a secondary signal; the larger count wins. */
+        try {
+          var um = /[?&]upd=(\d+)\./.exec(location.search || "");
+          if (um) n = parseInt(um[1], 10) || 0;
+          var sn = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0;
+          if (sn > n) n = sn;
+        } catch (e) { /* no storage: the URL count still guards */ }
         var booted = false, waited = 0, idleSince = 0, guided = false;
         window.__tqlBootOk = function () {
           booted = true;
           try { sessionStorage.removeItem(KEY); } catch (e) {}
+          try {
+            if (/[?&]upd=/.test(location.search)) {
+              var s2 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+              history.replaceState(null, "", location.pathname + (s2 ? "?" + s2 : "") + (location.hash || ""));
+            }
+          } catch (e) { /* URL cleanup is cosmetic */ }
         };
         var TEXTS = {
           en: { title: "The game couldn't start", body: "Your save data may be damaged. Reloading will not erase your progress. If you have an account, signing in restores your cloud progress.", reload: "Reload", fresh: "Back up save & start fresh" },
@@ -54,7 +71,8 @@
           b1.textContent = T.reload;
           b1.addEventListener("click", function () {
             try { sessionStorage.removeItem(KEY); sessionStorage.removeItem("tql_boot_quarantine"); } catch (e) {}
-            location.reload();
+            var s3 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+            location.replace(location.pathname + (s3 ? "?" + s3 : "") + (location.hash || ""));
           });
           var b2 = document.createElement("button");
           b2.setAttribute("style", btnCss + ";background:#ffffff");
@@ -68,7 +86,8 @@
               sessionStorage.removeItem(KEY);
               sessionStorage.removeItem("tql_boot_quarantine");
             } catch (e) {}
-            location.reload();
+            var s4 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+            location.replace(location.pathname + (s4 ? "?" + s4 : "") + (location.hash || ""));
           });
           d.appendChild(h); d.appendChild(p); d.appendChild(b1); d.appendChild(b2);
           document.body.appendChild(d);
@@ -85,7 +104,7 @@
             }
             try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {}
             var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + Date.now() + (location.hash || ""));
+            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + (n + 1) + "." + Date.now() + (location.hash || ""));
             return;
           }
           if (waited <= 20) setTimeout(tick, 1000);
@@ -16646,7 +16665,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2108-q293-32f4849e";
+        var BUILD_ID = "tql-20261102-2111-q294-2d957956";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16661,9 +16680,19 @@ var qrcode = function() {
             var seen = null;
             try { seen = sessionStorage.getItem(GUARD_KEY); } catch (e) { /* storage unavailable */ }
             if (seen === marker) return;
+            /* Q-294: the tried-marker also rides in the upd= value
+               (upd=v<marker-tail>) — sessionStorage does not
+               survive reloads in some in-app browsers, and a
+               storage-only guard can loop there (S1, 2026-11-02).
+               Already at this marker's URL and still stale: the
+               fresh document is not arriving — boot what we have. */
+            var seg = marker.split("-").pop();
+            var wantUpd = "v" + seg;
+            var curUpd = /[?&]upd=([^&]*)/.exec(location.search || "");
+            if (curUpd && curUpd[1] === wantUpd) return;
             try { sessionStorage.setItem(GUARD_KEY, marker); } catch (e) { /* storage unavailable */ }
             var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + Date.now() + (location.hash || ""));
+            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + wantUpd + (location.hash || ""));
           }).catch(function () { /* offline / no version.txt: boot normally, silently */ });
         } catch (e) { /* the check must never block or break boot */ }
       })();
