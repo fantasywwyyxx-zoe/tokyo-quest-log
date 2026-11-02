@@ -146,3 +146,11 @@ One credit line per quest photo: id | source | licence | author.
 - eg10-tetsugakudo | https://commons.wikimedia.org/wiki/File:Tetsugakudo_Park(Philosophy_Hall_Park)_-_%E5%93%B2%E5%AD%A6%E5%A0%82%E5%85%AC%E5%9C%92_-_panoramio_(2).jpg | CC BY 3.0 | Carbonium
 - eg10-ikegami-honmonji | https://commons.wikimedia.org/wiki/File:Ikegami_Honmon-ji_temple_-_2025_March_6_various_12.jpg | CC BY 4.0 | Nesnad
 - eg10-showa-kurashi | https://commons.wikimedia.org/wiki/File:Showa_no_Kurashi_Museum_20260912.jpg | CC BY 4.0 | Suikotei
+c26-rikugien-night | https://www.tokyo-park.or.jp/special/rikugien_lighting/index.html | Official website photo (© venue / operator) | Tokyo Park Association
+c27-tokyo-jazz-club | https://www.artweektokyo.com/institution-gallery/tokyo-jazz-club-ja/ | Official website photo (© venue / operator) | Courtesy of Tokyo Jazz Club
+c28-roof-park-art-fes | https://roofpark-artfes.metro.tokyo.lg.jp/ | Official website photo (© venue / operator) | Roof Park Project (Tokyo Metropolitan Government / Tokyo Expressway Co.)
+c29-shinjuku-kiku | https://policies.env.go.jp/national-garden/shinjukugyoen/highlights/kiku/ | Official website photo (© venue / operator) | Ministry of the Environment (Shinjuku Gyoen National Garden)
+c30-ccbt-dancing-on-it | https://ccbt.rekibun.or.jp/ | Official website photo (© Daily tous les jours / CCBT) | Paul Litherland (〈Walk Walk Dance〉, Laval, 2023)
+c31-asakusa-tori-no-ichi | https://commons.wikimedia.org/wiki/File:Tori_no_Ichi_Fair_(10645907784).jpg | CC BY 2.0 | Yoshikazu TAKADA
+c32-asakusa-ueno-rally | https://www.enjoytokyo.jp/article/205195/ | Official website photo (© venue / operator) | Let's Enjoy Tokyo
+c33-feel-the-sound | https://hubemag.com/barbicans-new-multi-sensory-exhibition-feel-the-sound | Official press photo (© Barbican Centre) | Thomas Adank / Barbican Centre
