@@ -6,36 +6,31 @@
     <meta name="color-scheme" content="light dark" />
     <script>
       /* ============ Q-292: boot watchdog (2026-11-02) ============
-         Independent of every other script on the page. The main
-         script calls window.__tqlBootOk() as the last step of its
-         boot sequence; if the document finishes loading (or sits
-         parsed-but-idle) and that call never comes, the copy in
-         hand is broken or poisoned in cache — reload ONCE per try
-         (max 2, sessionStorage count) into the same URL plus a
-         fresh upd= query, exactly like the Q-145 freshness reload.
-         Same origin and path: localStorage (guest saves) is never
-         touched. A slow-but-alive load is never interrupted: while
-         the document is still loading, the watchdog only waits.
-         Q-293 stage 2: if even the reloads do not produce a boot,
-         the watchdog shows its own guidance panel (below) — the
-         save data itself may be damaged; the player can reload, or
-         back the save up under a side key and start fresh. Nothing
-         is deleted silently: the backup stays in localStorage. */
+         Independent of every other script on the page. Q-295
+         redesign after R140 (false fires on healthy slow boots):
+         the main script starts a 1s HEARTBEAT the moment it begins
+         evaluating and calls window.__tqlBootOk() as the last step
+         of its boot sequence. The watchdog NEVER fires while beats
+         are fresh — a slow boot is left alone, however long it
+         takes. Only a full 25s of silence (no beat, document no
+         longer loading) means the boot is truly dead: reload with
+         the retry count carried in the upd= query value itself
+         (upd=<n>.<ts>; Q-294 — sessionStorage does not survive
+         reloads in some in-app browsers). At the cap (2) it does
+         not reload again but shows its own guidance panel. Same
+         origin and path throughout: localStorage (guest saves) is
+         never touched by the reloads, and a successful boot strips
+         upd= from the address bar again. */
       (function () {
         var KEY = "tql_boot_guard", MAX = 2, n = 0;
-        /* Q-294: the retry count rides in the upd= query value
-           itself (upd=<n>.<ts>) — sessionStorage does not survive
-           reloads in some in-app browsers, and a storage-only cap
-           looped forever on a real device (S1, 2026-11-02). The
-           URL is the one counter that always persists. Storage is
-           kept only as a secondary signal; the larger count wins. */
         try {
           var um = /[?&]upd=(\d+)\./.exec(location.search || "");
           if (um) n = parseInt(um[1], 10) || 0;
           var sn = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0;
           if (sn > n) n = sn;
         } catch (e) { /* no storage: the URL count still guards */ }
-        var booted = false, waited = 0, idleSince = 0, guided = false;
+        var NAV_START = Date.now();
+        var booted = false, guided = false, ticks = 0;
         window.__tqlBootOk = function () {
           booted = true;
           try { sessionStorage.removeItem(KEY); } catch (e) {}
@@ -47,10 +42,14 @@
           } catch (e) { /* URL cleanup is cosmetic */ }
         };
         var TEXTS = {
-          en: { title: "The game couldn't start", body: "Your save data may be damaged. Reloading will not erase your progress. If you have an account, signing in restores your cloud progress.", reload: "Reload", fresh: "Back up save & start fresh" },
-          ja: { title: "ゲームを起動できませんでした", body: "セーブデータが壊れている可能性があります。再読み込みしても進捗は消えません。アカウントをお持ちの方は、ログインするとクラウドの進捗を復元できます。", reload: "再読み込み", fresh: "セーブを退避して最初から" },
-          zh: { title: "游戏没能启动", body: "存档数据可能已损坏。重新加载不会丢失进度；如果你有账号，登录后可以恢复云端进度。", reload: "重新加载", fresh: "备份存档并重新开始" }
+          en: { title: "The game couldn't start", body: "It couldn't finish starting — the save data may be damaged, or loading may just be very slow. Reloading will not erase your progress. If you have an account, signing in restores your cloud progress.", reload: "Reload", fresh: "Back up save & start fresh" },
+          ja: { title: "ゲームを起動できませんでした", body: "起動が完了しませんでした。セーブデータの破損のほか、読み込みが非常に遅いだけの可能性もあります。再読み込みしても進捗は消えません。アカウントをお持ちの方は、ログインするとクラウドの進捗を復元できます。", reload: "再読み込み", fresh: "セーブを退避して最初から" },
+          zh: { title: "游戏没能启动", body: "游戏没能完成启动。可能是存档损坏，也可能只是加载非常慢。重新加载不会丢失进度；如果你有账号，登录后可以恢复云端进度。", reload: "重新加载", fresh: "备份存档并重新开始" }
         };
+        function cleanUrl() {
+          var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+          return location.pathname + (s ? "?" + s : "") + (location.hash || "");
+        }
         function showGuidance() {
           if (guided || !document.body) return;
           guided = true;
@@ -71,8 +70,7 @@
           b1.textContent = T.reload;
           b1.addEventListener("click", function () {
             try { sessionStorage.removeItem(KEY); sessionStorage.removeItem("tql_boot_quarantine"); } catch (e) {}
-            var s3 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s3 ? "?" + s3 : "") + (location.hash || ""));
+            location.replace(cleanUrl());
           });
           var b2 = document.createElement("button");
           b2.setAttribute("style", btnCss + ";background:#ffffff");
@@ -86,30 +84,26 @@
               sessionStorage.removeItem(KEY);
               sessionStorage.removeItem("tql_boot_quarantine");
             } catch (e) {}
-            var s4 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s4 ? "?" + s4 : "") + (location.hash || ""));
+            location.replace(cleanUrl());
           });
           d.appendChild(h); d.appendChild(p); d.appendChild(b1); d.appendChild(b2);
           document.body.appendChild(d);
         }
         function tick() {
-          if (booted) return;
-          waited += 1;
-          var rs = document.readyState;
-          if (rs === "complete" || (rs === "interactive" && (idleSince += 1) >= 3)) {
-            if (n >= MAX) {
-              if (document.body) { showGuidance(); return; }
-              if (waited <= 20) setTimeout(tick, 1000);
-              return;
-            }
+          if (booted || guided) return;
+          ticks += 1;
+          var last = window.__tqlBeat || NAV_START;
+          var silentFor = Date.now() - last;
+          if (document.readyState !== "loading" && silentFor > 25000) {
+            if (n >= MAX) { showGuidance(); return; }
             try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {}
             var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
             location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + (n + 1) + "." + Date.now() + (location.hash || ""));
             return;
           }
-          if (waited <= 20) setTimeout(tick, 1000);
+          if (ticks <= 90) setTimeout(tick, 2000);
         }
-        setTimeout(tick, 2500);
+        setTimeout(tick, 4000);
       })();
     </script>
     <meta name="theme-color" content="#57b6e8" />
@@ -16665,7 +16659,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2111-q294-2d957956";
+        var BUILD_ID = "tql-20261102-2114-q295-562f90ec";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16699,6 +16693,12 @@ var qrcode = function() {
     </script>
     <script>
       "use strict";
+
+      /* Q-295: boot heartbeat for the Q-292 watchdog — beats while
+         this script is alive, however slow the boot; the boot tail
+         clears it when it signals completion. */
+      window.__tqlBeat = Date.now();
+      var __tqlBeatTimer = setInterval(function () { window.__tqlBeat = Date.now(); }, 1000);
 
       /* ============ Pixel-style SVG icons (16x16 grid, crisp edges) ============ */
       function ico(paths, extra) {
@@ -31615,6 +31615,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         setStatusMin(true);
         showStart(false);
         if (window.__tqlBootOk) window.__tqlBootOk(); /* Q-292: boot completed — stand the watchdog down */
+        clearInterval(__tqlBeatTimer); /* Q-295: heartbeat no longer needed */
         try {
           var rn = localStorage.getItem("tql_recovery_note");
           if (rn) {
