@@ -5,106 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light dark" />
     <script>
-      /* ============ Q-292: boot watchdog (2026-11-02) ============
-         Independent of every other script on the page. Q-295
-         redesign after R140 (false fires on healthy slow boots):
-         the main script starts a 1s HEARTBEAT the moment it begins
-         evaluating and calls window.__tqlBootOk() as the last step
-         of its boot sequence. The watchdog NEVER fires while beats
-         are fresh — a slow boot is left alone, however long it
-         takes. Only a full 25s of silence (no beat, document no
-         longer loading) means the boot is truly dead: reload with
-         the retry count carried in the upd= query value itself
-         (upd=<n>.<ts>; Q-294 — sessionStorage does not survive
-         reloads in some in-app browsers). At the cap (2) it does
-         not reload again but shows its own guidance panel. Same
-         origin and path throughout: localStorage (guest saves) is
-         never touched by the reloads, and a successful boot strips
-         upd= from the address bar again. */
-      (function () {
-        var KEY = "tql_boot_guard", MAX = 2, n = 0;
-        try {
-          var um = /[?&]upd=(\d+)\./.exec(location.search || "");
-          if (um) n = parseInt(um[1], 10) || 0;
-          var sn = parseInt(sessionStorage.getItem(KEY) || "0", 10) || 0;
-          if (sn > n) n = sn;
-        } catch (e) { /* no storage: the URL count still guards */ }
-        var NAV_START = Date.now();
-        var booted = false, guided = false, ticks = 0;
-        window.__tqlBootOk = function () {
-          booted = true;
-          try { sessionStorage.removeItem(KEY); } catch (e) {}
-          try {
-            if (/[?&]upd=/.test(location.search)) {
-              var s2 = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-              history.replaceState(null, "", location.pathname + (s2 ? "?" + s2 : "") + (location.hash || ""));
-            }
-          } catch (e) { /* URL cleanup is cosmetic */ }
-        };
-        var TEXTS = {
-          en: { title: "The game couldn't start", body: "It couldn't finish starting — the save data may be damaged, or loading may just be very slow. Reloading will not erase your progress. If you have an account, signing in restores your cloud progress.", reload: "Reload", fresh: "Back up save & start fresh" },
-          ja: { title: "ゲームを起動できませんでした", body: "起動が完了しませんでした。セーブデータの破損のほか、読み込みが非常に遅いだけの可能性もあります。再読み込みしても進捗は消えません。アカウントをお持ちの方は、ログインするとクラウドの進捗を復元できます。", reload: "再読み込み", fresh: "セーブを退避して最初から" },
-          zh: { title: "游戏没能启动", body: "游戏没能完成启动。可能是存档损坏，也可能只是加载非常慢。重新加载不会丢失进度；如果你有账号，登录后可以恢复云端进度。", reload: "重新加载", fresh: "备份存档并重新开始" }
-        };
-        function cleanUrl() {
-          var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-          return location.pathname + (s ? "?" + s : "") + (location.hash || "");
-        }
-        function showGuidance() {
-          if (guided || !document.body) return;
-          guided = true;
-          var lg = "en";
-          try { lg = (navigator.language || "en").slice(0, 2); } catch (e) {}
-          var T = TEXTS[lg] || TEXTS.en;
-          var btnCss = "display:block;width:100%;margin-top:8px;padding:10px;font:inherit;font-weight:800;font-size:14px;color:#26303c;background:#ffd83d;border:2px solid #26303c;border-radius:9px;cursor:pointer";
-          var d = document.createElement("div");
-          d.setAttribute("style", "position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:#fffbe8;color:#26303c;border:3px solid #26303c;border-radius:12px;padding:14px;font-family:sans-serif;box-shadow:0 6px 0 rgba(0,0,0,.35)");
-          var h = document.createElement("div");
-          h.setAttribute("style", "font-weight:800;font-size:15px;margin-bottom:6px");
-          h.textContent = T.title;
-          var p = document.createElement("div");
-          p.setAttribute("style", "font-size:13px;line-height:1.5");
-          p.textContent = T.body;
-          var b1 = document.createElement("button");
-          b1.setAttribute("style", btnCss);
-          b1.textContent = T.reload;
-          b1.addEventListener("click", function () {
-            try { sessionStorage.removeItem(KEY); sessionStorage.removeItem("tql_boot_quarantine"); } catch (e) {}
-            location.replace(cleanUrl());
-          });
-          var b2 = document.createElement("button");
-          b2.setAttribute("style", btnCss + ";background:#ffffff");
-          b2.textContent = T.fresh;
-          b2.addEventListener("click", function () {
-            try {
-              var raw = localStorage.getItem("tql_state_v1") || localStorage.getItem("tsq_state_v1");
-              if (raw) localStorage.setItem("tql_state_backup_" + Date.now(), raw);
-              localStorage.removeItem("tql_state_v1");
-              localStorage.removeItem("tsq_state_v1");
-              sessionStorage.removeItem(KEY);
-              sessionStorage.removeItem("tql_boot_quarantine");
-            } catch (e) {}
-            location.replace(cleanUrl());
-          });
-          d.appendChild(h); d.appendChild(p); d.appendChild(b1); d.appendChild(b2);
-          document.body.appendChild(d);
-        }
-        function tick() {
-          if (booted || guided) return;
-          ticks += 1;
-          var last = window.__tqlBeat || NAV_START;
-          var silentFor = Date.now() - last;
-          if (document.readyState !== "loading" && silentFor > 25000) {
-            if (n >= MAX) { showGuidance(); return; }
-            try { sessionStorage.setItem(KEY, String(n + 1)); } catch (e) {}
-            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + (n + 1) + "." + Date.now() + (location.hash || ""));
-            return;
-          }
-          if (ticks <= 90) setTimeout(tick, 2000);
-        }
-        setTimeout(tick, 4000);
-      })();
+      /* Q-296 (2026-11-02, S1 emergency rollback): the Q-292 boot
+         watchdog is WITHDRAWN. On real devices (and in QA's
+         environment) its reloads fired on healthy-but-slow boots —
+         twice over, the retry accounting broke down (first the
+         sessionStorage cap, then timer starvation/throttling made
+         even the heartbeat invisible to it) and affected players
+         got an auto-refresh loop instead of a game. The automatic
+         reload is therefore DISABLED entirely: this stub only keeps
+         the __tqlBootOk hook the main script calls. Diagnosis and
+         any redesign happen offline; nothing here may navigate. */
+      window.__tqlBootOk = function () {};
     </script>
     <meta name="theme-color" content="#57b6e8" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -16659,7 +16570,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2114-q295-562f90ec";
+        var BUILD_ID = "tql-20261102-2117-q296-690233d7";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -31631,8 +31542,11 @@ function drawZoneStamp(cv, zoneId, mode) {
            the Q-292/Q-293 watchdog guidance panel is the backstop
            if even a fresh boot fails. */
         try {
-          if (!sessionStorage.getItem("tql_boot_quarantine")) {
-            sessionStorage.setItem("tql_boot_quarantine", "1");
+          /* Q-296: the once-only guard rides in the URL (qz=1) —
+             sessionStorage does not persist across reloads in
+             some in-app browsers, and a storage-only guard here
+             could loop exactly like the withdrawn watchdog did. */
+          if (!/[?&]qz=/.test(location.search)) {
             var bqKey = "tql_state_backup_" + Date.now();
             var rawQ = localStorage.getItem(LS_KEY) || localStorage.getItem(LS_KEY_OLD);
             if (rawQ) {
@@ -31641,9 +31555,10 @@ function drawZoneStamp(cv, zoneId, mode) {
             }
             localStorage.removeItem(LS_KEY);
             localStorage.removeItem(LS_KEY_OLD);
-            location.reload();
+            var qs = (location.search || "").replace(/^[?]/, "");
+            location.replace(location.pathname + "?" + (qs ? qs + "&" : "") + "qz=1" + (location.hash || ""));
           }
-        } catch (e2) { /* storage unavailable: the watchdog panel takes over */ }
+        } catch (e2) { /* storage unavailable: stay on the page as-is */ }
       }
     </script>
     <script>
