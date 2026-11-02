@@ -16530,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1903-q286-104c83d9";
+        var BUILD_ID = "tql-20261102-1915-q287-34204334";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24768,7 +24768,21 @@ function drawOutfitFx(ctx, it, px, span) {
         if (it.kind === "hero") { drawHero(canvas, it.heroId); return; }
         var eq = { hat: null, outfit: null, scarf: null };
         eq[it.kind] = it.id;
-        drawHeroEquipped(canvas, state.hero, eq);
+        /* Q-287 (Zoe): small gear read as identical in full-body
+           previews — a neck item is ~8x4 px of a 16x16 sprite, so
+           even fully distinct pixel designs blurred together. Item
+           previews now show a square crop zoomed on the slot: hats
+           the head (rows 0-11), neck items the chest (rows 4-15);
+           outfits keep the full body. Applies everywhere previews
+           render (wardrobe, collection, gacha, celebration). */
+        var crop = it.kind === "hat" ? [2, 0, 12, 12] : it.kind === "scarf" ? [2, 4, 12, 12] : null;
+        if (!crop) { drawHeroEquipped(canvas, state.hero, eq); return; }
+        var tmp = document.createElement("canvas"); tmp.width = 16; tmp.height = 16;
+        drawHeroEquipped(tmp, state.hero, eq);
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, 16, 16);
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(tmp, crop[0], crop[1], crop[2], crop[3], 0, 0, 16, 16);
       }
 
       /* ============ Side-view sprite + the walking diorama ============
