@@ -16584,7 +16584,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2151-q303-5c685d77";
+        var BUILD_ID = "tql-20261102-2158-q304-e1c09cf1";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -31872,9 +31872,37 @@ function drawZoneStamp(cv, zoneId, mode) {
             var _owner = cloudOwner();
             if (_owner && _owner !== authUser.id && !localEmpty && cloudEmpty) {
               /* another account's local record and no cloud row of
-                 our own: fail safe, never upload it (S1 guard) */
-              setSyncMark(true); lastSyncNote = A().syncFail;
-              return lastSyncNote;
+                 our own: never upload it (S1 guard) — and never keep
+                 DISPLAYING it as this account's own record either
+                 (S2, 2026-11-02: a second account signed in and the
+                 title kept showing the first account's save, while
+                 pushCloud's owner check refused to persist anything
+                 the second account did — the account was stranded on
+                 a foreign record). Q-304 quarantine: stash the
+                 foreign record aside verbatim (insurance only; its
+                 owner's cloud row stays the source of truth and
+                 applies again at their next sign-in), replace the
+                 live record with an empty one (the loader expands
+                 it to a fresh default state), tag ownership to the
+                 signed-in account and reload ONCE so this account
+                 starts clean. The acct= flag keeps the reload
+                 single-shot even if storage writes do not stick:
+                 flagged, the branch falls back to the old fail-safe
+                 stasis instead of reloading again. */
+              if (/[?&]acct=/.test(location.search)) {
+                setSyncMark(true); lastSyncNote = A().syncFail;
+                return lastSyncNote;
+              }
+              if (pushTimer) { clearTimeout(pushTimer); pushTimer = null; }
+              try {
+                var rawForeign = localStorage.getItem(LS_KEY);
+                if (rawForeign) localStorage.setItem("tql_state_foreign_" + _owner, rawForeign);
+              } catch (e) { /* stash is best-effort insurance */ }
+              try { localStorage.setItem(LS_KEY, "{}"); } catch (e) { /* ignore */ }
+              try { localStorage.removeItem(LS_KEY_OLD); } catch (e) { /* ignore */ }
+              setCloudOwner(authUser.id);
+              location.replace(location.pathname + "?acct=1");
+              await new Promise(function () { /* navigation in flight — nothing after the reload trigger may run in the dying page */ });
             }
             if (cloudEmpty && localEmpty) { await pushCloud(); lastSyncNote = A().syncDone; return lastSyncNote; }
             if (cloudEmpty) { await pushCloud(); lastSyncNote = A().syncUploaded; return lastSyncNote; }
