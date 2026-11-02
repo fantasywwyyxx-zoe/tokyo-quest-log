@@ -16570,7 +16570,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2133-q298-579eb3f4";
+        var BUILD_ID = "tql-20261102-2139-q299-e504f320";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17400,7 +17400,7 @@ var qrcode = function() {
           opSlogan: "Every day in Tokyo is an adventure.\nToday, you are a hero in real life, too.", opSkip: "TAP TO SKIP ▸",
           startChoose: "Create your adventurer",
           startIntro: "No preset heroes — the adventurer is YOU. The maker sets skin tone, hairstyle and hair colour; re-make them any time on the HERO screen.",
-          startBtnNew: "▶ START ADVENTURE", startBtnContinue: "▶ CONTINUE ADVENTURE",
+          startBtnNew: "▶ START ADVENTURE", mgShareBtn: "Share poster", startBtnContinue: "▶ CONTINUE ADVENTURE",
           startFoot: "Check in at real venues with your phone's location to clear quests and earn EXP. Progress is saved in this browser only.",
           skip: "SKIP", changeHero: "Change hero",
           tabHero: "HERO",
@@ -18274,7 +18274,7 @@ var qrcode = function() {
           opSlogan: "東京の毎日は、冒険だ。\n今日も、あなたは生活の勇者。", opSkip: "タップでスキップ ▸",
           startChoose: "勇者をつくろう",
           startIntro: "プリセットの勇者はいません — 冒険者はあなた自身。メーカーで肌の色・髪型・髪の色を決めましょう。HERO画面でいつでも作り直せます。",
-          startBtnNew: "▶ 冒険をはじめる", startBtnContinue: "▶ 冒険をつづける",
+          startBtnNew: "▶ 冒険をはじめる", mgShareBtn: "ポスターをシェア", startBtnContinue: "▶ 冒険をつづける",
           startFoot: "実際の会場で位置情報チェックインするとクリア＆EXP。進行状況はこのブラウザにのみ保存されます。",
           skip: "スキップ", changeHero: "主人公を変更",
           tabHero: "主人公",
@@ -19148,7 +19148,7 @@ var qrcode = function() {
           opSlogan: "东京的每一天都是冒险。\n今天，你也是生活的勇者。", opSkip: "点按跳过 ▸",
           startChoose: "创建你的冒险者",
           startIntro: "没有预设勇者 — 冒险者就是你自己。在捏人界面决定肤色、发型和发色；之后随时可在主人公页面重做。",
-          startBtnNew: "▶ 开始冒险", startBtnContinue: "▶ 继续冒险",
+          startBtnNew: "▶ 开始冒险", mgShareBtn: "分享海报", startBtnContinue: "▶ 继续冒险",
           startFoot: "在真实场馆用定位打卡即可完成任务并获得 EXP。进度只保存在这个浏览器中。",
           skip: "跳过", changeHero: "更换主人公",
           tabHero: "主人公",
@@ -25967,7 +25967,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         document.getElementById("lblActive").textContent = t.active;
         document.getElementById("lblAreas").textContent = t.areas;
         document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
-        document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = X().mgShareBtn; b.setAttribute("aria-label", X().mgShareBtn); });
+        document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = t.mgShareBtn; b.setAttribute("aria-label", t.mgShareBtn); });
         var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
         var mlT = document.getElementById("mlTimedLbl"); if (mlT) mlT.textContent = t.legendTimed;
         var navGearEl = document.getElementById("navGear");
