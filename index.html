@@ -12445,6 +12445,10 @@
          it; photo-less quests keep their framed banner. */
       dialog#detail .detail-preview { flex: none; height: 200px; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; padding: 0; border: none; border-radius: 0; box-shadow: none; background: none; }
       dialog#detail .detail-preview img.qp-main { border-radius: 0; }
+      /* v14: the photo-less banner takes the same merged,
+         frameless treatment as the photo (QA R105 S3 --
+         the old framed box clashed with the new style). */
+      dialog#detail .detail-banner { flex: none; height: 200px; min-height: 0; width: calc(100% + 24px); margin: -6px -12px 0; border: none; border-radius: 0; box-shadow: none; }
       dialog#detail .epic-reward { flex-direction: column; align-items: stretch; gap: 2px; }
       dialog#detail .er-toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; background: none; border: none; padding: 2px 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; }
       dialog#detail .er-toggle .er-caret { font-size: 11px; color: var(--epic); flex: none; }
@@ -16358,7 +16362,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1051-q253v13-f1cb128f";
+        var BUILD_ID = "tql-20261102-1056-q253v14-5233b65a";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
