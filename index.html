@@ -10259,29 +10259,35 @@
       }
       .hero-acct:active { transform: translateY(1px); }
       .hero-acct.hero-support { flex: 0 0 auto; background: linear-gradient(180deg, #ff8a7a, #ff6f61); color: #fff; border-color: #fff; text-align: center; }
-          /* Q-289 (Zoe's device verdict on Q-281: plan B still did not
-         fit — switching to plan A; Q-288's first placement lost the cascade to the Q-230/Q-281 blocks in a later style element — this block now sits after them): the stage becomes a slim
-         horizontal band across the top (hero + name side by side)
-         and the options take the full width below: presets one row
-         of seven, hair colours one row of twelve, chips three
-         across. One screen, no scrolling, at phone sizes. */
-      #hsegCustom .cust-panel { flex-direction: column; gap: 8px; }
+          /* Q-290 (Zoe's device on Q-289: plan A renders but still
+         overflows by about the faces group — further compression,
+         same block position after the Q-230/Q-281 rules): slimmer
+         stage band, tighter groups/chips, faces one row of six. */
+      #hsegCustom .cust-panel { flex-direction: column; gap: 6px; padding: 8px 10px 10px; }
       #hsegCustom .cust-stage {
         flex: 0 0 auto; flex-direction: row; align-items: center; justify-content: center;
-        gap: 12px; padding: 6px 10px; background: var(--window-hi);
+        gap: 12px; padding: 4px 8px; background: var(--window-hi);
         border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card);
       }
       #hsegCustom .cust-stage::after { display: none; }
-      #hsegCustom .cust-stage canvas { width: 64px; height: 64px; }
-      #hsegCustom .cust-name { font-size: 15px; text-align: left; }
+      #hsegCustom .cust-stage canvas { width: 48px; height: 48px; }
+      #hsegCustom .cust-name { font-size: 14px; text-align: left; }
+      #hsegCustom .cust-group { margin-top: 5px; }
+      #hsegCustom .cust-label { margin-bottom: 2px; }
       #hsegCustom .cust-presets { grid-template-columns: repeat(7, 1fr); gap: 5px; }
-      #hsegCustom .cust-preset canvas { width: 28px; height: 28px; }
+      #hsegCustom .cust-preset canvas { width: 24px; height: 24px; }
+      #hsegCustom .cust-chip { padding: 3px 4px; font-size: 12px; }
+      #hsegCustom #customSkins .cust-swatch { width: 26px; height: 26px; }
       #hsegCustom #customColors { flex-wrap: nowrap; gap: 4px; }
       #hsegCustom #customColors .cust-swatch { width: 22px; height: 22px; flex: 0 0 auto; }
+      #hsegCustom #customFaces { grid-template-columns: repeat(6, 1fr); gap: 5px; }
+      #hsegCustom #customFaces .cust-chip { padding: 3px 1px; font-size: 11px; }
+      #hsegCustom .cust-scroll { padding-bottom: 4px; }
       #hsegCustom .win-more { left: 50%; }
       @media (max-height: 620px) {
-        #hsegCustom .cust-stage { padding: 4px 8px; }
-        #hsegCustom .cust-stage canvas { width: 52px; height: 52px; }
+        #hsegCustom .cust-stage { padding: 3px 8px; }
+        #hsegCustom .cust-stage canvas { width: 44px; height: 44px; }
+      }
 </style>
     <style>
       /* ================================================================
@@ -16555,7 +16561,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1936-q289-9ff6b9f2";
+        var BUILD_ID = "tql-20261102-1953-q290-1b3f007e";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
