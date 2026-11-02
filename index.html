@@ -14013,10 +14013,6 @@
         </div>
         <div class="hh-title" id="heroTitleLine"></div>
         <div class="hh-desc" id="heroDescLine"></div>
-        <div class="hstat-box">
-          <div class="hstat-row"><span class="hstat-val" id="hsTicketVal"></span></div>
-          <p class="hstat-scene" id="hsScene"></p>
-        </div>
         <button class="daily-banner" id="dailyBanner" type="button">
           <span class="db-tag" id="dbTag">DAILY</span>
           <span class="db-name" id="dailyBannerName"></span>
@@ -14027,9 +14023,9 @@
         <div class="ladder" id="ladder"></div>
         <!-- EXP progress rides at the very bottom of the TITLES
              tab as a slim footer strip (user, 2026-10-27): the
-             info box above keeps tickets + MY STREET only. The
+             ticket count rides this strip too (Q-291). The
              bar keeps its striped-segment look (.hstat-track). -->
-        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span></div>
+        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span></div>
         </div>
         <div class="hseg-panel hero-win win-scroller" id="hsegBadges" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -16561,7 +16557,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1953-q290-1b3f007e";
+        var BUILD_ID = "tql-20261102-2022-q291-f7474293";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -25051,13 +25047,6 @@ function drawSideSprite(ctx, E, frame, blink) {
           for (var ci = 0; ci < Math.min(3, groundedN); ci++) carriersHtml += '<span class="sp sp-carrier" aria-hidden="true"></span>';
           layer.innerHTML = ambientHtml + critterHtml + carriersHtml;
           if (runSt) initRunner(); /* fresh carrier nodes: rebind, keeping stream positions */
-        }
-        var sum = document.getElementById("hsScene");
-        if (sum) {
-          var t = L();
-          sum.textContent = t.sceneTitle + ": " + (unlockedAll.length
-            ? unlockedAll.map(function (p, i) { return t.sceneNames[SCENE_PROPS.indexOf(p)]; }).join(state.lang === "en" ? ", " : "・")
-            : "—") + " (" + unlockedAll.length + "/" + SCENE_PROPS.length + ")";
         }
         if (newId) {
           var idx = SCENE_PROPS.indexOf(unlockedAll[unlockedAll.length - 1]);
