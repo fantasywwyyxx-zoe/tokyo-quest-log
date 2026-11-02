@@ -16530,7 +16530,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1839-q282-508a3477";
+        var BUILD_ID = "tql-20261102-1844-q283-704888bb";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -23644,11 +23644,16 @@ function drawFace(ctx, face, pal, style) {
     px(5, 7, E); px(6, 6, E); px(9, 6, E); px(10, 7, E);
     px(6, 8, M); px(7, 8, W); px(8, 8, W); px(9, 8, M);
   } else if (face === "wink") {
+    /* Q-283 (Zoe: the wink "feels wrong too"; art dept redraw):
+       the closed eye was a flat dash on the bottom eye row, reading
+       tired next to the tall open eye, with a stray cheek dot at
+       (4,7) merging into it. Now a happy dip arc: (4,6)/(6,6) high,
+       (5,7) low; the open eye is smile's eye verbatim; the (4,7)
+       dot is gone (standard cheeks stay). */
     brows();
-    px(5, 7, E); px(6, 7, E);
+    px(4, 6, E); px(5, 7, E); px(6, 6, E);
     px(9, 6, W); px(10, 6, E); px(9, 7, E); px(10, 7, E);
     px(7, 8, M); px(8, 8, M);
-    px(4, 7, C);
   } else if (face === "sleepy") {
     px(6, 5, BR); px(9, 5, BR);
     px(5, 7, E); px(6, 7, E); px(9, 7, E); px(10, 7, E);
