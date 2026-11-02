@@ -13203,7 +13203,7 @@
         </div>
         <p class="run-msg" id="runMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="runStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="dash"></button>
+          <button class="auth-btn primary" id="runStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="dash" hidden></button>
         </div>
         <p class="run-help" id="runHelp"></p>
       </div>
@@ -13223,7 +13223,7 @@
         <div class="run-stage"><canvas id="jumpCanvas" width="360" height="400" role="button" aria-label="Jump stage — press and hold to charge, release to jump"></canvas></div>
         <p class="run-msg" id="jumpMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="jumpStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="jump"></button>
+          <button class="auth-btn primary" id="jumpStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="jump" hidden></button>
         </div>
         <p class="run-help" id="jumpHelp"></p>
       </div>
@@ -13248,7 +13248,7 @@
         </div>
         <p class="run-msg" id="catchMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="catchStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="catch"></button>
+          <button class="auth-btn primary" id="catchStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="catch" hidden></button>
         </div>
         <p class="run-help" id="catchHelp"></p>
       </div>
@@ -13269,7 +13269,7 @@
         <div class="mem-slot"><div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div></div>
         <p class="run-msg" id="memoryMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="memoryStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="memory"></button>
+          <button class="auth-btn primary" id="memoryStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="memory" hidden></button>
         </div>
         <p class="run-help" id="memoryHelp"></p>
       </div>
@@ -13290,7 +13290,7 @@
         <div class="run-stage stage-340"><canvas id="whackCanvas" width="360" height="340" role="button" aria-label="Whack stage — tap the critters that pop up"></canvas></div>
         <p class="run-msg" id="whackMsg"></p>
         <div class="run-btnrow">
-          <button class="auth-btn primary" id="whackStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="whack"></button>
+          <button class="auth-btn primary" id="whackStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="whack" hidden></button>
         </div>
         <p class="run-help" id="whackHelp"></p>
       </div>
@@ -16502,7 +16502,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-1812-q276-c4e39831";
+        var BUILD_ID = "tql-20261102-1815-q277-0a936f51";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -27770,6 +27770,14 @@ var qrcode = function() {
         x.strokeRect(5, 5, W - 10, H - 10);
         return cv;
       }
+      /* Q-277 (Zoe via QA): the poster-share button belongs to the
+         RESULT screen only - hidden when a game window opens and
+         while a run is being played, shown when the result lands
+         (the same moment the start button returns as "again"). */
+      function mgShareVisible(id, show) {
+        var b = document.querySelector('.mg-share-btn[data-mgid="' + id + '"]');
+        if (b) b.hidden = !show;
+      }
       function doShareMg(id) {
         var score = MG_LIVE[id] ? MG_LIVE[id]() : 0;
         var cv = buildMgPoster(id, score);
@@ -32937,6 +32945,7 @@ var qrcode = function() {
         $("runMsg").textContent = mgWon("dash") ? t.runReadyDone : (mgInToday("dash") ? t.runReady : t.runReadyPractice);
         $("runHelp").textContent = t.runHelp;
         var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.runStart;
+        mgShareVisible("dash", false);
         var lb = $("runLeftBtn"), rb = $("runRightBtn");
         lb.setAttribute("aria-label", t.runLeft); rb.setAttribute("aria-label", t.runRight);
         lb.disabled = true; rb.disabled = true; /* steering arms only while running */
@@ -32964,6 +32973,7 @@ var qrcode = function() {
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
         var sb = $("runStartBtn"); sb.disabled = true; sb.hidden = true;
+        mgShareVisible("dash", false);
         $("runLeftBtn").disabled = false; $("runRightBtn").disabled = false;
         run.raf = requestAnimationFrame(runTick);
       }
@@ -32978,6 +32988,7 @@ var qrcode = function() {
         $("runBest").textContent = X().runBest(state.runner.best || 0);
         $("runMsg").textContent = crashed ? X().runCrash(d, mgWon("dash")) : X().runQuitMsg(d);
         var sb = $("runStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = X().runAgain;
+        mgShareVisible("dash", true);
         $("runLeftBtn").disabled = true; $("runRightBtn").disabled = true;
         var win = document.querySelector(".run-win");
         if (win) { win.classList.add("is-over"); win.classList.toggle("is-crashed", !!crashed); }
@@ -33226,6 +33237,7 @@ var qrcode = function() {
         $("jumpMsg").textContent = mgWon("jump") ? t.jumpReadyDone : (mgInToday("jump") ? t.jumpReadyDuty : t.jumpReadyPractice);
         $("jumpHelp").textContent = t.jumpHelp;
         var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpStart;
+        mgShareVisible("jump", false);
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
         if (jmp && jmp.raf) cancelAnimationFrame(jmp.raf);
         jmp = { mode: "idle", score: 0, power: 0, pdir: 1, hx: 70, hy: 0, vx: 0, vy: 0, cam: 0, last: 0, raf: 0, plats: [], cur: 0 };
@@ -33251,6 +33263,7 @@ var qrcode = function() {
         $("jumpDist").textContent = "0";
         $("jumpMsg").textContent = "";
         var sb = $("jumpStartBtn"); sb.disabled = true; sb.hidden = true;
+        mgShareVisible("jump", false);
         var cf = $("jumpChargeFill"); if (cf) cf.style.width = "0%";
       }
       function endJump(cleared) {
@@ -33268,6 +33281,7 @@ var qrcode = function() {
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
         var sb = $("jumpStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.jumpAgain;
+        mgShareVisible("jump", true);
         renderRunBanner();
       }
       function jumpTick(ts) {
@@ -33372,6 +33386,7 @@ var qrcode = function() {
         $("catchMsg").textContent = mgWon("catch") ? t.catchReadyDone : (mgInToday("catch") ? t.catchReadyDuty : t.catchReadyPractice);
         $("catchHelp").textContent = t.catchHelp;
         var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchStart;
+        mgShareVisible("catch", false);
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
         var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
         if (cat && cat.raf) cancelAnimationFrame(cat.raf);
@@ -33395,6 +33410,7 @@ var qrcode = function() {
         $("catchMsg").textContent = "";
         var pf = $("catchProgFill"); if (pf) pf.style.width = "0%";
         var sb = $("catchStartBtn"); sb.disabled = true; sb.hidden = true;
+        mgShareVisible("catch", false);
         $("catchLeftBtn").disabled = false; $("catchRightBtn").disabled = false;
       }
       function endCatch(cleared, quit) {
@@ -33412,6 +33428,7 @@ var qrcode = function() {
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
         var sb = $("catchStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.catchAgain;
+        mgShareVisible("catch", true);
         $("catchLeftBtn").disabled = true; $("catchRightBtn").disabled = true;
         renderRunBanner();
       }
@@ -33546,6 +33563,7 @@ var qrcode = function() {
         $("memoryMsg").textContent = mgWon("memory") ? t.memReadyDone : (mgInToday("memory") ? t.memReadyDuty : t.memReadyPractice);
         $("memoryHelp").textContent = t.memHelp;
         var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memStart;
+        mgShareVisible("memory", false);
         if (mem && mem.raf) cancelAnimationFrame(mem.raf);
         mem = { mode: "idle", deck: [], cards: [], btns: [], openIdx: -1, lock: false, pairs: 0, flips: 0, left: MEM_TIME, last: 0, lastSec: -1, raf: 0, run: 0 };
         memBuildBoard();
@@ -33567,6 +33585,7 @@ var qrcode = function() {
         memHud();
         $("memoryMsg").textContent = "";
         var sb = $("memoryStartBtn"); sb.disabled = true; sb.hidden = true;
+        mgShareVisible("memory", false);
         if (mem.raf) cancelAnimationFrame(mem.raf);
         mem.raf = requestAnimationFrame(memTick);
       }
@@ -33628,6 +33647,7 @@ var qrcode = function() {
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
         var sb = $("memoryStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.memAgain;
+        mgShareVisible("memory", true);
         renderRunBanner();
       }
 
@@ -33658,6 +33678,7 @@ var qrcode = function() {
         $("whackMsg").textContent = mgWon("whack") ? t.whackReadyDone : (mgInToday("whack") ? t.whackReadyDuty : t.whackReadyPractice);
         $("whackHelp").textContent = t.whackHelp;
         var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackStart;
+        mgShareVisible("whack", false);
         if (whk && whk.raf) cancelAnimationFrame(whk.raf);
         whk = { mode: "idle", score: 0, left: WHACK_TIME, elapsed: 0, moles: [], floats: [], spawnT: 0, last: 0, lastSec: -1, raf: 0, goalDone: false, won: false };
         whackHud();
@@ -33678,6 +33699,7 @@ var qrcode = function() {
         whackHud();
         $("whackMsg").textContent = "";
         var sb = $("whackStartBtn"); sb.disabled = true; sb.hidden = true;
+        mgShareVisible("whack", false);
       }
       function endWhack(quit) {
         if (!whk) return;
@@ -33693,6 +33715,7 @@ var qrcode = function() {
           try { sfx("back"); } catch (e) { /* ignore */ }
         }
         var sb = $("whackStartBtn"); sb.disabled = false; sb.hidden = false; sb.textContent = t.whackAgain;
+        mgShareVisible("whack", true);
         renderRunBanner();
       }
       function whackTick(ts) {
