@@ -12388,30 +12388,35 @@
          own margins are zeroed so the rhythm is set by these
          two gaps alone, and the No. line gains air above it. */
       #detailChips { margin: 0; } /* Q-250: chips live in the info card (.kv first row) */
-      /* Q-253 v7 (Zoe-approved consolidation of the detail
-         restructure): tags stay together in the band under
-         the photo but smaller and slimmer, and the band's
-         flex children may shrink so pills wrap at phone
-         width instead of clipping; the period leaves the
-         band and joins the TIME group in the card (period
-         line, then hours); where / price become two
-         half-width columns (label over value, wrapping
-         inside their own column); body text keeps its
-         normal size; the epic reward folds behind a toggle
-         bar, collapsed by default. Render ids unchanged. */
-      dialog#detail .detail-badges { order: 2; flex: none; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; max-width: 100%; }
+      /* Q-253 v8 (Zoe's device verdict on v7: still messy --
+         her direction: tags go BELOW the facts and smaller
+         still; time / where / price are the important lines
+         and must read clearly, so the two-column split is
+         reverted to one stacked column with the largest
+         body text; the intro steps back to small type; the
+         scale is facts 14.5 / period 13.5 / intro 12.5 /
+         tags 10.5. The band keeps every tag together and
+         its flex children may shrink so pills wrap at phone
+         width instead of clipping; the period sits in the
+         TIME group (period line, then hours); the epic
+         reward folds behind a toggle bar, collapsed by
+         default. Render ids unchanged. */
+      dialog#detail .detail-badges { order: 5; flex: none; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; max-width: 100%; }
       dialog#detail .detail-badges > * { min-width: 0; max-width: 100%; }
-      dialog#detail .detail-badges #detailChips .chip { height: 22px; padding: 0 8px; font-size: 11px; }
-      dialog#detail .detail-badges .mood { font-size: 11px; padding: 1px 7px; }
-      dialog#detail .kv { display: block; padding: 8px 11px; }
-      dialog#detail .kv dt { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 7px 0 2px; text-align: left; color: var(--gold-deep); font-size: 10.5px; letter-spacing: 0.07em; align-self: auto; }
+      dialog#detail .detail-badges #detailChips .chip { height: 20px; padding: 0 7px; font-size: 10.5px; }
+      dialog#detail .detail-badges .mood { font-size: 10.5px; padding: 1px 6px; }
+      dialog#detail .kv { display: block; padding: 10px 12px; }
+      dialog#detail .kv dt { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 8px 0 2px; text-align: left; color: var(--gold-deep); font-size: 11px; letter-spacing: 0.06em; align-self: auto; }
       dialog#detail .kv dt:first-of-type { margin-top: 0; }
-      dialog#detail .kv dd { font-size: 13.5px; line-height: 1.4; }
+      dialog#detail .kv dd { font-size: 14.5px; line-height: 1.5; }
       dialog#detail .kv .detail-period { background: none; border: none; box-shadow: none; border-radius: 0; padding: 0; margin: 0 0 2px; order: 0; font-size: 13.5px; }
-      dialog#detail .kv .kv-cols { display: flex; gap: 10px; margin-top: 7px; }
-      dialog#detail .kv .kv-col { flex: 1 1 0; min-width: 0; }
+      dialog#detail .kv .detail-period .dp-when { font-size: 12px; }
+      dialog#detail .kv .kv-cols { display: block; margin-top: 8px; }
+      dialog#detail .kv .kv-col { min-width: 0; }
       dialog#detail .kv .kv-col dt { margin-top: 0; }
+      dialog#detail .kv .kv-col + .kv-col { margin-top: 8px; }
       dialog#detail .kv .kv-col dd { overflow-wrap: break-word; }
+      dialog#detail .blurb-box { font-size: 12.5px; line-height: 1.55; }
       dialog#detail .detail-preview { flex: none; height: 144px; min-height: 0; }
       dialog#detail .epic-reward { flex-direction: column; align-items: stretch; gap: 2px; }
       dialog#detail .er-toggle { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; background: none; border: none; padding: 2px 0; margin: 0; cursor: pointer; font: inherit; color: inherit; text-align: left; }
@@ -16326,7 +16331,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-0921-q253v7-38cab010";
+        var BUILD_ID = "tql-20261102-0927-q253v8-c96b531f";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
