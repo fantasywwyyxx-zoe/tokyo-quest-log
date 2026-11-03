@@ -16584,7 +16584,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261102-2158-q304-e1c09cf1";
+        var BUILD_ID = "tql-20261103-1208-q305-6e031ecb";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -32896,6 +32896,22 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       var _origRefreshAuthTexts = refreshAuthTexts;
       refreshAuthTexts = function () { _origRefreshAuthTexts(); refreshExtTexts(); };
+      /* Q-305: setLang re-renders the base game in place (renderAll),
+         but the extension/auth-owned title labels (survey / beta /
+         support / account row) were only refreshed when the switch
+         came from the settings sheet, via the [data-lang-opt] click
+         bridge below — a switch from the title control (Q-303) left
+         them in the previous language until reload (QA R151
+         observation, code-confirmed). Wrap setLang itself so EVERY
+         switch path refreshes them. */
+      var _origSetLang = setLang;
+      setLang = function (l) {
+        _origSetLang(l);
+        setTimeout(function () {
+          refreshExtTexts();
+          if (typeof refreshAcctUI === "function") refreshAcctUI();
+        }, 120);
+      };
       document.addEventListener("click", function (e) {
         if (e.target && e.target.closest && e.target.closest("[data-lang-opt]")) setTimeout(refreshExtTexts, 120);
       });
