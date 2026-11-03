@@ -13030,6 +13030,13 @@
         #creatorScreen .cust-preset canvas { width: 24px; height: 24px; }
         #creatorScreen .cust-chip { padding: 2px 4px; }
       }
+
+      /* Q-311 (Zoe device): the titles ladder stretches to fill the
+         status panel; the pager rides the ladder's bottom edge so the
+         pager + EXP strip sit at the panel's very bottom, and the
+         freed height goes to more title rows (fit pass in JS). */
+      #hsegStatus #ladder { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+      #hsegStatus .ladder-pager { margin-top: auto; }
 </style>
   </head>
   <body data-view="map">
@@ -16618,7 +16625,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261103-2310-q310-f9efa7d3";
+        var BUILD_ID = "tql-20261103-2328-q311-f9efa7d3";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29148,7 +29155,40 @@ function drawRunnerFrame(ctx, frame, blink) {
           '<button class="ladder-pg-btn" type="button" data-ladder-pg="1" aria-label="' + esc(t.ladderNextBtn) + '"' + (ladderPage >= pages - 1 ? " disabled" : "") + ">▶</button>" +
           "</div>";
         el.innerHTML = html;
+        ladderFitPass(el);
       }
+
+      /* Q-311: grow the ladder page to the height the panel actually
+         has left (pager + EXP strip pinned at the bottom by CSS), so a
+         tall screen shows more titles instead of blank space; the
+         floor stays 5 (the short-viewport fit), the ceiling 14. One
+         guarded re-render per pass — geometry is flex-stable, so the
+         second pass computes the same size and stops. */
+      var _ladderFitting = false;
+      function ladderFitPass(el) {
+        if (_ladderFitting) return;
+        var panel = el.parentElement;
+        var track = el.querySelector(".ladder-track");
+        var pager = el.querySelector(".ladder-pager");
+        var firstRow = track ? track.children[0] : null;
+        if (!panel || !firstRow || !pager || !panel.clientHeight) return;
+        var foot = panel.querySelector(".hstat-foot");
+        var above = el.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+        var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 26;
+        var pitch = firstRow.offsetHeight + 6;
+        if (pitch <= 0) return;
+        var fit = Math.floor((avail - pager.offsetHeight - 7) / pitch);
+        fit = Math.max(5, Math.min(14, fit));
+        if (fit !== LADDER_PAGE_SIZE) {
+          _ladderFitting = true;
+          LADDER_PAGE_SIZE = fit;
+          try { renderLadder(); } finally { _ladderFitting = false; }
+        }
+      }
+      window.addEventListener("resize", function () {
+        var p = document.getElementById("hsegStatus");
+        if (p && !p.hidden) renderLadder();
+      });
 
       function showStart(editMode) {
         var sc = document.getElementById("startScreen");
