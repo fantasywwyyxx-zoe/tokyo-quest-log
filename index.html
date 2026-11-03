@@ -12996,7 +12996,41 @@
          are untouched. */
       .map-caps { left: calc(8px + env(safe-area-inset-left, 0px)); max-width: none; }
       #mapCaps .mg-map-btn { max-width: 100%; min-width: 0; }
-    </style>
+    
+      /* ==========================================================
+         Q-309 (Zoe device 2026-11-03 22:48): the first-run creator
+         still made her scroll the options column -- it kept the
+         Q-196 two-pane layout while the hero-page customize panel
+         moved to plan A in Q-289. The creator takes the same plan
+         A: the stage becomes a slim band across the top, options
+         run full width below in dense grids, and everything --
+         tab, band, five groups and the pinned footer -- fits one
+         screen with no scrolling at phone heights. The scroller
+         stays as an extreme-viewport safety net only.
+         ========================================================== */
+      #creatorScreen .creator-body { flex-direction: column; gap: 8px; }
+      #creatorScreen .cust-stage { flex: 0 0 auto; flex-direction: row; align-items: center; justify-content: center; gap: 12px; padding: 4px 8px; background: var(--window-hi); border: var(--bw-s) solid var(--line-c); border-radius: var(--rad-card); overflow: visible; }
+      #creatorScreen .cust-stage::after { display: none; }
+      #creatorScreen .cust-stage canvas { width: 48px; height: 48px; }
+      #creatorScreen .creator-scroll { padding-bottom: 4px; }
+      #creatorScreen .cust-group { margin-top: 6px; }
+      #creatorScreen .cust-group:first-child { margin-top: 2px; }
+      #creatorScreen .cust-label { margin-bottom: 3px; font-size: 11.5px; }
+      #creatorScreen .cust-presets { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+      #creatorScreen .cust-preset { width: 100%; padding: 3px 1px 2px; font-size: 10px; gap: 1px; }
+      #creatorScreen .cust-preset canvas { width: 28px; height: 28px; }
+      #creatorScreen .cust-swatches { flex-wrap: nowrap; gap: 6px; }
+      #creatorScreen #creatorSkins .cust-swatch { width: 30px; height: 30px; }
+      #creatorScreen #creatorColors .cust-swatch { width: 22px; height: 22px; }
+      #creatorScreen .cust-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+      #creatorScreen .cust-chip { width: 100%; text-align: center; padding: 3px 4px; font-size: 12px; }
+      @media (max-height: 700px) {
+        #creatorScreen .cust-stage canvas { width: 40px; height: 40px; }
+        #creatorScreen .cust-group { margin-top: 4px; }
+        #creatorScreen .cust-preset canvas { width: 24px; height: 24px; }
+        #creatorScreen .cust-chip { padding: 2px 4px; }
+      }
+</style>
   </head>
   <body data-view="map">
 
@@ -16584,7 +16618,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261103-1245-q308-32a24750";
+        var BUILD_ID = "tql-20261103-2250-q309-e6f2de7f";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
