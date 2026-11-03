@@ -16618,7 +16618,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261103-2250-q309-e6f2de7f";
+        var BUILD_ID = "tql-20261103-2310-q310-f9efa7d3";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -28232,7 +28232,23 @@ function drawRunnerFrame(ctx, frame, blink) {
         var box = document.getElementById("sharePick");
         if (!box) { sysShare(ctx); return; }
         restoreShareHome();
-        var host = document.querySelector("dialog[open]");
+        /* Q-310 (R157, Zoe device 2026-11-03): the chooser must be
+           hosted by the TOPMOST open surface. The celebration panel
+           rides the popover layer ABOVE the modal detail dialog, so
+           a chooser hosted inside that dialog opened UNDER the
+           panel -- invisible and untappable, a completely dead tap
+           on her phone. While the panel is showing, host the
+           chooser inside the panel itself (nested popover); the
+           dialog / body hosting for the other flows is unchanged. */
+        var host = null;
+        var celebEl = document.getElementById("celebrate");
+        var celebShowing = false;
+        if (celebEl) {
+          try { celebShowing = !!celebEl.matches(":popover-open"); } catch (eC) {}
+          if (!celebShowing && celebEl.classList.contains("show") && celebEl.innerHTML) celebShowing = true;
+        }
+        if (celebShowing) host = celebEl;
+        if (!host) host = document.querySelector("dialog[open]");
         if (host && box.parentNode !== host) {
           shareHome = { p: box.parentNode, n: box.nextSibling };
           host.appendChild(box);
@@ -28471,6 +28487,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
       }
       function endCelebrateQuiet() {
+        /* Q-310: if the share chooser is hosted inside this panel,
+           close and re-home it BEFORE the wipe below empties the
+           panel (innerHTML = "" would destroy the element). */
+        var spQ = document.getElementById("sharePick");
+        var celQ = document.getElementById("celebrate");
+        if (spQ && celQ && celQ.contains(spQ)) hideSharePick();
         celebTimers.forEach(clearTimeout); celebTimers = [];
         if (celebCountTimer) { clearInterval(celebCountTimer); celebCountTimer = null; }
         var box = document.getElementById("celebrate");
