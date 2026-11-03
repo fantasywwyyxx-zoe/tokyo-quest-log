@@ -16625,7 +16625,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261103-2328-q311-f9efa7d3";
+        var BUILD_ID = "tql-20261103-2335-q312-f9efa7d3";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -29181,7 +29181,15 @@ function drawRunnerFrame(ctx, frame, blink) {
         fit = Math.max(5, Math.min(14, fit));
         if (fit !== LADDER_PAGE_SIZE) {
           _ladderFitting = true;
+          /* R159 (S3): when the page size changes, re-anchor the
+             page on the first currently visible row — otherwise the
+             row at the old boundary falls between two pages of the
+             new size and is shown nowhere (and the reverse change
+             repeats rows). ladderPage < 0 (follow the current
+             title) resolves itself inside the re-render. */
+          var oldStart = ladderPage >= 0 ? ladderPage * LADDER_PAGE_SIZE : -1;
           LADDER_PAGE_SIZE = fit;
+          if (oldStart >= 0) ladderPage = Math.floor(oldStart / fit);
           try { renderLadder(); } finally { _ladderFitting = false; }
         }
       }
