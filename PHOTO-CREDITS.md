@@ -154,3 +154,4 @@ c30-ccbt-dancing-on-it | https://ccbt.rekibun.or.jp/ | Official website photo (�
 c31-asakusa-tori-no-ichi | https://commons.wikimedia.org/wiki/File:Tori_no_Ichi_Fair_(10645907784).jpg | CC BY 2.0 | Yoshikazu TAKADA
 c32-asakusa-ueno-rally | https://www.enjoytokyo.jp/article/205195/ | Official website photo (© venue / operator) | Let's Enjoy Tokyo
 c33-feel-the-sound | https://hubemag.com/barbicans-new-multi-sensory-exhibition-feel-the-sound | Official press photo (© Barbican Centre) | Thomas Adank / Barbican Centre
+- c34-hibiya-art-park-2026 | https://www.tokyo-park.or.jp/special/flowerandlight/hibiya2026autumn/en/index.html | Official website photo (© venue / operator; artwork 'Oya Genkiro No. 6' by Takashi Kuribayashi) | Tokyo Metropolitan Park Association
