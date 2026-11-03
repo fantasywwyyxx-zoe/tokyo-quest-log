@@ -155,3 +155,58 @@ c31-asakusa-tori-no-ichi | https://commons.wikimedia.org/wiki/File:Tori_no_Ichi_
 c32-asakusa-ueno-rally | https://www.enjoytokyo.jp/article/205195/ | Official website photo (© venue / operator) | Let's Enjoy Tokyo
 c33-feel-the-sound | https://hubemag.com/barbicans-new-multi-sensory-exhibition-feel-the-sound | Official press photo (© Barbican Centre) | Thomas Adank / Barbican Centre
 - c34-hibiya-art-park-2026 | https://www.tokyo-park.or.jp/special/flowerandlight/hibiya2026autumn/en/index.html | Official website photo (© venue / operator; artwork 'Oya Genkiro No. 6' by Takashi Kuribayashi) | Tokyo Metropolitan Park Association
+- c35-koishikawa-korakuen-night-autumn | https://commons.wikimedia.org/wiki/File:Koishikawa_Korakuen_Gardens_(11168188794).jpg | CC BY 2.0 | Guilhem Vellut from Annecy, France
+- c36-kyu-furukawa-autumn-roses | https://www.tokyo-park.or.jp/park/kyu-furukawa/news/2026/11_12.html | Official website photo (© venue / operator) | https://www.tokyo-park.or.jp/park/kyu-furukawa/news/2026/11_12.html
+- c37-takao-momiji-matsuri | https://www.hkc.or.jp/takaosan/momiji_fes/index.php | Official website photo (© venue / operator) | https://www.hkc.or.jp/takaosan/momiji_fes/index.php
+- c38-tokyo-dome-city-snow-dome | https://www.tokyo-dome.co.jp/illumination/ | Official website photo (© venue / operator) | https://www.tokyo-dome.co.jp/illumination/
+- c39-skytree-dream-christmas | https://www.tokyo-skytree.jp/event/christmas2026/ | Official website photo (© venue / operator) | https://www.tokyo-skytree.jp/event/christmas2026/
+- c40-midtown-christmas-roppongi | https://commons.wikimedia.org/wiki/File:Starlight_Garden_(Tokyo_Midtown)_Christmas_Illumination_2014.JPG | CC BY-SA 4.0 | Kakidai
+- c41-yebisu-baccarat-eternal-lights | https://event.gardenplace.jp/special/2026baccarat/ | Official website photo (© venue / operator) | https://event.gardenplace.jp/special/2026baccarat/
+- c42-sankeien-yasou-night | https://commons.wikimedia.org/wiki/File:Sankei-En_-_panoramio.jpg | CC BY-SA 3.0 | Koichi Shibata
+- c43-omotesando-illumination | https://commons.wikimedia.org/wiki/File:Illumination-in-Omotesando-2009-01.jpg | CC BY-SA 3.0 | Rs1421
+- c44-azabudai-hills-christmas-market | https://commons.wikimedia.org/wiki/File:Azabudai_Hills,_opening_day_53.jpg | CC0 | Syced
+- c45-yakushiike-momiji-matsuri | https://commons.wikimedia.org/wiki/File:Azalea_Yakushiike_Park.jpg | CC BY-SA 3.0 | NRRH
+- c46-tachikawa-illumination | https://tachikawaillumination.com/ | Official website photo (© venue / operator) | https://tachikawaillumination.com/
+- c47-jindai-chrysanthemum-exhibition | https://www.tokyo-park.or.jp/park/jindai/news/2026/park_info_10.html | Official website photo (© venue / operator) | https://www.tokyo-park.or.jp/park/jindai/news/2026/park_info_10.html
+- c48-tokyo-christmas-advent-ueno | https://christmas-advent.jp/tokyo-ueno/ | Official website photo (© venue / operator) | https://christmas-advent.jp/tokyo-ueno/
+- c49-yokohama-english-garden-christmas | https://y-eg.jp/information/4067/ | Official website photo (© venue / operator) | https://y-eg.jp/information/4067/
+- c50-bunkyo-kiku-matsuri-yushima | https://www.yushimatenjin.or.jp/lp/kiku2026.html | Official website photo (© venue / operator) | https://www.yushimatenjin.or.jp/lp/kiku2026.html
+- c51-hanazono-tori-no-ichi | https://www.kanko-shinjuku.jp/event/history/article_6631.html | Official website photo (© venue / operator) | https://www.kanko-shinjuku.jp/event/history/article_6631.html
+- c52-okunitama-tori-no-ichi | https://machidukuri-fuchu.jp/event/18735/ | Official website photo (© venue / operator) | https://machidukuri-fuchu.jp/event/18735/
+- c53-yakiimo-fes-tokyo-2026 | https://yakiimofes.jp/tokyo2026/ | Official website photo (© venue / operator) | https://yakiimofes.jp/tokyo2026/
+- c54-ebisu-garden-place-christmas-marche | https://event.gardenplace.jp/special/2026christmas/ | Official website photo (© venue / operator) | https://event.gardenplace.jp/special/2026christmas/
+- c55-cocoon-city-christmas-market | https://www.cocooncity.jp/christmas2026/ | Official website photo (© venue / operator) | https://www.cocooncity.jp/christmas2026/
+- c56-oedo-antique-market-november | https://commons.wikimedia.org/wiki/File:Interior_of_the_Tokyo_International_Forum_Glass_Building,_Japan.jpg | CC BY-SA 4.0 | Basile Morin
+- c57-sex-in-nature-kahaku | https://commons.wikimedia.org/wiki/File:National_Museum_of_Nature_and_Science_(71681).jpg | CC0 | Syced
+- c58-maruyama-okyo-edo-tokyo | https://www.edo-tokyo-museum.or.jp/s-exhibition/okyo.html | Official website photo (© venue / operator) | https://www.edo-tokyo-museum.or.jp/s-exhibition/okyo.html
+- c59-miss-saigon-theatre-orb | https://commons.wikimedia.org/wiki/File:Shibuya_Hikarie_Tokyu_Theatre_Orb_(49333094033).jpg | CC BY 2.0 | Dick Thomas Johnson from Tokyo, Japan
+- c60-kabukiza-kaomise-2026 | https://www.kabuki-bito.jp/theaters/kabukiza/play/986/ | Official website photo (© venue / operator) | https://www.kabuki-bito.jp/theaters/kabukiza/play/986/
+- c61-astrup-tokyo-station-gallery | https://www.ejrcf.or.jp/gallery/exhibition.html | Official website photo (© venue / operator) | https://www.ejrcf.or.jp/gallery/exhibition.html
+- c62-synchronic-constellation-mot | https://www.mot-art-museum.jp/exhibitions/Constellation/ | Official website photo (© venue / operator) | https://www.mot-art-museum.jp/exhibitions/Constellation/
+- c63-kusama-light-museum | https://yayoikusamamuseum.jp/exhibition/current/ | Official website photo (© venue / operator) | https://yayoikusamamuseum.jp/exhibition/current/
+- c64-hojoki-2121-design-sight | https://www.2121designsight.jp/documents/exhibition/hojoki/ | Official website photo (© venue / operator) | https://www.2121designsight.jp/documents/exhibition/hojoki/
+- c65-karamono-senoku-tokyo | https://sen-oku.or.jp/program/t_202611_karamono/ | Official website photo (© venue / operator) | https://sen-oku.or.jp/program/t_202611_karamono/
+- c66-planetaria-naniwa-danshi | https://planetarium.konicaminolta.jp/program/naniwadanshi/ | Official website photo (© venue / operator) | https://planetarium.konicaminolta.jp/program/naniwadanshi/
+- c67-peter-grimes-nntt | https://www.nntt.jac.go.jp/english/2026-27season-opera.html | Official website photo (© venue / operator) | https://www.nntt.jac.go.jp/english/2026-27season-opera.html
+- c68-muttoni-world-vi-hachioji | https://www.yumebi.com/scd.html | Official website photo (© venue / operator) | https://www.yumebi.com/scd.html
+- c69-komai-tetsuro-setagaya | https://www.setagayaartmuseum.or.jp/exhibition/special/detail.php?id=sp00231 | Official website photo (© venue / operator) | https://www.setagayaartmuseum.or.jp/exhibition/special/detail.php?id=sp00231
+- c70-corraini-bookmaking-itabashi | https://www.city.itabashi.tokyo.jp/artmuseum/4000016/4002027/4002033.html | Official website photo (© venue / operator) | https://www.city.itabashi.tokyo.jp/artmuseum/4000016/4002027/4002033.html
+- c71-duet-asian-contemporary-top | https://topmuseum.jp/exhibition/5421/ | Official website photo (© venue / operator) | https://topmuseum.jp/exhibition/5421/
+- c72-mappa-expo-15th-anniversary | https://commons.wikimedia.org/wiki/File:Interior_of_the_Tokyo_International_Forum_Glass_Building_20241021.jpg | CC BY 4.0 | 
+
+
+ This Photo was taken by Supanut Arunoprayote.
+
+Feel free
+- c73-detective-conan-30th-yokohama | https://commons.wikimedia.org/wiki/File:Yokohama_Red_Brick_Warehouse_2012.JPG | CC BY-SA 3.0 | Kakidai
+- c74-animate-girls-festival-2026 | https://commons.wikimedia.org/wiki/File:On_the_way_to_Sunshine_City_サンシャインシティ_in_Ikebukuro,_Tokyo,_Japan_(26295481219).jpg | CC BY 2.0 | Arjan Richter from Amsterdam, The Netherlands
+- c75-sugi-ani-expo-2026 | https://sam.or.jp/event-list/sugi_ani_expo2026 | Official website photo (© venue / operator) | https://sam.or.jp/event-list/sugi_ani_expo2026
+- c76-bocchi-the-rock-popup-winter-atre-akihabara | https://commons.wikimedia.org/wiki/File:Akihabara_Station_Electric_Town_south_entrance_below_the_Atré_Akihabara_1_(2010-10-15_17.53.19).jpg | CC BY 2.0 | street viewer
+- c77-cobra-popup-cosmic-drive-nakano | https://commons.wikimedia.org/wiki/File:Nakano_Broadway_2021130_②.jpg | CC BY-SA 4.0 | 番記者
+- c78-paradox-live-dope-world-shibuya | https://commons.wikimedia.org/wiki/File:Anime_Center_@_Akiba_ICHI_@_Akihabara_(9479831508).jpg | CC BY 2.0 | Guilhem Vellut from Annecy, France
+- c79-rose-of-versailles-print-exhibition-gotanda | https://edition-88.com/blogs/blog/versailles2026-exhibition-info | Official website photo (© venue / operator) | https://edition-88.com/blogs/blog/versailles2026-exhibition-info
+- c80-tokyo-tower-christmas-market | https://commons.wikimedia.org/wiki/File:Christmas_-_panoramio.jpg | CC BY-SA 3.0 | Babiesan
+- c81-ota-oeyo-night-scenes | https://www.ukiyoe-ota-muse.jp/ | Official website artwork image (© artist / venue) | https://www.ukiyoe-ota-muse.jp/
+- c82-top-okada-phantom-horses | https://topmuseum.jp/exhibition/12698/ | Official website artwork image (© artist / venue) | https://topmuseum.jp/exhibition/12698/
+- c83-eisei-bunko-hakuin | https://commons.wikimedia.org/wiki/File:Hakuin_Ekaku_-_Hotei_in_a_Boat_-_2006.131.1a-b_-_Yale_University_Art_Gallery.jpg | Public domain | <bdi><a href="https://en.wikipedia.org/wiki/en:Hakuin_Ekaku" class="extiw" title="w:en:Hakuin Ekaku"><span title="Japanese Zen Buddhist master (1686-1769)">Hakuin Ekaku</span></a></bdi>
+- c84-fuchu-botanical-art | https://www.city.fuchu.tokyo.jp/art/tenrankai/kikakutenkaisai/2026_BotanicalArt.html | Official website artwork image (© artist / venue) | https://www.city.fuchu.tokyo.jp/art/tenrankai/kikakutenkaisai/2026_BotanicalArt.html
