@@ -16625,7 +16625,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261105-refresh-tiff-del";
+        var BUILD_ID = "tql-20261105-1830-q314-f76edca2";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -24077,8 +24077,8 @@ var qrcode = function() {
          10, torso 11, belt 12, legs 13–14, shoes 15. */
 var HERO_ROWS = [
   "................",
-  ".....HHhHH......",
-  "....HHhhhhHH....",
+  ".....HHhgH......",
+  "....HHhhghHH....",
   "...HHhHHHHdHH...",
   "...HSSSSSSSSH...",
   "...HSddSSddSH...",
@@ -24086,7 +24086,7 @@ var HERO_ROWS = [
   "...HSEESSEESH...",
   "...HCSSMMSSCH...",
   ".....dnnnnd.....",
-  "....BLBBBBbB....",
+  "....BLBLLBbB....",
   "...SbBBBBBbBS...",
   "....BBRGGBBB....",
   "....qPP..PPP....",
@@ -24169,7 +24169,7 @@ function drawHairStyle(ctx, style, hc, hl, hd) {
     px(10, 4, GOLD); px(11, 4, GOLD); px(12, 4, GOLD);
     px(3, 5, hc); px(12, 5, hc);
   } else {
-    px(7, 0, hc); px(8, 0, hl);
+    px(6, 0, hc); px(7, 0, hl); px(8, 0, hl);
   }
 }
       /* expression pass (D geometry, Q-278): repaints the face
@@ -24278,13 +24278,13 @@ function drawYushaJacket(ctx) {
       var GACHA_ITEMS = [
         { id: "red-cap", kind: "hat", rarity: "N", hat: "cap", c1: "#e5484d", c2: "#b02a2e" },
         { id: "blue-cap", kind: "hat", rarity: "N", hat: "cap", c1: "#2f7cd6", c2: "#1d4f8a" },
-        { id: "straw-hat", kind: "hat", rarity: "N", hat: "straw", c1: "#e8c96a", c2: "#b5563c" },
+        { id: "straw-hat", kind: "hat", rarity: "N", hat: "straw", c1: "#e8c96a", c2: "#b5563c", v: "bandstripe", a2: "#2f7cd6" },
         { id: "sakura-clip", kind: "hat", rarity: "R", hat: "clip", c1: "#f28bb4", c2: "#ffd166" },
-        { id: "cat-ears", kind: "hat", rarity: "R", hat: "ears", c1: "#3a3f4a", c2: "#f28bb4" },
+        { id: "cat-ears", kind: "hat", rarity: "R", hat: "ears", c1: "#3a3f4a", c2: "#f28bb4", v: "bell" },
         { id: "star-cap", kind: "hat", rarity: "R", hat: "starcap", c1: "#7558c9", c2: "#4a3480" },
         { id: "wizard-hat", kind: "hat", rarity: "SR", hat: "wizard", c1: "#31456e", c2: "#f8bc3d" },
         { id: "crown", kind: "hat", rarity: "SR", hat: "crown", c1: "#f8bc3d", c2: "#e5484d" },
-        { id: "crimson-coat", kind: "outfit", rarity: "N", body: "#c22e3a", pants: "#2b2b33" },
+        { id: "crimson-coat", kind: "outfit", rarity: "N", body: "#c22e3a", pants: "#2b2b33", a2: "#f8bc3d", od: "buttons" },
         { id: "mint-jacket", kind: "outfit", rarity: "N", body: "#14a38c", pants: "#23403a" },
         { id: "navy-coat", kind: "outfit", rarity: "N", body: "#2e4a7d", pants: "#1c2440" },
         { id: "sakura-dress", kind: "outfit", rarity: "R", body: "#e56ba0", pants: "#6b4258" },
@@ -24301,9 +24301,9 @@ function drawYushaJacket(ctx) {
         { id: "red-beret", kind: "hat", rarity: "N", hat: "beret", c1: "#c22e3a", c2: "#8f1f28" },
         { id: "lemon-knit", kind: "hat", rarity: "N", hat: "knit", c1: "#ffd83d", c2: "#e0a92e" },
         { id: "detective-hat", kind: "hat", rarity: "R", hat: "detective", c1: "#8a5a33", c2: "#5d3a1e" },
-        { id: "mage-hat", kind: "hat", rarity: "R", hat: "pointy", c1: "#31456e", c2: "#ffd83d" },
+        { id: "mage-hat", kind: "hat", rarity: "R", hat: "pointy", c1: "#31456e", c2: "#ffd83d", v: "gem", a2: "#e56ba0" },
         { id: "hachimaki", kind: "hat", rarity: "N", hat: "hachimaki", c1: "#fffdf4", c2: "#e5484d" },
-        { id: "royal-crown", kind: "hat", rarity: "SR", hat: "royalcrown", c1: "#f8bc3d", c2: "#57b6e8" },
+        { id: "royal-crown", kind: "hat", rarity: "SR", hat: "royalcrown", c1: "#f8bc3d", c2: "#57b6e8", v: "band", a2: "#7558c9" },
         { id: "cyber-visor", kind: "hat", rarity: "R", hat: "visor", c1: "#a5dcff", c2: "#2b4a8f" },
         { id: "bunny-ears", kind: "hat", rarity: "R", hat: "bunny", c1: "#f6c9d8", c2: "#e56ba0" },
         { id: "aviator-cap", kind: "hat", rarity: "SR", hat: "aviator", c1: "#8a5a33", c2: "#cfd8dc" },
@@ -24339,8 +24339,8 @@ function drawYushaJacket(ctx) {
         { id: "snow-brooch", kind: "scarf", rarity: "R", scarf: "#a5dcff", neck: "brooch", v: "snow" },
         /* --- pool expansion 2 (living-hero build, 2026-10-26):
            +30 pieces — hats +10 / outfits +10 / scarves +10 --- */
-        { id: "sprout-cap", kind: "hat", rarity: "N", hat: "sprout", c1: "#58a05c", c2: "#7e4a21" },
-        { id: "moon-clip", kind: "hat", rarity: "N", hat: "clip", c1: "#a5dcff", c2: "#ffd83d" },
+        { id: "sprout-cap", kind: "hat", rarity: "N", hat: "sprout", c1: "#58a05c", c2: "#7e4a21", v: "tip", a2: "#ffd83d" },
+        { id: "moon-clip", kind: "hat", rarity: "N", hat: "clip", c1: "#a5dcff", c2: "#ffd83d", v: "pair" },
         { id: "paper-crown", kind: "hat", rarity: "N", hat: "crown", c1: "#e8c96a", c2: "#b5563c" },
         { id: "chef-hat", kind: "hat", rarity: "N", hat: "chef", c1: "#ffffff", c2: "#dfe6ea" },
         { id: "demon-horns", kind: "hat", rarity: "R", hat: "horns", c1: "#e5484d", c2: "#7d1f26" },
@@ -24351,12 +24351,12 @@ function drawYushaJacket(ctx) {
         { id: "panda-hood", kind: "hat", rarity: "SR", hat: "hood", c1: "#ffffff", c2: "#23203a" },
         { id: "track-suit", kind: "outfit", rarity: "N", body: "#2e9e5b", pants: "#1e4634" },
         { id: "pajama-set", kind: "outfit", rarity: "N", body: "#a5dcff", pants: "#7fb3d9" },
-        { id: "varsity-jacket", kind: "outfit", rarity: "N", body: "#c22e3a", pants: "#2b2b33", fx: "denim" },
+        { id: "varsity-jacket", kind: "outfit", rarity: "N", body: "#c22e3a", pants: "#2b2b33", fx: "denim", a2: "#ffffff", od: "stripes" },
         { id: "gardener-overalls", kind: "outfit", rarity: "N", body: "#7a9cc4", pants: "#5d7a4a", fx: "apron" },
         { id: "trench-coat", kind: "outfit", rarity: "R", body: "#b59a6a", pants: "#4a3b28", fx: "suit" },
-        { id: "ninja-garb", kind: "outfit", rarity: "R", body: "#2b2b33", pants: "#17130f" },
+        { id: "ninja-garb", kind: "outfit", rarity: "R", body: "#2b2b33", pants: "#17130f", od: "vest" },
         { id: "summer-yukata", kind: "outfit", rarity: "R", body: "#57b6e8", pants: "#2b4a8f", fx: "kimono" },
-        { id: "pilot-uniform", kind: "outfit", rarity: "R", body: "#31456e", pants: "#232c52", fx: "suit" },
+        { id: "pilot-uniform", kind: "outfit", rarity: "R", body: "#31456e", pants: "#232c52", fx: "suit", g: "bar", a2: "#f8bc3d", od: "emblem" },
         { id: "idol-costume", kind: "outfit", rarity: "SR", body: "#f28bb4", pants: "#8f3a5f", fx: "dress" },
         { id: "witch-dress", kind: "outfit", rarity: "SR", body: "#3d2f57", pants: "#23203a", fx: "dress" },
         { id: "mint-ribbon", kind: "scarf", rarity: "N", scarf: "#6ae0c3", neck: "ribbon" },
@@ -24373,7 +24373,7 @@ function drawYushaJacket(ctx) {
            +9 pieces — hats / outfits / scarves ×3, N/R/SR spread --- */
         { id: "sakura-beret", kind: "hat", rarity: "N", hat: "beret", c1: "#f28bb4", c2: "#e56ba0" },
         { id: "midnight-cap", kind: "hat", rarity: "R", hat: "cap", c1: "#232c52", c2: "#ffd83d" },
-        { id: "gold-hachimaki", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#f8bc3d", c2: "#e5484d" },
+        { id: "gold-hachimaki", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#f8bc3d", c2: "#e5484d", g: "flame", a2: "#b02a2e" },
         { id: "forest-ranger", kind: "outfit", rarity: "N", body: "#2e5d43", pants: "#5d4a38" },
         { id: "strawberry-dress", kind: "outfit", rarity: "R", body: "#e5484d", pants: "#8f1f28", fx: "dress" },
         { id: "galaxy-hoodie", kind: "outfit", rarity: "SR", body: "#3d2f57", pants: "#23203a", fx: "hoodie" },
@@ -24386,259 +24386,259 @@ function drawYushaJacket(ctx) {
       var REWARD_ITEMS = [
         { id: "rookie-cap", kind: "hat", rarity: "R", hat: "cap", c1: "#2e9e5b", c2: "#f8bc3d", reward: { type: "clears", n: 1 } },
         { id: "stamp-scarf", kind: "scarf", rarity: "R", scarf: "#e14b4f", reward: { type: "clears", n: 5 }, v: "stamp", c2: "#ffffff" },
-        { id: "master-coat", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", reward: { type: "level", n: 5 } },
+        { id: "master-coat", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", reward: { type: "level", n: 5 }, a2: "#c9a86a", od: "sash" },
         /* EPIC limited gear (user direction, 2026-10-27): one
            exclusive piece per evergreen landmark, granted by the
            first EPIC clear of that spot (on-site GPS check-in).
            Never in the gacha pool. */
-        { id: "ep-hachiko", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg-hachiko" } },
-        { id: "ep-meiji", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#1e4634", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg-meiji-jingu" } },
+        { id: "ep-hachiko", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg-hachiko" }, g: "paw", a2: "#ffffff" },
+        { id: "ep-meiji", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#1e4634", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg-meiji-jingu" }, g: "dia", a2: "#f8bc3d", od: "emblem" },
         { id: "ep-takeshita", kind: "scarf", rarity: "SR", scarf: "#f28bb4", neck: "rainbow", epic: true, reward: { type: "epic", quest: "eg-takeshita" }, v: "pastelS" },
-        { id: "ep-sensoji", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg-sensoji" } },
+        { id: "ep-sensoji", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg-sensoji" }, g: "bolt", a2: "#ffd83d" },
         { id: "ep-kanda", kind: "scarf", rarity: "SR", scarf: "#c22e3a", neck: "bell", epic: true, reward: { type: "epic", quest: "eg-kanda-myojin" }, v: "circuit", c2: "#57b6e8" },
-        { id: "ep-radiokaikan", kind: "hat", rarity: "SR", hat: "visor", c1: "#a5dcff", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg-radio-kaikan" } },
-        { id: "ep-nakano", kind: "outfit", rarity: "SR", body: "#3a3f4a", pants: "#23203a", fx: "denim", epic: true, reward: { type: "epic", quest: "eg-nakano-broadway" } },
-        { id: "ep-gundam", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#c9d2d8", fx: "spacesuit", epic: true, reward: { type: "epic", quest: "eg-gundam-base" } },
+        { id: "ep-radiokaikan", kind: "hat", rarity: "SR", hat: "visor", c1: "#a5dcff", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg-radio-kaikan" }, v: "antenna", g: "note", a2: "#a5dcff" },
+        { id: "ep-nakano", kind: "outfit", rarity: "SR", body: "#3a3f4a", pants: "#23203a", fx: "denim", epic: true, reward: { type: "epic", quest: "eg-nakano-broadway" }, a2: "#e5484d", od: "zip" },
+        { id: "ep-gundam", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#c9d2d8", fx: "spacesuit", epic: true, reward: { type: "epic", quest: "eg-gundam-base" }, g: "star", a2: "#e5484d", od: "emblem" },
         { id: "ep-tower", kind: "scarf", rarity: "SR", scarf: "#e8762b", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg-tokyo-tower" }, v: "towerset" },
-        { id: "ep-skytree", kind: "hat", rarity: "SR", hat: "pointy", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg-skytree" } },
-        { id: "ep-ueno", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f28bb4", c2: "#58a05c", epic: true, reward: { type: "epic", quest: "eg-ueno-park" } },
-        { id: "ep-shimokita", kind: "outfit", rarity: "SR", body: "#b5563c", pants: "#4a3b28", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg-shimokitazawa" } },
+        { id: "ep-skytree", kind: "hat", rarity: "SR", hat: "pointy", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg-skytree" }, v: "tip", a2: "#ffffff" },
+        { id: "ep-ueno", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f28bb4", c2: "#58a05c", epic: true, reward: { type: "epic", quest: "eg-ueno-park" }, v: "panda" },
+        { id: "ep-shimokita", kind: "outfit", rarity: "SR", body: "#b5563c", pants: "#4a3b28", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg-shimokitazawa" }, a2: "#fffdf4", od: "pocket" },
         { id: "ep-jimbocho", kind: "scarf", rarity: "SR", scarf: "#8a5a33", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg-jimbocho" }, v: "round", g: "book", a2: "bL" },
-        { id: "ep-yanaka", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg-yanaka-ginza" } },
-        { id: "ep-tsukiji", kind: "outfit", rarity: "SR", body: "#2e4a7d", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg-tsukiji" } },
+        { id: "ep-yanaka", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg-yanaka-ginza" }, g: "paw", a2: "#f5e9c9" },
+        { id: "ep-tsukiji", kind: "outfit", rarity: "SR", body: "#2e4a7d", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg-tsukiji" }, g: "fish", a2: "#ffffff", od: "emblem" },
         { id: "ep-imperial", kind: "scarf", rarity: "SR", scarf: "#ffffff", neck: "pearls", epic: true, reward: { type: "epic", quest: "eg-imperial-east" }, v: "doubleDrop", c2: "#f8bc3d" },
-        { id: "ep-gyoen", kind: "hat", rarity: "SR", hat: "beret", c1: "#58a05c", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg-shinjuku-gyoen" } },
-        { id: "ep-ghibli", kind: "hat", rarity: "SR", hat: "ears", c1: "#5b8c5a", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg-ghibli-museum" } },
+        { id: "ep-gyoen", kind: "hat", rarity: "SR", hat: "beret", c1: "#58a05c", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg-shinjuku-gyoen" }, v: "pin", a2: "#f5e9c9" },
+        { id: "ep-ghibli", kind: "hat", rarity: "SR", hat: "ears", c1: "#5b8c5a", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg-ghibli-museum" }, v: "tip", a2: "#f5e9c9" },
         { id: "ep-inokashira", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "feather", epic: true, reward: { type: "epic", quest: "eg-inokashira" }, v: "swan" },
         /* EPIC limited gear — evergreen batch 2 (2026-10-27) */
-        { id: "ep2-todoroki", kind: "hat", rarity: "SR", hat: "straw", c1: "#58a05c", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg2-todoroki" } },
-        { id: "ep2-shibamata", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg2-shibamata" } },
-        { id: "ep2-kameari", kind: "outfit", rarity: "SR", body: "#2e4a7d", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg2-kameari" } },
-        { id: "ep2-ryogoku", kind: "outfit", rarity: "SR", body: "#f5e9c9", pants: "#8a5a33", fx: "happi", epic: true, reward: { type: "epic", quest: "eg2-ryogoku" } },
-        { id: "ep2-koenji", kind: "hat", rarity: "SR", hat: "beret", c1: "#7558c9", c2: "#4a3480", epic: true, reward: { type: "epic", quest: "eg2-koenji" } },
-        { id: "ep2-nezu", kind: "hat", rarity: "SR", hat: "clip", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg2-nezu" } },
+        { id: "ep2-todoroki", kind: "hat", rarity: "SR", hat: "straw", c1: "#58a05c", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg2-todoroki" }, g: "wave", a2: "#f5e9c9" },
+        { id: "ep2-shibamata", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg2-shibamata" }, g: "dia", a2: "#f5e9c9" },
+        { id: "ep2-kameari", kind: "outfit", rarity: "SR", body: "#2e4a7d", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg2-kameari" }, g: "ring", a2: "#7bd88f", od: "emblem" },
+        { id: "ep2-ryogoku", kind: "outfit", rarity: "SR", body: "#f5e9c9", pants: "#8a5a33", fx: "happi", epic: true, reward: { type: "epic", quest: "eg2-ryogoku" }, a2: "#b03a2e", od: "sash" },
+        { id: "ep2-koenji", kind: "hat", rarity: "SR", hat: "beret", c1: "#7558c9", c2: "#4a3480", epic: true, reward: { type: "epic", quest: "eg2-koenji" }, v: "pin", a2: "#f8bc3d" },
+        { id: "ep2-nezu", kind: "hat", rarity: "SR", hat: "clip", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg2-nezu" }, v: "pair" },
         { id: "ep2-kiyosumi", kind: "scarf", rarity: "SR", scarf: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg2-kiyosumi" }, v: "ripple" },
-        { id: "ep2-kuramae", kind: "outfit", rarity: "SR", body: "#6b4a2f", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg2-kuramae" } },
+        { id: "ep2-kuramae", kind: "outfit", rarity: "SR", body: "#6b4a2f", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg2-kuramae" }, a2: "#fffdf4", od: "stripes" },
         { id: "ep2-tsukishima", kind: "scarf", rarity: "SR", scarf: "#e8762b", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg2-tsukishima" }, v: "towel" },
         { id: "ep2-fukagawa", kind: "scarf", rarity: "SR", scarf: "#e8762b", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg2-fukagawa" }, v: "goma" },
-        { id: "ep2-jiyugaoka", kind: "hat", rarity: "SR", hat: "cap", c1: "#f28bb4", c2: "#e56ba0", epic: true, reward: { type: "epic", quest: "eg2-jiyugaoka" } },
-        { id: "ep2-sangenjaya", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg2-sangenjaya" } },
-        { id: "ep2-sugamo", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#7d1f26", epic: true, reward: { type: "epic", quest: "eg2-sugamo" } },
-        { id: "ep2-togoshi", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#e8762b", epic: true, reward: { type: "epic", quest: "eg2-togoshi" } },
-        { id: "ep2-yoyogi", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#2e5d43", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg2-yoyogi" } },
-        { id: "ep2-kasai", kind: "hat", rarity: "SR", hat: "starcap", c1: "#57b6e8", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg2-kasai" } },
-        { id: "ep2-odaibabeach", kind: "hat", rarity: "SR", hat: "crown", c1: "#a5dcff", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg2-odaiba-beach" } },
+        { id: "ep2-jiyugaoka", kind: "hat", rarity: "SR", hat: "cap", c1: "#f28bb4", c2: "#e56ba0", epic: true, reward: { type: "epic", quest: "eg2-jiyugaoka" }, g: "dot", a2: "#ffffff" },
+        { id: "ep2-sangenjaya", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg2-sangenjaya" }, g: "tri3", a2: "#f5e9c9" },
+        { id: "ep2-sugamo", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#7d1f26", epic: true, reward: { type: "epic", quest: "eg2-sugamo" }, a2: "#ffffff", od: "hem" },
+        { id: "ep2-togoshi", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#e8762b", epic: true, reward: { type: "epic", quest: "eg2-togoshi" }, g: "bar", a2: "#ffffff" },
+        { id: "ep2-yoyogi", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#2e5d43", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg2-yoyogi" }, a2: "#ffffff", od: "stripes" },
+        { id: "ep2-kasai", kind: "hat", rarity: "SR", hat: "starcap", c1: "#57b6e8", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg2-kasai" }, v: "dots", a2: "#ffffff" },
+        { id: "ep2-odaibabeach", kind: "hat", rarity: "SR", hat: "crown", c1: "#a5dcff", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg2-odaiba-beach" }, v: "gems", a2: "#ffffff" },
         { id: "ep2-megurogawa", kind: "scarf", rarity: "SR", scarf: "#f28bb4", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg2-megurogawa" }, v: "petal" },
-        { id: "ep2-azabu", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8c96a", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg2-azabujuban" } },
-        { id: "ep2-toyosu", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", fx: "denim", epic: true, reward: { type: "epic", quest: "eg2-toyosu" } },
+        { id: "ep2-azabu", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8c96a", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg2-azabujuban" }, g: "dia", a2: "#2e4a7d" },
+        { id: "ep2-toyosu", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#232c52", fx: "denim", epic: true, reward: { type: "epic", quest: "eg2-toyosu" }, a2: "#ffd83d", od: "zip" },
         /* EPIC limited gear — evergreen batch 3 (catalog expansion, 2026-10-27) */
-        { id: "ep3-koenji-theatre", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg3-za-koenji" } },
+        { id: "ep3-koenji-theatre", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg3-za-koenji" }, g: "star", a2: "#f8bc3d" },
         { id: "ep3-kisho", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "pendant", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg3-kisho-jinja" }, v: "round", g: "sun", a2: "sB" },
-        { id: "ep3-jindaiji", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#4a3b28", fx: "apron", epic: true, reward: { type: "epic", quest: "eg3-jindaiji" } },
-        { id: "ep3-puroland", kind: "hat", rarity: "SR", hat: "ears", c1: "#f28bb4", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg3-puroland" } },
-        { id: "ep3-takahata", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#2e4a7d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg3-takahata-fudo" } },
-        { id: "ep3-yomiuri", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg3-yomiuriland" } },
+        { id: "ep3-jindaiji", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#4a3b28", fx: "apron", epic: true, reward: { type: "epic", quest: "eg3-jindaiji" }, a2: "#f5e9c9", od: "pocket" },
+        { id: "ep3-puroland", kind: "hat", rarity: "SR", hat: "ears", c1: "#f28bb4", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg3-puroland" }, v: "bell", a2: "#e56ba0" },
+        { id: "ep3-takahata", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#2e4a7d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg3-takahata-fudo" }, g: "ring", a2: "#ffd83d" },
+        { id: "ep3-yomiuri", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg3-yomiuriland" }, g: "ball", a2: "#ffffff", od: "emblem" },
         { id: "ep3-inozoo", kind: "scarf", rarity: "SR", scarf: "#58a05c", neck: "feather", epic: true, reward: { type: "epic", quest: "eg3-inokashira-zoo" }, v: "bead", c2: "#8a5a33" },
-        { id: "ep3-tatemonoen", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg3-tatemonoen" } },
-        { id: "ep3-tamazoo", kind: "hat", rarity: "SR", hat: "cap", c1: "#58a05c", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg3-tama-zoo" } },
-        { id: "ep3-showa", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#eef1f4", epic: true, reward: { type: "epic", quest: "eg3-showa-kinen" } },
+        { id: "ep3-tatemonoen", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg3-tatemonoen" }, v: "brimdots", g: "house", a2: "#b5563c" },
+        { id: "ep3-tamazoo", kind: "hat", rarity: "SR", hat: "cap", c1: "#58a05c", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg3-tama-zoo" }, g: "paw", a2: "#ffffff" },
+        { id: "ep3-showa", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#eef1f4", epic: true, reward: { type: "epic", quest: "eg3-showa-kinen" }, a2: "#ffffff", od: "collar" },
         { id: "ep3-zojoji", kind: "scarf", rarity: "SR", scarf: "#23203a", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg3-zojoji" }, g: "crest", a2: "bB" },
-        { id: "ep3-kahaku", kind: "hat", rarity: "SR", hat: "visor", c1: "#2e5d43", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg3-kahaku" } },
-        { id: "ep3-nmwa", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg3-nmwa" } },
-        { id: "ep3-myonichikan", kind: "hat", rarity: "SR", hat: "beret", c1: "#b5563c", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg3-jiyu-gakuen" } },
+        { id: "ep3-kahaku", kind: "hat", rarity: "SR", hat: "visor", c1: "#2e5d43", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg3-kahaku" }, g: "ring", a2: "#2e5d43" },
+        { id: "ep3-nmwa", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg3-nmwa" }, a2: "#26222e", od: "collar" },
+        { id: "ep3-myonichikan", kind: "hat", rarity: "SR", hat: "beret", c1: "#b5563c", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg3-jiyu-gakuen" }, v: "patch", a2: "#2e5d43" },
         { id: "ep3-gotoh", kind: "scarf", rarity: "SR", scarf: "#2e5d43", neck: "pearls", epic: true, reward: { type: "epic", quest: "eg3-gotoh" }, v: "tint" },
-        { id: "ep3-rikugien", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#4a3480", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg3-rikugien" } },
+        { id: "ep3-rikugien", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#4a3480", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg3-rikugien" }, a2: "#f8bc3d", od: "sash" },
         { id: "ep3-hamarikyu", kind: "scarf", rarity: "SR", scarf: "#2e4a7d", neck: "feather", epic: true, reward: { type: "epic", quest: "eg3-hamarikyu" }, v: "long" },
-        { id: "ep3-kyushiba", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#58a05c", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg3-kyu-shiba" } },
-        { id: "ep3-kyufurukawa", kind: "hat", rarity: "SR", hat: "beret", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg3-kyu-furukawa" } },
-        { id: "ep3-sunshine", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg3-sunshine-aquarium" } },
-        { id: "ep4-tnm", kind: "hat", rarity: "SR", hat: "crown", c1: "#2e4a7d", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg4-tnm" } },
-        { id: "ep4-hanayashiki", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg4-hanayashiki" } },
+        { id: "ep3-kyushiba", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#58a05c", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg3-kyu-shiba" }, v: "mix", a2: "#ffd83d" },
+        { id: "ep3-kyufurukawa", kind: "hat", rarity: "SR", hat: "beret", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg3-kyu-furukawa" }, v: "pin", a2: "#2e9e5b" },
+        { id: "ep3-sunshine", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg3-sunshine-aquarium" }, a2: "#ffffff", od: "stripes" },
+        { id: "ep4-tnm", kind: "hat", rarity: "SR", hat: "crown", c1: "#2e4a7d", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg4-tnm" }, v: "gems", a2: "#2f7cd6" },
+        { id: "ep4-hanayashiki", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg4-hanayashiki" }, g: "star", a2: "#ffd83d", od: "emblem" },
         { id: "ep4-hokusai", kind: "scarf", rarity: "SR", scarf: "#2e4a7d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg4-hokusai" }, v: "wavecrest" },
-        { id: "ep4-geigeki", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#171423", epic: true, reward: { type: "epic", quest: "eg4-geigeki" } },
-        { id: "ep4-orient", kind: "hat", rarity: "SR", hat: "wizard", c1: "#b8860b", c2: "#7d1f26", epic: true, reward: { type: "epic", quest: "eg4-ancient-orient" } },
-        { id: "ep4-mori", kind: "hat", rarity: "SR", hat: "beret", c1: "#eef1f4", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg4-mori-art" } },
+        { id: "ep4-geigeki", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#171423", epic: true, reward: { type: "epic", quest: "eg4-geigeki" }, a2: "#f8bc3d", od: "collar" },
+        { id: "ep4-orient", kind: "hat", rarity: "SR", hat: "wizard", c1: "#b8860b", c2: "#7d1f26", epic: true, reward: { type: "epic", quest: "eg4-ancient-orient" }, v: "stars", a2: "#f5e9c9" },
+        { id: "ep4-mori", kind: "hat", rarity: "SR", hat: "beret", c1: "#eef1f4", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg4-mori-art" }, v: "pin", a2: "#23203a" },
         { id: "ep4-nact", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "pendant", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg4-nact" }, v: "chain", g: "wave", a2: "sL" },
-        { id: "ep4-teien", kind: "outfit", rarity: "SR", body: "#1e4634", pants: "#14263f", epic: true, reward: { type: "epic", quest: "eg4-teien" } },
-        { id: "ep4-atago", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg4-atago" } },
-        { id: "ep4-kabukiza", kind: "outfit", rarity: "SR", body: "#7d1f26", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg4-kabukiza" } },
+        { id: "ep4-teien", kind: "outfit", rarity: "SR", body: "#1e4634", pants: "#14263f", epic: true, reward: { type: "epic", quest: "eg4-teien" }, od: "vest" },
+        { id: "ep4-atago", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg4-atago" }, g: "flame", a2: "#ffd83d" },
+        { id: "ep4-kabukiza", kind: "outfit", rarity: "SR", body: "#7d1f26", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg4-kabukiza" }, g: "flame", a2: "#ffd83d", od: "emblem" },
         { id: "ep4-tokyostation", kind: "scarf", rarity: "SR", scarf: "#b3402f", neck: "bell", epic: true, reward: { type: "epic", quest: "eg4-tokyo-station" }, v: "brick" },
-        { id: "ep4-hongwanji", kind: "hat", rarity: "SR", hat: "pointy", c1: "#e8c96a", c2: "#b8860b", epic: true, reward: { type: "epic", quest: "eg4-hongwanji" } },
-        { id: "ep4-nfaj", kind: "hat", rarity: "SR", hat: "visor", c1: "#23203a", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg4-nfaj" } },
+        { id: "ep4-hongwanji", kind: "hat", rarity: "SR", hat: "pointy", c1: "#e8c96a", c2: "#b8860b", epic: true, reward: { type: "epic", quest: "eg4-hongwanji" }, v: "tip", a2: "#e5484d" },
+        { id: "ep4-nfaj", kind: "hat", rarity: "SR", hat: "visor", c1: "#23203a", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg4-nfaj" }, g: "tri3", a2: "#ffffff" },
         { id: "ep4-goldengai", kind: "scarf", rarity: "SR", scarf: "#e8762b", neck: "feather", epic: true, reward: { type: "epic", quest: "eg4-golden-gai" }, v: "bead", c2: "#ffd83d" },
-        { id: "ep4-omoide", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg4-omoide" } },
-        { id: "ep4-tocho", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg4-tocho" } },
-        { id: "ep4-sompo", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f8bc3d", c2: "#e8762b", epic: true, reward: { type: "epic", quest: "eg4-sompo" } },
-        { id: "ep4-superpotato", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#58a05c", epic: true, reward: { type: "epic", quest: "eg4-super-potato" } },
-        { id: "ep4-science", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#c9d2d8", fx: "spacesuit", epic: true, reward: { type: "epic", quest: "eg4-science-museum" } },
+        { id: "ep4-omoide", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg4-omoide" }, a2: "#f5e9c9", od: "stripes" },
+        { id: "ep4-tocho", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg4-tocho" }, g: "dia", a2: "#ffffff" },
+        { id: "ep4-sompo", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f8bc3d", c2: "#e8762b", epic: true, reward: { type: "epic", quest: "eg4-sompo" }, v: "alt", a2: "#7e4a21" },
+        { id: "ep4-superpotato", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#58a05c", epic: true, reward: { type: "epic", quest: "eg4-super-potato" }, g: "ball", a2: "#e5484d" },
+        { id: "ep4-science", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#c9d2d8", fx: "spacesuit", epic: true, reward: { type: "epic", quest: "eg4-science-museum" }, a2: "#2e9e5b", od: "pocket" },
         { id: "ep4-daijingu", kind: "scarf", rarity: "SR", scarf: "#f28bb4", neck: "pearls", epic: true, reward: { type: "epic", quest: "eg4-daijingu" }, v: "drop", c2: "#e5484d" },
-        { id: "ep4-suginami", kind: "hat", rarity: "SR", hat: "ears", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg4-suginami-animation" } },
+        { id: "ep4-suginami", kind: "hat", rarity: "SR", hat: "ears", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg4-suginami-animation" }, v: "dot", a2: "#e5484d" },
         { id: "ep4-gotokuji", kind: "scarf", rarity: "SR", scarf: "#ffffff", neck: "bell", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg4-gotokuji" }, v: "lucky" },
-        { id: "ep4-setagayaart", kind: "hat", rarity: "SR", hat: "beret", c1: "#58a05c", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg4-setagaya-art" } },
-        { id: "ep4-machiko", kind: "outfit", rarity: "SR", body: "#f5e9c9", pants: "#b5563c", epic: true, reward: { type: "epic", quest: "eg4-machiko" } },
-        { id: "ep4-shibuyasky", kind: "hat", rarity: "SR", hat: "visor", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg4-shibuya-sky" } },
+        { id: "ep4-setagayaart", kind: "hat", rarity: "SR", hat: "beret", c1: "#58a05c", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg4-setagaya-art" }, v: "patch", a2: "#e5484d" },
+        { id: "ep4-machiko", kind: "outfit", rarity: "SR", body: "#f5e9c9", pants: "#b5563c", epic: true, reward: { type: "epic", quest: "eg4-machiko" }, a2: "#b5563c", od: "pocket" },
+        { id: "ep4-shibuyasky", kind: "hat", rarity: "SR", hat: "visor", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg4-shibuya-sky" }, g: "star", a2: "#57b6e8" },
         { id: "ep4-nezumuseum", kind: "scarf", rarity: "SR", scarf: "#2e5d43", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg4-nezu-museum" }, g: "flower", a2: "bR" },
-        { id: "ep4-tsite", kind: "hat", rarity: "SR", hat: "knit", c1: "#eef1f4", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg4-tsite" } },
-        { id: "ep4-miraikan", kind: "hat", rarity: "SR", hat: "starcap", c1: "#2b4a8f", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg4-miraikan" } },
-        { id: "ep4-joypolis", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#23203a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg4-joypolis" } },
-        { id: "ep4-takao", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg4-takao" } },
+        { id: "ep4-tsite", kind: "hat", rarity: "SR", hat: "knit", c1: "#eef1f4", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg4-tsite" }, v: "stripes", a2: "#31456e" },
+        { id: "ep4-miraikan", kind: "hat", rarity: "SR", hat: "starcap", c1: "#2b4a8f", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg4-miraikan" }, g: "ring", a2: "#ffffff" },
+        { id: "ep4-joypolis", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#23203a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg4-joypolis" }, g: "bolt", a2: "#ffd83d", od: "emblem" },
+        { id: "ep4-takao", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg4-takao" }, g: "leaf", a2: "#2e5d43" },
         /* EPIC limited gear — evergreen batch 5 (catalog +50 round 1, 2026-10-29) */
-        { id: "ep5-artizon", kind: "hat", rarity: "SR", hat: "beret", c1: "#a5dcff", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg5-artizon" } },
+        { id: "ep5-artizon", kind: "hat", rarity: "SR", hat: "beret", c1: "#a5dcff", c2: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg5-artizon" }, v: "pin", a2: "#e5484d" },
         { id: "ep5-toguri", kind: "scarf", rarity: "SR", scarf: "#2e4a7d", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg5-toguri" }, v: "round", g: "drop", a2: "bR" },
-        { id: "ep5-topmuseum", kind: "hat", rarity: "SR", hat: "visor", c1: "#23203a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-topmuseum" } },
-        { id: "ep5-mot", kind: "outfit", rarity: "SR", body: "#c9d2d8", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg5-mot" } },
-        { id: "ep5-momat", kind: "hat", rarity: "SR", hat: "beret", c1: "#7d1f26", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-momat" } },
-        { id: "ep5-2121", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-2121" } },
+        { id: "ep5-topmuseum", kind: "hat", rarity: "SR", hat: "visor", c1: "#23203a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-topmuseum" }, g: "ring", a2: "#ffffff" },
+        { id: "ep5-mot", kind: "outfit", rarity: "SR", body: "#c9d2d8", pants: "#31456e", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg5-mot" }, a2: "#31456e", od: "zip" },
+        { id: "ep5-momat", kind: "hat", rarity: "SR", hat: "beret", c1: "#7d1f26", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-momat" }, v: "patch", a2: "#ffd83d" },
+        { id: "ep5-2121", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-2121" }, a2: "#e5484d", od: "stripes" },
         { id: "ep5-shoto", kind: "scarf", rarity: "SR", scarf: "#eef1f4", neck: "pendant", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg5-shoto" }, g: "spiral", a2: "dL" },
-        { id: "ep5-tabashio", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-tabashio" } },
-        { id: "ep5-admt", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-admt" } },
-        { id: "ep5-printing", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg5-printing" } },
+        { id: "ep5-tabashio", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-tabashio" }, g: "dot", a2: "#ffffff" },
+        { id: "ep5-admt", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#232c52", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-admt" }, g: "leaf", a2: "#ffffff", od: "emblem" },
+        { id: "ep5-printing", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg5-printing" }, g: "bar", a2: "#ffffff" },
         { id: "ep5-seiko", kind: "scarf", rarity: "SR", scarf: "#f8bc3d", neck: "bell", epic: true, reward: { type: "epic", quest: "eg5-seiko" }, v: "silver" },
-        { id: "ep5-tobu", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-tobu" } },
-        { id: "ep5-baseball", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-baseball" } },
-        { id: "ep5-smallworlds", kind: "hat", rarity: "SR", hat: "starcap", c1: "#7558c9", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg5-smallworlds" } },
-        { id: "ep5-unko", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f28bb4", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg5-unko" } },
-        { id: "ep5-shirohige", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-shirohige" } },
+        { id: "ep5-tobu", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-tobu" }, a2: "#f8bc3d", od: "buttons" },
+        { id: "ep5-baseball", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-baseball" }, g: "ball", a2: "#e5484d" },
+        { id: "ep5-smallworlds", kind: "hat", rarity: "SR", hat: "starcap", c1: "#7558c9", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg5-smallworlds" }, v: "dots", a2: "#ffffff" },
+        { id: "ep5-unko", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f28bb4", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg5-unko" }, v: "alt", a2: "#7e4a21" },
+        { id: "ep5-shirohige", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-shirohige" }, a2: "#ffffff", od: "pocket" },
         { id: "ep5-artnia", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "pendant", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg5-artnia" }, v: "round", g: "gem", a2: "sR" },
-        { id: "ep5-yushima", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-yushima" } },
+        { id: "ep5-yushima", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-yushima" }, v: "tail2", g: "dot", a2: "#e5484d" },
         { id: "ep5-camii", kind: "scarf", rarity: "SR", scarf: "#2e9e5b", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg5-camii" }, g: "star", a2: "dR" },
-        { id: "ep5-sumida-aquarium", kind: "outfit", rarity: "SR", body: "#2b4a8f", pants: "#171423", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg5-sumida-aquarium" } },
-        { id: "ep5-edo-tokyo", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg5-edo-tokyo" } },
+        { id: "ep5-sumida-aquarium", kind: "outfit", rarity: "SR", body: "#2b4a8f", pants: "#171423", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg5-sumida-aquarium" }, g: "wave", a2: "#a5dcff", od: "emblem" },
+        { id: "ep5-edo-tokyo", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg5-edo-tokyo" }, v: "brimdots", g: "wave", a2: "#2f7cd6" },
         { id: "ep5-kiriko", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "pendant", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg5-kiriko" }, g: "gemcut", a2: "bB" },
-        { id: "ep5-kakimori", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-kakimori" } },
-        { id: "ep5-tenbo", kind: "hat", rarity: "SR", hat: "visor", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-tenbo" } },
+        { id: "ep5-kakimori", kind: "outfit", rarity: "SR", body: "#7558c9", pants: "#3a2c1e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-kakimori" }, a2: "#ffd83d", od: "pocket" },
+        { id: "ep5-tenbo", kind: "hat", rarity: "SR", hat: "visor", c1: "#57b6e8", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-tenbo" }, v: "shine", g: "moon", a2: "#ffd83d" },
         { id: "ep5-koishikawa", kind: "scarf", rarity: "SR", scarf: "#b3402f", neck: "feather", epic: true, reward: { type: "epic", quest: "eg5-koishikawa" }, v: "maple" },
-        { id: "ep5-hyakkaen", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#58a05c", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg5-hyakkaen" } },
-        { id: "ep5-jindai", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#4a3b28", epic: true, reward: { type: "epic", quest: "eg5-jindai" } },
-        { id: "ep5-takao599", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e5d43", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg5-takao599" } },
-        { id: "ep5-animate", kind: "hat", rarity: "SR", hat: "ears", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-animate" } },
+        { id: "ep5-hyakkaen", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#58a05c", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg5-hyakkaen" }, v: "alt", a2: "#e5484d" },
+        { id: "ep5-jindai", kind: "outfit", rarity: "SR", body: "#58a05c", pants: "#4a3b28", epic: true, reward: { type: "epic", quest: "eg5-jindai" }, a2: "#f8bc3d", od: "hem" },
+        { id: "ep5-takao599", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e5d43", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg5-takao599" }, g: "leaf", a2: "#ffffff" },
+        { id: "ep5-animate", kind: "hat", rarity: "SR", hat: "ears", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-animate" }, v: "tip", a2: "#2f7cd6" },
         { id: "ep5-shukokan", kind: "scarf", rarity: "SR", scarf: "#7d1f26", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg5-shukokan" }, g: "kobanB", a2: "sB" },
-        { id: "ep5-paper", kind: "hat", rarity: "SR", hat: "cap", c1: "#f5e9c9", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg5-paper" } },
-        { id: "ep5-geihinkan", kind: "outfit", rarity: "SR", body: "#7a1f2b", pants: "#2b2b33", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg5-geihinkan" } },
-        { id: "ep5-panasonic", kind: "hat", rarity: "SR", hat: "beret", c1: "#b5563c", c2: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-panasonic" } },
+        { id: "ep5-paper", kind: "hat", rarity: "SR", hat: "cap", c1: "#f5e9c9", c2: "#8a5a33", epic: true, reward: { type: "epic", quest: "eg5-paper" }, g: "bar", a2: "#b5563c" },
+        { id: "ep5-geihinkan", kind: "outfit", rarity: "SR", body: "#7a1f2b", pants: "#2b2b33", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg5-geihinkan" }, a2: "#fffdf4", od: "tie" },
+        { id: "ep5-panasonic", kind: "hat", rarity: "SR", hat: "beret", c1: "#b5563c", c2: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-panasonic" }, v: "pin", a2: "#57b6e8" },
         { id: "ep5-senoku", kind: "scarf", rarity: "SR", scarf: "#2e5d43", neck: "pearls", epic: true, reward: { type: "epic", quest: "eg5-senoku" }, v: "chokerpearl", c2: "#b8860b" },
-        { id: "ep5-chihiro", kind: "outfit", rarity: "SR", body: "#a5dcff", pants: "#eef1f4", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-chihiro" } },
-        { id: "ep5-setabun", kind: "hat", rarity: "SR", hat: "knit", c1: "#e8762b", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-setabun" } },
-        { id: "ep5-iwasaki", kind: "hat", rarity: "SR", hat: "beret", c1: "#31456e", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg5-iwasaki" } },
-        { id: "ep5-tobikan", kind: "outfit", rarity: "SR", body: "#b3402f", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg5-tobikan" } },
-        { id: "ep5-daiba1", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-daiba1" } },
+        { id: "ep5-chihiro", kind: "outfit", rarity: "SR", body: "#a5dcff", pants: "#eef1f4", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-chihiro" }, a2: "#ffffff", od: "stripes" },
+        { id: "ep5-setabun", kind: "hat", rarity: "SR", hat: "knit", c1: "#e8762b", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-setabun" }, v: "stripes", a2: "#e5484d" },
+        { id: "ep5-iwasaki", kind: "hat", rarity: "SR", hat: "beret", c1: "#31456e", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg5-iwasaki" }, v: "patch", a2: "#e5484d" },
+        { id: "ep5-tobikan", kind: "outfit", rarity: "SR", body: "#b3402f", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg5-tobikan" }, a2: "#ffffff", od: "buttons" },
+        { id: "ep5-daiba1", kind: "hat", rarity: "SR", hat: "cap", c1: "#f8bc3d", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg5-daiba1" }, g: "wave", a2: "#2f7cd6" },
         { id: "ep5-matsuoka", kind: "scarf", rarity: "SR", scarf: "#b8860b", neck: "pendant", c2: "#7d1f26", epic: true, reward: { type: "epic", quest: "eg5-matsuoka" }, v: "round", g: "crest", a2: "dR" },
-        { id: "ep5-borderless", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#171423", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg5-borderless" } },
-        { id: "ep5-trickart", kind: "hat", rarity: "SR", hat: "pointy", c1: "#7558c9", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg5-trickart" } },
+        { id: "ep5-borderless", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#171423", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg5-borderless" }, g: "star", a2: "#57b6e8", od: "emblem" },
+        { id: "ep5-trickart", kind: "hat", rarity: "SR", hat: "pointy", c1: "#7558c9", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg5-trickart" }, v: "tip", a2: "#e5484d" },
         { id: "ep5-suntory", kind: "scarf", rarity: "SR", scarf: "#8a5a33", neck: "pendant", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg5-suntory" }, g: "drop", a2: "bL" },
-        { id: "ep5-mimt", kind: "outfit", rarity: "SR", body: "#b3402f", pants: "#232c52", epic: true, reward: { type: "epic", quest: "eg5-mimt" } },
-        { id: "ep5-shiseido", kind: "hat", rarity: "SR", hat: "beret", c1: "#eef1f4", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg5-shiseido" } },
-        { id: "ep5-fabcafe", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#31456e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-fabcafe" } },
-        { id: "ep5-capcom", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-capcom" } },
-        { id: "ep5-ueno-zoo", kind: "hat", rarity: "SR", hat: "ears", c1: "#ffffff", c2: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-ueno-zoo" } },
+        { id: "ep5-mimt", kind: "outfit", rarity: "SR", body: "#b3402f", pants: "#232c52", epic: true, reward: { type: "epic", quest: "eg5-mimt" }, a2: "#ffffff", od: "zip" },
+        { id: "ep5-shiseido", kind: "hat", rarity: "SR", hat: "beret", c1: "#eef1f4", c2: "#b5563c", epic: true, reward: { type: "epic", quest: "eg5-shiseido" }, v: "patch", a2: "#b5563c" },
+        { id: "ep5-fabcafe", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#31456e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-fabcafe" }, a2: "#ffffff", od: "pocket" },
+        { id: "ep5-capcom", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg5-capcom" }, g: "bolt", a2: "#2f7cd6" },
+        { id: "ep5-ueno-zoo", kind: "hat", rarity: "SR", hat: "ears", c1: "#ffffff", c2: "#23203a", epic: true, reward: { type: "epic", quest: "eg5-ueno-zoo" }, v: "dot", a2: "#23203a" },
         { id: "ep5-kasai-aquarium", kind: "scarf", rarity: "SR", scarf: "#2b4a8f", neck: "feather", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg5-kasai-aquarium" }, v: "vortex" },
-        { id: "ep5-toy", kind: "outfit", rarity: "SR", body: "#e8c96a", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-toy" } },
-        { id: "ep6-kusama", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-kusama" } },
-        { id: "ep6-watarium", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg6-watarium" } },
+        { id: "ep5-toy", kind: "outfit", rarity: "SR", body: "#e8c96a", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg5-toy" }, g: "star", a2: "#e5484d", od: "emblem" },
+        { id: "ep6-kusama", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-kusama" }, v: "dots", a2: "#ffffff" },
+        { id: "ep6-watarium", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#23203a", epic: true, reward: { type: "epic", quest: "eg6-watarium" }, a2: "#2f7cd6", od: "sash" },
         { id: "ep6-kiseichu", kind: "scarf", rarity: "SR", scarf: "#2e5d43", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg6-kiseichu" }, g: "butterfly", a2: "sL" },
-        { id: "ep6-gasmuseum", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-gasmuseum" } },
-        { id: "ep6-fukagawa-edo", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-fukagawa-edo" } },
-        { id: "ep6-toei-anim", kind: "hat", rarity: "SR", hat: "visor", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-toei-anim" } },
-        { id: "ep6-kirby", kind: "hat", rarity: "SR", hat: "cap", c1: "#f28bb4", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-kirby" } },
-        { id: "ep6-pokemon-cafe", kind: "hat", rarity: "SR", hat: "chef", c1: "#eef1f4", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-pokemon-cafe" } },
+        { id: "ep6-gasmuseum", kind: "hat", rarity: "SR", hat: "cap", c1: "#8a5a33", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-gasmuseum" }, g: "flame", a2: "#ffd83d" },
+        { id: "ep6-fukagawa-edo", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-fukagawa-edo" }, a2: "#f5e9c9", od: "sash" },
+        { id: "ep6-toei-anim", kind: "hat", rarity: "SR", hat: "visor", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-toei-anim" }, g: "star", a2: "#ffd83d" },
+        { id: "ep6-kirby", kind: "hat", rarity: "SR", hat: "cap", c1: "#f28bb4", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-kirby" }, g: "star", a2: "#ffffff" },
+        { id: "ep6-pokemon-cafe", kind: "hat", rarity: "SR", hat: "chef", c1: "#eef1f4", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-pokemon-cafe" }, v: "band", a2: "#f8bc3d" },
         { id: "ep6-mikado", kind: "scarf", rarity: "SR", scarf: "#e5484d", neck: "rainbow", epic: true, reward: { type: "epic", quest: "eg6-mikado" }, v: "neon" },
-        { id: "ep6-intermediatheque", kind: "hat", rarity: "SR", hat: "beret", c1: "#8a5a33", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg6-intermediatheque" } },
-        { id: "ep6-mizunokagaku", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", fx: "raincoat", epic: true, reward: { type: "epic", quest: "eg6-mizunokagaku" } },
-        { id: "ep6-showakan", kind: "outfit", rarity: "SR", body: "#7d1f26", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-showakan" } },
+        { id: "ep6-intermediatheque", kind: "hat", rarity: "SR", hat: "beret", c1: "#8a5a33", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg6-intermediatheque" }, v: "pin", a2: "#b8860b" },
+        { id: "ep6-mizunokagaku", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", fx: "raincoat", epic: true, reward: { type: "epic", quest: "eg6-mizunokagaku" }, g: "wave", a2: "#ffffff", od: "emblem" },
+        { id: "ep6-showakan", kind: "outfit", rarity: "SR", body: "#7d1f26", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-showakan" }, od: "vest" },
         { id: "ep6-fujibi", kind: "scarf", rarity: "SR", scarf: "#a5dcff", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg6-fujibi" }, v: "round", g: "coin", a2: "bB" },
-        { id: "ep6-shinagawa-aqua", kind: "hat", rarity: "SR", hat: "starcap", c1: "#2b4a8f", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-shinagawa-aqua" } },
-        { id: "ep6-nintendo", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-nintendo" } },
-        { id: "ep6-nhk", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#23203a", fx: "suit", epic: true, reward: { type: "epic", quest: "eg6-nhk" } },
-        { id: "ep6-kodomo", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#c22e3a", epic: true, reward: { type: "epic", quest: "eg6-kodomo" } },
+        { id: "ep6-shinagawa-aqua", kind: "hat", rarity: "SR", hat: "starcap", c1: "#2b4a8f", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-shinagawa-aqua" }, v: "brimA", g: "wave", a2: "#ffffff" },
+        { id: "ep6-nintendo", kind: "hat", rarity: "SR", hat: "cap", c1: "#e5484d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-nintendo" }, v: "panel" },
+        { id: "ep6-nhk", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#23203a", fx: "suit", epic: true, reward: { type: "epic", quest: "eg6-nhk" }, g: "note", a2: "#ffffff", od: "emblem" },
+        { id: "ep6-kodomo", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#c22e3a", epic: true, reward: { type: "epic", quest: "eg6-kodomo" }, v: "flower", a2: "#2f7cd6" },
         { id: "ep6-ueno-mori", kind: "scarf", rarity: "SR", scarf: "#eef1f4", neck: "brooch", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-ueno-mori" }, v: "cameo" },
-        { id: "ep6-yayoi-yumeji", kind: "outfit", rarity: "SR", body: "#c22e3a", pants: "#23203a", fx: "kimono", epic: true, reward: { type: "epic", quest: "eg6-yayoi-yumeji" } },
-        { id: "ep6-aquapark", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg6-aquapark" } },
-        { id: "ep6-ota", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#2e4a7d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-ota" } },
+        { id: "ep6-yayoi-yumeji", kind: "outfit", rarity: "SR", body: "#c22e3a", pants: "#23203a", fx: "kimono", epic: true, reward: { type: "epic", quest: "eg6-yayoi-yumeji" }, a2: "#ffd9e8", od: "collar" },
+        { id: "ep6-aquapark", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#2b4a8f", epic: true, reward: { type: "epic", quest: "eg6-aquapark" }, a2: "#2b4a8f", od: "buttons" },
+        { id: "ep6-ota", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#2e4a7d", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg6-ota" }, g: "wave", a2: "#ffffff" },
         { id: "ep6-yamatane", kind: "scarf", rarity: "SR", scarf: "#2e5d43", neck: "pendant", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg6-yamatane" }, v: "round", g: "flower", a2: "dR" },
-        { id: "ep6-operacity", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-operacity" } },
-        { id: "ep6-kappabashi", kind: "hat", rarity: "SR", hat: "chef", c1: "#eef1f4", c2: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-kappabashi" } },
-        { id: "ep6-nippori-senigai", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-nippori-senigai" } },
-        { id: "ep6-anime-center", kind: "hat", rarity: "SR", hat: "ears", c1: "#57b6e8", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg6-anime-center" } },
-        { id: "ep6-postal", kind: "hat", rarity: "SR", hat: "cap", c1: "#c22e3a", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg6-postal" } },
+        { id: "ep6-operacity", kind: "outfit", rarity: "SR", body: "#23203a", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-operacity" }, a2: "#e5484d", od: "tie" },
+        { id: "ep6-kappabashi", kind: "hat", rarity: "SR", hat: "chef", c1: "#eef1f4", c2: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-kappabashi" }, v: "band", a2: "#e8762b" },
+        { id: "ep6-nippori-senigai", kind: "outfit", rarity: "SR", body: "#e8762b", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-nippori-senigai" }, a2: "#fffdf4", od: "stripes" },
+        { id: "ep6-anime-center", kind: "hat", rarity: "SR", hat: "ears", c1: "#57b6e8", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg6-anime-center" }, v: "bell", a2: "#ffd83d" },
+        { id: "ep6-postal", kind: "hat", rarity: "SR", hat: "cap", c1: "#c22e3a", c2: "#f5e9c9", epic: true, reward: { type: "epic", quest: "eg6-postal" }, g: "cross", a2: "#ffffff" },
         { id: "ep6-currency", kind: "scarf", rarity: "SR", scarf: "#e8c96a", neck: "pendant", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg6-currency" }, v: "round", g: "koban" },
-        { id: "ep6-chikahaku", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-chikahaku" } },
-        { id: "ep6-shitamachi", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#31456e", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-shitamachi" } },
-        { id: "ep6-fire-museum", kind: "hat", rarity: "SR", hat: "visor", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-fire-museum" } },
-        { id: "ep6-nikon", kind: "hat", rarity: "SR", hat: "cap", c1: "#23203a", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg6-nikon" } },
+        { id: "ep6-chikahaku", kind: "outfit", rarity: "SR", body: "#57b6e8", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-chikahaku" }, a2: "#ffffff", od: "zip" },
+        { id: "ep6-shitamachi", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#31456e", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-shitamachi" }, a2: "#ffd83d", od: "sash" },
+        { id: "ep6-fire-museum", kind: "hat", rarity: "SR", hat: "visor", c1: "#e5484d", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg6-fire-museum" }, g: "flame", a2: "#ffffff" },
+        { id: "ep6-nikon", kind: "hat", rarity: "SR", hat: "cap", c1: "#23203a", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg6-nikon" }, g: "ring", a2: "#ffffff" },
         { id: "ep6-chara-street", kind: "scarf", rarity: "SR", scarf: "#f28bb4", neck: "rainbow", epic: true, reward: { type: "epic", quest: "eg6-chara-street" }, v: "leftS" },
-        { id: "ep6-ameyoko", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-ameyoko" } },
+        { id: "ep6-ameyoko", kind: "outfit", rarity: "SR", body: "#2e5d43", pants: "#8a5a33", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-ameyoko" }, a2: "#ffd83d", od: "pocket" },
         { id: "ep6-kameido-tenjin", kind: "scarf", rarity: "SR", scarf: "#c22e3a", neck: "bell", epic: true, reward: { type: "epic", quest: "eg6-kameido-tenjin" }, v: "plum", c2: "#f28bb4" },
-        { id: "ep6-mingeikan", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-mingeikan" } },
-        { id: "ep6-mitsui", kind: "hat", rarity: "SR", hat: "crown", c1: "#2e4a7d", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg6-mitsui" } },
-        { id: "ep6-tokiwaso", kind: "hat", rarity: "SR", hat: "beret", c1: "#23203a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-tokiwaso" } },
-        { id: "ep6-namco", kind: "hat", rarity: "SR", hat: "starcap", c1: "#e5484d", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-namco" } },
-        { id: "ep6-pokemon-center", kind: "hat", rarity: "SR", hat: "ears", c1: "#ffd83d", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-pokemon-center" } },
-        { id: "ep6-hibiya-park", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#2e5d43", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg6-hibiya-park" } },
+        { id: "ep6-mingeikan", kind: "outfit", rarity: "SR", body: "#8a5a33", pants: "#3a3f4a", epic: true, reward: { type: "epic", quest: "eg6-mingeikan" }, a2: "#f5e9c9", od: "buttons" },
+        { id: "ep6-mitsui", kind: "hat", rarity: "SR", hat: "crown", c1: "#2e4a7d", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg6-mitsui" }, v: "band", a2: "#2e9e5b" },
+        { id: "ep6-tokiwaso", kind: "hat", rarity: "SR", hat: "beret", c1: "#23203a", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-tokiwaso" }, v: "pin", a2: "#ffffff" },
+        { id: "ep6-namco", kind: "hat", rarity: "SR", hat: "starcap", c1: "#e5484d", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-namco" }, v: "panel" },
+        { id: "ep6-pokemon-center", kind: "hat", rarity: "SR", hat: "ears", c1: "#ffd83d", c2: "#e5484d", epic: true, reward: { type: "epic", quest: "eg6-pokemon-center" }, v: "tip", a2: "#e5484d" },
+        { id: "ep6-hibiya-park", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#2e5d43", c2: "#f28bb4", epic: true, reward: { type: "epic", quest: "eg6-hibiya-park" }, v: "alt", a2: "#ffd83d" },
         { id: "ep6-kagurazaka", kind: "scarf", rarity: "SR", scarf: "#31456e", neck: "ribbon", epic: true, reward: { type: "epic", quest: "eg6-kagurazaka" }, v: "tails", c2: "#ffd83d" },
-        { id: "ep6-hie", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#eef1f4", c2: "#c22e3a", epic: true, reward: { type: "epic", quest: "eg6-hie" } },
-        { id: "ep6-tomioka", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-tomioka" } },
-        { id: "ep6-forum", kind: "outfit", rarity: "SR", body: "#a5dcff", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-forum" } },
-        { id: "ep6-kokuritsu", kind: "hat", rarity: "SR", hat: "starcap", c1: "#eef1f4", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg6-kokuritsu" } },
+        { id: "ep6-hie", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#eef1f4", c2: "#c22e3a", epic: true, reward: { type: "epic", quest: "eg6-hie" }, g: "dia", a2: "#c22e3a" },
+        { id: "ep6-tomioka", kind: "outfit", rarity: "SR", body: "#e5484d", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg6-tomioka" }, g: "flame", a2: "#ffffff", od: "emblem" },
+        { id: "ep6-forum", kind: "outfit", rarity: "SR", body: "#a5dcff", pants: "#31456e", epic: true, reward: { type: "epic", quest: "eg6-forum" }, a2: "#31456e", od: "collar" },
+        { id: "ep6-kokuritsu", kind: "hat", rarity: "SR", hat: "starcap", c1: "#eef1f4", c2: "#2e5d43", epic: true, reward: { type: "epic", quest: "eg6-kokuritsu" }, v: "stripe", a2: "#2e5d43" },
         { id: "ep6-camera-museum", kind: "scarf", rarity: "SR", scarf: "#23203a", neck: "pendant", c2: "#e8c96a", epic: true, reward: { type: "epic", quest: "eg6-camera-museum" }, g: "camera", a2: "sB" },
-        { id: "ep6-bosai", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#eef1f4", epic: true, reward: { type: "epic", quest: "eg6-bosai" } },
-        { id: "ep6-ganso-sample", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#e8762b", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-ganso-sample" } },
-        { id: "ep6-arakawa-yuen", kind: "hat", rarity: "SR", hat: "straw", c1: "#f5e9c9", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-arakawa-yuen" } },
+        { id: "ep6-bosai", kind: "hat", rarity: "SR", hat: "cap", c1: "#e8762b", c2: "#eef1f4", epic: true, reward: { type: "epic", quest: "eg6-bosai" }, g: "cross", a2: "#ffffff" },
+        { id: "ep6-ganso-sample", kind: "outfit", rarity: "SR", body: "#eef1f4", pants: "#e8762b", fx: "apron", epic: true, reward: { type: "epic", quest: "eg6-ganso-sample" }, g: "fish", a2: "#e8762b", od: "emblem" },
+        { id: "ep6-arakawa-yuen", kind: "hat", rarity: "SR", hat: "straw", c1: "#f5e9c9", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg6-arakawa-yuen" }, v: "bandstripe", a2: "#e5484d" },
         /* LEGEND limited gear (2026-10-28): one piece per route,
            granted by completing that LEGEND route. Never in gacha. */
-        { id: "lg-sumida-coat", kind: "outfit", rarity: "LR", body: "#1d3a5f", pants: "#14263f", fx: "sagerobe", legend: true, reward: { type: "legend", quest: "lg-sumida" } },
-        { id: "lg-yanesen-hat", kind: "hat", rarity: "LR", hat: "straw", c1: "#e8c96a", c2: "#b3402f", legend: true, reward: { type: "legend", quest: "lg-yanesen" } },
+        { id: "lg-sumida-coat", kind: "outfit", rarity: "LR", body: "#1d3a5f", pants: "#14263f", fx: "sagerobe", legend: true, reward: { type: "legend", quest: "lg-sumida" }, a2: "#57b6e8", od: "sash" },
+        { id: "lg-yanesen-hat", kind: "hat", rarity: "LR", hat: "straw", c1: "#e8c96a", c2: "#b3402f", legend: true, reward: { type: "legend", quest: "lg-yanesen" }, v: "flower", a2: "#e5484d" },
         { id: "lg-yamanote-scarf", kind: "scarf", rarity: "LR", scarf: "#2e9e5b", neck: "rainbow", legend: true, reward: { type: "legend", quest: "lg-yamanote" }, v: "loop" },
-        { id: "lg-bay-coat", kind: "outfit", rarity: "LR", body: "#7a1f2b", pants: "#2b2b33", fx: "armor", legend: true, reward: { type: "legend", quest: "lg-bay" } },
-        { id: "ep7-yumebi", kind: "hat", rarity: "SR", hat: "beret", c1: "#3f6d8e", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg7-yumebi" } },
-        { id: "ep7-hachioji-castle", kind: "outfit", rarity: "SR", body: "#5a4632", pants: "#33302a", fx: "armor", epic: true, reward: { type: "epic", quest: "eg7-hachioji-castle" } },
+        { id: "lg-bay-coat", kind: "outfit", rarity: "LR", body: "#7a1f2b", pants: "#2b2b33", fx: "armor", legend: true, reward: { type: "legend", quest: "lg-bay" }, g: "wave", a2: "#ffd83d", od: "emblem" },
+        { id: "ep7-yumebi", kind: "hat", rarity: "SR", hat: "beret", c1: "#3f6d8e", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg7-yumebi" }, v: "pin", a2: "#ffffff" },
+        { id: "ep7-hachioji-castle", kind: "outfit", rarity: "SR", body: "#5a4632", pants: "#33302a", fx: "armor", epic: true, reward: { type: "epic", quest: "eg7-hachioji-castle" }, od: "vest" },
         { id: "ep7-kyodo-no-mori", kind: "scarf", rarity: "SR", scarf: "#7a4a21", neck: "pendant", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg7-kyodo-no-mori" }, v: "round", g: "coin", a2: "sR" },
-        { id: "ep7-tokyo-racecourse", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e7d4f", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg7-tokyo-racecourse" } },
-        { id: "ep7-naoj-mitaka", kind: "hat", rarity: "SR", hat: "starcap", c1: "#23203a", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg7-naoj-mitaka" } },
-        { id: "ep7-yoshikawa-eiji", kind: "outfit", rarity: "SR", body: "#6b705c", pants: "#3a3f35", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg7-yoshikawa-eiji" } },
-        { id: "ep7-railway-museum", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg7-railway-museum" } },
+        { id: "ep7-tokyo-racecourse", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e7d4f", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg7-tokyo-racecourse" }, g: "ring", a2: "#ffd83d" },
+        { id: "ep7-naoj-mitaka", kind: "hat", rarity: "SR", hat: "starcap", c1: "#23203a", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg7-naoj-mitaka" }, v: "dots", a2: "#ffffff" },
+        { id: "ep7-yoshikawa-eiji", kind: "outfit", rarity: "SR", body: "#6b705c", pants: "#3a3f35", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg7-yoshikawa-eiji" }, a2: "#f5e9c9", od: "sash" },
+        { id: "ep7-railway-museum", kind: "hat", rarity: "SR", hat: "cap", c1: "#31456e", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg7-railway-museum" }, g: "bar", a2: "#ffffff" },
         { id: "ep7-bonsai-museum", kind: "scarf", rarity: "SR", scarf: "#4a6741", neck: "brooch", c2: "#d9c9a3", epic: true, reward: { type: "epic", quest: "eg7-bonsai-museum" }, v: "leaf" },
-        { id: "ep7-hikawa-omiya", kind: "outfit", rarity: "SR", body: "#f2ede4", pants: "#b03a2e", fx: "kimono", epic: true, reward: { type: "epic", quest: "eg7-hikawa-omiya" } },
-        { id: "ep7-kawagoe-kura", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#e8e2d0", fx: "happi", epic: true, reward: { type: "epic", quest: "eg7-kawagoe-kura" } },
+        { id: "ep7-hikawa-omiya", kind: "outfit", rarity: "SR", body: "#f2ede4", pants: "#b03a2e", fx: "kimono", epic: true, reward: { type: "epic", quest: "eg7-hikawa-omiya" }, a2: "#b03a2e", od: "collar" },
+        { id: "ep7-kawagoe-kura", kind: "outfit", rarity: "SR", body: "#31456e", pants: "#e8e2d0", fx: "happi", epic: true, reward: { type: "epic", quest: "eg7-kawagoe-kura" }, a2: "#f5e9c9", od: "stripes" },
         { id: "ep7-kawagoe-hikawa", kind: "scarf", rarity: "SR", scarf: "#d96a7a", neck: "ribbon", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg7-kawagoe-hikawa" }, v: "pearlT" },
-        { id: "ep7-kadokawa", kind: "outfit", rarity: "SR", body: "#8a8f98", pants: "#23203a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg7-kadokawa" } },
-        { id: "ep7-moomin", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg7-moomin" } },
-        { id: "ep7-yokohama-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#7a3b69", c2: "#f2ede4", epic: true, reward: { type: "epic", quest: "eg7-yokohama-art" } },
-        { id: "ep7-cupnoodles", kind: "hat", rarity: "SR", hat: "chef", c1: "#ffffff", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg7-cupnoodles" } },
-        { id: "ep7-akarenga", kind: "outfit", rarity: "SR", body: "#9c4a2f", pants: "#31456e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg7-akarenga" } },
+        { id: "ep7-kadokawa", kind: "outfit", rarity: "SR", body: "#8a8f98", pants: "#23203a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg7-kadokawa" }, g: "note", a2: "#23203a", od: "emblem" },
+        { id: "ep7-moomin", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#57b6e8", epic: true, reward: { type: "epic", quest: "eg7-moomin" }, v: "flower", a2: "#ffffff" },
+        { id: "ep7-yokohama-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#7a3b69", c2: "#f2ede4", epic: true, reward: { type: "epic", quest: "eg7-yokohama-art" }, v: "patch", a2: "#ffd83d" },
+        { id: "ep7-cupnoodles", kind: "hat", rarity: "SR", hat: "chef", c1: "#ffffff", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg7-cupnoodles" }, v: "band", a2: "#ffd83d" },
+        { id: "ep7-akarenga", kind: "outfit", rarity: "SR", body: "#9c4a2f", pants: "#31456e", fx: "apron", epic: true, reward: { type: "epic", quest: "eg7-akarenga" }, a2: "#f5e9c9", od: "pocket" },
         { id: "ep7-sankeien", kind: "scarf", rarity: "SR", scarf: "#5d7a4e", neck: "pearls", c2: "#f2ede4", epic: true, reward: { type: "epic", quest: "eg7-sankeien" }, v: "double" },
-        { id: "ep7-hikawamaru", kind: "outfit", rarity: "SR", body: "#f4f1e6", pants: "#31456e", fx: "sailor", epic: true, reward: { type: "epic", quest: "eg7-hikawamaru" } },
-        { id: "ep7-ramen-museum", kind: "outfit", rarity: "SR", body: "#e2483a", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg7-ramen-museum" } },
-        { id: "ep7-zoorasia", kind: "hat", rarity: "SR", hat: "ears", c1: "#8a5a33", c2: "#3f9e4d", epic: true, reward: { type: "epic", quest: "eg7-zoorasia" } },
-        { id: "ep7-minkaen", kind: "outfit", rarity: "SR", body: "#7a4a21", pants: "#4a3b2a", fx: "apron", epic: true, reward: { type: "epic", quest: "eg7-minkaen" } },
+        { id: "ep7-hikawamaru", kind: "outfit", rarity: "SR", body: "#f4f1e6", pants: "#31456e", fx: "sailor", epic: true, reward: { type: "epic", quest: "eg7-hikawamaru" }, g: "ring", a2: "#e2483a", od: "emblem" },
+        { id: "ep7-ramen-museum", kind: "outfit", rarity: "SR", body: "#e2483a", pants: "#23203a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg7-ramen-museum" }, g: "flame", a2: "#ffd83d", od: "emblem" },
+        { id: "ep7-zoorasia", kind: "hat", rarity: "SR", hat: "ears", c1: "#8a5a33", c2: "#3f9e4d", epic: true, reward: { type: "epic", quest: "eg7-zoorasia" }, v: "dot", a2: "#f5e9c9" },
+        { id: "ep7-minkaen", kind: "outfit", rarity: "SR", body: "#7a4a21", pants: "#4a3b2a", fx: "apron", epic: true, reward: { type: "epic", quest: "eg7-minkaen" }, a2: "#ffd83d", od: "pocket" },
         { id: "ep7-kawasaki-daishi", kind: "scarf", rarity: "SR", scarf: "#8e2f32", neck: "bell", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg7-kawasaki-daishi" }, v: "daishi" },
-        { id: "ep7-ichikawa-zoo", kind: "hat", rarity: "SR", hat: "visor", c1: "#e8762b", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg7-ichikawa-zoo" } },
-        { id: "ep7-adachi-seibutsuen", kind: "hat", rarity: "SR", hat: "sprout", c1: "#3f9e4d", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg7-adachi-seibutsuen" } },
-        { id: "ep7-katsushika-museum", kind: "hat", rarity: "SR", hat: "starcap", c1: "#31456e", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg7-katsushika-museum" } },
-        { id: "ep9-yuyakekoyake", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#d96f32", epic: true, reward: { type: "epic", quest: "eg9-yuyakekoyake" } },
-        { id: "ep9-machida-risuen", kind: "outfit", rarity: "SR", body: "#7a4a21", pants: "#4a3626", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg9-machida-risuen" } },
+        { id: "ep7-ichikawa-zoo", kind: "hat", rarity: "SR", hat: "visor", c1: "#e8762b", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg7-ichikawa-zoo" }, g: "paw", a2: "#e8762b" },
+        { id: "ep7-adachi-seibutsuen", kind: "hat", rarity: "SR", hat: "sprout", c1: "#3f9e4d", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg7-adachi-seibutsuen" }, v: "berry", a2: "#e5484d" },
+        { id: "ep7-katsushika-museum", kind: "hat", rarity: "SR", hat: "starcap", c1: "#31456e", c2: "#a5dcff", epic: true, reward: { type: "epic", quest: "eg7-katsushika-museum" }, v: "stripe", a2: "#e5484d" },
+        { id: "ep9-yuyakekoyake", kind: "hat", rarity: "SR", hat: "straw", c1: "#e8c96a", c2: "#d96f32", epic: true, reward: { type: "epic", quest: "eg9-yuyakekoyake" }, v: "bandstripe", a2: "#e5484d" },
+        { id: "ep9-machida-risuen", kind: "outfit", rarity: "SR", body: "#7a4a21", pants: "#4a3626", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg9-machida-risuen" }, a2: "#f5e9c9", od: "stripes" },
         { id: "ep9-yakushiike", kind: "scarf", rarity: "SR", scarf: "#e88bb0", neck: "pendant", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg9-yakushiike" }, g: "lotus", a2: "bL" },
-        { id: "ep9-fuchu-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#31456e", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-fuchu-art" } },
-        { id: "ep9-musakoji", kind: "outfit", rarity: "SR", body: "#5b6e8c", pants: "#33302a", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg9-musakoji" } },
+        { id: "ep9-fuchu-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#31456e", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-fuchu-art" }, v: "pin", a2: "#ffd83d" },
+        { id: "ep9-musakoji", kind: "outfit", rarity: "SR", body: "#5b6e8c", pants: "#33302a", fx: "sagerobe", epic: true, reward: { type: "epic", quest: "eg9-musakoji" }, a2: "#f8bc3d", od: "sash" },
         { id: "ep9-faret-tachikawa", kind: "scarf", rarity: "SR", scarf: "#57b6e8", neck: "brooch", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg9-faret-tachikawa" }, v: "art" },
-        { id: "ep9-ome-railway", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e4a7d", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-ome-railway" } },
-        { id: "ep9-hakenomori", kind: "outfit", rarity: "SR", body: "#8a6f4d", pants: "#4f4234", fx: "apron", epic: true, reward: { type: "epic", quest: "eg9-hakenomori" } },
+        { id: "ep9-ome-railway", kind: "hat", rarity: "SR", hat: "cap", c1: "#2e4a7d", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-ome-railway" }, g: "ring", a2: "#ffffff" },
+        { id: "ep9-hakenomori", kind: "outfit", rarity: "SR", body: "#8a6f4d", pants: "#4f4234", fx: "apron", epic: true, reward: { type: "epic", quest: "eg9-hakenomori" }, a2: "#ffffff", od: "pocket" },
         { id: "ep9-higo-hosokawa", kind: "scarf", rarity: "SR", scarf: "#7fb069", neck: "ribbon", c2: "#f4f1de", epic: true, reward: { type: "epic", quest: "eg9-higo-hosokawa" }, v: "knot" },
-        { id: "ep9-saitama-rekimin", kind: "hat", rarity: "SR", hat: "cap", c1: "#3f6d8e", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg9-saitama-rekimin" } },
-        { id: "ep9-manga-kaikan", kind: "outfit", rarity: "SR", body: "#c73e3a", pants: "#2b2b3a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg9-manga-kaikan" } },
+        { id: "ep9-saitama-rekimin", kind: "hat", rarity: "SR", hat: "cap", c1: "#3f6d8e", c2: "#f8bc3d", epic: true, reward: { type: "epic", quest: "eg9-saitama-rekimin" }, g: "house", a2: "#ffffff" },
+        { id: "ep9-manga-kaikan", kind: "outfit", rarity: "SR", body: "#c73e3a", pants: "#2b2b3a", fx: "happi", epic: true, reward: { type: "epic", quest: "eg9-manga-kaikan" }, g: "star", a2: "#ffd83d", od: "emblem" },
         { id: "ep9-iwatsuki-ningyo", kind: "scarf", rarity: "SR", scarf: "#f2e6f0", neck: "pearls", c2: "#e8a2c0", epic: true, reward: { type: "epic", quest: "eg9-iwatsuki-ningyo" }, v: "tintc2" },
-        { id: "ep9-kawagoe-matsuri", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-kawagoe-matsuri" } },
-        { id: "ep9-bonsai-village", kind: "outfit", rarity: "SR", body: "#4e7a3a", pants: "#5a4632", fx: "apron", epic: true, reward: { type: "epic", quest: "eg9-bonsai-village" } },
+        { id: "ep9-kawagoe-matsuri", kind: "hat", rarity: "SR", hat: "hachimaki", c1: "#ffffff", c2: "#e2483a", epic: true, reward: { type: "epic", quest: "eg9-kawagoe-matsuri" }, g: "note", a2: "#e2483a" },
+        { id: "ep9-bonsai-village", kind: "outfit", rarity: "SR", body: "#4e7a3a", pants: "#5a4632", fx: "apron", epic: true, reward: { type: "epic", quest: "eg9-bonsai-village" }, a2: "#f5e9c9", od: "pocket" },
         { id: "ep9-yokohama-chinatown", kind: "scarf", rarity: "SR", scarf: "#c73e3a", neck: "choker", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg9-yokohama-chinatown" }, v: "coin" },
-        { id: "ep9-doll-museum", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f2a7c3", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg9-doll-museum" } },
-        { id: "ep9-osanbashi", kind: "outfit", rarity: "SR", body: "#f4f6fb", pants: "#2e4a7d", fx: "sailor", epic: true, reward: { type: "epic", quest: "eg9-osanbashi" } },
+        { id: "ep9-doll-museum", kind: "hat", rarity: "SR", hat: "flowercrown", c1: "#f2a7c3", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg9-doll-museum" }, v: "alt", a2: "#e56ba0" },
+        { id: "ep9-osanbashi", kind: "outfit", rarity: "SR", body: "#f4f6fb", pants: "#2e4a7d", fx: "sailor", epic: true, reward: { type: "epic", quest: "eg9-osanbashi" }, g: "wave", a2: "#2e4a7d", od: "emblem" },
         { id: "ep9-cosmo-world", kind: "scarf", rarity: "SR", scarf: "#7a4fa3", neck: "rainbow", c2: "#ffd83d", epic: true, reward: { type: "epic", quest: "eg9-cosmo-world" }, v: "cosmo" },
-        { id: "ep9-kaiko-shiryokan", kind: "hat", rarity: "SR", hat: "visor", c1: "#e8e3d5", c2: "#31456e", epic: true, reward: { type: "epic", quest: "eg9-kaiko-shiryokan" } },
-        { id: "ep9-yumenoshima", kind: "outfit", rarity: "SR", body: "#f2c230", pants: "#3a6ea5", fx: "raincoat", epic: true, reward: { type: "epic", quest: "eg9-yumenoshima" } },
+        { id: "ep9-kaiko-shiryokan", kind: "hat", rarity: "SR", hat: "visor", c1: "#e8e3d5", c2: "#31456e", epic: true, reward: { type: "epic", quest: "eg9-kaiko-shiryokan" }, g: "leaf", a2: "#58a05c" },
+        { id: "ep9-yumenoshima", kind: "outfit", rarity: "SR", body: "#f2c230", pants: "#3a6ea5", fx: "raincoat", epic: true, reward: { type: "epic", quest: "eg9-yumenoshima" }, a2: "#e2483a", od: "buttons" },
         { id: "ep9-sensai-center", kind: "scarf", rarity: "SR", scarf: "#6b705c", neck: "brooch", c2: "#e8e3d5", epic: true, reward: { type: "epic", quest: "eg9-sensai-center" }, v: "ring" },
-        { id: "ep9-koishikawa-bg", kind: "hat", rarity: "SR", hat: "sprout", c1: "#57a773", c2: "#2e5e3f", epic: true, reward: { type: "epic", quest: "eg9-koishikawa-bg" } },
-        { id: "ep9-itabashi-nettaikan", kind: "outfit", rarity: "SR", body: "#2f7d5c", pants: "#33302a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg9-itabashi-nettaikan" } },
+        { id: "ep9-koishikawa-bg", kind: "hat", rarity: "SR", hat: "sprout", c1: "#57a773", c2: "#2e5e3f", epic: true, reward: { type: "epic", quest: "eg9-koishikawa-bg" }, v: "tip", a2: "#f28bb4" },
+        { id: "ep9-itabashi-nettaikan", kind: "outfit", rarity: "SR", body: "#2f7d5c", pants: "#33302a", fx: "hoodie", epic: true, reward: { type: "epic", quest: "eg9-itabashi-nettaikan" }, g: "leaf", a2: "#ffd83d", od: "emblem" },
         { id: "ep9-shibuya-fureai", kind: "scarf", rarity: "SR", scarf: "#8fd0c2", neck: "feather", c2: "#ffffff", epic: true, reward: { type: "epic", quest: "eg9-shibuya-fureai" }, v: "double" },
-        { id: "ep9-meguro-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#232323", c2: "#c0c6ce", epic: true, reward: { type: "epic", quest: "eg9-meguro-art" } }
+        { id: "ep9-meguro-art", kind: "hat", rarity: "SR", hat: "beret", c1: "#232323", c2: "#c0c6ce", epic: true, reward: { type: "epic", quest: "eg9-meguro-art" }, v: "pin", a2: "#e5484d" }
       ];
       /* Q-254 (Zoe, 2026-11-02): EPIC is no longer a synonym
          for evergreen. Only these approved hidden-gem spots
@@ -24985,8 +24985,124 @@ function drawHatShape(ctx, it, px, span) {
     case "pirate": span(1, 4, 11, c1); span(2, 3, 12, c1); px(7, 1, "#ffffff"); px(8, 1, "#ffffff"); break;
     case "flowercrown": span(2, 4, 11, c2); px(4, 1, c1); px(6, 1, "#ffd83d"); px(8, 1, c1); px(10, 1, "#ffffff"); px(5, 2, c1); px(9, 2, "#ffd83d"); break;
   }
+  drawHatDetail(ctx, it, px, span);
 }
-      /* Neck-slot styles: scarves wrap; jewellery and bows sit
+      // Gear refinement detail layer (Q-314): per-item v/g/a2 for hats,
+// od/g/a2 for outfits. Drawn over the base shapes so every item —
+// including the EP reward clones that share shape+colours with a
+// gacha original — carries its own themed mark.
+var GLYPHS = {
+  star:  [[1,0],[0,1],[1,1],[2,1]],
+  moon:  [[0,0],[0,1],[1,1],[2,0]],
+  bolt:  [[1,0],[0,1],[1,1],[2,1],[0,0]],
+  wave:  [[0,1],[1,0],[2,1]],
+  leaf:  [[0,0],[1,0],[1,1],[2,1]],
+  dia:   [[1,0],[0,1],[2,1]],
+  dot:   [[1,1]],
+  bar:   [[0,1],[1,1],[2,1]],
+  tri3:  [[0,0],[0,1],[2,0],[2,1]],
+  paw:   [[0,0],[2,0],[1,1]],
+  flame: [[1,0],[0,1],[1,1],[2,1]],
+  house: [[1,0],[0,1],[1,1],[2,1]],
+  fish:  [[0,1],[1,1],[2,0],[2,1]],
+  ring:  [[0,0],[1,0],[2,0],[0,1],[2,1]],
+  note:  [[2,0],[2,1],[0,1],[1,1]],
+  ball:  [[0,0],[1,0],[0,1],[1,1]],
+  cross: [[1,0],[0,1],[1,1],[2,1],[1,2]]
+};
+function drawGlyph(px, name, x, y, col) {
+  var cells = GLYPHS[name] || [];
+  for (var i = 0; i < cells.length; i++) px(x + cells[i][0], y + cells[i][1], col);
+}
+function drawHatDetail(ctx, it, px, span) {
+  if (!it.v && !it.g) return;
+  var A = it.a2 || "#ffffff", fam = it.hat;
+  if (fam === "cap" || fam === "starcap") {
+    if (it.v === "dots") { px(5, 1, A); px(10, 1, A); px(6, 2, A); px(9, 2, A); px(7, 1, A); }
+    else if (it.v === "panel") { px(7, 1, it.c2); px(8, 1, it.c2); px(7, 2, it.c2); px(8, 2, it.c2); }
+    else if (it.v === "stripe") { span(1, 7, 8, A); span(2, 7, 8, A); }
+    else if (it.g) drawGlyph(px, it.g, 6, 0, A);
+    if (it.v === "brimA") span(3, 3, 12, A);
+  } else if (fam === "visor") {
+    if (it.g) drawGlyph(px, it.g, 6, 2, A);
+    if (it.v === "antenna") { px(8, 0, A); px(8, 1, A); px(7, 0, A); }
+    if (it.v === "shine") { px(5, 4, "#ffffff"); px(6, 4, "#ffffff"); px(9, 2, A); }
+  } else if (fam === "straw") {
+    if (it.v === "flower") { px(10, 2, A); px(11, 2, "#ffd83d"); px(10, 1, "#f28bb4"); px(11, 3, "#f28bb4"); }
+    else {
+      if (it.g) drawGlyph(px, it.g, 6, 1, A);
+      if (it.v === "bandstripe") { px(6, 2, A); px(8, 2, A); }
+      else if (it.v === "brimdots") { px(4, 3, A); px(8, 3, A); px(12, 3, A); }
+    }
+  } else if (fam === "flowercrown") {
+    if (it.v === "alt") { px(4, 1, A); px(8, 1, A); px(5, 2, A); px(9, 2, A); }
+    else if (it.v === "mix") { px(6, 1, A); px(10, 1, A); px(9, 2, A); span(2, 4, 11, A); px(4, 1, it.c1); px(8, 1, it.c1); }
+    else if (it.v === "panda") { px(6, 1, "#26222e"); px(10, 1, "#26222e"); px(8, 1, "#ffffff"); span(2, 4, 11, "#7a7f87"); }
+  } else if (fam === "crown" || fam === "royalcrown") {
+    if (it.v === "gems") { px(6, 1, A); px(10, 1, A); }
+    else if (it.v === "band") { span(1, 5, 11, A); px(8, 1, it.c2); }
+    else if (it.v === "tips") { px(7, 0, A); px(9, 0, A); }
+  } else if (fam === "hachimaki") {
+    if (it.g) drawGlyph(px, it.g, 6, 2, A);
+    if (it.v === "tail2") { px(13, 3, it.c1); px(13, 5, it.c1); }
+    else if (it.v === "center") { px(7, 3, A); px(8, 3, A); }
+  } else if (fam === "ears" || fam === "bunny") {
+    if (it.v === "bell") { px(5, 1, "#f8bc3d"); px(10, 0, A); }
+    else if (it.v === "dot") { px(4, 1, A); px(11, 1, A); }
+    else if (it.v === "tip") { px(4, 0, A); px(11, 0, A); }
+  } else if (fam === "beret") {
+    if (it.v === "pin") { px(10, 1, A); px(11, 2, A); }
+    else if (it.v === "patch") { px(4, 2, A); px(5, 2, A); }
+    else if (it.v === "duo") { px(4, 1, A); px(5, 1, A); }
+  } else if (fam === "knit") {
+    if (it.v === "stripes") { span(2, 4, 11, A); }
+    else if (it.v === "pom") { px(7, 0, A); px(8, 0, A); }
+  } else if (fam === "chef") {
+    if (it.v === "band") { span(3, 5, 10, A); }
+    else if (it.v === "dot") { px(7, 3, A); px(8, 3, A); }
+  } else if (fam === "pointy") {
+    if (it.v === "tip") { px(8, 0, A); }
+    else if (it.v === "gem") { px(8, 1, A); }
+    else if (it.v === "band") { span(3, 5, 10, A); }
+  } else if (fam === "wizard") {
+    if (it.v === "stars") { px(6, 1, A); px(9, 1, A); px(7, 2, A); }
+    else if (it.v === "band") { span(3, 3, 12, A); }
+  } else if (fam === "clip") {
+    if (it.v === "pair") { px(3, 2, it.c1); px(4, 2, it.c1); px(3, 3, it.c2); px(4, 3, it.c1); }
+    else if (it.v === "gem") { px(12, 2, A); px(11, 3, A); }
+  } else if (fam === "hairpin") {
+    if (it.v === "gem") { px(12, 2, A); }
+    else if (it.v === "duo") { px(13, 1, A); px(12, 2, A); }
+  } else if (fam === "sprout") {
+    if (it.v === "tip") { px(7, 0, A); px(9, 0, A); }
+    else if (it.v === "berry") { px(8, 0, A); }
+  } else if (fam === "horns") {
+    if (it.v === "tip") { px(3, 0, A); px(12, 0, A); }
+  } else if (fam === "hood") {
+    if (it.v === "trim") { px(4, 0, A); px(11, 0, A); }
+  } else if (fam === "detective") {
+    if (it.v === "band") { px(6, 2, A); px(8, 2, A); }
+  }
+}
+function drawOutfitDetail(ctx, it, px, span) {
+  if (!it.od) return;
+  var A = it.a2 || "#ffffff";
+  var dark = shadeHex(it.body, 0.62);
+  switch (it.od) {
+    case "buttons": px(7, 10, A); px(7, 11, A); px(8, 12, A); break;
+    case "sash": px(4, 10, A); px(5, 10, A); px(5, 11, A); px(6, 11, A); px(10, 12, A); px(11, 12, A); break;
+    case "collar": px(6, 10, A); px(9, 10, A); break;
+    case "pocket": px(9, 11, dark); px(10, 11, dark); px(9, 10, A); break;
+    case "stripes": span(11, 4, 11, A); px(4, 10, A); px(11, 10, A); break;
+    case "emblem": drawGlyph(px, it.g || "dia", 5, 10, A); break;
+    case "zip": px(7, 10, dark); px(7, 11, dark); px(8, 12, A); break;
+    case "vest": px(4, 10, dark); px(11, 10, dark); px(4, 11, dark); px(11, 11, dark); px(4, 12, dark); px(11, 12, dark); break;
+    case "tie": px(7, 10, A); px(8, 10, A); px(7, 11, A); px(7, 12, A); break;
+    case "hem": span(14, 4, 6, A); span(14, 9, 11, A); break;
+    case "belt": px(4, 12, A); px(11, 12, A); px(8, 12, A); break;
+  }
+}
+/* Neck-slot styles: scarves wrap; jewellery and bows sit
          on the neck / chest instead. c2 = pattern / jewel accent. */
 /* Q-286: neck-shape v2 (art dept neck refinement, Zoe's order) —
    per-family variants via it.v, pendant glyphs via it.g, per-item
@@ -25306,6 +25422,7 @@ function drawOutfitFx(ctx, it, px, span) {
            retires the cap itself */
         if (cust.style === "cap" && !outfit) drawYushaJacket(ctx);
         if (outfit && outfit.fx) drawOutfitFx(ctx, outfit, px, span);
+        if (outfit) drawOutfitDetail(ctx, outfit, px, span);
         if (scarfIt) drawNeckShape(ctx, scarfIt, px, span);
         if (hatIt) drawHatShape(ctx, hatIt, px, span);
       }
@@ -33164,6 +33281,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          {d: "2026-11-05", s: "sparkle", t: "[News] Every hat & outfit is one of a kind now", b: "All 143 hats and 108 outfits were reworked one by one. Pieces that used to look identical now carry their own little marks — a paw print for the Hachiko cap, a flame for the Gas Museum cap, polka dots for the Kusama cap, a sash here, a chest emblem there.\nYour hero's hair also got a tiny shine-up. Open the wardrobe and spot the differences!"},
           {d: "2026-11-03", s: "guts", t: "Nov 2 update roundup", b: "• Two more limited-time quests: the Asakusa–Ueno digital stamp rally (all through November) and the \"Feel the Sound\" exhibition (from Nov 20). Four finished events left the board — and every one of the 359 quests now has a real photo.\n• Finding quests got easier: the list can show only quests you have accepted, and sort by nearest, start date or end date. LEGEND route cards no longer sit pinned on top.\n• Map pins got clearer: blue frames are always-open quests, red frames are limited-time, and the pin you select now glows lemon yellow.\n• Sharing grew up: posters now carry a one-line introduction to the game, and mini-game share buttons appear only on the result screen, never mid-game.\n• Gear got finer: scarves became \"Neckwear\" and all 89 pieces were refined so no two look alike; item previews zoom right in, so tiny gear is easy to see. The customize screen fits on one screen, and your hero's street gained a street clock at Lv.12.\n• Accounts and language: signing in always loads your cloud save, there is a LOG OUT button in the account window, and a different account now starts completely fresh. New visitors start in Japanese, the ⚙ button is now SETTINGS, you can switch language right on the title screen — and startup is sturdier, too.\nGrowing a little every day — thanks for playing!"},
           {d: "2026-11-02", s: "sparkle", t: "[News] Zone stamps got prettier", b: "The stamp frames in your collection book are now wavy petal rings, and every zone motif sits right in the centre with finer shading. Take a look at the ZONE STAMPS page of your logbook."},
           {d: "2026-11-02", s: "sparkle", t: "[News] Your hero got a glow-up!", b: "The hero's pixel art is all-new: a bigger head, faces you can actually tell apart, and a brand-new Heart Eyes expression.\nEvery hat, outfit, scarf and hairstyle was redrawn to fit the new proportions - your whole wardrobe carries over."},
@@ -33185,6 +33303,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          {d: "2026-11-05", s: "sparkle", t: "[News] 帽子と服がぜんぶ一点ものに", b: "帽子143点と服108点をひとつずつ見直しました。これまで見た目がそっくりだったアイテムも、ハチ公キャップの肉球、ガスミュージアムキャップの炎、草間キャップの水玉など、それぞれの印が付きました。\n主人公の髪にも少しツヤを足しました。ワードローブで見比べてみてください！"},
           {d: "2026-11-03", s: "guts", t: "11月2日のアップデートまとめ", b: "・期間限定クエストが2件追加：「浅草～上野 歴史をめぐる『街かどデジタルスタンプラリー』」（11月いっぱい）と「『Feel the Sound』展」（11/20から）。終了した4件はボードを離れました。そして全359件のクエストに実物の写真が揃いました。\n・探しやすくなりました：リストは「受注済みだけ」表示と、近い順／開始順／終了順の並び替えに対応。伝説ルートのカードは先頭固定をやめました。\n・地図のピンが分かりやすく：青枠＝常駐、赤枠＝期間限定、選んだピンはレモン色に光ります。\n・シェアまわり：ポスターにゲームの紹介文が一行入りました。ミニゲームのシェアボタンは結果画面だけに出ます。\n・装備が精細に：マフラーは「首まわり」に改名し、全89点を描き分けました（もう瓜二つはありません）。アイテムのプレビューは拡大表示で小さな装備も見やすく。着せ替え画面は1画面に収まり、Lv.12では街角時計が街に加わりました。\n・アカウントと言語：ログイン時は必ずクラウドの記録が読み込まれ、アカウント窓にログアウトボタンがつき、別のアカウントではまっさらな状態から始まります。新規の方の初期言語は日本語に、⚙は「設定」に改名、タイトル画面からも言語を切り替えられます。起動の安定性も上げました。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 分区スタンプの枠が新しくなりました", b: "図鑑の分区スタンプの枠が、波うち花びらのリングになりました。モチーフも中央にそろえ、陰影を細かくしています。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 主人公のドット絵が新しくなりました！", b: "頭が大きくなって、表情がずっと分かりやすくなりました。新しい表情「ハート」も追加。\n帽子・服・マフラー・髪型はすべて新しい比率に合わせて描き直し。持っている装備はそのまま使えます。"},
@@ -33206,6 +33325,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          {d: "2026-11-05", s: "sparkle", t: "[News] 每顶帽子、每件衣服都有自己的标记了", b: "143 顶帽子和 108 件衣服逐件重做了一遍。以前长得一模一样的道具，现在各有各的小标记——八公帽的爪印、燃气博物馆帽的火焰、草间帽的波点，还有斜挎带、胸前徽章等等。\n主角的头发也加了一点光泽。打开衣柜对比看看吧！"},
           {d: "2026-11-03", s: "guts", t: "11月2日更新汇总", b: "・新增2个限时任务：「浅草～上野 歴史をめぐる『街かどデジタルスタンプラリー』」（整个11月）和「『Feel the Sound』展」（11月20日起）。4个结束的活动已下架。现在全部359个任务都有真实照片了。\n・找任务更方便：列表可以只看已接受的任务，也能按距离／开始／结束排序；传说路线的卡片不再置顶。\n・地图图钉更清楚：蓝框＝常驻，红框＝限时，选中的图钉会亮起柠檬黄。\n・分享方面：海报加上了一行游戏介绍；小游戏的分享按钮只在结果画面出现，玩的过程中不会冒出来。\n・装备更精致了：围巾改名「颈饰」，89件全部重新描绘，不再有长得一样的了；装备预览会放大显示，小装备也看得清。换装界面现在一屏放得下；12级时街道上会多一座街角时钟。\n・账号与语言：登录时一定会读取云端存档，账号窗口加了退出登录按钮，换一个账号会从全新的状态开始；新访客默认日文，⚙改名为「设置」，标题画面上也能切换语言了。启动也更稳了。\n今天也成长了一点，谢谢大家来玩！"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 分区印章变漂亮了", b: "图鉴里的分区印章换上了波浪花边框，每个图案都居中了，阴影也更细致。去日志本的印章页看看吧。"},
           {d: "2026-11-02", s: "sparkle", t: "[News] 主人公的像素形象焕新了！", b: "头更大了，表情一眼就能分清，还新增了「爱心眼」表情。\n所有帽子、衣服、围巾和发型都按新比例重画过，你的衣柜原样保留。"},
