@@ -16736,7 +16736,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1233-q324-d794623f";
+        var BUILD_ID = "tql-20261106-1238-q325-21890bce";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -27614,6 +27614,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         document.getElementById("msCount").textContent = L().searchCount(list.length);
         var t = L();
         var parts = [];
+        if (filterKind !== "all") parts.push(filterKind === "ever" ? t.legendEver : t.legendTimed);
         if (filterCat !== "All") parts.push(filterCat);
         if (filterArea !== "All") parts.push(zoneName(filterArea));
         Object.keys(filterMoods).forEach(function (m) { if (filterMoods[m]) parts.push(moodBucketLabel(m)); });
