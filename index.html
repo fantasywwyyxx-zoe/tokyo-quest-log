@@ -13197,6 +13197,14 @@
       .kv-icon .kv-ico svg { width: 17px; height: 17px; }
       .kv-icon dd { margin: 0; flex: 1 1 auto; min-width: 0; }
       .kv-icon .detail-period-row { padding: 2px 0 6px; }
+
+      /* Q-342: period row value size under the full dialog selectors
+         (Q-340's class-only rule lost on specificity to style 55) */
+      dialog#detail .kv .detail-period { font-size: 0.9375rem; font-weight: 700; }
+      dialog#detail .kv .detail-period .dp-when { font-size: 0.9375rem; }
+      dialog#detail .detail-period-row { font-size: 0.9375rem; font-weight: 700; }
+      dialog#detail .detail-period-row .dp-when { font-size: 0.9375rem; }
+      dialog#detail .kv .detail-period .dp-range { font-size: 0.9375rem; font-weight: 700; }
 </style>
   </head>
   <body data-view="map">
@@ -16787,7 +16795,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1926-q341-3f0deb7c";
+        var BUILD_ID = "tql-20261106-1932-q342-132d0e46";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
