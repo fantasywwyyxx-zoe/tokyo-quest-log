@@ -16673,55 +16673,68 @@ var qrcode = function() {
 
 </script>
 <script>
-      /* ============ Q-145: boot-time freshness check (2026-10-29) ====
+      /* ============ Q-145: freshness check (2026-10-29; Q-318 triggers) ====
          The home-screen (standalone) app can hold a stale snapshot of
          this document indefinitely — iOS decides on its own schedule
          whether to re-download, and a shipped fix may never reach the
-         device (the fogged-detail S1 sat in exactly that trap). This
-         build carries a unique BUILD_ID; the shipping side places the
-         same token in /version.txt at the site root. At boot — before
-         any title-screen state is decided — the app fetches that file
-         cache-free; a different token means a newer build is live, so
-         it reloads ONCE into the fresh document. Loop safety: the
-         fetched marker is recorded in a sessionStorage guard first,
-         and a marker already in the guard never reloads again (a CDN
-         still serving the old document cannot spin the app). Any
-         failure — offline, 404, no version.txt on this origin (the
-         preview) — is completely silent and boot proceeds untouched.
+         device. This build carries a unique BUILD_ID; the shipping side
+         places the same token in /version.txt at the site root. The app
+         fetches that file cache-free; a different token means a newer
+         build is live, so it reloads ONCE into the fresh document. Loop
+         safety: the fetched marker is recorded in a sessionStorage
+         guard first, and a marker already in the guard never reloads
+         again; the tried marker also rides in the upd= URL value
+         (Q-294), because sessionStorage does not survive reloads in
+         some in-app browsers. Any failure — offline, 404, no
+         version.txt on this origin — is completely silent.
+         Q-318 (2026-11-06): the check used to run at boot only, but a
+         home-screen app can be RESUMED from a snapshot without ever
+         re-parsing this document, so the boot check never ran and the
+         stale build felt immortal (a device sat on a pre-Q-317 build
+         through a full close/reopen the morning the coin system
+         shipped). The same check now also runs when the app returns to
+         the foreground (visibilitychange to visible, pageshow),
+         throttled to one fetch per 20 seconds. The dual guards are
+         unchanged, so a foreground check can never loop: it reloads at
+         most once per newer build, and only when one actually exists.
          Progress lives in localStorage + the cloud save, so the one
-         boot reload loses nothing. Boot-time only: nothing here can
-         fire after startup. */
+         reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1151-q317-73e346ad";
+        var BUILD_ID = "tql-20261106-1201-q318-ac1ae83e";
         window.TQL_BUILD_ID = BUILD_ID;
+        var GUARD_KEY = "tql_ver_guard";
+        var lastCheck = 0;
+        function check() {
+          try {
+            if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
+            var now = Date.now();
+            if (now - lastCheck < 20000) return;
+            lastCheck = now;
+            fetch("/version.txt?_=" + now, { cache: "no-store" }).then(function (r) {
+              if (!r || !r.ok) return null;
+              return r.text();
+            }).then(function (txt) {
+              if (txt == null) return;
+              var marker = String(txt).trim();
+              if (!marker || marker === BUILD_ID) return;
+              var seen = null;
+              try { seen = sessionStorage.getItem(GUARD_KEY); } catch (e) { /* storage unavailable */ }
+              if (seen === marker) return;
+              var seg = marker.split("-").pop();
+              var wantUpd = "v" + seg;
+              var curUpd = /[?&]upd=([^&]*)/.exec(location.search || "");
+              if (curUpd && curUpd[1] === wantUpd) return;
+              try { sessionStorage.setItem(GUARD_KEY, marker); } catch (e) { /* storage unavailable */ }
+              var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
+              location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + wantUpd + (location.hash || ""));
+            }).catch(function () { /* offline / no version.txt: continue silently */ });
+          } catch (e) { /* the check must never block or break boot */ }
+        }
+        check();
         try {
-          if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
-          fetch("/version.txt?_=" + Date.now(), { cache: "no-store" }).then(function (r) {
-            if (!r || !r.ok) return null;
-            return r.text();
-          }).then(function (txt) {
-            if (txt == null) return;
-            var marker = String(txt).trim();
-            if (!marker || marker === BUILD_ID) return;
-            var GUARD_KEY = "tql_ver_guard";
-            var seen = null;
-            try { seen = sessionStorage.getItem(GUARD_KEY); } catch (e) { /* storage unavailable */ }
-            if (seen === marker) return;
-            /* Q-294: the tried-marker also rides in the upd= value
-               (upd=v<marker-tail>) — sessionStorage does not
-               survive reloads in some in-app browsers, and a
-               storage-only guard can loop there (S1, 2026-11-02).
-               Already at this marker's URL and still stale: the
-               fresh document is not arriving — boot what we have. */
-            var seg = marker.split("-").pop();
-            var wantUpd = "v" + seg;
-            var curUpd = /[?&]upd=([^&]*)/.exec(location.search || "");
-            if (curUpd && curUpd[1] === wantUpd) return;
-            try { sessionStorage.setItem(GUARD_KEY, marker); } catch (e) { /* storage unavailable */ }
-            var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-            location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + wantUpd + (location.hash || ""));
-          }).catch(function () { /* offline / no version.txt: boot normally, silently */ });
-        } catch (e) { /* the check must never block or break boot */ }
+          document.addEventListener("visibilitychange", function () { if (!document.hidden) check(); });
+          window.addEventListener("pageshow", function () { check(); });
+        } catch (e) { /* foreground triggers are best-effort */ }
       })();
     </script>
     <script>
