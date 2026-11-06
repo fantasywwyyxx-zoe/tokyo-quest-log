@@ -16696,37 +16696,27 @@ var qrcode = function() {
 
 </script>
 <script>
-      /* ============ Q-145: freshness check (2026-10-29; Q-318 triggers) ====
+      /* ============ Freshness check (Q-145 2026-10-29; Q-318
+         foreground triggers; Q-332 convergent retries) ============
          The home-screen (standalone) app can hold a stale snapshot of
-         this document indefinitely — iOS decides on its own schedule
-         whether to re-download, and a shipped fix may never reach the
-         device. This build carries a unique BUILD_ID; the shipping side
-         places the same token in /version.txt at the site root. The app
-         fetches that file cache-free; a different token means a newer
-         build is live, so it reloads ONCE into the fresh document. Loop
-         safety: the fetched marker is recorded in a sessionStorage
-         guard first, and a marker already in the guard never reloads
-         again; the tried marker also rides in the upd= URL value
-         (Q-294), because sessionStorage does not survive reloads in
-         some in-app browsers. Any failure — offline, 404, no
-         version.txt on this origin — is completely silent.
-         Q-318 (2026-11-06): the check used to run at boot only, but a
-         home-screen app can be RESUMED from a snapshot without ever
-         re-parsing this document, so the boot check never ran and the
-         stale build felt immortal (a device sat on a pre-Q-317 build
-         through a full close/reopen the morning the coin system
-         shipped). The same check now also runs when the app returns to
-         the foreground (visibilitychange to visible, pageshow),
-         throttled to one fetch per 20 seconds. The dual guards are
-         unchanged, so a foreground check can never loop: it reloads at
-         most once per newer build, and only when one actually exists.
-         Progress lives in localStorage + the cloud save, so the one
-         reload loses nothing. */
+         this document indefinitely. This build carries a unique
+         BUILD_ID; the same token sits in /version.txt. A mismatch
+         means a newer build is live, so the app reloads into the
+         fresh document. Q-332: deploys can land out of order, and a
+         single reload may fetch a document that does not match the
+         marker it chased (the two files are not served atomically).
+         The check therefore keeps an attempt ledger keyed by the
+         marker — up to 3 reloads per marker per 10 minutes, each to
+         a distinct cache-busted URL, until the LOADED document's own
+         BUILD_ID equals the marker. It never chases an older build.
+         Progress lives in localStorage + the cloud save, so reloads
+         lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1812-q331-6bc80813";
+        var BUILD_ID = "tql-20261106-1819-q332-9940a504";
         window.TQL_BUILD_ID = BUILD_ID;
-        var GUARD_KEY = "tql_ver_guard";
+        var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
+        function prefix(tok) { return tok.split("-").slice(0, 4).join("-"); }
         function check() {
           try {
             if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -16739,17 +16729,26 @@ var qrcode = function() {
             }).then(function (txt) {
               if (txt == null) return;
               var marker = String(txt).trim();
-              if (!marker || marker === BUILD_ID) return;
-              var seen = null;
-              try { seen = sessionStorage.getItem(GUARD_KEY); } catch (e) { /* storage unavailable */ }
-              if (seen === marker) return;
+              if (!marker) return;
+              if (marker === BUILD_ID) {
+                try { sessionStorage.removeItem(TRY_KEY); } catch (e) { /* ignore */ }
+                return;
+              }
+              if (prefix(marker) < prefix(BUILD_ID)) return; /* never chase an older build */
+              var led = null;
+              try { led = JSON.parse(sessionStorage.getItem(TRY_KEY) || "null"); } catch (e) { led = null; }
+              if (!led || led.m !== marker || now - (led.t || 0) > 600000) led = { m: marker, n: 0, t: now };
               var seg = marker.split("-").pop();
-              var wantUpd = "v" + seg;
-              var curUpd = /[?&]upd=([^&]*)/.exec(location.search || "");
-              if (curUpd && curUpd[1] === wantUpd) return;
-              try { sessionStorage.setItem(GUARD_KEY, marker); } catch (e) { /* storage unavailable */ }
+              var cur = /[?&]upd=v[^-.&]*\.(\d+)/.exec(location.search || "");
+              var urlN = 0;
+              if (cur && (location.search || "").indexOf("upd=v" + seg + ".") >= 0) urlN = parseInt(cur[1], 10) || 0;
+              var tried = Math.max(led.n || 0, urlN);
+              if (tried >= 3) return;
+              led.n = tried + 1;
+              led.t = now;
+              try { sessionStorage.setItem(TRY_KEY, JSON.stringify(led)); } catch (e) { /* the upd attempt still bounds loops */ }
               var s = (location.search || "").replace(/([?&])upd=[^&]*/g, "$1").replace(/^[?&]+/, "").replace(/[?&]+$/, "");
-              location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=" + wantUpd + (location.hash || ""));
+              location.replace(location.pathname + (s ? "?" + s + "&" : "?") + "upd=v" + seg + "." + led.n + (location.hash || ""));
             }).catch(function () { /* offline / no version.txt: continue silently */ });
           } catch (e) { /* the check must never block or break boot */ }
         }
@@ -32749,7 +32748,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           syncUploaded: "This device's record was saved to the cloud.", syncLoaded: "Your cloud record was loaded onto this device.",
           syncDone: "Cloud sync is up to date.", syncFail: "Sync didn't finish — it will retry on the next save.",
           unsynced: "● Not synced yet", migrate: "Import a save from the old address",
-          supportTitle: "SUPPORT", kofiBtn: "♥ SUPPORT ON KO-FI", feedback: "FEEDBACK (BETA TEST)",
+          supportTitle: "SUPPORT", kofiBtn: "♥ SUPPORT ON KO-FI", feedback: "FEEDBACK",
           supportText: "Tokyo Quest Log is still in preparation for its official release. Your support keeps development going — and as the game grows, we hope to team up with events and shops around the city to bring real perks back to players. Only tip if you can; every bit of support means a lot!",
           verNew: "A new version is available — tap to reload",
           heroGuest: "ACCOUNT: Guest", loginPromo: "Sign in and get 10 gacha tickets!", heroIn: function (e) { return "ACCOUNT: " + e; }
@@ -32777,7 +32776,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           syncUploaded: "この端末の記録をクラウドに保存しました", syncLoaded: "クラウドの記録を読み込みました",
           syncDone: "クラウドと同期済みです", syncFail: "同期が完了しませんでした — 次の保存で自動で再試行します",
           unsynced: "● 未同期", migrate: "旧アドレスのセーブデータを取り込む",
-          supportTitle: "応援する", kofiBtn: "♥ Ko-fiで応援する", feedback: "フィードバック（ベータテスト）",
+          supportTitle: "応援する", kofiBtn: "♥ Ko-fiで応援する", feedback: "フィードバック",
           supportText: "東京クエストログは、正式リリースに向けて準備中です。応援は開発の大きな励みになります。もっと人気が出たら、街のイベントやお店とコラボして、プレイヤーのみんなに還元できる企画も狙っています。無理のない範囲で応援してもらえたら嬉しいです！",
           verNew: "新しいバージョンがあります — タップで再読み込み",
           heroGuest: "アカウント：ゲスト", loginPromo: "ログインするとガチャ券10枚プレゼント！", heroIn: function (e) { return "アカウント：" + e; }
@@ -32805,7 +32804,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           syncUploaded: "已把这台设备的记录保存到云端", syncLoaded: "已读取云端的记录",
           syncDone: "已与云端同步", syncFail: "同步未完成 — 下次保存时会自动重试",
           unsynced: "● 尚未同步", migrate: "导入旧地址的存档",
-          supportTitle: "应援", kofiBtn: "♥ 在 Ko-fi 应援", feedback: "反馈（内测）",
+          supportTitle: "应援", kofiBtn: "♥ 在 Ko-fi 应援", feedback: "反馈",
           supportText: "东京冒险日志还在为正式上线做准备。你的应援是开发最大的动力；等游戏更火一些，我们想和城市里的活动、店铺联动，为大家争取玩家福利。量力而行就好，每一份支持都非常感谢！",
           verNew: "有新版本 — 点按重新加载",
           heroGuest: "账号：游客", loginPromo: "登录账号即送10张扭蛋券！", heroIn: function (e) { return "账号：" + e; }
