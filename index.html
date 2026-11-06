@@ -13120,6 +13120,12 @@
          the family position at the bottom */
       .coin-gear-cv canvas { width: 56px; height: 56px; image-rendering: pixelated; }
       #colBody .book-nav { margin: 10px 0 2px; }
+
+      /* Q-327: hero header cluster nudged down 6px (R177); the coin
+         buttons carry the gold disc, not the emoji (R178) */
+      .hero-banner { top: 16px; }
+      .hero-stats { top: 62px; }
+      .hstat-coin .coin-ico, .hst-coin .coin-ico { margin-right: 5px; }
 </style>
   </head>
   <body data-view="map">
@@ -13968,7 +13974,7 @@
              badges / gacha / studio). No card stacks, no accordion. -->
         <div class="hero-stage" id="heroStage">
           <div class="hero-banner ps" id="heroNameLine">ADVENTURER<span class="lv-badge" id="heroLv">Lv.1</span></div>
-          <div class="hero-stats" id="heroStats"><span class="hst-lbl">EXP</span><span class="hst-track"><i id="hstExpFill"></i></span><span class="hst-val" id="hstExpVal"></span><span class="hst-cell" id="hstTicketVal"></span><span class="hst-cell" id="hstItemVal"></span><button class="hst-coin" id="hstCoinVal" type="button">🪙 0</button></div>
+          <div class="hero-stats" id="heroStats"><span class="hst-lbl">EXP</span><span class="hst-track"><i id="hstExpFill"></i></span><span class="hst-val" id="hstExpVal"></span><span class="hst-cell" id="hstTicketVal"></span><span class="hst-cell" id="hstItemVal"></span><button class="hst-coin" id="hstCoinVal" type="button"><span class="coin-ico"></span> 0</button></div>
           <!-- endless-runner scenery (user trial, 2026-10-27 22:13):
                the path scrolls toward the viewer under the hero,
                and the props layer lives on the STAGE (full width)
@@ -14168,7 +14174,7 @@
              tab as a slim footer strip (user, 2026-10-27): the
              ticket count rides this strip too (Q-291). The
              bar keeps its striped-segment look (.hstat-track). -->
-        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span><button class="hstat-coin" id="hsCoinVal" type="button">🪙 0</button></div>
+        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span><button class="hstat-coin" id="hsCoinVal" type="button"><span class="coin-ico"></span> 0</button></div>
         </div>
         <div class="hseg-panel hero-win win-scroller" id="hsegBadges" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -16742,7 +16748,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1752-q326-14a17e39";
+        var BUILD_ID = "tql-20261106-1754-q327-f3fd8b8e";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -30774,12 +30780,12 @@ function drawZoneStamp(cv, zoneId, mode) {
         var hst = document.getElementById("hsTicketVal");
         if (hst) hst.textContent = t.ticketsLabel(ticketsLeft());
         var hsc = document.getElementById("hsCoinVal");
-        if (hsc) hsc.textContent = "🪙 " + (typeof state.coins === "number" ? state.coins : 0);
+        if (hsc) hsc.innerHTML = '<span class="coin-ico"></span> ' + (typeof state.coins === "number" ? state.coins : 0);
         var hs1 = document.getElementById("hstExpFill"); if (hs1) hs1.style.width = info.next ? Math.round(((info.xp - info.cur) / (info.next - info.cur)) * 100) + "%" : "100%";
         var hs2 = document.getElementById("hstExpVal"); if (hs2) hs2.textContent = String(info.xp);
         var hs3 = document.getElementById("hstTicketVal"); if (hs3) hs3.textContent = t.ticketsLabel(ticketsLeft());
         var hs4 = document.getElementById("hstItemVal"); if (hs4) hs4.textContent = t.statsItems + " " + ((state.gacha && state.gacha.owned) ? state.gacha.owned.length : 0);
-        var hs5 = document.getElementById("hstCoinVal"); if (hs5) hs5.textContent = "🪙 " + (typeof state.coins === "number" ? state.coins : 0);
+        var hs5 = document.getElementById("hstCoinVal"); if (hs5) hs5.innerHTML = '<span class="coin-ico"></span> ' + (typeof state.coins === "number" ? state.coins : 0);
         applyPortraitFrame();
         renderSlots();
         document.getElementById("heroTitleLine").textContent = titleFor(info.lv);
