@@ -337,3 +337,6 @@ Zoe: 「所有游戏里的翻页按钮能不能重新设计 真的太丑了」 �
 
 ## 2026-11-06 Q-349 — badges tab blank (R198 S3)
 QA's R198 walk found the same "weird blank" family on the badges tab: the grid sat at natural height and the panel's leftover pooled as cream dead space under the pager. The badge grid now flexes to fill the panel with rows sharing the height (the Q-345 pattern), badge content centred vertically; scoped to #hsegBadges. Gates: syntax x6; boot harness PASS (zero); served token + SHA verified live. Device-final = Zoe. (R198 also LAB-passed Q-345/Q-347/Q-348; its note that the QA-env ladder settled at 5/page is env geometry — the chain harness at phone boxes settles 6–7 as before, and Zoe's device remains the court on page size.)
+
+## 2026-11-07 Q-346 — board digest for Nov 6
+The Nov 6 roundup (hero GBA finish + cream sky, scene polish, compact detail card, tabbed coin shop, slimmer list header, map banner on top, ladder fill, Records freeze fix) posted to the announcement board as the 2026-11-07 guts entry, EN/JA/ZH, board now 27 entries/language. Gates: syntax x6; ANNOUNCE extraction (27/27/27, heads 2026-11-07 guts); boot harness PASS (zero); served token + SHA verified live.
