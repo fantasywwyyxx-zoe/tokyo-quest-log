@@ -13105,6 +13105,15 @@
       #hsegCollection #recTabsShared { display: flex !important; }
       #hsegCollection #recTabsShared[hidden] { display: none !important; }
       #hsegShop .coin-head { margin: 2px 34px 8px 2px; }
+
+      /* Q-322: list rows speak the map's colour language (Q-264 frames);
+         kind toggle sits beside the sort segments */
+      .ms-row.is-ever { border-color: #2d77cd; }
+      .ms-row.is-timed { border-color: #e5484d; }
+      .ms-row.is-epic { border-color: var(--epic-deep); }
+      .ms-row.is-sel { border-color: var(--primary); }
+      .list-subbar { flex-wrap: wrap; gap: 6px; align-items: center; }
+      .kind-segs { margin-right: 2px; }
 </style>
   </head>
   <body data-view="map">
@@ -13851,7 +13860,7 @@
         <button class="list-beta-btn" id="listBetaBtn" type="button"></button>
         <div class="list-subbar">
           <span class="search-summary" id="searchSummary"></span>
-          <span class="sort-segs" role="group" aria-label="Sort"><button class="sort-near-btn" type="button" data-sortmode="near" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-sortmode="start" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-sortmode="end" aria-pressed="false"></button></span>
+          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><span class="sort-segs" role="group" aria-label="Sort"><button class="sort-near-btn" type="button" data-sortmode="near" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-sortmode="start" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-sortmode="end" aria-pressed="false"></button></span>
           <p class="sort-msg" id="sortMsg" hidden></p>
         </div>
         <div class="liseg-panel" id="lisegIndex">
@@ -16727,7 +16736,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1222-q321-b3557d74";
+        var BUILD_ID = "tql-20261106-1225-q322-d4845cf8";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -27381,6 +27390,7 @@ function drawRunnerFrame(ctx, frame, blink) {
          board keeps the end-date order and says so in one line
          under the bar. */
       var listSortMode = "near";
+        var filterKind = "all";
       var sortPos = null;
       var sortMsg = "";
       var sortBusy = false;
@@ -27468,7 +27478,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var q = msQuery.trim().toLowerCase();
         var selMoods = Object.keys(filterMoods).filter(function (m) { return filterMoods[m]; });
         var list = sortedVisible().filter(function (e) {
-          return (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) && (!filterAccepted || (isAccepted(e.id) && !isCleared(e.id))) &&
+          return (filterKind === "all" || (filterKind === "ever") === !!e.evergreen) && (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) && (!filterAccepted || (isAccepted(e.id) && !isCleared(e.id))) &&
             (filterArea === "All" || zoneOf(e) === filterArea) &&
             (!selMoods.length || selMoods.some(function (b) { return evBuckets(e).indexOf(b) !== -1; })) &&
             questMatchesQuery(e, q);
@@ -27524,7 +27534,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             keyTxt = " · " + esc(fmtShortDate(e.end)) + (de >= 0 ? " · " + esc(L().endsIn(de)) : "");
           }
         }
-        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
+        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-ever" : " is-timed") + (isEpicQuest(e) ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (isEpicQuest(e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
           '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + keyTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
@@ -27616,6 +27626,11 @@ function drawRunnerFrame(ctx, frame, blink) {
           b.textContent = (sortBusy && k === "near") ? t.sortLocating : (k === "near" ? t.sortNear : k === "start" ? t.sortStart : t.sortEnd);
           b.setAttribute("aria-pressed", String(listSortMode === k));
         });
+          document.querySelectorAll("[data-kindmode]").forEach(function (b) {
+            var kk = b.getAttribute("data-kindmode");
+            b.textContent = kk === "all" ? t.all : kk === "ever" ? t.legendEver : t.legendTimed;
+            b.setAttribute("aria-pressed", String(filterKind === kk));
+          });
         var smg = document.getElementById("sortMsg");
         if (smg) { smg.hidden = !sortMsg; smg.textContent = sortMsg || ""; }
         /* LEGEND route cards join the unfiltered board IN SORT
@@ -31755,7 +31770,15 @@ function drawZoneStamp(cv, zoneId, mode) {
           sfx("move"); renderSearch();
         });
       });
-      function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); }
+      document.querySelectorAll("[data-kindmode]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            var k = b.getAttribute("data-kindmode");
+            if (k === filterKind) return;
+            filterKind = k;
+            sfx("move"); renderSearch();
+          });
+        });
+        function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); }
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
       document.getElementById("searchDone").addEventListener("click", function () { sfx("move"); closeSearchModal(); });
       document.getElementById("searchReset").addEventListener("click", function () {
