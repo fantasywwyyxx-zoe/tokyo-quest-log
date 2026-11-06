@@ -13037,6 +13037,56 @@
          freed height goes to more title rows (fit pass in JS). */
       #hsegStatus #ladder { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
       #hsegStatus .ladder-pager { margin-top: auto; }
+
+      /* Q-317: coins */
+      .hstat-coin { font: inherit; font-weight: 800; color: #8a6414; background: #ffe9a8; border: 2px solid #d9a441; border-radius: 999px; padding: 1px 9px; margin-left: 8px; cursor: pointer; }
+      .coin-overlay { position: fixed; inset: 0; z-index: 90; background: rgba(16, 20, 46, .55); display: flex; align-items: center; justify-content: center; padding: 14px; }
+      .coin-overlay[hidden] { display: none; }
+      .coin-panel { width: min(94vw, 430px); max-height: calc(100dvh - 36px); display: flex; flex-direction: column; padding: 0; overflow: hidden; }
+      .coin-head { display: flex; align-items: center; gap: 8px; padding: 12px 14px 10px; }
+      .coin-title { font-size: 19px; font-weight: 900; }
+      .coin-bal { margin-left: auto; font-family: "Baloo 2", sans-serif; font-weight: 800; font-size: 19px; color: #8a6414; }
+      .coin-ico { display: inline-block; width: 15px; height: 15px; border-radius: 50%; background: #ffd83d; border: 2px solid #d9a441; vertical-align: -2px; flex: none; }
+      .coin-ico.sm { width: 11px; height: 11px; margin-right: 4px; }
+      .coin-scroll { overflow-y: auto; min-height: 0; padding: 0 14px 14px; }
+      .coin-sec-t { font-weight: 900; font-size: 14px; margin: 12px 0 6px; border-bottom: 3px solid #e5484d; display: inline-block; padding-bottom: 2px; }
+      .coin-shop-band { margin-top: 16px; background: #10142e; color: #fff6dd; font-weight: 900; font-size: 16px; border-radius: 8px; padding: 8px 12px; }
+      .coin-earn { display: flex; justify-content: space-between; background: rgba(217, 164, 65, .13); border-radius: 7px; padding: 5px 10px; margin-top: 5px; font-size: 13.5px; font-weight: 700; }
+      .coin-earn b { color: #c22e3a; font-family: "Baloo 2", sans-serif; }
+      .coin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 9px; margin-top: 8px; }
+      .coin-cell { border: 2px solid var(--window-edge); border-radius: 10px; padding: 8px 6px; text-align: center; background: var(--window-hi); }
+      .coin-cell-name { font-size: 12.5px; font-weight: 800; margin: 6px 0 5px; line-height: 1.25; }
+      .coin-buy { font: inherit; font-size: 12.5px; font-weight: 800; border: 2px solid var(--window-edge); background: #ffd83d; color: #10142e; border-radius: 999px; padding: 3px 10px; cursor: pointer; }
+      .coin-buy.is-eq { background: #d8dee9; color: #5a6580; }
+      .coin-gear-cv { position: relative; width: 62px; height: 62px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+      .coin-gear-cv canvas { width: 48px; height: 48px; image-rendering: pixelated; }
+      .coin-ltd { position: absolute; top: -4px; right: -8px; background: #ffd83d; border: 1.5px solid #d9a441; color: #10142e; font-size: 9.5px; font-weight: 900; border-radius: 5px; padding: 0 4px; }
+      .coin-house { margin-top: 16px; background: #dceeff; border: 2px solid #57b6e8; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+      .coin-house b { color: #c22e3a; font-size: 14.5px; }
+      .coin-house span { font-size: 12.5px; font-weight: 700; }
+      #coinToast { position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 130; background: #10142e; color: #fff6dd; font-weight: 900; font-size: 14.5px; border-radius: 999px; padding: 7px 16px 7px 12px; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; display: flex; align-items: center; gap: 7px; }
+      #coinToast::before { content: ""; width: 13px; height: 13px; border-radius: 50%; background: #ffd83d; border: 2px solid #d9a441; flex: none; }
+      #coinToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      .hero-portrait { position: relative; flex: none; }
+      .hero-portrait .hero-big { display: block; }
+      .pf-c { position: absolute; width: 10px; height: 10px; display: none; z-index: 2; }
+      .pf-tl { top: 1px; left: 1px; } .pf-tr { top: 1px; right: 1px; } .pf-bl { bottom: 1px; left: 1px; } .pf-br { bottom: 1px; right: 1px; }
+      [data-frame="fr-gold"], [data-frame="fr-sakura"], [data-frame="fr-hoshi"], [data-frame="fr-umi"] { padding: 5px; border-radius: 10px; }
+      [data-frame="fr-gold"] { background: linear-gradient(180deg, #f3cd6b, #d9a441); border: 3px solid #8a6414; }
+      [data-frame="fr-gold"] .pf-c { display: block; background: #8a6414; }
+      [data-frame="fr-gold"] .hero-big, [data-frame="fr-gold"] canvas { border: 2px solid #8a6414; border-radius: 4px; }
+      [data-frame="fr-sakura"] { background: #f6c9d8; background-image: radial-gradient(circle, #ffffff 2.2px, transparent 2.8px); background-size: 16px 16px; border: 3px solid #e56ba0; }
+      [data-frame="fr-sakura"] .pf-c { display: block; background: #e56ba0; border-radius: 70% 0 70% 0; }
+      [data-frame="fr-sakura"] .hero-big, [data-frame="fr-sakura"] canvas { border: 2px solid #e56ba0; border-radius: 4px; }
+      [data-frame="fr-hoshi"] { background: #26355e; border: 3px solid #10142e; }
+      [data-frame="fr-hoshi"] .pf-c { display: block; background: #ffd83d; clip-path: polygon(50% 0%, 62% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 38% 35%); width: 12px; height: 12px; }
+      [data-frame="fr-hoshi"] .hero-big, [data-frame="fr-hoshi"] canvas { border: 2px solid #10142e; border-radius: 4px; }
+      [data-frame="fr-umi"] { background: #57b6e8; border: 3px solid #1d4f8a; }
+      [data-frame="fr-umi"] .pf-c { display: block; background: #a5dcff; border-radius: 50%; }
+      [data-frame="fr-umi"] .hero-big, [data-frame="fr-umi"] canvas { border: 2px solid #1d4f8a; border-radius: 4px; }
+      .pf-mini { position: relative; width: 64px; height: 64px; margin: 0 auto; box-sizing: border-box; }
+      .pf-mini canvas { width: 48px; height: 48px; image-rendering: pixelated; display: block; }
+      .pf-mini .pf-c { width: 8px; height: 8px; }
 </style>
   </head>
   <body data-view="map">
@@ -14083,7 +14133,7 @@
              tab as a slim footer strip (user, 2026-10-27): the
              ticket count rides this strip too (Q-291). The
              bar keeps its striped-segment look (.hstat-track). -->
-        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span></div>
+        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span><button class="hstat-coin" id="hsCoinVal" type="button">🪙 0</button></div>
         </div>
         <div class="hseg-panel hero-win win-scroller" id="hsegBadges" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -14261,7 +14311,24 @@
       </div>
     </div>
 
-    <div class="map-pick share-pick" id="sharePick" popover="manual" hidden role="dialog" aria-labelledby="sharePickTitle">
+    
+<div class="coin-overlay" id="coinWin" hidden>
+  <div class="win coin-panel">
+    <div class="coin-head"><span class="coin-ico"></span><span class="coin-title" id="coinTitle"></span><span class="coin-bal" id="coinBal">0</span><button class="hwin-x" id="coinClose" type="button" aria-label="Close">✕</button></div>
+    <div class="coin-scroll win-scroller">
+      <div class="coin-sec-t" id="coinEarnT"></div>
+      <div id="coinEarnList"></div>
+      <div class="coin-shop-band" id="coinShopT"></div>
+      <div class="coin-sec-t" id="coinFramesT"></div>
+      <div class="coin-grid" id="coinFrames"></div>
+      <div class="coin-sec-t" id="coinGearT"></div>
+      <div class="coin-grid" id="coinGear"></div>
+      <div class="coin-house" id="coinHouse"></div>
+    </div>
+  </div>
+</div>
+<div id="coinToast" role="status"></div>
+<div class="map-pick share-pick" id="sharePick" popover="manual" hidden role="dialog" aria-labelledby="sharePickTitle">
       <div class="map-pick-panel">
         <p class="map-pick-title" id="sharePickTitle"></p>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="system"></button>
@@ -16625,7 +16692,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261106-1138-q316-7d15c5a8";
+        var BUILD_ID = "tql-20261106-1151-q317-73e346ad";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17484,6 +17551,13 @@ var qrcode = function() {
           nextLevel: function (n) { return "NEXT Lv " + n; },
           maxLevel: "MAX",
           levelUp: "LEVEL UP!",
+          coinName: "Coins", coinPlus: function (n) { return "+" + n + " coins"; },
+          coinEarnT: "How to earn", coinEarnGps: "Check-in (GPS)", coinEarnRemote: "Remote clear", coinEarnDaily: "Daily quest", coinEarnPlay: "Guess \u00b7 mini-games", coinEarnLevel: "Level up",
+          coinShopT: "Coin Shop", coinFramesT: "Portrait frames", coinGearT: "Shop-only gear", coinLtd: "ONLY",
+          coinOwned: "Owned", coinUse: "Use", coinInUse: "In use", coinBuyQ: function (n) { return "Buy for " + n + "?"; }, coinShort: "Not enough coins",
+          coinHouseT: "House makeover \u2014 coming soon!", coinHouseB: "Save up your coins and wait!",
+          frGold: "Gold", frSakura: "Sakura", frHoshi: "Starry", frUmi: "Sea",
+          coinWelcomeT: "Welcome bonus +50 coins!",
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
           mapTitle: "TOKYO MAP",
@@ -17944,6 +18018,9 @@ var qrcode = function() {
             "sakura-kimono": { name: "Sakura Kimono", desc: "Petals, a gold obi, and nowhere to hurry." },
             "spacesuit": { name: "Spacesuit", desc: "One small step for a hero." },
             "cafe-apron": { name: "Café Apron", desc: "Smells faintly of fresh coffee." },
+            "shop-star-cap": { name: "Star Cap", desc: "A navy cap with a lucky star. Coin-shop only." },
+            "shop-cat-beret": { name: "Cat Beret", desc: "A red beret with a kitty patch. Coin-shop only." },
+            "shop-cafe-apron": { name: "Café Apron DX", desc: "The deluxe apron, sky-blue. Coin-shop only." },
             "knight-armor": { name: "Knight Armor", desc: "Polished silver. Quest forth." },
             "raincoat": { name: "Raincoat", desc: "Rainy-day quests are still quests." },
             "navy-suit": { name: "Navy Suit", desc: "Sharp enough for a gallery opening." },
@@ -18362,6 +18439,13 @@ var qrcode = function() {
           nextLevel: function (n) { return "つぎのLvまで " + n; },
           maxLevel: "MAX",
           levelUp: "レベルアップ！",
+          coinName: "コイン", coinPlus: function (n) { return "+" + n + " コイン"; },
+          coinEarnT: "ため方", coinEarnGps: "チェックイン（GPS）", coinEarnRemote: "リモートクリア", coinEarnDaily: "デイリークエスト", coinEarnPlay: "あてっこ・ミニゲーム", coinEarnLevel: "レベルアップ",
+          coinShopT: "コインショップ", coinFramesT: "ポートレートフレーム", coinGearT: "ショップ限定ギア", coinLtd: "限定",
+          coinOwned: "所持中", coinUse: "つける", coinInUse: "使用中", coinBuyQ: function (n) { return n + "コインで買う？"; }, coinShort: "コインが足りない",
+          coinHouseT: "おうちの模様替えは近日公開！", coinHouseB: "コインをためて待っててね",
+          frGold: "ゴールド", frSakura: "さくら", frHoshi: "ほし", frUmi: "うみ",
+          coinWelcomeT: "ウェルカムボーナス +50コイン！",
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
           mapTitle: "東京マップ",
@@ -18818,6 +18902,9 @@ var qrcode = function() {
             "sakura-kimono": { name: "桜柄着物", desc: "花びらと金の帯、急ぐ理由なし。" },
             "spacesuit": { name: "宇宙服", desc: "勇者への小さな一歩。" },
             "cafe-apron": { name: "カフェエプロン", desc: "淹れたてのコーヒーの香り。" },
+            "shop-star-cap": { name: "ほしキャップ", desc: "星の印の紺キャップ。コインショップ限定。" },
+            "shop-cat-beret": { name: "ねこベレー", desc: "ねこパッチの赤ベレー。コインショップ限定。" },
+            "shop-cafe-apron": { name: "カフェエプロンDX", desc: "青空色のデラックスエプロン。コインショップ限定。" },
             "knight-armor": { name: "騎士の鎧", desc: "磨き上げた銀。いざクエストへ。" },
             "raincoat": { name: "レインコート", desc: "雨の日のクエストもクエスト。" },
             "navy-suit": { name: "紺スーツ", desc: "ギャラリーの初日に負けない装い。" },
@@ -19236,6 +19323,13 @@ var qrcode = function() {
           nextLevel: function (n) { return "距离下一级 " + n; },
           maxLevel: "MAX",
           levelUp: "升级了！",
+          coinName: "金币", coinPlus: function (n) { return "+" + n + " 金币"; },
+          coinEarnT: "赚法", coinEarnGps: "打卡（GPS到场）", coinEarnRemote: "远程完成", coinEarnDaily: "每日任务", coinEarnPlay: "猜地点・小游戏", coinEarnLevel: "升级",
+          coinShopT: "金币商店", coinFramesT: "头像框", coinGearT: "商店限定装扮", coinLtd: "限定",
+          coinOwned: "已拥有", coinUse: "使用", coinInUse: "使用中", coinBuyQ: function (n) { return "花 " + n + " 金币买？"; }, coinShort: "金币不够",
+          coinHouseT: "小屋装修即将推出！", coinHouseB: "攒好金币等着吧",
+          frGold: "金框", frSakura: "樱花", frHoshi: "星星", frUmi: "海浪",
+          coinWelcomeT: "欢迎金 +50 金币！",
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
           mapTitle: "东京地图",
@@ -19692,6 +19786,9 @@ var qrcode = function() {
             "sakura-kimono": { name: "樱花和服", desc: "花瓣与金腰带，不必赶路。" },
             "spacesuit": { name: "宇航服", desc: "勇者的一小步。" },
             "cafe-apron": { name: "咖啡店围裙", desc: "带着现磨咖啡的香气。" },
+            "shop-star-cap": { name: "星星帽", desc: "带幸运星的深蓝帽。金币商店限定。" },
+            "shop-cat-beret": { name: "猫耳贝雷帽", desc: "带猫咪布贴的红贝雷帽。金币商店限定。" },
+            "shop-cafe-apron": { name: "咖啡围裙DX", desc: "天空蓝的豪华围裙。金币商店限定。" },
             "knight-armor": { name: "骑士铠甲", desc: "擦亮的银甲，出发冒险。" },
             "raincoat": { name: "雨衣", desc: "雨天的任务也是任务。" },
             "navy-suit": { name: "深蓝西装", desc: "利落到能去画廊开幕式。" },
@@ -22291,7 +22388,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -22388,6 +22485,11 @@ var qrcode = function() {
               });
             }
             state.bonusExp = typeof parsed.bonusExp === "number" ? parsed.bonusExp : 0;
+            state.coins = typeof parsed.coins === "number" && parsed.coins >= 0 ? Math.floor(parsed.coins) : 0;
+            state.coinDay = (parsed.coinDay && typeof parsed.coinDay === "object") ? { d: typeof parsed.coinDay.d === "string" ? parsed.coinDay.d : "", total: typeof parsed.coinDay.total === "number" ? parsed.coinDay.total : 0, mg: typeof parsed.coinDay.mg === "number" ? parsed.coinDay.mg : 0 } : { d: "", total: 0, mg: 0 };
+            state.coinWelcome = !!parsed.coinWelcome;
+            state.framesOwned = Array.isArray(parsed.framesOwned) ? parsed.framesOwned.filter(function (x) { return typeof x === "string"; }) : [];
+            state.frame = typeof parsed.frame === "string" ? parsed.frame : "";
             if (parsed.gacha && typeof parsed.gacha === "object") {
               var pg = parsed.gacha, pe = (pg.equipped && typeof pg.equipped === "object") ? pg.equipped : {};
               var pd = (pg.dupes && typeof pg.dupes === "object" && !Array.isArray(pg.dupes)) ? pg.dupes : {};
@@ -24732,12 +24834,13 @@ function drawYushaJacket(ctx) {
         state.legendProg[lgId] = p;
         var finished = p.length >= lg.cps.length;
         if (finished) state.bonusExp = (state.bonusExp || 0) + lg.exp;
+        var lgCoin = earnCoins(finished ? 25 : 5, "legend") + coinLevelBonus(prevInfo); if (!finished && lgCoin) showCoinToast(lgCoin);
         save(); sfx("fanfare");
         renderStatus(); renderLegendSheet(); drawRouteOverlay();
         if (finished) {
           var it = gachaItem(lg.gear);
           celebrate({
-            title: L().legendDoneT, name: legendName(lg), exp: lg.exp, cat: null,
+            title: L().legendDoneT, name: legendName(lg), exp: lg.exp, coins: lgCoin, cat: null,
             flavor: L().legendRule, rewardItem: lg.gear,
             rewardName: it ? ((L().gachaItems[it.id] || {}).name || it.id) : "",
             shareText: L().shareQuest(legendName(lg)),
@@ -24936,7 +25039,12 @@ function drawYushaJacket(ctx) {
         });
         styleRouteLines();
       }
-      var ALL_ITEMS = GACHA_ITEMS.concat(REWARD_ITEMS);
+      var SHOP_ITEMS = [
+        { id: "shop-star-cap", kind: "hat", rarity: "R", hat: "cap", c1: "#31456e", c2: "#1d2a4a", g: "star", a2: "#ffd83d", price: 350 },
+        { id: "shop-cat-beret", kind: "hat", rarity: "R", hat: "beret", c1: "#c22e3a", c2: "#8f1f28", v: "patch", a2: "#f6c9d8", price: 300 },
+        { id: "shop-cafe-apron", kind: "outfit", rarity: "R", body: "#2f6fb4", pants: "#31456e", fx: "apron", od: "buttons", a2: "#ffffff", price: 480 }
+      ];
+      var ALL_ITEMS = GACHA_ITEMS.concat(REWARD_ITEMS, SHOP_ITEMS);
       function gachaItem(id) { for (var i = 0; i < ALL_ITEMS.length; i++) if (ALL_ITEMS[i].id === id) return ALL_ITEMS[i]; return null; }
       function totalTickets() { return 1 + Math.floor(totalExp() / 50) + (state.ticketBonus || 0); }
       function ticketsLeft() { return Math.max(0, totalTickets() - (state.gacha.pulls || 0)); }
@@ -28939,6 +29047,156 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (completed) state.puzzleDone = true;
         return { piece: pick, n: state.puzzle.length, completed: completed };
       }
+            /* Q-317: coins — an earn-only second currency (Zoe, 2026-11-05/06).
+         One gateway (earnCoins) with a 60/day cap (mini-games sub-cap 6);
+         coins buy portrait frames + shop-only gear in the coin window.
+         Never sold, never exchanged for EXP or tickets. */
+      var COIN_DAY_CAP = 60, COIN_MG_DAY_CAP = 6;
+      var COIN_FRAMES = [
+        { id: "fr-gold", price: 400, key: "frGold" },
+        { id: "fr-sakura", price: 250, key: "frSakura" },
+        { id: "fr-hoshi", price: 250, key: "frHoshi" },
+        { id: "fr-umi", price: 150, key: "frUmi" }
+      ];
+      function coinFrameDef(id) { for (var i = 0; i < COIN_FRAMES.length; i++) if (COIN_FRAMES[i].id === id) return COIN_FRAMES[i]; return null; }
+      function coinShopItem(id) { for (var i = 0; i < SHOP_ITEMS.length; i++) if (SHOP_ITEMS[i].id === id) return SHOP_ITEMS[i]; return null; }
+      function coinDayReset() { if (!state.coinDay || state.coinDay.d !== TODAY) state.coinDay = { d: TODAY, total: 0, mg: 0 }; }
+      function earnCoins(n, src2) {
+        if (!n || n <= 0) return 0;
+        coinDayReset();
+        var give = Math.min(n, COIN_DAY_CAP - state.coinDay.total);
+        if (src2 === "mg") give = Math.min(give, COIN_MG_DAY_CAP - (state.coinDay.mg || 0));
+        if (give <= 0) return 0;
+        if (src2 === "mg") state.coinDay.mg = (state.coinDay.mg || 0) + give;
+        state.coinDay.total += give;
+        state.coins = (typeof state.coins === "number" ? state.coins : 0) + give;
+        return give;
+      }
+      function coinLevelBonus(prevInfo) {
+        if (!prevInfo) return 0;
+        return levelInfo().lv > prevInfo.lv ? earnCoins(20, "level") : 0;
+      }
+      var coinMsgTimer = 0;
+      function showCoinMsg(text, ms) {
+        var el = document.getElementById("coinToast");
+        if (!el || !text) return;
+        el.textContent = text;
+        el.classList.add("show");
+        if (coinMsgTimer) clearTimeout(coinMsgTimer);
+        coinMsgTimer = setTimeout(function () { el.classList.remove("show"); }, ms || 1600);
+      }
+      function showCoinToast(n) { if (n) showCoinMsg(L().coinPlus(n)); }
+      function maybeCoinWelcome() {
+        if (state.coinWelcome) return;
+        state.coinWelcome = true;
+        state.coins = (typeof state.coins === "number" ? state.coins : 0) + 50;
+        save(); renderStatus();
+        showCoinMsg(L().coinWelcomeT, 2600);
+      }
+      function applyPortraitFrame() {
+        var cv = document.getElementById("heroBigCanvas");
+        if (!cv || !cv.parentNode) return;
+        var wrap = cv.parentNode;
+        if (!wrap.classList || !wrap.classList.contains("hero-portrait")) {
+          wrap = document.createElement("div");
+          wrap.className = "hero-portrait";
+          cv.parentNode.insertBefore(wrap, cv);
+          wrap.appendChild(cv);
+          ["tl", "tr", "bl", "br"].forEach(function (p) { var i = document.createElement("i"); i.className = "pf-c pf-" + p; wrap.appendChild(i); });
+        }
+        wrap.setAttribute("data-frame", state.frame && coinFrameDef(state.frame) ? state.frame : "none");
+      }
+      function drawHeroBust(canvas) {
+        var tmp = document.createElement("canvas"); tmp.width = 16; tmp.height = 16;
+        drawHeroEquipped(tmp, state.hero, state.gacha.equipped);
+        var ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(tmp, 2, 0, 12, 12, 0, 0, canvas.width, canvas.height);
+      }
+      var coinArm = "";
+      function coinOwnedFrame(id) { return (state.framesOwned || []).indexOf(id) >= 0; }
+      function coinSpend(price) { if ((state.coins || 0) < price) return false; state.coins -= price; return true; }
+      function coinTapFrame(id) {
+        var f = coinFrameDef(id); if (!f) return;
+        if (state.frame === id) return;
+        if (coinOwnedFrame(id)) { state.frame = id; coinArm = ""; save(); applyPortraitFrame(); renderCoinWin(); return; }
+        if (coinArm !== "f:" + id) { coinArm = "f:" + id; renderCoinWin(); return; }
+        if (!coinSpend(f.price)) { showCoinMsg(L().coinShort); coinArm = ""; renderCoinWin(); return; }
+        state.framesOwned = state.framesOwned || [];
+        state.framesOwned.push(id); state.frame = id; coinArm = "";
+        save(); renderStatus(); applyPortraitFrame(); renderCoinWin();
+        try { sfx("fanfare"); } catch (e) {}
+      }
+      function coinTapGear(id) {
+        var it = coinShopItem(id); if (!it) return;
+        if (ownsItem(id)) { state.gacha.equipped[it.kind] = id; coinArm = ""; save(); renderGacha(); renderHero(); renderCoinWin(); return; }
+        if (coinArm !== "g:" + id) { coinArm = "g:" + id; renderCoinWin(); return; }
+        if (!coinSpend(it.price)) { showCoinMsg(L().coinShort); coinArm = ""; renderCoinWin(); return; }
+        state.gacha.owned.push(id); state.gacha.equipped[it.kind] = id; coinArm = "";
+        save(); renderStatus(); renderGacha(); renderHero(); renderCoinWin();
+        try { sfx("fanfare"); } catch (e) {}
+      }
+      function renderCoinWin() {
+        var t = L();
+        var bal = document.getElementById("coinBal"); if (bal) bal.textContent = String(typeof state.coins === "number" ? state.coins : 0);
+        var tt = document.getElementById("coinTitle"); if (tt) tt.textContent = t.coinName;
+        var et = document.getElementById("coinEarnT"); if (et) et.textContent = t.coinEarnT;
+        var st2 = document.getElementById("coinShopT"); if (st2) st2.textContent = t.coinShopT;
+        var ft = document.getElementById("coinFramesT"); if (ft) ft.textContent = t.coinFramesT;
+        var gt = document.getElementById("coinGearT"); if (gt) gt.textContent = t.coinGearT;
+        var el = document.getElementById("coinEarnList");
+        if (el) {
+          var rows = [[t.coinEarnGps, "+10"], [t.coinEarnRemote, "+3"], [t.coinEarnDaily, "+3"], [t.coinEarnPlay, "+2"], [t.coinEarnLevel, "+20"]];
+          el.innerHTML = rows.map(function (r) { return '<div class="coin-earn"><span>' + esc(r[0]) + '</span><b>' + r[1] + '</b></div>'; }).join("");
+        }
+        var fg = document.getElementById("coinFrames");
+        if (fg) {
+          fg.innerHTML = COIN_FRAMES.map(function (f) {
+            var owned = coinOwnedFrame(f.id), eq = state.frame === f.id;
+            var label = eq ? esc(t.coinInUse) : owned ? esc(t.coinUse) : (coinArm === "f:" + f.id ? esc(t.coinBuyQ(f.price)) : '<span class="coin-ico sm"></span>' + f.price);
+            return '<div class="coin-cell"><div class="pf-mini" data-frame="' + f.id + '"><canvas width="48" height="48"></canvas><i class="pf-c pf-tl"></i><i class="pf-c pf-tr"></i><i class="pf-c pf-bl"></i><i class="pf-c pf-br"></i></div><div class="coin-cell-name">' + esc(t[f.key]) + '</div><button type="button" class="coin-buy' + (eq ? " is-eq" : "") + '" data-frame-buy="' + f.id + '"' + (eq ? " disabled" : "") + '>' + label + '</button></div>';
+          }).join("");
+          var cvs = fg.querySelectorAll("canvas");
+          for (var i = 0; i < cvs.length; i++) drawHeroBust(cvs[i]);
+        }
+        var gg = document.getElementById("coinGear");
+        if (gg) {
+          gg.innerHTML = SHOP_ITEMS.map(function (it) {
+            var nm = (t.gachaItems[it.id] || {}).name || it.id;
+            var owned = ownsItem(it.id), eq = state.gacha.equipped[it.kind] === it.id;
+            var label = eq ? esc(t.coinInUse) : owned ? esc(t.coinUse) : (coinArm === "g:" + it.id ? esc(t.coinBuyQ(it.price)) : '<span class="coin-ico sm"></span>' + it.price);
+            return '<div class="coin-cell"><div class="coin-gear-cv"><canvas width="48" height="48"></canvas><span class="coin-ltd">' + esc(t.coinLtd) + '</span></div><div class="coin-cell-name">' + esc(nm) + '</div><button type="button" class="coin-buy' + (eq ? " is-eq" : "") + '" data-gear-buy="' + it.id + '"' + (eq ? " disabled" : "") + '>' + label + '</button></div>';
+          }).join("");
+          var gcs = gg.querySelectorAll("canvas");
+          for (var j = 0; j < gcs.length; j++) { if (SHOP_ITEMS[j]) drawItemPreview(gcs[j], SHOP_ITEMS[j]); }
+        }
+        var hb = document.getElementById("coinHouse");
+        if (hb) hb.innerHTML = '<b>' + esc(t.coinHouseT) + '</b><span>' + esc(t.coinHouseB) + '</span>';
+      }
+      var coinWired = false;
+      function wireCoinWin() {
+        if (coinWired) return; coinWired = true;
+        var w = document.getElementById("coinWin");
+        if (w) w.addEventListener("click", function (ev) {
+          if (ev.target === w) { closeCoinWin(); return; }
+          var fb = ev.target && ev.target.closest ? ev.target.closest("[data-frame-buy]") : null;
+          if (fb) { coinTapFrame(fb.getAttribute("data-frame-buy")); return; }
+          var gb = ev.target && ev.target.closest ? ev.target.closest("[data-gear-buy]") : null;
+          if (gb) coinTapGear(gb.getAttribute("data-gear-buy"));
+        });
+        var cc = document.getElementById("coinClose");
+        if (cc) cc.addEventListener("click", closeCoinWin);
+      }
+      function openCoinWin() { maybeCoinWelcome(); wireCoinWin(); renderCoinWin(); var w = document.getElementById("coinWin"); if (w) w.hidden = false; }
+      function closeCoinWin() { var w = document.getElementById("coinWin"); if (w) w.hidden = true; coinArm = ""; }
+      (function () {
+        var chip = document.getElementById("hsCoinVal");
+        if (chip) chip.addEventListener("click", openCoinWin);
+        setTimeout(function () { try { maybeCoinWelcome(); } catch (e) {} }, 2600);
+      })();
+
       function doClear(id, method) {
         var e = byId(id); if (!e || isCleared(id)) return;
         if (isNotStarted(e)) return;   /* date gate: no clear of any kind before the start date */
@@ -28983,6 +29241,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         save();
         sfx("fanfare");
         var newInfo = levelInfo();
+        var coinGain = earnCoins(method === "gps" ? 10 : 3, "clear") + coinLevelBonus(prevInfo);
         renderStatus(); renderMap(); renderList(); renderLog(); renderGacha(); refreshDetailButtons();
         renderEpicReward(e);
         /* the settlement's share card (spec G): achievement
@@ -28993,7 +29252,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           : (newInfo.lv > prevInfo.lv ? L().shareLevel(newInfo.lv) : L().shareQuest(evName(e)));
         celebrate({
           title: state.lang === "ja" ? "クエスト<br>クリア！" : state.lang === "zh" ? "任务<br>完成！" : "QUEST<br>CLEAR!",
-          name: evName(e), exp: granted, cat: e.cat, flavor: L().clearFanfareSub,
+          name: evName(e), exp: granted, coins: coinGain, cat: e.cat, flavor: L().clearFanfareSub,
           method: method,
           rewardItem: epicIt ? epicIt.id : null,
           rewardName: epicIt ? ((L().gachaItems[epicIt.id] || {}).name || epicIt.id) : "",
@@ -29204,6 +29463,9 @@ function drawRunnerFrame(ctx, frame, blink) {
             '<div class="cp-line"><span class="cp-k">' + esc(t.resTicket) + '</span><span class="cp-v">' + esc(t.resTicketIn(o.results.ticketIn)) + "</span></div>";
         } else {
           lines += expLine;
+        }
+        if (o.coins) {
+          lines += '<div class="cp-line"><span class="cp-k">' + esc(t.coinName) + '</span><span class="cp-v">' + esc(t.coinPlus(o.coins)) + '</span></div>';
         }
         if (o.bonusExp) {
           lines += '<div class="cp-line"><span class="cp-k">' + esc(t.allDoneBonus) + '</span><span class="cp-v">+' + o.bonusExp + " EXP</span></div>";
@@ -30333,6 +30595,9 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (hsv) hsv.textContent = info.xp + (info.next ? " · " + t.nextLevel(info.next - info.xp) : " · " + t.maxLevel);
         var hst = document.getElementById("hsTicketVal");
         if (hst) hst.textContent = t.ticketsLabel(ticketsLeft());
+        var hsc = document.getElementById("hsCoinVal");
+        if (hsc) hsc.textContent = "🪙 " + (typeof state.coins === "number" ? state.coins : 0);
+        applyPortraitFrame();
         renderSlots();
         document.getElementById("heroTitleLine").textContent = titleFor(info.lv);
         document.getElementById("heroDescLine").textContent = h.desc;
@@ -30529,6 +30794,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         state.daily.done.push(idx);
         state.dailyExp = (state.dailyExp || 0) + exp;
         state.dailyTotal = (state.dailyTotal || 0) + 1;
+        var dCoin = earnCoins(3, "daily") + coinLevelBonus(prevInfo); if (dCoin) showCoinToast(dCoin);
         /* the record calendar: the day's cleared task names */
         var dy = state.diary[TODAY] || (state.diary[TODAY] = { tasks: [] });
         if (q) dy.tasks.push(q.name);
@@ -33289,6 +33555,8 @@ function drawZoneStamp(cv, zoneId, mode) {
       /* ---------- announcements (static board data) ---------- */
       var ANNOUNCE = {
         en: [
+          {d: "2026-11-06", s: "sparkle", t: "[News] Coins are here!", b: "Clearing quests now earns you coins \u2014 GPS check-ins pay the most, and dailies, guessing and mini-games pay a little too.\nSpend them in the new coin shop: tap your coin balance on your hero page for portrait frames and shop-only gear. A house makeover is coming later \u2014 start saving!" },
+          {d: "2026-11-06", s: "guts", t: "Nov 5 update roundup", b: "\u2022 Every hat and outfit got its own little mark \u2014 no more look-alikes (see the news above)\n\u2022 The Tokyo International Film Festival quest has ended \u2014 thanks for playing it\n\u2022 The announcement board caught up with two roundup posts\nGrowing a little every day \u2014 thanks for playing!" },
           {d: "2026-11-05", s: "sparkle", t: "[News] Every hat & outfit is one of a kind now", b: "All 143 hats and 108 outfits were reworked one by one. Pieces that used to look identical now carry their own little marks — a paw print for the Hachiko cap, a flame for the Gas Museum cap, polka dots for the Kusama cap, a sash here, a chest emblem there.\nYour hero's hair also got a tiny shine-up. Open the wardrobe and spot the differences!"},
           {d: "2026-11-05", s: "guts", t: "Nov 4 update roundup", b: "• 50 new limited-time quests just landed! The board now holds 409 quests, and the range is wider than ever — autumn festivals, illuminations, art exhibitions and food events, not only anime and games.\n• Every new quest was checked against its official page and has a real photo.\nGrowing a little every day — thanks for playing!"},
           {d: "2026-11-04", s: "guts", t: "Nov 3 update roundup", b: "• The character creator now fits on one screen — no more scrolling halfway through making your hero.\n• The titles ladder uses the whole window: more titles per page, and the pager + EXP bar sit at the bottom where they belong.\n• The share button on the celebration panel was fixed.\n• One new quest: Hibiya Art Park 2026 (from Nov 13, free).\nGrowing a little every day — thanks for playing!"},
@@ -33313,6 +33581,8 @@ function drawZoneStamp(cv, zoneId, mode) {
           { d: "2026-10-29", s: "guts", t: "Patch notes — recent fixes", b: "• Windows now scroll fully to the last line (the bottom command bar no longer covers content).\n• Google sign-in fixed: the returning sign-in hand-off is no longer lost, and failures now show a reason instead of silently staying a guest.\n• The map filter bar folds and expands cleanly, and the LEGEND route view now flies to your next waypoint." }
         ],
         ja: [
+          {d: "2026-11-06", s: "sparkle", t: "[News] コイン登場！", b: "クエストをクリアするとコインがたまるようになりました。GPSチェックインが一番多く、デイリー・あてっこ・ミニゲームでも少しずつ。\n主人公ページのコイン残高をタップするとコインショップが開きます。ポートレートフレームとショップ限定ギアを用意しました。おうちの模様替えは今後追加予定——今からためておいてね！" },
+          {d: "2026-11-06", s: "guts", t: "11月5日のアップデートまとめ", b: "・帽子と服がぜんぶ一点ものに（くわしくは上のお知らせ）\n・東京国際映画祭のクエストは終了しました。遊んでくれてありがとう\n・お知らせのまとめを2件追加しました\n今日も少し育ちました。いつも遊んでくれてありがとう！" },
           {d: "2026-11-05", s: "sparkle", t: "[News] 帽子と服がぜんぶ一点ものに", b: "帽子143点と服108点をひとつずつ見直しました。これまで見た目がそっくりだったアイテムも、ハチ公キャップの肉球、ガスミュージアムキャップの炎、草間キャップの水玉など、それぞれの印が付きました。\n主人公の髪にも少しツヤを足しました。ワードローブで見比べてみてください！"},
           {d: "2026-11-05", s: "guts", t: "11月4日のアップデートまとめ", b: "・期間限定クエストが50件どっと追加！ボードは全409件になりました。アニメ・ゲームだけでなく、秋のお祭り、イルミネーション、展覧会、食のイベントまで幅が広がりました。\n・新しいクエストはすべて公式ページで確認済み、実物の写真付きです。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
           {d: "2026-11-04", s: "guts", t: "11月3日のアップデートまとめ", b: "・キャラ作成画面が1画面に収まるようになりました。途中でスクロールしなくて大丈夫です。\n・称号ラダーがウィンドウいっぱいに広がり、1ページの表示数が増えました。ページ送りとEXPバーは一番下に固定です。\n・お祝いパネルからのシェアを修正しました。\n・新クエスト：日比谷アートパーク2026（11/13から、無料）。\n今日も少し育ちました。いつも遊んでくれてありがとう！"},
@@ -33337,6 +33607,8 @@ function drawZoneStamp(cv, zoneId, mode) {
           { d: "2026-10-29", s: "guts", t: "パッチノート — 最近の修正", b: "・各ウィンドウが最後の行までスクロールできるようになりました（下部コマンドバーに隠れません）。\n・Googleログインを修正：戻ってきたログインの引き継ぎが消えなくなり、失敗時は理由が表示されます（黙ってゲストに戻りません）。\n・地図のフィルターバーの折りたたみ／展開を修正。LEGENDの「地図でルートを見る」は次の地点へ飛ぶようになりました。" }
         ],
         zh: [
+          {d: "2026-11-06", s: "sparkle", t: "[News] 金币来了！", b: "完成任务现在能赚金币了——GPS到场打卡给得最多，每日任务、猜地点、小游戏也能攒一点。\n点主人公页上的金币余额就能打开金币商店：头像框和商店限定装扮已经上架。小屋装修还在准备中，先攒起来吧！" },
+          {d: "2026-11-06", s: "guts", t: "11月5日更新汇总", b: "・每顶帽子、每件衣服都有了自己的标记（详见上方公告）\n・东京国际电影节任务已结束，谢谢来玩\n・公告栏补上了两篇汇总\n今天也成长了一点，谢谢大家来玩！" },
           {d: "2026-11-05", s: "sparkle", t: "[News] 每顶帽子、每件衣服都有自己的标记了", b: "143 顶帽子和 108 件衣服逐件重做了一遍。以前长得一模一样的道具，现在各有各的小标记——八公帽的爪印、燃气博物馆帽的火焰、草间帽的波点，还有斜挎带、胸前徽章等等。\n主角的头发也加了一点光泽。打开衣柜对比看看吧！"},
           {d: "2026-11-05", s: "guts", t: "11月4日更新汇总", b: "・新增 50 个限时任务！任务板现在一共有 409 个任务，范围也更宽了——不只是动漫游戏，还有秋季祭典、灯光秀、展览和美食活动。\n・每个新任务都对照官方页面核实过，并配有真实照片。\n今天也成长了一点，谢谢大家来玩！"},
           {d: "2026-11-04", s: "guts", t: "11月3日更新汇总", b: "・角色创建界面现在一屏放得下了，捏人不用再滚屏幕。\n・称号阶梯铺满整个窗口，一页能看更多称号；翻页和经验条固定在最底部。\n・庆祝面板里的分享按钮已修复。\n・新任务：日比谷艺术公园 2026（11月13日起，免费）。\n今天也成长了一点，谢谢大家来玩！"},
@@ -33642,6 +33914,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         state.daily.done.push(entry.idx);
         state.dailyExp = (state.dailyExp || 0) + exp;
         state.dailyTotal = (state.dailyTotal || 0) + 1;
+        var dCoin = earnCoins(3, "daily") + coinLevelBonus(prevInfo); if (dCoin) showCoinToast(dCoin);
         var dy = state.diary[TODAY] || (state.diary[TODAY] = { tasks: [] });
         dy.tasks.push(entry.name);
         var sweep = state.daily.done.length >= todaysDaily().length;
@@ -33786,6 +34059,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (state.runner.won[id]) return false;
         state.runner.won[id] = true;
         state.ticketBonus = (state.ticketBonus || 0) + 1;
+        var mgCoin = earnCoins(2, "mg"); if (mgCoin) showCoinToast(mgCoin);
         save(); renderStatus(); renderMgCapsule();
         try { sfx("fanfare"); } catch (e) { /* ignore */ }
         if (window.markHomeAct) window.markHomeAct("runner"); /* home daily follows a game ticket */
@@ -33937,7 +34211,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (state.guess.solved.indexOf(e.id) >= 0) return;
         if (a === e.area) {
           state.guess.solved.push(e.id); evJustWon = true; evRevealId = e.id;
-          state.bonusExp += 10; save(); renderStatus();
+          state.bonusExp += 10; var gCoin = earnCoins(2, "guess"); if (gCoin) showCoinToast(gCoin); save(); renderStatus();
           renderEvCapsule(); renderEv();
         } else {
           btn.disabled = true; btn.classList.add("is-wrong");
