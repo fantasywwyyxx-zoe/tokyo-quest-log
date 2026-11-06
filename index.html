@@ -13130,6 +13130,9 @@
       /* Q-328 (R175): the ladder track's column is explicit — row
          width is the panel's, never the widest row's content */
       .ladder-track { grid-template-columns: minmax(0, 1fr); width: 100%; }
+
+      /* Q-330 (R180): hidden sort buttons leave no gap */
+      .sort-near-btn[hidden] { display: none; }
 </style>
   </head>
   <body data-view="map">
@@ -16722,7 +16725,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1805-q329-f19bb7e7";
+        var BUILD_ID = "tql-20261106-1808-q330-ad492112";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -27574,6 +27577,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         });
       }
       function renderSearch() {
+        /* Q-330 (R180): date sorts do not exist for evergreens — if
+           the kind is evergreen, the sort falls back to nearest */
+        if (filterKind === "ever" && listSortMode !== "near") listSortMode = "near";
         var list = currentBoardList();
         renderCatChips(); renderAreaChips(); renderMoodChips();
         document.getElementById("msCount").textContent = L().searchCount(list.length);
@@ -27586,9 +27592,10 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (filterFree) parts.push(t.freeOnly);
         if (filterAccepted) parts.push(t.acceptedOnly);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
-        document.getElementById("searchSummary").textContent = parts.length ? t.summaryFiltered(list.length, parts) : t.searchAll;
+        document.getElementById("searchSummary").textContent = t.summaryFiltered(list.length, parts);
         document.querySelectorAll("[data-sortmode]").forEach(function (b) {
           var k = b.getAttribute("data-sortmode");
+          b.hidden = filterKind === "ever" && k !== "near";
           b.textContent = (sortBusy && k === "near") ? t.sortLocating : (k === "near" ? t.sortNear : k === "start" ? t.sortStart : t.sortEnd);
           b.setAttribute("aria-pressed", String(listSortMode === k));
         });
