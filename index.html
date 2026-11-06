@@ -13236,6 +13236,10 @@
       #view-hero .hero-acct.hero-support { border-radius: 6px; box-shadow: 0 3px 0 var(--edge); }
       /* Q-343 rider (R193): info-card icon rows stay one-line flex */
       dialog#detail .kv-icon .kv-row { display: flex; flex-wrap: nowrap; }
+
+      /* Q-344 (R194): the location banner moves to the top of the map */
+      body[data-view="map"] .map-box:not(.in-big) .loc-chip { top: calc(10px + env(safe-area-inset-top, 0px)); bottom: auto; left: 10px; }
+      body[data-view] .map-box.in-big .loc-chip { top: calc(10px + env(safe-area-inset-top, 0px)); bottom: auto; }
 </style>
   </head>
   <body data-view="map">
@@ -16827,7 +16831,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1936-q343-c201142c";
+        var BUILD_ID = "tql-20261106-1939-q344-be23964c";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
