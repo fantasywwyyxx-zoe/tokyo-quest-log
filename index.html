@@ -13136,6 +13136,12 @@
 
       /* Q-331 (R173): the language pill rides in the account row now */
       .start-acct-row .lang-globe-btn { margin: 0; flex: none; }
+
+      /* Q-333: the ladder box clips its own overflow; the static
+         pager is a fixed panel row under it */
+      #hsegStatus #ladder { overflow: hidden; }
+      #hsegStatus > .ladder-pager { flex: none; margin-top: 8px; }
+      #ladderPager[hidden] { display: none; }
 </style>
   </head>
   <body data-view="map">
@@ -14145,6 +14151,14 @@
         <h2 class="log-sec-title"><span id="ladderTitle"></span></h2>
         <p class="ladder-note" id="ladderNote"></p>
         <div class="ladder" id="ladder"></div>
+        <!-- Q-333: the pager is static panel furniture (flex column:
+             ladder / pager / EXP foot) — track height can never push
+             it out of the panel again -->
+        <div class="ladder-pager" id="ladderPager" hidden>
+          <button class="ladder-pg-btn" type="button" data-ladder-pg="-1">◀</button>
+          <span class="ladder-pg-num" id="ladderPgNum"></span>
+          <button class="ladder-pg-btn" type="button" data-ladder-pg="1">▶</button>
+        </div>
         <!-- EXP progress rides at the very bottom of the TITLES
              tab as a slim footer strip (user, 2026-10-27): the
              ticket count rides this strip too (Q-291). The
@@ -16712,7 +16726,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1819-q332-9940a504";
+        var BUILD_ID = "tql-20261106-1821-q333-35cba325";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30051,16 +30065,19 @@ function drawRunnerFrame(ctx, frame, blink) {
         var html = '<div class="ladder-track">';
         for (var i = start; i < Math.min(total, start + LADDER_PAGE_SIZE); i++) html += row(t.titles[i], i);
         html += "</div>";
-        /* Q-119 self-audit: the titles ladder is the same kind of
-           page-turn nav as the logbook pager, so it goes pure UI
-           too — ◀ ▶ arrows only (words kept as aria-labels) with
-           the n / N readout in the centre. */
-        html += '<div class="ladder-pager">' +
-          '<button class="ladder-pg-btn" type="button" data-ladder-pg="-1" aria-label="' + esc(t.ladderPrev) + '"' + (ladderPage <= 0 ? " disabled" : "") + ">◀</button>" +
-          '<span class="ladder-pg-num">' + esc(t.ladderPageOf(ladderPage + 1, pages)) + "</span>" +
-          '<button class="ladder-pg-btn" type="button" data-ladder-pg="1" aria-label="' + esc(t.ladderNextBtn) + '"' + (ladderPage >= pages - 1 ? " disabled" : "") + ">▶</button>" +
-          "</div>";
         el.innerHTML = html;
+        /* Q-333: the pager is static markup now (Q-119's pure-UI
+           arrows + n / N readout live there); renderLadder only
+           refreshes its state */
+        var pgEl = document.getElementById("ladderPager");
+        if (pgEl) {
+          pgEl.hidden = pages <= 1;
+          var numEl = document.getElementById("ladderPgNum");
+          if (numEl) numEl.textContent = t.ladderPageOf(ladderPage + 1, pages);
+          var pbtns = pgEl.querySelectorAll("[data-ladder-pg]");
+          if (pbtns[0]) { pbtns[0].disabled = ladderPage <= 0; pbtns[0].setAttribute("aria-label", t.ladderPrev); }
+          if (pbtns[1]) { pbtns[1].disabled = ladderPage >= pages - 1; pbtns[1].setAttribute("aria-label", t.ladderNextBtn); }
+        }
         ladderFitPass(el);
         scheduleLadderRefit(el);
       }
@@ -30086,7 +30103,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (_ladderFitting) return;
         var panel = el.parentElement;
         var track = el.querySelector(".ladder-track");
-        var pager = el.querySelector(".ladder-pager");
+        var pager = document.getElementById("ladderPager");
         var firstRow = track ? track.children[0] : null;
         if (!panel || !firstRow || !pager || !panel.clientHeight) return;
         var foot = panel.querySelector(".hstat-foot");
@@ -30124,6 +30141,21 @@ function drawRunnerFrame(ctx, frame, blink) {
           LADDER_PAGE_SIZE = fit;
           if (oldStart >= 0) ladderPage = Math.floor(oldStart / fit);
           try { renderLadder(); } finally { _ladderFitting = false; }
+        }
+        /* Q-333: verify against the rendered box — whatever the
+           formula foresaw, the track must not overflow the ladder
+           box; shrink the page until it fits (same re-anchor
+           discipline as the fit change above) */
+        var guardN = 0;
+        track = el.querySelector(".ladder-track");
+        while (track && el.clientHeight && track.offsetHeight > el.clientHeight + 2 && LADDER_PAGE_SIZE > 5 && guardN < 10) {
+          guardN++;
+          _ladderFitting = true;
+          var oldStart2 = ladderPage >= 0 ? ladderPage * LADDER_PAGE_SIZE : -1;
+          LADDER_PAGE_SIZE -= 1;
+          if (oldStart2 >= 0) ladderPage = Math.floor(oldStart2 / LADDER_PAGE_SIZE);
+          try { renderLadder(); } finally { _ladderFitting = false; }
+          track = el.querySelector(".ladder-track");
         }
       }
       window.addEventListener("resize", function () {
@@ -32294,7 +32326,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var fc = ev.target.closest("[data-cust-face]");
         if (fc) { state.custom.face = fc.getAttribute("data-cust-face"); applyCustom(); }
       });
-      document.getElementById("ladder").addEventListener("click", function (ev) {
+      document.getElementById("hsegStatus").addEventListener("click", function (ev) { /* Q-333: panel-level, the pager lives outside #ladder now */
         var b = ev.target.closest("[data-ladder-pg]"); if (!b || b.disabled) return;
         ladderPage += parseInt(b.getAttribute("data-ladder-pg"), 10) || 0;
         sfx("move");
