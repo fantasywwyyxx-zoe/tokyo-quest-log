@@ -13244,6 +13244,13 @@
       /* Q-345 (R197): ladder rows share the box — no blank pool */
       #hsegStatus #ladder .ladder-track { flex: 1 1 auto; grid-auto-rows: 1fr; }
       #hsegStatus #ladder.ladder-measuring .ladder-track { grid-auto-rows: auto; }
+
+      /* Q-347: one list, no segment tabs; count in the bar; state cycle button */
+      #view-list .list-bar .search-summary { align-self: center; margin-left: 2px; white-space: nowrap; }
+      #view-list .list-bar .search-open-btn { margin-left: auto; }
+      #view-list .state-btn { margin-left: auto; }
+      #view-list .state-btn[data-state="cleared"] { background: color-mix(in srgb, #57a657 20%, var(--window)); }
+      #view-list .state-btn[data-state="todo"] { background: color-mix(in srgb, #e8873a 18%, var(--window)); }
 </style>
   </head>
   <body data-view="map">
@@ -13946,37 +13953,20 @@
       <section id="view-list" role="tabpanel" aria-labelledby="tab-list" hidden data-seg="index">
         <div class="win list-shell">
         <div class="list-bar">
-          <div class="list-segs" id="listSegs" role="group" aria-label="List sections">
-            <button class="list-tab" type="button" data-liseg="index" aria-pressed="true"></button>
-            <button class="list-tab" type="button" data-liseg="log" aria-pressed="false"></button>
-          </div>
+          
+          <span class="search-summary" id="searchSummary"></span>
           <button class="search-open-btn" id="searchOpenBtn" type="button"></button>
         </div>
         <div class="list-subbar">
           
           <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
-          <span class="search-summary" id="searchSummary"></span>
+          <button class="sort-btn state-btn" type="button" id="stateBtn"><span id="stateBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
         </div>
         <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
           <div class="ms-results" id="msResults"></div>
         </div>
-        <div class="liseg-panel" id="lisegLog" hidden>
-        <div class="log-segs" id="logSegs" role="group" aria-label="Log sections">
-          <button class="hero-seg" type="button" data-lseg="active" aria-pressed="true"></button>
-          <button class="hero-seg" type="button" data-lseg="cleared" aria-pressed="false"></button>
-        </div>
-        <div class="lseg-panel" id="lsegActive">
-        <h2 class="log-sec-title"><span id="logActiveTitle"></span><span class="n" id="logActiveCount"></span></h2>
-        <div id="logActive"></div>
-        <div class="win empty-note" id="logActiveEmpty"></div>
-        </div>
-        <div class="lseg-panel" id="lsegCleared" hidden>
-        <h2 class="log-sec-title"><span id="logClearedTitle"></span><span class="n" id="logClearedCount"></span></h2>
-        <div id="logCleared"></div>
-        <div class="win empty-note" id="logClearedEmpty"></div>
-        </div>
-        </div>
+        
         </div>
       </section>
 
@@ -16835,7 +16825,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1942-q345-139b54a6";
+        var BUILD_ID = "tql-20261106-1950-q347-e650f18f";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18404,7 +18394,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + (n === 1 ? " quest" : " quests"); },
           searchEmpty: "No quests match. Try another word — the city still has secrets.",
           searchBtn: "SEARCH", searchAll: "Showing every quest — tap SEARCH to filter.",
-          sortNear: "NEAREST FIRST", sortStart: "BY START", sortEnd: "BY END", sortLocating: "LOCATING…",
+          sortNear: "NEAREST FIRST", stateAll: "STATE: ALL", stateDone: "STATE: DONE", stateTodo: "STATE: NOT YET", stateDoneP: "DONE", stateTodoP: "NOT DONE", sortStart: "BY START", sortEnd: "BY END", sortLocating: "LOCATING…",
           sortNoGeo: "This browser can't share your location, so distance sort is unavailable — the list keeps its usual order.",
           sortDenied: "Location permission was denied, so distance sort couldn't run — the list keeps its usual order.",
           sortFailed: "Couldn't read your location, so distance sort couldn't run — the list keeps its usual order.",
@@ -19291,7 +19281,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + "件のクエスト"; },
           searchEmpty: "見つからなかった。別の言葉で探してみて——街にはまだ秘密がある。",
           searchBtn: "検索", searchAll: "全クエスト表示中——「検索」で絞り込める。",
-          sortNear: "近い順", sortStart: "開始順", sortEnd: "終了順", sortLocating: "位置を取得中…",
+          sortNear: "近い順", stateAll: "状態：全部", stateDone: "状態：行った", stateTodo: "状態：まだ", stateDoneP: "クリア済", stateTodoP: "未クリア", sortStart: "開始順", sortEnd: "終了順", sortLocating: "位置を取得中…",
           sortNoGeo: "このブラウザは位置情報を共有できないため、距離順は使えません——並びは通常のままです。",
           sortDenied: "位置情報の許可が得られなかったため、距離順にできませんでした——並びは通常のままです。",
           sortFailed: "位置情報を取得できなかったため、距離順にできませんでした——並びは通常のままです。",
@@ -20178,7 +20168,7 @@ var qrcode = function() {
           searchCount: function (n) { return n + " 件任务"; },
           searchEmpty: "没有找到。换个词试试——这座城市还有秘密。",
           searchBtn: "搜索", searchAll: "正在显示全部任务——点「搜索」可以筛选。",
-          sortNear: "离我最近", sortStart: "开始时间", sortEnd: "结束时间", sortLocating: "正在定位…",
+          sortNear: "离我最近", stateAll: "状态：全部", stateDone: "状态：去过", stateTodo: "状态：没去过", stateDoneP: "去过的", stateTodoP: "没去过的", sortStart: "开始时间", sortEnd: "结束时间", sortLocating: "正在定位…",
           sortNoGeo: "这个浏览器无法共享定位，没法按距离排序——列表保持原来的顺序。",
           sortDenied: "没有获得定位许可，没法按距离排序——列表保持原来的顺序。",
           sortFailed: "没能获取定位，没法按距离排序——列表保持原来的顺序。",
@@ -26820,6 +26810,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       var detail = document.getElementById("detail");
       var currentId = null;
       var filterCat = "All", filterFree = false, filterAccepted = false;
+        var filterState = "all"; /* Q-347: all | cleared | todo */
       var statusMin = false, filterMin = false;
 
       function catChip(e) {
@@ -26916,13 +26907,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         document.getElementById("msFree").setAttribute("aria-pressed", String(filterFree));
         document.getElementById("msAccepted").innerHTML = ICONS.pin + "<span>" + t.acceptedOnly + "</span>";
         document.getElementById("msAccepted").setAttribute("aria-pressed", String(filterAccepted));
-        document.getElementById("logActiveTitle").textContent = t.logActive;
-        document.getElementById("logClearedTitle").textContent = t.logCleared;
-        document.getElementById("logActiveEmpty").textContent = t.logActiveEmpty;
-        document.getElementById("logClearedEmpty").textContent = t.logClearedEmpty;
         document.getElementById("tab-hero").innerHTML = ICONS.hero + "<span>" + t.tabHero + "</span>";
-        var lisegNames = { index: t.tabListIndex, log: t.tabLog };
-        document.querySelectorAll("[data-liseg]").forEach(function (b) { b.textContent = lisegNames[b.getAttribute("data-liseg")] || ""; });
+        
         /* title-screen DAY/NIGHT BGM segment retired (settings
            live in the one sheet now); syncTitleBgmBtns is null-safe
            and simply finds nothing to press */
@@ -26977,8 +26963,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var recNames = { status: t.segStatus, badges: t.segBadges, advlog: t.segAdvLog, collection: t.segCollection };
         document.querySelectorAll("[data-rectab]").forEach(function (el) { el.textContent = recNames[el.getAttribute("data-rectab")] || ""; });
         fitRecTabs();
-        var lsegNames = { active: t.segActive, cleared: t.segCleared };
-        document.querySelectorAll("[data-lseg]").forEach(function (b) { b.textContent = lsegNames[b.getAttribute("data-lseg")] || ""; });
+        
         renderHeroGrids();
         document.getElementById("footLine1").textContent = t.foot1;
         document.getElementById("footLine2").textContent = t.foot2;
@@ -27569,6 +27554,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var selMoods = Object.keys(filterMoods).filter(function (m) { return filterMoods[m]; });
         var list = sortedVisible().filter(function (e) {
           return (filterKind === "all" || (filterKind === "ever") === !!e.evergreen) && (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) && (!filterAccepted || (isAccepted(e.id) && !isCleared(e.id))) &&
+            (filterState === "all" || isCleared(e.id) === (filterState === "cleared")) &&
             (filterArea === "All" || zoneOf(e) === filterArea) &&
             (!selMoods.length || selMoods.some(function (b) { return evBuckets(e).indexOf(b) !== -1; })) &&
             questMatchesQuery(e, q);
@@ -27713,6 +27699,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         Object.keys(filterMoods).forEach(function (m) { if (filterMoods[m]) parts.push(moodBucketLabel(m)); });
         if (filterFree) parts.push(t.freeOnly);
         if (filterAccepted) parts.push(t.acceptedOnly);
+          if (filterState === "cleared") parts.push(t.stateDoneP);
+          if (filterState === "todo") parts.push(t.stateTodoP);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
         document.getElementById("searchSummary").textContent = t.summaryFiltered(list.length, parts);
         /* Q-335: one sort button — it shows the current sort and
@@ -27723,6 +27711,12 @@ function drawRunnerFrame(ctx, frame, blink) {
           var slbl = document.getElementById("sortBtnLabel");
           if (slbl) slbl.textContent = (sortBusy && listSortMode === "near") ? t.sortLocating : (listSortMode === "start" ? t.sortStart : listSortMode === "end" ? t.sortEnd : t.sortNear);
         }
+          var stbtn = document.getElementById("stateBtn");
+          if (stbtn) {
+            stbtn.setAttribute("data-state", filterState);
+            var stlbl = document.getElementById("stateBtnLabel");
+            if (stlbl) stlbl.textContent = filterState === "cleared" ? t.stateDone : filterState === "todo" ? t.stateTodo : t.stateAll;
+          }
           document.querySelectorAll("[data-kindmode]").forEach(function (b) {
             var kk = b.getAttribute("data-kindmode");
             b.textContent = kk === "all" ? t.all : kk === "ever" ? t.legendEver : t.legendTimed;
@@ -28135,33 +28129,10 @@ function drawRunnerFrame(ctx, frame, blink) {
         el.textContent = text || "";
       }
 
-      function logRow(e, subText) {
-        return '<button class="win-flat log-row" type="button" data-open="' + e.id + '">' +
-          rowThumbHTML(e, "log-banner") +
-          '<span class="grow"><span class="nm">' + esc(evName(e)) + '</span><br><span class="sub">' + esc(subText) + "</span></span>" +
-          '<span class="chev">▶</span></button>';
-      }
-      function renderLog() {
-        var t = L();
-        var active = state.accepted.map(byId).filter(function (e) { return e && !isCleared(e.id); });
-        var cleared = state.clears.map(function (c) { var e = byId(c.id); return e ? { e: e, c: c } : null; }).filter(Boolean);
-        document.getElementById("logActiveCount").textContent = "(" + active.length + ")";
-        document.getElementById("logClearedCount").textContent = "(" + cleared.length + ")";
-        document.getElementById("logActive").innerHTML = active.map(function (e) {
-          return logRow(e, fmtRange(e) + " · " + areaName(e.area));
-        }).join("");
-        document.getElementById("logCleared").innerHTML = cleared.map(function (o) {
-          return logRow(o.e, t.clearedOn + fmtDate(localDay(o.c.clearedAt)) + " · " + areaName(o.c.area));
-        }).join("");
-        document.getElementById("logActiveEmpty").hidden = active.length > 0;
-        document.getElementById("logClearedEmpty").hidden = cleared.length > 0;
-        document.querySelectorAll("#view-list [data-open]").forEach(function (el) {
-          el.addEventListener("click", function () { openDetail(el.getAttribute("data-open")); });
-        });
-        updateLogTab();
-      }
+      
+      
 
-      function renderAll() { renderStaticText(); renderStatus(); renderMap(); renderList(); renderLog(); renderHero(); renderDaily(); }
+      function renderAll() { renderStaticText(); renderStatus(); renderMap(); renderList(); renderHero(); renderDaily(); }
 
       /* ============ Quest detail ============ */
       /* RPG dialogue typewriter: hard-stepped character reveal for
@@ -28518,7 +28489,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (i === -1 && isNotStarted(e)) return;
         if (i === -1) { state.accepted.push(id); sfx("accept"); }
         else { state.accepted.splice(i, 1); sfx("back"); }
-        save(); renderStatus(); renderMap(); renderList(); renderLog(); refreshDetailButtons();
+        save(); renderStatus(); renderMap(); renderList(); refreshDetailButtons();
       }
       /* ============ ACHIEVEMENT-CARD SHARE (spec G, revised) ====
          Sharing exists ONLY for achievement moments (quest clear /
@@ -29493,7 +29464,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         sfx("fanfare");
         var newInfo = levelInfo();
         var coinGain = earnCoins(method === "gps" ? 10 : 3, "clear") + coinLevelBonus(prevInfo);
-        renderStatus(); renderMap(); renderList(); renderLog(); renderGacha(); refreshDetailButtons();
+        renderStatus(); renderMap(); renderList(); renderGacha(); refreshDetailButtons();
         renderEpicReward(e);
         /* the settlement's share card (spec G): achievement
            moments only — puzzle completion > epic > level-up >
@@ -29529,7 +29500,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            is nothing to farm */
         if (rec && rec.method === "remote" && localDay(rec.clearedAt) === TODAY && state.remoteDate === TODAY) state.remoteDate = "";
         save(); sfx("back");
-        renderStatus(); renderMap(); renderList(); renderLog(); refreshDetailButtons();
+        renderStatus(); renderMap(); renderList(); refreshDetailButtons();
       }
       /* ============ CLEAR celebration (multi-stage) ============
          Banner slams in with a bounce + a light screen flash,
@@ -30056,7 +30027,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (name === "hero") renderHero();
         else stopWalk();
         if (name === "daily") renderDaily();
-        if (name === "list") { maybeRequestSortPos(); renderSearch(); renderLog(); }
+        if (name === "list") { maybeRequestSortPos(); renderSearch(); }
         var panel = document.getElementById("view-" + name);
         if (panel) panel.scrollTop = 0;
         sfx("move");
@@ -31936,6 +31907,11 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       /* Q-335: the single sort button cycles the available modes
          (same per-mode steps as the old three pills) */
+      var stateBtnEl = document.getElementById("stateBtn");
+      if (stateBtnEl) stateBtnEl.addEventListener("click", function () {
+        filterState = filterState === "all" ? "cleared" : filterState === "cleared" ? "todo" : "all";
+        sfx("move"); renderSearch();
+      });
       var sortBtnEl = document.getElementById("sortBtn");
       if (sortBtnEl) sortBtnEl.addEventListener("click", function () {
         var modes = filterKind === "ever" ? ["near"] : ["near", "start", "end"];
@@ -31983,20 +31959,9 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderSearch();
       });
       /* --- LIST segments (quest index / quest log) --- */
-      var listSeg = "index";
-      function setListSeg(s) {
-        listSeg = s;
-        document.getElementById("view-list").setAttribute("data-seg", s);
-        document.querySelectorAll("[data-liseg]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-liseg") === s)); });
-        document.getElementById("lisegIndex").hidden = s !== "index";
-        document.getElementById("lisegLog").hidden = s !== "log";
-        if (s === "log") renderLog();
-        if (s === "index") renderSearch();
-      }
-      document.getElementById("listSegs").addEventListener("click", function (ev) {
-        var b = ev.target.closest("[data-liseg]"); if (!b) return;
-        sfx("move"); setListSeg(b.getAttribute("data-liseg"));
-      });
+      
+      
+      
       document.getElementById("btnQuest").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) return;
@@ -32436,17 +32401,9 @@ function drawZoneStamp(cv, zoneId, mode) {
         openHeroWin(s === "style" ? null : s);
         syncHeroSums();
       }
-      var logSeg = "active";
-      function setLogSeg(s) {
-        logSeg = s;
-        document.querySelectorAll("[data-lseg]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-lseg") === s)); });
-        document.getElementById("lsegActive").hidden = s !== "active";
-        document.getElementById("lsegCleared").hidden = s !== "cleared";
-      }
-      document.getElementById("logSegs").addEventListener("click", function (ev) {
-        var b = ev.target.closest("[data-lseg]"); if (!b) return;
-        sfx("move"); setLogSeg(b.getAttribute("data-lseg"));
-      });
+      
+      
+      
       function goGacha() {
         switchView("hero");
         setHeroSeg("gacha");
