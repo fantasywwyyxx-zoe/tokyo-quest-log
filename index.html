@@ -13133,6 +13133,9 @@
 
       /* Q-330 (R180): hidden sort buttons leave no gap */
       .sort-near-btn[hidden] { display: none; }
+
+      /* Q-331 (R173): the language pill rides in the account row now */
+      .start-acct-row .lang-globe-btn { margin: 0; flex: none; }
 </style>
   </head>
   <body data-view="map">
@@ -13187,12 +13190,11 @@
             <div class="start-acct-btns">
               <button class="auth-mini-btn is-login" id="titleLoginBtn" type="button"></button>
               <a class="auth-mini-btn is-support" id="titleSupportBtn" href="https://tokyoquestlog.com/support/" target="_blank" rel="noopener"></a>
-              <a class="auth-mini-btn is-survey" id="titleSurveyBtn" href="https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform" target="_blank" rel="noopener"></a>
-            </div>
+              <button class="lang-globe-btn" id="titleLangBtn" type="button"></button>
+                          </div>
             <button class="auth-mini-btn is-beta" id="titleBetaBtn" type="button"></button>
           </div>
-          <button class="lang-globe-btn" id="titleLangBtn" type="button"></button>
-          <p class="start-foot" id="startFoot"></p>
+                    <p class="start-foot" id="startFoot"></p>
         </div>
       </div>
     </div>
@@ -13373,13 +13375,9 @@
           <button class="auth-x" id="betaClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="beta-scroll win-scroller">
-          <div class="beta-period-row"><img class="stamp-img" src="assets/art/dcc14b1ca956.png" alt=""><p class="beta-period" id="betaPeriod"></p></div>
-          
+                    
           <div id="betaNews"></div>
-          <div class="beta-hrow"><img class="stamp-img" src="assets/art/dcc14b1ca956.png" alt=""><h3 class="beta-h" id="betaLotteryH"></h3></div>
-          <p class="beta-text" id="betaLottery"></p>
-          <a class="auth-btn primary beta-survey" id="betaSurveyBtn" href="https://docs.google.com/forms/d/e/1FAIpQLScOFGKIPGroNMS3_-iARDlsqk13134CT803srxTnuqhaV4p4A/viewform" target="_blank" rel="noopener"></a>
-          <div class="beta-bug-wrap"><img class="stamp-img" src="assets/art/f83500507527.png" alt=""><p class="beta-text" id="betaBugNote"></p></div>
+                                        <div class="beta-bug-wrap"><img class="stamp-img" src="assets/art/f83500507527.png" alt=""><p class="beta-text" id="betaBugNote"></p></div>
           <button class="beta-fold" id="betaPrivacyToggle" type="button" aria-expanded="false" aria-controls="betaPrivacyBody"><span id="betaPrivacyH"></span><span class="info-arrow" aria-hidden="true">▸</span></button>
           <div id="betaPrivacyBody" hidden>
             <p class="beta-text" id="betaPrivacy"></p>
@@ -16725,7 +16723,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1808-q330-ad492112";
+        var BUILD_ID = "tql-20261106-1812-q331-6bc80813";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -33471,8 +33469,8 @@ function drawZoneStamp(cv, zoneId, mode) {
       /* ---------- strings ---------- */
       var EXT_STR = {
         en: {
-          survey: "SURVEY", betaBtn: "★ BETA — NEWS & NOTES", newsLabel: "NEWS",
-          betaTitle: "BETA — NEWS BOARD", betaPeriod: "PUBLIC BETA · Oct 29 – Nov 5, 2026",
+          survey: "SURVEY", betaBtn: "★ NEWS & NOTES", newsLabel: "NEWS",
+          betaTitle: "NEWS BOARD", betaPeriod: "PUBLIC BETA · Oct 29 – Nov 5, 2026",
           newsH: "ANNOUNCEMENTS", lotteryH: "FEEDBACK LOTTERY",
           lottery: "Send the survey and leave the optional contact in the last question — after the beta closes (Nov 5) we draw 3 winners of a ¥1,000 Amazon gift card each and contact them directly. The draw is for feedback only: tipping is never required and never changes your chances.",
           surveyBtn: "📝 FEEDBACK / BUG REPORT",
@@ -33550,8 +33548,8 @@ function drawZoneStamp(cv, zoneId, mode) {
           whackTime: function (s) { return "⏱ " + s + "s"; }
         },
         ja: {
-          survey: "アンケート", betaBtn: "★ BETA — お知らせ", newsLabel: "お知らせ",
-          betaTitle: "BETA — お知らせボード", betaPeriod: "オープンベータ · 2026年10月29日〜11月5日",
+          survey: "アンケート", betaBtn: "★ お知らせ", newsLabel: "お知らせ",
+          betaTitle: "お知らせボード", betaPeriod: "オープンベータ · 2026年10月29日〜11月5日",
           newsH: "お知らせ", lotteryH: "フィードバック抽選",
           lottery: "アンケートに答えて、最後の任意欄に連絡先を残すだけ。ベータ終了後（11/5）、抽選で3名にAmazonギフト券¥1,000をプレゼントし、直接ご連絡します。抽選はフィードバック専用です——応援（投げ銭）は抽選に一切関係しません。",
           surveyBtn: "📝 フィードバック／バグ報告",
@@ -33629,8 +33627,8 @@ function drawZoneStamp(cv, zoneId, mode) {
           whackTime: function (s) { return "⏱ " + s + "秒"; }
         },
         zh: {
-          survey: "问卷", betaBtn: "★ BETA — 公告", newsLabel: "公告",
-          betaTitle: "BETA — 公告板", betaPeriod: "公开内测 · 2026年10月29日 – 11月5日",
+          survey: "问卷", betaBtn: "★ 公告", newsLabel: "公告",
+          betaTitle: "公告板", betaPeriod: "公开内测 · 2026年10月29日 – 11月5日",
           newsH: "公告", lotteryH: "反馈抽奖",
           lottery: "填好问卷，并在最后一题选填的联系方式里留下联系方法即可。内测结束（11月5日）后，我们会抽出3名反馈者，每人送 ¥1,000 亚马逊礼品卡，并直接联系中奖者。抽奖只看反馈：应援（打赏）与抽奖完全无关，绝不影响中奖机会。",
           surveyBtn: "📝 反馈 / Bug 报告",
@@ -33808,10 +33806,6 @@ function drawZoneStamp(cv, zoneId, mode) {
       function renderBeta() {
         var t = X();
         $("betaTitle").textContent = t.betaTitle;
-        $("betaPeriod").textContent = t.betaPeriod;
-        $("betaLotteryH").textContent = t.lotteryH;
-        $("betaLottery").textContent = t.lottery;
-        $("betaSurveyBtn").textContent = t.surveyBtn;
         $("betaBugNote").textContent = t.bugNote;
         $("betaPrivacyH").textContent = t.privacyH;
         $("betaPrivacy").textContent = t.privacy;
