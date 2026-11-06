@@ -13258,6 +13258,10 @@
       .badge-pager .pp-pg-btn { border-radius: 6px; }
       .ladder-pg-num, .pp-pg-pos, .book-pg { border: 2.5px solid var(--edge); border-radius: 6px; background: var(--window); color: var(--ink);
         padding: 5px 14px; box-shadow: inset 0 0 0 3px var(--window), inset 0 0 0 4px #b9c4d8; }
+
+      /* Q-349 (R198 S3): badges grid fills its panel — no dead space under the pager */
+      #hsegBadges .badge-grid { flex: 1 1 auto; min-height: 0; grid-auto-rows: 1fr; }
+      #hsegBadges .badge-grid .badge { display: flex; flex-direction: column; align-items: center; justify-content: center; }
 </style>
   </head>
   <body data-view="map">
@@ -16832,7 +16836,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1952-q348-c8ffa909";
+        var BUILD_ID = "tql-20261106-1959-q349-b8f84855";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
