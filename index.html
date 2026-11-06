@@ -13142,6 +13142,18 @@
       #hsegStatus #ladder { overflow: hidden; }
       #hsegStatus > .ladder-pager { flex: none; margin-top: 8px; }
       #ladderPager[hidden] { display: none; }
+
+      /* Q-334: shop scheme B — chunky category tabs, one page at a
+         time, the earn list folded at the bottom */
+      .coin-tabs { display: flex; gap: 8px; margin: 2px 2px 4px; }
+      .coin-tab { flex: 1; min-height: 44px; padding: 8px 4px; cursor: pointer; background: var(--window); color: var(--ink); border: 3px solid var(--window-edge); border-radius: 12px; font: inherit; font-weight: 800; font-size: 14px; box-shadow: 0 3px 0 var(--shadow); }
+      .coin-tab:active { transform: translateY(2px); box-shadow: none; }
+      .coin-tab.is-on { background: #e5484d; border-color: #8f1d22; color: #fff6dd; }
+      .coin-page { margin: 0 2px; }
+      .coin-fold { display: flex; width: calc(100% - 4px); align-items: center; justify-content: space-between; margin: 14px 2px 0; padding: 10px 14px; cursor: pointer; background: var(--chip); color: var(--ink); border: 2px solid var(--window-edge); border-radius: 10px; font: inherit; font-weight: 800; font-size: 14px; text-align: left; }
+      .coin-fold .coin-fold-arrow { transition: transform 0.15s; }
+      .coin-fold[aria-expanded="true"] .coin-fold-arrow { transform: rotate(90deg); }
+      #coinEarnList { margin: 0 2px; }
 </style>
   </head>
   <body data-view="map">
@@ -14202,16 +14214,23 @@
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
         <div class="win-more" aria-hidden="true" hidden>▾</div>
         <div class="coin-head"><span class="coin-ico"></span><span class="coin-title" id="coinTitle"></span><span class="coin-bal" id="coinBal">0</span></div>
-        <div class="coin-sec-t" id="coinEarnT"></div>
-        <div id="coinEarnList"></div>
-        <div class="coin-shop-band" id="coinShopT"></div>
-        <div class="coin-sec-t" id="coinFramesT"></div>
-        <div class="coin-grid" id="coinFrames"></div>
-        <div class="coin-sec-t" id="coinGearT"></div>
-        <div class="coin-grid" id="coinGear"></div>
-        <div class="coin-sec-t" id="coinFurnT"></div>
-        <div class="coin-grid" id="coinFurniture"></div>
-        <div class="coin-house" id="coinHouse"></div>
+        <div class="coin-tabs" id="coinTabs">
+          <button type="button" class="coin-tab is-on" data-shop-tab="frames" aria-pressed="true"></button>
+          <button type="button" class="coin-tab" data-shop-tab="gear" aria-pressed="false"></button>
+          <button type="button" class="coin-tab" data-shop-tab="decor" aria-pressed="false"></button>
+        </div>
+        <div class="coin-page" data-shop-page="frames">
+          <div class="coin-grid" id="coinFrames"></div>
+        </div>
+        <div class="coin-page" data-shop-page="gear" hidden>
+          <div class="coin-grid" id="coinGear"></div>
+        </div>
+        <div class="coin-page" data-shop-page="decor" hidden>
+          <div class="coin-grid" id="coinFurniture"></div>
+          <div class="coin-house" id="coinHouse"></div>
+        </div>
+        <button type="button" class="coin-fold" id="coinEarnFold" aria-expanded="false"><span id="coinEarnT"></span><span class="coin-fold-arrow" aria-hidden="true">▸</span></button>
+        <div id="coinEarnList" hidden></div>
         </div>
         <!-- ADVENTURE LOG (冒険ログ): the personal chronicle of
              cleared quests — photo thumb, clear date, method mark,
@@ -16726,7 +16745,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1821-q333-35cba325";
+        var BUILD_ID = "tql-20261106-1828-q334-bc48d1e9";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -17609,7 +17628,7 @@ var qrcode = function() {
           frGold: "Gold", frSakura: "Sakura", frHoshi: "Starry", frUmi: "Sea",
           coinWelcomeT: "Welcome bonus +50 coins!",
         segShop: "SHOP", shopTitle: "Coin Shop", statsItems: "Items",
-        coinFurnT: "Furniture", coinFurnNote: "Bought furniture appears right in your hero page background.", coinPlaced: "On display",
+        coinFurnT: "Street Decor", coinFurnNote: "Bought pieces appear right in your hero page background.", coinPlaced: "On display",
         furnPlant: "Leafy plant", furnChair: "Wooden chair", furnLamp: "Stand lamp", furnTable: "Small table", furnShelf: "Bookshelf", furnCatTree: "Cat tree",
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
@@ -18500,7 +18519,7 @@ var qrcode = function() {
           frGold: "ゴールド", frSakura: "さくら", frHoshi: "ほし", frUmi: "うみ",
           coinWelcomeT: "ウェルカムボーナス +50コイン！",
         segShop: "ショップ", shopTitle: "コインショップ", statsItems: "道具",
-        coinFurnT: "おうち家具", coinFurnNote: "買った家具は、主人公ページの背景にそのまま並びます。", coinPlaced: "表示中",
+        coinFurnT: "街の飾り", coinFurnNote: "買った飾りは、主人公ページの背景にそのまま並びます。", coinPlaced: "表示中",
         furnPlant: "観葉植物", furnChair: "木のイス", furnLamp: "スタンドランプ", furnTable: "テーブル", furnShelf: "本棚", furnCatTree: "ねこの木",
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
@@ -19387,7 +19406,7 @@ var qrcode = function() {
           frGold: "金框", frSakura: "樱花", frHoshi: "星星", frUmi: "海浪",
           coinWelcomeT: "欢迎金 +50 金币！",
         segShop: "商店", shopTitle: "金币商店", statsItems: "道具",
-        coinFurnT: "家具", coinFurnNote: "买下的家具会直接摆到主人公页的背景里。", coinPlaced: "已摆放",
+        coinFurnT: "街景装饰", coinFurnNote: "买下的装饰会直接摆到主人公页的背景里。", coinPlaced: "已摆放",
         furnPlant: "绿植", furnChair: "木椅", furnLamp: "落地灯", furnTable: "小桌", furnShelf: "书架", furnCatTree: "猫爬架",
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
@@ -29202,6 +29221,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         ctx.drawImage(tmp, 2, 0, 12, 12, 0, 0, canvas.width, canvas.height);
       }
       var coinArm = "";
+      var shopTab = "frames";
+      var shopEarnOpen = false;
       function coinOwnedFrame(id) { return (state.framesOwned || []).indexOf(id) >= 0; }
       function coinSpend(price) { if ((state.coins || 0) < price) return false; state.coins -= price; return true; }
       function coinTapFrame(id) {
@@ -29241,9 +29262,22 @@ function drawRunnerFrame(ctx, frame, blink) {
         var bal = document.getElementById("coinBal"); if (bal) bal.textContent = String(typeof state.coins === "number" ? state.coins : 0);
         var tt = document.getElementById("coinTitle"); if (tt) tt.textContent = t.shopTitle || t.coinName;
         var et = document.getElementById("coinEarnT"); if (et) et.textContent = t.coinEarnT;
-        var st2 = document.getElementById("coinShopT"); if (st2) st2.textContent = t.coinShopT;
-        var ft = document.getElementById("coinFramesT"); if (ft) ft.textContent = t.coinFramesT;
-        var gt = document.getElementById("coinGearT"); if (gt) gt.textContent = t.coinGearT;
+        /* Q-334 scheme B: the tabs carry the category names; exactly
+           one page is visible; the earn fold mirrors shopEarnOpen */
+        var tabNames = { frames: t.coinFramesT, gear: t.coinGearT, decor: t.coinFurnT };
+        var tabBtns = document.querySelectorAll("[data-shop-tab]");
+        for (var ti = 0; ti < tabBtns.length; ti++) {
+          var tk = tabBtns[ti].getAttribute("data-shop-tab");
+          tabBtns[ti].textContent = tabNames[tk] || tk;
+          tabBtns[ti].classList.toggle("is-on", tk === shopTab);
+          tabBtns[ti].setAttribute("aria-pressed", tk === shopTab ? "true" : "false");
+        }
+        var pageEls = document.querySelectorAll("[data-shop-page]");
+        for (var pi2 = 0; pi2 < pageEls.length; pi2++) pageEls[pi2].hidden = pageEls[pi2].getAttribute("data-shop-page") !== shopTab;
+        var foldEl = document.getElementById("coinEarnFold");
+        if (foldEl) foldEl.setAttribute("aria-expanded", shopEarnOpen ? "true" : "false");
+        var elVis = document.getElementById("coinEarnList");
+        if (elVis) elVis.hidden = !shopEarnOpen;
         var el = document.getElementById("coinEarnList");
         if (el) {
           var rows = [[t.coinEarnGps, "+10"], [t.coinEarnRemote, "+3"], [t.coinEarnDaily, "+3"], [t.coinEarnPlay, "+2"], [t.coinEarnLevel, "+20"]];
@@ -29288,6 +29322,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         var w = document.getElementById("hsegShop");
         if (w) w.addEventListener("click", function (ev) {
           if (ev.target === w) { closeCoinWin(); return; }
+          var tb = ev.target && ev.target.closest ? ev.target.closest("[data-shop-tab]") : null;
+          if (tb) { shopTab = tb.getAttribute("data-shop-tab") || "frames"; renderCoinWin(); return; }
+          if (ev.target && ev.target.closest && ev.target.closest("#coinEarnFold")) { shopEarnOpen = !shopEarnOpen; renderCoinWin(); return; }
           var fb = ev.target && ev.target.closest ? ev.target.closest("[data-frame-buy]") : null;
           if (fb) { coinTapFrame(fb.getAttribute("data-frame-buy")); return; }
           var gb = ev.target && ev.target.closest ? ev.target.closest("[data-gear-buy]") : null;
