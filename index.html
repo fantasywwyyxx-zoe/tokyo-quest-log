@@ -13633,41 +13633,11 @@
       </div>
       <p class="audio-hint" id="audioHint" hidden></p>
 
-      <!-- Adventurer status -->
-      <section class="win statusbar" id="statusbar" aria-label="Adventurer status">
-        <button class="collapse-btn status-toggle" id="statusToggle" type="button" aria-expanded="true" aria-controls="statusbar"></button>
-        <div class="row">
-          <div class="who">
-            <button class="avatar-btn" id="avatarBtn" type="button"><canvas class="avatar" id="avatarCanvas" width="16" height="16" aria-hidden="true"></canvas></button>
-            <div>
-              <div class="adventurer-name ps" id="advName">ADVENTURER<span class="lv-badge" id="advLv">Lv.1</span></div>
-              <div class="adventurer-sub" id="advSub"></div>
-              <div class="mini-stats" id="miniStats"></div>
-            </div>
-          </div>
-          <button class="hud-ticket" id="hudTicket" type="button" aria-label="Gacha tickets"></button>
-          <span class="hud-cluster">
-            <button class="icon-btn hud-gear" id="styleBtn" type="button" aria-pressed="false"></button>
-            <button class="icon-btn hud-dress" id="dressBtn" type="button"></button>
-          </span>
-          <div class="stats">
-            <div class="stat"><div class="num" id="statCleared">0</div><div class="lbl" id="lblCleared"></div></div>
-            <div class="stat"><div class="num" id="statActive">0</div><div class="lbl" id="lblActive"></div></div>
-            <div class="stat"><div class="num" id="statAreas">0</div><div class="lbl" id="lblAreas"></div></div>
-          </div>
-        </div>
-        <div class="progress-row">
-          <span class="flabel" id="lblProgress"></span>
-          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-          <span class="progress-num px" id="progressNum">0/0</span>
-        </div>
-        <div class="exp-row">
-          <span class="flabel" id="lblExp">EXP</span>
-          <div class="exp-track"><div class="exp-fill" id="expFill"></div></div>
-          <span class="exp-num" id="expNum">0</span>
-        </div>
-        <p class="tagline" id="tagline"></p>
-      </section>
+      <!-- Adventurer status bar retired (Q-329): the hero page carries all of it.
+     #styleBtn stays on as the hidden settings door — the bottom-bar gear, the
+     START menu, the title settings button, the sheet backdrop/close, the tutorial
+     replay and the Escape handler all click through it. -->
+     <button id="styleBtn" type="button" hidden></button>
 
       <!-- View tabs: MAP / LIST / DAILY / HERO (scheme B command menu) -->
       <!-- COMMAND BAR (nav decision, user 2026-10-26): five slots,
@@ -16752,7 +16722,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1758-q328-adb29f41";
+        var BUILD_ID = "tql-20261106-1805-q329-f19bb7e7";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -26782,11 +26752,6 @@ function drawRunnerFrame(ctx, frame, blink) {
       function renderStaticText() {
         var t = L();
         document.documentElement.lang = state.lang === "ja" ? "ja" : state.lang === "zh" ? "zh-CN" : "en";
-        document.getElementById("advSub").textContent = t.advSub;
-        document.getElementById("tagline").innerHTML = t.tagline;
-        document.getElementById("lblCleared").textContent = t.cleared;
-        document.getElementById("lblActive").textContent = t.active;
-        document.getElementById("lblAreas").textContent = t.areas;
         document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
         document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = t.mgShareBtn; b.setAttribute("aria-label", t.mgShareBtn); });
         var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
@@ -26798,7 +26763,6 @@ function drawRunnerFrame(ctx, frame, blink) {
         var bmBtn = document.getElementById("bmStyleBtn");
         if (bmBtn) bmBtn.innerHTML = ICONS.gear;
         renderMfChrome();
-        document.getElementById("lblProgress").textContent = t.progress;
         document.getElementById("audioHint").textContent = t.audioHint;
         document.getElementById("lblTheme").textContent = t.themeLabel;
         document.getElementById("tutReplayBtn").textContent = "▶ " + t.tutReplay;
@@ -26841,8 +26805,6 @@ function drawRunnerFrame(ctx, frame, blink) {
         syncTitleBgmBtns();
         document.getElementById("styleBtn").innerHTML = ICONS.gear + "<span>" + t.styleBtn + "</span>";
         document.getElementById("styleBtn").setAttribute("aria-label", t.styleBtn);
-        var drb = document.getElementById("dressBtn");
-        if (drb) { drb.innerHTML = ICONS.fashion; drb.setAttribute("aria-label", t.segStyle); drb.title = t.segStyle; }
         renderMapNav();
         document.getElementById("styleTitle").textContent = t.styleBtn;
         /* the zoom trio's reset button: ⌂ glyph + the localised
@@ -26892,7 +26854,6 @@ function drawRunnerFrame(ctx, frame, blink) {
         fitRecTabs();
         var lsegNames = { active: t.segActive, cleared: t.segCleared };
         document.querySelectorAll("[data-lseg]").forEach(function (b) { b.textContent = lsegNames[b.getAttribute("data-lseg")] || ""; });
-        document.getElementById("avatarBtn").setAttribute("aria-label", t.changeHero);
         renderHeroGrids();
         document.getElementById("footLine1").textContent = t.foot1;
         document.getElementById("footLine2").textContent = t.foot2;
@@ -27008,23 +26969,11 @@ function drawRunnerFrame(ctx, frame, blink) {
         var areas = {};
         cleared.forEach(function (c) { areas[c.area] = true; });
         var lgDoneN = LEGENDS.filter(function (l) { return legendDone(l.id); }).length;
-        document.getElementById("statCleared").textContent = cleared.length + lgDoneN;
-        document.getElementById("statActive").textContent = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
-        document.getElementById("statAreas").textContent = Object.keys(areas).length;
         document.getElementById("mapCount").textContent = L().onBoard(mapShownCount());
         renderMfChrome();
         var total = VISIBLE.length + LEGENDS.length;
-        document.getElementById("progressNum").textContent = (cleared.length + lgDoneN) + "/" + total;
-        document.getElementById("progressFill").style.width = (total ? Math.round(((cleared.length + lgDoneN) / total) * 100) : 0) + "%";
         var info = levelInfo(), t = L();
-        var advNameEl = document.getElementById("advName");
-        if (advNameEl && advNameEl.childNodes[0]) advNameEl.childNodes[0].textContent = heroDisplayName() + " ";
         drawAvatar();
-        document.getElementById("advLv").textContent = "Lv." + info.lv;
-        document.getElementById("advSub").textContent = titleFor(info.lv) + " · " + t.advSub;
-        document.getElementById("expFill").style.width = info.next ? Math.round(((info.xp - info.cur) / (info.next - info.cur)) * 100) + "%" : "100%";
-        document.getElementById("expNum").textContent = info.xp + (info.next ? " · " + t.nextLevel(info.next - info.xp) : " · " + t.maxLevel);
-        document.getElementById("miniStats").textContent = "✓ " + cleared.length + "/" + total + " · EXP " + info.xp + " · Lv." + info.lv;
         updateLogTab();
         syncHeroSums();
         renderMapNav();
@@ -29866,11 +29815,6 @@ function drawRunnerFrame(ctx, frame, blink) {
       /* ============ Expand / minimize chrome ============ */
       function renderMinBtns() {
         var t = L();
-        var sb = document.getElementById("statusToggle");
-        if (sb) {
-          sb.innerHTML = '<span class="cb-ico">' + (statusMin ? "+" : "−") + "</span><span>" + (statusMin ? t.maxBtn : t.minBtn) + "</span>";
-          sb.setAttribute("aria-expanded", String(!statusMin));
-        }
         var fb = document.getElementById("filterToggle");
         if (fb) {
           fb.innerHTML = '<span class="cb-ico">' + (filterMin ? "+" : "−") + "</span><span>" + (filterMin ? t.maxBtn : t.minBtn) + "</span>";
@@ -29879,7 +29823,6 @@ function drawRunnerFrame(ctx, frame, blink) {
       }
       function setStatusMin(min) {
         statusMin = !!min;
-        document.getElementById("statusbar").classList.toggle("is-min", statusMin);
         renderMinBtns();
       }
       function setFilterMin(min) {
@@ -31859,7 +31802,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         var b = ev.target.closest("[data-liseg]"); if (!b) return;
         sfx("move"); setListSeg(b.getAttribute("data-liseg"));
       });
-      document.getElementById("statusToggle").addEventListener("click", function () { sfx("move"); setStatusMin(!statusMin); });
       document.getElementById("btnQuest").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) return;
@@ -32028,7 +31970,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         var box = document.getElementById("langPick");
         if (box) { box.hidden = true; popHide(box); }
       });
-      document.getElementById("avatarBtn").addEventListener("click", function () { switchView("hero"); window.scrollTo({ top: 0, behavior: "smooth" }); });
       document.getElementById("dailyBanner").addEventListener("click", function () { switchView("daily"); });
       /* pause CSS animation while the tab is hidden */
       document.addEventListener("visibilitychange", function () {
@@ -32318,10 +32259,8 @@ function drawZoneStamp(cv, zoneId, mode) {
         var view = document.getElementById("view-hero");
         if (p && view) view.scrollTop = Math.max(0, p.offsetTop - 8);
       }
-      document.getElementById("hudTicket").addEventListener("click", goGacha);
       /* dress-up shortcut in the status-bar cluster: straight to
          the hero stage with the studio window open */
-      document.getElementById("dressBtn").addEventListener("click", function () { sfx("move"); switchView("hero"); openHeroWin("studio"); });
       document.getElementById("gachaPullBtn").addEventListener("click", pullGacha);
       document.getElementById("gachaOwnedToggle").addEventListener("click", function () {
         gachaOwnedOnly = !gachaOwnedOnly;
