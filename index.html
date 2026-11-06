@@ -16736,7 +16736,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1229-q323-e4130440";
+        var BUILD_ID = "tql-20261106-1233-q324-d794623f";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -32060,7 +32060,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       var heroWinOpen = null;
       var recTab = "status";   /* the RECORDS window's current tab */
       function setRecTab(k) {
-        if (k !== "status" && k !== "badges" && k !== "advlog") k = "status";
+        if (k !== "status" && k !== "badges" && k !== "advlog" && k !== "collection") k = "status";
         recTab = k;
         openHeroWin(k);
       }
