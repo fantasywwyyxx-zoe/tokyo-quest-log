@@ -16625,7 +16625,7 @@ var qrcode = function() {
          boot reload loses nothing. Boot-time only: nothing here can
          fire after startup. */
       (function () {
-        var BUILD_ID = "tql-20261106-refresh-c85-c86";
+        var BUILD_ID = "tql-20261106-1138-q316-7d15c5a8";
         window.TQL_BUILD_ID = BUILD_ID;
         try {
           if (!/^https?:$/.test(location.protocol) || typeof fetch !== "function") return;
@@ -17567,7 +17567,7 @@ var qrcode = function() {
           listOpen: "DETAILS ▶",
           boardOpen: "OPEN",
           boardTitle: "QUEST BOARD", backBtn: "◀ BACK",
-          posterBtn: "🖼 SHARE POSTER", posterCta: "Public beta now on!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to join", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareSavedNote: "Image saved — attach it in the app that opened.",
+          posterBtn: "🖼 SHARE POSTER", posterCta: "Start your quest now!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to play", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareSavedNote: "Image saved — attach it in the app that opened.",
           viewPhoto: "View full photo",
           viewerClose: "✕ CLOSE",
           viewerHint: "Pinch or double-tap to zoom · drag to pan",
@@ -18441,7 +18441,7 @@ var qrcode = function() {
           listOpen: "詳細 ▶",
           boardOpen: "詳細",
           boardTitle: "クエスト掲示板", backBtn: "◀ もどる",
-          posterBtn: "🖼 ポスターで共有", posterCta: "公開βテスト開催中！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンして参加", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
+          posterBtn: "🖼 ポスターで共有", posterCta: "今すぐクエスト開始！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンしてプレイ", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
           viewPhoto: "写真を全体表示",
           viewerClose: "✕ 閉じる",
           viewerHint: "ピンチ／ダブルタップで拡大 · ドラッグで移動",
@@ -19315,7 +19315,7 @@ var qrcode = function() {
           listOpen: "打开详情 ▶",
           boardOpen: "详情",
           boardTitle: "任务公告板", backBtn: "◀ 返回",
-          posterBtn: "🖼 海报分享", posterCta: "公测进行中！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码参加", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
+          posterBtn: "🖼 海报分享", posterCta: "现在就开始冒险！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码开始冒险", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
           viewPhoto: "全屏查看照片",
           viewerClose: "✕ 关闭",
           viewerHint: "双指捏合／双击缩放 · 拖动平移",
@@ -28326,7 +28326,7 @@ function drawRunnerFrame(ctx, frame, blink) {
          photo, quest name, schedule, area, brand, and a QR that
          lands on the beta hub (tokyoquestlog.com/beta/). No reward
          and no economy touch: a pure spread feature. */
-      var POSTER_URL = "https://tokyoquestlog.com/beta/";
+      var POSTER_URL = "https://tokyoquestlog.com/";
       function drawPosterQR(x, url, px, py, size) {
         function attempt(tn) {
           var qr = qrcode(tn, "M");
@@ -28454,7 +28454,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             x.fillText(t.posterScan, 48, by + 134);
             x.fillStyle = "#a5dcff";
             x.font = "700 28px 'Baloo 2',sans-serif";
-            x.fillText("tokyoquestlog.com/beta/", 48, by + 176);
+            x.fillText("tokyoquestlog.com/", 48, by + 176);
             drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
             /* frame */
             x.strokeStyle = "#10142e"; x.lineWidth = 10;
@@ -28581,7 +28581,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             x.fillText(t.posterScan, 48, by + 134);
             x.fillStyle = "#a5dcff";
             x.font = "700 28px 'Baloo 2',sans-serif";
-            x.fillText("tokyoquestlog.com/beta/", 48, by + 176);
+            x.fillText("tokyoquestlog.com/", 48, by + 176);
             drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
             x.strokeStyle = "#10142e"; x.lineWidth = 10;
             x.strokeRect(5, 5, W - 10, H - 10);
@@ -28721,7 +28721,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         x.fillText(t.posterScan, 48, by + 134);
         x.fillStyle = "#a5dcff";
         x.font = "700 28px 'Baloo 2',sans-serif";
-        x.fillText("tokyoquestlog.com/beta/", 48, by + 176);
+        x.fillText("tokyoquestlog.com/", 48, by + 176);
         drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
         x.strokeStyle = "#10142e"; x.lineWidth = 10;
         x.strokeRect(5, 5, W - 10, H - 10);
