@@ -13182,6 +13182,11 @@
       .hero-banner:active { transform: translateX(-50%) translateY(2px); }
       .hero-stats { opacity: 0; transform: translateY(-8px); pointer-events: none; transition: opacity .18s ease, transform .18s ease; }
       .hero-stats.pop { opacity: 1; transform: none; pointer-events: auto; }
+
+      /* Q-340 (R192): period row at the info card's value size */
+      .kv .detail-period-row { font-size: 0.9375rem; font-weight: 700; }
+      .kv .detail-period-row .dp-when { font-size: 0.9375rem; }
+      .kv .detail-period-row .dp-ico svg { width: 16px; height: 16px; }
 </style>
   </head>
   <body data-view="map">
@@ -16773,7 +16778,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1905-q339-8e87b242";
+        var BUILD_ID = "tql-20261106-1922-q340-042fa1f5";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
