@@ -16773,7 +16773,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1841-q338-4cb65832";
+        var BUILD_ID = "tql-20261106-1905-q339-8e87b242";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30175,6 +30175,12 @@ function drawRunnerFrame(ctx, frame, blink) {
          the passes converge because settled geometry recomputes the
          same size. */
       var _ladderFitting = false;
+      /* Q-339 (R188): the page size the box-check last PROVED fits,
+         and the panel height it was proved at — the formula defers
+         to it, so the two size authorities stop undoing each other
+         on every refit (the panel re-rendered forever and froze) */
+      var _ladderCapH = 0;
+      var _ladderCapN = 0;
       function ladderFitPass(el) {
         if (_ladderFitting) return;
         var panel = el.parentElement;
@@ -30205,6 +30211,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (pitch <= 0) return;
         var fit = Math.floor((avail - pager.offsetHeight - 3) / pitch);
         fit = Math.max(5, Math.min(14, fit));
+        if (_ladderCapN > 0 && panel.clientHeight === _ladderCapH && fit > _ladderCapN) fit = _ladderCapN;
         if (fit !== LADDER_PAGE_SIZE) {
           _ladderFitting = true;
           /* R159 (S3): when the page size changes, re-anchor the
@@ -30233,6 +30240,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           try { renderLadder(); } finally { _ladderFitting = false; }
           track = el.querySelector(".ladder-track");
         }
+        if (guardN > 0) { _ladderCapH = panel.clientHeight; _ladderCapN = LADDER_PAGE_SIZE; }
       }
       window.addEventListener("resize", function () {
         var p = document.getElementById("hsegStatus");
@@ -30240,9 +30248,11 @@ function drawRunnerFrame(ctx, frame, blink) {
       });
       var _ladderRefitT = 0;
       var _ladderRefitT2 = 0;
+      var _ladderRefitRaf = false;
       function scheduleLadderRefit(el) {
-        if (typeof requestAnimationFrame === "function") {
-          requestAnimationFrame(function () { ladderFitPass(el); });
+        if (typeof requestAnimationFrame === "function" && !_ladderRefitRaf) {
+          _ladderRefitRaf = true;
+          requestAnimationFrame(function () { _ladderRefitRaf = false; ladderFitPass(el); });
         }
         if (!_ladderRefitT) {
           _ladderRefitT = setTimeout(function () {
