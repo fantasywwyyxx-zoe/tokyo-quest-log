@@ -16736,7 +16736,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1225-q322-d4845cf8";
+        var BUILD_ID = "tql-20261106-1229-q323-e4130440";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -30130,8 +30130,20 @@ function drawRunnerFrame(ctx, frame, blink) {
         var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 12;
         var pitch = firstRow.offsetHeight + 6;
         if (track && track.children.length > 1) {
-          var pTop2 = track.children[1].getBoundingClientRect().top - firstRow.getBoundingClientRect().top;
-          if (pTop2 > 0) pitch = pTop2;
+          /* Q-323 (R167): the pitch must not depend on which page is
+             shown. The current title's row is taller (flavor line), so
+             a pitch read off the first pair changes per page — the fit
+             then flips on every page turn and the re-anchor eats the
+             click (page 2 maps straight back to page 1). The minimum
+             adjacent difference is the uniform row pitch on every
+             page: the pair starting at the tall row is the only
+             polluted one, and the minimum excludes it. */
+          var pMin = 0;
+          for (var pi = 1; pi < track.children.length; pi++) {
+            var pd = track.children[pi].getBoundingClientRect().top - track.children[pi - 1].getBoundingClientRect().top;
+            if (pd > 0 && (pMin === 0 || pd < pMin)) pMin = pd;
+          }
+          if (pMin > 0) pitch = pMin;
         }
         if (pitch <= 0) return;
         var fit = Math.floor((avail - pager.offsetHeight - 3) / pitch);
