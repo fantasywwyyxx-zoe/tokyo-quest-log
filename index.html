@@ -13187,6 +13187,16 @@
       .kv .detail-period-row { font-size: 0.9375rem; font-weight: 700; }
       .kv .detail-period-row .dp-when { font-size: 0.9375rem; }
       .kv .detail-period-row .dp-ico svg { width: 16px; height: 16px; }
+
+      /* Q-341: info card scheme C — icon-led rows */
+      .kv.kv-icon { display: flex; flex-direction: column; gap: 0; padding: 7px 10px; }
+      .kv-icon dt { display: none; }
+      .kv-icon .kv-row { display: flex; align-items: flex-start; gap: 9px; padding: 5px 0; border-top: 2px dashed var(--rule-c); }
+      .kv-icon .kv-cols { display: flex; flex-direction: column; }
+      .kv-icon .kv-ico { flex: none; width: 17px; height: 17px; margin-top: 1px; display: inline-flex; }
+      .kv-icon .kv-ico svg { width: 17px; height: 17px; }
+      .kv-icon dd { margin: 0; flex: 1 1 auto; min-width: 0; }
+      .kv-icon .detail-period-row { padding: 2px 0 6px; }
 </style>
   </head>
   <body data-view="map">
@@ -14357,11 +14367,10 @@
           <div class="detail-sheet">
           <div class="detail-badges" id="detailBadges"><div id="detailChips" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div><span class="mood-row" id="vMood" style="margin:0"></span></div>
           <div class="monthly-note" id="detailMonthly" hidden></div>
-          <dl class="kv">
+          <dl class="kv kv-icon">
           <div class="detail-period detail-period-row"><span class="dp-ico" aria-hidden="true"></span><span class="dp-range" id="dpRange"></span><span class="dp-when" id="dpWhen"></span></div>
-            <div class="kv-time-head"><dt id="kHours"></dt></div>
-            <dd id="vHours"></dd>
-            <div class="kv-cols"><div class="kv-col"><dt id="kWhere"></dt><dd id="vWhere"></dd></div><div class="kv-col"><dt id="kPrice"></dt><dd id="vPrice"></dd></div></div>
+            <div class="kv-row kv-time-head"><span class="kv-ico" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="#fff6dd" stroke="#26324e" stroke-width="1.6"/><path d="M8 5v3.2l2.4 1.6" fill="none" stroke="#26324e" stroke-width="1.6" stroke-linecap="round"/></svg></span><dt id="kHours" hidden></dt><dd id="vHours"></dd></div>
+            <div class="kv-cols"><div class="kv-col kv-row"><span class="kv-ico" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 14.6S3.4 10 3.4 6.6a4.6 4.6 0 1 1 9.2 0C12.6 10 8 14.6 8 14.6z" fill="#e5484d" stroke="#26324e" stroke-width="1.4"/><circle cx="8" cy="6.6" r="1.9" fill="#fff6dd"/></svg></span><dt id="kWhere" hidden></dt><dd id="vWhere"></dd></div><div class="kv-col kv-row"><span class="kv-ico" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="#ffd83d" stroke="#d9a441" stroke-width="1.6"/><path d="M5.6 5.2 8 7.8l2.4-2.6M8 7.8V12M6.1 9.5h3.8" stroke="#926a0a" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span><dt id="kPrice" hidden></dt><dd id="vPrice"></dd></div></div>
           </dl>
           <div class="blurb-box" id="detailBlurb"></div>
           <p class="lang-note" id="detailLang"></p>
@@ -16778,7 +16787,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1922-q340-042fa1f5";
+        var BUILD_ID = "tql-20261106-1926-q341-3f0deb7c";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
