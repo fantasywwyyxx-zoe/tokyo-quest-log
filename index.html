@@ -13154,6 +13154,22 @@
       .coin-fold .coin-fold-arrow { transition: transform 0.15s; }
       .coin-fold[aria-expanded="true"] .coin-fold-arrow { transform: rotate(90deg); }
       #coinEarnList { margin: 0 2px; }
+
+      /* Q-335: list header, one-row edition (mock v3) */
+      .list-subbar { flex-wrap: nowrap; align-items: center; gap: 8px; }
+      .list-subbar .search-summary { background: none; border: none; border-radius: 0; padding: 0; margin-left: auto; font-size: 12.5px; }
+      .list-bar .list-beta-btn { width: auto; min-height: 32px; margin: 0 0 0 auto; padding: 5px 12px; font-size: 12.5px; }
+      .list-bar .search-open-btn { margin-left: 0; }
+      #view-list[data-seg="log"] .list-beta-btn { display: none; }
+      #view-list[data-seg="log"] .sort-msg { display: none; }
+      .kind-segs { gap: 0; }
+      .kind-segs .sort-near-btn { margin-left: -2px; border-radius: 0; }
+      .kind-segs .sort-near-btn:first-child { margin-left: 0; border-radius: 999px 0 0 999px; }
+      .kind-segs .sort-near-btn:last-child { border-radius: 0 999px 999px 0; }
+      .sort-btn { display: inline-flex; align-items: center; gap: 10px; flex: none; min-height: 32px; padding: 5px 14px; cursor: pointer; background: var(--chip); color: var(--ink); border: 2.5px solid var(--line-c); border-radius: 999px; font: inherit; font-weight: 800; font-size: 13px; }
+      .sort-btn[hidden] { display: none; }
+      .sort-tri { width: 0; height: 0; flex: none; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid currentColor; }
+      .sort-msg { margin: 6px 2px 0; }
 </style>
   </head>
   <body data-view="map">
@@ -13860,14 +13876,15 @@
             <button class="list-tab" type="button" data-liseg="index" aria-pressed="true"></button>
             <button class="list-tab" type="button" data-liseg="log" aria-pressed="false"></button>
           </div>
+          <button class="list-beta-btn" id="listBetaBtn" type="button"></button>
           <button class="search-open-btn" id="searchOpenBtn" type="button"></button>
         </div>
-        <button class="list-beta-btn" id="listBetaBtn" type="button"></button>
         <div class="list-subbar">
+          
+          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
           <span class="search-summary" id="searchSummary"></span>
-          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><span class="sort-segs" role="group" aria-label="Sort"><button class="sort-near-btn" type="button" data-sortmode="near" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-sortmode="start" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-sortmode="end" aria-pressed="false"></button></span>
-          <p class="sort-msg" id="sortMsg" hidden></p>
         </div>
+        <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
           <div class="ms-results" id="msResults"></div>
         </div>
@@ -16745,7 +16762,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1828-q334-bc48d1e9";
+        var BUILD_ID = "tql-20261106-1831-q335-dabf28fd";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -27623,12 +27640,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (filterAccepted) parts.push(t.acceptedOnly);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
         document.getElementById("searchSummary").textContent = t.summaryFiltered(list.length, parts);
-        document.querySelectorAll("[data-sortmode]").forEach(function (b) {
-          var k = b.getAttribute("data-sortmode");
-          b.hidden = filterKind === "ever" && k !== "near";
-          b.textContent = (sortBusy && k === "near") ? t.sortLocating : (k === "near" ? t.sortNear : k === "start" ? t.sortStart : t.sortEnd);
-          b.setAttribute("aria-pressed", String(listSortMode === k));
-        });
+        /* Q-335: one sort button — it shows the current sort and
+           hides in the evergreen view (Q-330: 最近 is the only sort) */
+        var sbtn = document.getElementById("sortBtn");
+        if (sbtn) {
+          sbtn.hidden = filterKind === "ever";
+          var slbl = document.getElementById("sortBtnLabel");
+          if (slbl) slbl.textContent = (sortBusy && listSortMode === "near") ? t.sortLocating : (listSortMode === "start" ? t.sortStart : listSortMode === "end" ? t.sortEnd : t.sortNear);
+        }
           document.querySelectorAll("[data-kindmode]").forEach(function (b) {
             var kk = b.getAttribute("data-kindmode");
             b.textContent = kk === "all" ? t.all : kk === "ever" ? t.legendEver : t.legendTimed;
@@ -31814,15 +31833,17 @@ function drawZoneStamp(cv, zoneId, mode) {
         sortTried = true;
         requestSortPos();
       }
-      document.querySelectorAll("[data-sortmode]").forEach(function (b) {
-        b.addEventListener("click", function () {
-          var k = b.getAttribute("data-sortmode");
-          if (k === listSortMode && k !== "near") return;
-          listSortMode = k;
-          sortMsg = "";
-          if (k === "near" && !sortPos) { sortTried = true; requestSortPos(); }
-          sfx("move"); renderSearch();
-        });
+      /* Q-335: the single sort button cycles the available modes
+         (same per-mode steps as the old three pills) */
+      var sortBtnEl = document.getElementById("sortBtn");
+      if (sortBtnEl) sortBtnEl.addEventListener("click", function () {
+        var modes = filterKind === "ever" ? ["near"] : ["near", "start", "end"];
+        var k = modes[(modes.indexOf(listSortMode) + 1) % modes.length];
+        if (k === listSortMode && k !== "near") return;
+        listSortMode = k;
+        sortMsg = "";
+        if (k === "near" && !sortPos) { sortTried = true; requestSortPos(); }
+        sfx("move"); renderSearch();
       });
       document.querySelectorAll("[data-kindmode]").forEach(function (b) {
           b.addEventListener("click", function () {
