@@ -16700,7 +16700,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1201-q318-ac1ae83e";
+        var BUILD_ID = "tql-20261106-1209-q319-f3316365";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -29984,6 +29984,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           "</div>";
         el.innerHTML = html;
         ladderFitPass(el);
+        scheduleLadderRefit(el);
       }
 
       /* Q-311: grow the ladder page to the height the panel actually
@@ -29991,7 +29992,17 @@ function drawRunnerFrame(ctx, frame, blink) {
          tall screen shows more titles instead of blank space; the
          floor stays 5 (the short-viewport fit), the ceiling 14. One
          guarded re-render per pass — geometry is flex-stable, so the
-         second pass computes the same size and stops. */
+         second pass computes the same size and stops.
+         Q-319 (R162, device FAIL): the one-shot measurement was taken
+         before the device geometry settled (in-app browser chrome,
+         font swap, panel mid-open) and nothing ever re-measured, so
+         the ladder stuck at 5 rows over a large blank. The fit now
+         reads the true pitch from row tops, keeps only small safety
+         margins, and every render schedules a deferred refit (rAF +
+         450ms, plus on visibility return) that re-measures the settled
+         geometry and re-renders only when the size actually changes —
+         the passes converge because settled geometry recomputes the
+         same size. */
       var _ladderFitting = false;
       function ladderFitPass(el) {
         if (_ladderFitting) return;
@@ -30002,10 +30013,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (!panel || !firstRow || !pager || !panel.clientHeight) return;
         var foot = panel.querySelector(".hstat-foot");
         var above = el.getBoundingClientRect().top - panel.getBoundingClientRect().top;
-        var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 26;
+        var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 12;
         var pitch = firstRow.offsetHeight + 6;
+        if (track && track.children.length > 1) {
+          var pTop2 = track.children[1].getBoundingClientRect().top - firstRow.getBoundingClientRect().top;
+          if (pTop2 > 0) pitch = pTop2;
+        }
         if (pitch <= 0) return;
-        var fit = Math.floor((avail - pager.offsetHeight - 7) / pitch);
+        var fit = Math.floor((avail - pager.offsetHeight - 3) / pitch);
         fit = Math.max(5, Math.min(14, fit));
         if (fit !== LADDER_PAGE_SIZE) {
           _ladderFitting = true;
@@ -30022,6 +30037,24 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
       }
       window.addEventListener("resize", function () {
+        var p = document.getElementById("hsegStatus");
+        if (p && !p.hidden) renderLadder();
+      });
+      var _ladderRefitT = 0;
+      function scheduleLadderRefit(el) {
+        if (typeof requestAnimationFrame === "function") {
+          requestAnimationFrame(function () { ladderFitPass(el); });
+        }
+        if (_ladderRefitT) return;
+        _ladderRefitT = setTimeout(function () {
+          _ladderRefitT = 0;
+          var p = document.getElementById("hsegStatus");
+          var lad = document.getElementById("ladder");
+          if (p && !p.hidden && lad) ladderFitPass(lad);
+        }, 450);
+      }
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) return;
         var p = document.getElementById("hsegStatus");
         if (p && !p.hidden) renderLadder();
       });
