@@ -13126,6 +13126,10 @@
       .hero-banner { top: 16px; }
       .hero-stats { top: 62px; }
       .hstat-coin .coin-ico, .hst-coin .coin-ico { margin-right: 5px; }
+
+      /* Q-328 (R175): the ladder track's column is explicit — row
+         width is the panel's, never the widest row's content */
+      .ladder-track { grid-template-columns: minmax(0, 1fr); width: 100%; }
 </style>
   </head>
   <body data-view="map">
@@ -16748,7 +16752,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1754-q327-f3fd8b8e";
+        var BUILD_ID = "tql-20261106-1758-q328-adb29f41";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -30139,7 +30143,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var firstRow = track ? track.children[0] : null;
         if (!panel || !firstRow || !pager || !panel.clientHeight) return;
         var foot = panel.querySelector(".hstat-foot");
-        var above = el.getBoundingClientRect().top - panel.getBoundingClientRect().top;
+        var above = el.offsetTop; /* Q-328: layout metric — rects report transformed geometry mid-transition (R175) */
         var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 12;
         var pitch = firstRow.offsetHeight + 6;
         if (track && track.children.length > 1) {
@@ -30153,7 +30157,7 @@ function drawRunnerFrame(ctx, frame, blink) {
              polluted one, and the minimum excludes it. */
           var pMin = 0;
           for (var pi = 1; pi < track.children.length; pi++) {
-            var pd = track.children[pi].getBoundingClientRect().top - track.children[pi - 1].getBoundingClientRect().top;
+            var pd = track.children[pi].offsetTop - track.children[pi - 1].offsetTop;
             if (pd > 0 && (pMin === 0 || pd < pMin)) pMin = pd;
           }
           if (pMin > 0) pitch = pMin;
@@ -30180,17 +30184,27 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (p && !p.hidden) renderLadder();
       });
       var _ladderRefitT = 0;
+      var _ladderRefitT2 = 0;
       function scheduleLadderRefit(el) {
         if (typeof requestAnimationFrame === "function") {
           requestAnimationFrame(function () { ladderFitPass(el); });
         }
-        if (_ladderRefitT) return;
-        _ladderRefitT = setTimeout(function () {
-          _ladderRefitT = 0;
-          var p = document.getElementById("hsegStatus");
-          var lad = document.getElementById("ladder");
-          if (p && !p.hidden && lad) ladderFitPass(lad);
-        }, 450);
+        if (!_ladderRefitT) {
+          _ladderRefitT = setTimeout(function () {
+            _ladderRefitT = 0;
+            var p = document.getElementById("hsegStatus");
+            var lad = document.getElementById("ladder");
+            if (p && !p.hidden && lad) ladderFitPass(lad);
+          }, 450);
+        }
+        if (!_ladderRefitT2) {
+          _ladderRefitT2 = setTimeout(function () {
+            _ladderRefitT2 = 0;
+            var p = document.getElementById("hsegStatus");
+            var lad = document.getElementById("ladder");
+            if (p && !p.hidden && lad) ladderFitPass(lad);
+          }, 1000);
+        }
       }
       document.addEventListener("visibilitychange", function () {
         if (document.hidden) return;
