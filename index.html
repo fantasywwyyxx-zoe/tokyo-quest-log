@@ -13240,6 +13240,10 @@
       /* Q-344 (R194): the location banner moves to the top of the map */
       body[data-view="map"] .map-box:not(.in-big) .loc-chip { top: calc(10px + env(safe-area-inset-top, 0px)); bottom: auto; left: 10px; }
       body[data-view] .map-box.in-big .loc-chip { top: calc(10px + env(safe-area-inset-top, 0px)); bottom: auto; }
+
+      /* Q-345 (R197): ladder rows share the box — no blank pool */
+      #hsegStatus #ladder .ladder-track { flex: 1 1 auto; grid-auto-rows: 1fr; }
+      #hsegStatus #ladder.ladder-measuring .ladder-track { grid-auto-rows: auto; }
 </style>
   </head>
   <body data-view="map">
@@ -16831,7 +16835,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1939-q344-be23964c";
+        var BUILD_ID = "tql-20261106-1942-q345-139b54a6";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30248,6 +30252,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         var pager = document.getElementById("ladderPager");
         var firstRow = track ? track.children[0] : null;
         if (!panel || !firstRow || !pager || !panel.clientHeight) return;
+        /* Q-345: measure at NATURAL row height — the track's rows
+           stretch to fill the box (grid 1fr), and a pitch read off
+           stretched rows would feed back into the fit. The class
+           is on for this pass only and removed on every exit. */
+        var cl = el.classList;
+        if (cl) cl.add("ladder-measuring");
         var foot = panel.querySelector(".hstat-foot");
         var above = el.offsetTop; /* Q-328: layout metric — rects report transformed geometry mid-transition (R175) */
         var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 12;
@@ -30268,7 +30278,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           }
           if (pMin > 0) pitch = pMin;
         }
-        if (pitch <= 0) return;
+        if (pitch <= 0) { if (cl) cl.remove("ladder-measuring"); return; }
         var fit = Math.floor((avail - pager.offsetHeight - 3) / pitch);
         fit = Math.max(5, Math.min(14, fit));
         if (_ladderCapN > 0 && panel.clientHeight === _ladderCapH && fit > _ladderCapN) fit = _ladderCapN;
@@ -30301,6 +30311,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           track = el.querySelector(".ladder-track");
         }
         if (guardN > 0) { _ladderCapH = panel.clientHeight; _ladderCapN = LADDER_PAGE_SIZE; }
+        if (cl) cl.remove("ladder-measuring");
       }
       window.addEventListener("resize", function () {
         var p = document.getElementById("hsegStatus");
