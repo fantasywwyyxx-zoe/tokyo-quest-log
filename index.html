@@ -13170,6 +13170,12 @@
       .sort-btn[hidden] { display: none; }
       .sort-tri { width: 0; height: 0; flex: none; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid currentColor; }
       .sort-msg { margin: 6px 2px 0; }
+
+      /* Q-337: board chip leaves the list; header trims for the count */
+      .list-bar .search-open-btn { margin-left: auto; }
+      .kind-segs .sort-near-btn { padding-left: 9px; padding-right: 9px; }
+      .sort-btn { padding-left: 11px; padding-right: 11px; gap: 8px; }
+      .list-subbar .search-summary { font-size: 11.5px; }
 </style>
   </head>
   <body data-view="map">
@@ -13876,7 +13882,6 @@
             <button class="list-tab" type="button" data-liseg="index" aria-pressed="true"></button>
             <button class="list-tab" type="button" data-liseg="log" aria-pressed="false"></button>
           </div>
-          <button class="list-beta-btn" id="listBetaBtn" type="button"></button>
           <button class="search-open-btn" id="searchOpenBtn" type="button"></button>
         </div>
         <div class="list-subbar">
@@ -16762,7 +16767,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261106-1833-q336-d2006af4";
+        var BUILD_ID = "tql-20261106-1840-q337-8e60762f";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
