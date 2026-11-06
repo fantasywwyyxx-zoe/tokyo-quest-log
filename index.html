@@ -13114,6 +13114,12 @@
       .ms-row.is-sel { border-color: var(--primary); }
       .list-subbar { flex-wrap: wrap; gap: 6px; align-items: center; }
       .kind-segs { margin-right: 2px; }
+
+      /* Q-326: shop gear previews fill their box (16px grid canvas,
+         CSS-upscaled like the wardrobe's); the logbook pager moves to
+         the family position at the bottom */
+      .coin-gear-cv canvas { width: 56px; height: 56px; image-rendering: pixelated; }
+      #colBody .book-nav { margin: 10px 0 2px; }
 </style>
   </head>
   <body data-view="map">
@@ -16736,7 +16742,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1238-q325-21890bce";
+        var BUILD_ID = "tql-20261106-1752-q326-14a17e39";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -29282,7 +29288,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             var nm = (t.gachaItems[it.id] || {}).name || it.id;
             var owned = ownsItem(it.id), eq = state.gacha.equipped[it.kind] === it.id;
             var label = eq ? esc(t.coinInUse) : owned ? esc(t.coinUse) : (coinArm === "g:" + it.id ? esc(t.coinBuyQ(it.price)) : '<span class="coin-ico sm"></span>' + it.price);
-            return '<div class="coin-cell"><div class="coin-gear-cv"><canvas width="48" height="48"></canvas><span class="coin-ltd">' + esc(t.coinLtd) + '</span></div><div class="coin-cell-name">' + esc(nm) + '</div><button type="button" class="coin-buy' + (eq ? " is-eq" : "") + '" data-gear-buy="' + it.id + '"' + (eq ? " disabled" : "") + '>' + label + '</button></div>';
+            return '<div class="coin-cell"><div class="coin-gear-cv"><canvas width="16" height="16"></canvas><span class="coin-ltd">' + esc(t.coinLtd) + '</span></div><div class="coin-cell-name">' + esc(nm) + '</div><button type="button" class="coin-buy' + (eq ? " is-eq" : "") + '" data-gear-buy="' + it.id + '"' + (eq ? " disabled" : "") + '>' + label + '</button></div>';
           }).join("");
           var gcs = gg.querySelectorAll("canvas");
           for (var j = 0; j < gcs.length; j++) { if (SHOP_ITEMS[j]) drawItemPreview(gcs[j], SHOP_ITEMS[j]); }
@@ -30699,8 +30705,7 @@ function drawZoneStamp(cv, zoneId, mode) {
            and a compact centre of title + n / N. No word wraps or
            truncates in any language by construction. */
         var bookDots = pages.map(function (_, i) { return '<span class="book-dot' + (i === colPage ? " on" : "") + '"></span>'; }).join("");
-        body.innerHTML = '<div class="book-nav"><button class="book-btn" type="button" data-book="-1" aria-label="' + esc(t.bookPrev || "Previous page") + '">◀</button><span class="book-center"><span class="book-pg">' + esc(pages[colPage].name) + " · " + (colPage + 1) + " / " + pages.length + '</span><span class="book-dots" aria-hidden="true">' + bookDots + '</span></span><button class="book-btn" type="button" data-book="1" aria-label="' + esc(t.bookNext || "Next page") + '">▶</button></div>' +
-          '<div class="book-page">' + pages[colPage].html + "</div>";
+        body.innerHTML = '<div class="book-page">' + pages[colPage].html + "</div>" + '<div class="book-nav"><button class="book-btn" type="button" data-book="-1" aria-label="' + esc(t.bookPrev || "Previous page") + '">◀</button><span class="book-center"><span class="book-pg">' + esc(pages[colPage].name) + " · " + (colPage + 1) + " / " + pages.length + '</span><span class="book-dots" aria-hidden="true">' + bookDots + '</span></span><button class="book-btn" type="button" data-book="1" aria-label="' + esc(t.bookNext || "Next page") + '">▶</button></div>';
         body.querySelectorAll("[data-book]").forEach(function (b) { b.addEventListener("click", function () { colPage = (colPage + parseInt(b.getAttribute("data-book"), 10) + pages.length) % pages.length; renderCollection(); }); });
         body.querySelectorAll("[data-zone-art]").forEach(function (cv) { drawZoneStamp(cv, cv.getAttribute("data-zone-art"), cv.getAttribute("data-zone-mode")); });
         var cc = document.getElementById("colCount");
