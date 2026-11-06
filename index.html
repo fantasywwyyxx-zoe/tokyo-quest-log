@@ -16727,7 +16727,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so the one
          reload loses nothing. */
       (function () {
-        var BUILD_ID = "tql-20261106-1217-q320-da2b6592";
+        var BUILD_ID = "tql-20261106-1222-q321-b3557d74";
         window.TQL_BUILD_ID = BUILD_ID;
         var GUARD_KEY = "tql_ver_guard";
         var lastCheck = 0;
@@ -22611,6 +22611,11 @@ var qrcode = function() {
         if (state.lang !== "en") return d.getFullYear() + "年" + (d.getMonth() + 1) + "月" + d.getDate() + "日";
         return MONTHS_EN[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
       }
+      function fmtShortDate(s) {
+        var d = parseD(s);
+        if (state.lang !== "en") return (d.getMonth() + 1) + "月" + d.getDate() + "日";
+        return MONTHS_EN[d.getMonth()] + " " + d.getDate();
+      }
       function fmtRange(e) {
         if (e.evergreen) return L().evergreenLabel;
         if (e.recurring) return L().monthlyLabel;
@@ -27509,10 +27514,20 @@ function drawRunnerFrame(ctx, frame, blink) {
           var d = questDistM(e);
           if (d != null) distTxt = " · " + esc(L().distAway(fmtDist(d)));
         }
+        var keyTxt = "";
+        if (!e.evergreen && !e.recurring) {
+          if (listSortMode === "start" && e.start) {
+            var ds = daysBetween(TODAY, e.start);
+            keyTxt = " · " + esc(fmtShortDate(e.start)) + " · " + esc(ds > 0 ? L().startsIn(ds) : L().nowOn);
+          } else if (listSortMode === "end" && e.end) {
+            var de = daysBetween(TODAY, e.end);
+            keyTxt = " · " + esc(fmtShortDate(e.end)) + (de >= 0 ? " · " + esc(L().endsIn(de)) : "");
+          }
+        }
         return '<div class="ms-row' + (clr ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
           '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (isEpicQuest(e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
-          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
+          '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + keyTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
       }
