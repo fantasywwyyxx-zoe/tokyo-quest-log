@@ -479,3 +479,25 @@ the dot never grows a cursor (content: none), the label span becomes
 the positioning context, and the cursor floats absolutely at the
 label's left — one marker system, label centred on the tile, as she
 specified. Device-final = Zoe.
+
+## Q-356 — Celebration share rebuilt for the in-app browser (R210)
+
+Zoe's device verdict closed Q-255/Q-310 as FAIL: on her phone
+(Muse-app WKWebView all day) the celebration's 実績カードをシェア
+tap does nothing, twice, while stub verification passed. The exact
+breaking link cannot be proven from the lab — no WKWebView here —
+so the rebuild removes every fragile link in the chain at once:
+(1) the chooser no longer waits for the async poster build
+(fonts + photo + a 2.5s fallback timer that raced the panel's
+tap-to-dismiss): it opens synchronously inside the tap with the
+simple card, and the poster canvas swaps into the same share
+context when ready; (2) hosted inside the celebration, the chooser
+now displays by CSS class instead of a nested showPopover inside
+the celebration popover; (3) both canvas.toBlob waits (system
+share, and the older direct card share) get a 1.6s watchdog that
+falls through to a text share instead of dying silently.
+A Chromium end-to-end drive of the live build confirmed the daily
+celebration carries no share button by design (shareText exists
+only on quest clears) — the failing surface is the quest-clear
+panel only. Device-final = Zoe: next on-site clear, tap share —
+the chooser must appear instantly.
