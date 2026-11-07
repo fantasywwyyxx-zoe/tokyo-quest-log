@@ -444,3 +444,24 @@ force-loads lazy thumbs near the viewport once per render.
 
 Gates: syntax ×6; boot zero + phone PASS; data audit: REWARD 246
 rows, epic:true exactly the EPIC_SET 10. Device-final = Zoe.
+
+## Q-354 — Self marker unmissable (R209); Q-344 device-confirmed
+
+R209 (Zoe at Tokyo Station): the locate banner said "found, nearest
+quest 80 m" but she could not find herself on the map. Two causes:
+(1) stacking — cluster badges render at z-index 34 inside #pinLayer
+while the hero self-marker sat at z 5, so in any dense area the
+marker is painted UNDER the clusters; (2) landing zoom — locate()
+clamped its glide to s >= 1.2, so from her wide Ueno–Odaiba view it
+barely moved. Fixes: the marker now rides at z-index 60 (above pins
+and clusters), wears two expanding sonar rings so it reads from
+across the map (reduced-motion gets a static ring), and a
+successful locate — LOCATE tap or the once-per-session entry
+auto-locate, same flow — centres on the player at zoom.s = 8, the
+zoom system's own ceiling. Also recorded from the same screenshot:
+Q-344 (locate banner at the map's top, correct wording/distance)
+is DEVICE-CONFIRMED by Zoe.
+
+Gates: syntax ×6; boot zero + phone PASS. Device-final = Zoe
+(verify at a station: marker visible over clusters, map lands on
+her at max zoom).
