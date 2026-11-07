@@ -665,3 +665,23 @@ build chain). Q-361 assembles its token in-process and embeds
 it consistently in both files; the freshness check is whole-
 string, so the pair now matches exactly.
 Device-final = Zoe.
+
+## Q-362 — Coin-shop street decor swap (2026-11-07)
+Zoe, looking at the 街の飾り shelf: "换一批道具，不太像是大街上
+会出现的" — the set was indoor furniture (plant/chair/floor
+lamp/table/bookshelf/cat tree) decorating a street scene.
+Swapped the FURNITURE shelf for six street props in the same
+48x26 pixel-SVG style, same slot system, same price ladder:
+街路樹 150 / ベンチ 120 / ポスト 180 / 街灯 260 / バス停 320 /
+自販機 450 (new ids furn-tree/-bench/-postbox/-streetlamp/
+-busstop/-vending; STR keys furnTree/furnBench/furnPostbox/
+furnStreetlamp/furnBusstop/furnVending x3 languages).
+Old ids leave the shelf only: saves keep their furnitureOwned
+lists (retention rule — item data is never deleted); the old
+pieces simply stop being sold and rendered. Art verified by
+rasterizing the shipped SVG strings to a preview sheet and
+reading it (bus-stop timetable board read as a smudge in v1
+and was cut before shipping).
+Gates: syntax x6 OK; bootprobe zero+phone PASS; FURNITURE
+shape test (6 unique ids, price ladder, balanced svg) PASS.
+Device-final = Zoe.

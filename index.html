@@ -17035,7 +17035,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-1625-q361-90db372d";
+        var BUILD_ID = "tql-20261107-1629-q362-59a7c47d";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -17923,7 +17923,7 @@ var qrcode = function() {
           coinWelcomeT: "Welcome bonus +50 coins!",
         segShop: "SHOP", shopTitle: "Coin Shop", statsItems: "Items",
         coinFurnT: "Street Decor", coinFurnNote: "Bought pieces appear right in your hero page background.", coinPlaced: "On display",
-        furnPlant: "Leafy plant", furnChair: "Wooden chair", furnLamp: "Stand lamp", furnTable: "Small table", furnShelf: "Bookshelf", furnCatTree: "Cat tree",
+        furnTree: "Street tree", furnBench: "Bench", furnPostbox: "Post box", furnStreetlamp: "Street lamp", furnBusstop: "Bus stop", furnVending: "Vending machine",
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
           mapTitle: "TOKYO MAP",
@@ -18814,7 +18814,7 @@ var qrcode = function() {
           coinWelcomeT: "ウェルカムボーナス +50コイン！",
         segShop: "ショップ", shopTitle: "コインショップ", statsItems: "道具",
         coinFurnT: "街の飾り", coinFurnNote: "買った飾りは、主人公ページの背景にそのまま並びます。", coinPlaced: "表示中",
-        furnPlant: "観葉植物", furnChair: "木のイス", furnLamp: "スタンドランプ", furnTable: "テーブル", furnShelf: "本棚", furnCatTree: "ねこの木",
+        furnTree: "街路樹", furnBench: "ベンチ", furnPostbox: "ポスト", furnStreetlamp: "街灯", furnBusstop: "バス停", furnVending: "自販機",
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
           mapTitle: "東京マップ",
@@ -19701,7 +19701,7 @@ var qrcode = function() {
           coinWelcomeT: "欢迎金 +50 金币！",
         segShop: "商店", shopTitle: "金币商店", statsItems: "道具",
         coinFurnT: "街景装饰", coinFurnNote: "买下的装饰会直接摆到主人公页的背景里。", coinPlaced: "已摆放",
-        furnPlant: "绿植", furnChair: "木椅", furnLamp: "落地灯", furnTable: "小桌", furnShelf: "书架", furnCatTree: "猫爬架",
+        furnTree: "行道树", furnBench: "长椅", furnPostbox: "邮筒", furnStreetlamp: "路灯", furnBusstop: "公交站", furnVending: "贩卖机",
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
           mapTitle: "东京地图",
@@ -25427,12 +25427,12 @@ function drawYushaJacket(ctx) {
         { id: "shop-cafe-apron", kind: "outfit", rarity: "R", body: "#2f6fb4", pants: "#31456e", fx: "apron", od: "buttons", a2: "#ffffff", price: 480 }
       ];
       var FURNITURE = [
-        { id: "furn-plant", key: "furnPlant", price: 150, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="20" y="2" width="8" height="5" fill="#3a8e4a"/><rect x="14" y="6" width="9" height="5" fill="#57a657"/><rect x="25" y="6" width="9" height="5" fill="#57a657"/><rect x="18" y="9" width="12" height="4" fill="#3a8e4a"/><rect x="23" y="12" width="2" height="4" fill="#8a5a33"/><rect x="17" y="16" width="14" height="3" fill="#b45a32"/><rect x="19" y="19" width="10" height="6" fill="#9a4e2a"/></svg>' },
-        { id: "furn-chair", key: "furnChair", price: 120, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="12" y="2" width="4" height="16" fill="#926036"/><rect x="12" y="6" width="16" height="3" fill="#926036"/><rect x="12" y="12" width="22" height="4" fill="#926036"/><rect x="14" y="16" width="4" height="9" fill="#5d3a1e"/><rect x="30" y="16" width="4" height="9" fill="#5d3a1e"/></svg>' },
-        { id: "furn-lamp", key: "furnLamp", price: 180, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="18" y="1" width="12" height="3" fill="#ffd83d"/><rect x="16" y="4" width="16" height="4" fill="#ffd83d"/><rect x="16" y="7" width="16" height="1" fill="#d9a441"/><rect x="23" y="8" width="2" height="13" fill="#5d3a1e"/><rect x="17" y="21" width="14" height="3" fill="#5d3a1e"/></svg>' },
-        { id: "furn-table", key: "furnTable", price: 260, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="26" y="1" width="2" height="2" fill="#bcd8ff"/><rect x="24" y="4" width="7" height="6" fill="#fffdf4"/><rect x="31" y="6" width="2" height="2" fill="#fffdf4"/><rect x="8" y="10" width="32" height="4" fill="#926036"/><rect x="11" y="14" width="4" height="11" fill="#5d3a1e"/><rect x="33" y="14" width="4" height="11" fill="#5d3a1e"/></svg>' },
-        { id: "furn-shelf", key: "furnShelf", price: 320, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="12" y="1" width="3" height="24" fill="#5d3a1e"/><rect x="33" y="1" width="3" height="24" fill="#5d3a1e"/><rect x="12" y="1" width="24" height="3" fill="#5d3a1e"/><rect x="12" y="12" width="24" height="3" fill="#5d3a1e"/><rect x="12" y="22" width="24" height="3" fill="#5d3a1e"/><rect x="16" y="5" width="4" height="7" fill="#e5484d"/><rect x="21" y="5" width="4" height="7" fill="#2f7cd6"/><rect x="26" y="5" width="4" height="7" fill="#3a8e4a"/><rect x="16" y="15" width="4" height="7" fill="#7548c8"/><rect x="21" y="15" width="4" height="7" fill="#d9a441"/><rect x="26" y="15" width="4" height="7" fill="#cf4d7d"/></svg>' },
-        { id: "furn-cattree", key: "furnCatTree", price: 450, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="12" y="2" width="24" height="4" fill="#e8c96a"/><rect x="22" y="6" width="4" height="17" fill="#926036"/><rect x="16" y="13" width="16" height="4" fill="#e8c96a"/><rect x="38" y="6" width="1" height="3" fill="#8a5a33"/><rect x="36" y="9" width="5" height="5" fill="#f6c9d8"/><rect x="14" y="23" width="20" height="3" fill="#926036"/></svg>' }
+        { id: "furn-tree", key: "furnTree", price: 150, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="14" y="3" width="20" height="6" fill="#3a8e4a"/><rect x="11" y="6" width="26" height="5" fill="#57a657"/><rect x="16" y="10" width="16" height="3" fill="#3a8e4a"/><rect x="15" y="4" width="6" height="2" fill="#7cc47f"/><rect x="22" y="12" width="4" height="8" fill="#8a5a33"/><rect x="15" y="19" width="18" height="1" fill="#9aa0ab"/><rect x="16" y="20" width="16" height="3" fill="#7a7f8a"/></svg>' },
+        { id: "furn-bench", key: "furnBench", price: 120, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="11" y="4" width="3" height="13" fill="#5d3a1e"/><rect x="34" y="4" width="3" height="13" fill="#5d3a1e"/><rect x="10" y="6" width="28" height="3" fill="#926036"/><rect x="10" y="11" width="28" height="3" fill="#926036"/><rect x="9" y="16" width="30" height="3" fill="#a06a3c"/><rect x="11" y="19" width="3" height="5" fill="#31456e"/><rect x="34" y="19" width="3" height="5" fill="#31456e"/></svg>' },
+        { id: "furn-postbox", key: "furnPostbox", price: 180, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="18" y="2" width="12" height="2" fill="#d63a32"/><rect x="15" y="4" width="18" height="3" fill="#d63a32"/><rect x="15" y="7" width="18" height="13" fill="#e5484d"/><rect x="19" y="9" width="10" height="2" fill="#8f1f28"/><rect x="21" y="15" width="6" height="3" fill="#fffdf4"/><rect x="14" y="20" width="20" height="3" fill="#b02a30"/></svg>' },
+        { id: "furn-streetlamp", key: "furnStreetlamp", price: 260, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="13" y="21" width="7" height="2" fill="#26355a"/><rect x="15" y="6" width="3" height="17" fill="#31456e"/><rect x="15" y="4" width="14" height="2" fill="#31456e"/><rect x="27" y="3" width="7" height="3" fill="#26355a"/><rect x="28" y="6" width="5" height="2" fill="#ffd83d"/><rect x="26" y="8" width="9" height="6" fill="#ffd83d" fill-opacity="0.25"/></svg>' },
+        { id: "furn-busstop", key: "furnBusstop", price: 320, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="20" y="0" width="8" height="1" fill="#2f7cd6"/><rect x="17" y="1" width="14" height="8" fill="#2f7cd6"/><rect x="20" y="9" width="8" height="1" fill="#2f7cd6"/><rect x="19" y="2" width="10" height="6" fill="#fffdf4"/><rect x="21" y="3" width="6" height="4" fill="#2f7cd6"/><rect x="22" y="4" width="4" height="1" fill="#fffdf4"/><rect x="22" y="7" width="1" height="1" fill="#31456e"/><rect x="25" y="7" width="1" height="1" fill="#31456e"/><rect x="22" y="10" width="3" height="13" fill="#5a6a7a"/></svg>' },
+        { id: "furn-vending", key: "furnVending", price: 450, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="15" y="1" width="18" height="22" fill="#d63a32"/><rect x="16" y="2" width="16" height="3" fill="#fffdf4"/><rect x="18" y="3" width="5" height="1" fill="#e5484d"/><rect x="25" y="3" width="4" height="1" fill="#e5484d"/><rect x="17" y="7" width="9" height="9" fill="#bcd8ff"/><rect x="18" y="9" width="2" height="3" fill="#e5484d"/><rect x="21" y="9" width="2" height="3" fill="#2f7cd6"/><rect x="24" y="9" width="2" height="3" fill="#3a8e4a"/><rect x="18" y="13" width="2" height="3" fill="#d9a441"/><rect x="21" y="13" width="2" height="3" fill="#cf4d7d"/><rect x="24" y="13" width="2" height="3" fill="#7548c8"/><rect x="28" y="7" width="4" height="5" fill="#8f1f28"/><rect x="29" y="13" width="2" height="2" fill="#ffd83d"/><rect x="17" y="18" width="14" height="3" fill="#5d1f24"/></svg>' }
       ];
       var FURN_SLOTS = [{ l: "2%" }, { l: "12.5%" }, { l: "23%" }, { r: "23%" }, { r: "12.5%" }, { r: "2%" }];
       function renderFurniture() {
