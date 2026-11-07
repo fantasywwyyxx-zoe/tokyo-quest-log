@@ -13466,6 +13466,22 @@
          groups, red when any member is timed. */
       .cluster-pin { width: calc(20px * var(--u, 1)); height: calc(20px * var(--u, 1)); border-radius: 50%; background: #2d77cd; font-size: 0; }
       .cluster-pin.cp-timed { background: #e5484d; }
+    
+      /* Q-366 zoom bands — FAR: every pin is a small colour
+         dot (blue evergreen / red timed / gold EPIC / green
+         cleared; cleared wins, then EPIC, then timed) */
+      .map-box.band-far .pin:not(.is-legend) { width: calc(11px * var(--u, 1)); height: calc(11px * var(--u, 1)); border-radius: 50%; border: 2px solid #fff; background: #2d77cd; box-shadow: 0 1px 2px rgba(16, 23, 63, 0.35); }
+      .map-box.band-far .pin.is-timed:not(.is-legend) { background: #e5484d; }
+      .map-box.band-far .pin.is-epic:not(.is-legend) { background: #e5b83b; }
+      .map-box.band-far .pin.is-cleared:not(.is-legend) { background: #58a05c; }
+      .map-box.band-far .pin:not(.is-legend) .pin-body, .map-box.band-far .pin:not(.is-legend) .pin-ico, .map-box.band-far .pin:not(.is-legend) .pin-flag, .map-box.band-far .pin:not(.is-legend) .pin-check { display: none; }
+      /* Q-366 MID: overlap-dropped pins and cleared pins are
+         small plain dots in the same colour language */
+      .map-box.band-mid .pin.as-dot:not(.is-legend), .map-box.band-mid .pin.is-cleared:not(.is-legend) { width: calc(12px * var(--u, 1)); height: calc(12px * var(--u, 1)); border-radius: 50%; border: 2px solid #fff; background: #2d77cd; box-shadow: 0 1px 2px rgba(16, 23, 63, 0.35); }
+      .map-box.band-mid .pin.as-dot.is-timed:not(.is-legend) { background: #e5484d; }
+      .map-box.band-mid .pin.as-dot.is-epic:not(.is-legend) { background: #e5b83b; }
+      .map-box.band-mid .pin.is-cleared:not(.is-legend) { background: #58a05c; }
+      .map-box.band-mid .pin.as-dot .pin-body, .map-box.band-mid .pin.as-dot .pin-ico, .map-box.band-mid .pin.as-dot .pin-flag, .map-box.band-mid .pin.as-dot .pin-check, .map-box.band-mid .pin.is-cleared .pin-body, .map-box.band-mid .pin.is-cleared .pin-ico, .map-box.band-mid .pin.is-cleared .pin-flag, .map-box.band-mid .pin.is-cleared .pin-check { display: none; }
     </style>
   </head>
   <body data-view="map">
@@ -17050,7 +17066,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-1645-q365-fcae80f3";
+        var BUILD_ID = "tql-20261107-1649-q366-76e26569";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -27641,7 +27657,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       function buildClusters() {
         if (glActive) { buildClustersGL(); return; }
         (pinLayerEl || mapZoom).querySelectorAll(".cluster-pin").forEach(function (c) { c.remove(); });
-        (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) { p.classList.remove("is-clustered"); });
+        (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) { p.classList.remove("is-clustered"); p.classList.remove("as-dot"); });
         var pts = [];
         (pinLayerEl || mapZoom).querySelectorAll(".pin").forEach(function (p) {
           pts.push({ el: p, id: p.dataset.qid, x: parseFloat(p.dataset.px), y: parseFloat(p.dataset.py), used: false });
@@ -27667,6 +27683,9 @@ function drawRunnerFrame(ctx, frame, blink) {
            photo pins at a practical zoom step, while fit-view
            grouping — and with it the wide cluster counts — is
            unchanged. */
+        /* Q-366 far band: every pin is a colour dot via CSS,
+           so nothing groups and no markers are built. */
+        if (curBand === "far") return;
         var pinD = 40 * (curPinScale || 0.85);
         var zDeep = Math.min(1, Math.max(0, ((curPxu || 1.4) - 1.6) / 1.0));
         /* Q-154 round 3 (2026-10-29, Zoe device + QA R27 STEP 3):
@@ -27677,6 +27696,12 @@ function drawRunnerFrame(ctx, frame, blink) {
            true overlaps stay merged. Fit view (pxu <= 1.6) and
            its measured cluster counts are unchanged. */
         var thrU = (pinD * (1.18 - 0.88 * zDeep)) / (curPxu || 1.4);
+        /* Q-366 mid band: grouping exists only to decide which
+           pins drop to dots, and dropping is cheap (no numbers,
+           nothing hidden) — so the radius is the plain visual
+           overlap of the half-size photo pins, not the old
+           dissolve-tuned schedule. */
+        if (curBand === "mid") thrU = (pinD * 1.05) / (curPxu || 1.4);
         pts.forEach(function (a) {
           if (a.used) return;
           var grp = [a]; a.used = true;
@@ -27686,6 +27711,22 @@ function drawRunnerFrame(ctx, frame, blink) {
             if (Math.sqrt(dx * dx + dy * dy) < thrU) { grp.push(b); b.used = true; }
           });
           if (grp.length < 2) { a.used = false; return; }
+          if (curBand === "mid") {
+            /* Q-366 mid band: ONE photo pin stays (the first
+               member that is neither cleared nor a legend
+               anchor); every other member drops to a plain
+               dot — nothing hidden behind a marker, no
+               numbers. Legend members keep the old hiding,
+               since a legend anchor must not pose as a dot. */
+            var rep = null;
+            grp.forEach(function (mm) { if (!rep && !mm.el.classList.contains("is-cleared") && !mm.el.classList.contains("is-legend")) rep = mm; });
+            grp.forEach(function (mm) {
+              if (mm === rep) return;
+              if (mm.el.classList.contains("is-legend")) mm.el.classList.add("is-clustered");
+              else mm.el.classList.add("as-dot");
+            });
+            return;
+          }
           var cx = 0, cy = 0;
           grp.forEach(function (m) { m.el.classList.add("is-clustered"); cx += m.x; cy += m.y; });
           cx /= grp.length; cy /= grp.length;
@@ -31883,6 +31924,8 @@ function drawZoneStamp(cv, zoneId, mode) {
       var curPxu = 1.4;        /* plane px per unit at the current zoom */
       var curPinScale = 0.85;  /* pin scale (--ps) at the current zoom */
       var lastClusterPxu = 0;  /* pxu the cluster set was built for */
+      var curBand = "mid";     /* Q-366 zoom band: far | mid | near */
+      var lastBand = "";       /* band the cluster set was built for */
       var suppressPinClick = false;
       function layoutMap() {
         if (glActive) {
@@ -32019,10 +32062,12 @@ function drawZoneStamp(cv, zoneId, mode) {
          The cluster merge schedule is NOT changed: separated
          pins stay individual photos (Zoe's Q-154 verdicts);
          size is the lever, not merging. */
+      /* Q-366: inside the band scheme the photo pin runs at
+         half size through the whole district band and only
+         reaches full size at the near (street) threshold. */
       function pinScaleFor(pxu) {
-        if (pxu <= 1.6) return 0.60;
-        if (pxu <= 3.2) return 0.60 + (pxu - 1.6) * 0.05;
-        if (pxu <= 6.0) return Math.min(1, 0.68 + (pxu - 3.2) * 0.1143);
+        if (pxu <= 4.2) return 0.5;
+        if (pxu <= 5.8) return Math.min(1, 0.5 + (pxu - 4.2) * 0.3125);
         return 1;
       }
       /* Q-150: pin photos are CSS backgrounds on .pin-body
@@ -32084,7 +32129,11 @@ function drawZoneStamp(cv, zoneId, mode) {
         curPinScale = pinScaleFor(pxu);
         mapZoom.style.setProperty("--ps", curPinScale.toFixed(3));
         mapBox.classList.toggle("is-fitview", pxu < 3.4 || zoom.s < 1.45);
-        if (Math.abs(pxu - lastClusterPxu) / Math.max(0.2, lastClusterPxu) > 0.18) { lastClusterPxu = pxu; buildClusters(); }
+        curBand = pxu < 2.2 ? "far" : (pxu < 5.8 ? "mid" : "near");
+        mapBox.classList.toggle("band-far", curBand === "far");
+        mapBox.classList.toggle("band-mid", curBand === "mid");
+        mapBox.classList.toggle("band-near", curBand === "near");
+        if (curBand !== lastBand || Math.abs(pxu - lastClusterPxu) / Math.max(0.2, lastClusterPxu) > 0.18) { lastBand = curBand; lastClusterPxu = pxu; buildClusters(); }
         /* the % readout lived on the abolished FULL MAP toolbar;
            the write is guarded so the zoom path never depends
            on a chrome element existing */

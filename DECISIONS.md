@@ -745,3 +745,26 @@ aria-label still carries the count for screen readers only.
 Gates: syntax x6 OK; bootprobe zero+phone PASS; cascade
 audit (Q-365 width rule is last for .cluster-pin) OK.
 Device-final = Zoe; QA walk on R212.
+
+## Q-366 — Three-band zoom scheme for map pins (2026-11-07, QA R212)
+Zoe approved QA's three-band scheme (16:36 "试试看"):
+- FAR (whole city, pxu < 2.2): every pin is a small colour
+  dot — blue evergreen / red timed / gold EPIC / green
+  cleared (priority cleared > EPIC > timed). No photos, no
+  numbers, no clustering; streets and area names readable.
+- MID (district, 2.2–5.8): photo pins at half size
+  (pinScaleFor now 0.5 through the band, full size only at
+  the near threshold). Overlap groups keep ONE photo pin
+  (first uncleared non-legend member); the rest drop to
+  plain dots — nothing hidden, no markers. Cleared pins
+  are always small green dots in this band. Grouping radius
+  here is the plain visual overlap of the half-size pins.
+- NEAR (street, pxu >= 5.8 incl. locate): current big photo
+  pins; genuine overlaps keep Q-365's plain marker.
+Bands are .map-box classes (band-far/-mid/-near) set in
+applyZoom; buildClusters rebuilds on band change. Legend
+anchors are exempt from dot rendering. Supersedes Q-364's
+scale curve (pins still grow with zoom, inside the bands);
+Q-365's number ban holds in every band.
+Gates: syntax x6 OK; bootprobe zero+phone PASS; pinScaleFor
+unit OK. Device-final = Zoe; QA walks all three bands.
