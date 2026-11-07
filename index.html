@@ -13262,6 +13262,14 @@
       /* Q-349 (R198 S3): badges grid fills its panel — no dead space under the pager */
       #hsegBadges .badge-grid { flex: 1 1 auto; min-height: 0; grid-auto-rows: 1fr; }
       #hsegBadges .badge-grid .badge { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+      /* Q-351 (R203): records regions are hard-bounded — their content
+         can never paint past the region onto the pager again */
+      #view-hero #hsegStatus #ladder .ladder-track { min-height: 0; }
+      #view-hero #hsegBadges .badge-grid { overflow: hidden; }
+      #view-hero #hsegBadges .badge-grid .badge { overflow: hidden; min-height: 0; }
+      #view-hero #hsegBadges #badgeGrid.badges-measuring { grid-auto-rows: auto; }
+      #view-hero #hsegAdvlog .adv-body { min-height: 0; }
 </style>
   </head>
   <body data-view="map">
@@ -16836,7 +16844,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-0944-q350-6c88fa05";
+        var BUILD_ID = "tql-20261107-0956-q351-2ddbb0dd";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30253,9 +30261,14 @@ function drawRunnerFrame(ctx, frame, blink) {
            is on for this pass only and removed on every exit. */
         var cl = el.classList;
         if (cl) cl.add("ladder-measuring");
-        var foot = panel.querySelector(".hstat-foot");
-        var above = el.offsetTop; /* Q-328: layout metric — rects report transformed geometry mid-transition (R175) */
-        var avail = panel.clientHeight - above - (foot ? foot.offsetHeight : 0) - 12;
+        /* Q-351 (R203): the fit reads the ladder BOX's own rendered
+           height. The old panel-minus-parts estimate over-read: the
+           panel's clientHeight includes its top padding + safe-area
+           while offsetTop is measured from the padding edge, so the
+           estimate silently kept the padding as spendable room and
+           bought one row too many on Zoe's phone (R203 shot 1: the
+           Lv.15 row sliced by the pager). */
+        var avail = el.clientHeight - 4;
         var pitch = firstRow.offsetHeight + 6;
         if (track && track.children.length > 1) {
           /* Q-323 (R167): the pitch must not depend on which page is
@@ -30293,10 +30306,19 @@ function drawRunnerFrame(ctx, frame, blink) {
         /* Q-333: verify against the rendered box — whatever the
            formula foresaw, the track must not overflow the ladder
            box; shrink the page until it fits (same re-anchor
-           discipline as the fit change above) */
+           discipline as the fit change above)
+           Q-351: the check reads the LAST ROW's real bottom against
+           the box's bottom — track.offsetHeight could not see the
+           overflow once the rows stretched to fill the track. */
         var guardN = 0;
         track = el.querySelector(".ladder-track");
-        while (track && el.clientHeight && track.offsetHeight > el.clientHeight + 2 && LADDER_PAGE_SIZE > 5 && guardN < 10) {
+        var ladderOverflows = function () {
+          if (!track || !track.children.length || !el.clientHeight) return false;
+          var lr = track.children[track.children.length - 1].getBoundingClientRect();
+          var br = el.getBoundingClientRect();
+          return lr.bottom > br.bottom + 2;
+        };
+        while (ladderOverflows() && LADDER_PAGE_SIZE > 5 && guardN < 10) {
           guardN++;
           _ladderFitting = true;
           var oldStart2 = ladderPage >= 0 ? ladderPage * LADDER_PAGE_SIZE : -1;
@@ -30342,6 +30364,96 @@ function drawRunnerFrame(ctx, frame, blink) {
         var p = document.getElementById("hsegStatus");
         if (p && !p.hidden) renderLadder();
       });
+
+      /* ============ Q-351 (R203): badge + adventure-log fits, and
+         ONE refit scheduler for the whole records family. Badges and
+         the log used to page at fixed sizes (9 / 4) with no fit at
+         all, and no tab re-fitted when the host browser's chrome
+         settled after the panel opened (visualViewport resize) —
+         a page size proved in a taller geometry went stale and the
+         content painted over the pager (Zoe's device, 2026-11-07).
+         Both fits mirror the ladder's discipline: measure the
+         region's own rendered box, re-anchor on size change,
+         remember a proven size per box height, shrink until the
+         rendered content truly fits. ============ */
+      function badgeFitPass() {
+        if (_badgeFitting) return;
+        var panel = document.getElementById("hsegBadges");
+        var grid = document.getElementById("badgeGrid");
+        if (!panel || !grid || panel.hidden || !grid.clientHeight || !grid.children.length) return;
+        grid.classList.add("badges-measuring");
+        var first = grid.children[0];
+        var pitch = first ? first.offsetHeight + 8 : 0;
+        grid.classList.remove("badges-measuring");
+        if (pitch <= 0) return;
+        var rows = Math.floor((grid.clientHeight + 8) / pitch);
+        rows = Math.max(2, Math.min(4, rows));
+        var per = rows * 3;
+        if (_badgeCapN > 0 && _badgeCapH === grid.clientHeight && per > _badgeCapN) per = _badgeCapN;
+        if (per !== badgePerPage) {
+          _badgeFitting = true;
+          var oldStart = badgePage * badgePerPage;
+          badgePerPage = per;
+          badgePage = Math.floor(oldStart / per);
+          try { renderHero(); } finally { _badgeFitting = false; }
+        }
+        var guard = 0;
+        while (grid.scrollHeight > grid.clientHeight + 2 && badgePerPage > 6 && guard < 4) {
+          guard++;
+          _badgeFitting = true;
+          var os2 = badgePage * badgePerPage;
+          badgePerPage -= 3;
+          badgePage = Math.floor(os2 / badgePerPage);
+          try { renderHero(); } finally { _badgeFitting = false; }
+        }
+        if (guard > 0) { _badgeCapH = grid.clientHeight; _badgeCapN = badgePerPage; }
+      }
+      function advFitPass() {
+        if (_advFitting) return;
+        var panel = document.getElementById("hsegAdvlog");
+        var body = document.getElementById("advBody");
+        if (!panel || !body || panel.hidden || !body.clientHeight || !body.children.length) return;
+        var avg = (body.scrollHeight + 8) / body.children.length;
+        if (!(avg > 0)) return;
+        var fit = Math.floor((body.clientHeight + 8) / avg);
+        fit = Math.max(3, Math.min(5, fit));
+        if (_advCapN > 0 && _advCapH === body.clientHeight && fit > _advCapN) fit = _advCapN;
+        if (fit !== logPerPage) {
+          _advFitting = true;
+          var oldStart = logPage * logPerPage;
+          logPerPage = fit;
+          logPage = Math.floor(oldStart / fit);
+          try { renderAdvLog(); } finally { _advFitting = false; }
+        }
+        var guard = 0;
+        while (body.scrollHeight > body.clientHeight + 2 && logPerPage > 3 && guard < 4) {
+          guard++;
+          _advFitting = true;
+          var os = logPage * logPerPage;
+          logPerPage -= 1;
+          logPage = Math.floor(os / logPerPage);
+          try { renderAdvLog(); } finally { _advFitting = false; }
+        }
+        if (guard > 0) { _advCapH = body.clientHeight; _advCapN = logPerPage; }
+      }
+      var _recRefitT = 0, _recRefitT2 = 0, _recRefitRaf = false;
+      function recordsRefitNow() {
+        var sp = document.getElementById("hsegStatus");
+        var lad = document.getElementById("ladder");
+        if (sp && !sp.hidden && lad) ladderFitPass(lad);
+        badgeFitPass();
+        advFitPass();
+      }
+      function scheduleRecordsRefit() {
+        if (typeof requestAnimationFrame === "function" && !_recRefitRaf) {
+          _recRefitRaf = true;
+          requestAnimationFrame(function () { _recRefitRaf = false; recordsRefitNow(); });
+        }
+        if (!_recRefitT) _recRefitT = setTimeout(function () { _recRefitT = 0; recordsRefitNow(); }, 450);
+        if (!_recRefitT2) _recRefitT2 = setTimeout(function () { _recRefitT2 = 0; recordsRefitNow(); }, 1000);
+      }
+      if (window.visualViewport) window.visualViewport.addEventListener("resize", function () { scheduleRecordsRefit(); });
+      window.addEventListener("resize", function () { scheduleRecordsRefit(); });
 
       function showStart(editMode) {
         var sc = document.getElementById("startScreen");
@@ -30802,6 +30914,12 @@ function drawZoneStamp(cv, zoneId, mode) {
       var colPage = 0;
       var badgePage = 0;
       var logPage = 0;
+      /* Q-351 (R203): badge / adventure-log page sizes are fitted to
+         their rendered region boxes by badgeFitPass / advFitPass */
+      var badgePerPage = 9;
+      var logPerPage = 4;
+      var _badgeCapH = 0, _badgeCapN = 0, _badgeFitting = false;
+      var _advCapH = 0, _advCapN = 0, _advFitting = false;
       function stickerIdxFor(id) { var h = 0; for (var i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0; return h % BADGE_PIX.length; }
       function renderCollection() {
         var t = L(), body = document.getElementById("colBody"); if (!body) return;
@@ -30873,7 +30991,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         /* Q-210 (Zoe): the adventure log pages like the titles
            and badges tabs — one page of rows at a time under the
            family pager, instead of one long scrolling list. */
-        var LOG_PER_PAGE = 4;
+        var LOG_PER_PAGE = logPerPage;
         var logPages = Math.max(1, Math.ceil(rows.length / LOG_PER_PAGE));
         if (logPage < 0) logPage = 0;
         if (logPage > logPages - 1) logPage = logPages - 1;
@@ -30901,6 +31019,8 @@ function drawZoneStamp(cv, zoneId, mode) {
           lPrev.onclick = function () { if (logPage > 0) { logPage--; renderAdvLog(); } };
           lNext.onclick = function () { if (logPage < logPages - 1) { logPage++; renderAdvLog(); } };
         }
+        advFitPass();
+        scheduleRecordsRefit();
       }
       function renderHero() {
         var t = L();
@@ -30942,7 +31062,7 @@ function drawZoneStamp(cv, zoneId, mode) {
            clamped arrows (Zoe's design) — 9 per page (3x3 at the
            current card size); order, progress and the header
            count are unchanged. */
-        var BADGE_PER_PAGE = 9;
+        var BADGE_PER_PAGE = badgePerPage;
         var badgePages = Math.max(1, Math.ceil(t.badges.length / BADGE_PER_PAGE));
         if (badgePage < 0) badgePage = 0;
         if (badgePage > badgePages - 1) badgePage = badgePages - 1;
@@ -30958,6 +31078,8 @@ function drawZoneStamp(cv, zoneId, mode) {
             '<span class="b-pill">' + Math.min(p[0], p[1]) + "/" + p[1] + "</span>" +
             '<span class="b-prog"><i style="width:' + pct + '%"></i></span></div>';
         }).join("");
+        badgeFitPass();
+        scheduleRecordsRefit();
         var bcEl = document.getElementById("badgeCount");
         if (bcEl) bcEl.textContent = "(" + gotN + "/" + t.badges.length + ")";
         var bpgEl = document.getElementById("badgePager");
@@ -32258,6 +32380,7 @@ function drawZoneStamp(cv, zoneId, mode) {
             b.setAttribute("aria-pressed", String(b.getAttribute("data-rectab") === name));
           });
         }
+        if (name === "status" || name === "badges" || name === "advlog" || name === "collection") scheduleRecordsRefit();
         if (name === "collection") renderCollection();
         if (name === "shop") { wireCoinWin(); renderCoinWin(); }
         if (name === "advlog") renderAdvLog();
