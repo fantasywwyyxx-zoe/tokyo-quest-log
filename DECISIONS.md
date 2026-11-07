@@ -615,3 +615,53 @@ must be added to the channel's callback URLs in the LINE
 console, or LINE refuses the authorize step. Device-final =
 Zoe's retry after that paste. Existing accounts still do not
 auto-merge (v1 rule unchanged).
+
+## Q-361 — Zoe's device-pass fix batch (2026-11-07)
+Six findings from Zoe's hands-on pass after the LINE login test,
+all fixed in one build:
+1. LINE accounts showed the synthetic address
+   (line.<sub>@line.tokyoquestlog.com) on the account surfaces.
+   Zoe: hide it, show 「LINE 账号」. New AUTH_STR key `lineAccount`
+   x3 + `acctMailLabel()` (block 4) swapped into all five display
+   sites (auth done x2 paths, name-step finish, account status
+   line, hero account line). The address itself is unchanged —
+   it remains the account key; only the label changed.
+2. List header jumped between one and two rows depending on the
+   summary length, and the subbar sort button sat mid-row.
+   Zoe: right-align, keep it stable. `.list-bar` no longer wraps;
+   the summary flexes and wraps inside its own space; the subbar
+   sort button is pinned right (margin-left auto).
+3. Shop decor note invisible at night: `.coin-house` hardcodes a
+   pale-blue ground but inherited the theme ink. Pinned
+   color #23405c. Audit of the same class (fixed light ground +
+   inherited ink): `.mg-row.is-duty` pinned #4a3a00; other hits
+   are decorative (scene sticky notes, frames, dots) or set their
+   own color — no other text-bearing case found.
+4. Collection tab flashed on open and its pager was clipped at
+   the window's bottom edge, unlike its siblings. The pager is
+   now static panel furniture like the ladder's (Q-333 pattern):
+   rendered into a pinned `#colFoot` footer, `#colBody` flexes
+   and scrolls internally, and openHeroWin renders the collection
+   BEFORE unhiding the panel (the status tab already did this).
+5. Titles tab: Zoe circled the EXP/ticket/coin footer strip —
+   "this doesn't need to appear". `.hstat-foot` removed (all its
+   writers were already null-guarded; coin balance still lives
+   in the shop header and hero stats). Pager centre pill gets
+   line-height/min-height so its digits no longer clip; the
+   explainer note is slimmed per the space principle.
+   NOTE: coin_test.js "status chip shows balance" now FAILs by
+   design — it reads the removed hsCoinVal chip. Test is stale
+   against Zoe's explicit order, not a regression. (The other
+   coin_test FAIL, announce heads, pre-exists.)
+6. Daily view ended at ~60% height with dead space below.
+   `.daily-panel` now flexes to the full view height and the
+   quest rows stretch evenly through the window.
+Gates: syntax x6 OK; bootprobe zero+phone PASS; q351 fits PASS;
+ladder chain SETTLED 5/8/13 at BOX_H 300/460/700 (unchanged);
+cascade audit: Q-361 block sits after every rival rule.
+Also discovered: the Q-360 embedded BUILD_ID carried a mangled
+"tq" prefix vs version.txt (runtime redaction artifact in the
+build chain). Q-361 assembles its token in-process and embeds
+it consistently in both files; the freshness check is whole-
+string, so the pair now matches exactly.
+Device-final = Zoe.

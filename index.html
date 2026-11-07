@@ -4353,7 +4353,7 @@
       /* ---------- DAILY page: street scene + cards + community reserve ---------- */
       #view-daily:not([hidden]) { display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
       #view-daily::-webkit-scrollbar { display: none; }
-      .daily-panel { position: relative; flex: none; display: flex; flex-direction: column; }
+      .daily-panel { position: relative; flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
       #dailyPanel .daily-scene { position: absolute; left: 0; right: 0; top: 0; height: 124px; z-index: 0; border-radius: 10px; overflow: hidden; border: 2.5px solid var(--edge); }
       #dailyPanel .daily-scene svg { width: 100%; height: 100%; display: block; }
       #dailyPanel > *:not(.daily-scene) { position: relative; z-index: 1; }
@@ -13061,7 +13061,7 @@
       .coin-gear-cv { position: relative; width: 62px; height: 62px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
       .coin-gear-cv canvas { width: 48px; height: 48px; image-rendering: pixelated; }
       .coin-ltd { position: absolute; top: -4px; right: -8px; background: #ffd83d; border: 1.5px solid #d9a441; color: #10142e; font-size: 9.5px; font-weight: 900; border-radius: 5px; padding: 0 4px; }
-      .coin-house { margin-top: 16px; background: #dceeff; border: 2px solid #57b6e8; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+      .coin-house { margin-top: 16px; background: #dceeff; color: #23405c; border: 2px solid #57b6e8; border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
       .coin-house b { color: #c22e3a; font-size: 14.5px; }
       .coin-house span { font-size: 12.5px; font-weight: 700; }
       #coinToast { position: fixed; top: calc(10px + env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%) translateY(-10px); z-index: 130; background: #10142e; color: #fff6dd; font-weight: 900; font-size: 14.5px; border-radius: 999px; padding: 7px 16px 7px 12px; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; display: flex; align-items: center; gap: 7px; }
@@ -13430,7 +13430,28 @@
         #view-hero #hsegGacha .gacha-stage-hero canvas { width: 60px; height: 60px; }
         #view-hero #hsegGacha .gacha-result canvas { width: 84px; height: 84px; }
       }
-</style>
+
+      /* Q-361 (Zoe device pass, 2026-11-07): list header stays on one
+         row — the summary wraps inside its own space, controls keep
+         their right-side places; subbar sort pinned right */
+      .list-shell .list-bar { flex-wrap: nowrap; }
+      .list-shell .list-bar .search-summary { flex: 1 1 auto; min-width: 0; margin-left: 0; white-space: normal; line-height: 1.3; }
+      .list-shell .list-subbar .sort-btn { margin-left: auto; }
+      /* night contrast, same class as .coin-house: fixed pale ground,
+         inherited ink — pin a dark ink that reads on it day and night */
+      .mg-row.is-duty { color: #4a3a00; }
+      /* daily: the quest rows spread through the window's full height */
+      #dailyWin .daily-rows { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+      #dailyWin .drow { flex: 1 1 auto; }
+      /* collection: body flexes between title and the pinned pager */
+      #colBody { flex: 1 1 auto; }
+      .book-foot { flex: none; padding-top: 8px; }
+      .book-foot .book-nav { margin: 0; }
+      /* titles tab: pager number gets air (digits were clipped),
+         explainer slimmed to the space principle */
+      .ladder-pg-num, .pp-pg-pos, .book-pg { line-height: 1.3; display: inline-flex; align-items: center; min-height: 32px; }
+      #hsegStatus .ladder-note { font-size: 12px; line-height: 1.4; margin: 2px 2px 6px; }
+    </style>
   </head>
   <body data-view="map">
 
@@ -14443,11 +14464,7 @@
           <span class="ladder-pg-num" id="ladderPgNum"></span>
           <button class="ladder-pg-btn" type="button" data-ladder-pg="1">▶</button>
         </div>
-        <!-- EXP progress rides at the very bottom of the TITLES
-             tab as a slim footer strip (user, 2026-10-27): the
-             ticket count rides this strip too (Q-291). The
-             bar keeps its striped-segment look (.hstat-track). -->
-        <div class="hstat-foot"><span class="hstat-lbl">EXP</span><span class="hstat-track"><i id="hsExpFill"></i></span><span class="hstat-val" id="hsExpVal"></span><span class="hstat-val" id="hsTicketVal"></span><button class="hstat-coin" id="hsCoinVal" type="button"><span class="coin-ico"></span> 0</button></div>
+        
         </div>
         <div class="hseg-panel hero-win win-scroller" id="hsegBadges" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -14481,6 +14498,7 @@
         </div>
         <h2 class="log-sec-title"><span id="colTitleEl"></span><span class="n" id="colCount"></span></h2>
         <div class="col-body win-scroller" id="colBody"></div>
+        <div class="book-foot" id="colFoot" hidden></div>
         </div>
         <div class="hseg-panel hero-win win-scroller" id="hsegShop" hidden>
         <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
@@ -17017,7 +17035,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1432-q360-af654b13";
+        var BUILD_ID = "tql-20261107-1625-q361-90db372d";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -31231,8 +31249,8 @@ function drawZoneStamp(cv, zoneId, mode) {
            and a compact centre of title + n / N. No word wraps or
            truncates in any language by construction. */
         var bookDots = pages.map(function (_, i) { return '<span class="book-dot' + (i === colPage ? " on" : "") + '"></span>'; }).join("");
-        body.innerHTML = '<div class="book-page">' + pages[colPage].html + "</div>" + '<div class="book-nav"><button class="book-btn" type="button" data-book="-1" aria-label="' + esc(t.bookPrev || "Previous page") + '">◀</button><span class="book-center"><span class="book-pg">' + esc(pages[colPage].name) + " · " + (colPage + 1) + " / " + pages.length + '</span><span class="book-dots" aria-hidden="true">' + bookDots + '</span></span><button class="book-btn" type="button" data-book="1" aria-label="' + esc(t.bookNext || "Next page") + '">▶</button></div>';
-        body.querySelectorAll("[data-book]").forEach(function (b) { b.addEventListener("click", function () { colPage = (colPage + parseInt(b.getAttribute("data-book"), 10) + pages.length) % pages.length; renderCollection(); }); });
+        body.innerHTML = '<div class="book-page">' + pages[colPage].html + "</div>"; var colFootEl = document.getElementById("colFoot"); if (colFootEl) { colFootEl.hidden = false; colFootEl.innerHTML = '<div class="book-nav"><button class="book-btn" type="button" data-book="-1" aria-label="' + esc(t.bookPrev || "Previous page") + '">◀</button><span class="book-center"><span class="book-pg">' + esc(pages[colPage].name) + " · " + (colPage + 1) + " / " + pages.length + '</span><span class="book-dots" aria-hidden="true">' + bookDots + '</span></span><button class="book-btn" type="button" data-book="1" aria-label="' + esc(t.bookNext || "Next page") + '">▶</button></div>'; }
+        body.parentElement.querySelectorAll("[data-book]").forEach(function (b) { b.addEventListener("click", function () { colPage = (colPage + parseInt(b.getAttribute("data-book"), 10) + pages.length) % pages.length; renderCollection(); }); });
         body.querySelectorAll("[data-zone-art]").forEach(function (cv) { drawZoneStamp(cv, cv.getAttribute("data-zone-art"), cv.getAttribute("data-zone-mode")); });
         var cc = document.getElementById("colCount");
         if (cc) cc.textContent = "(" + (epicN + gotB) + ")";
@@ -32604,6 +32622,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (name === "status" || name === "badges" || name === "advlog" || name === "collection") recTab = name;
         /* the ladder always opens on the CURRENT title's page */
         if (name === "status") { ladderPage = -1; renderLadder(); }
+        if (name === "collection") renderCollection();
         ["gacha", "status", "badges", "studio", "custom", "collection", "advlog", "shop"].forEach(function (k) {
           var p = document.getElementById("hseg" + k.charAt(0).toUpperCase() + k.slice(1));
           if (p) p.hidden = name !== k;
@@ -32639,7 +32658,6 @@ function drawZoneStamp(cv, zoneId, mode) {
           });
         }
         if (name === "status" || name === "badges" || name === "advlog" || name === "collection") scheduleRecordsRefit();
-        if (name === "collection") renderCollection();
         if (name === "shop") { wireCoinWin(); renderCoinWin(); }
         if (name === "advlog") renderAdvLog();
         document.querySelectorAll("[data-openwin]").forEach(function (b) {
@@ -33288,7 +33306,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "LOG IN", account: "ACCOUNT", guestState: "Guest — progress stays on this device",
           inState: function (e) { return "Logged in: " + e; },
           logout: "LOG OUT", support: "♥ SUPPORT", supportShort: "♥ SUPPORT", authTitle: "LOG IN / SIGN UP",
-          mailBtn: "✉ LOG IN WITH EMAIL", googleBtn: "G  LOG IN WITH GOOGLE", lineBtn: "LOG IN WITH LINE", guestBtn: "CONTINUE AS GUEST",
+          mailBtn: "✉ LOG IN WITH EMAIL", googleBtn: "G  LOG IN WITH GOOGLE", lineBtn: "LOG IN WITH LINE", lineAccount: "LINE account", guestBtn: "CONTINUE AS GUEST",
           mailLabel: "EMAIL ADDRESS", sendBtn: "SEND CODE", sending: "SENDING…",
           codeLabel: "ENTER THE 6-DIGIT CODE", codeTo: function (e) { return "We sent a code to " + e + " (valid 60 min)."; },
           verifyBtn: "VERIFY & LOG IN", verifying: "CHECKING…", resendBtn: "RESEND CODE",
@@ -33316,7 +33334,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "ログイン", account: "アカウント", guestState: "ゲスト — 記録はこの端末に保存されます",
           inState: function (e) { return "ログイン中：" + e; },
           logout: "ログアウト", support: "♥ 応援する", supportShort: "♥ 応援", authTitle: "ログイン / 新規登録",
-          mailBtn: "✉ メールでログイン", googleBtn: "G Googleでログイン", lineBtn: "LINEでログイン", guestBtn: "ゲストのまま続ける",
+          mailBtn: "✉ メールでログイン", googleBtn: "G Googleでログイン", lineBtn: "LINEでログイン", lineAccount: "LINEアカウント", guestBtn: "ゲストのまま続ける",
           mailLabel: "メールアドレス", sendBtn: "コードを送信", sending: "送信中…",
           codeLabel: "6桁のコードを入力", codeTo: function (e) { return e + " にコードを送りました（有効期限60分）。"; },
           verifyBtn: "検証してログイン", verifying: "確認中…", resendBtn: "コードを再送",
@@ -33344,7 +33362,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "登录", account: "账号", guestState: "游客 — 进度保存在这台设备上",
           inState: function (e) { return "已登录：" + e; },
           logout: "退出登录", support: "♥ 应援", supportShort: "♥ 应援", authTitle: "登录 / 注册",
-          mailBtn: "✉ 用邮箱登录", googleBtn: "G 用 Google 登录", lineBtn: "用 LINE 登录", guestBtn: "以游客身份继续",
+          mailBtn: "✉ 用邮箱登录", googleBtn: "G 用 Google 登录", lineBtn: "用 LINE 登录", lineAccount: "LINE 账号", guestBtn: "以游客身份继续",
           mailLabel: "邮箱地址", sendBtn: "发送验证码", sending: "发送中…",
           codeLabel: "输入 6 位验证码", codeTo: function (e) { return "验证码已发送到 " + e + "（60 分钟内有效）。"; },
           verifyBtn: "验证并登录", verifying: "验证中…", resendBtn: "重新发送",
@@ -33651,13 +33669,13 @@ function drawZoneStamp(cv, zoneId, mode) {
       function showSyncDone(note) {
         if ($("authScreen").hidden) return;
         showStep("done");
-        $("authDoneMail").textContent = authUser ? (authUser.email || "") : "";
+        $("authDoneMail").textContent = authUser ? acctMailLabel() : "";
         showMsg("authSyncNote", note || lastSyncNote, true);
       }
       function openAuth() {
         refreshAuthTexts();
         $("authScreen").hidden = false;
-        if (authUser) { showStep("done"); $("authDoneMail").textContent = authUser.email || ""; showMsg("authSyncNote", lastSyncNote, true); }
+        if (authUser) { showStep("done"); $("authDoneMail").textContent = acctMailLabel(); showMsg("authSyncNote", lastSyncNote, true); }
         else { showStep("main"); showMsg("authMainMsg", ""); }
       }
       function closeAuth() { $("authScreen").hidden = true; }
@@ -33678,7 +33696,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("titleLoginBtn").textContent = tqlDn || (authUser ? t.account : t.login);
         $("titleAcctState").textContent = authUser ? "" : t.guestState;
         $("lblAccount").textContent = t.account;
-        $("acctStatusLine").textContent = authUser ? t.inState(authUser.email || "") : t.guestState;
+        $("acctStatusLine").textContent = authUser ? t.inState(acctMailLabel()) : t.guestState;
         $("acctLoginBtn").textContent = t.login;
         $("acctLogoutBtn").textContent = t.logout;
         $("acctLogoutBtn").hidden = !authUser;
@@ -33687,7 +33705,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("feedbackBtn").textContent = t.feedback;
         $("heroSupportBtn").textContent = t.support;
         var tsb = $("titleSupportBtn"); if (tsb) tsb.textContent = t.supportShort;
-        $("heroAcctText").textContent = authUser ? t.heroIn(authUser.email || "") : t.heroGuest;
+        $("heroAcctText").textContent = authUser ? t.heroIn(acctMailLabel()) : t.heroGuest;
         var apEl = $("authPromo"); if (apEl) apEl.textContent = t.loginPromo;
         $("buildVerLine").textContent = TQL_BUILD;
         /* QA R24 follow-up: the settings sheet also shows the
@@ -33723,6 +33741,11 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("supportKofi").textContent = t.kofiBtn;
         $("verBannerText").textContent = t.verNew;
         if (authUser) setSyncMark(false);
+      }
+      function acctMailLabel() {
+        var em = (authUser && authUser.email) || "";
+        if (/^line\.[^@]+@line\.tokyoquestlog\.com$/.test(em)) return A().lineAccount || "LINE account";
+        return em;
       }
       function refreshAcctUI() {
         /* NAME MODEL: publish the signed-in flag the main script's
@@ -34446,7 +34469,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("authStepName").hidden = true;
         showStep("done");
         $("authDoneTitle").textContent = X().welcomeName(displayNameOf());
-        if (typeof authUser !== "undefined" && authUser) $("authDoneMail").textContent = authUser.email || "";
+        if (typeof authUser !== "undefined" && authUser) $("authDoneMail").textContent = (typeof acctMailLabel === "function" ? acctMailLabel() : (authUser.email || ""));
         showMsg("authSyncNote", (typeof lastSyncNote !== "undefined" ? lastSyncNote : ""), true);
         refreshExtTexts();
       }
