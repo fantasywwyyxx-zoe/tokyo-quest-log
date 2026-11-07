@@ -374,3 +374,34 @@ Gates: syntax ×6; boot zero + phone PASS; new targeted fit harness
 (test_q351_fits.js) 6/6 on the real badge/adv fit code; ladder chain
 harness SETTLED at box heights 300/380/460/560/700 (sizes 5/6/8/10/13).
 Device-final = Zoe (R203 retest).
+
+## Q-352 — Gacha page rebuild: the machine IS the page
+
+Zoe's order (2026-11-07): redo the gacha interface, nicer animation,
+the whole page may be used. Mock approved by Zoe the same morning
+(full-page machine + 4-beat storyboard), then built:
+
+- The panel is now a full-height stage (cream sky bands + grass,
+  hero-page language): a big glass dome machine filled with 14
+  capsules stands centre stage, the hero stands at stage left, and
+  the PULL bar runs full width under the stage with a 🎟×1 cost chip.
+- The machine body carries the preview plate (hero canvas + next
+  ticket line) and a crank; the prize capsule lands in the tray at
+  the burst, coloured by rarity, and stays there until the next pull.
+- Views are shop-style tabs （ガチャ / コレクション) replacing the
+  owned-only toggle button; the collection view hides stage + PULL.
+- Ceremony (approved storyboard): CHARGE 1.18s — machine shake
+  swells, dome capsules bounce, crank spins a full turn, hero hops,
+  preview slot-cycles → one-frame white flash → BURST — capsule
+  cracks with rays + pixel confetti/stars, tray capsule lands →
+  result lands as a big centred overlay (104px item portrait);
+  tap dismisses it (the wear button still equips). Reduced-motion
+  path unchanged.
+- Roll/dupe/wear/owned logic untouched; dead .gm-side/.gacha-viewbar
+  CSS remains but matches nothing.
+
+Gates: syntax ×6; boot zero + phone PASS; cascade by specificity
+(new block at (2,x,0) over the (1,1,0) gacha generations); coin_test
+unchanged vs Q-351 (its "announce heads" failure pre-exists Q-352 —
+harness drift after the Q-346 digest, not a regression).
+Device-final = Zoe.
