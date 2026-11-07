@@ -343,3 +343,34 @@ The Nov 6 roundup (hero GBA finish + cream sky, scene polish, compact detail car
 
 ## 2026-11-07 Q-350 — map capsules no longer yield to the locate banner (Zoe device report)
 Zoe: 「小游戏和当月游戏为什么每次都是通知出来后点掉才会出现」. Root cause: entering the game auto-runs locate() once (entrySequence, +850ms); the locate banner stays up (sticky while searching, then 9–16s), and mgYieldSync hid BOTH map capsules for the whole time — a Q-209 rule from when the banner sat at the bottom in the capsules' own band. Q-344 moved the banner to the top of the map, so the contention no longer exists, but the yield was never revisited. mgYieldSync now yields only to the pin preview, which still shares the capsules' bottom band (Q-206). The banner itself is unchanged (it is the locate feature's only feedback channel). Gates: targeted node test of the real extracted mgYieldSync (chip up + no preview → capsules visible; preview up → hidden; 4/4 PASS); syntax x6; boot harness PASS (zero + phone); served token + SHA verified live. Device-final = Zoe.
+
+## Q-351 — Records panel fits the phone's real visible height (R203)
+
+Zoe's device (in-app browser, screenshots 2026-11-07 09:40): on the
+records window the titles ladder's last row was sliced by the pager,
+the badges pager painted over the third-row cards, and the adventure
+log's fourth card was clipped — one disease on three tabs: content
+sized against a bigger box than the phone actually renders.
+
+Structural fix (her word: rework the layout, not the numbers):
+- Ladder fit now reads the ladder box's own rendered height. The old
+  panel-minus-parts estimate over-read by the panel's top padding /
+  safe-area (clientHeight includes it, offsetTop is measured from the
+  padding edge) and bought one row too many.
+- Ladder convergence reads the last row's real bottom vs the box
+  (track.offsetHeight went blind once rows stretched).
+- Badges (was fixed 9/page) and adventure log (was fixed 4/page) get
+  ladder-style fits against their region boxes: measured pitch,
+  re-anchor on change, proven-size cap per box height, shrink-until-
+  fits convergence. Badges page 6/9/12 by height; log page 3–5.
+- CSS hard bounds: the ladder track can shrink (min-height 0), the
+  badge grid and cards clip inside themselves — content can never
+  paint over a pager again, whatever the fit decides.
+- One refit scheduler for all records tabs, hooked to
+  visualViewport resize + window resize + panel open: host-browser
+  chrome settling after opening no longer leaves a stale page size.
+
+Gates: syntax ×6; boot zero + phone PASS; new targeted fit harness
+(test_q351_fits.js) 6/6 on the real badge/adv fit code; ladder chain
+harness SETTLED at box heights 300/380/460/560/700 (sizes 5/6/8/10/13).
+Device-final = Zoe (R203 retest).
