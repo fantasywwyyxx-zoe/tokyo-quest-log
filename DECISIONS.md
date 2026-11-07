@@ -685,3 +685,30 @@ and was cut before shipping).
 Gates: syntax x6 OK; bootprobe zero+phone PASS; FURNITURE
 shape test (6 unique ids, price ladder, balanced svg) PASS.
 Device-final = Zoe.
+
+## Q-363 — Badge art comprehensive upgrade (2026-11-07)
+Zoe: "这种badge太粗糙了，全面升级" — direction mock approved
+2026-11-07 (metal medallions, tier frames, bespoke icons;
+earned = navy enamel full colour, locked = pale enamel muted
+icon). Implemented as badgeMedalSVG(i, got) for the badge GRID:
+- 36 bespoke 16x16 icons, positional like badgeProgress()
+  (flag/boots/map/compass/crown, feather/bird/wings, pins/
+  route/skyline, sprout/sword/shield/helmet/star, clipboard,
+  three calendar tiers, doc-check, heart, two flames, gem/
+  diamond/trophy, palette/prism, puzzle, backpack/chest,
+  envelope, two completion rosettes).
+- Icons are bbox-centred and resampled to fill the enamel
+  disc; the frame is generated (double ring + 8 rivets) with
+  bronze/silver/gold tiers assigned by family ladder height.
+- Locked muting is baked into the art (parallel muted
+  palette); the legacy CSS saturate filter is lifted for grid
+  medals only, and the old thin-circle .b-ico chrome steps
+  aside inside .badge-grid.
+- Stickers (collection sticker book, adventure-log rows)
+  still use badgeIconSVG/BADGE_PIX — different system, not
+  medals, deliberately untouched.
+Verified: the shipped JS renderer is pixel-identical to the
+reviewed PIL prototype (0 diffs on sampled medals 0/4/20/22/
+35, both states); icon sheet reviewed at v3 before shipping.
+Gates: syntax x6 OK; bootprobe zero+phone PASS; q351 fits PASS.
+Device-final = Zoe.

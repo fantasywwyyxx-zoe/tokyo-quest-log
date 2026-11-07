@@ -13451,6 +13451,14 @@
          explainer slimmed to the space principle */
       .ladder-pg-num, .pp-pg-pos, .book-pg { line-height: 1.3; display: inline-flex; align-items: center; min-height: 32px; }
       #hsegStatus .ladder-note { font-size: 12px; line-height: 1.4; margin: 2px 2px 6px; }
+    
+      /* Q-363: the medallion IS the badge icon now — it fills the
+         icon disc (the old thin circle chrome steps aside) and
+         locked muting is baked into the art, so the legacy
+         desaturate filter no longer applies to grid medals */
+      .badge-grid .b-ico { background: none; border-color: transparent; }
+      .badge-grid .b-ico svg { width: 100%; height: 100%; }
+      #hsegBadges .badge.locked .b-ico svg { filter: none; opacity: 1; }
     </style>
   </head>
   <body data-view="map">
@@ -17035,7 +17043,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-1629-q362-59a7c47d";
+        var BUILD_ID = "tql-20261107-1637-q363-3f79d84a";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -31096,6 +31104,69 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
         return '<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">' + out + "</svg>";
       }
+
+      /* Q-363: badge medallions — tiered metal frame (bronze /
+         silver / gold by family ladder), enamel disc (navy when
+         earned, pale when locked), one bespoke 16x16 icon per
+         badge resampled to fill the disc. Locked icons bake a
+         muted palette into the art itself. */
+      var BADGE_TIER = "BBSSGBSGBSSGBBSSGBBSGBSBGSGGSGSSGBSG";
+      var BADGE_METALS = { B: ["#d29a5b", "#b0793f", "#7d5227"], S: ["#eef2f8", "#b9c4d8", "#7e8ea6"], G: ["#ffe680", "#eec93e", "#a87b1f"] };
+      var BADGE_PAL2 = {"K":"#22303c","W":"#fffdf4","R":"#e2483a","r":"#b02a30","N":"#8a5a33","n":"#5d3a1e","Y":"#ffd83d","y":"#d9a441","G":"#58a05c","g":"#2e7d4f","B":"#57b6e8","b":"#2b4a8f","T":"#35b5a5","O":"#f28c3c","H":"#e8762b","P":"#7548c8","F":"#f6c9d8","S":"#b9c4d8","D":"#31456e","L":"#c98d54"};
+      var BADGE_PAL2M = {"K":"#5f6b7a","W":"#eef1f5","R":"#c48f8d","r":"#a87f82","N":"#a08b74","n":"#87755f","Y":"#d9c98d","y":"#bfab7d","G":"#93b395","g":"#7ba185","B":"#9db8c6","b":"#7d8aa5","T":"#8fb8b2","O":"#d3a37e","H":"#d1a37e","P":"#a294bd","F":"#dcc3cd","S":"#c3cad4","D":"#7d8aa5","L":"#b49a7c"};
+      var BADGE_ICONS = [["................",".....K..........",".....KRRRRR.....",".....KRWWRRR....",".....KRRRRR.....",".....K..........",".....K..........",".....K..........",".....K..........",".....K..........",".....K..........","....KKKK........","...KKKKKK.......","................","................","................"],["................",".....KKKKK......","....KLLLLLK.....","....KLLLLLK.....","....KLLLLLK.....","....KLLLLLK.....","....KLLLLLK.....","....KLLLLLLK....","....KLLLLLLLK...","...KLLLLLLLLLK..","...KKKKKKKKKKK..","................","................","................","................","................"],["................","..KKKKKKKKKKKK..","..KGGKBBBKGGGK..","..KGGKBBBKGGGK..","..KGGKBBBKGRGK..","..KGGKBBBKGGGK..","..KGGKBBBKGGGK..","..KGGKBBBKGGGK..","..KKKKKKKKKKKK..","................","................","................","................","................","................","................"],["................",".......KK.......",".....KKYYKK.....","....KYWWWWYK....","...KWWWKWWWK....","...KWWKRRKWWK...","...KWKRRRRKWK...","...KWWKRRKWWK...","...KWWWKKWWWK...","....KYWWWWYK....",".....KKYYKK.....",".......KK.......","................","................","................","................"],["................","................","..K..K..K..K....","..KK.KKKK.KK....","..KYYKYYYKYK....","..KYYYYYYYYK....","..KYRYYYYRYK....","..KYYYYYYYYK....","...KKKKKKKK.....","................","................","................","................","................","................","................"],["......KKKK......",".....KTTTTK.....","....KTWWTTK.....","....KTTTTK......","....KTTTK.......","....KTTK........","....KTTK........","....KTTK........","...KTTK.........","...KTK..........","..KKK...........","..KOK...........",".KOK............",".KK.............","................","................"],["................","......KK........",".....KBBK.......","....KBBBBK......","...KBBBBBBK.....","..KBBBBBBBBK....",".KWBBBBBBBK.....",".KKBBBBBBBK.....","....KBBBBK......",".....KBBK.......","....K..K........","...K....K.......","................","................","................","................"],["................",".KK........KK...",".KWWK....KWWK...",".KWWWK..KWWWK...","..KWWWK.KWWWK...","...KWWWKWWWK....","....KWWWWWK.....",".....KWWWK......","......KWK.......",".......K........","................","................","................","................","................","................"],["................",".....KKKKK......","....KRRRRRK.....","...KRRRRRRRK....","...KRRKWWKRRK...","...KRRRRRRRK....","....KRRRRRK.....",".....KRRRK......","......KRK.......",".......K........","................","................","................","................","................","................"],["................","..KKKK...KKKK...",".KRRRRK.KBBBBK..",".KRKWRK.KBKWBK..",".KRRRRK.KBBBBK..","..KRRK...KBBK...","...KK.....KK....","...K.......K....","...K.......K....","................","................","................","................","................","................","................"],["................",".........KKKK...","........KRRRRK..","........KRWWK...","........KRRRK...",".........KKK....","....WW....K.....","...W..WW........","..W.....WW......",".W..............",".GG.............","GGGG............","................","................","................","................"],[".......Y........","......YYY.......",".......Y........","......SSSS......","..SSS.SDSS.SSS..","..SDS.SDSS.SDS..","..SDS.SDSS.SDS..","..SDS.SSSS.SDS..","..SSSSSSSSSSSS..","..SSSSSSSSSSSS..","................","................","................","................","................","................"],["................","......GG........",".....GGGG.......","....GGgGGG......",".....GGGG.......","......KK........",".....KGGK.......","....KGGGGK......",".....KGGK.......","......KK........","......NN........",".....NNNN.......","....NNNNNN......","................","................","................"],["................","............KK..","...........KYK..","..........KYYK..",".........KYYK...","........KYYK....",".......KBBK.....","......KBBK......","....KKBBKK......","...KYYYYYYK.....","....KKBBKK......","......NNK.......",".....KNNK.......","....KNNK........","...KKK..........","................"],["................","...KKKKKKKKK....","...KWWWWWWWK....","...KWWKYKWWK....","...KWWKYKWWK....","....KWKYKWWK....","....KWKYKWWK....","....KWWKKWWK....",".....KWWWWK.....",".....KWWWWK.....","......KWWK......",".......KK.......","................","................","................","................"],["................",".....KKKKK......","....KRRRRRK.....","....KRRRRRK.....","...KSSSSSSSK....","...KSSSSSSSK....","...KSSSKSSSK....","...KSSSSSSSK....","...KSSSSSSSK....","....KSSSSSK.....","...KKKKKKKKK....","................","................","................","................","................"],[".......KK.......","......KYYK......","......KYYK......","..K...KYYK...K..","..KKKKYYYYKKKK..","...KYYYYYYYYK...","....KYYYYYYK....",".....KYYYYK.....","....KYYKKYYK....","....KYK..KYK....","....KK....KK....","................","................","................","................","................"],["................",".....KKKK.......","....KWWWWK......","...KNNNNNNK.....","...KNWWWWNK.....","...KNWKKWNK.....","...KNWWWWNK.....","...KNWKKWNK.....","...KNWWWWNK.....","...KNNNNNNK.....","....KWWWWK......",".....KKKK.......","................","................","................","................"],["................","..K..K..K..K....","..KKKKKKKKKK....","..KRRRRRRRRK....","..KWWWWWWWWK....","..KWKWKWKWK.....","..KWWWWWWWWK....","..KWKWKWKWK.....","..KWWWWWWWWK....","..KKKKKKKKKK....","................","................","................","................","................","................"],["................","..K..K..K..K....","..KKKKKKKKKK....","..KRRRRRRRRK....","..KWWWKWWWWK....","..KWWYYYWWWK....","..KWYYYYYYWK....","..KWWYYYWWWK....","..KWWWKWWWWK....","..KKKKKKKKKK....","................","................","................","................","................","................"],["................","..K..K..K..K....","..KK.KKKK.KK....","..KYYYYYYYYK....","..KWWWWWWWWK....","..KWKWKWKWK.....","..KWWWWWWWWK....","..KWKWKWKWK.....","..KWWWWWWWWK....","..KKKKKKKKKK....","................","................","................","................","................","................"],["................","...KKKKKKKKKK...","...KWWWWWWWWK...","...KWWWWWWWWK...","...KWWWWWWWRK...","...KRWWWWWRWK...","...KWRWWWRWWK...","...KWWRRRWWWK...","...KWWWRRWWWK...","...KWWWWWWWWK...","...KWWWWWWWWK...","...KWWWWWWWWK...","...KKKKKKKKKK...","................","................","................"],["................","..KKK...KKK.....",".KRRRK.KRRRK....",".KRWRRKRRRRK....",".KRRRRRRRRRK....",".KRRRRRRRRRK....","..KRRRRRRK......","...KRRRRK.......","....KRRK........",".....KK.........","................","................","................","................","................","................"],["................",".......KK.......","......KHHK......","......KHHK......",".....KHHHHK.....",".....KHYYHK.....","....KHYYYYHK....","....KHYYYYHK....","....KHYYYYHK....",".....KHYYHK.....",".....KHHHHK.....","......KKKK......","................","................","................","................"],["................","..K....KK....K..","..KK..KHHK..KK..","...K.KHHHK.K....","....KHYYYHK.....","...KHYYYYYHK....","...KHYYYYYHK....","...KHYYYYYHK....","....KHYYYHK.....",".....KHHHK......","......KKKK......","................","................","................","................","................"],["................","................","...KKKKKKKKK....","..KTTTTTTTTTK...","..KTWWTTTTTTK...","..KTTTTTTTTTK...","...KTTTTTTK.....","....KTTTTK......",".....KTTK.......","......KK........","................","................","................","................","................","................"],["................","....KKKKKKK.....","...KBBBBBBBK....","..KBKBBBBKBK....","..KBBKBBKBBK....","...KBBBKBBK.....","....KBBBK.......",".....KBK........","......K.........","................","................","................","................","................","................","................"],["................","..KK......KK....","..KYKKKKKKYK....","..KYYYYYYYYK....","...KYYYYYYK.....",".KK.KYYYYK.KK...",".KYK.KYYK.KYK...","..KK.KYYK.KK....","....KYYYYK......","......KK........",".....KYYK.......","....KYYYYK......","...KKKKKKKK.....","................","................","................"],["................","....KKKKKK......","..KKWWWWWWKK....","..KWRRKWWBBK....","..KWWWWWWWWK....","..KWGGKWWYYK....","..KWWWWWWWWK....","...KWWWWKKK.....","....KKKKK.......","................","................","................","................","................","................","................"],["................",".......KK.......","......KWWK......","......KWWWK.....",".....KWWWWWK....",".....KWWWWWK....","....KWWWWWWWK...","....KKKKKKKKK...",".....R..Y..B....",".....R..Y..B....","................","................","................","................","................","................"],["................",".......KK.......","......KPPPK.....","......KPPPK.....","...KKKPPPKKKK...","..KPPPPPPPPPPK..","..KPPKPPPPPPK...","..KPPPPPPPPPPK..","..KPPPPPPPPPPK..","...KKKKKKKKKK...","................","................","................","................","................","................"],["................",".....KKKKK......","....KLLLLLK.....","...KLLLLLLLK....","...KLLKKKLLK....","...KLLLLLLLK....","...KLKWWWLK.....","...KLKWWWLK.....","...KLLKKKLLK....","....KLLLLLK.....",".....KKKKK......","................","................","................","................","................"],["................","................","..KKKKKKKKKKK...","..KNNNNNNNNNK...","..KNNNKKKNNNK...","..KKKKKKKKKKK...","..KNKNKYKNNK....","..KNNNKYKNNK....","..KNNNKKKNNNK...","..KNNNNNNNNNK...","...KKKKKKKKK....","................","................","................","................","................"],["................","................","..KKKKKKKKKKK...","..KWWWWWWWWWK...","..KWKWWWWKWK....","...KWKWWKWK.....","....KWWWWK......","....KWKKWK......","...KWWWWWWK.....","...KKKKKKKK.....","................","................","................","................","................","................"],["................","....KKKKKKK.....","...KSSSSSSSK....","...KSKRRRKSK....","...KSRRRRRSK....","...KSKRRRKSK....","....KSSSSSK.....","....KSSSSSK.....","...KK.KKK.KK....","...KRK...KRK....","...KRK...KRK....","....K.....K.....","................","................","................","................"],["................","....KKKKKKK.....","...KYYYYYYYK....","...KYKRRRKYK....","...KYRRRRRYK....","...KYKRRRKYK....","....KYYYYYK.....","....KYYYYYK.....","...KK.KKK.KK....","...KRK...KRK....","...KRK...KRK....","....K.....K.....","................","................","................","................"]];
+      var BADGE_RIVETS = { "21,11": 1, "18,18": 1, "11,21": 1, "5,18": 1, "2,11": 1, "5,5": 1, "11,2": 1, "18,5": 1 };
+      function badgeMedalSVG(i, got) {
+        var tier = BADGE_TIER.charAt(i) || "B";
+        var metal = BADGE_METALS[tier] || BADGE_METALS.B;
+        var grid = {};
+        function put(x, y, c) { grid[x + "," + y] = c; }
+        for (var y = 0; y < 24; y++) for (var x = 0; x < 24; x++) {
+          var dx = x - 11.5, dy = y - 11.5, d = Math.sqrt(dx * dx + dy * dy);
+          if (d > 11.3) continue;
+          var col;
+          if (BADGE_RIVETS[x + "," + y] || d > 10.3) col = metal[2];
+          else if (d > 9.4) col = metal[0];
+          else if (d > 8.6) col = metal[1];
+          else if (got) col = (x - y) <= -7 ? "#31456e" : "#26355a";
+          else col = (x - y) <= -7 ? "#e8edf4" : "#dde4ee";
+          put(x, y, col);
+        }
+        var icon = BADGE_ICONS[i] || BADGE_ICONS[0];
+        var pal = got ? BADGE_PAL2 : BADGE_PAL2M;
+        var x0 = 16, x1 = -1, y0 = 16, y1 = -1, ix, iy;
+        for (iy = 0; iy < 16; iy++) for (ix = 0; ix < 16; ix++) {
+          if (icon[iy].charAt(ix) !== ".") { if (ix < x0) x0 = ix; if (ix > x1) x1 = ix; if (iy < y0) y0 = iy; if (iy > y1) y1 = iy; }
+        }
+        if (x1 >= 0) {
+          var bw = x1 - x0 + 1, bh = y1 - y0 + 1;
+          var scale = Math.min(19 / bw, 19 / bh);
+          var tw = Math.max(1, Math.round(bw * scale)), th = Math.max(1, Math.round(bh * scale));
+          var ox = Math.floor((24 - tw) / 2), oy = Math.floor((24 - th) / 2);
+          for (var ty = 0; ty < th; ty++) for (var tx = 0; tx < tw; tx++) {
+            var ch = icon[y0 + Math.floor(ty / scale)].charAt(x0 + Math.floor(tx / scale));
+            if (ch === ".") continue;
+            var px2 = ox + tx, py2 = oy + ty;
+            var ddx = px2 - 11.5, ddy = py2 - 11.5;
+            if (Math.sqrt(ddx * ddx + ddy * ddy) > 8.6) continue;
+            var cc = pal[ch];
+            if (cc) put(px2, py2, cc);
+          }
+        }
+        var out = "";
+        for (var ry = 0; ry < 24; ry++) {
+          var rx = 0;
+          while (rx < 24) {
+            var c0 = grid[rx + "," + ry];
+            if (!c0) { rx++; continue; }
+            var rn = rx + 1;
+            while (rn < 24 && grid[rn + "," + ry] === c0) rn++;
+            out += '<rect x="' + rx + '" y="' + ry + '" width="' + (rn - rx) + '" height="1" fill="' + c0 + '"/>';
+            rx = rn;
+          }
+        }
+        return '<svg viewBox="0 0 24 24" shape-rendering="crispEdges" aria-hidden="true">' + out + "</svg>";
+      }
       function badgeProgress() {
         epicBadgeKeepStamp();
         var cleared = state.clears.filter(function (c) { return byId(c.id); });
@@ -31348,7 +31419,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           var got = p[0] >= p[1];
           var pct = Math.min(100, Math.round((p[0] / p[1]) * 100));
           return '<div class="win-flat badge' + (got ? " got" : " locked") + '">' +
-            '<span class="b-ico">' + badgeIconSVG(i) + (got ? '<span class="b-check" aria-hidden="true">✓</span>' : "") + "</span>" +
+            '<span class="b-ico">' + badgeMedalSVG(i, got) + (got ? '<span class="b-check" aria-hidden="true">✓</span>' : "") + "</span>" +
             '<span class="b-name">' + esc(b.name) + "</span>" +
             '<span class="b-desc">' + esc(b.desc) + "</span>" +
             '<span class="b-pill">' + Math.min(p[0], p[1]) + "/" + p[1] + "</span>" +
