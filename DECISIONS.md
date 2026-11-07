@@ -578,3 +578,40 @@ must show "Tokyo Quest Log", and approving returns her signed
 in. Note: the channel is still in LINE "developing" status, so
 for now only Zoe's own LINE account can complete the flow;
 publishing the channel opens it to everyone (her tap, at launch).
+
+## Q-360 — LINE sign-in via bridge function (Q-359 device test failed)
+
+Zoe's first LINE login (2026-11-07 14:23) returned to the game
+with "server_error". The Supabase Auth log names it exactly:
+"failed to verify ID token: oidc: malformed jwt: unexpected
+signature algorithm HS256; expected [ES256]". LINE's docs
+confirm web login ALWAYS issues HS256 ID tokens (channel-secret
+signed; ES256 is native-SDK/LIFF only), and Supabase's custom
+OIDC provider verifies against the JWKS only — symmetric tokens
+unsupported — and force-adds the openid scope (the dashboard
+would not even keep a profile-only scope), so the generic
+provider route is structurally impossible for LINE web login.
+The custom:line provider stays enabled but dormant; nothing
+links to it after this build.
+Fix: a Supabase Edge Function "line-login" (deployed
+2026-11-07, JWT verification off, secrets LINE_CHANNEL_ID /
+LINE_CHANNEL_SECRET in the function's secret store) runs the
+LINE flow itself — authorize redirect with an HMAC-signed
+state, code exchange with the channel secret, ID-token check
+via LINE's official verify endpoint, find-or-create of the
+mapped Supabase user (synthetic email line.<sub>@
+line.tokyoquestlog.com, never mailed), a magic-link mint, and
+a server-side verify exchange whose session tokens return to
+the game as #line_at / #line_rt. Client side in this build:
+lineLogin() navigates to the function's /start; at boot a
+lineReturn capture reads the handover params (same hands-off
+rule as the OAuth params) and setSession() adopts the session
+before the normal getSession path runs; cleanAuthUrlNow knows
+the new params. /start smoke-tested before shipping: correct
+302 to LINE with the bridge callback as redirect_uri.
+REMAINING STEP (Zoe's tap): the bridge callback
+https://amanohlkajnilhsbofun.supabase.co/functions/v1/line-login/callback
+must be added to the channel's callback URLs in the LINE
+console, or LINE refuses the authorize step. Device-final =
+Zoe's retry after that paste. Existing accounts still do not
+auto-merge (v1 rule unchanged).
