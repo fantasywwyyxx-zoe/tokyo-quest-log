@@ -549,3 +549,32 @@ https://amanohlkajnilhsbofun.supabase.co/auth/v1/callback;
 wiring starts when she hands over the Channel ID/Secret via the
 secure card. V1 scope: no email permission (LINE review), LINE
 userId as the account key, no auto-merge with existing accounts.
+
+## Q-359 — LINE sign-in (Zoe's order; channel + provider hers/ours as noted)
+
+Zoe created the LINE Login channel herself (provider "Tokyo
+Quest Log" — no real name; region Japan; privacy/terms URLs
+filled) and registered the callback
+https://amanohlkajnilhsbofun.supabase.co/auth/v1/callback.
+Supabase side: custom OIDC provider "custom:line" created and
+ENABLED (issuer https://access.line.me via discovery, scopes
+openid profile), and "Allow users without email" turned ON —
+the channel takes no email scope, so LINE returns user ID /
+display name / profile image only, and GoTrue would otherwise
+reject the sign-in. Channel ID/Secret live only in the Supabase
+provider config (handed over in chat, deliberately not recorded
+anywhere else). Client side in this build: a LINE button in the
+single auth window under the Google button (LINE green #06C755
+in the same GBA frame; .auth-btn.line (0,2,0) audited to win,
+placed after every base .auth-btn background rule), lineLogin()
+mirroring googleLogin() with provider "custom:line", labels in
+EN/JA/ZH, the shared OAuth return copy reworded provider-neutral
+(it said "Google" for what is now a two-provider handler), and
+a privacy-page bullet (JP+EN) for the LINE data received, dates
+bumped to 2026-11-07. Existing accounts do NOT auto-merge with
+a LINE identity (v1, per the plan Zoe approved). Device-final =
+Zoe: sign out, tap 「LINEでログイン」 — the LINE consent screen
+must show "Tokyo Quest Log", and approving returns her signed
+in. Note: the channel is still in LINE "developing" status, so
+for now only Zoe's own LINE account can complete the flow;
+publishing the channel opens it to everyone (her tap, at launch).
