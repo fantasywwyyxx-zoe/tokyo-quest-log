@@ -1773,7 +1773,7 @@
         background: rgba(47, 124, 214, 0.07); border: calc(1.5px * var(--u, 1)) solid rgba(47, 124, 214, 0.55);
       }
       .me-marker {
-        position: absolute; z-index: 5; width: 34px; height: 34px;
+        position: absolute; z-index: 60; width: 34px; height: 34px;
         transform: translate(-50%, -50%); pointer-events: none;
       }
       .me-marker .me-pulse {
@@ -13276,6 +13276,11 @@
       #view-list .list-bar .search-summary { min-width: 0; }
       #view-list .list-bar .state-btn { margin-left: 0; flex: none; }
       #view-list .list-bar .search-open-btn { flex: none; }
+      /* Q-354 (R209): sonar rings on the self marker */
+      .me-marker .me-sonar { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; transform: translate(-50%, -50%); border-radius: 50%; border: 3px solid rgba(47, 124, 214, 0.85); opacity: 0; animation: me-sonar 2.6s ease-out infinite; pointer-events: none; }
+      .me-marker .me-sonar.d2 { animation-delay: 1.3s; }
+      @keyframes me-sonar { 0% { transform: translate(-50%, -50%) scale(0.45); opacity: 0.95; } 70% { opacity: 0.35; } 100% { transform: translate(-50%, -50%) scale(2.3); opacity: 0; } }
+      @media (prefers-reduced-motion: reduce) { .me-marker .me-sonar { animation: none; opacity: 0.45; transform: translate(-50%, -50%) scale(1.15); } }
 
       /* ============ Q-352: gacha page rebuild — the machine IS the
          page (Zoe-approved mock, 2026-11-07). The panel becomes a
@@ -16995,7 +17000,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1011-q353-05b1ad6b";
+        var BUILD_ID = "tqtql-20261107-1015-q354-e4665a23";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28267,7 +28272,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            at her feet — an RPG world map's "you stand here". The
            same DOM rides the plane in both the normal map and the
            full-screen map, so both get the same treatment. */
-        m.innerHTML = '<span class="me-ground"></span>' +
+        m.innerHTML = '<span class="me-sonar"></span><span class="me-sonar d2"></span><span class="me-ground"></span>' +
           '<span class="me-hero"><canvas class="me-hero-canvas" width="16" height="16" aria-hidden="true"></canvas></span>' + arrow;
         meHost.appendChild(m);
         if (meHost === pinLayerEl) placeMeScreenEl(m);
@@ -28325,7 +28330,12 @@ function drawRunnerFrame(ctx, frame, blink) {
           if (!out) {
             var g = layoutMap();
             if (g) {
-              zoom.s = Math.min(2.9, Math.max(1.2, zoom.s));
+              /* Q-354 (R209): land at the map's MAXIMUM zoom,
+                 centred on the player — at her wide everyday view
+                 the old 1.2 floor left her marker lost among the
+                 cluster badges. She asked for max; 8 is the zoom
+                 system's own cap. */
+              zoom.s = 8;
               zoom.tx = g.w / 2 - zoom.s * (pt.x / 100) * g.pw;
               zoom.ty = g.h / 2 - zoom.s * (pt.y / 100) * g.ph;
               clampCover();
