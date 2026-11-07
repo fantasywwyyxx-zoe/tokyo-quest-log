@@ -501,3 +501,30 @@ celebration carries no share button by design (shareText exists
 only on quest clears) — the failing surface is the quest-clear
 panel only. Device-final = Zoe: next on-site clear, tap share —
 the chooser must appear instantly.
+
+## Q-357 — Share: the celebration leaves the chain entirely (R210, Zoe device verdict on Q-356)
+
+Zoe retested on device 2026-11-07 11:48 (Mitsubishi Ichigokan
+remote clear, in-app browser): the celebration's share tap STILL
+did nothing the first time; it worked only after she closed the
+quest page and tapped again — with the celebration layer gone,
+the same flow worked, and the poster download completed. Three
+builds (Q-310 nested hosting inside the panel, Q-356 class-only
+display inside the panel) kept the chooser inside the celebration
+popover and kept failing intermittently in her WKWebView, while
+the dialog/body-hosted share paths have always worked on her
+phone. Q-357 therefore removes the celebration from the chain:
+(1) the panel's share tap ends the celebration FIRST (the wear
+button's long-standing pattern), then runs the unchanged flow;
+(2) openSharePick hosts only in the open dialog or the body —
+the celebration branch is deleted; (3) #sharePick is no longer
+a popover element (attribute removed): display is plain CSS in
+every hosting, no top-layer promotion anywhere; (4) the reward
+note lived in the dismissed panel, so grant() narrates its
+message when the note span is detached. No CSS rules changed.
+Verified by a targeted harness driving the real sliced
+openSharePickInner/hideSharePick (11/11: dialog hosting, body
+hosting, never inside #celebrate, zero popover calls, clean
+hide/re-home) + syntax x6 + boot zero/phone. Device-final = Zoe:
+on the next clear, ONE tap on the share button — panel closes,
+chooser appears immediately.
