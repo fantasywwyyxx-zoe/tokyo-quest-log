@@ -13281,6 +13281,15 @@
       .me-marker .me-sonar.d2 { animation-delay: 1.3s; }
       @keyframes me-sonar { 0% { transform: translate(-50%, -50%) scale(0.45); opacity: 0.95; } 70% { opacity: 0.35; } 100% { transform: translate(-50%, -50%) scale(2.3); opacity: 0; } }
       @media (prefers-reduced-motion: reduce) { .me-marker .me-sonar { animation: none; opacity: 0.45; transform: translate(-50%, -50%) scale(1.15); } }
+      /* Q-355 (R211): ONE cursor system on the dock — the gacha dot
+         never grows a cursor, and the label cursor floats at the
+         label's left instead of eating flow space, so the label
+         itself centres on the tile */
+      .tabs .tab > span.gacha-dot::before { content: none !important; }
+      .tabs .tab > span:first-of-type:not(.count) { position: relative; }
+      .tabs .tab[aria-selected="true"] > span:first-of-type:not(.count):not(.gacha-dot)::before {
+        position: absolute; left: -16px; top: 50%; transform: translateY(-50%); margin-right: 0;
+      }
 
       /* ============ Q-352: gacha page rebuild — the machine IS the
          page (Zoe-approved mock, 2026-11-07). The panel becomes a
@@ -17000,7 +17009,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1015-q354-e4665a23";
+        var BUILD_ID = "tqtql-20261107-1024-q355-17c5640a";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
