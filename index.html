@@ -14651,7 +14651,7 @@
 
     
 <div id="coinToast" role="status"></div>
-<div class="map-pick share-pick" id="sharePick" popover="manual" hidden role="dialog" aria-labelledby="sharePickTitle">
+<div class="map-pick share-pick" id="sharePick" hidden role="dialog" aria-labelledby="sharePickTitle">
       <div class="map-pick-panel">
         <p class="map-pick-title" id="sharePickTitle"></p>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="system"></button>
@@ -17012,7 +17012,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1027-q356-cb126603";
+        var BUILD_ID = "tqtql-20261107-1152-q357-9a97b1ae";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28816,7 +28816,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         var note = btn && btn.parentElement ? btn.parentElement.querySelector("[data-cp-share-note]") : null;
         function grant(prefix) {
           var r = shareReward();
-          if (note) note.textContent = (prefix ? prefix + " " : "") + r;
+          var msg = (prefix ? prefix + " " : "") + r;
+          /* Q-357: the note span lived in the celebration panel,
+             which the share tap now dismisses first — narrate the
+             confirmation when the span is gone. */
+          if (note && note.isConnected) note.textContent = msg;
+          else if (msg) narrate(msg);
           renderStatus(); renderGacha();
           sfx("accept");
         }
@@ -29143,7 +29148,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         var note = btn && btn.parentElement ? btn.parentElement.querySelector("[data-cp-share-note]") : null;
         function grant(prefix) {
           var r = shareReward();
-          if (note) note.textContent = (prefix ? prefix + " " : "") + r;
+          var msg = (prefix ? prefix + " " : "") + r;
+          /* Q-357: the note span lived in the celebration panel,
+             which the share tap now dismisses first — narrate the
+             confirmation when the span is gone. */
+          if (note && note.isConnected) note.textContent = msg;
+          else if (msg) narrate(msg);
           renderStatus(); renderGacha();
           sfx("accept");
         }
@@ -29329,23 +29339,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         var box = document.getElementById("sharePick");
         if (!box) { sysShare(ctx); return; }
         restoreShareHome();
-        /* Q-310 (R157, Zoe device 2026-11-03): the chooser must be
-           hosted by the TOPMOST open surface. The celebration panel
-           rides the popover layer ABOVE the modal detail dialog, so
-           a chooser hosted inside that dialog opened UNDER the
-           panel -- invisible and untappable, a completely dead tap
-           on her phone. While the panel is showing, host the
-           chooser inside the panel itself (nested popover); the
-           dialog / body hosting for the other flows is unchanged. */
-        var host = null;
-        var celebEl = document.getElementById("celebrate");
-        var celebShowing = false;
-        if (celebEl) {
-          try { celebShowing = !!celebEl.matches(":popover-open"); } catch (eC) {}
-          if (!celebShowing && celebEl.classList.contains("show") && celebEl.innerHTML) celebShowing = true;
-        }
-        if (celebShowing) host = celebEl;
-        if (!host) host = document.querySelector("dialog[open]");
+        /* Q-357 (R210): host in the open dialog, else the body —
+           NEVER inside the celebration panel (Q-310's nesting was
+           the fragile link on Zoe's phone across three builds; the
+           celebration's share tap now dismisses the panel first,
+           so this chooser never has to live inside it). */
+        var host = document.querySelector("dialog[open]");
         if (host && box.parentNode !== host) {
           shareHome = { p: box.parentNode, n: box.nextSibling };
           host.appendChild(box);
@@ -29359,11 +29358,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         pendingShare = ctx;
         box.hidden = false;
         box.classList.add("sp-open");
-        /* Q-356 (R210): hosted inside the celebration, the chooser
-           displays by class alone — the nested showPopover was a
-           fragile link in her in-app browser. Other hosts keep the
-           popover promotion. */
-        if (host !== celebEl) popShow(box);
+        /* Q-357 (R210): class display only — the element is no
+           longer a popover, so no top-layer promotion is involved
+           in any hosting. */
         armSharePickDoc();
         sfx("open");
       }
@@ -30039,6 +30036,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         var shareB = box.querySelector("[data-cp-share]");
         if (shareB) shareB.addEventListener("click", function (ev) {
           ev.stopPropagation();
+          /* Q-357 (R210, Zoe device 2026-11-07): end the celebration
+             BEFORE sharing. Every build that opened the chooser from
+             inside this popover panel failed intermittently on her
+             phone; the same flow works once this panel is gone (her
+             own workaround today: close the page, tap again, works).
+             The wear button has always dismissed first — share now
+             follows the same pattern. */
+          endCelebrateQuiet();
           if (o.questId) doShareClear(o, shareB); else doShareCard(o.shareText, o.name, shareB);
         });
         animateExpBar(o.prevInfo, o.newInfo, o.mini);
