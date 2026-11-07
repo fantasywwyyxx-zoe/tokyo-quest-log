@@ -13290,6 +13290,9 @@
       .tabs .tab[aria-selected="true"] > span:first-of-type:not(.count):not(.gacha-dot)::before {
         position: absolute; left: -16px; top: 50%; transform: translateY(-50%); margin-right: 0;
       }
+      /* Q-356 (R210): the share chooser can display by class alone */
+      .map-pick.sp-open { display: flex !important; }
+      #celebrate .share-pick { z-index: 90; }
 
       /* ============ Q-352: gacha page rebuild — the machine IS the
          page (Zoe-approved mock, 2026-11-07). The panel becomes a
@@ -17009,7 +17012,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1024-q355-17c5640a";
+        var BUILD_ID = "tqtql-20261107-1027-q356-cb126603";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28839,6 +28842,12 @@ function drawRunnerFrame(ctx, frame, blink) {
                   if (!err || err.name !== "AbortError") fallback();
                 });
               }, "image/png");
+              setTimeout(function () {
+                if (launched) return; launched = true;
+                try {
+                  navigator.share(payload).then(function () { grant(""); }, function (err) { if (!err || err.name !== "AbortError") fallback(); });
+                } catch (e2) { fallback(); }
+              }, 1600);
               return;
             }
           } catch (e) {}
@@ -29150,16 +29159,17 @@ function drawRunnerFrame(ctx, frame, blink) {
           exp: o.exp || (rec ? rec.exp : 0),
           date: rec && rec.clearedAt ? String(rec.clearedAt).slice(0, 10).replace(/-/g, ".") : TODAY.replace(/-/g, ".")
         };
-        var opened = false;
         function safeCard() { try { return buildShareCard(o.name); } catch (err) { return null; } }
-        function openWith(cv, fname) {
-          if (opened) return; opened = true;
-          if (!cv) { cv = safeCard(); fname = "tsq-card.png"; }
-          openSharePick({ cv: cv, text: o.shareText, url: SHARE_URL, fileName: fname, grant: grant, fallback: fallback });
-        }
-        setTimeout(function () { openWith(null, "tsq-card.png"); }, 2500);
-        buildClearPoster(e, info).then(function (cv) { openWith(cv, "tql-clear.png"); },
-          function () { openWith(null, "tsq-card.png"); });
+        var ctx = { cv: safeCard(), text: o.shareText, url: SHARE_URL, fileName: "tsq-card.png", grant: grant, fallback: fallback };
+        /* Q-356 (R210): the chooser opens NOW, inside the tap. The
+           old flow gated it behind the async poster build and a
+           nested popover; on Zoe's in-app browser the tap died in
+           that gap. The poster swaps into this same ctx when it is
+           ready — the chooser's rows read pendingShare at tap time. */
+        openSharePick(ctx);
+        buildClearPoster(e, info).then(function (cv) {
+          if (cv && pendingShare === ctx) { ctx.cv = cv; ctx.fileName = "tql-clear.png"; }
+        }, function () {});
       }
       /* Q-255 (Zoe, 2026-11-02): one share chooser for both poster
          flows. "system" hands the image FILE to the OS share sheet --
@@ -29348,7 +29358,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         document.getElementById("sharePickCancel").textContent = t.mapPickCancel;
         pendingShare = ctx;
         box.hidden = false;
-        popShow(box);
+        box.classList.add("sp-open");
+        /* Q-356 (R210): hosted inside the celebration, the chooser
+           displays by class alone — the nested showPopover was a
+           fragile link in her in-app browser. Other hosts keep the
+           popover promotion. */
+        if (host !== celebEl) popShow(box);
         armSharePickDoc();
         sfx("open");
       }
@@ -29357,13 +29372,17 @@ function drawRunnerFrame(ctx, frame, blink) {
         var box = document.getElementById("sharePick");
         if (!box) return;
         box.hidden = true;
+        box.classList.remove("sp-open");
         popHide(box);
         pendingShare = null;
         restoreShareHome();
       }
       function sysShare(ctx) {
         if (navigator.share && ctx.cv && ctx.cv.toBlob) {
+          var blobDone = false;
+          var blobTimer = setTimeout(function () { if (blobDone) return; blobDone = true; textShare(ctx); }, 1600);
           ctx.cv.toBlob(function (blob) {
+            if (blobDone) return; blobDone = true; clearTimeout(blobTimer);
             if (!blob) { ctx.fallback(); return; }
             var f = null;
             try { f = new File([blob], ctx.fileName, { type: "image/png" }); } catch (err) {}
