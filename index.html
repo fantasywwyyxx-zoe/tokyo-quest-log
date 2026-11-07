@@ -13293,6 +13293,9 @@
       /* Q-356 (R210): the share chooser can display by class alone */
       .map-pick.sp-open { display: flex !important; }
       #celebrate .share-pick { z-index: 90; }
+      /* Q-359: LINE sign-in button — LINE green in the GBA frame */
+      .auth-btn.line { background: linear-gradient(180deg, #1ed164, #06c755); border-color: var(--line-c); color: #fff; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 4px 0 var(--edge); }
+      .auth-btn.line:active { box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 1px 0 var(--edge); }
 
       /* ============ Q-352: gacha page rebuild — the machine IS the
          page (Zoe-approved mock, 2026-11-07). The panel becomes a
@@ -13587,6 +13590,7 @@
         <div class="auth-step" id="authStepMain">
           <button class="auth-btn primary" id="authShowEmail" type="button"></button>
           <button class="auth-btn" id="authGoogleBtn" type="button"></button>
+          <button class="auth-btn line" id="authLineBtn" type="button"></button>
           <p class="auth-sub" id="authNewNote"></p>
           <p class="auth-promo" id="authPromo"></p>
           <button class="auth-btn ghost" id="authGuestBtn" type="button"></button>
@@ -17013,7 +17017,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1212-q358-f000a741";
+        var BUILD_ID = "tqtql-20261107-1231-q359-cc94f1d7";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -33284,7 +33288,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "LOG IN", account: "ACCOUNT", guestState: "Guest — progress stays on this device",
           inState: function (e) { return "Logged in: " + e; },
           logout: "LOG OUT", support: "♥ SUPPORT", supportShort: "♥ SUPPORT", authTitle: "LOG IN / SIGN UP",
-          mailBtn: "✉ LOG IN WITH EMAIL", googleBtn: "G  LOG IN WITH GOOGLE", guestBtn: "CONTINUE AS GUEST",
+          mailBtn: "✉ LOG IN WITH EMAIL", googleBtn: "G  LOG IN WITH GOOGLE", lineBtn: "LOG IN WITH LINE", guestBtn: "CONTINUE AS GUEST",
           mailLabel: "EMAIL ADDRESS", sendBtn: "SEND CODE", sending: "SENDING…",
           codeLabel: "ENTER THE 6-DIGIT CODE", codeTo: function (e) { return "We sent a code to " + e + " (valid 60 min)."; },
           verifyBtn: "VERIFY & LOG IN", verifying: "CHECKING…", resendBtn: "RESEND CODE",
@@ -33292,10 +33296,10 @@ function drawZoneStamp(cv, zoneId, mode) {
           backBtn: "◀ BACK", closeBtn: "CLOSE", doneTitle: "LOGGED IN ✓",
           welcomeBack: "Welcome back, adventurer!", welcomeBackName: function (n) { return "Welcome back, " + n + "!"; },
           newNote: "New here? No sign-up needed — just log in, and your account is created automatically the first time.",
-          googlePrep: "Google sign-in is still being prepared — please use email for now.",
-          errOAuthDenied: "Google sign-in was cancelled, so no account was linked. Tap “G LOG IN WITH GOOGLE” to try again, or use email.",
-          errOAuthFail: function (e) { return "Google sign-in didn't finish (error: " + e + "). Please try again, or use email instead."; },
-          errOAuthLost: "You came back from Google, but the sign-in couldn't be completed on this screen — if the Google page opened in a different app or browser than the one you started in, the secure hand-off gets lost. Please start the Google sign-in again from this same screen, or use email.",
+          googlePrep: "Google sign-in is still being prepared — please use email for now.", linePrep: "LINE sign-in is still being prepared — please use email for now.",
+          errOAuthDenied: "Sign-in was cancelled, so no account was linked. Please try again with one of the sign-in buttons, or use email.",
+          errOAuthFail: function (e) { return "Sign-in didn't finish (error: " + e + "). Please try again, or use email instead."; },
+          errOAuthLost: "You came back from the sign-in page, but the sign-in couldn't be completed on this screen — if the sign-in page opened in a different app or browser than the one you started in, the secure hand-off gets lost. Please start the sign-in again from this same screen, or use email.",
           errMail: "Enter a valid email address.", errBadCode: "That code doesn't match. Check the email and try again.",
           errExpired: "That code has expired. Resend a fresh code and try again.",
           errSend: "Couldn't send the code. Check the address and try again in a moment.",
@@ -33312,7 +33316,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "ログイン", account: "アカウント", guestState: "ゲスト — 記録はこの端末に保存されます",
           inState: function (e) { return "ログイン中：" + e; },
           logout: "ログアウト", support: "♥ 応援する", supportShort: "♥ 応援", authTitle: "ログイン / 新規登録",
-          mailBtn: "✉ メールでログイン", googleBtn: "G Googleでログイン", guestBtn: "ゲストのまま続ける",
+          mailBtn: "✉ メールでログイン", googleBtn: "G Googleでログイン", lineBtn: "LINEでログイン", guestBtn: "ゲストのまま続ける",
           mailLabel: "メールアドレス", sendBtn: "コードを送信", sending: "送信中…",
           codeLabel: "6桁のコードを入力", codeTo: function (e) { return e + " にコードを送りました（有効期限60分）。"; },
           verifyBtn: "検証してログイン", verifying: "確認中…", resendBtn: "コードを再送",
@@ -33320,10 +33324,10 @@ function drawZoneStamp(cv, zoneId, mode) {
           backBtn: "◀ もどる", closeBtn: "とじる", doneTitle: "ログイン中 ✓",
           welcomeBack: "おかえりなさい、冒険者！", welcomeBackName: function (n) { return "おかえりなさい、" + n + "さん！"; },
           newNote: "はじめての方へ：登録は不要です。そのままログインすれば、初回ログインでアカウントが自動作成されます。",
-          googlePrep: "Googleログインは準備中です。今はメールでログインしてください。",
-          errOAuthDenied: "Googleログインがキャンセルされたため、アカウントは連携されていません。「Googleでログイン」をもう一度押すか、メールでログインしてください。",
-          errOAuthFail: function (e) { return "Googleログインが完了しませんでした（エラー：" + e + "）。もう一度お試しいただくか、メールでログインしてください。"; },
-          errOAuthLost: "Googleから戻ってきましたが、この画面ではログインを完了できませんでした。ログインを始めたアプリ／ブラウザとは別の場所でGoogleの画面が開くと、安全確認の引き継ぎが切れてしまいます。この画面からもう一度Googleログインを始めるか、メールでログインしてください。",
+          googlePrep: "Googleログインは準備中です。今はメールでログインしてください。", linePrep: "LINEログインは準備中です。今はメールでログインしてください。",
+          errOAuthDenied: "ログインがキャンセルされたため、アカウントは連携されていません。もう一度ログインボタンを押すか、メールでログインしてください。",
+          errOAuthFail: function (e) { return "ログインが完了しませんでした（エラー：" + e + "）。もう一度お試しいただくか、メールでログインしてください。"; },
+          errOAuthLost: "ログイン画面から戻ってきましたが、この画面ではログインを完了できませんでした。ログインを始めたアプリ／ブラウザとは別の場所でログイン画面が開くと、安全確認の引き継ぎが切れてしまいます。この画面からもう一度ログインを始めるか、メールでログインしてください。",
           errMail: "メールアドレスを正しく入力してください。", errBadCode: "コードが一致しません。メールを確認してもう一度どうぞ。",
           errExpired: "コードの有効期限が切れています。再送して新しいコードでお試しください。",
           errSend: "コードを送信できませんでした。アドレスを確認して、少し待ってもう一度どうぞ。",
@@ -33340,7 +33344,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           login: "登录", account: "账号", guestState: "游客 — 进度保存在这台设备上",
           inState: function (e) { return "已登录：" + e; },
           logout: "退出登录", support: "♥ 应援", supportShort: "♥ 应援", authTitle: "登录 / 注册",
-          mailBtn: "✉ 用邮箱登录", googleBtn: "G 用 Google 登录", guestBtn: "以游客身份继续",
+          mailBtn: "✉ 用邮箱登录", googleBtn: "G 用 Google 登录", lineBtn: "用 LINE 登录", guestBtn: "以游客身份继续",
           mailLabel: "邮箱地址", sendBtn: "发送验证码", sending: "发送中…",
           codeLabel: "输入 6 位验证码", codeTo: function (e) { return "验证码已发送到 " + e + "（60 分钟内有效）。"; },
           verifyBtn: "验证并登录", verifying: "验证中…", resendBtn: "重新发送",
@@ -33348,10 +33352,10 @@ function drawZoneStamp(cv, zoneId, mode) {
           backBtn: "◀ 返回", closeBtn: "关闭", doneTitle: "已登录 ✓",
           welcomeBack: "欢迎回来，冒险者！", welcomeBackName: function (n) { return "欢迎回来，" + n + "！"; },
           newNote: "新用户看这里：无需注册，直接登录即可——首次登录会自动为你创建账号。",
-          googlePrep: "Google 登录还在准备中，请先用邮箱登录。",
-          errOAuthDenied: "Google 登录已取消，账号没有绑定。请再点一次「用 Google 登录」，或改用邮箱登录。",
-          errOAuthFail: function (e) { return "Google 登录未完成（错误：" + e + "）。请重试，或改用邮箱登录。"; },
-          errOAuthLost: "已从 Google 返回，但没能在这个页面完成登录——如果 Google 页面是在另一个 App／浏览器里打开的，安全交接就会丢失。请在这个页面重新发起 Google 登录，或改用邮箱登录。",
+          googlePrep: "Google 登录还在准备中，请先用邮箱登录。", linePrep: "LINE 登录还在准备中，请先用邮箱登录。",
+          errOAuthDenied: "登录已取消，账号没有绑定。请再点一次登录按钮，或改用邮箱登录。",
+          errOAuthFail: function (e) { return "登录未完成（错误：" + e + "）。请重试，或改用邮箱登录。"; },
+          errOAuthLost: "已从登录页面返回，但没能在这个页面完成登录——如果登录页面是在另一个 App／浏览器里打开的，安全交接就会丢失。请在这个页面重新发起登录，或改用邮箱登录。",
           errMail: "请输入正确的邮箱地址。", errBadCode: "验证码不对，请检查邮件后再试。",
           errExpired: "验证码已过期，请重新发送后再试。",
           errSend: "验证码发送失败，请检查邮箱地址，稍后再试。",
@@ -33696,6 +33700,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("authTitle").textContent = t.authTitle;
         $("authShowEmail").textContent = t.mailBtn;
         $("authGoogleBtn").textContent = t.googleBtn;
+        $("authLineBtn").textContent = t.lineBtn;
         $("authGuestBtn").textContent = t.guestBtn;
         $("authMigrate").textContent = t.migrate;
         $("authMailLabel").textContent = t.mailLabel;
@@ -33806,6 +33811,17 @@ function drawZoneStamp(cv, zoneId, mode) {
           location.assign(r.data.url);
         } catch (e) { showMsg("authMainMsg", A().googlePrep); }
       }
+      /* Q-359: LINE sign-in via the Supabase custom OIDC provider.
+         LINE returns the user ID, display name and profile image
+         (no email — the channel takes no email scope). */
+      async function lineLogin() {
+        try {
+          var sb = await loadSupabase();
+          var r = await sb.auth.signInWithOAuth({ provider: "custom:line", options: { redirectTo: location.origin + location.pathname, skipBrowserRedirect: true } });
+          if (r.error || !r.data || !r.data.url) { showMsg("authMainMsg", A().linePrep); return; }
+          location.assign(r.data.url);
+        } catch (e) { showMsg("authMainMsg", A().linePrep); }
+      }
       async function doLogout() {
         try { var sb = await loadSupabase(); await sb.auth.signOut(); } catch (e) { /* ignore */ }
         authUser = null; lastSyncNote = ""; setSyncMark(false);
@@ -33845,6 +33861,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         } catch (e) { showMsg("authCodeMsg", A().errNet); }
       });
       $("authGoogleBtn").addEventListener("click", googleLogin);
+      $("authLineBtn").addEventListener("click", lineLogin);
       document.querySelectorAll(".otp-box").forEach(function (box, idx, all) {
         box.addEventListener("input", function () {
           box.value = (box.value || "").replace(/\D/g, "").slice(-1);

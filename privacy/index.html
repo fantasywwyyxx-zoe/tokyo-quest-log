@@ -22,7 +22,7 @@
 <div class="wrap">
   <div class="card">
     <h1>プライバシーポリシー</h1>
-    <div class="updated">Tokyo Quest Log（東京クエストログ）／ 最終更新日：2026年10月28日</div>
+    <div class="updated">Tokyo Quest Log（東京クエストログ）／ 最終更新日：2026年11月7日</div>
 
     <p>Tokyo Quest Log（以下「本サービス」）は、利用者のプライバシーを尊重し、取得する情報を必要最小限に限って取り扱います。</p>
 
@@ -32,6 +32,7 @@
     <h2>2. 取得する情報</h2>
     <ul>
       <li><strong>メールアドレス</strong>：ログイン（メール認証コード／Googleログイン）のために取得します。認証は Supabase の認証基盤を通じて行われます。</li>
+      <li><strong>LINEアカウント情報</strong>：LINEログインを選んだ場合、LINEのユーザーID・表示名・プロフィール画像を認証のために取得します（メールアドレスは取得しません）。認証は Supabase の認証基盤を通じて行われます。</li>
       <li><strong>ゲームのセーブデータ</strong>：ログイン中は、進行状況（レベル・クリア記録など）をクラウドに保存し、端末間で引き継げるようにします。保存先は Supabase（東京リージョン）です。</li>
       <li><strong>位置情報</strong>：クエストのチェックイン時に、ブラウザ内で現在地とスポットとの距離判定にのみ使用します。位置情報そのものをサーバーへ送信・保存することはありません。</li>
       <li><strong>応援（チップ）の決済情報</strong>：決済は Ko-fi および Stripe が処理します。本サービスがカード番号等の決済情報を取得・保持することはありません。</li>
@@ -54,10 +55,11 @@
 
     <div class="en">
       <h1 style="font-size:19px;">Privacy Policy (Summary in English)</h1>
-      <div class="updated">Last updated: October 28, 2026</div>
+      <div class="updated">Last updated: November 7, 2026</div>
       <p>Tokyo Quest Log collects only the minimum data needed to run the game:</p>
       <ul>
         <li><strong>Email address</strong> — used solely for sign-in (email code or Google sign-in), processed via Supabase Auth.</li>
+        <li><strong>LINE account info</strong> — if you choose LINE sign-in, we receive your LINE user ID, display name and profile image for authentication (no email address), processed via Supabase Auth.</li>
         <li><strong>Game save data</strong> — while signed in, your progress is stored in the cloud (Supabase, Tokyo region) so it can follow you across devices.</li>
         <li><strong>Location</strong> — used only inside your browser at check-in time to measure the distance to a quest spot. Your location itself is never sent to or stored on our servers.</li>
         <li><strong>Tips</strong> — payments are processed by Ko-fi and Stripe; we never receive or store your card details.</li>
