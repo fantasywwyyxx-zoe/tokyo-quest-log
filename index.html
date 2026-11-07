@@ -17017,7 +17017,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tqtql-20261107-1231-q359-cc94f1d7";
+        var BUILD_ID = "tqtql-20261107-1432-q360-af654b13";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -33811,16 +33811,13 @@ function drawZoneStamp(cv, zoneId, mode) {
           location.assign(r.data.url);
         } catch (e) { showMsg("authMainMsg", A().googlePrep); }
       }
-      /* Q-359: LINE sign-in via the Supabase custom OIDC provider.
-         LINE returns the user ID, display name and profile image
-         (no email — the channel takes no email scope). */
-      async function lineLogin() {
-        try {
-          var sb = await loadSupabase();
-          var r = await sb.auth.signInWithOAuth({ provider: "custom:line", options: { redirectTo: location.origin + location.pathname, skipBrowserRedirect: true } });
-          if (r.error || !r.data || !r.data.url) { showMsg("authMainMsg", A().linePrep); return; }
-          location.assign(r.data.url);
-        } catch (e) { showMsg("authMainMsg", A().linePrep); }
+      /* Q-359/Q-360: LINE sign-in runs through the line-login
+         bridge function — Supabase's custom OIDC provider cannot
+         verify LINE's HS256 ID tokens (web login is always HS256),
+         so the bridge verifies with LINE directly and hands back
+         a minted session as #line_at / #line_rt (see boot). */
+      function lineLogin() {
+        location.assign("https://amanohlkajnilhsbofun.supabase.co/functions/v1/line-login/start");
       }
       async function doLogout() {
         try { var sb = await loadSupabase(); await sb.auth.signOut(); } catch (e) { /* ignore */ }
@@ -33916,9 +33913,26 @@ function drawZoneStamp(cv, zoneId, mode) {
         } catch (e) { /* ignore */ }
         return info;
       })();
+      /* Q-360: the LINE bridge's session handover (#line_at /
+         #line_rt), captured with the same hands-off rule as the
+         OAuth params above — the url is cleaned only after the
+         session has been adopted. */
+      var lineReturn = (function () {
+        var out = { at: "", rt: "" };
+        try {
+          (location.hash || "").replace(/^#/, "").split("&").forEach(function (pair) {
+            var kv = pair.split("=");
+            var k = "", v = "";
+            try { k = decodeURIComponent(kv[0] || ""); v = decodeURIComponent(kv.slice(1).join("=") || ""); } catch (e) { return; }
+            if (k === "line_at" && v) out.at = v;
+            if (k === "line_rt" && v) out.rt = v;
+          });
+        } catch (e) { /* ignore */ }
+        return out;
+      })();
       function cleanAuthUrlNow() {
         try {
-          var dirty = /access_token|refresh_token|provider_token|error_description|error=|code=/.test(location.hash || "") ||
+          var dirty = /access_token|refresh_token|provider_token|error_description|error=|code=|line_at|line_rt/.test(location.hash || "") ||
                       /[?&](code|error|error_description)=/.test(location.search || "");
           if (dirty) history.replaceState(null, "", location.pathname);
         } catch (e) { /* ignore */ }
@@ -33949,6 +33963,15 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       loadSupabase().then(async function (sb) {
         try {
+          /* Q-360: adopt the LINE bridge's session first; the
+             getSession path below then runs as for any stored
+             session (sync, welcome, account UI). */
+          if (lineReturn.at && lineReturn.rt) {
+            try {
+              var lr = await sb.auth.setSession({ access_token: lineReturn.at, refresh_token: lineReturn.rt });
+              if (lr.data && lr.data.session) oauthWelcomePending = true;
+            } catch (e) { /* fall through: getSession decides */ }
+          }
           var s = await sb.auth.getSession();
           if (s.data && s.data.session) {
             authUser = s.data.session.user;
