@@ -16836,7 +16836,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-0854-q346-419dc5af";
+        var BUILD_ID = "tql-20261107-0944-q350-6c88fa05";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -27910,16 +27910,21 @@ function drawRunnerFrame(ctx, frame, blink) {
          ~9s on success, longer on errors so the reason + retry steps
          are actually noticed on a real phone. */
       /* Q-209: the game capsule shares the +58 band with the
-         locate banner, the same contention Q-206 settled for the
-         pin preview. One state-derived guard now owns the
-         capsule's visibility: it yields while EITHER the pin
-         preview or the locate banner is up, and returns when
-         both are gone. Every show/hide transition of either
-         element calls it. */
+         pin preview (Q-206). One state-derived guard owns the
+         capsules' visibility: they yield while the pin preview
+         is up and return when it closes. Every show/hide
+         transition of the preview calls it.
+         Q-350 (Zoe device report, 2026-11-07): the guard used to
+         ALSO yield to the locate banner, back when the banner
+         sat at the bottom in the same band. Q-344 moved the
+         banner to the TOP of the map, so the contention is gone
+         — but the yield stayed, and because entering the game
+         auto-runs locate() once, the mini-game and monthly-event
+         capsules stayed hidden until the player tapped the
+         banner away. They no longer yield to the banner. */
       function mgYieldSync() {
         var pp = document.getElementById("pinPreview");
-        var lc = document.getElementById("locChip");
-        var y = !!((pp && !pp.hidden) || (lc && !lc.hidden));
+        var y = !!(pp && !pp.hidden);
         var mb = document.getElementById("mgMapBtn"); if (mb) mb.hidden = y;
         var eb = document.getElementById("evMapBtn"); if (eb) eb.hidden = y;
       }
