@@ -528,3 +528,24 @@ hosting, never inside #celebrate, zero popover calls, clean
 hide/re-home) + syntax x6 + boot zero/phone. Device-final = Zoe:
 on the next clear, ONE tap on the share button — panel closes,
 chooser appears immediately.
+
+## Q-358 — LINE row in the share chooser (Zoe's order)
+
+Zoe (2026-11-07, after the LINE how-to): 「分享先加上 LINE 一行」.
+The chooser gains a LINE row between system and X (system / LINE /
+X / Threads); both chooser flows get it at once — the quest-clear
+(check-in) share and the detail poster share share #sharePick.
+lineShare follows the X/Threads pattern: save the poster image
+first, then open LINE's composer with the message (share text +
+link) prefilled via https://line.me/R/msg/text/?…, and the reward
+grant uses the same saved-note (the note now narrates when the
+panel is gone, per Q-357). Labels: EN "Send to LINE" / JA
+「LINE で送る」 / ZH 「发送到 LINE」. Gates: syntax x6, the Q-357
+hosting harness (stub rows extended with the LINE row), boot
+zero/phone. Device-final = Zoe. LINE LOGIN is a separate track:
+Zoe is creating the LINE Login channel herself (provider name
+"Tokyo Quest Log" — no real name), callback
+https://amanohlkajnilhsbofun.supabase.co/auth/v1/callback;
+wiring starts when she hands over the Channel ID/Secret via the
+secure card. V1 scope: no email permission (LINE review), LINE
+userId as the account key, no auto-merge with existing accounts.
