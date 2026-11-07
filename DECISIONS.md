@@ -405,3 +405,42 @@ Gates: syntax ×6; boot zero + phone PASS; cascade by specificity
 unchanged vs Q-351 (its "announce heads" failure pre-exists Q-352 —
 harness drift after the Q-346 digest, not a regression).
 Device-final = Zoe.
+
+## Q-353 — EPIC alignment (R205), frames answer (R207), list header (R208)
+
+R205: the item-side epic flag still marked all 239 evergreen rewards
+from before the tier model. Audit: every epic:true row is a
+reward.type "epic" row; grants were already gated by isEpicQuest
+(epicItemFor runs only for the 10). Fix: epic:true now survives only
+on the 10 EPIC quests' rewards (eg6-kiseichu / eg6-mikado / eg5-paper
+/ eg4-super-potato / eg5-tabashio / eg6-tokiwaso / eg3-kisho-jinja /
+eg5-shirohige / eg6-gasmuseum / eg9-itabashi-nettaikan). All 246
+REWARD rows retained; ownership untouched (Zoe's 16 stay hers — the
+collection EPIC shelf now honestly reads owned/10). The shelf's
+duplicated label (heading + identical inner row) is gone: the count
+lives in the heading. Known residue, recorded not hidden: the 229
+items' flavour descriptions still read "EPIC reward — clear X" in
+the wardrobe grid; rewriting 687 localised strings was judged
+riskier than the inconsistency — revisit if Zoe wants it.
+
+R207 answer (Zoe's question, via QA): coin-shop frames DO render —
+exactly one place: applyPortraitFrame() puts data-frame on the
+status portrait's wrap (records/status tab); the CSS draws corner
+ornaments + border for fr-gold/sakura/hoshi/umi. The big hero is
+frameless by Zoe's own 2026-10-26 ruling, so a 400-coin frame shows
+only as small corners on a small portrait — weak visibility is a
+fair complaint. Proposal (not built, her call): also frame the
+achievement share-card portrait and enlarge the status portrait's
+frame ornaments.
+
+R208: the list subbar (kind segments + sort + state) overflowed her
+phone's width and cut the state button. Per her follow-up in the QA
+chat, the state button moves into the list bar beside the quest
+count; the subbar keeps kind + sort; the bar wraps rather than
+overflows. S3 (blank row thumbnails): list/log rows use native lazy
+images, which the in-app browser can leave unloaded inside the
+scroll panel — renderSearch/renderAdvLog now run a wake pass that
+force-loads lazy thumbs near the viewport once per render.
+
+Gates: syntax ×6; boot zero + phone PASS; data audit: REWARD 246
+rows, epic:true exactly the EPIC_SET 10. Device-final = Zoe.
