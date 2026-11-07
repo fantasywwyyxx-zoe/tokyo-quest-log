@@ -13459,6 +13459,13 @@
       .badge-grid .b-ico { background: none; border-color: transparent; }
       .badge-grid .b-ico svg { width: 100%; height: 100%; }
       #hsegBadges .badge.locked .b-ico svg { filter: none; opacity: 1; }
+    
+      /* Q-365: merged groups are small plain markers — no
+         numbers anywhere (Zoe's ruling, 2026-11-07). A 20px
+         disc with the chunky ring kept; blue for evergreen
+         groups, red when any member is timed. */
+      .cluster-pin { width: calc(20px * var(--u, 1)); height: calc(20px * var(--u, 1)); border-radius: 50%; background: #2d77cd; font-size: 0; }
+      .cluster-pin.cp-timed { background: #e5484d; }
     </style>
   </head>
   <body data-view="map">
@@ -17043,7 +17050,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-1641-q364-a23e4616";
+        var BUILD_ID = "tql-20261107-1645-q365-fcae80f3";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -27687,7 +27694,15 @@ function drawRunnerFrame(ctx, frame, blink) {
           cl.className = "cluster-pin";
           cl.dataset.px = cx; cl.dataset.py = cy;
           cl.setAttribute("aria-label", grp.length + " quests");
-          cl.innerHTML = '<span class="cp-n">' + grp.length + "</span>";
+          /* Q-365 (2026-11-07, Zoe via QA R212 correction:
+             "不要数字 / 数字也很乱") — number badges are banned
+             outright. A merged group renders as a small plain
+             marker with no count: red when any member is timed,
+             blue otherwise (the pin-frame colours). The tap
+             still previews the group and the preview pager
+             still cycles its members. */
+          if (grp.some(function (mm) { return mm.el.classList.contains("is-timed"); })) cl.classList.add("cp-timed");
+          cl.innerHTML = "";
           cl.addEventListener("click", function (ev) {
             ev.stopPropagation();
             if (suppressPinClick) return;

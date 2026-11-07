@@ -731,3 +731,17 @@ displayed size. QA also confirmed the self marker (pixel
 hero + sonar rings) renders correctly — no action there.
 Gates: syntax x6 OK; bootprobe PASS; pinScaleFor unit
 (sample values + monotonicity) OK. Device-final = Zoe.
+
+## Q-365 — Number cluster badges banned (2026-11-07, QA R212 correction)
+Zoe, right after the R212 GO: "不要数字 / 数字也很乱" — the
+earlier-clustering branch is cancelled and number badges are
+banned outright. Merged pin groups now render as small plain
+markers: a 20px disc (chunky white ring kept), blue for
+evergreen groups, red when any member is timed (pin-frame
+colours). No count is rendered anywhere on the map. The
+merge schedule, group tap (preview + pager cycling members)
+and Q-364's zoom-following pin sizes are unchanged. The
+aria-label still carries the count for screen readers only.
+Gates: syntax x6 OK; bootprobe zero+phone PASS; cascade
+audit (Q-365 width rule is last for .cluster-pin) OK.
+Device-final = Zoe; QA walk on R212.
