@@ -17043,7 +17043,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261107-1637-q363-3f79d84a";
+        var BUILD_ID = "tql-20261107-1641-q364-a23e4616";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -31991,13 +31991,24 @@ function drawZoneStamp(cv, zoneId, mode) {
         applyZoom();
         setTimeout(function () { mapZoom.classList.remove("snap-back"); if (mapSceneryEl) mapSceneryEl.classList.remove("snap-back"); if (mapBackdropEl) mapBackdropEl.classList.remove("snap-back"); }, 240);
       }
-      /* Pin scale against displayed density (Q-149): pins grow from
-         0.78 at fit view to full size at pxu 2.9, then shrink again
-         at deep zoom (to 0.65 at the 8x ceiling) so the densest
-         centre stays readable instead of carpeting over. */
+      /* Q-364 (2026-11-07, QA R212 — Zoe circled the Ueno–
+         Akihabara corridor on her device: the photo pins are
+         "too big" at district zoom, tiling over streets and
+         area names): pin size now follows the zoom honestly.
+         Small at fit view (0.60), easing up through the
+         district band, full size only at street level
+         (pxu >= 6 — the band the locate view lives in). The
+         previous schedule reached full size at pxu 2.9 and
+         shrank again at deep zoom, leaving the practical
+         district band at ~full size over the densest pins.
+         The cluster merge schedule is NOT changed: separated
+         pins stay individual photos (Zoe's Q-154 verdicts);
+         size is the lever, not merging. */
       function pinScaleFor(pxu) {
-        if (pxu <= 2.9) return Math.min(1, Math.max(0.78, pxu / 2.9));
-        return Math.max(0.65, 1 - (pxu - 2.9) * 0.13);
+        if (pxu <= 1.6) return 0.60;
+        if (pxu <= 3.2) return 0.60 + (pxu - 1.6) * 0.05;
+        if (pxu <= 6.0) return Math.min(1, 0.68 + (pxu - 3.2) * 0.1143);
+        return 1;
       }
       /* Q-150: pin photos are CSS backgrounds on .pin-body
          (set inline at pin creation), NOT <img> elements.

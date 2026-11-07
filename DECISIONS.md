@@ -712,3 +712,22 @@ reviewed PIL prototype (0 diffs on sampled medals 0/4/20/22/
 35, both states); icon sheet reviewed at v3 before shipping.
 Gates: syntax x6 OK; bootprobe zero+phone PASS; q351 fits PASS.
 Device-final = Zoe.
+
+## Q-364 — Map pin size follows zoom (2026-11-07, QA R212)
+Zoe circled the Ueno-Akihabara corridor on her device and
+asked QA whether the pins are too big; QA agreed (photo pins
+~60-70px device px tiling over streets and area names at
+district zoom). pinScaleFor re-tuned: 0.60 at fit view,
+easing through the district band (0.68 at pxu 3.2), full
+size only at street level (pxu >= 6, the locate band).
+Screen pin size goes from ~35-41px to ~24-33px across the
+fit/district range; street-level size is unchanged. The
+old schedule reached full size at pxu 2.9 and shrank again
+at deep zoom, leaving the practical band oversized.
+Cluster merge schedule deliberately untouched (Zoe's Q-154
+verdicts: separated pins stay individual photos); pinD
+still derives from curPinScale, so merge radii track the
+displayed size. QA also confirmed the self marker (pixel
+hero + sonar rings) renders correctly — no action there.
+Gates: syntax x6 OK; bootprobe PASS; pinScaleFor unit
+(sample values + monotonicity) OK. Device-final = Zoe.
