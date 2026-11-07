@@ -465,3 +465,17 @@ is DEVICE-CONFIRMED by Zoe.
 Gates: syntax ×6; boot zero + phone PASS. Device-final = Zoe
 (verify at a station: marker visible over clusters, map lands on
 her at max zoom).
+
+## Q-355 — Dock tab: one cursor, centred labels (R211)
+
+Zoe: the hero tab showed TWO yellow arrows and an off-centre label.
+Root cause of the phantom arrow: the gacha-availability dot on the
+hero tab is a <span class="gacha-dot">, and the selected-tab cursor
+rule (.tab[aria-selected] span:not(.count)::before) painted a lemon
+▶ inside the 11px dot at the tab's top-right, where the raised
+START tab clipped it. The real cursor also sat in flow before the
+label, pushing every selected label right of centre. Fix (CSS):
+the dot never grows a cursor (content: none), the label span becomes
+the positioning context, and the cursor floats absolutely at the
+label's left — one marker system, label centred on the tile, as she
+specified. Device-final = Zoe.
