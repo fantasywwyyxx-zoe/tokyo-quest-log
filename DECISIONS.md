@@ -768,3 +768,38 @@ scale curve (pins still grow with zoom, inside the bands);
 Q-365's number ban holds in every band.
 Gates: syntax x6 OK; bootprobe zero+phone PASS; pinScaleFor
 unit OK. Device-final = Zoe; QA walks all three bands.
+
+## Q-367 — Collection tab-switch flash fix (2026-11-08, Zoe via ops)
+Zoe: 「手帐页面还是点开以后会闪屏一下」 — the Q-361 render-before-
+unhide fix did not cure the collection flash on her device.
+Reproduced in a real browser (headless Chromium screencast,
+veteran save, frame diffs measured): switching TO the
+collection tab painted in 4 stages over ~0.3s (old panel gone,
+hero stage visible, new panel ghosting in at partial opacity,
+then settled); switching to badges painted in one step, and
+switching to collection with the fade disabled also painted
+in one step.
+Root causes: (1) the records panels are full-screen case
+windows carrying `animation: page-in 0.22s steps(4) both`
+(from opacity 0) — a tab switch inside the already-open
+window re-ran that fade on the freshly rebuilt panel, so the
+hero stage showed through a ghost panel; (2) renderCollection
+built all three pages' HTML on every render, including one
+badgeIconSVG per clear for the hidden sticker page, heating
+that first paint; (3) the adventure-log body still rendered
+AFTER the panel unhide (the pattern Q-361 removed for the
+collection).
+Fix: (1) openHeroWin detects a records-to-records move and
+marks the incoming panel .no-page-in for that switch (new
+rule `#view-hero .hseg-panel.hero-win.no-page-in
+{ animation: none; }`, specificity (1,3,0) over the page-in
+rule's (1,2,0)); first opens keep the page-in. (2)
+renderCollection clamps colPage up front and builds the
+stamp-grid / sticker-book strings only when that page is
+active. (3) renderAdvLog moves before the unhide loop.
+Gates: syntax x6 OK; bootprobe zero+phone PASS;
+test_q351_fits ALL PASS; cascade audit (new rule is last in
+document order by style block, wins on specificity) OK;
+screencast re-probe on the patched build: collection switch
+now paints in ONE step (single diff spike 40.5, no staged
+ghost frames). Device-final = Zoe.

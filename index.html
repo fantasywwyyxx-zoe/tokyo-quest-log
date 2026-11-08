@@ -13482,7 +13482,10 @@
       .map-box.band-mid .pin.as-dot.is-epic:not(.is-legend) { background: #e5b83b; }
       .map-box.band-mid .pin.is-cleared:not(.is-legend) { background: #58a05c; }
       .map-box.band-mid .pin.as-dot .pin-body, .map-box.band-mid .pin.as-dot .pin-ico, .map-box.band-mid .pin.as-dot .pin-flag, .map-box.band-mid .pin.as-dot .pin-check, .map-box.band-mid .pin.is-cleared .pin-body, .map-box.band-mid .pin.is-cleared .pin-ico, .map-box.band-mid .pin.is-cleared .pin-flag, .map-box.band-mid .pin.is-cleared .pin-check { display: none; }
-    </style>
+          /* Q-367: a records tab switch is a hard cut — the incoming panel
+         must not re-run the window page-in fade (Zoe's collection flash) */
+      #view-hero .hseg-panel.hero-win.no-page-in { animation: none; }
+</style>
   </head>
   <body data-view="map">
 
@@ -17066,7 +17069,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261108-refresh-c89-amuse-del";
+        var BUILD_ID = "tql-20261108-1749-q367-9ec575dc";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -31342,18 +31345,24 @@ function drawZoneStamp(cv, zoneId, mode) {
           shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, t.titles.length) + "/" + t.titles.length + " · " + titleFor(info.lv)) +
           shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
           shelfRow(t.colHeroes, heroesN + "/" + heroes.length) + shelfRow(t.colCalDays, String(days)) + "</div>";
-        var zl = zoneCompleteList();
+        /* Q-367: build only the ACTIVE page's heavy strings — the
+           stamp grid and the sticker book (one badgeIconSVG per
+           clear) used to be built on every render, heating the
+           open / tab-switch paint behind Zoe's collection flash. */
+        if (colPage < 0) colPage = 0;
+        if (colPage > 2) colPage = 2;
+        var zl = colPage === 1 ? zoneCompleteList() : [];
         var stampsGot = zl.filter(function (z) { return z.done > 0; }).length;
-        var stamps = '<div class="col-shelf"><h3>' + esc(t.colZones || "ZONES") + " (" + stampsGot + "/" + zl.length + ")</h3>" + '<div class="stamp-grid">' + zl.map(function (z) {
+        var stamps = colPage === 1 ? ('<div class="col-shelf"><h3>' + esc(t.colZones || "ZONES") + " (" + stampsGot + "/" + zl.length + ")</h3>" + '<div class="stamp-grid">' + zl.map(function (z) {
           var cls = z.complete ? " complete" : z.done > 0 ? " got" : " locked";
           var mark = z.complete ? "★" : z.done > 0 ? "✓" : "";
           return '<div class="stamp-cell' + cls + '"><span class="stamp-ring"><canvas class="stamp-art" width="16" height="16" data-zone-art="' + z.id + '" data-zone-mode="' + (z.complete || z.done > 0 ? "got" : "locked") + '"></canvas>' + (mark ? '<span class="stamp-mark">' + mark + "</span>" : "") + '</span><span class="stamp-name">' + esc(zoneName(z.id)) + '</span><span class="stamp-count">' + z.done + "/" + z.total + "</span></div>";
-        }).join("") + "</div></div>";
+        }).join("") + "</div></div>") : "";
         var srows = state.clears.map(function (c) { var e = byId(c.id); return e ? { e: e, c: c } : null; }).filter(Boolean);
-        var stickers = '<div class="col-shelf"><h3>' + esc(t.colStickers || "STICKERS") + " (" + srows.length + ")</h3>" +
+        var stickers = colPage === 2 ? ('<div class="col-shelf"><h3>' + esc(t.colStickers || "STICKERS") + " (" + srows.length + ")</h3>" +
           (srows.length ? '<div class="sticker-grid">' + srows.map(function (o) {
             return '<div class="sticker-cell">' + badgeIconSVG(stickerIdxFor(o.e.id)) + '<span class="sticker-name">' + esc(evName(o.e)) + "</span></div>";
-          }).join("") + "</div>" : '<p class="adv-empty">' + esc(t.stickerEmpty || "") + "</p>") + "</div>";
+          }).join("") + "</div>" : '<p class="adv-empty">' + esc(t.stickerEmpty || "") + "</p>") + "</div>") : "";
         /* the logbook reads as two parts (2026-10-27 concept):
            MAINLINE pages carry the hero's growth (gear, badges,
            titles, record days); SIDE QUEST pages carry what the
@@ -32763,15 +32772,25 @@ function drawZoneStamp(cv, zoneId, mode) {
         /* the dock's single RECORDS tile (user, 2026-10-27) opens
            the merged status / badges / adventure-log window on
            whichever tab it was left on */
+        /* Q-367: remember which window was open BEFORE this call —
+           a records-to-records move is a tab switch (hard cut), not
+           a fresh window opening (page-in fade). See the unhide loop. */
+        var prevWin367 = heroWinOpen;
         if (name === "records") name = recTab;
         heroWinOpen = name;
         if (name === "status" || name === "badges" || name === "advlog" || name === "collection") recTab = name;
+        var tabSwitch367 = (prevWin367 === "status" || prevWin367 === "badges" || prevWin367 === "advlog" || prevWin367 === "collection")
+          && (name === "status" || name === "badges" || name === "advlog" || name === "collection");
         /* the ladder always opens on the CURRENT title's page */
         if (name === "status") { ladderPage = -1; renderLadder(); }
         if (name === "collection") renderCollection();
+        /* Q-367: the log body renders BEFORE the unhide too (it used
+           to render after it — the same render-after-show pattern
+           that flashed the collection before Q-361). */
+        if (name === "advlog") renderAdvLog();
         ["gacha", "status", "badges", "studio", "custom", "collection", "advlog", "shop"].forEach(function (k) {
           var p = document.getElementById("hseg" + k.charAt(0).toUpperCase() + k.slice(1));
-          if (p) p.hidden = name !== k;
+          if (p) { p.classList.toggle("no-page-in", tabSwitch367 && k === name); p.hidden = name !== k; }
         });
         /* Q-108: the RECORDS tab bar is ONE shared element pinned
            outside the three panels (see #recTabsShared) — a tab
@@ -32805,7 +32824,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         }
         if (name === "status" || name === "badges" || name === "advlog" || name === "collection") scheduleRecordsRefit();
         if (name === "shop") { wireCoinWin(); renderCoinWin(); }
-        if (name === "advlog") renderAdvLog();
         document.querySelectorAll("[data-openwin]").forEach(function (b) {
           var bw = b.getAttribute("data-openwin");
           b.setAttribute("aria-pressed", String(bw === name || (bw === "records" && (name === "status" || name === "badges" || name === "advlog" || name === "collection"))));
