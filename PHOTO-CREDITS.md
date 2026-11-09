@@ -210,3 +210,4 @@ Feel free
 - c82-top-okada-phantom-horses | https://topmuseum.jp/exhibition/12698/ | Official website artwork image (© artist / venue) | https://topmuseum.jp/exhibition/12698/
 - c83-eisei-bunko-hakuin | https://commons.wikimedia.org/wiki/File:Hakuin_Ekaku_-_Hotei_in_a_Boat_-_2006.131.1a-b_-_Yale_University_Art_Gallery.jpg | Public domain | <bdi><a href="https://en.wikipedia.org/wiki/en:Hakuin_Ekaku" class="extiw" title="w:en:Hakuin Ekaku"><span title="Japanese Zen Buddhist master (1686-1769)">Hakuin Ekaku</span></a></bdi>
 - c84-fuchu-botanical-art | https://www.city.fuchu.tokyo.jp/art/tenrankai/kikakutenkaisai/2026_BotanicalArt.html | Official website artwork image (© artist / venue) | https://www.city.fuchu.tokyo.jp/art/tenrankai/kikakutenkaisai/2026_BotanicalArt.html
+- c90-mutek-jp-2026 | https://tokyo.mutek.org/en/festival-guide-2026 | Official website photo (© MUTEK Japan) | MUTEK Japan
