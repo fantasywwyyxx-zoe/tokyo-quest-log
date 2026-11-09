@@ -938,3 +938,13 @@ PASS; CDP probes — band counts per zoom, panel screenshots
 (records tabs + x aligned, shop head row, gacha corner x), hut
 room with the moon lamp placed, shop hut tab gift cell renamed,
 hero dock at four buttons. Device-final = Zoe.
+
+## Q-373 — Hut gacha button removed (2026-11-09, Zoe clarification)
+
+Zoe clarified her Q-372 point: "why does the hut have a gacha
+SYSTEM" — she meant the hut carrying its own gacha entry (the
+ hut-btns ガチャ jump button), two gacha entries being confusing.
+The button and its label-setter are removed; the hut's row is now
+飾る + ショップ, and gacha lives only on the dock. The moon-lamp
+gift swap from Q-372 stands unless she asks for the mini gachapon
+back (asked in the ship report).

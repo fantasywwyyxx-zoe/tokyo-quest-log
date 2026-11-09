@@ -14663,7 +14663,6 @@
           <div class="hut-btns">
             <button type="button" class="hut-btn" id="hutModeBtn" aria-pressed="false"></button>
             <button type="button" class="hut-btn" data-hut-goto="shop"></button>
-            <button type="button" class="hut-btn" data-hut-goto="gacha"></button>
           </div>
         </div>
         </div>
@@ -17180,7 +17179,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1603-q372-964e1251";
+        var BUILD_ID = "tql-20261109-1637-q373-cdb8fe93";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -25664,7 +25663,7 @@ function drawYushaJacket(ctx) {
         var mb = document.getElementById("hutModeBtn");
         if (mb) { mb.textContent = hutEdit ? t.hutDone : t.hutPlace; mb.setAttribute("aria-pressed", hutEdit ? "true" : "false"); }
         var gs = panel.querySelector('[data-hut-goto="shop"]'); if (gs) gs.textContent = t.segShop;
-        var gg = panel.querySelector('[data-hut-goto="gacha"]'); if (gg) gg.textContent = t.segGacha;
+       
       }
       function hutTapSlot(sid) {
         if (!hutEdit) return;
