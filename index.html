@@ -6185,7 +6185,7 @@
       .dr-dots { flex: 0 1 30px; min-width: 0; border-bottom: 3px dotted rgba(128, 144, 168, 0.5); height: 0; margin: 0 2px 4px; }
       .dr-exp { flex: none; font-size: 12.5px; font-weight: 800; color: var(--ink); background: var(--lemon); border: 2px solid var(--ink); border-radius: 999px; padding: 1px 8px; box-shadow: 0 2px 0 var(--ink); white-space: nowrap; }
       .drow.done { opacity: 0.72; cursor: default; }
-      .drow.done .dr-name { text-decoration: none; background-image: linear-gradient(currentColor, currentColor); background-size: 100% 2px; background-position: 0 54%; background-repeat: no-repeat; }
+      .drow.done .dr-name-t { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-skip-ink: none; }
       .dr-stamp {
         flex: none; font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em;
         color: #131a2e; background: var(--lemon); border: 2px solid var(--line-c);
@@ -13537,7 +13537,7 @@
       #hsegHut .hut-room { aspect-ratio: auto; flex: 1 1 auto; min-height: 300px; }
       #view-daily .dr-name { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; row-gap: 2px; }
       #view-daily .dr-lucky { margin-left: 0; }
-      #view-daily .drow:not(.done) .dr-name { background-image: none; }
+      /* Q-375: the .dr-name background strike is gone (text-decoration on .dr-name-t now); this guard is retired. */
       #view-list .list-bar { flex-wrap: nowrap; }
       #view-list .list-subbar .sort-btn { margin-left: 0; }
       #view-list .list-subbar .search-open-btn { margin-left: auto; }
@@ -13564,6 +13564,20 @@
       #hsegGacha .gacha-panel { position: relative; }
       #hsegGacha .gacha-panel > .hwin-x { position: absolute; top: 10px; right: 10px; margin: 0; z-index: 6; }
       #hsegGacha .gacha-head { padding-right: 46px; }
+
+      /* Q-375 share sheet: the card itself is the first feedback (R216) */
+      #sharePick .map-pick-panel { max-height: min(94dvh, 760px); overflow-y: auto; }
+      .share-preview { display: flex; justify-content: center; }
+      .share-preview canvas { width: min(180px, 55vw); height: auto; border: 2.5px solid var(--line-c); border-radius: 8px; background: #10142e; }
+      .share-status { margin: 0; min-height: 1.25em; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--ink-dim); }
+      /* Q-375 mini-game entry under the daily window (R215) */
+      .mg-daily-btn { flex: none; margin: 10px 2px 0; display: flex; align-items: center; gap: 10px; width: calc(100% - 4px); padding: 10px 12px; background: var(--window); border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 3px 0 var(--edge); color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+      .mg-daily-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+      .mgd-ico { font-size: 20px; flex: none; }
+      .mgd-txt { flex: 1 1 auto; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+      .mgd-kick { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--ink-dim); }
+      .mgd-name { font-size: 15.5px; font-weight: 800; }
+      .mgd-go { flex: none; font-size: 13px; color: var(--ink-dim); }
 </style>
   </head>
   <body data-view="map">
@@ -14343,6 +14357,7 @@
           
         </div>
         </div>
+        <button class="mg-daily-btn" id="mgDailyBtn" type="button"><span class="mgd-ico" aria-hidden="true">🎮</span><span class="mgd-txt"><span class="mgd-kick" id="mgDailyKick"></span><span class="mgd-name" id="mgDailyName"></span></span><span class="mgd-go" aria-hidden="true">▶</span></button>
         <footer class="win-flat site record-foot">
           <p id="footLine1"></p>
           <p id="footLine2"></p>
@@ -14820,7 +14835,10 @@
 <div class="map-pick share-pick" id="sharePick" hidden role="dialog" aria-labelledby="sharePickTitle">
       <div class="map-pick-panel">
         <p class="map-pick-title" id="sharePickTitle"></p>
+        <div class="share-preview" id="sharePreview"></div>
+        <p class="share-status" id="shareStatus" aria-live="polite"></p>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="system"></button>
+        <button class="rpg-btn map-pick-btn" type="button" data-sharekind="save"></button>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="line"></button>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="x"></button>
         <button class="rpg-btn map-pick-btn" type="button" data-sharekind="threads"></button>
@@ -17179,7 +17197,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1815-q374-82703b3d";
+        var BUILD_ID = "tql-20261109-1826-q375-059287f0";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18139,7 +18157,7 @@ var qrcode = function() {
           listOpen: "DETAILS ▶",
           boardOpen: "OPEN",
           boardTitle: "QUEST BOARD", backBtn: "◀ BACK",
-          posterBtn: "🖼 SHARE POSTER", posterCta: "Start your quest now!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to play", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareLine: "Send to LINE", shareSavedNote: "Image saved — attach it in the app that opened.",
+          posterBtn: "🖼 SHARE POSTER", posterCta: "Start your quest now!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to play", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareLine: "Send to LINE", shareSaveImage: "Save image", shareSysDone: "Shared!", shareFailed: "That did not open here. Save the image and share it from your photos.", shareSavedNote: "Image saved — attach it in the app that opened.",
           viewPhoto: "View full photo",
           viewerClose: "✕ CLOSE",
           viewerHint: "Pinch or double-tap to zoom · drag to pan",
@@ -19026,7 +19044,7 @@ var qrcode = function() {
           listOpen: "詳細 ▶",
           boardOpen: "詳細",
           boardTitle: "クエスト掲示板", backBtn: "◀ もどる",
-          posterBtn: "🖼 ポスターで共有", posterCta: "今すぐクエスト開始！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンしてプレイ", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareLine: "LINE で送る", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
+          posterBtn: "🖼 ポスターで共有", posterCta: "今すぐクエスト開始！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンしてプレイ", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareLine: "LINE で送る", shareSaveImage: "画像を保存", shareSysDone: "シェアしました", shareFailed: "ここでは開けませんでした。画像を保存して、写真からシェアしてください。", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
           viewPhoto: "写真を全体表示",
           viewerClose: "✕ 閉じる",
           viewerHint: "ピンチ／ダブルタップで拡大 · ドラッグで移動",
@@ -19913,7 +19931,7 @@ var qrcode = function() {
           listOpen: "打开详情 ▶",
           boardOpen: "详情",
           boardTitle: "任务公告板", backBtn: "◀ 返回",
-          posterBtn: "🖼 海报分享", posterCta: "现在就开始冒险！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码开始冒险", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareLine: "发送到 LINE", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
+          posterBtn: "🖼 海报分享", posterCta: "现在就开始冒险！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码开始冒险", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareLine: "发送到 LINE", shareSaveImage: "保存图片", shareSysDone: "已分享", shareFailed: "在这里打不开。先保存图片，再从相册分享吧。", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
           viewPhoto: "全屏查看照片",
           viewerClose: "✕ 关闭",
           viewerHint: "双指捏合／双击缩放 · 拖动平移",
@@ -29151,34 +29169,11 @@ function drawRunnerFrame(ctx, frame, blink) {
           } else grant("");
         }
         var card = buildShareCard(cardLine);
-        if (navigator.share) {
-          var payload = { title: "Tokyo Quest Log", text: text, url: SHARE_URL };
-          var launched = false;
-          try {
-            if (navigator.canShare && card.toBlob) {
-              card.toBlob(function (blob) {
-                if (launched || !blob) return;
-                var f = null;
-                try { f = new File([blob], "tsq-card.png", { type: "image/png" }); } catch (e) {}
-                if (f && navigator.canShare({ files: [f] })) payload.files = [f];
-                launched = true;
-                navigator.share(payload).then(function () { grant(""); }, function (err) {
-                  if (!err || err.name !== "AbortError") fallback();
-                });
-              }, "image/png");
-              setTimeout(function () {
-                if (launched) return; launched = true;
-                try {
-                  navigator.share(payload).then(function () { grant(""); }, function (err) { if (!err || err.name !== "AbortError") fallback(); });
-                } catch (e2) { fallback(); }
-              }, 1600);
-              return;
-            }
-          } catch (e) {}
-          navigator.share(payload).then(function () { grant(""); }, function (err) {
-            if (!err || err.name !== "AbortError") fallback();
-          });
-        } else fallback();
+        /* Q-375 (R216): level-up / badge shares go through the same
+           sheet as every other share. The old direct navigator.share
+           call gave no visible feedback when the webview dropped it
+           — the exact failure Zoe kept hitting on this block. */
+        openSharePick({ cv: card, text: text, url: SHARE_URL, fileName: "tsq-card.png", grant: grant, fallback: fallback });
       }
 
       /* Q-176 quest poster share (Zoe ruling 2026-10-29): from the
@@ -29497,7 +29492,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            ready — the chooser's rows read pendingShare at tap time. */
         openSharePick(ctx);
         buildClearPoster(e, info).then(function (cv) {
-          if (cv && pendingShare === ctx) { ctx.cv = cv; ctx.fileName = "tql-clear.png"; }
+          if (cv && pendingShare === ctx) { ctx.cv = cv; ctx.fileName = "tql-clear.png"; refreshSharePreview(); }
         }, function () {});
       }
       /* Q-255 (Zoe, 2026-11-02): one share chooser for both poster
@@ -29675,7 +29670,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         box.querySelector('[data-sharekind="threads"]').textContent = t.shareThreads;
         box.querySelector('[data-sharekind="line"]').textContent = t.shareLine;
         document.getElementById("sharePickCancel").textContent = t.mapPickCancel;
+        var svb = box.querySelector('[data-sharekind="save"]'); if (svb) svb.textContent = t.shareSaveImage;
+        /* Q-375: the reward grant lands once per sheet, whichever
+           row earns it — rows no longer close the sheet, so repeated
+           taps must not farm it. */
+        if (ctx && ctx.grant && !ctx._gw) { var og = ctx.grant; ctx._gw = 1; ctx.grant = function (p) { if (ctx._granted) return; ctx._granted = 1; og(p); }; }
         pendingShare = ctx;
+        setShareStatus("");
+        refreshSharePreview();
         box.hidden = false;
         box.classList.add("sp-open");
         /* Q-357 (R210): class display only — the element is no
@@ -29683,6 +29685,17 @@ function drawRunnerFrame(ctx, frame, blink) {
            in any hosting. */
         armSharePickDoc();
         sfx("open");
+      }
+      function setShareStatus(msg) {
+        var el = document.getElementById("shareStatus");
+        if (el) el.textContent = msg || "";
+      }
+      function refreshSharePreview() {
+        var pv = document.getElementById("sharePreview");
+        if (!pv) return;
+        pv.innerHTML = "";
+        var ctx = pendingShare;
+        if (ctx && ctx.cv && ctx.cv.tagName === "CANVAS") pv.appendChild(ctx.cv);
       }
       function hideSharePick() {
         disarmSharePickDoc();
@@ -29706,8 +29719,8 @@ function drawRunnerFrame(ctx, frame, blink) {
             if (!f || !navigator.canShare || !navigator.canShare({ files: [f] })) { textShare(ctx); return; }
             var payload = { title: "Tokyo Quest Log", text: ctx.text, files: [f] };
             if (ctx.url) payload.url = ctx.url;
-            navigator.share(payload).then(function () { ctx.grant(""); }, function (err) {
-              if (!err || err.name !== "AbortError") ctx.fallback();
+            navigator.share(payload).then(function () { setShareStatus(L().shareSysDone); ctx.grant(""); }, function (err) {
+              if (!err || err.name !== "AbortError") { setShareStatus(L().shareFailed); ctx.fallback(); }
             });
           }, "image/png");
           return;
@@ -29718,8 +29731,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (navigator.share) {
           var payload = { title: "Tokyo Quest Log", text: ctx.text };
           if (ctx.url) payload.url = ctx.url;
-          navigator.share(payload).then(function () { ctx.grant(""); }, function (err) {
-            if (!err || err.name !== "AbortError") ctx.fallback();
+          navigator.share(payload).then(function () { setShareStatus(L().shareSysDone); ctx.grant(""); }, function (err) {
+            if (!err || err.name !== "AbortError") { setShareStatus(L().shareFailed); ctx.fallback(); }
           });
         } else ctx.fallback();
       }
@@ -29754,17 +29767,30 @@ function drawRunnerFrame(ctx, frame, blink) {
         ctx.grant(saved ? L().shareSavedNote : "");
       }
       function pickShare(kind) {
+        /* Q-375 (R216): the sheet STAYS OPEN after a row tap. In
+           Zoe's in-app webview a swallowed window.open or a rejected
+           share() used to look exactly like a dead button; now every
+           row reports its outcome on the status line, and the card
+           above can always be saved instead. Cancel / backdrop tap
+           still close the sheet. */
         var ctx = pendingShare;
-        hideSharePick();
         if (!ctx) return;
+        var t = L();
         if (kind === "system") { sysShare(ctx); return; }
-        if (kind === "threads") { threadsShare(ctx); return; }
-        if (kind === "line") { lineShare(ctx); return; }
+        if (kind === "save") {
+          var okS = saveCtxImage(ctx);
+          setShareStatus(okS ? t.shareSavedNote : t.shareFailed);
+          if (okS) ctx.grant("");
+          return;
+        }
+        if (kind === "threads") { threadsShare(ctx); setShareStatus(t.shareSavedNote); return; }
+        if (kind === "line") { lineShare(ctx); setShareStatus(t.shareSavedNote); return; }
         var saved = saveCtxImage(ctx);
         if (kind === "x") {
-          window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank");
+          try { window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank"); } catch (e) {}
         }
-        ctx.grant(saved ? L().shareSavedNote : "");
+        setShareStatus(saved ? t.shareSavedNote : t.shareFailed);
+        ctx.grant(saved ? t.shareSavedNote : "");
       }
             (function () {
         var box = document.getElementById("sharePick");
@@ -31833,7 +31859,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         document.getElementById("dailyCards").innerHTML = list.map(function (q) {
           var done = state.daily.done.indexOf(q.idx) !== -1;
           return '<button class="drow' + (done ? " done" : "") + (q.lucky ? " lucky" : "") + '" type="button" data-daily="' + q.idx + '"' + (done ? " disabled" : "") + ">" +
-            '<span class="dr-main"><span class="dr-name">' + esc(q.name) +
+            '<span class="dr-main"><span class="dr-name"><span class="dr-name-t">' + esc(q.name) + '</span>' +
               (q.lucky ? '<span class="dr-lucky">' + esc(t.luckyTag) + "</span>" : "") +
               '</span><span class="dr-desc">' + esc(q.desc) + "</span></span>" +
             '<span class="dr-exp">+' + (q.lucky ? 30 : 10) + " EXP</span>" +
@@ -35165,6 +35191,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       var _origRenderDaily = renderDaily;
       renderDaily = function () {
         _origRenderDaily();
+        try { renderMgCapsule(); } catch (e) {}
         var hi = todaysHomeIdx(); if (hi < 0) return;
         var row = document.querySelector('[data-daily="' + hi + '"]');
         if (row) { var ex = row.querySelector(".dr-exp"); if (ex) ex.textContent = "+" + (L().dailyPool[hi].x || 15) + " EXP"; }
@@ -35303,6 +35330,8 @@ function drawZoneStamp(cv, zoneId, mode) {
         var n = mgEarnedCount(), all = n >= 3;
         var kick = $("mgMapKick"); if (kick) kick.textContent = t.mgToday;
         var nm = $("mgMapName"); if (nm) nm.textContent = t.mgToday3;
+        var dk = $("mgDailyKick"); if (dk) dk.textContent = t.mgToday;
+        var dn = $("mgDailyName"); if (dn) dn.textContent = t.mgToday3;
         var tk = $("mgMapTicket");
         if (tk) { tk.textContent = all ? "✓" : (n + "/3"); tk.classList.toggle("is-done", all); }
         btn.classList.toggle("is-done", all);
@@ -36551,6 +36580,7 @@ function drawZoneStamp(cv, zoneId, mode) {
          abolished); the window's rows launch the games, its ✕
          closes back to the untouched hero page */
       $("mgMapBtn").addEventListener("click", function () { openMgHub(); });
+      var mdb = $("mgDailyBtn"); if (mdb) mdb.addEventListener("click", function () { openMgHub(); });
       $("evMapBtn").addEventListener("click", function () { evOpen(); });
       $("mgHubClose").addEventListener("click", closeMgHub);
       var mgFbEl = $("mgFoldBtn");

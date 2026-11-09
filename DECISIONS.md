@@ -961,3 +961,54 @@ the click handler's ever -> ["near"] cycle re-requests position).
 Probe-verified at 390x844 in all three kind views: button visible,
 80px, label 近い順, no subbar overflow; the evergreen screenshot
 reproduces Zoe's exact list (289 items from her location).
+
+## Q-375 — R215 daily mini-game entry / R216 share sheet rebuild / R217 strike (2026-11-09)
+
+R215 (Zoe's order): a mini-game entry box now sits below the Daily
+window (#mgDailyBtn: 今日のゲーム / 今日の3ゲーム / ▶), tap opens the
+games hub. Labels mirror the hero capsule via renderMgCapsule
+(which also fills the box and runs from the renderDaily wrapper, so
+they are never stale). No ticket counts on the box — the capsule
+stays the single ticket surface (Q-201). Probe-verified at
+390x844 and 390x667: box below the window, no page overflow, hub
+opens.
+
+R216 (S2 reopened; second device FAIL of the celebration share):
+the share chooser is now a share SHEET built on the minimal path.
+It displays the actual card canvas in a preview the moment it opens
+(first feedback = plain DOM; no toBlob/share-sheet/popover in the
+critical path), gains an explicit Save-image row, and STAYS OPEN
+after a row tap — every outcome is written to a status line
+(shared / saved-note / failed-with-next-step), so a swallowed
+window.open or rejected share() in the in-app webview can no
+longer masquerade as a dead button. The reward grant is wrapped
+once-per-sheet at open. doShareCard (level-up / badge shares, the
+block Zoe circled) no longer calls navigator.share directly; it
+routes through the same sheet. Gates: test_q375_share (real sliced
+code: preview-at-open, stay-open, status, grant-once, doShareCard
+reroute) ALL PASS; test_q357 hosting ALL PASS; real-page probe:
+sheet opens inside the detail dialog with the 1080x1350 poster in
+the preview, all five rows labelled, save tap reports on the
+status line (in the file:// probe the save correctly REPORTED its
+failure on a tainted canvas instead of dying silently; on the
+https origin the photo is same-origin). Final leg is Zoe's next
+clear on device, as QA framed it.
+
+R217 (diagnosis CORRECTED — QA please note): the two flagged cards
+were in fact completed. The yellow chip QA read as an active
+complete button is the done stamp itself (dailyDoneStamp "達成 ✓"
+renders only on done rows); zoomed crops of the original show the
+lucky pill in its done styling (white/grey, not gold) and the
+Daily tab badge at 1 remaining. Card 2's through-title strike is
+correct done behaviour. The real defect was card 1 only: after
+Q-370 made the name wrap, a done LUCKY row's name box is two lines
+(title + pill) and the strike — a background gradient at 54% of
+the box — slashed the pill row instead of the title. Fix: the
+strike is now text-decoration: line-through on a new .dr-name-t
+span wrapping only the title text; the style#11 background painter
+and the dead Q-370 :not(.done) guard are removed. By construction
+a not-done row can never be struck, and a done row's strike always
+lands on the title text. Probe-verified: done lucky row — title
+struck, pill decoration "none"; open rows — no decoration. (The
+.daily-card.done .dc-name history-card strike uses the same old
+trick on a single-line inline name; not flagged, left alone.)
