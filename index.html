@@ -13545,6 +13545,11 @@
       #view-list .list-subbar .sort-btn { padding: 5px 8px; font-size: 13px; }
       #view-list .list-subbar .search-open-btn { padding: 5px 8px; font-size: 13px; }
       #view-list .kind-segs .sort-near-btn { padding: 5px 6px; font-size: 13px; }
+
+      /* Q-371: shop balance as a clear lemon pill (Zoe: the bare
+         gold number was hard to see) */
+      #hsegShop .coin-bal { display: inline-flex; align-items: center; gap: 7px; background: #ffd83d; border: 2.5px solid #26324a; border-radius: 999px; padding: 4px 14px 4px 9px; color: #26324a; font-size: 20px; box-shadow: 0 2px 0 rgba(38, 50, 74, .55); }
+      #hsegShop .coin-bal::before { content: ""; width: 13px; height: 13px; border-radius: 50%; background: #fff6e8; border: 2.5px solid #d9a441; flex: none; }
 </style>
   </head>
   <body data-view="map">
@@ -17162,7 +17167,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1533-q370-5bc3c4a4";
+        var BUILD_ID = "tql-20261109-1538-q371-32d45d93";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;

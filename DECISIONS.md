@@ -894,3 +894,12 @@ Three circled layout findings from Zoe, one build:
 Gates: syntax x6 OK; bootprobe phone PASS; test_q351_fits ALL PASS;
 CDP layout probe screenshots + rect measurements for all three
 views at two sizes. Device-final = Zoe.
+
+## Q-371 — Shop balance pill (2026-11-09, Zoe device)
+
+Zoe circled the coin balance in the shop header: bare dark-gold
+text ("94"), no chip, low contrast — "hard to see". #coinBal is now
+a lemon pill in the price-button language: lemon fill, ink border,
+coin dot (::before, CSS-only — JS still writes a plain number),
+navy Baloo 800 at 20px, soft shadow. Probe-verified in the shop hut
+tab. Device-final = Zoe.
