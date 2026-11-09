@@ -903,3 +903,38 @@ a lemon pill in the price-button language: lemon fill, ink border,
 coin dot (::before, CSS-only — JS still writes a plain number),
 navy Baloo 800 at 20px, soft shadow. Probe-verified in the shop hut
 tab. Device-final = Zoe.
+
+## Q-372 — De-duplication + close buttons inside frames (2026-11-09, Zoe)
+
+Four rulings from Zoe in one pass:
+1. The きせかえ dock button is REMOVED — it duplicated the four
+   equipment cards above it (each card opens the studio on its own
+   slot tab; the hero card opens custom). Hero dock is now
+   records / gacha / shop / hut.
+2. Map pins, Zoe's pick after seeing the Q-366 mid band mix frames
+   and dots: MID BAND IS ALL DOTS. Photo pins exist only in the
+   near band; a band never mixes forms. buildClusters returns
+   early for mid like far; band-mid CSS dots every non-legend pin
+   (12px, same colour language). Probe-verified per band
+   (near 306 photos / mid 406 dots, 0 photos / far all dots).
+3. The hut's Lv.5 gift furniture (mini gachapon) is now a MOON
+   LAMP — "why does the hut have another gacha, the two are
+   confusing". Internal id/key stay hut-gacha/hutGacha so saves
+   keep the gift with zero migration; art (computed crescent +
+   sleeping eye + star on a wood stand), the three name strings
+   and the three gift messages changed. (This also kills the
+   earlier P2 idea of a hut gacha pool.)
+4. Close buttons inside the frame, family-wide (Zoe: no more of
+   this layout problem): hero-win top padding 50px -> 12px so each
+   window's first row rises beside its close button; the shop x
+   moved into the coin-head row after the balance pill; the gacha
+   x sits absolute at the gacha-panel card's top-right corner with
+   the head padded right (its title+pill row wraps the pill under
+   the title — accepted, nothing overlaps); hut already inside
+   since Q-370 and its card grew again (y12, h723 at 390x844).
+
+Gates: syntax x6 OK; bootprobe zero+phone PASS; test_q351_fits ALL
+PASS; CDP probes — band counts per zoom, panel screenshots
+(records tabs + x aligned, shop head row, gacha corner x), hut
+room with the moon lamp placed, shop hut tab gift cell renamed,
+hero dock at four buttons. Device-final = Zoe.
