@@ -1012,3 +1012,52 @@ lands on the title text. Probe-verified: done lucky row — title
 struck, pill decoration "none"; open rows — no decoration. (The
 .daily-card.done .dc-name history-card strike uses the same old
 trick on a single-line inline name; not flagged, left alone.)
+
+## Q-376 (2026-11-09) — share guards + anytime re-share from detail
+Zoe's two orders on Q-375: (1) she re-tested the celebration share on
+a fresh guest save (same first clear of Kameari, 19:03) — still dead;
+(2) NEW: "已经完成的任务也可以随时分享实绩" — a cleared quest must
+re-share its achievement at any time. This SUPERSEDES the 2026-10-30
+R32 spec that kept the CLEAR poster celebration-only.
+- Celebration share tap: dismiss and share call now run in separate
+  try/catch steps; a throw narrates posterFail instead of silence.
+- The sheet proves it is on top: 80 ms after opening, a hit-test at
+  the panel centre must land inside the sheet; if covered, it closes
+  the open dialog and re-hosts on the body (Zoe's own workaround,
+  productized as a safety net).
+- Detail page: #btnClearShare appears under the cleared line only
+  when the quest is cleared (label = shareBtn), wired to
+  shareClearAgain() — same CLEAR poster via doShareClear, original
+  date/EXP from the stored clear record, shareEpic text for EPIC
+  quests, and o.noReward (doShareClear's grant honors it): the
+  reward belongs to the original clear's share, re-shares grant
+  nothing. Superseded in part by Q-377 (the guards stay; the root
+  cause was elsewhere).
+
+## Q-377 (2026-11-09) — R216 ROOT CAUSE: the celebration popover took no taps
+Reproduced end-to-end in a real browser (celeb_probe2: veteran save,
+GPS clear of Tokyo Station): the celebration panel PAINTED on top
+of the detail dialog, :popover-open true, pointer-events auto —
+yet document.elementsFromPoint at the share button's centre
+returned ONLY detail-dialog elements. The open popover was absent
+from hit-testing while fully visible; a programmatic click() on
+the same button worked perfectly. Every tap, probe or finger, fell
+through the visible panel — exactly Zoe's "弹出来的这个就是点不动",
+and the reason Q-356/Q-357/Q-375 fixes (all downstream of the tap)
+never changed her result: the tap never arrived.
+Fix: the celebration no longer uses the popover API at all.
+celebrate() always hosts the panel inside the open dialog when one
+exists (the R34 fallback, promoted to the only path — dialog
+children hit-test normally, as the dialog-hosted share sheet
+proves), else as a plain fixed div in the body; a CSS rule raises
+#celebrate to z-index 200 so the body form still tops non-dialog
+overlays (legend screen, hero windows). endCelebrateQuiet's
+celebHome re-homing already covered restoration; popHide no-ops.
+Verification (physical CDP taps, not JS clicks): hitAtBtn =
+BUTTON.cp-share (was DIV.kv-cols); after a physical tap on the
+celebration share button: celebration dismissed AND share sheet
+open with the 1080x1350 CLEAR poster preview; the Q-376 re-share
+button likewise opens the sheet on a physical tap. Poster-path
+share probe, daily probe, bootprobe, hosting/fits/share unit tests
+all still pass. Device-final = Zoe, but this is the first build
+where the failing leg itself reproduces — and passes — in a lab.

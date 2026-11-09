@@ -13578,6 +13578,13 @@
       .mgd-kick { font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; color: var(--ink-dim); }
       .mgd-name { font-size: 15.5px; font-weight: 800; }
       .mgd-go { flex: none; font-size: 13px; color: var(--ink-dim); }
+
+      /* Q-376: re-share achievement button on a cleared quest's detail */
+      .btn-clear-share { width: 100%; margin-top: 8px; min-height: 44px; font-size: 14.5px; }
+      .btn-clear-share[hidden] { display: none; }
+
+      /* Q-377: body-hosted celebration must top non-dialog overlays */
+      #celebrate { z-index: 200; }
 </style>
   </head>
   <body data-view="map">
@@ -14782,6 +14789,7 @@
           <p class="lang-note" id="detailLang"></p>
           <div class="epic-reward" id="epicReward" hidden></div>
           <p class="cleared-line" id="detailClearedLine" hidden></p>
+          <button class="rpg-btn btn-clear-share" id="btnClearShare" type="button" hidden></button>
           <p class="checkin-msg" id="checkinMsg" hidden></p>
           <button class="manual-link" id="btnManualClear" type="button" hidden></button>
           <p class="checkin-note" id="checkinNote"></p>
@@ -17197,7 +17205,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1826-q375-059287f0";
+        var BUILD_ID = "tql-20261109-1953-q377-fdd4e0de";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -29005,6 +29013,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         var rec = clearRec(currentId);
         line.hidden = !rec;
         if (rec) line.textContent = "★ " + t.clearedOn + fmtDate(localDay(rec.clearedAt)) + " · " + areaName(rec.area);
+        var bcs = document.getElementById("btnClearShare");
+        if (bcs) { bcs.hidden = !clr; if (clr) bcs.textContent = t.shareBtn; }
         var undo = document.getElementById("btnUndo");
         undo.hidden = !(clr || acc);
         if (clr) undo.textContent = t.undoClear;
@@ -29456,12 +29466,28 @@ function drawRunnerFrame(ctx, frame, blink) {
           } else withImg();
         });
       }
+      /* Q-376 (Zoe): re-share a cleared quest's achievement at any
+         time, from its detail page. Same CLEAR poster as the
+         celebration share — the original date and EXP come from
+         the stored clear record inside doShareClear — but no
+         reward: that belongs to the original clear's share. */
+      function shareClearAgain() {
+        var e = byId(currentId);
+        if (!e || !isCleared(e.id)) return;
+        var rec = clearRec(e.id);
+        var o = {
+          questId: e.id, name: evName(e),
+          shareText: isEpicQuest(e) ? L().shareEpic(evName(e)) : L().shareQuest(evName(e)),
+          exp: rec ? rec.exp : 0, noReward: true
+        };
+        doShareClear(o, document.getElementById("btnClearShare"));
+      }
       function doShareClear(o, btn) {
         var e = byId(o.questId);
         if (!e) { doShareCard(o.shareText, o.name, btn); return; }
         var note = btn && btn.parentElement ? btn.parentElement.querySelector("[data-cp-share-note]") : null;
         function grant(prefix) {
-          var r = shareReward();
+          var r = o.noReward ? "" : shareReward();
           var msg = (prefix ? prefix + " " : "") + r;
           /* Q-357: the note span lived in the celebration panel,
              which the share tap now dismisses first — narrate the
@@ -29684,6 +29710,26 @@ function drawRunnerFrame(ctx, frame, blink) {
            longer a popover, so no top-layer promotion is involved
            in any hosting. */
         armSharePickDoc();
+        /* Q-376: prove the sheet is really on top. If a hosting or
+           layering quirk leaves it covered (the R216 webview failure
+           mode), close the open dialog and re-host on the body —
+           the state Zoe's own workaround proved good. Once, quietly. */
+        var boxQ = box;
+        setTimeout(function () {
+          try {
+            if (boxQ.hidden || !document.elementFromPoint) return;
+            var panel = boxQ.querySelector(".map-pick-panel");
+            if (!panel) return;
+            var r = panel.getBoundingClientRect();
+            if (!r.width) return;
+            var hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+            if (hit && boxQ.contains(hit)) return;
+            var d = document.querySelector("dialog[open]");
+            if (d) d.close();
+            shareHome = null;
+            document.body.appendChild(boxQ);
+          } catch (e) {}
+        }, 80);
         sfx("open");
       }
       function setShareStatus(msg) {
@@ -30385,23 +30431,20 @@ function drawRunnerFrame(ctx, frame, blink) {
           }
         }
         box.classList.add("show");
-        popShow(box);
-        /* R34 hardening: the panel rides the popover top layer above
-           the modal detail dialog. Where that promotion is missing
-           or silently fails (browser differences), the panel would
-           sit UNDER the modal and never be seen. Fall back to hosting
-           the panel inside the open dialog itself, so it renders in
-           the dialog's own top layer; endCelebrateQuiet restores the
-           original parent. Where the promotion works, nothing
-           changes. */
-        var popOkH = false;
-        try { popOkH = box.matches(":popover-open"); } catch (eH) {}
-        if (!popOkH) {
-          var dlgH = document.querySelector("dialog[open]");
-          if (dlgH && box.parentElement !== dlgH) {
-            celebHome = { p: box.parentElement, n: box.nextSibling };
-            dlgH.appendChild(box);
-          }
+        /* Q-377 (R216 root cause): the popover API is GONE from this
+           panel. Reproduced in a real browser: an open popover can
+           paint on top while being entirely absent from hit-testing
+           (elementsFromPoint at the share button returned only the
+           detail beneath; a programmatic click worked) — the panel
+           looked alive and took no taps, on the probe exactly as on
+           Zoe's phone. The panel now ALWAYS hosts inside the open
+           dialog when one exists (the former R34 fallback — dialog
+           children hit-test normally), and stays a plain fixed div
+           in the body otherwise; endCelebrateQuiet re-homes it. */
+        var dlgH = document.querySelector("dialog[open]");
+        if (dlgH && box.parentElement !== dlgH) {
+          celebHome = { p: box.parentElement, n: box.nextSibling };
+          dlgH.appendChild(box);
         }
         box.onclick = function () { endCelebrate(); };
         /* inside-window actions stop the tap-to-close: WEAR the
@@ -30426,8 +30469,13 @@ function drawRunnerFrame(ctx, frame, blink) {
              own workaround today: close the page, tap again, works).
              The wear button has always dismissed first — share now
              follows the same pattern. */
-          endCelebrateQuiet();
-          if (o.questId) doShareClear(o, shareB); else doShareCard(o.shareText, o.name, shareB);
+          /* Q-376 (R216 round 3): each step guarded separately —
+             a throw anywhere must still leave the player with a
+             visible result, never a dead tap. */
+          try { endCelebrateQuiet(); } catch (errQ) {}
+          try {
+            if (o.questId) doShareClear(o, shareB); else doShareCard(o.shareText, o.name, shareB);
+          } catch (errS) { try { narrate(L().posterFail); } catch (errN) {} }
         });
         animateExpBar(o.prevInfo, o.newInfo, o.mini);
         /* inside the one window: the stamp lands fast, then the
@@ -32837,6 +32885,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (state.remoteDate === TODAY) return;   /* remote clear: once a day (spec D; enforced again inside doClear) */
         doClear(currentId, "remote");
       });
+      document.getElementById("btnClearShare").addEventListener("click", function () { shareClearAgain(); });
       /* record calendar wiring */
       document.getElementById("calOpenBtn").addEventListener("click", openCal);
       document.getElementById("legendClose").addEventListener("click", closeLegend);
