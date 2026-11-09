@@ -843,3 +843,25 @@ placement flow (chip -> slot) works, shop hut tab shows 8 cells with
 correct owned/price states. Device-final = Zoe.
 P2 (hut gacha pool + ticket issuance boost) and P3 (sets/seasonal)
 remain queued per the approved phasing.
+
+## Q-369 — Hut dock icon + hut window breathing room (2026-11-09, Zoe device)
+
+Two device findings on Q-368, fixed together:
+1. The 小屋 dock button showed its label but NO icon. Q-368 added
+   DOCK_PIX.hut, but dock icons are applied through a SECOND fixed
+   map (dockIcons = {records, gacha, studio, shop}) which never got
+   the hut entry. Added `hut: DOCK_PIX.hut`. (Lesson: the dock has
+   two maps — dockNames for labels, dockIcons for glyphs; a new dock
+   button must be added to both, plus its DOCK_PIX entry.)
+2. The hut window read small and its text was pressed against the
+   frame: .hut-panel carried no padding, so the title's first glyph
+   and the tray label touched/clipped at the window border on her
+   device. Appended Q-369 rules (last style element, same selectors,
+   later wins): .hut-panel padding 12px 12px 14px + gap 10px, title
+   22px, count 13px, room aspect 4/3.35 (taller), tray min-height
+   36px, chips 6px 12px/14px, buttons 13px padding/16px.
+
+Gates: syntax x6 OK; CDP phone probe at 390x844 — dock icon innerHTML
+renders (house glyph, visually confirmed beside the other four dock
+icons), hut panel re-shot with padded title/tray and taller room.
+Device-final = Zoe.
