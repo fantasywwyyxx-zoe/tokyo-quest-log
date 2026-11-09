@@ -948,3 +948,16 @@ The button and its label-setter are removed; the hut's row is now
 飾る + ショップ, and gacha lives only on the dock. The moon-lamp
 gift swap from Q-372 stands unless she asks for the mini gachapon
 back (asked in the ship report).
+
+## Q-374 — Sort button stays visible in the evergreen view (2026-11-09, Zoe "近い順没了")
+
+Root cause was a design rule, not a break: Q-330/Q-335 hid #sortBtn
+when filterKind === "ever" because nearest is the only sort there.
+Zoe opened 常設 and the 近い順 button was simply gone — inconsistent
+with the other two kind views and read as a missing feature. Fix:
+the button is never hidden now; in the evergreen view it stays and
+shows 近い順 (the sort itself still falls back to nearest there, and
+the click handler's ever -> ["near"] cycle re-requests position).
+Probe-verified at 390x844 in all three kind views: button visible,
+80px, label 近い順, no subbar overflow; the evergreen screenshot
+reproduces Zoe's exact list (289 items from her location).

@@ -17179,7 +17179,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1637-q373-cdb8fe93";
+        var BUILD_ID = "tql-20261109-1815-q374-82703b3d";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28267,7 +28267,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            hides in the evergreen view (Q-330: 最近 is the only sort) */
         var sbtn = document.getElementById("sortBtn");
         if (sbtn) {
-          sbtn.hidden = filterKind === "ever";
+          sbtn.hidden = false; /* Q-374 (Zoe): never hide the sort button — in the evergreen view it stays, showing 近い順 */
           var slbl = document.getElementById("sortBtnLabel");
           if (slbl) slbl.textContent = (sortBusy && listSortMode === "near") ? t.sortLocating : (listSortMode === "start" ? t.sortStart : listSortMode === "end" ? t.sortEnd : t.sortNear);
         }
