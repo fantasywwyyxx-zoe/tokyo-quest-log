@@ -13528,6 +13528,23 @@
       #hsegHut .hut-chip { padding: 6px 12px; font-size: 14px; }
       #hsegHut .hut-btn { padding: 13px 4px; font-size: 16px; }
       #hsegHut .hut-gift { padding: 8px 11px; font-size: 14px; }
+
+      /* Q-370: hut close inside the frame + bigger frame; daily
+         lucky-pill overlap; list header compaction (Zoe device) */
+      #hsegHut .hut-panel { position: relative; min-height: 100%; }
+      #hsegHut .hwin-x { position: absolute; top: 10px; right: 10px; margin: 0; z-index: 6; }
+      #hsegHut .hut-head { padding-right: 46px; }
+      #hsegHut .hut-room { aspect-ratio: auto; flex: 1 1 auto; min-height: 300px; }
+      #view-daily .dr-name { display: flex; flex-wrap: wrap; align-items: center; column-gap: 6px; row-gap: 2px; }
+      #view-daily .dr-lucky { margin-left: 0; }
+      #view-daily .drow:not(.done) .dr-name { background-image: none; }
+      #view-list .list-bar { flex-wrap: nowrap; }
+      #view-list .list-subbar .sort-btn { margin-left: 0; }
+      #view-list .list-subbar .search-open-btn { margin-left: auto; }
+      #view-list .list-subbar { gap: 6px; }
+      #view-list .list-subbar .sort-btn { padding: 5px 8px; font-size: 13px; }
+      #view-list .list-subbar .search-open-btn { padding: 5px 8px; font-size: 13px; }
+      #view-list .kind-segs .sort-near-btn { padding: 5px 6px; font-size: 13px; }
 </style>
   </head>
   <body data-view="map">
@@ -14234,11 +14251,10 @@
           
           <span class="search-summary" id="searchSummary"></span>
           <button class="sort-btn state-btn" type="button" id="stateBtn"><span id="stateBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
-          <button class="search-open-btn" id="searchOpenBtn" type="button"></button>
         </div>
         <div class="list-subbar">
           
-          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
+          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="search-open-btn" id="searchOpenBtn" type="button"></button>
         </div>
         <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
@@ -14609,9 +14625,9 @@
              off the hero page; the street scene stays as-is and
              indoor furniture is placed in here. -->
         <div class="hseg-panel hero-win win-scroller" id="hsegHut" hidden>
-        <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
         <div class="win-more pin-fix" aria-hidden="true" hidden>▾</div>
         <div class="win hut-panel">
+          <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
           <div class="hut-head"><span class="hut-title" id="hutTitle"></span><span class="hut-count" id="hutCount"></span></div>
           <div class="hut-gift" id="hutGiftNote" hidden></div>
           <div class="hut-room" id="hutRoom">
@@ -17146,7 +17162,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-1458-q369-e1e07fe0";
+        var BUILD_ID = "tql-20261109-1533-q370-5bc3c4a4";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;

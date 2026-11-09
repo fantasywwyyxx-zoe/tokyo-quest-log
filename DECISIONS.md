@@ -865,3 +865,32 @@ Gates: syntax x6 OK; CDP phone probe at 390x844 — dock icon innerHTML
 renders (house glyph, visually confirmed beside the other four dock
 icons), hut panel re-shot with padded title/tray and taller room.
 Device-final = Zoe.
+
+## Q-370 — Hut close-in-frame + bigger frame; daily lucky pill; list header (2026-11-09, Zoe device)
+
+Three circled layout findings from Zoe, one build:
+1. HUT: "close can go inside the frame; the whole frame can be
+   bigger." The hut's .hwin-x moved INSIDE .hut-panel (absolute,
+   top-right corner of the card); hut-head gets right padding so the
+   title never runs under it. The panel now fills the case window
+   (min-height: 100%) and .hut-room flexes to absorb the height
+   (aspect-ratio dropped, min-height 300px; slots are flex-end /
+   centre anchored so furniture stays grounded in a taller room).
+   Scoped to the hut only; other windows keep the family close.
+2. DAILY: the lucky pill (in-flow inline-block inside .dr-name)
+   wrapped and painted over the description's first line on Zoe's
+   WebKit device, and every active quest name carried the full-width
+   strike background meant for done rows. .dr-name is now a wrapping
+   flex row (pill = flex item, overlap impossible), pill margin
+   normalised, strike background only under .drow.done.
+3. LIST: the bar is flex-wrap: wrap, so a long summary pushed the
+   search button onto its own orphaned row. #searchOpenBtn moved
+   into the subbar (segments | sort | search, search right-pinned);
+   bar is summary + state, nowrap. Subbar controls trimmed
+   (gap 6px, 13px type, tighter padding) after probe measurement
+   showed a 16px row overflow at 390px; verified no overflow at
+   390x844 and 375x667 (search right edge == subbar right edge).
+
+Gates: syntax x6 OK; bootprobe phone PASS; test_q351_fits ALL PASS;
+CDP layout probe screenshots + rect measurements for all three
+views at two sizes. Device-final = Zoe.
