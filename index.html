@@ -13485,6 +13485,38 @@
           /* Q-367: a records tab switch is a hard cut — the incoming panel
          must not re-run the window page-in fade (Zoe's collection flash) */
       #view-hero .hseg-panel.hero-win.no-page-in { animation: none; }
+
+      /* Q-368: the hut room */
+      #hsegHut .hut-panel { display: flex; flex-direction: column; gap: 8px; color: #26324a; }
+      #hsegHut .hut-head { display: flex; align-items: baseline; gap: 8px; }
+      #hsegHut .hut-title { font-weight: 800; font-size: 19px; }
+      #hsegHut .hut-count { font-size: 12px; font-weight: 700; opacity: .75; }
+      #hsegHut .hut-gift { background: #fff3bf; border: 2px solid #e5b83b; border-radius: 8px; padding: 6px 9px; font-weight: 700; font-size: 13px; color: #4a3a00; }
+      #hsegHut .hut-room { position: relative; border: 3px solid #26324a; border-radius: 10px; overflow: hidden; aspect-ratio: 4 / 3.05; background: linear-gradient(to bottom, #fbe7f0 0%, #fbe7f0 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
+      #hsegHut .hut-window { position: absolute; left: 37%; top: 8%; width: 26%; height: 33%; background: linear-gradient(to bottom, #8fd0f0 0%, #bfe6f7 58%, #7fd1a8 58%, #7fd1a8 100%); border: 3px solid #26324a; border-radius: 4px; }
+      #hsegHut .hut-window i { position: absolute; left: 50%; top: 0; width: 3px; height: 100%; background: #fff6e8; margin-left: -1px; }
+      #hsegHut .hut-slot { position: absolute; display: flex; align-items: flex-end; justify-content: center; border-radius: 6px; }
+      #hsegHut .hut-slot svg { width: 100%; height: auto; pointer-events: none; }
+      #hsegHut .hut-slot-w1 { left: 4%; top: 5%; width: 27%; height: 30%; align-items: center; }
+      #hsegHut .hut-slot-w2 { right: 4%; top: 5%; width: 27%; height: 30%; align-items: center; }
+      #hsegHut .hut-slot-f1 { left: 3%; bottom: 4%; width: 23%; height: 36%; }
+      #hsegHut .hut-slot-f2 { left: 27.5%; bottom: 2%; width: 23%; height: 36%; }
+      #hsegHut .hut-slot-f3 { right: 27.5%; bottom: 2%; width: 23%; height: 36%; }
+      #hsegHut .hut-slot-f4 { right: 3%; bottom: 4%; width: 23%; height: 36%; }
+      #hsegHut .hut-room.hut-edit .hut-slot { outline: 2px dashed rgba(38, 50, 74, .45); outline-offset: -2px; }
+      #hsegHut .hut-room.hut-edit .hut-slot.is-empty { background: rgba(255, 216, 61, .20); }
+      #hsegHut .hut-room .hut-slot.is-sel { outline: 3px solid #ffd83d; outline-offset: -2px; }
+      #hsegHut .hut-hero-shadow { position: absolute; left: 50%; bottom: 7.5%; width: 15%; height: 4%; margin-left: -7.5%; background: rgba(29, 51, 25, .18); border-radius: 50%; }
+      #hsegHut #hutHeroCv { position: absolute; left: 50%; bottom: 9%; width: 17%; height: auto; margin-left: -8.5%; image-rendering: pixelated; pointer-events: none; }
+      #hsegHut .hut-tray { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 30px; }
+      #hsegHut .hut-tray-t { font-weight: 800; font-size: 13px; margin-right: 2px; }
+      #hsegHut .hut-tray-empty { font-size: 12.5px; opacity: .75; }
+      #hsegHut .hut-chip { border: 2px solid #26324a; background: #fff6e8; color: #26324a; border-radius: 999px; padding: 4px 10px; font-weight: 700; font-size: 13px; cursor: pointer; }
+      #hsegHut .hut-chip.is-sel { background: #ffd83d; }
+      #hsegHut .hut-chip.is-store { background: #26324a; color: #fff6e8; }
+      #hsegHut .hut-btns { display: flex; gap: 8px; }
+      #hsegHut .hut-btn { flex: 1 1 0; border: 3px solid #26324a; background: #fff6e8; color: #26324a; border-radius: 10px; padding: 9px 4px; font-weight: 800; font-size: 15px; cursor: pointer; box-shadow: 0 3px 0 #26324a; }
+      #hsegHut .hut-btn[aria-pressed="true"] { background: #ffd83d; }
 </style>
   </head>
   <body data-view="map">
@@ -14332,6 +14364,7 @@
           <button class="dock-btn" type="button" data-openwin="gacha" aria-pressed="false"><span class="dock-ico" data-dock="gacha"></span><span data-dockname="gacha"></span></button>
           <button class="dock-btn" type="button" data-openwin="studio" aria-pressed="false"><span class="dock-ico" data-dock="studio"></span><span data-dockname="studio"></span></button>
           <button class="dock-btn" type="button" data-openwin="shop" aria-pressed="false"><span class="dock-ico" data-dock="shop"></span><span data-dockname="shop"></span></button>
+          <button class="dock-btn" type="button" data-openwin="hut" aria-pressed="false"><span class="dock-ico" data-dock="hut"></span><span data-dockname="hut"></span></button>
         </div>
         <div class="hero-acct-row">
           <button class="hero-acct" id="heroAcctRow" type="button"><span id="heroAcctText"></span></button>
@@ -14542,6 +14575,7 @@
           <button type="button" class="coin-tab is-on" data-shop-tab="frames" aria-pressed="true"></button>
           <button type="button" class="coin-tab" data-shop-tab="gear" aria-pressed="false"></button>
           <button type="button" class="coin-tab" data-shop-tab="decor" aria-pressed="false"></button>
+          <button type="button" class="coin-tab" data-shop-tab="hut" aria-pressed="false"></button>
         </div>
         <div class="coin-page" data-shop-page="frames">
           <div class="coin-grid" id="coinFrames"></div>
@@ -14553,8 +14587,40 @@
           <div class="coin-grid" id="coinFurniture"></div>
           <div class="coin-house" id="coinHouse"></div>
         </div>
+        <div class="coin-page" data-shop-page="hut" hidden>
+          <div class="coin-grid" id="coinHut"></div>
+          <div class="coin-house" id="coinHutNote"></div>
+        </div>
         <button type="button" class="coin-fold" id="coinEarnFold" aria-expanded="false"><span id="coinEarnT"></span><span class="coin-fold-arrow" aria-hidden="true">▸</span></button>
         <div id="coinEarnList" hidden></div>
+        </div>
+                <!-- HUT （小屋）: Q-368 — a decoratable retro-pixel room
+             off the hero page; the street scene stays as-is and
+             indoor furniture is placed in here. -->
+        <div class="hseg-panel hero-win win-scroller" id="hsegHut" hidden>
+        <button class="hwin-x" type="button" data-closewin aria-label="Close">✕</button>
+        <div class="win-more pin-fix" aria-hidden="true" hidden>▾</div>
+        <div class="win hut-panel">
+          <div class="hut-head"><span class="hut-title" id="hutTitle"></span><span class="hut-count" id="hutCount"></span></div>
+          <div class="hut-gift" id="hutGiftNote" hidden></div>
+          <div class="hut-room" id="hutRoom">
+            <div class="hut-window" aria-hidden="true"><i></i></div>
+            <div class="hut-slot hut-slot-w1" data-hut-slot="w1"></div>
+            <div class="hut-slot hut-slot-w2" data-hut-slot="w2"></div>
+            <div class="hut-slot hut-slot-f1" data-hut-slot="f1"></div>
+            <div class="hut-slot hut-slot-f2" data-hut-slot="f2"></div>
+            <div class="hut-slot hut-slot-f3" data-hut-slot="f3"></div>
+            <div class="hut-slot hut-slot-f4" data-hut-slot="f4"></div>
+            <div class="hut-hero-shadow" aria-hidden="true"></div>
+            <canvas id="hutHeroCv" width="16" height="16" aria-hidden="true"></canvas>
+          </div>
+          <div class="hut-tray" id="hutTray"></div>
+          <div class="hut-btns">
+            <button type="button" class="hut-btn" id="hutModeBtn" aria-pressed="false"></button>
+            <button type="button" class="hut-btn" data-hut-goto="shop"></button>
+            <button type="button" class="hut-btn" data-hut-goto="gacha"></button>
+          </div>
+        </div>
         </div>
         <!-- ADVENTURE LOG (冒険ログ): the personal chronicle of
              cleared quests — photo thumb, clear date, method mark,
@@ -17069,7 +17135,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261109-refresh-6del";
+        var BUILD_ID = "tql-20261109-1450-q368-35750285";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -17944,7 +18010,7 @@ var qrcode = function() {
           frGold: "Gold", frSakura: "Sakura", frHoshi: "Starry", frUmi: "Sea",
           coinWelcomeT: "Welcome bonus +50 coins!",
         segShop: "SHOP", shopTitle: "Coin Shop", statsItems: "Items",
-        coinFurnT: "Street Decor", coinFurnNote: "Bought pieces appear right in your hero page background.", coinPlaced: "On display",
+        coinFurnT: "Street Decor", coinFurnNote: "Bought pieces appear right in your hero page background.", segHut: "HUT", hutTitle: "My Hut", coinHutT: "Hut Furniture", coinHutNote: "Bought pieces are delivered to your hut — open the hut from the hero page to place them.", hutOwnedLbl: "Owned", hutGiftTag: "Lv.5 gift", hutGiftMsg: "Level 5 gift: a Mini Gachapon has arrived in your hut!", hutPlace: "PLACE", hutDone: "DONE", hutStore: "Put away", hutTrayT: "Storage", hutTrayEmpty: "Storage is empty — buy furniture in the shop.", hutCount: "Furniture", colHut: "HUT", hutCart: "Flower cart", hutStars: "Star lights", hutSofa: "Cat sofa", hutCloud: "Cloud lamp", hutRug: "Strawberry rug", hutGacha: "Mini gachapon", hutLamp: "Bunny lamp", hutBonsai: "Sakura bonsai", coinPlaced: "On display",
         furnTree: "Street tree", furnBench: "Bench", furnPostbox: "Post box", furnStreetlamp: "Street lamp", furnBusstop: "Bus stop", furnVending: "Vending machine",
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
@@ -18835,7 +18901,7 @@ var qrcode = function() {
           frGold: "ゴールド", frSakura: "さくら", frHoshi: "ほし", frUmi: "うみ",
           coinWelcomeT: "ウェルカムボーナス +50コイン！",
         segShop: "ショップ", shopTitle: "コインショップ", statsItems: "道具",
-        coinFurnT: "街の飾り", coinFurnNote: "買った飾りは、主人公ページの背景にそのまま並びます。", coinPlaced: "表示中",
+        coinFurnT: "街の飾り", coinFurnNote: "買った飾りは、主人公ページの背景にそのまま並びます。", segHut: "小屋", hutTitle: "わたしの小屋", coinHutT: "小屋の家具", coinHutNote: "買った家具は小屋に届きます — 主人公ページの「小屋」から飾れます。", hutOwnedLbl: "所持済み", hutGiftTag: "Lv.5 プレゼント", hutGiftMsg: "レベル5のプレゼント：小屋にミニガチャポンが届きました！", hutPlace: "飾る", hutDone: "完了", hutStore: "しまう", hutTrayT: "収納", hutTrayEmpty: "収納は空です — ショップで家具を買おう。", hutCount: "家具", colHut: "小屋", hutCart: "花カート", hutStars: "星のライト", hutSofa: "ねこソファ", hutCloud: "くもランプ", hutRug: "いちごラグ", hutGacha: "ミニガチャポン", hutLamp: "うさぎランプ", hutBonsai: "桜の盆栽", coinPlaced: "表示中",
         furnTree: "街路樹", furnBench: "ベンチ", furnPostbox: "ポスト", furnStreetlamp: "街灯", furnBusstop: "バス停", furnVending: "自販機",
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
@@ -19722,7 +19788,7 @@ var qrcode = function() {
           frGold: "金框", frSakura: "樱花", frHoshi: "星星", frUmi: "海浪",
           coinWelcomeT: "欢迎金 +50 金币！",
         segShop: "商店", shopTitle: "金币商店", statsItems: "道具",
-        coinFurnT: "街景装饰", coinFurnNote: "买下的装饰会直接摆到主人公页的背景里。", coinPlaced: "已摆放",
+        coinFurnT: "街景装饰", coinFurnNote: "买下的装饰会直接摆到主人公页的背景里。", segHut: "小屋", hutTitle: "我的小屋", coinHutT: "小屋家具", coinHutNote: "买下的家具会送到小屋 — 在主人公页点「小屋」就能摆放。", hutOwnedLbl: "已拥有", hutGiftTag: "Lv.5 赠送", hutGiftMsg: "5 级礼物：迷你扭蛋机已经送到小屋啦！", hutPlace: "摆放", hutDone: "完成", hutStore: "收起", hutTrayT: "收纳箱", hutTrayEmpty: "收纳箱是空的 — 去商店买点家具吧。", hutCount: "家具", colHut: "小屋", hutCart: "花车", hutStars: "星星灯串", hutSofa: "猫咪沙发", hutCloud: "云朵吊灯", hutRug: "草莓地毯", hutGacha: "迷你扭蛋机", hutLamp: "兔子台灯", hutBonsai: "樱花盆栽", coinPlaced: "已摆放",
         furnTree: "行道树", furnBench: "长椅", furnPostbox: "邮筒", furnStreetlamp: "路灯", furnBusstop: "公交站", furnVending: "贩卖机",
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
@@ -22776,7 +22842,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -22879,6 +22945,9 @@ var qrcode = function() {
             state.framesOwned = Array.isArray(parsed.framesOwned) ? parsed.framesOwned.filter(function (x) { return typeof x === "string"; }) : [];
             state.frame = typeof parsed.frame === "string" ? parsed.frame : "";
             state.furnitureOwned = Array.isArray(parsed.furnitureOwned) ? parsed.furnitureOwned.filter(function (x) { return typeof x === "string"; }) : [];
+            state.hutOwned = Array.isArray(parsed.hutOwned) ? parsed.hutOwned.filter(function (x) { return typeof x === "string"; }) : [];
+            state.hutPlaced = (parsed.hutPlaced && typeof parsed.hutPlaced === "object" && !Array.isArray(parsed.hutPlaced)) ? parsed.hutPlaced : {};
+            state.hutGift = !!parsed.hutGift;
             if (parsed.gacha && typeof parsed.gacha === "object") {
               var pg = parsed.gacha, pe = (pg.equipped && typeof pg.equipped === "object") ? pg.equipped : {};
               var pd = (pg.dupes && typeof pg.dupes === "object" && !Array.isArray(pg.dupes)) ? pg.dupes : {};
@@ -25458,6 +25527,142 @@ function drawYushaJacket(ctx) {
         }).join("");
       }
       var ALL_ITEMS = GACHA_ITEMS.concat(REWARD_ITEMS, SHOP_ITEMS);
+
+      /* ============ Q-368: the hut （小屋） ============
+         A decoratable retro-pixel room off the hero page (Zoe,
+         2026-11-09: the street scene stays; the hut is a room you
+         enter). Indoor furniture is bought in the coin shop's hut
+         tab, the mini gachapon is a Lv.5 gift, and placement is the
+         player's own: 2 wall slots + 4 floor slots, persisted in
+         state.hutPlaced. */
+      var HUT_ITEMS = [
+        { id: "hut-cart", key: "hutCart", price: 380, kind: "floor", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="10" y="14" width="28" height="7" fill="#8a5a33"/><rect x="10" y="14" width="28" height="2" fill="#6e4525"/><rect x="8" y="6" width="32" height="3" fill="#7fd1a8"/><rect x="8" y="6" width="4" height="3" fill="#ffffff"/><rect x="16" y="6" width="4" height="3" fill="#ffffff"/><rect x="24" y="6" width="4" height="3" fill="#ffffff"/><rect x="32" y="6" width="4" height="3" fill="#ffffff"/><rect x="11" y="9" width="2" height="5" fill="#6e4525"/><rect x="35" y="9" width="2" height="5" fill="#6e4525"/><rect x="13" y="10" width="5" height="4" fill="#e5484d"/><rect x="14" y="9" width="3" height="1" fill="#e5484d"/><rect x="19" y="10" width="5" height="4" fill="#ffd83d"/><rect x="20" y="9" width="3" height="1" fill="#ffd83d"/><rect x="25" y="10" width="5" height="4" fill="#e56ba0"/><rect x="26" y="9" width="3" height="1" fill="#e56ba0"/><rect x="31" y="10" width="5" height="4" fill="#ff9fb2"/><rect x="32" y="9" width="3" height="1" fill="#ff9fb2"/><rect x="13" y="21" width="4" height="4" fill="#26324a"/><rect x="31" y="21" width="4" height="4" fill="#26324a"/><rect x="38" y="15" width="5" height="2" fill="#6e4525"/></svg>' },
+        { id: "hut-stars", key: "hutStars", price: 240, kind: "wall", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="1" width="2" height="3" fill="#26324a"/><rect x="8" y="4" width="3" height="9" fill="#ffd83d"/><rect x="5" y="7" width="9" height="3" fill="#ffd83d"/><rect x="6" y="5" width="2" height="2" fill="#ffd83d"/><rect x="11" y="5" width="2" height="2" fill="#ffd83d"/><rect x="6" y="10" width="2" height="3" fill="#ffd83d"/><rect x="11" y="10" width="2" height="3" fill="#ffd83d"/><rect x="8" y="7" width="3" height="3" fill="#ffefa8"/><rect x="18" y="3" width="2" height="3" fill="#26324a"/><rect x="18" y="6" width="3" height="9" fill="#ffd83d"/><rect x="15" y="9" width="9" height="3" fill="#ffd83d"/><rect x="16" y="7" width="2" height="2" fill="#ffd83d"/><rect x="21" y="7" width="2" height="2" fill="#ffd83d"/><rect x="16" y="12" width="2" height="3" fill="#ffd83d"/><rect x="21" y="12" width="2" height="3" fill="#ffd83d"/><rect x="18" y="9" width="3" height="3" fill="#ffefa8"/><rect x="28" y="3" width="2" height="3" fill="#26324a"/><rect x="28" y="6" width="3" height="9" fill="#ffd83d"/><rect x="25" y="9" width="9" height="3" fill="#ffd83d"/><rect x="26" y="7" width="2" height="2" fill="#ffd83d"/><rect x="31" y="7" width="2" height="2" fill="#ffd83d"/><rect x="26" y="12" width="2" height="3" fill="#ffd83d"/><rect x="31" y="12" width="2" height="3" fill="#ffd83d"/><rect x="28" y="9" width="3" height="3" fill="#ffefa8"/><rect x="38" y="1" width="2" height="3" fill="#26324a"/><rect x="38" y="4" width="3" height="9" fill="#ffd83d"/><rect x="35" y="7" width="9" height="3" fill="#ffd83d"/><rect x="36" y="5" width="2" height="2" fill="#ffd83d"/><rect x="41" y="5" width="2" height="2" fill="#ffd83d"/><rect x="36" y="10" width="2" height="3" fill="#ffd83d"/><rect x="41" y="10" width="2" height="3" fill="#ffd83d"/><rect x="38" y="7" width="3" height="3" fill="#ffefa8"/><rect x="0" y="0" width="48" height="1" fill="#26324a"/></svg>' },
+        { id: "hut-sofa", key: "hutSofa", price: 520, kind: "floor", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="9" y="8" width="30" height="10" fill="#f49ac1"/><rect x="9" y="8" width="30" height="3" fill="#e56ba0"/><rect x="12" y="4" width="6" height="5" fill="#f49ac1"/><rect x="30" y="4" width="6" height="5" fill="#f49ac1"/><rect x="13" y="5" width="2" height="2" fill="#ffc7de"/><rect x="31" y="5" width="2" height="2" fill="#ffc7de"/><rect x="6" y="12" width="6" height="11" fill="#e56ba0"/><rect x="36" y="12" width="6" height="11" fill="#e56ba0"/><rect x="12" y="15" width="11" height="6" fill="#ffc7de"/><rect x="25" y="15" width="11" height="6" fill="#ffc7de"/><rect x="6" y="21" width="36" height="2" fill="#c74e7e"/></svg>' },
+        { id: "hut-cloud", key: "hutCloud", price: 460, kind: "wall", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="23" y="0" width="2" height="4" fill="#26324a"/><rect x="12" y="6" width="24" height="8" fill="#ffffff"/><rect x="16" y="3" width="14" height="5" fill="#ffffff"/><rect x="10" y="9" width="28" height="5" fill="#ffffff"/><rect x="12" y="13" width="24" height="2" fill="#dfe9f5"/><rect x="16" y="16" width="2" height="3" fill="#ffd83d"/><rect x="15" y="20" width="4" height="3" fill="#ffd83d"/><rect x="23" y="16" width="2" height="3" fill="#ffd83d"/><rect x="22" y="20" width="4" height="3" fill="#ffd83d"/><rect x="30" y="16" width="2" height="3" fill="#ffd83d"/><rect x="29" y="20" width="4" height="3" fill="#ffd83d"/></svg>' },
+        { id: "hut-rug", key: "hutRug", price: 200, kind: "floor", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="6" y="16" width="36" height="3" fill="#e5484d"/><rect x="3" y="19" width="42" height="3" fill="#e5484d"/><rect x="6" y="22" width="36" height="2" fill="#c93a40"/><rect x="9" y="17" width="30" height="6" fill="#f2606b"/><rect x="21" y="13" width="6" height="3" fill="#7fd1a8"/><rect x="18" y="14" width="12" height="2" fill="#7fd1a8"/><rect x="12" y="19" width="2" height="1" fill="#ffe3e6"/><rect x="20" y="21" width="2" height="1" fill="#ffe3e6"/><rect x="28" y="19" width="2" height="1" fill="#ffe3e6"/><rect x="35" y="21" width="2" height="1" fill="#ffe3e6"/><rect x="16" y="22" width="2" height="1" fill="#ffe3e6"/><rect x="31" y="22" width="2" height="1" fill="#ffe3e6"/></svg>' },
+        { id: "hut-gacha", key: "hutGacha", price: 0, kind: "floor", gift: true, svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="16" y="10" width="16" height="13" fill="#e5484d"/><rect x="16" y="10" width="16" height="2" fill="#c93a40"/><rect x="17" y="1" width="14" height="10" fill="#ffffff"/><rect x="19" y="3" width="10" height="7" fill="#bfe6f7"/><rect x="20" y="4" width="3" height="3" fill="#e5484d"/><rect x="25" y="3" width="3" height="3" fill="#ffd83d"/><rect x="27" y="6" width="3" height="3" fill="#2d77cd"/><rect x="21" y="7" width="3" height="3" fill="#7fd1a8"/><rect x="22" y="14" width="4" height="4" fill="#ffd83d"/><rect x="19" y="20" width="10" height="2" fill="#26324a"/></svg>' },
+        { id: "hut-lamp", key: "hutLamp", price: 300, kind: "floor", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="18" y="2" width="3" height="6" fill="#ffc7de"/><rect x="27" y="2" width="3" height="6" fill="#ffc7de"/><rect x="19" y="3" width="1" height="3" fill="#e56ba0"/><rect x="28" y="3" width="1" height="3" fill="#e56ba0"/><rect x="15" y="7" width="18" height="8" fill="#ffd83d"/><rect x="15" y="13" width="18" height="2" fill="#eec93e"/><rect x="20" y="10" width="2" height="2" fill="#26324a"/><rect x="26" y="10" width="2" height="2" fill="#26324a"/><rect x="23" y="15" width="2" height="7" fill="#26324a"/><rect x="18" y="22" width="12" height="2" fill="#26324a"/></svg>' },
+        { id: "hut-bonsai", key: "hutBonsai", price: 420, kind: "floor", svg: '<svg viewBox="0 0 48 26" shape-rendering="crispEdges"><rect x="8" y="23" width="32" height="3" fill="#1d3319" fill-opacity="0.18"/><rect x="15" y="19" width="18" height="5" fill="#2d77cd"/><rect x="13" y="17" width="22" height="2" fill="#1f5fa8"/><rect x="22" y="11" width="3" height="6" fill="#8a5a33"/><rect x="17" y="8" width="6" height="3" fill="#8a5a33"/><rect x="26" y="7" width="5" height="3" fill="#8a5a33"/><rect x="10" y="2" width="12" height="5" fill="#f49ac1"/><rect x="19" y="0" width="13" height="5" fill="#f49ac1"/><rect x="28" y="3" width="11" height="5" fill="#f49ac1"/><rect x="14" y="5" width="16" height="5" fill="#f49ac1"/><rect x="16" y="3" width="3" height="3" fill="#ffc7de"/><rect x="30" y="5" width="3" height="3" fill="#ffc7de"/><rect x="23" y="1" width="3" height="3" fill="#ffffff"/></svg>' }
+      ];
+      var HUT_SLOTS = [
+        { id: "w1", kind: "wall" }, { id: "w2", kind: "wall" },
+        { id: "f1", kind: "floor" }, { id: "f2", kind: "floor" },
+        { id: "f3", kind: "floor" }, { id: "f4", kind: "floor" }
+      ];
+      var hutEdit = false, hutSel = "", hutWired = false;
+      function hutItem(id) {
+        for (var i = 0; i < HUT_ITEMS.length; i++) if (HUT_ITEMS[i].id === id) return HUT_ITEMS[i];
+        return null;
+      }
+      function hutSlotKind(slotId) {
+        for (var i = 0; i < HUT_SLOTS.length; i++) if (HUT_SLOTS[i].id === slotId) return HUT_SLOTS[i].kind;
+        return "";
+      }
+      function hutSlotOf(itemId) {
+        var p = state.hutPlaced || {};
+        for (var k in p) if (p[k] === itemId) return k;
+        return "";
+      }
+      function hutAutoPlace(id) {
+        var it = hutItem(id); if (!it || hutSlotOf(id)) return;
+        state.hutPlaced = state.hutPlaced || {};
+        for (var i = 0; i < HUT_SLOTS.length; i++) {
+          var s = HUT_SLOTS[i];
+          if (s.kind === it.kind && !state.hutPlaced[s.id]) { state.hutPlaced[s.id] = id; return; }
+        }
+      }
+      function hutGrantGift() {
+        if (state.hutGift) return false;
+        if (levelInfo().lv < 5) return false;
+        state.hutGift = true;
+        state.hutOwned = state.hutOwned || [];
+        if (state.hutOwned.indexOf("hut-gacha") < 0) state.hutOwned.push("hut-gacha");
+        hutAutoPlace("hut-gacha");
+        save();
+        return true;
+      }
+      function renderHut() {
+        var t = L();
+        var panel = document.getElementById("hsegHut"); if (!panel) return;
+        var justGift = hutGrantGift();
+        var tt = document.getElementById("hutTitle"); if (tt) tt.textContent = t.hutTitle;
+        var ct = document.getElementById("hutCount");
+        if (ct) ct.textContent = t.hutCount + " " + (state.hutOwned || []).length + "/" + HUT_ITEMS.length;
+        var gn = document.getElementById("hutGiftNote");
+        if (gn) { gn.hidden = !justGift; if (justGift) gn.textContent = t.hutGiftMsg; }
+        var room = document.getElementById("hutRoom");
+        if (room) room.classList.toggle("hut-edit", hutEdit);
+        var placed = state.hutPlaced || {};
+        panel.querySelectorAll("[data-hut-slot]").forEach(function (el) {
+          var sid = el.getAttribute("data-hut-slot");
+          var it = placed[sid] ? hutItem(placed[sid]) : null;
+          el.innerHTML = it ? it.svg : "";
+          el.classList.toggle("is-empty", !it);
+          el.classList.toggle("is-sel", !!it && hutSel === it.id);
+        });
+        var cv = document.getElementById("hutHeroCv");
+        if (cv) drawHeroEquipped(cv, state.hero, state.gacha.equipped);
+        var tray = document.getElementById("hutTray");
+        if (tray) {
+          var un = (state.hutOwned || []).filter(function (id) { return hutItem(id) && !hutSlotOf(id); });
+          var h = '<div class="hut-tray-t">' + esc(t.hutTrayT) + '</div>';
+          var selPlaced = hutSel && hutItem(hutSel) && hutSlotOf(hutSel);
+          if (selPlaced) h += '<button type="button" class="hut-chip is-store" data-hut-store="1">' + esc(t.hutStore) + ': ' + esc(t[hutItem(hutSel).key]) + '</button>';
+          if (!un.length && !selPlaced) h += '<div class="hut-tray-empty">' + esc(t.hutTrayEmpty) + '</div>';
+          h += un.map(function (id) {
+            var it = hutItem(id);
+            return '<button type="button" class="hut-chip' + (hutSel === id ? " is-sel" : "") + '" data-hut-chip="' + id + '">' + esc(t[it.key]) + '</button>';
+          }).join("");
+          tray.innerHTML = h;
+        }
+        var mb = document.getElementById("hutModeBtn");
+        if (mb) { mb.textContent = hutEdit ? t.hutDone : t.hutPlace; mb.setAttribute("aria-pressed", hutEdit ? "true" : "false"); }
+        var gs = panel.querySelector('[data-hut-goto="shop"]'); if (gs) gs.textContent = t.segShop;
+        var gg = panel.querySelector('[data-hut-goto="gacha"]'); if (gg) gg.textContent = t.segGacha;
+      }
+      function hutTapSlot(sid) {
+        if (!hutEdit) return;
+        state.hutPlaced = state.hutPlaced || {};
+        var cur = state.hutPlaced[sid] || "";
+        if (!hutSel) { if (cur) { hutSel = cur; renderHut(); } return; }
+        var it = hutItem(hutSel);
+        if (!it || cur === hutSel || hutSlotKind(sid) !== it.kind) { renderHut(); return; }
+        var old = hutSlotOf(hutSel); if (old) delete state.hutPlaced[old];
+        state.hutPlaced[sid] = hutSel; hutSel = "";
+        save(); renderHut();
+      }
+      function wireHut() {
+        if (hutWired) return; hutWired = true;
+        var panel = document.getElementById("hsegHut"); if (!panel) return;
+        panel.addEventListener("click", function (ev) {
+          var c = ev.target && ev.target.closest ? ev.target : null; if (!c) return;
+          if (c.closest("[data-hut-store]")) {
+            var s2 = hutSlotOf(hutSel); if (s2) delete state.hutPlaced[s2];
+            hutSel = ""; save(); renderHut(); return;
+          }
+          var ch = c.closest("[data-hut-chip]");
+          if (ch) {
+            var id = ch.getAttribute("data-hut-chip");
+            hutSel = hutSel === id ? "" : id;
+            if (hutSel) hutEdit = true;
+            renderHut(); return;
+          }
+          var sl = c.closest("[data-hut-slot]");
+          if (sl) { hutTapSlot(sl.getAttribute("data-hut-slot")); return; }
+          if (c.closest("#hutModeBtn")) {
+            hutEdit = !hutEdit; if (!hutEdit) hutSel = "";
+            renderHut(); return;
+          }
+          var go = c.closest("[data-hut-goto]");
+          if (go) {
+            var w = go.getAttribute("data-hut-goto");
+            if (w === "shop") { shopTab = "hut"; openHeroWin("shop"); }
+            else if (w === "gacha") openHeroWin("gacha");
+          }
+        });
+      }
+
       function gachaItem(id) { for (var i = 0; i < ALL_ITEMS.length; i++) if (ALL_ITEMS[i].id === id) return ALL_ITEMS[i]; return null; }
       function totalTickets() { return 1 + Math.floor(totalExp() / 50) + (state.ticketBonus || 0); }
       function ticketsLeft() { return Math.max(0, totalTickets() - (state.gacha.pulls || 0)); }
@@ -27222,9 +27427,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         var hsegNames = { style: t.segStyle, gacha: t.segGacha, status: t.segStatus, badges: t.segBadges, studio: t.segStyle };
         document.querySelectorAll("[data-hseg]").forEach(function (b) { b.textContent = hsegNames[b.getAttribute("data-hseg")] || ""; });
         /* character-screen dock: names + glyphs for the case windows */
-        var dockNames = { records: t.segRecords, gacha: t.segGacha, studio: t.segStyle, shop: t.segShop };
+        var dockNames = { records: t.segRecords, gacha: t.segGacha, studio: t.segStyle, shop: t.segShop, hut: t.segHut };
         document.querySelectorAll("[data-dockname]").forEach(function (el) { el.textContent = dockNames[el.getAttribute("data-dockname")] || ""; });
-        var DOCK_PIX = { records: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="1" width="9" height="1" fill="#26324e"/><rect x="2" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="2" width="9" height="1" fill="#d93d3d"/><rect x="12" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#d93d3d"/><rect x="3" y="3" width="8" height="1" fill="#fff6dd"/><rect x="11" y="3" width="1" height="1" fill="#a92c2c"/><rect x="12" y="3" width="1" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#d93d3d"/><rect x="3" y="4" width="1" height="1" fill="#fff6dd"/><rect x="4" y="4" width="4" height="1" fill="#ffd83d"/><rect x="8" y="4" width="2" height="1" fill="#fff6dd"/><rect x="10" y="4" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="4" width="1" height="1" fill="#a92c2c"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="1" height="1" fill="#d93d3d"/><rect x="3" y="5" width="1" height="1" fill="#fff6dd"/><rect x="4" y="5" width="4" height="1" fill="#ffd83d"/><rect x="8" y="5" width="2" height="1" fill="#fff6dd"/><rect x="10" y="5" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="5" width="1" height="1" fill="#a92c2c"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="1" y="6" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#d93d3d"/><rect x="3" y="6" width="7" height="1" fill="#fff6dd"/><rect x="10" y="6" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="6" width="1" height="1" fill="#a92c2c"/><rect x="12" y="6" width="1" height="1" fill="#26324e"/><rect x="1" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="1" height="1" fill="#d93d3d"/><rect x="3" y="7" width="7" height="1" fill="#fff6dd"/><rect x="10" y="7" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="7" width="1" height="1" fill="#a92c2c"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="1" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#d93d3d"/><rect x="3" y="8" width="7" height="1" fill="#fff6dd"/><rect x="10" y="8" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="8" width="1" height="1" fill="#a92c2c"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="1" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="9" height="1" fill="#d93d3d"/><rect x="11" y="9" width="1" height="1" fill="#a92c2c"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="10" height="1" fill="#26324e"/><rect x="5" y="11" width="1" height="1" fill="#26324e"/><rect x="6" y="11" width="2" height="1" fill="#d93d3d"/><rect x="8" y="11" width="1" height="1" fill="#26324e"/><rect x="5" y="12" width="1" height="1" fill="#26324e"/><rect x="6" y="12" width="2" height="1" fill="#d93d3d"/><rect x="8" y="12" width="1" height="1" fill="#26324e"/><rect x="5" y="13" width="1" height="1" fill="#26324e"/><rect x="6" y="13" width="2" height="1" fill="#a92c2c"/><rect x="8" y="13" width="1" height="1" fill="#26324e"/><rect x="6" y="14" width="2" height="1" fill="#26324e"/></svg>', gacha: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="0" width="6" height="1" fill="#26324e"/><rect x="3" y="1" width="2" height="1" fill="#26324e"/><rect x="5" y="1" width="6" height="1" fill="#cfeeff"/><rect x="11" y="1" width="2" height="1" fill="#26324e"/><rect x="2" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="2" width="1" height="1" fill="#cfeeff"/><rect x="4" y="2" width="2" height="1" fill="#fff6dd"/><rect x="6" y="2" width="2" height="1" fill="#d93d3d"/><rect x="8" y="2" width="2" height="1" fill="#ffd83d"/><rect x="10" y="2" width="2" height="1" fill="#cfeeff"/><rect x="12" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#cfeeff"/><rect x="3" y="3" width="1" height="1" fill="#fff6dd"/><rect x="4" y="3" width="4" height="1" fill="#d93d3d"/><rect x="8" y="3" width="2" height="1" fill="#ffd83d"/><rect x="10" y="3" width="1" height="1" fill="#2d77cd"/><rect x="11" y="3" width="1" height="1" fill="#cfeeff"/><rect x="12" y="3" width="1" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="2" height="1" fill="#cfeeff"/><rect x="4" y="4" width="2" height="1" fill="#d93d3d"/><rect x="6" y="4" width="2" height="1" fill="#ffd83d"/><rect x="8" y="4" width="3" height="1" fill="#2d77cd"/><rect x="11" y="4" width="1" height="1" fill="#cfeeff"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="10" height="1" fill="#cfeeff"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="10" height="1" fill="#26324e"/><rect x="1" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="10" height="1" fill="#d93d3d"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="1" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#d93d3d"/><rect x="3" y="8" width="2" height="1" fill="#ffd83d"/><rect x="5" y="8" width="4" height="1" fill="#26324e"/><rect x="9" y="8" width="2" height="1" fill="#d93d3d"/><rect x="11" y="8" width="1" height="1" fill="#a92c2c"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="1" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="1" height="1" fill="#d93d3d"/><rect x="3" y="9" width="2" height="1" fill="#ffd83d"/><rect x="5" y="9" width="1" height="1" fill="#26324e"/><rect x="6" y="9" width="2" height="1" fill="#ffd83d"/><rect x="8" y="9" width="1" height="1" fill="#26324e"/><rect x="9" y="9" width="2" height="1" fill="#d93d3d"/><rect x="11" y="9" width="1" height="1" fill="#a92c2c"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="1" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="3" height="1" fill="#d93d3d"/><rect x="5" y="10" width="4" height="1" fill="#26324e"/><rect x="9" y="10" width="2" height="1" fill="#d93d3d"/><rect x="11" y="10" width="1" height="1" fill="#a92c2c"/><rect x="12" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="11" width="10" height="1" fill="#26324e"/><rect x="1" y="12" width="1" height="1" fill="#26324e"/><rect x="2" y="12" width="10" height="1" fill="#2b3a5e"/><rect x="12" y="12" width="1" height="1" fill="#26324e"/><rect x="1" y="13" width="1" height="1" fill="#26324e"/><rect x="2" y="13" width="2" height="1" fill="#2b3a5e"/><rect x="4" y="13" width="6" height="1" fill="#26324e"/><rect x="10" y="13" width="2" height="1" fill="#2b3a5e"/><rect x="12" y="13" width="1" height="1" fill="#26324e"/><rect x="1" y="14" width="1" height="1" fill="#26324e"/><rect x="2" y="14" width="2" height="1" fill="#2b3a5e"/><rect x="4" y="14" width="1" height="1" fill="#26324e"/><rect x="5" y="14" width="4" height="1" fill="#fff6dd"/><rect x="9" y="14" width="1" height="1" fill="#26324e"/><rect x="10" y="14" width="2" height="1" fill="#2b3a5e"/><rect x="12" y="14" width="1" height="1" fill="#26324e"/><rect x="2" y="15" width="10" height="1" fill="#26324e"/></svg>', studio: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="7" y="0" width="2" height="1" fill="#26324e"/><rect x="6" y="1" width="1" height="1" fill="#26324e"/><rect x="9" y="1" width="1" height="1" fill="#26324e"/><rect x="6" y="2" width="1" height="1" fill="#26324e"/><rect x="7" y="2" width="2" height="1" fill="#8a93a6"/><rect x="9" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="3" width="3" height="1" fill="#26324e"/><rect x="6" y="3" width="4" height="1" fill="#8a93a6"/><rect x="10" y="3" width="3" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#ff8a7a"/><rect x="3" y="4" width="2" height="1" fill="#d93d3d"/><rect x="5" y="4" width="4" height="1" fill="#26324e"/><rect x="9" y="4" width="2" height="1" fill="#d93d3d"/><rect x="11" y="4" width="1" height="1" fill="#ff8a7a"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="1" height="1" fill="#ff8a7a"/><rect x="3" y="5" width="3" height="1" fill="#d93d3d"/><rect x="6" y="5" width="2" height="1" fill="#fff6dd"/><rect x="8" y="5" width="3" height="1" fill="#d93d3d"/><rect x="11" y="5" width="1" height="1" fill="#a92c2c"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="6" width="2" height="1" fill="#d93d3d"/><rect x="5" y="6" width="4" height="1" fill="#fff6dd"/><rect x="9" y="6" width="2" height="1" fill="#d93d3d"/><rect x="11" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="7" width="1" height="1" fill="#26324e"/><rect x="4" y="7" width="1" height="1" fill="#d93d3d"/><rect x="5" y="7" width="4" height="1" fill="#fff6dd"/><rect x="9" y="7" width="1" height="1" fill="#d93d3d"/><rect x="10" y="7" width="1" height="1" fill="#26324e"/><rect x="3" y="8" width="1" height="1" fill="#26324e"/><rect x="4" y="8" width="1" height="1" fill="#d93d3d"/><rect x="5" y="8" width="4" height="1" fill="#fff6dd"/><rect x="9" y="8" width="1" height="1" fill="#d93d3d"/><rect x="10" y="8" width="1" height="1" fill="#a92c2c"/><rect x="11" y="8" width="1" height="1" fill="#26324e"/><rect x="3" y="9" width="1" height="1" fill="#26324e"/><rect x="4" y="9" width="2" height="1" fill="#d93d3d"/><rect x="6" y="9" width="2" height="1" fill="#fff6dd"/><rect x="8" y="9" width="2" height="1" fill="#d93d3d"/><rect x="10" y="9" width="1" height="1" fill="#a92c2c"/><rect x="11" y="9" width="1" height="1" fill="#26324e"/><rect x="3" y="10" width="1" height="1" fill="#26324e"/><rect x="4" y="10" width="6" height="1" fill="#d93d3d"/><rect x="10" y="10" width="1" height="1" fill="#a92c2c"/><rect x="11" y="10" width="1" height="1" fill="#26324e"/><rect x="3" y="11" width="1" height="1" fill="#26324e"/><rect x="4" y="11" width="6" height="1" fill="#d93d3d"/><rect x="10" y="11" width="1" height="1" fill="#a92c2c"/><rect x="11" y="11" width="1" height="1" fill="#26324e"/><rect x="4" y="12" width="7" height="1" fill="#26324e"/></svg>', shop: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="11" height="1" fill="#26324e"/><rect x="1" y="2" width="1" height="1" fill="#26324e"/><rect x="2" y="2" width="11" height="1" fill="#2d77cd"/><rect x="13" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#fff6dd"/><rect x="3" y="3" width="1" height="1" fill="#2d77cd"/><rect x="4" y="3" width="1" height="1" fill="#26324e"/><rect x="5" y="3" width="2" height="1" fill="#2d77cd"/><rect x="7" y="3" width="1" height="1" fill="#26324e"/><rect x="8" y="3" width="2" height="1" fill="#2d77cd"/><rect x="10" y="3" width="1" height="1" fill="#26324e"/><rect x="11" y="3" width="1" height="1" fill="#fff6dd"/><rect x="12" y="3" width="1" height="1" fill="#2d77cd"/><rect x="13" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#26324e"/><rect x="3" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="4" y="4" width="1" height="1" fill="#26324e"/><rect x="5" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="6" y="4" width="1" height="1" fill="#26324e"/><rect x="7" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="8" y="4" width="1" height="1" fill="#26324e"/><rect x="9" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="10" y="4" width="1" height="1" fill="#26324e"/><rect x="11" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="3" y="5" width="9" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="6" width="9" height="1" fill="#fff6dd"/><rect x="12" y="6" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="1" height="1" fill="#26324e"/><rect x="3" y="7" width="1" height="1" fill="#fff6dd"/><rect x="4" y="7" width="2" height="1" fill="#cfeeff"/><rect x="6" y="7" width="1" height="1" fill="#26324e"/><rect x="7" y="7" width="2" height="1" fill="#fff6dd"/><rect x="9" y="7" width="2" height="1" fill="#ffd83d"/><rect x="11" y="7" width="1" height="1" fill="#fff6dd"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#26324e"/><rect x="3" y="8" width="1" height="1" fill="#fff6dd"/><rect x="4" y="8" width="2" height="1" fill="#cfeeff"/><rect x="6" y="8" width="1" height="1" fill="#26324e"/><rect x="7" y="8" width="2" height="1" fill="#fff6dd"/><rect x="9" y="8" width="2" height="1" fill="#ffd83d"/><rect x="11" y="8" width="1" height="1" fill="#fff6dd"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="1" height="1" fill="#26324e"/><rect x="3" y="9" width="3" height="1" fill="#fff6dd"/><rect x="6" y="9" width="1" height="1" fill="#26324e"/><rect x="7" y="9" width="5" height="1" fill="#fff6dd"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="1" height="1" fill="#26324e"/><rect x="3" y="10" width="3" height="1" fill="#fff6dd"/><rect x="6" y="10" width="1" height="1" fill="#26324e"/><rect x="7" y="10" width="1" height="1" fill="#7a4a21"/><rect x="8" y="10" width="1" height="1" fill="#26324e"/><rect x="9" y="10" width="3" height="1" fill="#fff6dd"/><rect x="12" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="11" width="1" height="1" fill="#26324e"/><rect x="3" y="11" width="3" height="1" fill="#fff6dd"/><rect x="6" y="11" width="1" height="1" fill="#26324e"/><rect x="7" y="11" width="1" height="1" fill="#7a4a21"/><rect x="8" y="11" width="1" height="1" fill="#26324e"/><rect x="9" y="11" width="3" height="1" fill="#fff6dd"/><rect x="12" y="11" width="1" height="1" fill="#26324e"/><rect x="2" y="12" width="1" height="1" fill="#26324e"/><rect x="3" y="12" width="3" height="1" fill="#e8dcc0"/><rect x="6" y="12" width="1" height="1" fill="#26324e"/><rect x="7" y="12" width="1" height="1" fill="#7a4a21"/><rect x="8" y="12" width="1" height="1" fill="#26324e"/><rect x="9" y="12" width="3" height="1" fill="#e8dcc0"/><rect x="12" y="12" width="1" height="1" fill="#26324e"/><rect x="3" y="13" width="9" height="1" fill="#26324e"/></svg>' };
+        var DOCK_PIX = { hut: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="4" y="2" width="8" height="2" fill="#e5484d"/><rect x="2" y="4" width="12" height="2" fill="#e5484d"/><rect x="3" y="6" width="10" height="8" fill="#26324e"/><rect x="4" y="7" width="8" height="6" fill="#fff6dd"/><rect x="7" y="9" width="3" height="5" fill="#8a5a33"/><rect x="5" y="8" width="2" height="2" fill="#ffd83d"/><rect x="10" y="8" width="2" height="2" fill="#ffd83d"/></svg>', records: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="1" width="9" height="1" fill="#26324e"/><rect x="2" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="2" width="9" height="1" fill="#d93d3d"/><rect x="12" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#d93d3d"/><rect x="3" y="3" width="8" height="1" fill="#fff6dd"/><rect x="11" y="3" width="1" height="1" fill="#a92c2c"/><rect x="12" y="3" width="1" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#d93d3d"/><rect x="3" y="4" width="1" height="1" fill="#fff6dd"/><rect x="4" y="4" width="4" height="1" fill="#ffd83d"/><rect x="8" y="4" width="2" height="1" fill="#fff6dd"/><rect x="10" y="4" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="4" width="1" height="1" fill="#a92c2c"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="1" height="1" fill="#d93d3d"/><rect x="3" y="5" width="1" height="1" fill="#fff6dd"/><rect x="4" y="5" width="4" height="1" fill="#ffd83d"/><rect x="8" y="5" width="2" height="1" fill="#fff6dd"/><rect x="10" y="5" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="5" width="1" height="1" fill="#a92c2c"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="1" y="6" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#d93d3d"/><rect x="3" y="6" width="7" height="1" fill="#fff6dd"/><rect x="10" y="6" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="6" width="1" height="1" fill="#a92c2c"/><rect x="12" y="6" width="1" height="1" fill="#26324e"/><rect x="1" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="1" height="1" fill="#d93d3d"/><rect x="3" y="7" width="7" height="1" fill="#fff6dd"/><rect x="10" y="7" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="7" width="1" height="1" fill="#a92c2c"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="1" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#d93d3d"/><rect x="3" y="8" width="7" height="1" fill="#fff6dd"/><rect x="10" y="8" width="1" height="1" fill="#e8dcc0"/><rect x="11" y="8" width="1" height="1" fill="#a92c2c"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="1" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="9" height="1" fill="#d93d3d"/><rect x="11" y="9" width="1" height="1" fill="#a92c2c"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="10" height="1" fill="#26324e"/><rect x="5" y="11" width="1" height="1" fill="#26324e"/><rect x="6" y="11" width="2" height="1" fill="#d93d3d"/><rect x="8" y="11" width="1" height="1" fill="#26324e"/><rect x="5" y="12" width="1" height="1" fill="#26324e"/><rect x="6" y="12" width="2" height="1" fill="#d93d3d"/><rect x="8" y="12" width="1" height="1" fill="#26324e"/><rect x="5" y="13" width="1" height="1" fill="#26324e"/><rect x="6" y="13" width="2" height="1" fill="#a92c2c"/><rect x="8" y="13" width="1" height="1" fill="#26324e"/><rect x="6" y="14" width="2" height="1" fill="#26324e"/></svg>', gacha: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="0" width="6" height="1" fill="#26324e"/><rect x="3" y="1" width="2" height="1" fill="#26324e"/><rect x="5" y="1" width="6" height="1" fill="#cfeeff"/><rect x="11" y="1" width="2" height="1" fill="#26324e"/><rect x="2" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="2" width="1" height="1" fill="#cfeeff"/><rect x="4" y="2" width="2" height="1" fill="#fff6dd"/><rect x="6" y="2" width="2" height="1" fill="#d93d3d"/><rect x="8" y="2" width="2" height="1" fill="#ffd83d"/><rect x="10" y="2" width="2" height="1" fill="#cfeeff"/><rect x="12" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#cfeeff"/><rect x="3" y="3" width="1" height="1" fill="#fff6dd"/><rect x="4" y="3" width="4" height="1" fill="#d93d3d"/><rect x="8" y="3" width="2" height="1" fill="#ffd83d"/><rect x="10" y="3" width="1" height="1" fill="#2d77cd"/><rect x="11" y="3" width="1" height="1" fill="#cfeeff"/><rect x="12" y="3" width="1" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="2" height="1" fill="#cfeeff"/><rect x="4" y="4" width="2" height="1" fill="#d93d3d"/><rect x="6" y="4" width="2" height="1" fill="#ffd83d"/><rect x="8" y="4" width="3" height="1" fill="#2d77cd"/><rect x="11" y="4" width="1" height="1" fill="#cfeeff"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="10" height="1" fill="#cfeeff"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="10" height="1" fill="#26324e"/><rect x="1" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="10" height="1" fill="#d93d3d"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="1" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#d93d3d"/><rect x="3" y="8" width="2" height="1" fill="#ffd83d"/><rect x="5" y="8" width="4" height="1" fill="#26324e"/><rect x="9" y="8" width="2" height="1" fill="#d93d3d"/><rect x="11" y="8" width="1" height="1" fill="#a92c2c"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="1" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="1" height="1" fill="#d93d3d"/><rect x="3" y="9" width="2" height="1" fill="#ffd83d"/><rect x="5" y="9" width="1" height="1" fill="#26324e"/><rect x="6" y="9" width="2" height="1" fill="#ffd83d"/><rect x="8" y="9" width="1" height="1" fill="#26324e"/><rect x="9" y="9" width="2" height="1" fill="#d93d3d"/><rect x="11" y="9" width="1" height="1" fill="#a92c2c"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="1" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="3" height="1" fill="#d93d3d"/><rect x="5" y="10" width="4" height="1" fill="#26324e"/><rect x="9" y="10" width="2" height="1" fill="#d93d3d"/><rect x="11" y="10" width="1" height="1" fill="#a92c2c"/><rect x="12" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="11" width="10" height="1" fill="#26324e"/><rect x="1" y="12" width="1" height="1" fill="#26324e"/><rect x="2" y="12" width="10" height="1" fill="#2b3a5e"/><rect x="12" y="12" width="1" height="1" fill="#26324e"/><rect x="1" y="13" width="1" height="1" fill="#26324e"/><rect x="2" y="13" width="2" height="1" fill="#2b3a5e"/><rect x="4" y="13" width="6" height="1" fill="#26324e"/><rect x="10" y="13" width="2" height="1" fill="#2b3a5e"/><rect x="12" y="13" width="1" height="1" fill="#26324e"/><rect x="1" y="14" width="1" height="1" fill="#26324e"/><rect x="2" y="14" width="2" height="1" fill="#2b3a5e"/><rect x="4" y="14" width="1" height="1" fill="#26324e"/><rect x="5" y="14" width="4" height="1" fill="#fff6dd"/><rect x="9" y="14" width="1" height="1" fill="#26324e"/><rect x="10" y="14" width="2" height="1" fill="#2b3a5e"/><rect x="12" y="14" width="1" height="1" fill="#26324e"/><rect x="2" y="15" width="10" height="1" fill="#26324e"/></svg>', studio: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="7" y="0" width="2" height="1" fill="#26324e"/><rect x="6" y="1" width="1" height="1" fill="#26324e"/><rect x="9" y="1" width="1" height="1" fill="#26324e"/><rect x="6" y="2" width="1" height="1" fill="#26324e"/><rect x="7" y="2" width="2" height="1" fill="#8a93a6"/><rect x="9" y="2" width="1" height="1" fill="#26324e"/><rect x="3" y="3" width="3" height="1" fill="#26324e"/><rect x="6" y="3" width="4" height="1" fill="#8a93a6"/><rect x="10" y="3" width="3" height="1" fill="#26324e"/><rect x="1" y="4" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#ff8a7a"/><rect x="3" y="4" width="2" height="1" fill="#d93d3d"/><rect x="5" y="4" width="4" height="1" fill="#26324e"/><rect x="9" y="4" width="2" height="1" fill="#d93d3d"/><rect x="11" y="4" width="1" height="1" fill="#ff8a7a"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="1" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="5" width="1" height="1" fill="#ff8a7a"/><rect x="3" y="5" width="3" height="1" fill="#d93d3d"/><rect x="6" y="5" width="2" height="1" fill="#fff6dd"/><rect x="8" y="5" width="3" height="1" fill="#d93d3d"/><rect x="11" y="5" width="1" height="1" fill="#a92c2c"/><rect x="12" y="5" width="1" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="6" width="2" height="1" fill="#d93d3d"/><rect x="5" y="6" width="4" height="1" fill="#fff6dd"/><rect x="9" y="6" width="2" height="1" fill="#d93d3d"/><rect x="11" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="7" width="1" height="1" fill="#26324e"/><rect x="4" y="7" width="1" height="1" fill="#d93d3d"/><rect x="5" y="7" width="4" height="1" fill="#fff6dd"/><rect x="9" y="7" width="1" height="1" fill="#d93d3d"/><rect x="10" y="7" width="1" height="1" fill="#26324e"/><rect x="3" y="8" width="1" height="1" fill="#26324e"/><rect x="4" y="8" width="1" height="1" fill="#d93d3d"/><rect x="5" y="8" width="4" height="1" fill="#fff6dd"/><rect x="9" y="8" width="1" height="1" fill="#d93d3d"/><rect x="10" y="8" width="1" height="1" fill="#a92c2c"/><rect x="11" y="8" width="1" height="1" fill="#26324e"/><rect x="3" y="9" width="1" height="1" fill="#26324e"/><rect x="4" y="9" width="2" height="1" fill="#d93d3d"/><rect x="6" y="9" width="2" height="1" fill="#fff6dd"/><rect x="8" y="9" width="2" height="1" fill="#d93d3d"/><rect x="10" y="9" width="1" height="1" fill="#a92c2c"/><rect x="11" y="9" width="1" height="1" fill="#26324e"/><rect x="3" y="10" width="1" height="1" fill="#26324e"/><rect x="4" y="10" width="6" height="1" fill="#d93d3d"/><rect x="10" y="10" width="1" height="1" fill="#a92c2c"/><rect x="11" y="10" width="1" height="1" fill="#26324e"/><rect x="3" y="11" width="1" height="1" fill="#26324e"/><rect x="4" y="11" width="6" height="1" fill="#d93d3d"/><rect x="10" y="11" width="1" height="1" fill="#a92c2c"/><rect x="11" y="11" width="1" height="1" fill="#26324e"/><rect x="4" y="12" width="7" height="1" fill="#26324e"/></svg>', shop: '<svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="11" height="1" fill="#26324e"/><rect x="1" y="2" width="1" height="1" fill="#26324e"/><rect x="2" y="2" width="11" height="1" fill="#2d77cd"/><rect x="13" y="2" width="1" height="1" fill="#26324e"/><rect x="1" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="3" width="1" height="1" fill="#fff6dd"/><rect x="3" y="3" width="1" height="1" fill="#2d77cd"/><rect x="4" y="3" width="1" height="1" fill="#26324e"/><rect x="5" y="3" width="2" height="1" fill="#2d77cd"/><rect x="7" y="3" width="1" height="1" fill="#26324e"/><rect x="8" y="3" width="2" height="1" fill="#2d77cd"/><rect x="10" y="3" width="1" height="1" fill="#26324e"/><rect x="11" y="3" width="1" height="1" fill="#fff6dd"/><rect x="12" y="3" width="1" height="1" fill="#2d77cd"/><rect x="13" y="3" width="1" height="1" fill="#26324e"/><rect x="2" y="4" width="1" height="1" fill="#26324e"/><rect x="3" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="4" y="4" width="1" height="1" fill="#26324e"/><rect x="5" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="6" y="4" width="1" height="1" fill="#26324e"/><rect x="7" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="8" y="4" width="1" height="1" fill="#26324e"/><rect x="9" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="10" y="4" width="1" height="1" fill="#26324e"/><rect x="11" y="4" width="1" height="1" fill="#1e5aa6"/><rect x="12" y="4" width="1" height="1" fill="#26324e"/><rect x="3" y="5" width="9" height="1" fill="#26324e"/><rect x="2" y="6" width="1" height="1" fill="#26324e"/><rect x="3" y="6" width="9" height="1" fill="#fff6dd"/><rect x="12" y="6" width="1" height="1" fill="#26324e"/><rect x="2" y="7" width="1" height="1" fill="#26324e"/><rect x="3" y="7" width="1" height="1" fill="#fff6dd"/><rect x="4" y="7" width="2" height="1" fill="#cfeeff"/><rect x="6" y="7" width="1" height="1" fill="#26324e"/><rect x="7" y="7" width="2" height="1" fill="#fff6dd"/><rect x="9" y="7" width="2" height="1" fill="#ffd83d"/><rect x="11" y="7" width="1" height="1" fill="#fff6dd"/><rect x="12" y="7" width="1" height="1" fill="#26324e"/><rect x="2" y="8" width="1" height="1" fill="#26324e"/><rect x="3" y="8" width="1" height="1" fill="#fff6dd"/><rect x="4" y="8" width="2" height="1" fill="#cfeeff"/><rect x="6" y="8" width="1" height="1" fill="#26324e"/><rect x="7" y="8" width="2" height="1" fill="#fff6dd"/><rect x="9" y="8" width="2" height="1" fill="#ffd83d"/><rect x="11" y="8" width="1" height="1" fill="#fff6dd"/><rect x="12" y="8" width="1" height="1" fill="#26324e"/><rect x="2" y="9" width="1" height="1" fill="#26324e"/><rect x="3" y="9" width="3" height="1" fill="#fff6dd"/><rect x="6" y="9" width="1" height="1" fill="#26324e"/><rect x="7" y="9" width="5" height="1" fill="#fff6dd"/><rect x="12" y="9" width="1" height="1" fill="#26324e"/><rect x="2" y="10" width="1" height="1" fill="#26324e"/><rect x="3" y="10" width="3" height="1" fill="#fff6dd"/><rect x="6" y="10" width="1" height="1" fill="#26324e"/><rect x="7" y="10" width="1" height="1" fill="#7a4a21"/><rect x="8" y="10" width="1" height="1" fill="#26324e"/><rect x="9" y="10" width="3" height="1" fill="#fff6dd"/><rect x="12" y="10" width="1" height="1" fill="#26324e"/><rect x="2" y="11" width="1" height="1" fill="#26324e"/><rect x="3" y="11" width="3" height="1" fill="#fff6dd"/><rect x="6" y="11" width="1" height="1" fill="#26324e"/><rect x="7" y="11" width="1" height="1" fill="#7a4a21"/><rect x="8" y="11" width="1" height="1" fill="#26324e"/><rect x="9" y="11" width="3" height="1" fill="#fff6dd"/><rect x="12" y="11" width="1" height="1" fill="#26324e"/><rect x="2" y="12" width="1" height="1" fill="#26324e"/><rect x="3" y="12" width="3" height="1" fill="#e8dcc0"/><rect x="6" y="12" width="1" height="1" fill="#26324e"/><rect x="7" y="12" width="1" height="1" fill="#7a4a21"/><rect x="8" y="12" width="1" height="1" fill="#26324e"/><rect x="9" y="12" width="3" height="1" fill="#e8dcc0"/><rect x="12" y="12" width="1" height="1" fill="#26324e"/><rect x="3" y="13" width="9" height="1" fill="#26324e"/></svg>' };
         var dockIcons = { records: DOCK_PIX.records, gacha: DOCK_PIX.gacha, studio: DOCK_PIX.studio, shop: DOCK_PIX.shop };
         document.querySelectorAll("[data-dock]").forEach(function (el) { el.innerHTML = dockIcons[el.getAttribute("data-dock")] || ""; });
         var recNames = { status: t.segStatus, badges: t.segBadges, advlog: t.segAdvLog, collection: t.segCollection };
@@ -29665,6 +29870,18 @@ function drawRunnerFrame(ctx, frame, blink) {
         save(); renderCoinWin(); renderFurniture();
         try { sfx("fanfare"); } catch (e) {}
       }
+      function coinTapHut(id) {
+        var it = hutItem(id);
+        if (!it || it.gift) return;
+        state.hutOwned = state.hutOwned || [];
+        if (state.hutOwned.indexOf(id) >= 0) return;
+        if (coinArm !== "h:" + id) { coinArm = "h:" + id; renderCoinWin(); return; }
+        if (!coinSpend(it.price)) { showCoinMsg(L().coinShort); coinArm = ""; renderCoinWin(); return; }
+        state.hutOwned.push(id); coinArm = "";
+        hutAutoPlace(id);
+        save(); renderCoinWin(); renderHut();
+        try { sfx("fanfare"); } catch (e) {}
+      }
       function renderCoinWin() {
         var t = L();
         var bal = document.getElementById("coinBal"); if (bal) bal.textContent = String(typeof state.coins === "number" ? state.coins : 0);
@@ -29672,7 +29889,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var et = document.getElementById("coinEarnT"); if (et) et.textContent = t.coinEarnT;
         /* Q-334 scheme B: the tabs carry the category names; exactly
            one page is visible; the earn fold mirrors shopEarnOpen */
-        var tabNames = { frames: t.coinFramesT, gear: t.coinGearT, decor: t.coinFurnT };
+        var tabNames = { frames: t.coinFramesT, gear: t.coinGearT, decor: t.coinFurnT, hut: t.coinHutT };
         var tabBtns = document.querySelectorAll("[data-shop-tab]");
         for (var ti = 0; ti < tabBtns.length; ti++) {
           var tk = tabBtns[ti].getAttribute("data-shop-tab");
@@ -29723,6 +29940,19 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
         var hb = document.getElementById("coinHouse");
         if (hb) hb.innerHTML = '<span>' + esc(t.coinFurnNote) + '</span>';
+        var hu368 = document.getElementById("coinHut");
+        if (hu368) {
+          hu368.innerHTML = HUT_ITEMS.map(function (f) {
+            var owned = (state.hutOwned || []).indexOf(f.id) >= 0;
+            if (f.gift) {
+              return '<div class="coin-cell"><div class="coin-furn-cv">' + f.svg + '</div><div class="coin-cell-name">' + esc(t[f.key]) + '</div><button type="button" class="coin-buy is-eq" disabled>' + esc(owned ? t.hutOwnedLbl : t.hutGiftTag) + '</button></div>';
+            }
+            var label = owned ? esc(t.hutOwnedLbl) : (coinArm === "h:" + f.id ? esc(t.coinBuyQ(f.price)) : '<span class="coin-ico sm"></span>' + f.price);
+            return '<div class="coin-cell"><div class="coin-furn-cv">' + f.svg + '</div><div class="coin-cell-name">' + esc(t[f.key]) + '</div><button type="button" class="coin-buy' + (owned ? " is-eq" : "") + '" data-hut-buy="' + f.id + '"' + (owned ? " disabled" : "") + '>' + label + '</button></div>';
+          }).join("");
+        }
+        var hn368 = document.getElementById("coinHutNote");
+        if (hn368) hn368.innerHTML = '<span>' + esc(t.coinHutNote) + '</span>';
       }
       var coinWired = false;
       function wireCoinWin() {
@@ -29739,6 +29969,8 @@ function drawRunnerFrame(ctx, frame, blink) {
           if (gb) { coinTapGear(gb.getAttribute("data-gear-buy")); return; }
           var nb = ev.target && ev.target.closest ? ev.target.closest("[data-furn-buy]") : null;
           if (nb) coinTapFurniture(nb.getAttribute("data-furn-buy"));
+          var hb368 = ev.target && ev.target.closest ? ev.target.closest("[data-hut-buy]") : null;
+          if (hb368) coinTapHut(hb368.getAttribute("data-hut-buy"));
         });
         var cc = document.getElementById("coinClose");
         if (cc) cc.addEventListener("click", closeCoinWin);
@@ -31321,6 +31553,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         gear += '<div class="col-shelf"><h3>' + esc(t.badgeTitle) + "</h3>" +
           shelfRow(t.colBadges || "BADGES", gotB + "/" + bp.length) + shelfRow(t.colTitles, Math.min(info.lv, t.titles.length) + "/" + t.titles.length + " · " + titleFor(info.lv)) +
           shelfRow(t.colStreet, props + "/" + SCENE_PROPS.length) +
+          shelfRow(t.colHut, (state.hutOwned || []).length + "/" + HUT_ITEMS.length) +
           shelfRow(t.colHeroes, heroesN + "/" + heroes.length) + shelfRow(t.colCalDays, String(days)) + "</div>";
         /* Q-367: build only the ACTIVE page's heavy strings — the
            stamp grid and the sticker book (one badgeIconSVG per
@@ -32765,7 +32998,7 @@ function drawZoneStamp(cv, zoneId, mode) {
            to render after it — the same render-after-show pattern
            that flashed the collection before Q-361). */
         if (name === "advlog") renderAdvLog();
-        ["gacha", "status", "badges", "studio", "custom", "collection", "advlog", "shop"].forEach(function (k) {
+        ["gacha", "status", "badges", "studio", "custom", "collection", "advlog", "shop", "hut"].forEach(function (k) {
           var p = document.getElementById("hseg" + k.charAt(0).toUpperCase() + k.slice(1));
           if (p) { p.classList.toggle("no-page-in", tabSwitch367 && k === name); p.hidden = name !== k; }
         });
@@ -32801,6 +33034,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         }
         if (name === "status" || name === "badges" || name === "advlog" || name === "collection") scheduleRecordsRefit();
         if (name === "shop") { wireCoinWin(); renderCoinWin(); }
+        if (name === "hut") { wireHut(); renderHut(); }
         document.querySelectorAll("[data-openwin]").forEach(function (b) {
           var bw = b.getAttribute("data-openwin");
           b.setAttribute("aria-pressed", String(bw === name || (bw === "records" && (name === "status" || name === "badges" || name === "advlog" || name === "collection"))));

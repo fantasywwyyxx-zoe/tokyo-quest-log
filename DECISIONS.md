@@ -803,3 +803,43 @@ document order by style block, wins on specificity) OK;
 screencast re-probe on the patched build: collection switch
 now paints in ONE step (single diff spike 40.5, no staged
 ghost frames). Device-final = Zoe.
+
+## Q-368 — The hut （小屋）: decoratable pixel room, P1 (2026-11-09, Zoe)
+
+Zoe named the hero-background decoration system 「小屋」 and ordered
+it developed into a decoratable retro-pixel hut, aimed at the game's
+target users (Western tourists + women in Japan): cute characters,
+plentiful props, plentiful gacha. Structure ruling (Zoe, 2026-11-09):
+the sky/street hero scene is NOT replaced — the hut is a separate
+room entered from the hero page dock (new dock button, house icon).
+Room mock approved by Zoe before the build (hut-room-mock-20261109-v2).
+
+P1 scope shipped here:
+- New hero window #hsegHut (added to the openHeroWin panel list):
+  a pixel room (pink wall, window, wood floor) with the player's own
+  hero standing in it (drawHeroEquipped on #hutHeroCv + contact
+  shadow), 2 wall slots + 4 floor slots.
+- HUT_ITEMS (8, 48x26 pixel SVGs, art previewed before shipping):
+  flower cart 380 / star lights 240 (wall) / cat sofa 520 / cloud
+  lamp 460 (wall) / strawberry rug 200 / mini gachapon (Lv.5 GIFT,
+  not sold) / bunny lamp 300 / sakura bonsai 420.
+- Placement: 摆放 mode — tap a storage chip (or a placed piece),
+  then a free slot of the same kind; placed pieces can be put away
+  （收起）. Purchases and the gift auto-place into the first free
+  slot. State: hutOwned / hutPlaced / hutGift, sanitized like
+  furnitureOwned; old saves default cleanly.
+- Coin shop gains a 4th tab （小屋家具） reusing the two-tap buy
+  (coinArm "h:" prefix, coinTapHut); the hut panel's buttons jump
+  straight to that tab and to the gacha window.
+- Collection overview gains a 小屋 shelf row (owned/8).
+- CSS is #hsegHut-scoped in the last style element; panel ink is
+  pinned dark (Q-361 night-contrast lesson).
+
+Gates: syntax x6 OK; bootprobe zero+phone PASS; test_q351_fits ALL
+PASS; cascade audit (29 hut rules, all in the last style element, no
+strays); CDP phone probes at 390x844 AND 390x667 on the real page
+with a seeded veteran save — room renders with placed pieces + hero,
+placement flow (chip -> slot) works, shop hut tab shows 8 cells with
+correct owned/price states. Device-final = Zoe.
+P2 (hut gacha pool + ticket issuance boost) and P3 (sets/seasonal)
+remain queued per the approved phasing.
