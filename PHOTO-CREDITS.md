@@ -222,3 +222,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c90-mutek-jp-2026 | https://tokyo.mutek.org/en/festival-guide-2026 | Official website photo (© MUTEK Japan) | MUTEK Japan
 - c91-tobu-nazotabi | https://commons.wikimedia.org/wiki/File:Matsuya_asakusa_(Asakusa_Station)_at_night.jpg | CC BY-SA 4.0 | Kakidai (venue photo: Tobu Asakusa Station at night)
 - c92-arakawa-promise | https://commons.wikimedia.org/wiki/File:日暮里駅全景.jpg | CC0 | Punkssand (venue photo: Nippori Station panorama)
+- c93-teamlab-hamarikyu | https://www.teamlab.art/jp/e/hamarikyu/ | Official website photo (© teamLab) | teamLab
