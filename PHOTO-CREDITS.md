@@ -219,3 +219,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 | Quest | Venue | Author | License | Source |
 |---|---|---|---|---|
 | eg-skytree | 東京スカイツリー | VaneTrz20 | CC0 | https://commons.wikimedia.org/wiki/File:Tokyo_Skytree_in_winter.jpg |
+- c90-mutek-jp-2026 | https://tokyo.mutek.org/en/festival-guide-2026 | Official website photo (© MUTEK Japan) | MUTEK Japan
