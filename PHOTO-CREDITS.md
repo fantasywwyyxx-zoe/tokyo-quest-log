@@ -223,3 +223,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c91-tobu-nazotabi | https://commons.wikimedia.org/wiki/File:Matsuya_asakusa_(Asakusa_Station)_at_night.jpg | CC BY-SA 4.0 | Kakidai (venue photo: Tobu Asakusa Station at night)
 - c92-arakawa-promise | https://commons.wikimedia.org/wiki/File:日暮里駅全景.jpg | CC0 | Punkssand (venue photo: Nippori Station panorama)
 - c93-teamlab-hamarikyu | https://www.teamlab.art/jp/e/hamarikyu/ | Official website photo (© teamLab) | teamLab
+- c94-jindai-autumn-rally | https://www.atpress.ne.jp/news/9089903 | Official press release photo (© Tokyo Metropolitan Park Association) | Tokyo Metropolitan Park Association (venue photo: Jindai Botanical Gardens rose garden)
