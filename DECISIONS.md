@@ -1034,6 +1034,26 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-381 — Daily dead band removed + hut wallpapers x6 patterned (2026-11-12, Zoe)
+
+Zoe, same burst: (1) her daily screenshot — a large blank band between the daily
+window and the mini-game entry, "这中间的空白没什么用啊"; (2) "小屋壁纸没法换
+再丰富一些". (1) Cause, measured by probe: #view-daily is a full-height flex
+column and .daily-panel is flex:1 1 auto, so the panel grew past its content
+and the leftover pooled between the window and #mgDailyBtn (gap measured
+142px at 844). Fix: `#view-daily .daily-panel { flex: 0 1 auto; }` — panel
+hugs content; post-fix probe gap = 10px (the button's own margin). (2)
+Wallpapers: 3 flat gradients -> 6 PATTERNED themes (pink dots / mint stripes /
+starry / sakura / cream plaid / lemon dots), painted as layered CSS gradients
+over the same wall/floor split (star keeps its dark floor). The wallpaper row
+moved ABOVE the storage tray (directly under the room + fill line) and its
+label now shows the current wallpaper's name (STR hutWallPink/Mint/Star/
+Sakura/Plaid/Lemon x3), so a tap has visible feedback; swatches preview the
+real pattern (shared .wp-* classes). Verified with PHYSICAL taps in the hut
+wall probe: 6 swatches render, star tap -> room class + label change, sakura
+tap likewise (hut_wall_probe.mjs, ALL PASS). Gates: syntax x6, bootprobe,
+test_q380_hut 7/7, test_q351_fits, test_q375_share ALL PASS.
+
 ## Q-380 — Hut optimization: 10 slots, 8 new furniture pieces (16 total), set/full/collection ticket rewards, wallpapers (2026-11-12, Zoe approved the design)
 
 Built to the approved mock (hut-optimize-mock-20261112-v3). Slots 6 -> 10: wall w3/w4 mid-height at the sides, floor back row f5/f6 (bottom 24%, painted and hit-tested behind the front row — markup order window/w1..w4/f5/f6/f1..f4). Existing f1..f4 positions untouched, so saved placements do not move. Eight new pieces (art in hut_art2.py, preview sheet verified piece by piece): hut-tea Tea Table 340 / hut-cake Cake Stand 300 / hut-clock Wall Clock 220 / hut-frame Photo Frame 180 / hut-shelf Bookshelf 480 / hut-plant Leafy Plant 260 / hut-skyrug Starry Rug 280 / hut-flowerlamp Flower Lamp 260 — the shop hut tab and the collection shelf count pick them up automatically (probe shows 16 cells). Sets: HUT_SETS = tea (hut-tea + hut-cake) and star (hut-stars + the Lv.5 moon lamp hut-gacha); tray chips for set members carry a SET tag. hutCheckRewards() runs at the end of renderHut: set fully placed +1 ticket, all 10 slots filled +1, all 16 owned +2 — each latched once in state (hutSets / hutFullBonus / hutAllBonus) with its own narration (hutSetMsg / hutFullMsg / hutAllMsg, x3 languages). Wallpaper: state.hutWall pink/mint/star, three swatch buttons under the tray; the star theme swaps the wall to indigo and the floor to a darker wood via .hut-room.hut-wall-* overrides. Placement feedback: tapping a wrong-kind slot now shakes it (hut-shake) instead of silently doing nothing. A fill line (hutFill) shows placed n/10 under the room. Known wart: the w3/w4 dashed boxes overlap the f5/f6 boxes in the 46–57% band in edit mode, so a tap on a wall box's lowest strip can land on the back-row floor slot — the wall art itself sits clear of the overlap. Verified: syntax x6; bootprobe PASS; hut probes DONE at 844 and 667 (edit-grid and placed shots reviewed — grid reads as intended); test_q380_hut 7/7 (set/full/collection grants latch exactly once). Device-final = Zoe.

@@ -13601,6 +13601,23 @@
       .hut-set-tag { display: inline-block; background: #ffd83d; border: 1.5px solid #26324a; border-radius: 4px; font-size: 10px; font-weight: 800; padding: 0 4px; margin-left: 5px; vertical-align: 1px; color: #26324a; }
       @keyframes hutShake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
       .hut-slot.hut-shake { animation: hutShake .12s ease-in-out 3; }
+
+/* Q-381: daily panel hugs content (no dead band mid-view); hut wallpapers x6 patterned */
+#view-daily .daily-panel { flex: 0 1 auto; }
+.hut-walls { flex-wrap: wrap; }
+.hut-wall-btn { width: 46px; height: 30px; }
+.wp-pink { background-color: #fbe7f0; background-image: radial-gradient(#f2c6da 2px, rgba(0,0,0,0) 2.5px); background-size: 10px 10px; }
+.wp-mint { background-color: #dff5e4; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.65) 0 4px, rgba(255,255,255,0) 4px 8px); }
+.wp-star { background-color: #2e4370; background-image: radial-gradient(#ffd83d 1.5px, rgba(0,0,0,0) 1.9px), radial-gradient(#ffffff 1.1px, rgba(0,0,0,0) 1.5px); background-size: 14px 14px, 10px 10px; background-position: 0 0, 4px 5px; }
+.wp-sakura { background-color: #fdeef4; background-image: radial-gradient(#f49ac1 2px, rgba(0,0,0,0) 2.5px), radial-gradient(#ffc7de 1.5px, rgba(0,0,0,0) 2px); background-size: 13px 13px, 9px 9px; background-position: 0 0, 4px 5px; }
+.wp-plaid { background-color: #fff3d6; background-image: repeating-linear-gradient(0deg, rgba(229,107,160,.22) 0 3px, rgba(229,107,160,0) 3px 10px), repeating-linear-gradient(90deg, rgba(45,119,205,.18) 0 3px, rgba(45,119,205,0) 3px 10px); }
+.wp-lemon { background-color: #fff8dc; background-image: radial-gradient(#ffd83d 2.2px, rgba(0,0,0,0) 2.7px); background-size: 11px 11px; }
+.hut-room.hut-wall-pink { background: radial-gradient(#f2c6da 2.2px, rgba(0,0,0,0) 2.7px) 0 0/16px 16px repeat, linear-gradient(to bottom, #fbe7f0 0, #fbe7f0 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
+.hut-room.hut-wall-mint { background: repeating-linear-gradient(45deg, rgba(255,255,255,.55) 0 6px, rgba(255,255,255,0) 6px 12px) 0 0/100% 55% no-repeat, linear-gradient(to bottom, #dff5e4 0, #dff5e4 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
+.hut-room.hut-wall-star { background: radial-gradient(#ffd83d 1.7px, rgba(0,0,0,0) 2.1px) 0 0/26px 26px repeat, radial-gradient(#ffffff 1.2px, rgba(0,0,0,0) 1.6px) 7px 9px/18px 18px repeat, linear-gradient(to bottom, #2e4370 0, #2e4370 55%, #ffe9a8 55%, #ffe9a8 calc(55% + 5px), #8a6134 calc(55% + 5px), #8a6134 100%); }
+.hut-room.hut-wall-sakura { background: radial-gradient(#f49ac1 2.4px, rgba(0,0,0,0) 2.9px) 0 0/22px 22px repeat, radial-gradient(#ffc7de 1.8px, rgba(0,0,0,0) 2.3px) 6px 8px/15px 15px repeat, linear-gradient(to bottom, #fdeef4 0, #fdeef4 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
+.hut-room.hut-wall-plaid { background: repeating-linear-gradient(0deg, rgba(229,107,160,.20) 0 5px, rgba(229,107,160,0) 5px 20px) 0 0/100% 55% no-repeat, repeating-linear-gradient(90deg, rgba(45,119,205,.16) 0 5px, rgba(45,119,205,0) 5px 20px) 0 0/100% 55% no-repeat, linear-gradient(to bottom, #fff3d6 0, #fff3d6 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
+.hut-room.hut-wall-lemon { background: radial-gradient(#ffd83d 2.6px, rgba(0,0,0,0) 3.1px) 0 0/18px 18px repeat, linear-gradient(to bottom, #fff8dc 0, #fff8dc 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
 </style>
   </head>
   <body data-view="map">
@@ -14702,8 +14719,8 @@
             <canvas id="hutHeroCv" width="16" height="16" aria-hidden="true"></canvas>
           </div>
           <div class="hut-fill" id="hutFill"></div>
-          <div class="hut-tray" id="hutTray"></div>
           <div class="hut-walls" id="hutWalls"></div>
+          <div class="hut-tray" id="hutTray"></div>
           <div class="hut-btns">
             <button type="button" class="hut-btn" id="hutModeBtn" aria-pressed="false"></button>
             <button type="button" class="hut-btn" data-hut-goto="shop"></button>
@@ -17227,7 +17244,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261112-1610-q380-a6569064";
+        var BUILD_ID = "tql-20261112-1625-q381-9c540e8c";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18118,7 +18135,7 @@ var qrcode = function() {
           hutSetMsg: function (name) { return "SET COMPLETE: " + name + " — GACHA TICKET +1!"; },
           hutFullMsg: "ROOM COMPLETE — every slot filled! GACHA TICKET +1!",
           hutAllMsg: "FULL COLLECTION — all furniture collected! GACHA TICKETS +2!",
-          hutWallT: "Wallpaper", hutFillT: "Placed", hutPlace: "PLACE", hutDone: "DONE", hutStore: "Put away", hutTrayT: "Storage", hutTrayEmpty: "Storage is empty — buy furniture in the shop.", hutCount: "Furniture", colHut: "HUT", hutCart: "Flower cart", hutStars: "Star lights", hutSofa: "Cat sofa", hutCloud: "Cloud lamp", hutRug: "Strawberry rug", hutGacha: "Moon lamp", hutLamp: "Bunny lamp", hutBonsai: "Sakura bonsai", coinPlaced: "On display",
+          hutWallT: "Wallpaper", hutWallPink: "Pink Dots", hutWallMint: "Mint Stripes", hutWallStar: "Starry Night", hutWallSakura: "Sakura", hutWallPlaid: "Cream Plaid", hutWallLemon: "Lemon Dots",  hutFillT: "Placed", hutPlace: "PLACE", hutDone: "DONE", hutStore: "Put away", hutTrayT: "Storage", hutTrayEmpty: "Storage is empty — buy furniture in the shop.", hutCount: "Furniture", colHut: "HUT", hutCart: "Flower cart", hutStars: "Star lights", hutSofa: "Cat sofa", hutCloud: "Cloud lamp", hutRug: "Strawberry rug", hutGacha: "Moon lamp", hutLamp: "Bunny lamp", hutBonsai: "Sakura bonsai", coinPlaced: "On display",
         furnTree: "Street tree", furnBench: "Bench", furnPostbox: "Post box", furnStreetlamp: "Street lamp", furnBusstop: "Bus stop", furnVending: "Vending machine",
           tabMap: "MAP", tabList: "LIST", tabLog: "LOG",
           menuTitle: "MENU", menuSettings: "SETTINGS",
@@ -19017,7 +19034,7 @@ var qrcode = function() {
           hutSetMsg: function (name) { return "セット完成：" + name + " — ガチャチケット +1！"; },
           hutFullMsg: "お部屋コンプリート — 全部の場所が埋まった！ガチャチケット +1！",
           hutAllMsg: "家具コンプリート — 全家具制覇！ガチャチケット +2！",
-          hutWallT: "壁紙", hutFillT: "配置", hutPlace: "飾る", hutDone: "完了", hutStore: "しまう", hutTrayT: "収納", hutTrayEmpty: "収納は空です — ショップで家具を買おう。", hutCount: "家具", colHut: "小屋", hutCart: "花カート", hutStars: "星のライト", hutSofa: "ねこソファ", hutCloud: "くもランプ", hutRug: "いちごラグ", hutGacha: "ムーンランプ", hutLamp: "うさぎランプ", hutBonsai: "桜の盆栽", coinPlaced: "表示中",
+          hutWallT: "壁紙", hutWallPink: "ピンクドット", hutWallMint: "ミントストライプ", hutWallStar: "星空", hutWallSakura: "さくら", hutWallPlaid: "クリームチェック", hutWallLemon: "レモンドット",  hutFillT: "配置", hutPlace: "飾る", hutDone: "完了", hutStore: "しまう", hutTrayT: "収納", hutTrayEmpty: "収納は空です — ショップで家具を買おう。", hutCount: "家具", colHut: "小屋", hutCart: "花カート", hutStars: "星のライト", hutSofa: "ねこソファ", hutCloud: "くもランプ", hutRug: "いちごラグ", hutGacha: "ムーンランプ", hutLamp: "うさぎランプ", hutBonsai: "桜の盆栽", coinPlaced: "表示中",
         furnTree: "街路樹", furnBench: "ベンチ", furnPostbox: "ポスト", furnStreetlamp: "街灯", furnBusstop: "バス停", furnVending: "自販機",
           tabMap: "マップ", tabList: "一覧", tabLog: "ログ",
           menuTitle: "メニュー", menuSettings: "せってい",
@@ -19912,7 +19929,7 @@ var qrcode = function() {
           hutSetMsg: function (name) { return "套装集齐：" + name + " —— 扭蛋券 +1！"; },
           hutFullMsg: "房间摆满啦 —— 扭蛋券 +1！",
           hutAllMsg: "家具全收集 —— 扭蛋券 +2！",
-          hutWallT: "壁纸", hutFillT: "已摆放", hutPlace: "摆放", hutDone: "完成", hutStore: "收起", hutTrayT: "收纳箱", hutTrayEmpty: "收纳箱是空的 — 去商店买点家具吧。", hutCount: "家具", colHut: "小屋", hutCart: "花车", hutStars: "星星灯串", hutSofa: "猫咪沙发", hutCloud: "云朵吊灯", hutRug: "草莓地毯", hutGacha: "月亮小夜灯", hutLamp: "兔子台灯", hutBonsai: "樱花盆栽", coinPlaced: "已摆放",
+          hutWallT: "壁纸", hutWallPink: "粉点", hutWallMint: "薄荷条纹", hutWallStar: "星空", hutWallSakura: "樱花", hutWallPlaid: "奶油格", hutWallLemon: "柠檬点",  hutFillT: "已摆放", hutPlace: "摆放", hutDone: "完成", hutStore: "收起", hutTrayT: "收纳箱", hutTrayEmpty: "收纳箱是空的 — 去商店买点家具吧。", hutCount: "家具", colHut: "小屋", hutCart: "花车", hutStars: "星星灯串", hutSofa: "猫咪沙发", hutCloud: "云朵吊灯", hutRug: "草莓地毯", hutGacha: "月亮小夜灯", hutLamp: "兔子台灯", hutBonsai: "樱花盆栽", coinPlaced: "已摆放",
         furnTree: "行道树", furnBench: "长椅", furnPostbox: "邮筒", furnStreetlamp: "路灯", furnBusstop: "公交站", furnVending: "贩卖机",
           tabMap: "地图", tabList: "一览", tabLog: "记录",
           menuTitle: "菜单", menuSettings: "设置",
@@ -25792,13 +25809,16 @@ function drawYushaJacket(ctx) {
         var gs = panel.querySelector('[data-hut-goto="shop"]'); if (gs) gs.textContent = t.segShop;
         var fl = document.getElementById("hutFill");
         if (fl) { var pn = 0; for (var pk in placed) if (placed[pk]) pn++; fl.textContent = t.hutFillT + " " + pn + "/" + HUT_SLOTS.length; }
-        if (room) { room.classList.remove("hut-wall-mint", "hut-wall-star"); if (state.hutWall === "mint") room.classList.add("hut-wall-mint"); else if (state.hutWall === "star") room.classList.add("hut-wall-star"); }
+        if (room) { room.classList.remove("hut-wall-pink", "hut-wall-mint", "hut-wall-star", "hut-wall-sakura", "hut-wall-plaid", "hut-wall-lemon");
+          room.classList.add("hut-wall-" + (state.hutWall || "pink")); }
         var wr = document.getElementById("hutWalls");
         if (wr) {
-          var wdefs = [["pink", "linear-gradient(180deg,#fbe7f0,#f3cfe0)"], ["mint", "linear-gradient(180deg,#dff5e4,#b7e4c7)"], ["star", "linear-gradient(180deg,#2e4370,#47639c)"]];
+          var wdefs = [["pink", t.hutWallPink], ["mint", t.hutWallMint], ["star", t.hutWallStar], ["sakura", t.hutWallSakura], ["plaid", t.hutWallPlaid], ["lemon", t.hutWallLemon]];
           var curWall = state.hutWall || "pink";
-          wr.innerHTML = '<span class="hut-walls-t">' + esc(t.hutWallT) + '</span>' + wdefs.map(function (wd) {
-            return '<button type="button" class="hut-wall-btn' + (curWall === wd[0] ? " is-on" : "") + '" data-hut-wall="' + wd[0] + '" style="background:' + wd[1] + '" aria-label="' + wd[0] + '"></button>';
+          var curName = curWall;
+          wdefs.forEach(function (wd) { if (wd[0] === curWall) curName = wd[1]; });
+          wr.innerHTML = '<span class="hut-walls-t" id="hutWallLabel">' + esc(t.hutWallT) + ' \u00b7 ' + esc(curName) + '</span>' + wdefs.map(function (wd) {
+            return '<button type="button" class="hut-wall-btn wp-' + wd[0] + (curWall === wd[0] ? " is-on" : "") + '" data-hut-wall="' + wd[0] + '" aria-label="' + esc(wd[1]) + '"></button>';
           }).join("");
         }
         hutCheckRewards();
