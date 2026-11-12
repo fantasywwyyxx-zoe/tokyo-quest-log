@@ -17205,7 +17205,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261112-refresh-c94-jindai-rally";
+        var BUILD_ID = "tql-20261112-1514-q379-c6f8df7e";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18885,6 +18885,8 @@ var qrcode = function() {
           shareFirst: "FIRST SHARE BONUS — TICKET +10!",
           shareDailyReward: "SHARE BONUS — TICKET +1!",
           shareDoneTxt: "Share bonus already claimed today.",
+          refWelcome: "A friend's card brought you here — GACHA TICKET +1!",
+          refCredit: function (n) { return n + (n === 1 ? " new adventurer joined from your card — GACHA TICKET +1!" : " new adventurers joined from your cards — GACHA TICKETS +" + n + "!"); },
           shareCopied: "Card text copied — paste it anywhere!",
           dailyCats: { food: "EAT", walk: "WALK", see: "SEE", make: "MAKE", tidy: "TIDY", mind: "MIND", home: "HOME" },
           luckyTag: "★ LUCKY",
@@ -19772,6 +19774,8 @@ var qrcode = function() {
           shareFirst: "初回シェアボーナス — チケット +10！",
           shareDailyReward: "シェアボーナス — チケット +1！",
           shareDoneTxt: "今日のシェアボーナスは受取済みです。",
+          refWelcome: "友だちのカードから来てくれた！ガチャチケット +1！",
+          refCredit: function (n) { return "あなたのカードから " + n + " 人が冒険を始めた！ガチャチケット +" + n + "！"; },
           shareCopied: "文面をコピーしました — どこにでも貼れます！",
           dailyCats: { food: "食", walk: "歩", see: "見", make: "作", tidy: "整", mind: "心", home: "家" },
           luckyTag: "★ 当たり",
@@ -20659,6 +20663,8 @@ var qrcode = function() {
           shareFirst: "首次分享奖励 — 券 +10！",
           shareDailyReward: "分享奖励 — 券 +1！",
           shareDoneTxt: "今天的分享奖励已领取。",
+          refWelcome: "你是从朋友的卡来的——扭蛋券 +1！",
+          refCredit: function (n) { return n + " 位新玩家从你的卡加入冒险——扭蛋券 +" + n + "！"; },
           shareCopied: "文案已复制 — 粘贴到任何地方吧！",
           dailyCats: { food: "食", walk: "步", see: "看", make: "做", tidy: "整", mind: "心", home: "家" },
           luckyTag: "★ 幸运",
@@ -22932,7 +22938,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, refFrom: "", refBonus: false, refDone: false, refClaimed: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -29120,6 +29126,20 @@ function drawRunnerFrame(ctx, frame, blink) {
          exists, so the reward pays the share ACTION, daily-capped
          — that is the stated operating rule. */
       var SHARE_URL = "https://tokyoquestlog.com/";
+      /* Q-379: the signed-in sharer's links and poster QRs carry
+         their referral code; guests share the plain link. */
+      function shareUrl() {
+        var u = "";
+        try { u = window.__tqlRefUid || ""; } catch (e) {}
+        return u ? SHARE_URL + "?ref=" + u : SHARE_URL;
+      }
+      /* Q-379: referral capture — first touch wins, kept on the
+         save so the welcome bonus and the referrer's reward can
+         be credited when the new player engages. */
+      try {
+        var _refQ = new URLSearchParams(location.search || "").get("ref");
+        if (_refQ && /^[0-9a-fA-F-]{36}$/.test(_refQ) && typeof state !== "undefined" && state && !state.refFrom) state.refFrom = _refQ;
+      } catch (e) {}
       function shareReward() {
         if (!state.sharedEver) {
           state.sharedEver = true; state.shareDate = TODAY;
@@ -29193,7 +29213,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           sfx("accept");
         }
         function fallback() {
-          var full = text + " " + SHARE_URL;
+          var full = text + " " + shareUrl();
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(full).then(function () { grant(L().shareCopied); }, function () { grant(""); });
           } else grant("");
@@ -29203,7 +29223,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            sheet as every other share. The old direct navigator.share
            call gave no visible feedback when the webview dropped it
            — the exact failure Zoe kept hitting on this block. */
-        openSharePick({ cv: card, text: text, url: SHARE_URL, fileName: "tsq-card.png", grant: grant, fallback: fallback });
+        openSharePick({ cv: card, text: text, url: shareUrl(), fileName: "tsq-card.png", grant: grant, fallback: fallback });
       }
 
       /* Q-176 quest poster share (Zoe ruling 2026-10-29): from the
@@ -29340,7 +29360,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             x.fillStyle = "#a5dcff";
             x.font = "700 28px 'Baloo 2',sans-serif";
             x.fillText("tokyoquestlog.com/", 48, by + 176);
-            drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
+            drawPosterQR(x, shareUrl(), W - 216 - 28, by + 24, 168);
             /* frame */
             x.strokeStyle = "#10142e"; x.lineWidth = 10;
             x.strokeRect(5, 5, W - 10, H - 10);
@@ -29467,7 +29487,7 @@ function drawRunnerFrame(ctx, frame, blink) {
             x.fillStyle = "#a5dcff";
             x.font = "700 28px 'Baloo 2',sans-serif";
             x.fillText("tokyoquestlog.com/", 48, by + 176);
-            drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
+            drawPosterQR(x, shareUrl(), W - 216 - 28, by + 24, 168);
             x.strokeStyle = "#10142e"; x.lineWidth = 10;
             x.strokeRect(5, 5, W - 10, H - 10);
             resolve(cv);
@@ -29518,7 +29538,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           sfx("accept");
         }
         function fallback() {
-          var full = o.shareText + " " + SHARE_URL;
+          var full = o.shareText + " " + shareUrl();
           if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(full).then(function () { grant(L().shareCopied); }, function () { grant(""); });
           } else grant("");
@@ -29530,7 +29550,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           date: rec && rec.clearedAt ? String(rec.clearedAt).slice(0, 10).replace(/-/g, ".") : TODAY.replace(/-/g, ".")
         };
         function safeCard() { try { return buildShareCard(o.name); } catch (err) { return null; } }
-        var ctx = { cv: safeCard(), text: o.shareText, url: SHARE_URL, fileName: "tsq-card.png", grant: grant, fallback: fallback };
+        var ctx = { cv: safeCard(), text: o.shareText, url: shareUrl(), fileName: "tsq-card.png", grant: grant, fallback: fallback };
         /* Q-356 (R210): the chooser opens NOW, inside the tap. The
            old flow gated it behind the async poster build and a
            nested popover; on Zoe's in-app browser the tap died in
@@ -29629,7 +29649,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         x.fillStyle = "#a5dcff";
         x.font = "700 28px 'Baloo 2',sans-serif";
         x.fillText("tokyoquestlog.com/", 48, by + 176);
-        drawPosterQR(x, POSTER_URL, W - 216 - 28, by + 24, 168);
+        drawPosterQR(x, shareUrl(), W - 216 - 28, by + 24, 168);
         x.strokeStyle = "#10142e"; x.lineWidth = 10;
         x.strokeRect(5, 5, W - 10, H - 10);
         return cv;
@@ -29646,7 +29666,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var score = MG_LIVE[id] ? MG_LIVE[id]() : 0;
         var cv = buildMgPoster(id, score);
         openSharePick({
-          cv: cv, text: mgName(id) + " " + X().mgScore(id, score) + " — Tokyo Quest Log", url: SHARE_URL, fileName: "tql-mg-" + id + ".png",
+          cv: cv, text: mgName(id) + " " + X().mgScore(id, score) + " — Tokyo Quest Log", url: shareUrl(), fileName: "tql-mg-" + id + ".png",
           grant: function (prefix) { if (prefix) narrate(prefix); },
           fallback: function () {
             try {
@@ -29820,7 +29840,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            on Zoe's ruling (2026-11-02): no direct posting, no
            Instagram row — Threads replaces it (Q-269). */
         var saved = saveCtxImage(ctx);
-        try { window.open("https://www.threads.net/intent/post?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank"); } catch (e) { /* ignore */ }
+        try { window.open("https://www.threads.net/intent/post?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(ctx.url || SHARE_URL), "_blank"); } catch (e) { /* ignore */ }
         ctx.grant(saved ? L().shareSavedNote : "");
       }
       function lineShare(ctx) {
@@ -29853,7 +29873,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (kind === "line") { lineShare(ctx); setShareStatus(t.shareSavedNote); return; }
         var saved = saveCtxImage(ctx);
         if (kind === "x") {
-          try { window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(SHARE_URL), "_blank"); } catch (e) {}
+          try { window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(ctx.text) + "&url=" + encodeURIComponent(ctx.url || SHARE_URL), "_blank"); } catch (e) {}
         }
         setShareStatus(saved ? t.shareSavedNote : t.shareFailed);
         ctx.grant(saved ? t.shareSavedNote : "");
@@ -29874,7 +29894,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var t = L();
         buildQuestPoster(e).then(function (cv) {
           openSharePick({
-            cv: cv, text: evName(e) + " — Tokyo Quest Log", fileName: "tql-poster.png",
+            cv: cv, text: evName(e) + " — Tokyo Quest Log", url: shareUrl(), fileName: "tql-poster.png",
             grant: function (prefix) { if (prefix) checkinMsg("", prefix); },
             fallback: function () {
               try {
@@ -30186,6 +30206,12 @@ function drawRunnerFrame(ctx, frame, blink) {
            only; it never carries personal content. */
         var shareText = epicIt ? L().shareEpic(evName(e))
           : (newInfo.lv > prevInfo.lv ? L().shareLevel(newInfo.lv) : L().shareQuest(evName(e)));
+                var refBonusNow = false;
+        if (state.refFrom && !state.refBonus && state.clears.length) {
+          state.refBonus = true;
+          state.ticketBonus = (state.ticketBonus || 0) + 1;
+          refBonusNow = true;
+        }
         celebrate({
           title: state.lang === "ja" ? "クエスト<br>クリア！" : state.lang === "zh" ? "任务<br>完成！" : "QUEST<br>CLEAR!",
           name: evName(e), exp: granted, coins: coinGain, cat: e.cat, flavor: L().clearFanfareSub,
@@ -30203,7 +30229,8 @@ function drawRunnerFrame(ctx, frame, blink) {
           leveledTo: newInfo.lv > prevInfo.lv ? newInfo.lv : 0,
           badges: badgeUnlocks(badgesBefore)
         });
-        narrate(L().narrCheckin(heroDisplayName(), evName(e)), true);
+        narrate(L().narrCheckin(heroDisplayName(), evName(e)) + (refBonusNow ? " " + L().refWelcome : ""), true);
+        if (window.tqlReferralSync) { try { window.tqlReferralSync(); } catch (e) {} }
       }
       function undoClear(id) {
         var rec = null;
@@ -34019,6 +34046,38 @@ function drawZoneStamp(cv, zoneId, mode) {
          The owner re-check keeps the grant out of any foreign-
          account local record (the S1 guard case): after a settled
          sync the owner tag is this user or unset. */
+      /* Q-379 referral sync: register this account as a referred
+         player once it has a clear, and claim +1 ticket per player
+         who joined from this user's cards (lifetime cap 10). All
+         failures are silent and retried at the next boot/sign-in. */
+      var REF_CLAIM_CAP = 10;
+      function tqlReferralSync() {
+        try {
+          if (!sb || !authUser || typeof state === "undefined" || !state) return;
+          var uid = authUser.id;
+          if (state.refFrom && !state.refDone && state.refFrom !== uid && state.clears && state.clears.length) {
+            state.refDone = true;
+            sb.from("referrals").insert({ referrer_id: state.refFrom, referred_id: uid }).then(function (res) {
+              if (res && res.error && res.error.code !== "23505") state.refDone = false;
+              save();
+            }, function () { state.refDone = false; });
+          }
+          var claimed0 = state.refClaimed || 0;
+          if (claimed0 >= REF_CLAIM_CAP) return;
+          sb.from("referrals").select("id").eq("referrer_id", uid).eq("credited", false).limit(50).then(function (res) {
+            if (!res || res.error || !res.data || !res.data.length) return;
+            var room = REF_CLAIM_CAP - (state.refClaimed || 0);
+            var n = Math.min(res.data.length, room);
+            if (n <= 0) return;
+            state.ticketBonus = (state.ticketBonus || 0) + n;
+            state.refClaimed = (state.refClaimed || 0) + n;
+            save();
+            var ids = res.data.slice(0, n).map(function (r) { return r.id; });
+            sb.from("referrals").update({ credited: true }).in("id", ids).then(function () {}, function () {});
+            try { narrate(L().refCredit(n)); } catch (e) {}
+          }, function () {});
+        } catch (e) {}
+      }
       function maybeLoginBonus() {
         if (!authUser) return;
         var ow = cloudOwner();
@@ -34265,6 +34324,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         return em;
       }
       function refreshAcctUI() {
+        try { window.__tqlRefUid = authUser ? authUser.id : null; } catch (e) {}
         /* NAME MODEL: publish the signed-in flag the main script's
            name surfaces read (window.tqlSignedIn). When it flips,
            re-render once so every name surface — status bar, hero
@@ -34473,7 +34533,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       function cleanAuthUrlNow() {
         try {
           var dirty = /access_token|refresh_token|provider_token|error_description|error=|code=|line_at|line_rt/.test(location.hash || "") ||
-                      /[?&](code|error|error_description)=/.test(location.search || "");
+                      /[?&](code|error|error_description|ref)=/.test(location.search || "");
           if (dirty) history.replaceState(null, "", location.pathname);
         } catch (e) { /* ignore */ }
       }
@@ -34521,7 +34581,7 @@ function drawZoneStamp(cv, zoneId, mode) {
                the title state is only ever decided after the
                cloud record has had its say. */
             if (isEmptySave(state)) armCloudGate();
-            syncOnce().then(function (note) { settleCloudGate(); maybeLoginBonus(); maybeOAuthWelcome(note); });
+            syncOnce().then(function (note) { settleCloudGate(); maybeLoginBonus(); tqlReferralSync(); maybeOAuthWelcome(note); });
           } else if (oauthReturn.error || oauthReturn.code || oauthReturn.tokens) {
             /* Back from Google with no session: the provider returned an
                error, or the PKCE exchange failed — the code verifier lives
@@ -34539,6 +34599,7 @@ function drawZoneStamp(cv, zoneId, mode) {
             if (isNew) syncOnce().then(function (note) {
               settleCloudGate();
               maybeLoginBonus();
+              tqlReferralSync();
               /* A login that just completed via an OAuth return gets an
                  explicit welcome confirmation (welcome title + email +
                  which save was kept), confirmed by the player's tap —
