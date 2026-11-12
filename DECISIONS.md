@@ -1034,6 +1034,30 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-382 — The hut moves into the street scene + skyline backdrop (2026-11-12, Zoe)
+
+Zoe approved the street mock ("来试试看"): the hut now stands IN the hero
+street scene and the street itself is densified (she: "街景可以继续优化么
+现在还是太简陋了"). Shipped: (1) a full skyline backdrop layer (.scene-
+skyline, generated inline SVG: 12 varied buildings, window grids; day = soft
+blue with pale windows, midnight = dark navy with ~38% of windows lit lemon —
+the title scene's class-swap pattern; sun/moon repositioned to survive the
+slice crop). (2) The house (#sceneHouse, classed .hs-wall/.hs-win SVG: red
+stepped roof, star sign over the door, day cream / night slate walls, night
+windows glow) stands on the left ground beside the road; tapping it opens the
+hut. (3) The dock hut button is RETIRED (dock = records / gacha / shop) so
+the hut has exactly one entrance. Two implementation lessons, both caught by
+the physical-tap probe: the dock has its OWN click listener (the view-level
+delegation does not cover [data-openwin] outside #heroDock), so the house
+carries an explicit listener mirroring the dock's toggle semantics; and the
+equipment slot columns' container boxes blanket the stage's left strip, so
+the house sits BELOW the slot buttons (bottom:16%) with z-index 6 — its
+centre hit-tests to the button itself. Probes: street_probe ALL PASS
+(3 dock buttons, skyline present, physical tap opens hut, day + midnight
+screenshots reviewed), hut probes at 667/844 and the wall probe pass through
+the new entrance. Gates: syntax x6, test_q351_fits, test_q375_share,
+test_q380_hut ALL PASS.
+
 ## Q-381 — Daily dead band removed + hut wallpapers x6 patterned (2026-11-12, Zoe)
 
 Zoe, same burst: (1) her daily screenshot — a large blank band between the daily
