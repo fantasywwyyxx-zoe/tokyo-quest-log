@@ -1034,6 +1034,15 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-383 - Daily Picks swipe deck replaces the daily scene strip (2026-11-12)
+
+Zoe: the daily view's decorative scene strip "seems useless - what else could it do?" She floated community herself; dev laid out the options against her 2026-10-27 no-community ruling and she PICKED today's-recommendation, then specified the form herself: Meetup/dating-app style left/right SWIPE, fully random, about five (「完全随机 推荐5个左右」, feature name 每日推荐). Mock `~/workspace/daily-swipe-mock-20261112.png` approved same day. Her pool ruling: evergreen and timed MIXED, but a timed quest may only appear while it is currently running. Her flow ruling: "5个画完就没了" - the deck must not dead-end, so it refills as cards are consumed.
+
+- The scene strip `#dailyScene` is hidden (`display: none !important`); its markup/JS stay inert (reversible). The deck section `#dailyDeck` sits in its place inside `.daily-panel`, filled by `renderRecDeck()` at the end of `renderDaily()`. `#view-daily` gets `overflow-y: auto` in the same block so the taller content scrolls instead of clipping.
+- Pool (`recPool`): not cleared, not accepted; evergreen always; timed only when start <= TODAY <= end (future/ended excluded). State: `recDay`/`recSeen`/`recDeck` - the deck resets daily; skipped and accepted cards join `recSeen` and do not repeat that day; the deck keeps 5 stacked and refills from the unseen pool; 换一批 (recShuffle) discards the current five into recSeen and redraws. When the unseen pool is exhausted, an empty card offers 再看一遍 (clears recSeen).
+- Card: real photo, evergreen lemon tag / timed red tag with its end date, name (evName), category + area chips (+ free chip), 2-line clamped blurb (evBlurb), hours line; the next card peeks beneath (translate/scale only, no tilt). Actions: Skip / Want buttons mirror the swipes; drag is pointer-based with a 72px commit threshold and `touch-action: pan-y` so vertical page scroll survives; a tap (no drag) opens the quest detail. Want goes through the canonical `toggleAccept` (sfx + save + renders) plus an "ACCEPTED: <name>" narration. STR x3: recTitle/recEver/recTimed/recUntil/recFree/recSkip/recWant/recShuffle/recAgain/recEmpty/recLeft(n)/recAccepted(name).
+- Verification: syntax x6 OK; bootprobe phone PASS; test_q351_fits + test_q375_share ALL PASS. NEW rec_probe (real CDP drags, not .click()): scene hidden, deck of 5 rendered; drag RIGHT -> accepted +1 and next card; drag LEFT -> no accept, next card; Want button -> accepted +1; tap card -> detail dialog opens. ALL PASS. Deck screenshots reviewed (photo/tag/chips/blurb/hours all inside the card; stack height raised 304->320 after the first shot clipped the hours line). daily_probe still completes DONE 844. Supersedes the unbuilt scene-growing relayout mock of the same day. Device-final = Zoe.
+
 ## Q-382 — The hut moves into the street scene + skyline backdrop (2026-11-12, Zoe)
 
 Zoe approved the street mock ("来试试看"): the hut now stands IN the hero

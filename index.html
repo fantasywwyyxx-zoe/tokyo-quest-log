@@ -13639,6 +13639,39 @@
 .scene-house .hs-win { fill: #bfe3f2; }
 :root[data-theme="midnight"] .scene-house .hs-wall { fill: #47548c; }
 :root[data-theme="midnight"] .scene-house .hs-win { fill: #ffd83d; }
+
+/* Q-383: Daily Picks swipe deck replaces the decorative daily scene strip */
+#dailyScene { display: none !important; }
+#view-daily:not([hidden]) { overflow-y: auto; }
+.daily-deck { margin: 10px 2px 4px; }
+.rec-head { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 7px; }
+.rec-title { font-weight: 800; font-size: 16px; color: var(--ink, #26314f); }
+.rec-shuffle { font: inherit; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; border: 2.5px solid var(--line-c); background: var(--window); color: var(--ink, #26314f); cursor: pointer; box-shadow: 0 2px 0 var(--edge); }
+.rec-shuffle:active { transform: translateY(2px); box-shadow: none; }
+.rec-stack { position: relative; height: 320px; }
+.rec-card { position: absolute; inset: 0; background: var(--window); border: 3px solid var(--line-c); border-radius: 14px; overflow: hidden; box-shadow: 0 3px 0 var(--edge); }
+.rec-card-back { transform: translateY(7px) scale(0.982); opacity: 0.7; }
+.rec-card-top { touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: pointer; }
+.rec-photo { display: block; width: 100%; height: 178px; object-fit: cover; -webkit-user-drag: none; }
+.rec-card-back .rec-photo { height: 100%; }
+.rec-tag { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; border: 2px solid var(--line-c); }
+.rec-tag-ever { background: var(--lemon, #ffd83d); color: #131a2e; }
+.rec-tag-timed { background: #e5484d; color: #ffffff; }
+.rec-info { padding: 8px 12px 10px; }
+.rec-name { font-size: 17px; font-weight: 800; line-height: 1.25; }
+.rec-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.rec-chip { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: color-mix(in srgb, var(--ink, #26314f) 8%, var(--window)); border: 1.5px solid color-mix(in srgb, var(--ink, #26314f) 22%, transparent); }
+.rec-chip-free { background: var(--lemon, #ffd83d); border-color: var(--line-c); }
+.rec-blurb { margin-top: 7px; font-size: 12.5px; line-height: 1.45; color: color-mix(in srgb, var(--ink, #26314f) 72%, transparent); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rec-hours { margin-top: 4px; font-size: 11px; color: color-mix(in srgb, var(--ink, #26314f) 55%, transparent); }
+.rec-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding: 0 2px; }
+.rec-btn { font: inherit; font-size: 14px; font-weight: 800; padding: 9px 20px; border-radius: 999px; border: 3px solid var(--line-c); cursor: pointer; box-shadow: 0 3px 0 var(--edge); }
+.rec-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
+.rec-btn-skip { background: var(--window); color: #e5484d; }
+.rec-btn-want { background: var(--lemon, #ffd83d); color: #131a2e; }
+.rec-left { font-size: 11.5px; font-weight: 700; color: color-mix(in srgb, var(--ink, #26314f) 55%, transparent); }
+.rec-empty { padding: 20px 14px; text-align: center; font-size: 13.5px; font-weight: 700; background: var(--window); border: 3px solid var(--line-c); border-radius: 14px; box-shadow: 0 3px 0 var(--edge); }
+.rec-again { font: inherit; font-size: 12.5px; font-weight: 800; margin-left: 8px; padding: 6px 13px; border-radius: 999px; border: 2.5px solid var(--line-c); background: var(--lemon, #ffd83d); color: #131a2e; cursor: pointer; }
 </style>
   </head>
   <body data-view="map">
@@ -14404,6 +14437,7 @@
           <span class="dprop p2"><svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="1" width="2" height="14" fill="#7e4a21"/><path d="M5 2h8l-2.4 2.6L13 7.2H5z" fill="#ffd83d"/></svg></span>
           <span class="dprop p3"><svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><path d="M8 1l1.8 4.6L14.5 6l-3.6 3.2 1.2 4.8L8 11.4 3.9 14l1.2-4.8L1.5 6l4.7-.4z" fill="#ffd83d" stroke="#b8860b" stroke-width=".8"/></svg></span>
         </div>
+        <div class="daily-deck" id="dailyDeck"></div>
         <div class="win daily-win" id="dailyWin">
           <span class="daily-win-tab" id="dailyTitle"></span>
           <button class="how-toggle" id="dailyHowToggle" type="button" aria-expanded="false" aria-controls="dailyHowBody"><span id="dailyHowLabel"></span><span class="how-chip" id="dailyHowChip" aria-hidden="true"></span></button>
@@ -17266,7 +17300,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261112-1658-q382-2e65e2ba";
+        var BUILD_ID = "tql-20261112-1729-q383-64afc6a4";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18865,7 +18899,7 @@ var qrcode = function() {
           tutNext: "NEXT ▶", tutBack: "◀ BACK", tutSkip: "SKIP", tutDone: "START ▶", tutReplay: "HOW TO PLAY",
           styleBtn: "SETTINGS",
           bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "✕",
-          dailyTitle: "Today's Daily",
+          dailyTitle: "Today's Daily", recTitle: "Daily Picks", recEver: "Evergreen", recTimed: "Limited", recUntil: "until", recFree: "Free", recSkip: "Skip", recWant: "Want to go", recShuffle: "Shuffle", recAgain: "Show again", recEmpty: "You have seen every pick for today.", recLeft: function (n) { return n + " stacked"; }, recAccepted: function (name) { return "ACCEPTED: " + name; }, 
           dailySub: "Walking your day IS the daily quest. Each one +10 EXP.",
           dailyNpc: "Psst — this is today's daily: the everyday walk itself, done in minutes, anywhere. The adventure quests are waiting out on the map!",
           dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 to complete today's daily for +30 EXP.",
@@ -19760,7 +19794,7 @@ var qrcode = function() {
           tutNext: "つぎへ ▶", tutBack: "◀ もどる", tutSkip: "スキップ", tutDone: "はじめる ▶", tutReplay: "あそびかた",
           styleBtn: "設定",
           bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "✕",
-          dailyTitle: "今日のデイリー",
+          dailyTitle: "今日のデイリー", recTitle: "今日のおすすめ", recEver: "常設", recTimed: "期間限定", recUntil: "〜", recFree: "無料", recSkip: "スキップ", recWant: "行きたい", recShuffle: "シャッフル", recAgain: "もう一度見る", recEmpty: "今日のおすすめは全部見たよ。", recLeft: function (n) { return n + "枚"; }, recAccepted: function (name) { return "受注した：" + name; }, 
           dailySub: "毎日を歩くこと自体がデイリー。1件 +10 EXP。",
           dailyNpc: "これは今日のデイリー——移動なし、どこでも数分で終わる、毎日の歩みそのもの。寄り道の冒険クエストはマップで待ってるよ！",
           dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で今日のデイリー完了、+30 EXP。",
@@ -20655,7 +20689,7 @@ var qrcode = function() {
           tutNext: "下一步 ▶", tutBack: "◀ 返回", tutSkip: "跳过", tutDone: "开始 ▶", tutReplay: "玩法介绍",
           styleBtn: "设置",
           bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "✕",
-          dailyTitle: "今日每日任务",
+          dailyTitle: "今日每日任务", recTitle: "每日推荐", recEver: "常驻", recTimed: "限时", recUntil: "截止", recFree: "免费", recSkip: "跳过", recWant: "想去", recShuffle: "换一批", recAgain: "再看一遍", recEmpty: "今天能推荐的都看完啦。", recLeft: function (n) { return "牌组 " + n; }, recAccepted: function (name) { return "已接下：" + name; }, 
           dailySub: "每天走下去的过程，本身就是每日任务。每件 +10 EXP。",
           dailyNpc: "这是今日每日任务：不用出门，在任何地方几分钟就能完成——走下去的每一天就是每日任务。真正的冒险任务，在地图上等着你！",
           dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 = 今日每日任务完成，+30 EXP。",
@@ -23017,7 +23051,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, hutWall: "pink", hutFullBonus: false, hutSets: {}, hutAllBonus: false, refFrom: "", refBonus: false, refDone: false, refClaimed: 0, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, hutWall: "pink", hutFullBonus: false, hutSets: {}, hutAllBonus: false, refFrom: "", refBonus: false, refDone: false, refClaimed: 0, recDay: "", recSeen: [], recDeck: [], bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -32061,6 +32095,105 @@ function drawZoneStamp(cv, zoneId, mode) {
           return { idx: pi, name: q.n, desc: q.d, cat: q.c, lucky: !!q.b };
         });
       }
+      var REC_DECK_N = 5;
+      function recPool() {
+        return EVENTS.filter(function (e) {
+          if (!e || isCleared(e.id) || isAccepted(e.id)) return false;
+          if (e.evergreen) return true;
+          if (e.start && e.start > TODAY) return false;
+          if (e.end && e.end < TODAY) return false;
+          return true;
+        });
+      }
+      function recEnsure() {
+        if (state.recDay !== TODAY) { state.recDay = TODAY; state.recSeen = []; state.recDeck = []; }
+        if (!Array.isArray(state.recSeen)) state.recSeen = [];
+        if (!Array.isArray(state.recDeck)) state.recDeck = [];
+        state.recDeck = state.recDeck.filter(function (id) { var e = byId(id); return !!e && !isCleared(id) && !isAccepted(id); });
+        var pool = recPool().filter(function (e) { return state.recSeen.indexOf(e.id) === -1 && state.recDeck.indexOf(e.id) === -1; });
+        while (state.recDeck.length < REC_DECK_N && pool.length) {
+          var k = Math.floor(Math.random() * pool.length);
+          state.recDeck.push(pool[k].id);
+          pool.splice(k, 1);
+        }
+      }
+      function recSwipe(id, wantIt) {
+        if (!state.recDeck || state.recDeck[0] !== id) return;
+        state.recDeck.shift();
+        if (state.recSeen.indexOf(id) === -1) state.recSeen.push(id);
+        if (wantIt) { toggleAccept(id); narrate(L().recAccepted(evName(byId(id)))); }
+        save();
+        renderRecDeck();
+      }
+      function renderRecDeck() {
+        var host = document.getElementById("dailyDeck");
+        if (!host) return;
+        recEnsure();
+        var t = L();
+        var ids = state.recDeck;
+        if (!ids.length) {
+          host.innerHTML = '<div class="rec-head"><span class="rec-title">' + esc(t.recTitle) + '</span></div>' +
+            '<div class="rec-empty">' + esc(t.recEmpty) + (state.recSeen.length ? ' <button type="button" class="rec-again" id="recAgain">' + esc(t.recAgain) + '</button>' : '') + '</div>';
+          var ag = document.getElementById("recAgain");
+          if (ag) ag.addEventListener("click", function () { state.recSeen = []; save(); renderRecDeck(); });
+          return;
+        }
+        var e = byId(ids[0]);
+        if (!e) { state.recDeck.shift(); renderRecDeck(); return; }
+        var next = ids.length > 1 ? byId(ids[1]) : null;
+        var tag = e.evergreen
+          ? '<span class="rec-tag rec-tag-ever">' + esc(t.recEver) + '</span>'
+          : '<span class="rec-tag rec-tag-timed">' + esc(t.recTimed) + (e.end ? ' \u00b7 ' + esc(t.recUntil) + ' ' + esc(e.end.slice(5).replace("-", "/")) : '') + '</span>';
+        host.innerHTML =
+          '<div class="rec-head"><span class="rec-title">' + esc(t.recTitle) + '</span><button type="button" class="rec-shuffle" id="recShuffle">' + esc(t.recShuffle) + '</button></div>' +
+          '<div class="rec-stack">' +
+            (next ? '<div class="rec-card rec-card-back" aria-hidden="true"><img class="rec-photo" src="' + esc(next.img) + '" alt="" draggable="false"><div class="rec-info"><div class="rec-name">' + esc(evName(next)) + '</div></div></div>' : '') +
+            '<div class="rec-card rec-card-top" id="recTop">' +
+              '<img class="rec-photo" src="' + esc(e.img) + '" alt="" draggable="false">' + tag +
+              '<div class="rec-info"><div class="rec-name">' + esc(evName(e)) + '</div>' +
+              '<div class="rec-chips"><span class="rec-chip">' + esc(catName(e.category)) + '</span><span class="rec-chip">' + esc(e.area) + '</span>' + (e.free ? '<span class="rec-chip rec-chip-free">' + esc(t.recFree) + '</span>' : '') + '</div>' +
+              '<div class="rec-blurb">' + esc(evBlurb(e)) + '</div>' +
+              '<div class="rec-hours">' + esc(e.hours || "") + '</div></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="rec-actions"><button type="button" class="rec-btn rec-btn-skip" id="recSkip">' + esc(t.recSkip) + '</button><span class="rec-left">' + esc(t.recLeft(ids.length)) + '</span><button type="button" class="rec-btn rec-btn-want" id="recWant">' + esc(t.recWant) + '</button></div>';
+        wireRecDeck(e.id);
+      }
+      function wireRecDeck(id) {
+        var top = document.getElementById("recTop");
+        var skip = document.getElementById("recSkip"), want = document.getElementById("recWant"), sh = document.getElementById("recShuffle");
+        if (skip) skip.addEventListener("click", function () { recSwipe(id, false); });
+        if (want) want.addEventListener("click", function () { recSwipe(id, true); });
+        if (sh) sh.addEventListener("click", function () { state.recSeen = state.recSeen.concat(state.recDeck); state.recDeck = []; save(); renderRecDeck(); });
+        if (!top) return;
+        var sx = 0, sy = 0, dx = 0, dragging = false, moved = false;
+        top.addEventListener("pointerdown", function (ev) {
+          sx = ev.clientX; sy = ev.clientY; dx = 0; dragging = true; moved = false;
+          try { top.setPointerCapture(ev.pointerId); } catch (err) {}
+        });
+        top.addEventListener("pointermove", function (ev) {
+          if (!dragging) return;
+          dx = ev.clientX - sx;
+          var dy = ev.clientY - sy;
+          if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
+          if (Math.abs(dx) > Math.abs(dy)) {
+            top.style.transform = "translateX(" + dx + "px)";
+            top.style.opacity = String(1 - Math.min(0.35, Math.abs(dx) / 500));
+          }
+        });
+        function endDrag(commit) {
+          if (!dragging) return;
+          dragging = false;
+          var d = dx;
+          top.style.transform = "";
+          top.style.opacity = "";
+          if (commit && Math.abs(d) >= 72) recSwipe(id, d > 0);
+          else if (!moved) openDetail(id);
+          dx = 0;
+        }
+        top.addEventListener("pointerup", function () { endDrag(true); });
+        top.addEventListener("pointercancel", function () { endDrag(false); });
+      }
       function renderDaily() {
         ensureDaily();
         var t = L();
@@ -32101,6 +32234,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         document.querySelectorAll("[data-daily]").forEach(function (b) {
           b.addEventListener("click", function () { completeDaily(parseInt(b.getAttribute("data-daily"), 10)); });
         });
+        renderRecDeck();
         renderStreak();
         document.getElementById("calOpenBtn").innerHTML = ICONS.cal + "<span>" + esc(t.calOpen) + "</span>";
         var dHr = new Date().getHours();
