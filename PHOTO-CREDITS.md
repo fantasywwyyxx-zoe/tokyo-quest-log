@@ -224,3 +224,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c92-arakawa-promise | https://commons.wikimedia.org/wiki/File:日暮里駅全景.jpg | CC0 | Punkssand (venue photo: Nippori Station panorama)
 - c93-teamlab-hamarikyu | https://www.teamlab.art/jp/e/hamarikyu/ | Official website photo (© teamLab) | teamLab
 - c94-jindai-autumn-rally | https://www.atpress.ne.jp/news/9089903 | Official press release photo (© Tokyo Metropolitan Park Association) | Tokyo Metropolitan Park Association (venue photo: Jindai Botanical Gardens rose garden)
+- c97-tokyo-illumilia | https://tokyoillumilia.net/ | Official website photo (© TOKYO ILLUMILIA) | TOKYO ILLUMILIA (venue photo: Nihonbashi Sakura-dori at night)
