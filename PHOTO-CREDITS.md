@@ -225,3 +225,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c93-teamlab-hamarikyu | https://www.teamlab.art/jp/e/hamarikyu/ | Official website photo (© teamLab) | teamLab
 - c94-jindai-autumn-rally | https://www.atpress.ne.jp/news/9089903 | Official press release photo (© Tokyo Metropolitan Park Association) | Tokyo Metropolitan Park Association (venue photo: Jindai Botanical Gardens rose garden)
 - c97-tokyo-illumilia | https://tokyoillumilia.net/ | Official website photo (© TOKYO ILLUMILIA) | TOKYO ILLUMILIA (venue photo: Nihonbashi Sakura-dori at night)
+- c99-shozokan-beauty | https://shozokan.nich.go.jp/feature/grand-opening/beauty/ | Official website photo (© The Museum of the Imperial Collections, Sannomaru Shozokan) | The Museum of the Imperial Collections, Sannomaru Shozokan (venue photo: museum exterior, east side)
