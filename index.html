@@ -17360,7 +17360,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1227-q391-f4352571";
+        var BUILD_ID = "tql-20261115-1239-q392-dedfafae";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18344,6 +18344,7 @@ var qrcode = function() {
           boardOpen: "OPEN",
           boardTitle: "QUEST BOARD", backBtn: "◀ BACK",
           posterBtn: "🖼 SHARE POSTER", posterCta: "Start your quest now!", posterIntro: "Tokyo's sights and hidden gems, as quests.", posterScan: "Scan the code to play", posterSaved: "Poster saved — share it anywhere!", posterFail: "Could not make the poster.", sharePickTitle: "Share", shareSys: "Share image…", shareX: "Post to X", shareThreads: "Post to Threads", shareLine: "Send to LINE", shareSaveImage: "Save image", shareSysDone: "Shared!", shareFailed: "That did not open here. Save the image and share it from your photos.", shareSavedNote: "Image saved — attach it in the app that opened.",
+          shareSaved: "Image saved.",
           viewPhoto: "View full photo",
           viewerClose: "✕ CLOSE",
           viewerHint: "Pinch or double-tap to zoom · drag to pan",
@@ -19241,6 +19242,7 @@ var qrcode = function() {
           boardOpen: "詳細",
           boardTitle: "クエスト掲示板", backBtn: "◀ もどる",
           posterBtn: "🖼 ポスターで共有", posterCta: "今すぐクエスト開始！", posterIntro: "東京の名所と穴場をクエストにした街歩きゲーム。", posterScan: "スキャンしてプレイ", posterSaved: "ポスターを保存しました", posterFail: "ポスターを作れませんでした", sharePickTitle: "シェアする", shareSys: "画像を共有", shareX: "X に投稿", shareThreads: "Threads に投稿", shareLine: "LINE で送る", shareSaveImage: "画像を保存", shareSysDone: "シェアしました", shareFailed: "ここでは開けませんでした。画像を保存して、写真からシェアしてください。", shareSavedNote: "画像を保存しました。開いたアプリで画像を添付してください",
+          shareSaved: "画像を保存しました",
           viewPhoto: "写真を全体表示",
           viewerClose: "✕ 閉じる",
           viewerHint: "ピンチ／ダブルタップで拡大 · ドラッグで移動",
@@ -20138,6 +20140,7 @@ var qrcode = function() {
           boardOpen: "详情",
           boardTitle: "任务公告板", backBtn: "◀ 返回",
           posterBtn: "🖼 海报分享", posterCta: "现在就开始冒险！", posterIntro: "把东京各处的宝藏地点，做成任务的冒险游戏。", posterScan: "扫码开始冒险", posterSaved: "海报已保存，快分享出去吧", posterFail: "海报生成失败", sharePickTitle: "分享到", shareSys: "分享图片", shareX: "发布到 X", shareThreads: "发布到 Threads", shareLine: "发送到 LINE", shareSaveImage: "保存图片", shareSysDone: "已分享", shareFailed: "在这里打不开。先保存图片，再从相册分享吧。", shareSavedNote: "图片已保存，请在打开的应用里附上图片",
+          shareSaved: "图片已保存",
           viewPhoto: "全屏查看照片",
           viewerClose: "✕ 关闭",
           viewerHint: "双指捏合／双击缩放 · 拖动平移",
@@ -30119,6 +30122,25 @@ function drawRunnerFrame(ctx, frame, blink) {
           });
         } else ctx.fallback();
       }
+      function shareCtxImageFile(ctx, done) {
+        var finish = function (st) { try { done(st); } catch (e) {} };
+        try {
+          if (navigator.share && navigator.canShare && ctx.cv && ctx.cv.toBlob) {
+            ctx.cv.toBlob(function (blob) {
+              if (!blob) { finish(saveCtxImage(ctx) ? "ok" : "fail"); return; }
+              var f = null;
+              try { f = new File([blob], ctx.fileName, { type: "image/png" }); } catch (err) {}
+              if (!f || !navigator.canShare({ files: [f] })) { finish(saveCtxImage(ctx) ? "ok" : "fail"); return; }
+              navigator.share({ files: [f] }).then(function () { finish("ok"); }, function (err) {
+                if (err && err.name === "AbortError") { finish("cancel"); return; }
+                finish(saveCtxImage(ctx) ? "ok" : "fail");
+              });
+            }, "image/png");
+            return;
+          }
+        } catch (e) { /* fall through to the download */ }
+        finish(saveCtxImage(ctx) ? "ok" : "fail");
+      }
       function saveCtxImage(ctx) {
         try {
           var a = document.createElement("a");
@@ -30161,9 +30183,11 @@ function drawRunnerFrame(ctx, frame, blink) {
         var t = L();
         if (kind === "system") { sysShare(ctx); return; }
         if (kind === "save") {
-          var okS = saveCtxImage(ctx);
-          setShareStatus(okS ? t.shareSavedNote : t.shareFailed);
-          if (okS) ctx.grant("");
+          shareCtxImageFile(ctx, function (st) {
+            if (st === "ok") { setShareStatus(t.shareSaved); ctx.grant(""); }
+            else if (st === "fail") setShareStatus(t.shareFailed);
+            else setShareStatus("");
+          });
           return;
         }
         if (kind === "threads") { threadsShare(ctx); setShareStatus(t.shareSavedNote); return; }
