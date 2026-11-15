@@ -13682,6 +13682,12 @@
 #hsegHut .hut-room.hut-wall-lemon { background: radial-gradient(#ffd83d 2.6px, rgba(0,0,0,0) 3.1px) 0 0/18px 18px repeat, linear-gradient(to bottom, #fff8dc 0, #fff8dc 55%, #fff6e8 55%, #fff6e8 calc(55% + 5px), #dca76b calc(55% + 5px), #dca76b 100%); }
 /* Q-384: the anytime re-share button must read as tappable (Zoe: the pale grey looked disabled) */
 #btnClearShare { background: var(--lemon, #ffd83d); color: #131a2e; }
+
+/* Q-385: title-screen language segmented control - big, gold current, pulse for first-timers */
+.title-lang-seg { display: flex; gap: 6px; width: min(340px, 88%); margin: 12px auto 0; }
+.title-lang-seg .lang-opt { padding: 11px 4px; font-size: 14.5px; border-width: 2.5px; border-radius: 10px; }
+.title-lang-seg:not(.lang-seen) { animation: langSegPulse 1.7s ease-out infinite; border-radius: 12px; }
+@keyframes langSegPulse { 0% { box-shadow: 0 0 0 0 rgba(255, 216, 61, 0.85); } 70% { box-shadow: 0 0 0 12px rgba(255, 216, 61, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 216, 61, 0); } }
 </style>
   </head>
   <body data-view="map">
@@ -13736,7 +13742,11 @@
             <div class="start-acct-btns">
               <button class="auth-mini-btn is-login" id="titleLoginBtn" type="button"></button>
               <a class="auth-mini-btn is-support" id="titleSupportBtn" href="https://tokyoquestlog.com/support/" target="_blank" rel="noopener"></a>
-              <button class="lang-globe-btn" id="titleLangBtn" type="button"></button>
+              <div class="lang-seg title-lang-seg" id="titleLangSeg" role="radiogroup" aria-label="Language">
+                <button class="lang-opt" type="button" role="radio" data-lang-opt="ja" aria-checked="false">日本語</button>
+                <button class="lang-opt" type="button" role="radio" data-lang-opt="en" aria-checked="false">ENGLISH</button>
+                <button class="lang-opt" type="button" role="radio" data-lang-opt="zh" aria-checked="false">中文</button>
+              </div>
                           </div>
             <button class="auth-mini-btn is-beta" id="titleBetaBtn" type="button"></button>
           </div>
@@ -17311,7 +17321,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1104-q384-7754a346";
+        var BUILD_ID = "tql-20261115-1110-q385-f2dfa4c5";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -23065,7 +23075,7 @@ var qrcode = function() {
           return (o && (o.lang === "en" || o.lang === "ja" || o.lang === "zh")) ? o.lang : "";
         } catch (e) { return ""; }
       }
-      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, hutWall: "pink", hutFullBonus: false, hutSets: {}, hutAllBonus: false, refFrom: "", refBonus: false, refDone: false, refClaimed: 0, recDay: "", recSeen: [], recDeck: [], bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
+      var state = { lang: "ja", muted: false, theme: "auto", font: "rounded", hero: "yusha", custom: null, name: "", started: false, accepted: [], clears: [], dailyExp: 0, dailyTotal: 0, daily: { date: "", done: [], bonus: false }, bonusExp: 0, coins: 0, coinDay: { d: "", total: 0, mg: 0 }, coinWelcome: false, framesOwned: [], frame: "", furnitureOwned: [], hutOwned: [], hutPlaced: {}, hutGift: false, hutWall: "pink", hutFullBonus: false, hutSets: {}, hutAllBonus: false, refFrom: "", refBonus: false, refDone: false, refClaimed: 0, recDay: "", recSeen: [], recDeck: [], langTouched: false, bgmDay: "day-1", bgmNight: "night-2", tutored: false, sceneSeen: 0, remoteDate: "", puzzle: [], puzzleDone: false, ticketBonus: 0, loginBonus: false, sharedEver: false, shareDate: "", dayLog: {}, diary: {}, zoneBonus: [], legendProg: {}, legendActive: "", gacha: { pulls: 0, owned: [], dupes: {}, equipped: { hat: null, outfit: null, scarf: null } }, displayName: "", wishText: "", nameAsked: false, runner: { date: "", best: 0, rewarded: false, plays: 0, won: {} }, guess: { date: "", solved: [] }, games: { jump: 0, catch: 0, memory: 0, whack: 0 }, homeProg: null, mfHintSeen: false };
       /* a profile counts as EXISTING the moment any save bytes sit
          under the key at all: the tutorial's single auto-open is
          reserved for a truly fresh profile (no save whatsoever).
@@ -27752,6 +27762,9 @@ function drawRunnerFrame(ctx, frame, blink) {
          choice that outranks any save-side lang from then on. */
       function setLang(l) {
         if (l !== "en" && l !== "ja" && l !== "zh") return;
+        state.langTouched = true;
+        var tls3 = document.getElementById("titleLangSeg");
+        if (tls3) tls3.classList.add("lang-seen");
         if (l !== state.lang) {
           state.lang = l;
           try { localStorage.setItem(LANG_KEY, JSON.stringify({ lang: l, ts: Date.now() })); } catch (e) { /* storage unavailable — the in-memory choice still applies to every screen this session */ }
@@ -33353,7 +33366,10 @@ function drawZoneStamp(cv, zoneId, mode) {
       /* the title screen reaches the SAME global settings sheet —
          one settings door on every screen, title included */
       document.getElementById("startStyleBtn").addEventListener("click", function () { document.getElementById("styleBtn").click(); });
-      document.getElementById("titleLangBtn").addEventListener("click", function () {
+      var tls0 = document.getElementById("titleLangSeg");
+        if (tls0 && (state.langTouched || state.started)) tls0.classList.add("lang-seen");
+        var tlb2 = document.getElementById("titleLangBtn");
+        if (tlb2) tlb2.addEventListener("click", function () {
         var box = document.getElementById("langPick");
         if (!box) return;
         document.getElementById("langPickTitle").textContent = L().langLabel;
