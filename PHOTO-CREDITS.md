@@ -229,3 +229,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c100-tatemonoen | https://www.tatemonoen.jp/restore/intro/east.php | Official website photo (© Edo-Tokyo Open Air Architectural Museum) | Edo-Tokyo Open Air Architectural Museum (venue photo: Kagiya izakaya exterior, East Zone)
 - c101-sengakuji | https://commons.wikimedia.org/wiki/File:Templo_Sengakuji.jpg | CC BY-SA 2.5 | Adriano (venue photo: Sengakuji main hall)
 - c102-matsuchiyama | https://www.matsuchiyama.jp/ | Official website photo (© Matsuchiyama Shoden Honryuin) | Matsuchiyama Shoden Honryuin (venue photo: main hall exterior)
+- c104-yushima-seido | https://commons.wikimedia.org/wiki/File:Yushima_Seido_002.jpg | CC0 | Ocdp (venue photo: Taiseiden main hall)
+- c105-sumo-museum | https://www.sumo.or.jp/KokugikanSumoMuseum/overview/ | Official website photo (© Japan Sumo Association) | Japan Sumo Association (venue photo: Sumo Museum exhibition room)
+- c106-asukayama-park | https://commons.wikimedia.org/wiki/File:Cherry_blossoms_@_Asukayama_Park_@_Oji_(13593245903).jpg | CC BY 2.0 | Guilhem Vellut (venue photo: preserved Toei 6000 tram under cherry blossom)
