@@ -1034,6 +1034,10 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-390 - Share sheet outranks the mini-game screens (2026-11-15)
+
+Found while filming the share-features promo: from a mini-game result screen, the share sheet opened BEHIND the game window - invisible and untappable. The mg hub/game screens are .auth-screen overlays at z-index 640; the sheet (.map-pick) is z 80 and, the mg screens being plain divs rather than <dialog>, openSharePick hosts it in body. The Q-376 paint-verify's one-time re-host to body could not fix a stacking-level problem. Reproduced headlessly (hit-test at the sheet centre landed on the hub). Fix: #sharePick { z-index: 700 } - above every in-page overlay; native dialog hosts are top-layer and unaffected, and the celebration (200) and Daily Picks overlay (85) correctly stay under the sheet. Stack probe now hits inside the sheet; share unit tests and the poster-FAB probe pass. Device-final = Zoe (any mini-game result -> poster share).
+
 ## Q-389 - Title account row wraps: language seg gets its own line (2026-11-15)
 
 Zoe (via ops, red-circled screenshot): on the title panel the login (red) and support (cream) pills were crushed to slivers spilling past the panel's left edge, labels clipped vertically. Cause: Q-385's wide language seg joined .start-acct-btns, a single-line flex row designed around the old small pill (Q-331); the seg claimed the row and the two flex buttons (1.3/1) collapsed. Fix (CSS only): the row wraps - the seg takes its own full-width first line (order -1, also the most prominent spot per her Q-385 intent), login/support share the second line at their designed ratio. Verified by geometry (seg 328 wide on its own line; login 180, support 140, all inside the panel; panel still ends at 830 on the 844 viewport) and a reviewed screenshot. Device-final = Zoe.

@@ -13712,6 +13712,9 @@
 .start-acct-btns { flex-wrap: wrap; row-gap: 6px; }
 .start-acct-btns .title-lang-seg { order: -1; flex: 1 1 100%; width: 100%; margin: 0; }
 .start-acct-btns .title-lang-seg .lang-opt { padding: 9px 4px; }
+
+/* Q-390: the share sheet must outrank the mini-game screens (.auth-screen z 640) */
+#sharePick { z-index: 700; }
 </style>
   </head>
   <body data-view="map">
@@ -17351,7 +17354,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1136-q389-4a91117a";
+        var BUILD_ID = "tql-20261115-1143-q390-c2fa7352";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
