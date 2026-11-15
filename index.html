@@ -13720,6 +13720,20 @@
 #view-daily .daily-panel { flex: 1 1 auto; }
 /* Q-391: list summary wraps inside its flex slot instead of overlaying the state button */
 #view-list .list-bar .search-summary { white-space: normal; overflow-wrap: anywhere; }
+
+/* Q-393: first-run language gate (reference pattern from Zoe) */
+.lang-gate { position: fixed; inset: 0; z-index: 900; display: flex; align-items: center; justify-content: center; background: rgba(19, 26, 46, 0.55); padding: 18px; }
+.lang-gate[hidden] { display: none; }
+.lang-gate-card { width: min(340px, 92vw); background: #fffaf0; border: 3px solid #22303c; border-radius: 16px; box-shadow: 0 6px 0 rgba(19, 26, 46, 0.45); padding: 22px 20px 20px; text-align: center; }
+.lang-gate-title { font-size: 23px; font-weight: 800; color: #22303c; letter-spacing: 0.06em; }
+.lang-gate-sub { font-size: 11.5px; font-weight: 700; color: #8a8f98; margin: 4px 0 14px; }
+.lang-gate-opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 14px; margin: 0 0 10px; background: #ffffff; border: 2.5px solid #ddd3ba; border-radius: 12px; cursor: pointer; text-align: left; }
+.lang-gate-opt .lg-name { font-size: 17.5px; font-weight: 800; color: #22303c; }
+.lang-gate-opt .lg-dot { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 3px solid #c9c2ae; background: #ffffff; }
+.lang-gate-opt.is-on { border-color: #e2483a; background: #fff3e8; }
+.lang-gate-opt.is-on .lg-dot { border-color: #e2483a; background: #e2483a; box-shadow: inset 0 0 0 3.5px #ffffff; }
+.lang-gate-ok { width: 100%; margin-top: 6px; padding: 14px; font-size: 17px; font-weight: 800; letter-spacing: 0.08em; color: #ffffff; background: #e2483a; border: 3px solid #22303c; border-radius: 999px; box-shadow: 0 3px 0 #22303c; cursor: pointer; }
+.lang-gate-ok:active { transform: translateY(2px); box-shadow: 0 1px 0 #22303c; }
 </style>
   </head>
   <body data-view="map">
@@ -14916,7 +14930,19 @@
       </div>
     </dialog>
 
-    <dialog id="detail" aria-labelledby="detailName" tabindex="-1">
+    
+<div class="lang-gate" id="langGate" hidden role="dialog" aria-modal="true" aria-label="Language">
+  <div class="lang-gate-card">
+    <div class="lang-gate-title">言語選択</div>
+    <div class="lang-gate-sub">Language · 语言 · 言語</div>
+    <button type="button" class="lang-gate-opt" data-gate-lang="zh" role="radio" aria-checked="false"><span class="lg-dot"></span><span class="lg-name">中文</span></button>
+    <button type="button" class="lang-gate-opt" data-gate-lang="ja" role="radio" aria-checked="false"><span class="lg-dot"></span><span class="lg-name">日本語</span></button>
+    <button type="button" class="lang-gate-opt" data-gate-lang="en" role="radio" aria-checked="false"><span class="lg-dot"></span><span class="lg-name">English</span></button>
+    <button type="button" class="lang-gate-ok" id="langGateOk">確認</button>
+  </div>
+</div>
+
+<dialog id="detail" aria-labelledby="detailName" tabindex="-1">
       <div class="win detail-win">
         <div class="detail-body">
           <div class="detail-head">
@@ -17360,7 +17386,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1239-q392-dedfafae";
+        var BUILD_ID = "tql-20261115-1250-q393-9ec2f30c";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -34222,6 +34248,31 @@ function drawZoneStamp(cv, zoneId, mode) {
       window.addEventListener("touchend", vvhRelease, { passive: true });
       window.addEventListener("touchcancel", vvhRelease, { passive: true });
 
+
+      var gateLang = null;
+      var GATE_OK = { ja: "\u78ba\u8a8d", zh: "\u786e\u8ba4", en: "OK" };
+      function gatePaint() {
+        var opts = document.querySelectorAll("[data-gate-lang]");
+        for (var k = 0; k < opts.length; k++) {
+          var on = opts[k].getAttribute("data-gate-lang") === gateLang;
+          opts[k].setAttribute("aria-checked", on ? "true" : "false");
+          opts[k].classList.toggle("is-on", on);
+        }
+        var ok = document.getElementById("langGateOk");
+        if (ok) ok.textContent = GATE_OK[gateLang] || GATE_OK.ja;
+      }
+      function maybeLangGate() {
+        try {
+          if (explicitLang() || state.langTouched) return;
+          var g = document.getElementById("langGate");
+          if (!g) return;
+          var nav = (navigator.language || "ja").slice(0, 2);
+          gateLang = (nav === "zh" || nav === "en") ? nav : state.lang;
+          gatePaint();
+          g.hidden = false;
+        } catch (e) { /* the gate is a courtesy - never block boot */ }
+      }
+
       try {
         renderAll();
         applyTheme(state.theme, false);
@@ -34230,6 +34281,28 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderMapFilterFold();
         setStatusMin(true);
         showStart(false);
+
+      (function () {
+        var g = document.getElementById("langGate");
+        if (!g) return;
+        var opts = g.querySelectorAll("[data-gate-lang]");
+        for (var k = 0; k < opts.length; k++) {
+          opts[k].addEventListener("click", function () {
+            gateLang = this.getAttribute("data-gate-lang");
+            gatePaint();
+            if (gateLang !== state.lang) setLang(gateLang);
+            else sfx("move");
+          });
+        }
+        var ok = document.getElementById("langGateOk");
+        if (ok) ok.addEventListener("click", function () {
+          if (gateLang && gateLang !== state.lang) setLang(gateLang);
+          else { state.langTouched = true; save(); }
+          sfx("open");
+          g.hidden = true;
+        });
+      })();
+        maybeLangGate();
         if (window.__tqlBootOk) window.__tqlBootOk(); /* Q-292: boot completed — stand the watchdog down */
         clearInterval(__tqlBeatTimer); /* Q-295: heartbeat no longer needed */
         try {
