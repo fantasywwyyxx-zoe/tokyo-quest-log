@@ -226,3 +226,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c94-jindai-autumn-rally | https://www.atpress.ne.jp/news/9089903 | Official press release photo (© Tokyo Metropolitan Park Association) | Tokyo Metropolitan Park Association (venue photo: Jindai Botanical Gardens rose garden)
 - c97-tokyo-illumilia | https://tokyoillumilia.net/ | Official website photo (© TOKYO ILLUMILIA) | TOKYO ILLUMILIA (venue photo: Nihonbashi Sakura-dori at night)
 - c99-shozokan-beauty | https://shozokan.nich.go.jp/feature/grand-opening/beauty/ | Official website photo (© The Museum of the Imperial Collections, Sannomaru Shozokan) | The Museum of the Imperial Collections, Sannomaru Shozokan (venue photo: museum exterior, east side)
+- c100-tatemonoen | https://www.tatemonoen.jp/restore/intro/east.php | Official website photo (© Edo-Tokyo Open Air Architectural Museum) | Edo-Tokyo Open Air Architectural Museum (venue photo: Kagiya izakaya exterior, East Zone)
+- c101-sengakuji | https://commons.wikimedia.org/wiki/File:Templo_Sengakuji.jpg | CC BY-SA 2.5 | Adriano (venue photo: Sengakuji main hall)
+- c102-matsuchiyama | https://www.matsuchiyama.jp/ | Official website photo (© Matsuchiyama Shoden Honryuin) | Matsuchiyama Shoden Honryuin (venue photo: main hall exterior)
