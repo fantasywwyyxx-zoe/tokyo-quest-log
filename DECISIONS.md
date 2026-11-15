@@ -1034,6 +1034,10 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-386 - Daily Picks deck compacted so the daily page fits the first view (2026-11-15)
+
+Zoe via the ops relay: the swipe deck takes too much vertical room - the how-to fold, the mini-game entry and the daily rows fall below the first view. Per her direction examples: card photo 178 -> 104px, blurb clamped to one line, tighter deck margins; stack 320 -> 224px. The how-to fold already defaults to folded. Swipe mechanics untouched (rec probe ALL PASS with real drags). Measured on the 844 viewport: deck bottom 371px, the daily window starts at 378px and the mini-game entry ends at 734px - the whole daily page (deck + how-to + streak + daily rows + mini-game entry) is now inside the first view. Device-final = Zoe.
+
 ## Q-385 - Title-screen language switch becomes a big segmented control (2026-11-15)
 
 Zoe: the homepage language button is too inconspicuous - first-time visitors assume there is no Chinese/Japanese. The small pale globe pill (which opened the langPick popover) is replaced ON the title screen by a three-way segmented control - Japanese / ENGLISH / Chinese - at 14.5px with the current language in the same gold gradient the settings seg uses. It reuses the existing global [data-lang-opt] click wiring (setLang) and aria-checked refresh, so there are no new handlers; the old pill's label render was already null-guarded and its click listener is now guarded too (langPick itself stays in the DOM). First-run guidance: the seg carries a gentle lemon pulse ring until the visitor first switches language (state.langTouched, set inside setLang) or has a started profile (checked at wiring time). Probes: fresh-profile boot - seg visible, pulse ON, tapping the Chinese segment switches the whole UI (start button label changes), pulse stops; veteran save - no pulse. bootprobe zero/phone PASS, syntax x6 OK, test_q351_fits + test_q375_share ALL PASS. Device-final = Zoe.

@@ -13643,16 +13643,16 @@
 /* Q-383: Daily Picks swipe deck replaces the decorative daily scene strip */
 #dailyScene { display: none !important; }
 #view-daily:not([hidden]) { overflow-y: auto; }
-.daily-deck { margin: 10px 2px 4px; }
-.rec-head { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 7px; }
+.daily-deck { margin: 8px 2px 2px; }
+.rec-head { display: flex; align-items: center; justify-content: space-between; margin: 0 2px 6px; }
 .rec-title { font-weight: 800; font-size: 16px; color: var(--ink, #26314f); }
 .rec-shuffle { font: inherit; font-size: 12px; font-weight: 700; padding: 5px 11px; border-radius: 999px; border: 2.5px solid var(--line-c); background: var(--window); color: var(--ink, #26314f); cursor: pointer; box-shadow: 0 2px 0 var(--edge); }
 .rec-shuffle:active { transform: translateY(2px); box-shadow: none; }
-.rec-stack { position: relative; height: 320px; }
+.rec-stack { position: relative; height: 224px; }
 .rec-card { position: absolute; inset: 0; background: var(--window); border: 3px solid var(--line-c); border-radius: 14px; overflow: hidden; box-shadow: 0 3px 0 var(--edge); }
 .rec-card-back { transform: translateY(7px) scale(0.982); opacity: 0.7; }
 .rec-card-top { touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: pointer; }
-.rec-photo { display: block; width: 100%; height: 178px; object-fit: cover; -webkit-user-drag: none; }
+.rec-photo { display: block; width: 100%; height: 104px; object-fit: cover; -webkit-user-drag: none; }
 .rec-card-back .rec-photo { height: 100%; }
 .rec-tag { position: absolute; top: 10px; left: 10px; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; border: 2px solid var(--line-c); }
 .rec-tag-ever { background: var(--lemon, #ffd83d); color: #131a2e; }
@@ -13662,9 +13662,9 @@
 .rec-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
 .rec-chip { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; background: color-mix(in srgb, var(--ink, #26314f) 8%, var(--window)); border: 1.5px solid color-mix(in srgb, var(--ink, #26314f) 22%, transparent); }
 .rec-chip-free { background: var(--lemon, #ffd83d); border-color: var(--line-c); }
-.rec-blurb { margin-top: 7px; font-size: 12.5px; line-height: 1.45; color: color-mix(in srgb, var(--ink, #26314f) 72%, transparent); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rec-blurb { margin-top: 7px; font-size: 12.5px; line-height: 1.45; color: color-mix(in srgb, var(--ink, #26314f) 72%, transparent); display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 .rec-hours { margin-top: 4px; font-size: 11px; color: color-mix(in srgb, var(--ink, #26314f) 55%, transparent); }
-.rec-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding: 0 2px; }
+.rec-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; padding: 0 2px; }
 .rec-btn { font: inherit; font-size: 14px; font-weight: 800; padding: 9px 20px; border-radius: 999px; border: 3px solid var(--line-c); cursor: pointer; box-shadow: 0 3px 0 var(--edge); }
 .rec-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--edge); }
 .rec-btn-skip { background: var(--window); color: #e5484d; }
@@ -17321,7 +17321,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1110-q385-f2dfa4c5";
+        var BUILD_ID = "tql-20261115-1115-q386-388b1e4c";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
