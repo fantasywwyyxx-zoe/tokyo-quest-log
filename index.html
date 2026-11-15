@@ -14292,6 +14292,8 @@
               </div>
               <div class="mf-mood-label" id="mfMoodLabel"></div>
               <div class="mf-chip-row" id="mfSheetMoods"></div>
+              <div class="mf-mood-label" id="mfAreaLabel"></div>
+              <div class="mf-chip-row" id="mfSheetAreas"></div>
             </div>
             <div class="map-backdrop" id="mapBackdrop" aria-hidden="true"></div>
             <svg class="scenery osm-map" id="mapScenery" viewBox="0 0 960.07 857.71" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
@@ -17321,7 +17323,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261115-1115-q386-388b1e4c";
+        var BUILD_ID = "tql-20261115-1120-q387-874358b1";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -19000,6 +19002,7 @@ var qrcode = function() {
           mfAccepted: "ACCEPTED",
           mfCleared: "CLEARED",
           mfSheetTitle: "FILTER", mfHint: "Filter quests", mfToolsTitle: "MAP TOOLS", mfMoodHead: "♥ PICK BY MOOD",
+          mfAreaHead: "PICK BY AREA",
           shareBtn: "↗ SHARE CARD",
           shareQuest: function (name) { return "I cleared “" + name + "” in Tokyo Quest Log — a real-world Tokyo adventure RPG!"; },
           shareEpic: function (name) { return "EPIC CLEAR! I conquered “" + name + "” and won limited gear in Tokyo Quest Log!"; },
@@ -19895,6 +19898,7 @@ var qrcode = function() {
           mfAccepted: "受注中",
           mfCleared: "完了",
           mfSheetTitle: "絞り込み", mfHint: "クエストを絞り込み", mfToolsTitle: "ツール", mfMoodHead: "♥ 気分で選ぶ",
+          mfAreaHead: "エリアで選ぶ",
           shareBtn: "↗ 実績カードをシェア",
           shareQuest: function (name) { return "「" + name + "」をクリア！東京クエストログ — 現実の東京を冒険するRPGで遊んでいます。"; },
           shareEpic: function (name) { return "史詩クリア！「" + name + "」を制覇して限定装備をGET！東京クエストログで東京を冒険中。"; },
@@ -20790,6 +20794,7 @@ var qrcode = function() {
           mfAccepted: "进行中",
           mfCleared: "已完成",
           mfSheetTitle: "筛选", mfHint: "筛选任务", mfToolsTitle: "工具", mfMoodHead: "♥ 按氛围选",
+          mfAreaHead: "按区域选",
           shareBtn: "↗ 分享成就卡",
           shareQuest: function (name) { return "我完成了「" + name + "」！正在玩《东京冒险日志》 — 一款在真实东京冒险的 RPG。"; },
           shareEpic: function (name) { return "史诗完成！我征服了「" + name + "」，拿到了限定装备！《东京冒险日志》东京冒险中。"; },
@@ -27877,6 +27882,30 @@ function drawRunnerFrame(ctx, frame, blink) {
          exactly like the retired bar; the mood term only ever
          narrows what the type filter already shows. */
       var mapMood = "";
+
+      /* Q-387: area districts for the map filter sheet - nearby
+         neighbourhoods grouped (Zoe's ask via ops). Membership covers
+         every area string in the catalog; regrouping is data-only. */
+      var DISTRICTS = [
+        { id: "shinjuku", ja: "新宿・池袋エリア", en: "Shinjuku & Ikebukuro", zh: "新宿・池袋", areas: ["Ikebukuro", "Shinjuku", "Nishi-Shinjuku", "Nakano", "Koenji", "Ogikubo", "Takadanobaba", "Waseda", "Hatsudai", "Mejirodai", "Minami-Nagasaki", "Kami-Igusa", "Nerima", "Komagome", "Sugamo", "Oji", "Kyu-Furukawa Gardens / Nishigahara", "Itabashi", "Akatsuka"] },
+        { id: "shibuya", ja: "渋谷・原宿エリア", en: "Shibuya & Harajuku", zh: "涩谷・原宿", areas: ["Shibuya", "Harajuku", "Omotesando / Harajuku", "Yoyogi", "Ebisu", "Yebisu Garden Place / Ebisu", "Daikanyama", "Nakameguro", "Meguro", "Aoyama", "Minami-Aoyama", "Hiroo", "Shirokanedai", "Gaien", "Komaba", "Setagaya", "Shimokitazawa", "Sangenjaya", "Kinuta", "Jiyugaoka"] },
+        { id: "ueno", ja: "上野・秋葉原エリア", en: "Ueno & Akihabara", zh: "上野・秋叶原", areas: ["Ueno", "Ueno Park / Ueno", "Akihabara", "Asakusa", "Kanda", "Jimbocho", "Yushima", "Nezu", "Yanaka", "Nippori", "Kuramae"] },
+        { id: "center", ja: "東京・銀座エリア", en: "Tokyo Station & Ginza", zh: "东京・银座", areas: ["Marunouchi", "Ginza", "Nihonbashi", "Kyobashi", "Yurakucho", "Hibiya / Yurakucho", "Tsukiji", "Takebashi", "Iidabashi", "Koishikawa Korakuen / Iidabashi", "Tokyo Dome City / Korakuen", "Suidobashi", "Kudanshita", "Hanzomon", "Yotsuya", "Shimbashi", "Bunkyo"] },
+        { id: "roppongi", ja: "六本木・品川エリア", en: "Roppongi & Shinagawa", zh: "六本木・品川", areas: ["Roppongi", "Tokyo Midtown / Roppongi", "Azabu-Juban", "Azabudai", "Azabudai Hills / Kamiyacho", "Atago", "Shiba", "Shiba Park", "Toranomon", "Akasaka", "Tennoz Isle", "Shinagawa", "Togoshi", "Gotanda", "Ota"] },
+        { id: "bay", ja: "お台場・湾岸エリア", en: "Odaiba & the Bay", zh: "台场・湾岸", areas: ["Odaiba", "Ariake", "Toyosu", "Kiyosumi", "Fukagawa", "Tsukishima", "Koto"] },
+        { id: "east", ja: "押上・両国エリア", en: "Oshiage & Ryogoku", zh: "押上・两国", areas: ["Ryogoku", "Mukojima", "Oshiage", "Tokyo Skytree Town / Oshiage", "Kinshicho", "Kameido", "Kasai", "Edogawa", "Shibamata", "Kameari", "Katsushika", "Adachi", "Arakawa", "Ichikawa"] },
+        { id: "tama", ja: "多摩エリア", en: "Tama (West Tokyo)", zh: "多摩", areas: ["Kichijoji", "Mitaka", "Koganei", "Chofu", "Jindai Botanical Gardens / Chofu", "Fuchu", "Tachikawa", "Sun Sun Road / Tachikawa", "Hachioji", "Mt. Takao / Hachioji", "Tama", "Inagi", "Hino", "Machida", "Yakushiike Park / Machida", "Kodaira", "Kokubunji", "Ome", "Hamura", "Tokorozawa"] },
+        { id: "saitama", ja: "埼玉エリア", en: "Saitama", zh: "埼玉", areas: ["Omiya", "Saitama Shintoshin", "Kawagoe", "Iwatsuki", "Hanno"] },
+        { id: "yokohama", ja: "横浜・川崎エリア", en: "Yokohama & Kawasaki", zh: "横滨・川崎", areas: ["Yokohama", "Sankeien / Honmoku, Yokohama", "Yokohama English Garden / Yokohama", "Kawasaki", "Sagamihara"] }
+      ];
+      var DISTRICT_OF = {};
+      DISTRICTS.forEach(function (d) { d.areas.forEach(function (a) { DISTRICT_OF[a] = d.id; }); });
+      function districtOf(e) { return DISTRICT_OF[e.area] || ""; }
+      function districtLabel(id) {
+        for (var i = 0; i < DISTRICTS.length; i++) if (DISTRICTS[i].id === id) return DISTRICTS[i][state.lang] || DISTRICTS[i].en;
+        return id;
+      }
+      var mapArea = "";
       /* filter bar fold state: session-only legacy — the bar is
          retired (EDIT C), the flag now only records whether the
          filter SHEET is open; it stays in memory, and because the
@@ -27897,7 +27926,8 @@ function drawRunnerFrame(ctx, frame, blink) {
       }
       function mapFilterMatch(e) {
         if (!mapFilterMatchAs(e, mapFilter)) return false;
-        if (mapMood && mapFilter !== "legend") return evBuckets(e).indexOf(mapMood) !== -1;
+        if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
+        if (mapArea && mapFilter !== "legend" && districtOf(e) !== mapArea) return false;
         return true;
       }
       function mapShownCount() {
@@ -27910,11 +27940,20 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (k === "legend") return LEGENDS.length;
         return VISIBLE.filter(function (e) {
           if (!mapFilterMatchAs(e, k)) return false;
-          if (mapMood && k !== "legend") return evBuckets(e).indexOf(mapMood) !== -1;
+          if (mapMood && k !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
+          if (mapArea && k !== "legend" && districtOf(e) !== mapArea) return false;
           return true;
         }).length;
       }
-      function mapFilterIsDefault() { return mapFilter === "all" && !mapMood; }
+      function mapAreaCountFor(d) {
+        return VISIBLE.filter(function (e) {
+          if (districtOf(e) !== d) return false;
+          if (!mapFilterMatchAs(e, mapFilter)) return false;
+          if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
+          return true;
+        }).length;
+      }
+      function mapFilterIsDefault() { return mapFilter === "all" && !mapMood && !mapArea; }
       function renderMapFilterChips() {
         var t = L();
         var mst = document.getElementById("mapSideTag"); if (mst) mst.textContent = t.tabListIndex || "";
@@ -27977,6 +28016,13 @@ function drawRunnerFrame(ctx, frame, blink) {
             return '<button class="mf-schip" type="button" data-mfmood="' + bk.id + '" aria-pressed="' + String(mapMood === bk.id) + '"><span class="mf-schip-name">' + esc(moodBucketLabel(bk.id)) + "</span></button>";
           }).join("");
         }
+        var areas = document.getElementById("mfSheetAreas");
+        if (areas) {
+          areas.innerHTML = DISTRICTS.map(function (d) {
+            return '<button class="mf-schip" type="button" data-mfarea="' + d.id + '" aria-pressed="' + String(mapArea === d.id) + '"><span class="mf-schip-name">' + esc(districtLabel(d.id)) + '</span><span class="mf-schip-n">' + mapAreaCountFor(d.id) + "</span></button>";
+          }).join("");
+        }
+        var al = document.getElementById("mfAreaLabel"); if (al) al.textContent = t.mfAreaHead;
         var st = document.getElementById("mfSheetTitle"); if (st) st.textContent = t.mfSheetTitle;
         var sc = document.getElementById("mfSheetCount"); if (sc) sc.textContent = t.onBoard(mapShownCount());
         var ml = document.getElementById("mfMoodLabel"); if (ml) ml.textContent = t.mfMoodHead;
@@ -33805,6 +33851,15 @@ function drawZoneStamp(cv, zoneId, mode) {
         var b = ev.target.closest("[data-mf]"); if (!b) return;
         ev.stopPropagation();
         mapFilter = b.getAttribute("data-mf") || "all";
+        sfx("move");
+        renderMap();
+        renderStatus();
+      });
+      document.getElementById("mfSheetAreas").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mfarea]"); if (!b) return;
+        ev.stopPropagation();
+        var a = b.getAttribute("data-mfarea");
+        mapArea = (mapArea === a) ? "" : a;
         sfx("move");
         renderMap();
         renderStatus();

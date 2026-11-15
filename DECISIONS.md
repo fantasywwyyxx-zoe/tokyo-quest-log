@@ -1034,6 +1034,10 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-387 - Area filter in the map filter sheet (2026-11-15)
+
+Zoe via the ops relay (placement corrected by her follow-up: the MAP filter sheet, not the list): the sheet gains a "pick by area" section under the mood row - ten districts grouping nearby neighbourhoods (her examples: Shinjuku/Ikebukuro, Ueno/Akihabara), single-select, tap again to clear, counts per chip, LEGEND exempt - all mirroring the mood row's mechanics (mapArea state, districtOf predicate in mapFilterMatch, mapAreaCountFor under the current type+mood, mapFilterIsDefault extended). Membership (DISTRICTS in block 3) covers all 133 catalog area strings exactly once - asserted by a build-time data gate (413 events). The scheme was presented to Zoe in the dev chat the same day; membership is data-only so regrouping stays a one-line change. Probes: area probe ALL PASS (10 chips with exact counts 64/59/41/54/40/26/27/51/16/35; tapping Ueno narrows the map to exactly 41, second tap restores 413), map probe DONE, bootprobe + fits + share tests ALL PASS. Device-final = Zoe.
+
 ## Q-386 - Daily Picks deck compacted so the daily page fits the first view (2026-11-15)
 
 Zoe via the ops relay: the swipe deck takes too much vertical room - the how-to fold, the mini-game entry and the daily rows fall below the first view. Per her direction examples: card photo 178 -> 104px, blurb clamped to one line, tighter deck margins; stack 320 -> 224px. The how-to fold already defaults to folded. Swipe mechanics untouched (rec probe ALL PASS with real drags). Measured on the 844 viewport: deck bottom 371px, the daily window starts at 378px and the mini-game entry ends at 734px - the whole daily page (deck + how-to + streak + daily rows + mini-game entry) is now inside the first view. Device-final = Zoe.
