@@ -13744,6 +13744,14 @@
          3.2px dashed lemon at every zoom, no JS compensation */
       #routeScrSvg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
       #routeScrSvg polyline { fill: none; stroke: #ffd83d; stroke-width: 3.2px; stroke-dasharray: 6.5px 5.5px; stroke-linecap: round; }
+
+      /* Q-397: pixel-icon sizing in the former emoji slots */
+      .mmb-ico svg { width: 17px; height: 17px; display: block; }
+      .mgd-ico svg { width: 22px; height: 22px; display: block; }
+      .mg-badge svg { width: 12px; height: 12px; vertical-align: -2px; }
+      .gacha-pull-cost svg { width: 14px; height: 14px; vertical-align: -2px; }
+      #ticketPill svg { width: 14px; height: 14px; vertical-align: -2px; }
+      .run-prog-flag svg { width: 13px; height: 13px; vertical-align: -2px; }
 </style>
   </head>
   <body data-view="map">
@@ -14015,7 +14023,7 @@
           <button class="auth-x" id="runClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="runDist">0m</span><span class="run-goal" id="runGoal"></span><span class="run-best" id="runBest"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag">🏁 300m</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="runProgFill"></div><span class="run-prog-flag"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="3" y="1" width="2" height="14" fill="#22303c"/><rect x="5" y="2" width="8" height="5" fill="#e5484d"/></svg> 300m</span></div>
         <div class="run-stage"><canvas id="runCanvas" width="360" height="400"></canvas></div>
         <!-- lane controls (Zoe, 2026-10-29): the ONLY steering
              while running — two big buttons in the window's fixed
@@ -14064,7 +14072,7 @@
           <button class="auth-x" id="catchClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="catchDist">0</span><span class="run-goal" id="catchGoal"></span><span class="run-best" id="catchBest"></span><span class="run-speed" id="catchLives"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag">🏁 30</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="3" y="1" width="2" height="14" fill="#22303c"/><rect x="5" y="2" width="8" height="5" fill="#e5484d"/></svg> 30</span></div>
         <div class="run-stage stage-340"><canvas id="catchCanvas" width="360" height="340" role="button" aria-label="Catch stage — drag to move the hero"></canvas></div>
         <div class="run-lane-row" role="group" aria-label="Move controls">
           <button class="run-lane-btn" id="catchLeftBtn" type="button" disabled aria-label="Move left">◀</button>
@@ -14089,7 +14097,7 @@
           <button class="auth-x" id="memoryClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="memoryPairs">0/6</span><span class="run-goal" id="memoryGoal"></span><span class="run-speed" id="memoryTime"></span><span class="run-speed" id="memoryFlips"></span><span class="run-best" id="memoryBest"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="memoryProgFill"></div><span class="run-prog-flag">🏁 6</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="memoryProgFill"></div><span class="run-prog-flag"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="3" y="1" width="2" height="14" fill="#22303c"/><rect x="5" y="2" width="8" height="5" fill="#e5484d"/></svg> 6</span></div>
         <div class="mem-slot"><div class="mem-grid" id="memoryGrid" role="group" aria-label="Memory cards"></div></div>
         <p class="run-msg" id="memoryMsg"></p>
         <div class="run-btnrow">
@@ -14110,7 +14118,7 @@
           <button class="auth-x" id="whackClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="run-hud"><span class="run-dist" id="whackScore">0</span><span class="run-goal" id="whackGoal"></span><span class="run-speed" id="whackTime"></span><span class="run-best" id="whackBest"></span></div>
-        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="whackProgFill"></div><span class="run-prog-flag">🏁 300</span></div>
+        <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="whackProgFill"></div><span class="run-prog-flag"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="3" y="1" width="2" height="14" fill="#22303c"/><rect x="5" y="2" width="8" height="5" fill="#e5484d"/></svg> 300</span></div>
         <div class="run-stage stage-340"><canvas id="whackCanvas" width="360" height="340" role="button" aria-label="Whack stage — tap the critters that pop up"></canvas></div>
         <p class="run-msg" id="whackMsg"></p>
         <div class="run-btnrow">
@@ -14301,8 +14309,8 @@
                  from the LIST search modal. -->
             <div class="map-caps" id="mapCaps">
               <button class="mg-map-btn" id="evMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 22c4.4-4.1 7-7.6 7-11a7 7 0 1 0-14 0c0 3.4 2.6 6.9 7 11z" fill="#e2483a"/><circle cx="12" cy="11" r="2.6" fill="#ffffff"/></svg></span><span class="mmb-txt"><span class="mmb-kick" id="evMapKick"></span><span class="mmb-name" id="evMapName"></span></span><span class="mmb-ticket" id="evMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
-              <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎮</span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
-              <button class="mg-map-btn" id="recMapBtn" type="button"><span class="mmb-ico" aria-hidden="true">🎲</span><span class="mmb-name" id="recMapName"></span><span class="mmb-ticket" id="recMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+              <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path d="M4 5h8v2h2v5h-3l-2-2H7L5 12H2V7H4z"/><rect x="4" y="7" width="2" height="2" fill="#26339b"/><rect x="11" y="7" width="1.6" height="1.6" fill="#f8bc3d"/><rect x="10" y="9" width="1.6" height="1.6" fill="#e5484d"/></svg></span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+              <button class="mg-map-btn" id="recMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="2" y="2" width="12" height="12" rx="2"/><rect x="4.5" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="6.8" y="6.8" width="2.4" height="2.4" fill="#e5484d"/><rect x="4.5" y="9.1" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="9.1" width="2.4" height="2.4" fill="#e5484d"/></svg></span><span class="mmb-name" id="recMapName"></span><span class="mmb-ticket" id="recMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
             </div>
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
               <span class="mf-side" id="mapSideTag"></span>
@@ -14538,7 +14546,7 @@
           
         </div>
         </div>
-        <button class="mg-daily-btn" id="mgDailyBtn" type="button"><span class="mgd-ico" aria-hidden="true">🎮</span><span class="mgd-txt"><span class="mgd-kick" id="mgDailyKick"></span><span class="mgd-name" id="mgDailyName"></span></span><span class="mgd-go" aria-hidden="true">▶</span></button>
+        <button class="mg-daily-btn" id="mgDailyBtn" type="button"><span class="mgd-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path d="M4 5h8v2h2v5h-3l-2-2H7L5 12H2V7H4z"/><rect x="4" y="7" width="2" height="2" fill="#26339b"/><rect x="11" y="7" width="1.6" height="1.6" fill="#f8bc3d"/><rect x="10" y="9" width="1.6" height="1.6" fill="#e5484d"/></svg></span><span class="mgd-txt"><span class="mgd-kick" id="mgDailyKick"></span><span class="mgd-name" id="mgDailyName"></span></span><span class="mgd-go" aria-hidden="true">▶</span></button>
         <footer class="win-flat site record-foot">
           <p id="footLine1"></p>
           <p id="footLine2"></p>
@@ -14652,7 +14660,7 @@
             <div class="gacha-stage-hero" aria-hidden="true"><canvas id="gachaStageHero" width="16" height="16"></canvas></div>
           </div>
           <div class="gacha-controls" id="gachaControls">
-            <button class="gacha-pull" id="gachaPullBtn" type="button"><span id="gachaPullLabel"></span><span class="gacha-pull-cost" aria-hidden="true">🎟×1</span></button>
+            <button class="gacha-pull" id="gachaPullBtn" type="button"><span id="gachaPullLabel"></span><span class="gacha-pull-cost" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path d="M2 4h12v3.4a2.3 2.3 0 0 0 0 4.2V15H2v-3.4a2.3 2.3 0 0 0 0-4.2z" transform="translate(0 -1)"/><rect x="9.4" y="4.6" width="1.5" height="1.5" fill="#26339b"/><rect x="9.4" y="7.2" width="1.5" height="1.5" fill="#26339b"/><rect x="9.4" y="9.8" width="1.5" height="1.5" fill="#26339b"/></svg>×1</span></button>
           </div>
           <div class="gacha-result" id="gachaResult" hidden>
             <div class="gr-top">
@@ -17407,7 +17415,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261116-1951-q396-269723bf";
+        var BUILD_ID = "tql-20261116-2015-q397-ae03da52";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -17481,7 +17489,7 @@ var qrcode = function() {
         list: ico('<path d="M2 3h12v2H2zM2 7h12v2H2zM2 11h12v2H2z"/>'),
         map: ico('<path d="M1.5 3.4 5.3 1.8v11l-3.8 1.6z"/><path d="M6.3 1.8 10.1 3.4v11l-3.8-1.6z" opacity=".55"/><path d="M11.1 3.4 14.9 1.8v11l-3.8 1.6z" opacity=".82"/><circle cx="8.2" cy="6.4" r="2" fill="#e5484d"/><path d="M7.1 7.7h2.2l-1.1 2z" fill="#e5484d"/>'),
         scroll: ico('<rect x="1.4" y="1.8" width="12.2" height="2.9" rx="1.45"/><rect x="3.1" y="4.7" width="9" height="6.6" opacity=".32"/><rect x="1.4" y="11.3" width="12.2" height="2.9" rx="1.45"/><path d="M4.7 6.7h5.6v1.35H4.7zM4.7 8.85h4.1v1.35H4.7z"/>'),
-        hero: ico('<rect x="4.2" y="4.6" width="7.6" height="6.8" fill="#f2c29b"/><path d="M3 6.6V4.4C3 2.3 5.2.9 8 .9s5 1.4 5 3.5v2.2h-1.9V4.9H4.9v1.7z" fill="#f5a623"/><rect x="5.7" y="7.4" width="1.6" height="2.2" fill="#22303c"/><rect x="8.7" y="7.4" width="1.6" height="2.2" fill="#22303c"/><rect x="7.2" y="10.1" width="1.6" height=".9" fill="#c96f4a"/><path d="M2.4 15.5v-1.1c0-1.6 2.5-2.6 5.6-2.6s5.6 1 5.6 2.6v1.1z" fill="#2e6da8"/><path d="M6.7 12h2.6L8 13.6z" fill="#e5484d"/>'),
+        hero: ico('<rect x="3" y="0" width="10" height="3" fill="#f5a623"/><rect x="2" y="3" width="2" height="4" fill="#f5a623"/><rect x="12" y="3" width="2" height="4" fill="#f5a623"/><rect x="4" y="2" width="8" height="9" fill="#f2c29b"/><rect x="4" y="2" width="8" height="1" fill="#f5a623"/><rect x="5" y="6" width="2" height="2" fill="#22303c"/><rect x="9" y="6" width="2" height="2" fill="#22303c"/><rect x="7" y="9" width="2" height="1" fill="#c96f4a"/><rect x="3" y="11" width="10" height="5" fill="#2e6da8"/><rect x="7" y="11" width="2" height="2" fill="#e5484d"/>'),
         gear: ico('<g><rect x="7.1" y=".6" width="1.8" height="3.8"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(45 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(90 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(135 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(180 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(225 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(270 8 8)"/><rect x="7.1" y=".6" width="1.8" height="3.8" transform="rotate(315 8 8)"/><circle cx="8" cy="8" r="4.7"/><circle cx="8" cy="8" r="2" fill="#fffdf4"/></g>'),
         cap: ico('<path d="M2.5 9.6c0-3.4 2.5-5.7 5.5-5.7s5.5 2.3 5.5 5.7z"/><path d="M.9 9.6h14.2v1.9H.9z"/><rect x="7" y="2.4" width="2" height="1.7"/>'),
         scarf: ico('<rect x="3" y="1.8" width="10" height="2.7"/><rect x="9.8" y="4.5" width="2.7" height="6.9"/><path d="M9.8 12.5h1.1v2h-1.1zM11.4 12.5h1.1v2h-1.1z"/><rect x="4.4" y="4.5" width="2.3" height="4.8"/>'),
@@ -27551,7 +27559,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         titleEl.textContent = t.gachaTitle;
         var ghl = document.getElementById("gachaHowLabel"); if (ghl) ghl.textContent = "▶ " + t.tutReplay;
         document.getElementById("gachaSub").textContent = t.gachaSub;
-        document.getElementById("ticketPill").textContent = "🎟 " + t.ticketsLabel(left); /* Q-221 (Zoe): the gacha pill carries the same ticket glyph as the daily games */
+        document.getElementById("ticketPill").innerHTML = ICONS.ticket + " " + t.ticketsLabel(left); /* Q-397: pixel ticket, not the emoji */ /* Q-221 (Zoe): the gacha pill carries the same ticket glyph as the daily games */
         var xp = totalExp();
         document.getElementById("gachaNext").innerHTML = t.nextTicket(50 - (xp % 50));
         var btn = document.getElementById("gachaPullBtn");
@@ -35544,7 +35552,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           wishAria: "Wish flag — tap to write your wish",
           runTag: "RUN", runTitle: "DASH RUN",
           runBanner: function (best, done) { return "DASH RUN — dodge & dash 300m for a daily gacha ticket" + (best ? " · BEST " + best + "m" : "") + (done ? " · TODAY'S TICKET ✓" : ""); },
-          runGoal: function (done) { return done ? "TODAY'S TICKET ✓ GOT IT" : "GOAL 300m = 🎟 ×1 / DAY"; },
+          runGoal: function (done) { return done ? "TODAY'S TICKET ✓ GOT IT" : "GOAL 300m = TICKET ×1 / DAY"; },
           runBest: function (b) { return "BEST " + b + "m"; },
           runStart: "▶ START RUN", runRunning: "RUNNING…", runAgain: "↻ RUN AGAIN", runQuit: "QUIT",
           runLeft: "Move one lane left", runRight: "Move one lane right",
@@ -35623,7 +35631,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           wishAria: "願いの旗 — タップで願いを書けます",
           runTag: "RUN", runTitle: "DASH RUN",
           runBanner: function (best, done) { return "DASH RUN — よけて300m走ると今日のガチャ券" + (best ? " · ベスト " + best + "m" : "") + (done ? " · 本日の券 ✓" : ""); },
-          runGoal: function (done) { return done ? "本日の券 ✓ 獲得済み" : "目標 300m = 🎟 ×1 / 日"; },
+          runGoal: function (done) { return done ? "本日の券 ✓ 獲得済み" : "目標 300m = 券 ×1 / 日"; },
           runBest: function (b) { return "ベスト " + b + "m"; },
           runStart: "▶ スタート", runRunning: "走行中…", runAgain: "↻ もう一度", runQuit: "やめる",
           runLeft: "左へ1レーン移動", runRight: "右へ1レーン移動",
@@ -35702,7 +35710,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           wishAria: "心愿旗 — 点按写下你的心愿",
           runTag: "RUN", runTitle: "DASH RUN",
           runBanner: function (best, done) { return "DASH RUN — 躲开障碍跑满300m，赢今日扭蛋券" + (best ? " · 最佳 " + best + "m" : "") + (done ? " · 今日券 ✓" : ""); },
-          runGoal: function (done) { return done ? "今日扭蛋券 ✓ 已到手" : "目标 300m = 🎟 ×1 / 天"; },
+          runGoal: function (done) { return done ? "今日扭蛋券 ✓ 已到手" : "目标 300m = 券 ×1 / 天"; },
           runBest: function (b) { return "最佳 " + b + "m"; },
           runStart: "▶ 开始跑", runRunning: "奔跑中…", runAgain: "↻ 再来一局", runQuit: "结束",
           runLeft: "向左换一条道", runRight: "向右换一条道",
@@ -36274,6 +36282,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (window.markHomeAct) window.markHomeAct("runner"); /* home daily follows a game ticket */
         return true;
       }
+      function mgTktSuffix(plus) { return state.lang === "en" ? (plus ? " TICKET +1 \u2713" : " TICKET \u2713") : (plus ? " \u5238 +1 \u2713" : " \u5238 \u2713"); } /* Q-397 */
       function mgOpen(id) {
         if (id === "jump") openJump();
         else if (id === "catch") openCatch();
@@ -36454,7 +36463,7 @@ function drawZoneStamp(cv, zoneId, mode) {
               : inTrio ? '<span class="mg-badge play">' + t.mgPlay + "</span>"
               : '<span class="mg-badge practice">' + t.mgPractice + "</span>";
             var ticket = "";
-            if (inTrio) ticket = state.runner.won[g.id] ? '<span class="mg-badge ticket is-done">🎟 ✓</span>' : '<span class="mg-badge ticket-open">🎟</span>';
+            if (inTrio) ticket = state.runner.won[g.id] ? '<span class="mg-badge ticket is-done">' + ICONS.ticket + ' ✓</span>' : '<span class="mg-badge ticket-open">' + ICONS.ticket + '</span>';
             /* Q-224 (Zoe, device): hub rows carry the game NAME only.
                The goal/best text squeezed the names out of the row
                (one name vanished entirely, another kept one kanji);
@@ -36934,7 +36943,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var t = X();
         if (cleared) {
           var won = mgAward("jump");
-          $("jumpMsg").textContent = t.jumpClear + (won ? " 🎟 +1 ✓" : "");
+          $("jumpMsg").textContent = t.jumpClear + (won ? mgTktSuffix(true) : "");
           if (won) $("jumpGoal").textContent = t.runGoal(true);
         } else {
           $("jumpMsg").textContent = t.jumpFall(jmp.score);
@@ -37081,7 +37090,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var t = X();
         if (cleared) {
           var won = mgAward("catch");
-          $("catchMsg").textContent = t.catchClear + (won ? " 🎟 +1 ✓" : "");
+          $("catchMsg").textContent = t.catchClear + (won ? mgTktSuffix(true) : "");
           if (won) $("catchGoal").textContent = t.runGoal(true);
         } else {
           $("catchMsg").textContent = quit ? t.catchQuitMsg(cat.count) : t.catchOver(cat.count);
@@ -37300,7 +37309,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (cleared) {
           var used = Math.max(1, Math.round(MEM_TIME - mem.left));
           var won = mgAward("memory");
-          $("memoryMsg").textContent = t.memClear(used, mem.flips) + (won ? " 🎟 +1 ✓" : "");
+          $("memoryMsg").textContent = t.memClear(used, mem.flips) + (won ? mgTktSuffix(true) : "");
           if (won) $("memoryGoal").textContent = t.runGoal(true);
         } else {
           $("memoryMsg").textContent = quit ? t.memQuitMsg(mem.pairs) : t.memOver(mem.pairs);
@@ -37369,7 +37378,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         $("whackBest").textContent = t.whackBest(mgBest("whack"));
         if (whk.score >= WHACK_GOAL) {
           if (mgAward("whack")) whk.won = true;
-          $("whackMsg").textContent = t.whackClear(whk.score) + (whk.won ? " 🎟 ✓" : "");
+          $("whackMsg").textContent = t.whackClear(whk.score) + (whk.won ? mgTktSuffix(false) : "");
         } else {
           $("whackMsg").textContent = quit ? t.whackQuitMsg(whk.score) : t.whackShort(whk.score);
           try { sfx("back"); } catch (e) { /* ignore */ }
