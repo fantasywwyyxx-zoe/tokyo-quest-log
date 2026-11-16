@@ -13752,6 +13752,14 @@
       .gacha-pull-cost svg { width: 14px; height: 14px; vertical-align: -2px; }
       #ticketPill svg { width: 14px; height: 14px; vertical-align: -2px; }
       .run-prog-flag svg { width: 13px; height: 13px; vertical-align: -2px; }
+
+      /* Q-398: status portrait head row */
+      .hstat-head { display: flex; gap: 10px; align-items: center; margin: 2px 0 4px; }
+      .hstat-head-txt { flex: 1 1 auto; min-width: 0; }
+      #statusPortrait .status-bust { width: 84px; height: 84px; display: block; image-rendering: pixelated; }
+      #statusPortrait[data-frame="none"] .status-bust { border: 3px solid var(--window-edge); border-radius: 10px; background: var(--window-hi); }
+      .hstat-name { font-size: 16px; font-weight: 800; }
+      .hstat-frame { font-size: 12.5px; color: var(--ink-dim); margin-top: 3px; }
 </style>
   </head>
   <body data-view="map">
@@ -14767,6 +14775,13 @@
         </div>
         <div class="hh-title" id="heroTitleLine"></div>
         <div class="hh-desc" id="heroDescLine"></div>
+        <div class="hstat-head">
+          <div class="hero-portrait" id="statusPortrait" data-frame="none"><canvas class="status-bust" id="statusBust" width="16" height="16" aria-hidden="true"></canvas><i class="pf-c pf-tl"></i><i class="pf-c pf-tr"></i><i class="pf-c pf-bl"></i><i class="pf-c pf-br"></i></div>
+          <div class="hstat-head-txt">
+            <div class="hstat-name" id="statusName"></div>
+            <div class="hstat-frame" id="statusFrameName"></div>
+          </div>
+        </div>
         <button class="daily-banner" id="dailyBanner" type="button">
           <span class="db-tag" id="dbTag">DAILY</span>
           <span class="db-name" id="dailyBannerName"></span>
@@ -17415,7 +17430,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261116-2015-q397-ae03da52";
+        var BUILD_ID = "tql-20261116-2029-q398-19f62fef";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18400,7 +18415,7 @@ var qrcode = function() {
           coinShopT: "Coin Shop", coinFramesT: "Portrait frames", coinGearT: "Shop-only gear", coinLtd: "ONLY",
           coinOwned: "Owned", coinUse: "Use", coinInUse: "In use", coinBuyQ: function (n) { return "Buy for " + n + "?"; }, coinShort: "Not enough coins",
           coinHouseT: "House makeover \u2014 coming soon!", coinHouseB: "Save up your coins and wait!",
-          frGold: "Gold", frSakura: "Sakura", frHoshi: "Starry", frUmi: "Sea",
+          frGold: "Gold", frSakura: "Sakura", frHoshi: "Starry", frUmi: "Sea", frameLabel: "Frame", frameNone: "No frame equipped",
           coinWelcomeT: "Welcome bonus +50 coins!",
         segShop: "SHOP", shopTitle: "Coin Shop", statsItems: "Items",
         coinFurnT: "Street Decor", coinFurnNote: "Bought pieces appear right in your hero page background.", segHut: "HUT", hutTitle: "My Hut", coinHutT: "Hut Furniture", coinHutNote: "Bought pieces are delivered to your hut — open the hut from the hero page to place them.", hutOwnedLbl: "Owned", hutGiftTag: "Lv.5 gift", hutGiftMsg: "Level 5 gift: a Moon lamp has arrived in your hut!",
@@ -19304,7 +19319,7 @@ var qrcode = function() {
           coinShopT: "コインショップ", coinFramesT: "ポートレートフレーム", coinGearT: "ショップ限定ギア", coinLtd: "限定",
           coinOwned: "所持中", coinUse: "つける", coinInUse: "使用中", coinBuyQ: function (n) { return n + "コインで買う？"; }, coinShort: "コインが足りない",
           coinHouseT: "おうちの模様替えは近日公開！", coinHouseB: "コインをためて待っててね",
-          frGold: "ゴールド", frSakura: "さくら", frHoshi: "ほし", frUmi: "うみ",
+          frGold: "ゴールド", frSakura: "さくら", frHoshi: "ほし", frUmi: "うみ", frameLabel: "フレーム", frameNone: "フレーム未装備",
           coinWelcomeT: "ウェルカムボーナス +50コイン！",
         segShop: "ショップ", shopTitle: "コインショップ", statsItems: "道具",
         coinFurnT: "街の飾り", coinFurnNote: "買った飾りは、主人公ページの背景にそのまま並びます。", segHut: "小屋", hutTitle: "わたしの小屋", coinHutT: "小屋の家具", coinHutNote: "買った家具は小屋に届きます — 主人公ページの「小屋」から飾れます。", hutOwnedLbl: "所持済み", hutGiftTag: "Lv.5 プレゼント", hutGiftMsg: "レベル5のプレゼント：小屋にムーンランプが届きました！",
@@ -20204,7 +20219,7 @@ var qrcode = function() {
           coinShopT: "金币商店", coinFramesT: "头像框", coinGearT: "商店限定装扮", coinLtd: "限定",
           coinOwned: "已拥有", coinUse: "使用", coinInUse: "使用中", coinBuyQ: function (n) { return "花 " + n + " 金币买？"; }, coinShort: "金币不够",
           coinHouseT: "小屋装修即将推出！", coinHouseB: "攒好金币等着吧",
-          frGold: "金框", frSakura: "樱花", frHoshi: "星星", frUmi: "海浪",
+          frGold: "金框", frSakura: "樱花", frHoshi: "星星", frUmi: "海浪", frameLabel: "边框", frameNone: "未装备边框",
           coinWelcomeT: "欢迎金 +50 金币！",
         segShop: "商店", shopTitle: "金币商店", statsItems: "道具",
         coinFurnT: "街景装饰", coinFurnNote: "买下的装饰会直接摆到主人公页的背景里。", segHut: "小屋", hutTitle: "我的小屋", coinHutT: "小屋家具", coinHutNote: "买下的家具会送到小屋 — 在主人公页点「小屋」就能摆放。", hutOwnedLbl: "已拥有", hutGiftTag: "Lv.5 赠送", hutGiftMsg: "5 级礼物：月亮小夜灯已经送到小屋啦！",
@@ -29796,6 +29811,33 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
         return L().shareDoneTxt;
       }
+      var SHARE_FRAME_STYLE = {
+        "fr-gold": { bg0: "#f3cd6b", bg1: "#d9a441", edge: "#8a6414", corner: "#8a6414", kind: "sq" },
+        "fr-sakura": { bg0: "#f6c9d8", bg1: "#f6c9d8", edge: "#e56ba0", corner: "#e56ba0", kind: "petal", dots: "#ffffff" },
+        "fr-hoshi": { bg0: "#26355e", bg1: "#26355e", edge: "#10142e", corner: "#ffd83d", kind: "star" },
+        "fr-umi": { bg0: "#57b6e8", bg1: "#57b6e8", edge: "#1d4f8a", corner: "#a5dcff", kind: "dot" }
+      };
+      function drawShareFrameBg(x, fid, bx, by, s) {
+        var st = SHARE_FRAME_STYLE[fid]; if (!st) return;
+        var g = x.createLinearGradient(0, by - 9, 0, by + s + 9);
+        g.addColorStop(0, st.bg0); g.addColorStop(1, st.bg1);
+        x.fillStyle = g; x.fillRect(bx - 9, by - 9, s + 18, s + 18);
+        if (st.dots) { x.fillStyle = st.dots; for (var dx = 0; dx < 5; dx++) for (var dy = 0; dy < 5; dy++) { x.beginPath(); x.arc(bx - 5 + dx * 16 + (dy % 2) * 8, by - 5 + dy * 16, 1.8, 0, 7); x.fill(); } }
+        x.strokeStyle = st.edge; x.lineWidth = 3; x.strokeRect(bx - 7.5, by - 7.5, s + 15, s + 15);
+      }
+      function drawShareFrameTrim(x, fid, bx, by, s) {
+        var st = SHARE_FRAME_STYLE[fid]; if (!st) return;
+        x.strokeStyle = st.edge; x.lineWidth = 2; x.strokeRect(bx - 1, by - 1, s + 2, s + 2);
+        x.fillStyle = st.corner;
+        var cs = [[bx - 9, by - 9], [bx + s + 9, by - 9], [bx - 9, by + s + 9], [bx + s + 9, by + s + 9]];
+        for (var i = 0; i < 4; i++) {
+          var cx = cs[i][0], cy = cs[i][1];
+          if (st.kind === "dot") { x.beginPath(); x.arc(cx, cy, 5, 0, 7); x.fill(); }
+          else if (st.kind === "star") { x.beginPath(); x.moveTo(cx, cy - 6); x.lineTo(cx + 1.8, cy - 1.8); x.lineTo(cx + 6, cy); x.lineTo(cx + 1.8, cy + 1.8); x.lineTo(cx, cy + 6); x.lineTo(cx - 1.8, cy + 1.8); x.lineTo(cx - 6, cy); x.lineTo(cx - 1.8, cy - 1.8); x.closePath(); x.fill(); }
+          else if (st.kind === "petal") { x.save(); x.translate(cx, cy); x.rotate(0.785); x.fillRect(-4, -4, 8, 8); x.restore(); }
+          else { x.fillRect(cx - 4, cy - 4, 8, 8); }
+        }
+      }
       function buildShareCard(line) {
         var cv = document.createElement("canvas");
         cv.width = 480; cv.height = 320;
@@ -29825,11 +29867,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         x.fillStyle = "#58a05c"; x.fillRect(0, 220, 480, 100);
         x.fillStyle = "#4a8a4e"; x.fillRect(0, 220, 480, 10);
         /* hero, centre stage */
+        var fidShare = state.frame && coinFrameDef(state.frame) ? state.frame : null;
+        if (fidShare) drawShareFrameBg(x, fidShare, 216, 168, 56); /* Q-398 */
         var tmp = document.createElement("canvas");
         tmp.width = 16; tmp.height = 16;
         drawHeroEquipped(tmp, state.hero, state.gacha.equipped);
         x.imageSmoothingEnabled = false;
         x.drawImage(tmp, 216, 168, 56, 56);
+        if (fidShare) drawShareFrameTrim(x, fidShare, 216, 168, 56); /* Q-398 */
         /* frame + lettering */
         x.fillStyle = "#f8bc3d"; x.fillRect(0, 0, 480, 8); x.fillRect(0, 312, 480, 8); x.fillRect(0, 0, 8, 320); x.fillRect(472, 0, 8, 320);
         x.fillStyle = "#fffdf4";
@@ -30645,7 +30690,12 @@ function drawRunnerFrame(ctx, frame, blink) {
           wrap.appendChild(cv);
           ["tl", "tr", "bl", "br"].forEach(function (p) { var i = document.createElement("i"); i.className = "pf-c pf-" + p; wrap.appendChild(i); });
         }
-        wrap.setAttribute("data-frame", state.frame && coinFrameDef(state.frame) ? state.frame : "none");
+        var fid398 = state.frame && coinFrameDef(state.frame) ? state.frame : "none";
+        wrap.setAttribute("data-frame", fid398);
+        var sp398 = document.getElementById("statusPortrait");
+        if (sp398) { sp398.setAttribute("data-frame", fid398); var sb398 = document.getElementById("statusBust"); if (sb398) drawHeroBust(sb398); }
+        var sn398 = document.getElementById("statusName"); if (sn398) sn398.textContent = heroDisplayName();
+        var sf398 = document.getElementById("statusFrameName"); if (sf398) { var fd398 = coinFrameDef(state.frame); sf398.textContent = fd398 ? (L().frameLabel + ": " + L()[fd398.key]) : L().frameNone; } /* Q-398 */
       }
       function drawHeroBust(canvas) {
         var tmp = document.createElement("canvas"); tmp.width = 16; tmp.height = 16;
@@ -31567,6 +31617,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       var LADDER_PAGE_SIZE = 5;
       var ladderPage = -1; /* -1 = follow the current title */
       function renderLadder() {
+        applyPortraitFrame(); /* Q-398: status portrait + frame */
         var t = L(), cur = levelInfo().lv, flavors = t.titleFlavors || [];
         var el = document.getElementById("ladder");
         if (!el) return;
