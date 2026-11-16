@@ -17407,7 +17407,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261116-1942-q399-dd2f559f";
+        var BUILD_ID = "tql-20261116-1951-q396-269723bf";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -29155,6 +29155,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var y = !!(pp && !pp.hidden);
         var mb = document.getElementById("mgMapBtn"); if (mb) mb.hidden = y;
         var eb = document.getElementById("evMapBtn"); if (eb) eb.hidden = y;
+        var rb2 = document.getElementById("recMapBtn"); if (rb2) rb2.hidden = y; /* Q-396: the picks capsule yields too (R221) */
       }
       function showLocChip(text, ms) {
         var chip = document.getElementById("locChip");
@@ -31430,7 +31431,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (name === "map") { pokeMapUi(); playMapIntro(); }
         else { document.body.classList.remove("map-ui-off"); if (mapUiTimer) clearTimeout(mapUiTimer); }
         if (name === "map") requestAnimationFrame(function () { requestAnimationFrame(function () { goHomeView(); }); });
-        if (name === "hero") renderHero();
+        if (name === "hero") { if (heroWinOpen) openHeroWin(null); renderHero(); } /* Q-396: the hero tab closes any open sub-window (R223) */
         else stopWalk();
         if (name === "daily") renderDaily();
         if (name === "list") { maybeRequestSortPos(); renderSearch(); }
@@ -36278,7 +36279,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         else if (id === "catch") openCatch();
         else if (id === "memory") openMemory();
         else if (id === "whack") openWhack();
-        else { openRun(); startRun(); }
+        else { openRun(); } /* Q-396: no auto-start - land on the idle screen with the start button, like every other game (R219) */
       }
       /* Q-171: the roster is an independent window now — open
          refreshes the rows (bests / ticket state) and shows the
@@ -36609,6 +36610,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         lb.disabled = true; rb.disabled = true; /* steering arms only while running */
         var pf = $("runProgFill"); if (pf) pf.style.width = "0%";
         var win = document.querySelector(".run-win"); if (win) win.classList.remove("is-over", "is-crashed");
+        stopRunLoop(); /* Q-396: an orphaned rAF from an exit that bypassed closeRun must not tick the new run */
         run = { mode: "idle", lane: 1, x: LANES_X[1], dist: 0, obs: [], spawnT: 0, last: 0, raf: 0, frameT: 0, fx: [], puffs: [], puffT: 0, nears: 0, lastShown: -1, crashed: false, crashAt: 0 };
         drawRun(0);
         if (window.markHomeAct) window.markHomeAct("runner"); /* at-home daily: play once */
