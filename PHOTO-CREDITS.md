@@ -282,3 +282,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c154-mai-mai-shinko-exhibition | https://commons.wikimedia.org/wiki/File:Anime_Tokyo_Station_-_Trace_machine.jpg | CC BY-SA 4.0 | 運動会プロテインパワー (venue photo: Anime Tokyo Station — animation trace machine (interior))
 - c155-detective-conan-land-2026 | https://commons.wikimedia.org/wiki/File:DiverCity_Tokyo_Plaza_3.jpg | CC0 | Syced (venue photo: DiverCity Tokyo Plaza)
 - c156-geidai-university-art-museum | https://commons.wikimedia.org/wiki/File:University_Art_Museum%2C_Tokyo_University_of_the_Arts_2009.jpg | CC BY-SA 3.0 | Wiiii (venue photo: The University Art Museum, Tokyo University of the Arts)
+- c157-nogi-shrine | https://commons.wikimedia.org/wiki/File:乃木神社_-_panoramio.jpg | CC BY 3.0 | 福原邦展 (shrine photo: Nogi Shrine torii and haiden)
+- c158-meguro-fudoson | https://megurofudo.jp/daihondousyasinpage.html | Official website photo (© Ryusen-ji Temple) (main hall photo: Daihondo)
+- c159-maeda-residence | https://www.syougai.metro.tokyo.lg.jp/sesaku/maedatei.html | Official website photo (© Tokyo Metropolitan Board of Education) (western-style residence photo)
