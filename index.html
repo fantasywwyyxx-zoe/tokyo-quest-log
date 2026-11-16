@@ -13734,6 +13734,11 @@
 .lang-gate-opt.is-on .lg-dot { border-color: #e2483a; background: #e2483a; box-shadow: inset 0 0 0 3.5px #ffffff; }
 .lang-gate-ok { width: 100%; margin-top: 6px; padding: 14px; font-size: 17px; font-weight: 800; letter-spacing: 0.08em; color: #ffffff; background: #e2483a; border: 3px solid #22303c; border-radius: 999px; box-shadow: 0 3px 0 #22303c; cursor: pointer; }
 .lang-gate-ok:active { transform: translateY(2px); box-shadow: 0 1px 0 #22303c; }
+
+        /* Q-394: accepted quick chip in the list subbar + sheet count spans */
+        .acc-chip { margin-left: auto; flex: none; font: inherit; font-size: 12.5px; font-weight: 800; padding: 7px 12px; border-radius: 999px; border: 2px solid #22303c; background: #fffdf4; color: #5a6a75; cursor: pointer; box-shadow: 0 2px 0 #22303c; }
+        .acc-chip.is-on { background: #ffd83d; color: #22303c; }
+        .chip-n { font-size: 10.5px; font-weight: 800; opacity: 0.6; }
 </style>
   </head>
   <body data-view="map">
@@ -14329,13 +14334,20 @@
                 <span class="mf-sheet-count" id="mfSheetCount"></span>
                 <button class="mf-x" id="mfSheetClose" type="button" aria-label="Close">✕</button>
               </div>
+              <div class="mf-mood-label" id="mfKindLabel"></div>
               <div class="mf-chip-row" id="mfSheetChips">
                 <button class="mf-schip" type="button" data-mf="all" aria-pressed="true"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
                 <button class="mf-schip" type="button" data-mf="event" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
                 <button class="mf-schip" type="button" data-mf="epic" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
                 <button class="mf-schip" type="button" data-mf="legend" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mf="accepted" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mf="cleared" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                
+                
+              </div>
+              <div class="mf-mood-label" id="mfStateLabel"></div>
+              <div class="mf-chip-row" id="mfSheetStates">
+                <button class="mf-schip" type="button" data-mfstate="all" aria-pressed="true"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mfstate="accepted" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
+                <button class="mf-schip" type="button" data-mfstate="cleared" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
               </div>
               <div class="mf-mood-label" id="mfMoodLabel"></div>
               <div class="mf-chip-row" id="mfSheetMoods"></div>
@@ -14446,11 +14458,11 @@
         <div class="list-bar">
           
           <span class="search-summary" id="searchSummary"></span>
-          <button class="sort-btn state-btn" type="button" id="stateBtn"><span id="stateBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
+          
         </div>
         <div class="list-subbar">
           
-          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="search-open-btn" id="searchOpenBtn" type="button"></button>
+          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="search-open-btn" id="searchOpenBtn" type="button"></button><button class="acc-chip" type="button" id="acceptedChip" aria-pressed="false"></button>
         </div>
         <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
@@ -14909,19 +14921,23 @@
           <button class="close-btn" id="searchClose" type="button" aria-label="Close">✕</button>
         </div>
         <div class="search-scroll">
-        <div class="ms-input-row">
-          <!-- tap-only filtering (user direction, 2026-10-26): no
-               free-text keyword box — category / area / mood chips
-               plus this free-only toggle do all the narrowing -->
-          <button class="ms-free" id="msFree" type="button" aria-pressed="false"></button>
-          <button class="ms-free" id="msAccepted" type="button" aria-pressed="false"></button>
-        </div>
+        
+        <div class="ms-group-label" id="lblFilterKind"></div>
+        <div class="ms-cats" id="msKinds"></div>
+        <div class="ms-group-label" id="lblFilterState"></div>
+        <div class="ms-cats" id="msStates"></div>
         <div class="ms-group-label" id="lblFilterCat"></div>
         <div class="ms-cats" id="msCats"></div>
         <div class="ms-group-label" id="lblFilterArea"></div>
         <div class="ms-cats" id="msAreas"></div>
         <div class="ms-group-label" id="lblFilterMood"></div>
         <div class="ms-cats" id="msMoods"></div>
+        <div class="ms-input-row">
+          <!-- tap-only filtering (user direction, 2026-10-26): no
+               free-text keyword box — category / area / mood chips
+               plus this free-only toggle do all the narrowing -->
+          <button class="ms-free" id="msFree" type="button" aria-pressed="false"></button>
+        </div>
         </div>
         <div class="search-actions">
           <button class="rpg-btn btn-ghost" id="searchReset" type="button"></button>
@@ -17386,7 +17402,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261116-refresh-c104-c106";
+        var BUILD_ID = "tql-20261116-1852-q394-88c07c00";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18968,11 +18984,12 @@ var qrcode = function() {
           searchEmpty: "No quests match. Try another word — the city still has secrets.",
           searchBtn: "SEARCH", searchAll: "Showing every quest — tap SEARCH to filter.",
           sortNear: "NEAREST FIRST", stateAll: "STATE: ALL", stateDone: "STATE: DONE", stateTodo: "STATE: NOT YET", stateDoneP: "DONE", stateTodoP: "NOT DONE", sortStart: "BY START", sortEnd: "BY END", sortLocating: "LOCATING…",
+          sortNearOnly: "Evergreen quests have no dates, so nearest is the only order.",
           sortNoGeo: "This browser can't share your location, so distance sort is unavailable — the list keeps its usual order.",
           sortDenied: "Location permission was denied, so distance sort couldn't run — the list keeps its usual order.",
           sortFailed: "Couldn't read your location, so distance sort couldn't run — the list keeps its usual order.",
           distAway: function (s) { return "about " + s + " away"; },
-          lblArea: "AREA", lblMood: "MOOD", searchDone: "SHOW RESULTS", searchReset: "RESET",
+          lblArea: "AREA", lblKind: "TYPE", lblState: "STATE", lblMood: "MOOD", searchDone: "SHOW RESULTS", searchReset: "RESET",
           summaryFiltered: function (n, parts) { return n + (n === 1 ? " quest" : " quests") + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "Immersive", retro: "Retro & nostalgic", cinema: "Cinema", treasure: "History & hidden gems", craft: "Hands-on & craft", pop: "Pop culture", city: "City wandering", grand: "Grand & festive" },
           zoneNames: { ueno: "Ueno & Asakusa", akihabara: "Akihabara & Kanda", ginza: "Ginza & Yurakucho", roppongi: "Roppongi & Akasaka", shibuya: "Shibuya & Harajuku", shinjuku: "Shinjuku", ikebukuro: "Ikebukuro", nakano: "Nakano & Koenji", odaiba: "Odaiba & the Bay", tama: "Tama & Suburbs", setagaya: "Setagaya & Meguro" },
@@ -19070,6 +19087,7 @@ var qrcode = function() {
           mfCleared: "CLEARED",
           mfSheetTitle: "FILTER", mfHint: "Filter quests", mfToolsTitle: "MAP TOOLS", mfMoodHead: "♥ PICK BY MOOD",
           mfAreaHead: "PICK BY AREA",
+          mfKindHead: "TYPE", mfStateHead: "STATE",
           shareBtn: "↗ SHARE CARD",
           shareQuest: function (name) { return "I cleared “" + name + "” in Tokyo Quest Log — a real-world Tokyo adventure RPG!"; },
           shareEpic: function (name) { return "EPIC CLEAR! I conquered “" + name + "” and won limited gear in Tokyo Quest Log!"; },
@@ -19866,11 +19884,12 @@ var qrcode = function() {
           searchEmpty: "見つからなかった。別の言葉で探してみて——街にはまだ秘密がある。",
           searchBtn: "検索", searchAll: "全クエスト表示中——「検索」で絞り込める。",
           sortNear: "近い順", stateAll: "状態：全部", stateDone: "状態：行った", stateTodo: "状態：まだ", stateDoneP: "クリア済", stateTodoP: "未クリア", sortStart: "開始順", sortEnd: "終了順", sortLocating: "位置を取得中…",
+          sortNearOnly: "常駐クエストに日程はないので、近い順だけです。",
           sortNoGeo: "このブラウザは位置情報を共有できないため、距離順は使えません——並びは通常のままです。",
           sortDenied: "位置情報の許可が得られなかったため、距離順にできませんでした——並びは通常のままです。",
           sortFailed: "位置情報を取得できなかったため、距離順にできませんでした——並びは通常のままです。",
           distAway: function (s) { return "約" + s; },
-          lblArea: "エリア", lblMood: "気分", searchDone: "結果を見る", searchReset: "リセット",
+          lblArea: "エリア", lblKind: "種類", lblState: "状態", lblMood: "気分", searchDone: "結果を見る", searchReset: "リセット",
           summaryFiltered: function (n, parts) { return n + "件のクエスト" + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "没入・体験", retro: "レトロ・懐かしい", cinema: "映画", treasure: "歴史・秘宝", craft: "手作り・工芸", pop: "ポップカルチャー", city: "街歩き", grand: "壮大・お祭り" },
           zoneNames: { ueno: "上野・浅草", akihabara: "秋葉原・神田", ginza: "銀座・有楽町", roppongi: "六本木・赤坂", shibuya: "渋谷・原宿", shinjuku: "新宿", ikebukuro: "池袋", nakano: "中野・高円寺", odaiba: "台場・湾岸", tama: "多摩・郊外", setagaya: "世田谷・目黒" },
@@ -19968,6 +19987,7 @@ var qrcode = function() {
           mfCleared: "完了",
           mfSheetTitle: "絞り込み", mfHint: "クエストを絞り込み", mfToolsTitle: "ツール", mfMoodHead: "♥ 気分で選ぶ",
           mfAreaHead: "エリアで選ぶ",
+          mfKindHead: "種類", mfStateHead: "状態",
           shareBtn: "↗ 実績カードをシェア",
           shareQuest: function (name) { return "「" + name + "」をクリア！東京クエストログ — 現実の東京を冒険するRPGで遊んでいます。"; },
           shareEpic: function (name) { return "史詩クリア！「" + name + "」を制覇して限定装備をGET！東京クエストログで東京を冒険中。"; },
@@ -20764,11 +20784,12 @@ var qrcode = function() {
           searchEmpty: "没有找到。换个词试试——这座城市还有秘密。",
           searchBtn: "搜索", searchAll: "正在显示全部任务——点「搜索」可以筛选。",
           sortNear: "离我最近", stateAll: "状态：全部", stateDone: "状态：去过", stateTodo: "状态：没去过", stateDoneP: "去过的", stateTodoP: "没去过的", sortStart: "开始时间", sortEnd: "结束时间", sortLocating: "正在定位…",
+          sortNearOnly: "常驻任务没有日期，只能按距离排序。",
           sortNoGeo: "这个浏览器无法共享定位，没法按距离排序——列表保持原来的顺序。",
           sortDenied: "没有获得定位许可，没法按距离排序——列表保持原来的顺序。",
           sortFailed: "没能获取定位，没法按距离排序——列表保持原来的顺序。",
           distAway: function (s) { return "约 " + s; },
-          lblArea: "区域", lblMood: "氛围", searchDone: "查看结果", searchReset: "重置",
+          lblArea: "区域", lblKind: "类型", lblState: "状态", lblMood: "氛围", searchDone: "查看结果", searchReset: "重置",
           summaryFiltered: function (n, parts) { return n + " 件任务" + (parts.length ? " · " + parts.join(" · ") : ""); },
           moodBuckets: { immersive: "沉浸体验", retro: "复古怀旧", cinema: "电影", treasure: "历史与秘宝", craft: "手作工艺", pop: "流行文化", city: "城市漫游", grand: "盛大与节庆" },
           zoneNames: { ueno: "上野・浅草", akihabara: "秋叶原・神田", ginza: "银座・有乐町", roppongi: "六本木・赤坂", shibuya: "涩谷・原宿", shinjuku: "新宿", ikebukuro: "池袋", nakano: "中野・高圆寺", odaiba: "台场・湾岸", tama: "多摩・郊外", setagaya: "世田谷・目黑" },
@@ -20866,6 +20887,7 @@ var qrcode = function() {
           mfCleared: "已完成",
           mfSheetTitle: "筛选", mfHint: "筛选任务", mfToolsTitle: "工具", mfMoodHead: "♥ 按氛围选",
           mfAreaHead: "按区域选",
+          mfKindHead: "类型", mfStateHead: "状态",
           shareBtn: "↗ 分享成就卡",
           shareQuest: function (name) { return "我完成了「" + name + "」！正在玩《东京冒险日志》 — 一款在真实东京冒险的 RPG。"; },
           shareEpic: function (name) { return "史诗完成！我征服了「" + name + "」，拿到了限定装备！《东京冒险日志》东京冒险中。"; },
@@ -27652,8 +27674,8 @@ function drawRunnerFrame(ctx, frame, blink) {
       var pinLayerEl = document.getElementById("pinLayer");
       var detail = document.getElementById("detail");
       var currentId = null;
-      var filterCat = "All", filterFree = false, filterAccepted = false;
-        var filterState = "all"; /* Q-347: all | cleared | todo */
+      var filterCat = "All", filterFree = false;
+        var filterState = "all"; /* Q-394: all | todo | accepted | cleared - one state dimension */
       var statusMin = false, filterMin = false;
 
       function catChip(e) {
@@ -27740,6 +27762,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         renderMinBtns();
         document.getElementById("msTitle").textContent = t.searchTitle;
         document.getElementById("searchOpenBtn").innerHTML = "🔍 " + esc(t.searchBtn);
+        document.getElementById("lblFilterKind").textContent = t.lblKind;
+        document.getElementById("lblFilterState").textContent = t.lblState;
         document.getElementById("lblFilterCat").textContent = t.category;
         document.getElementById("lblFilterArea").textContent = t.lblArea;
         document.getElementById("lblFilterMood").textContent = t.lblMood;
@@ -27748,8 +27772,6 @@ function drawRunnerFrame(ctx, frame, blink) {
         /* keyword input retired: filtering is chips-only now */
         document.getElementById("msFree").innerHTML = ICONS.sword + "<span>" + t.freeOnly + "</span>";
         document.getElementById("msFree").setAttribute("aria-pressed", String(filterFree));
-        document.getElementById("msAccepted").innerHTML = ICONS.pin + "<span>" + t.acceptedOnly + "</span>";
-        document.getElementById("msAccepted").setAttribute("aria-pressed", String(filterAccepted));
         document.getElementById("tab-hero").innerHTML = ICONS.hero + "<span>" + t.tabHero + "</span>";
         
         /* title-screen DAY/NIGHT BGM segment retired (settings
@@ -27885,6 +27907,18 @@ function drawRunnerFrame(ctx, frame, blink) {
           if (cdWasOpen) openCalDay(calDayOpen);
         }
       }
+      function renderKindChips() {
+        var kinds = [{ key: "all", label: L().all }, { key: "timed", label: L().legendTimed }, { key: "ever", label: L().legendEver }, { key: "epic", label: "EPIC" }];
+        document.getElementById("msKinds").innerHTML = kinds.map(function (o) {
+          return '<button class="chip-btn" type="button" data-mskind="' + o.key + '" aria-pressed="' + String(filterKind === o.key) + '">' + esc(o.label) + "</button>";
+        }).join("");
+      }
+      function renderStateChips() {
+        var states = [{ key: "all", label: L().all }, { key: "todo", label: L().stateTodoP }, { key: "accepted", label: L().acceptedOnly }, { key: "cleared", label: L().stateDoneP }];
+        document.getElementById("msStates").innerHTML = states.map(function (o) {
+          return '<button class="chip-btn" type="button" data-msstate="' + o.key + '" aria-pressed="' + String(filterState === o.key) + '">' + esc(o.label) + "</button>";
+        }).join("");
+      }
       function renderCatChips() {
         var all = [{ key: "All", label: L().all, icon: null }].concat(CATEGORIES.map(function (c) { return { key: c, label: catName(c), icon: CAT_ICON[c] }; }));
         document.getElementById("msCats").innerHTML = all.map(function (o) {
@@ -27952,6 +27986,7 @@ function drawRunnerFrame(ctx, frame, blink) {
          cleared. Pins, clusters and the on-board count all follow
          the active filter instantly. */
       var mapFilter = "all";
+        var mapState = "all"; /* Q-394: all | accepted | cleared */
       /* EDIT C: the sheet's mood row — one bucket at a time, ""
          = off. Default state (type "all" + no mood) behaves
          exactly like the retired bar; the mood term only ever
@@ -28001,6 +28036,8 @@ function drawRunnerFrame(ctx, frame, blink) {
       }
       function mapFilterMatch(e) {
         if (!mapFilterMatchAs(e, mapFilter)) return false;
+        if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+        if (mapState === "cleared" && !isCleared(e.id)) return false;
         if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
         if (mapArea && mapFilter !== "legend" && districtOf(e) !== mapArea) return false;
         return true;
@@ -28015,20 +28052,35 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (k === "legend") return LEGENDS.length;
         return VISIBLE.filter(function (e) {
           if (!mapFilterMatchAs(e, k)) return false;
+          if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+          if (mapState === "cleared" && !isCleared(e.id)) return false;
           if (mapMood && k !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
           if (mapArea && k !== "legend" && districtOf(e) !== mapArea) return false;
           return true;
         }).length;
       }
-      function mapAreaCountFor(d) {
+
+        function mapStateCountFor(s) {
+          if (mapFilter === "legend") return LEGENDS.length;
+          return VISIBLE.filter(function (e) {
+            if (!mapFilterMatchAs(e, mapFilter)) return false;
+            if (s === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+            if (s === "cleared" && !isCleared(e.id)) return false;
+            if (mapMood && evBuckets(e).indexOf(mapMood) === -1) return false;
+            if (mapArea && districtOf(e) !== mapArea) return false;
+            return true;
+          }).length;
+        }      function mapAreaCountFor(d) {
         return VISIBLE.filter(function (e) {
           if (districtOf(e) !== d) return false;
+          if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+          if (mapState === "cleared" && !isCleared(e.id)) return false;
           if (!mapFilterMatchAs(e, mapFilter)) return false;
           if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
           return true;
         }).length;
       }
-      function mapFilterIsDefault() { return mapFilter === "all" && !mapMood && !mapArea; }
+      function mapFilterIsDefault() { return mapFilter === "all" && mapState === "all" && !mapMood && !mapArea; }
       function renderMapFilterChips() {
         var t = L();
         var mst = document.getElementById("mapSideTag"); if (mst) mst.textContent = t.tabListIndex || "";
@@ -28085,6 +28137,15 @@ function drawRunnerFrame(ctx, frame, blink) {
           var nn = b.querySelector(".mf-schip-n"); if (nn) nn.textContent = mapCountFor(k);
           b.setAttribute("aria-pressed", String(mapFilter === k));
         });
+        var slabels = { all: t.all, accepted: t.mfAccepted, cleared: t.mfCleared };
+        document.querySelectorAll("#mfSheetStates .mf-schip").forEach(function (b) {
+          var k = b.getAttribute("data-mfstate");
+          var nm = b.querySelector(".mf-schip-name"); if (nm) nm.textContent = slabels[k] || k;
+          var nn = b.querySelector(".mf-schip-n"); if (nn) nn.textContent = mapStateCountFor(k);
+          b.setAttribute("aria-pressed", String(mapState === k));
+        });
+        var kl = document.getElementById("mfKindLabel"); if (kl) kl.textContent = t.mfKindHead;
+        var sl = document.getElementById("mfStateLabel"); if (sl) sl.textContent = t.mfStateHead;
         var moods = document.getElementById("mfSheetMoods");
         if (moods && typeof MOOD_BUCKETS !== "undefined") {
           moods.innerHTML = MOOD_BUCKETS.map(function (bk) {
@@ -28374,7 +28435,7 @@ function drawRunnerFrame(ctx, frame, blink) {
          the map to the quest's pin and opens its quest window. */
       var msQuery = "";
       var filterArea = "All";
-      var filterMoods = {};
+      var filterMood = "";
       /* Sort for the quest index (Zoe, 2026-11-02, Q-259):
          NEAREST is the default order -- the board opens sorted
          by distance, and EPIC quests mix in by distance like
@@ -28468,20 +28529,27 @@ function drawRunnerFrame(ctx, frame, blink) {
           (e.mood || []).join(" "), evBuckets(e).map(moodBucketLabel).join(" ")].join(" ").toLowerCase();
         return q.split(/\s+/).every(function (w) { return !w || hay.indexOf(w) !== -1; });
       }
+      function boardMatch(e, areaVal, moodVal, q) {
+        /* Q-394: the ONE list predicate - list rows and sheet counts
+           both run through here so they can never disagree. */
+        if (filterKind === "epic") { if (!isEpicQuest(e)) return false; }
+        else if (filterKind !== "all" && (filterKind === "ever") !== !!e.evergreen) return false;
+        if (filterCat !== "All" && e.category !== filterCat) return false;
+        if (filterFree && !e.free) return false;
+        if (filterState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+        if (filterState === "cleared" && !isCleared(e.id)) return false;
+        if (filterState === "todo" && isCleared(e.id)) return false;
+        if (areaVal !== "All" && districtOf(e) !== areaVal) return false;
+        if (moodVal && evBuckets(e).indexOf(moodVal) === -1) return false;
+        return questMatchesQuery(e, q);
+      }
       function currentBoardList() {
         /* Q-258 (Zoe, 2026-11-02): an accepted-only toggle in the
            search window -- one tap lists every quest she has taken
            on and not yet cleared (the same semantics as the map
            sheet's accepted chip). */
         var q = msQuery.trim().toLowerCase();
-        var selMoods = Object.keys(filterMoods).filter(function (m) { return filterMoods[m]; });
-        var list = sortedVisible().filter(function (e) {
-          return (filterKind === "all" || (filterKind === "ever") === !!e.evergreen) && (filterCat === "All" || e.category === filterCat) && (!filterFree || e.free) && (!filterAccepted || (isAccepted(e.id) && !isCleared(e.id))) &&
-            (filterState === "all" || isCleared(e.id) === (filterState === "cleared")) &&
-            (filterArea === "All" || zoneOf(e) === filterArea) &&
-            (!selMoods.length || selMoods.some(function (b) { return evBuckets(e).indexOf(b) !== -1; })) &&
-            questMatchesQuery(e, q);
-        });
+        var list = sortedVisible().filter(function (e) { return boardMatch(e, filterArea, filterMood, q); });
         /* distance sort composes WITH the filters above: it only
            re-orders the filtered set (EPIC evergreen quests mix in
            by the same distance). Quests without a venue coordinate
@@ -28550,15 +28618,17 @@ function drawRunnerFrame(ctx, frame, blink) {
           '</div>';
       }
       function renderAreaChips() {
-        var list = [{ id: "All" }].concat(ZONES);
+        var list = [{ id: "All" }].concat(DISTRICTS);
+        var q = msQuery.trim().toLowerCase();
         document.getElementById("msAreas").innerHTML = list.map(function (z) {
-          var lbl = z.id === "All" ? L().all : zoneName(z.id);
-          return '<button class="chip-btn" type="button" data-msarea="' + esc(z.id) + '" aria-pressed="' + String(filterArea === z.id) + '">' + esc(lbl) + "</button>";
+          var lbl = z.id === "All" ? L().all : districtLabel(z.id);
+          var n = z.id === "All" ? "" : ' <span class="chip-n">' + sortedVisible().filter(function (e) { return boardMatch(e, z.id, filterMood, q); }).length + "</span>";
+          return '<button class="chip-btn" type="button" data-msarea="' + esc(z.id) + '" aria-pressed="' + String(filterArea === z.id) + '">' + esc(lbl) + n + "</button>";
         }).join("");
       }
       function renderMoodChips() {
         document.getElementById("msMoods").innerHTML = MOOD_BUCKETS.map(function (b) {
-          return '<button class="chip-btn" type="button" data-msmood="' + b.id + '" aria-pressed="' + String(!!filterMoods[b.id]) + '">' + esc(moodBucketLabel(b.id)) + "</button>";
+          return '<button class="chip-btn" type="button" data-msmood="' + b.id + '" aria-pressed="' + String(filterMood === b.id) + '">' + esc(moodBucketLabel(b.id)) + "</button>";
         }).join("");
       }
       /* Q-105 fit: a row name is never ellipsised. CSS wraps it
@@ -28619,18 +28689,18 @@ function drawRunnerFrame(ctx, frame, blink) {
       function renderSearch() {
         /* Q-330 (R180): date sorts do not exist for evergreens — if
            the kind is evergreen, the sort falls back to nearest */
-        if (filterKind === "ever" && listSortMode !== "near") listSortMode = "near";
+        if ((filterKind === "ever" || filterKind === "epic") && listSortMode !== "near") listSortMode = "near";
         var list = currentBoardList();
-        renderCatChips(); renderAreaChips(); renderMoodChips();
+        renderKindChips(); renderStateChips(); renderCatChips(); renderAreaChips(); renderMoodChips();
         document.getElementById("msCount").textContent = L().searchCount(list.length);
         var t = L();
         var parts = [];
-        if (filterKind !== "all") parts.push(filterKind === "ever" ? t.legendEver : t.legendTimed);
+        if (filterKind !== "all") parts.push(filterKind === "ever" ? t.legendEver : filterKind === "epic" ? "EPIC" : t.legendTimed);
         if (filterCat !== "All") parts.push(filterCat);
-        if (filterArea !== "All") parts.push(zoneName(filterArea));
-        Object.keys(filterMoods).forEach(function (m) { if (filterMoods[m]) parts.push(moodBucketLabel(m)); });
+        if (filterArea !== "All") parts.push(districtLabel(filterArea));
+        if (filterMood) parts.push(moodBucketLabel(filterMood));
         if (filterFree) parts.push(t.freeOnly);
-        if (filterAccepted) parts.push(t.acceptedOnly);
+        if (filterState === "accepted") parts.push(t.acceptedOnly);
           if (filterState === "cleared") parts.push(t.stateDoneP);
           if (filterState === "todo") parts.push(t.stateTodoP);
         if (msQuery.trim()) parts.push("“" + msQuery.trim() + "”");
@@ -28643,11 +28713,12 @@ function drawRunnerFrame(ctx, frame, blink) {
           var slbl = document.getElementById("sortBtnLabel");
           if (slbl) slbl.textContent = (sortBusy && listSortMode === "near") ? t.sortLocating : (listSortMode === "start" ? t.sortStart : listSortMode === "end" ? t.sortEnd : t.sortNear);
         }
-          var stbtn = document.getElementById("stateBtn");
-          if (stbtn) {
-            stbtn.setAttribute("data-state", filterState);
-            var stlbl = document.getElementById("stateBtnLabel");
-            if (stlbl) stlbl.textContent = filterState === "cleared" ? t.stateDone : filterState === "todo" ? t.stateTodo : t.stateAll;
+          var achip = document.getElementById("acceptedChip");
+          if (achip) {
+            var accN = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
+            achip.textContent = t.acceptedOnly + " \u00b7 " + accN;
+            achip.setAttribute("aria-pressed", String(filterState === "accepted"));
+            achip.classList.toggle("is-on", filterState === "accepted");
           }
           document.querySelectorAll("[data-kindmode]").forEach(function (b) {
             var kk = b.getAttribute("data-kindmode");
@@ -33280,6 +33351,18 @@ function drawZoneStamp(cv, zoneId, mode) {
         filterCat = b.getAttribute("data-mscat");
         sfx("move"); renderSearch();
       });
+      document.getElementById("msKinds").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mskind]");
+        if (!b) return;
+        filterKind = b.getAttribute("data-mskind");
+        sfx("move"); renderSearch();
+      });
+      document.getElementById("msStates").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-msstate]");
+        if (!b) return;
+        filterState = b.getAttribute("data-msstate");
+        sfx("move"); renderSearch();
+      });
       document.getElementById("msAreas").addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-msarea]");
         if (!b) return;
@@ -33290,7 +33373,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var b = ev.target.closest("[data-msmood]");
         if (!b) return;
         var m = b.getAttribute("data-msmood");
-        filterMoods[m] = !filterMoods[m];
+        filterMood = (filterMood === m) ? "" : m;
         sfx("move"); renderSearch();
       });
       var searchModal = document.getElementById("searchModal");
@@ -33327,16 +33410,17 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       /* Q-335: the single sort button cycles the available modes
          (same per-mode steps as the old three pills) */
-      var stateBtnEl = document.getElementById("stateBtn");
-      if (stateBtnEl) stateBtnEl.addEventListener("click", function () {
-        filterState = filterState === "all" ? "cleared" : filterState === "cleared" ? "todo" : "all";
+      var accChipEl = document.getElementById("acceptedChip");
+      if (accChipEl) accChipEl.addEventListener("click", function () {
+        filterState = filterState === "accepted" ? "all" : "accepted";
         sfx("move"); renderSearch();
       });
       var sortBtnEl = document.getElementById("sortBtn");
       if (sortBtnEl) sortBtnEl.addEventListener("click", function () {
-        var modes = filterKind === "ever" ? ["near"] : ["near", "start", "end"];
+        var modes = (filterKind === "ever" || filterKind === "epic") ? ["near"] : ["near", "start", "end"];
         var k = modes[(modes.indexOf(listSortMode) + 1) % modes.length];
         if (k === listSortMode && k !== "near") return;
+        if (modes.length === 1 && listSortMode === "near" && sortPos) { sortMsg = L().sortNearOnly; sfx("back"); renderSearch(); return; }
         listSortMode = k;
         sortMsg = "";
         if (k === "near" && !sortPos) { sortTried = true; requestSortPos(); }
@@ -33354,20 +33438,14 @@ function drawZoneStamp(cv, zoneId, mode) {
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
       document.getElementById("searchDone").addEventListener("click", function () { sfx("move"); closeSearchModal(); });
       document.getElementById("searchReset").addEventListener("click", function () {
-        filterCat = "All"; filterArea = "All"; filterMoods = {}; filterFree = false; filterAccepted = false; msQuery = "";
+        filterKind = "all"; filterState = "all"; filterCat = "All"; filterArea = "All"; filterMood = ""; filterFree = false; msQuery = ""; listSortMode = "near"; sortMsg = "";
         document.getElementById("msFree").setAttribute("aria-pressed", "false");
-        document.getElementById("msAccepted").setAttribute("aria-pressed", "false");
         sfx("back"); renderSearch();
       });
       searchModal.addEventListener("click", function (ev) { if (ev.target === searchModal) closeSearchModal(); });
       document.getElementById("msFree").addEventListener("click", function () {
         filterFree = !filterFree;
         this.setAttribute("aria-pressed", String(filterFree));
-        sfx("move"); renderSearch();
-      });
-      document.getElementById("msAccepted").addEventListener("click", function () {
-        filterAccepted = !filterAccepted;
-        this.setAttribute("aria-pressed", String(filterAccepted));
         sfx("move"); renderSearch();
       });
       document.getElementById("msResults").addEventListener("click", function (ev) {
@@ -33971,6 +34049,14 @@ function drawZoneStamp(cv, zoneId, mode) {
         var b = ev.target.closest("[data-mf]"); if (!b) return;
         ev.stopPropagation();
         mapFilter = b.getAttribute("data-mf") || "all";
+        sfx("move");
+        renderMap();
+        renderStatus();
+      });
+      document.getElementById("mfSheetStates").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-mfstate]"); if (!b) return;
+        ev.stopPropagation();
+        mapState = b.getAttribute("data-mfstate") || "all";
         sfx("move");
         renderMap();
         renderStatus();
