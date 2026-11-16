@@ -13739,6 +13739,11 @@
         .acc-chip { margin-left: auto; flex: none; font: inherit; font-size: 12.5px; font-weight: 800; padding: 7px 12px; border-radius: 999px; border: 2px solid #22303c; background: #fffdf4; color: #5a6a75; cursor: pointer; box-shadow: 0 2px 0 #22303c; }
         .acc-chip.is-on { background: #ffd83d; color: #22303c; }
         .chip-n { font-size: 10.5px; font-weight: 800; opacity: 0.6; }
+
+      /* Q-395: route line in screen space (#pinLayer) - constant
+         3.2px dashed lemon at every zoom, no JS compensation */
+      #routeScrSvg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
+      #routeScrSvg polyline { fill: none; stroke: #ffd83d; stroke-width: 3.2px; stroke-dasharray: 6.5px 5.5px; stroke-linecap: round; }
 </style>
   </head>
   <body data-view="map">
@@ -17402,7 +17407,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261116-1852-q394-88c07c00";
+        var BUILD_ID = "tql-20261116-1911-q395-d49af2b7";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -25782,6 +25787,46 @@ function drawYushaJacket(ctx) {
         pinLayerEl.appendChild(d);
         placeMeScreenEl(d);
       }
+      /* Q-395: the route line lives in screen space now, in an SVG
+         inside #pinLayer next to the checkpoint dots (Q-180 moved the
+         dots for the same reason). Points are plane percents here;
+         projectRouteLines() turns them into box pixels on every
+         applyZoom, with the same formula the pins use, and the stroke
+         itself is plain CSS pixels - no zoom compensation anywhere,
+         so there is nothing left to go stale or be dropped. */
+      var routeLineSets = [];
+      function routeScrSvg() {
+        if (!pinLayerEl) return null;
+        var svg = document.getElementById("routeScrSvg");
+        if (!svg) {
+          svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          svg.setAttribute("id", "routeScrSvg");
+          svg.setAttribute("aria-hidden", "true");
+          pinLayerEl.insertBefore(svg, pinLayerEl.firstChild);
+        }
+        return svg;
+      }
+      function projectRouteLines() {
+        var svg = document.getElementById("routeScrSvg");
+        if (!svg || !routeLineSets.length) return;
+        var g = layoutMap();
+        if (!g) return;
+        svg.setAttribute("viewBox", "0 0 " + mapBox.clientWidth + " " + mapBox.clientHeight);
+        var pwS = g.pw * zoom.s, phS = g.ph * zoom.s;
+        var pls = svg.querySelectorAll("polyline");
+        for (var i = 0; i < pls.length && i < routeLineSets.length; i++) {
+          pls[i].setAttribute("points", routeLineSets[i].map(function (p) {
+            return (zoom.tx + pwS * p.x / 100).toFixed(1) + "," + (zoom.ty + phS * p.y / 100).toFixed(1);
+          }).join(" "));
+        }
+      }
+      function paintRouteLines(sets) {
+        routeLineSets = sets || [];
+        var svg = routeScrSvg();
+        if (!svg) return;
+        svg.innerHTML = routeLineSets.map(function () { return "<polyline />"; }).join("");
+        projectRouteLines();
+      }
       function drawRouteOverlay() {
         var layer = document.getElementById("routeLayer");
         if (!layer) return;
@@ -25789,28 +25834,27 @@ function drawYushaJacket(ctx) {
         if (typeof mapFilter !== "undefined" && mapFilter === "legend") {
           /* LEGEND filter mode: every route is on the board, each
              with its own line and numbered stamp dots */
-          var svg = "";
-          var rv = routeSvgOpen();
+          var setsL = [];
           LEGENDS.forEach(function (route) {
             var rp = legendProg(route);
             var rpts = route.cps.map(function (cpId) { return byId(cpId); }).filter(Boolean);
             if (rpts.length < 2) return;
-            svg += '<polyline points="' + rpts.map(function (e) { return (e.x * rv.fx).toFixed(1) + "," + (e.y * rv.fy).toFixed(1); }).join(" ") + '" />';
+            setsL.push(rpts.map(function (e) { return { x: e.x, y: e.y }; }));
             rpts.forEach(function (e, i) {
               var st = rp.indexOf(e.id) !== -1 ? "done" : (legendNext(route) === e.id ? "next" : "todo");
               addRouteDot(e, i, st);
             });
           });
-          layer.hidden = !svg;
-          layer.innerHTML = svg ? rv.open + svg + "</svg>" : "";
-          styleRouteLines();
+          layer.innerHTML = "";
+          layer.hidden = true;
+          paintRouteLines(setsL);
           return;
         }
         var lg = state.legendActive ? legendById(state.legendActive) : null;
-        if (!lg) { layer.innerHTML = ""; layer.hidden = true; return; }
+        if (!lg) { layer.innerHTML = ""; layer.hidden = true; paintRouteLines([]); return; }
         var p = legendProg(lg);
         var pts = lg.cps.map(function (cpId) { return byId(cpId); }).filter(Boolean);
-        if (pts.length < 2) { layer.innerHTML = ""; layer.hidden = true; return; }
+        if (pts.length < 2) { layer.innerHTML = ""; layer.hidden = true; paintRouteLines([]); return; }
         layer.hidden = false;
         function dot(e, i, pos) {
           var st = p.indexOf(e.id) !== -1 ? "done" : (legendNext(lg) === e.id ? "next" : "todo");
@@ -25828,14 +25872,13 @@ function drawYushaJacket(ctx) {
           styleRouteLines();
           return;
         }
-        var rv2 = routeSvgOpen();
-        var line = pts.map(function (e) { return (e.x * rv2.fx).toFixed(1) + "," + (e.y * rv2.fy).toFixed(1); }).join(" ");
-        layer.innerHTML = rv2.open + '<polyline points="' + line + '" /></svg>';
+        layer.innerHTML = "";
+        layer.hidden = true;
         pts.forEach(function (e, i) {
           var st = p.indexOf(e.id) !== -1 ? "done" : (legendNext(lg) === e.id ? "next" : "todo");
           addRouteDot(e, i, st);
         });
-        styleRouteLines();
+        paintRouteLines([pts.map(function (e) { return { x: e.x, y: e.y }; })]);
       }
       var SHOP_ITEMS = [
         { id: "shop-star-cap", kind: "hat", rarity: "R", hat: "cap", c1: "#31456e", c2: "#1d2a4a", g: "star", a2: "#ffd83d", price: 350 },
@@ -33088,6 +33131,7 @@ function drawZoneStamp(cv, zoneId, mode) {
             p.style.left = (zoom.tx + pwS * px / 100) + "px";
             p.style.top = (zoom.ty + phS * py / 100) + "px";
           });
+          projectRouteLines();
         }
       }
       function setZoom(s, cx, cy) {
