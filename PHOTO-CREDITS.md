@@ -285,3 +285,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c157-nogi-shrine | https://commons.wikimedia.org/wiki/File:乃木神社_-_panoramio.jpg | CC BY 3.0 | 福原邦展 (shrine photo: Nogi Shrine torii and haiden)
 - c158-meguro-fudoson | https://megurofudo.jp/daihondousyasinpage.html | Official website photo (© Ryusen-ji Temple) (main hall photo: Daihondo)
 - c159-maeda-residence | https://www.syougai.metro.tokyo.lg.jp/sesaku/maedatei.html | Official website photo (© Tokyo Metropolitan Board of Education) (western-style residence photo)
+- c160-taro-okamoto-memorial | https://commons.wikimedia.org/wiki/File:Taro_Okamoto_Memorial_Museum.jpg | CC0 | Syced (venue photo: Taro Okamoto Memorial Museum entrance)
+- c161-toyokawa-inari | https://commons.wikimedia.org/wiki/File:Toyokawa_Inari_Betsuin.jpg | CC BY-SA 4.0 | Matsujima (venue photo: Reiko-zuka fox statues)
+- c162-kyu-yasuda-teien | https://www.city.sumida.lg.jp/sisetu_info/kouen/kunai_park_annai/sumida_park/park08.html | Official website photo (© Sumida City) (garden entrance photo)
