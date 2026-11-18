@@ -13760,6 +13760,16 @@
       #statusPortrait[data-frame="none"] .status-bust { border: 3px solid var(--window-edge); border-radius: 10px; background: var(--window-hi); }
       .hstat-name { font-size: 16px; font-weight: 800; }
       .hstat-frame { font-size: 12.5px; color: var(--ink-dim); margin-top: 3px; }
+
+      /* Q-401: list search button lives in the title row now (the
+         subbar overflowed and clipped the accepted chip); the daily
+         picks entry anchors to the daily panel's lower band */
+      #view-list .list-bar .search-open-btn { margin-left: auto; flex: none; padding: 5px 8px; font-size: 13px; }
+      #view-daily #recDailyBtn { margin-top: auto; }
+      #view-daily .rec-daily-btn .mmb-ticket { flex: none; font-size: 11px; font-weight: 800; line-height: 1; padding: 3px 6px; border-radius: 999px; border: 2px solid var(--line-c); color: var(--ink-dim); }
+      #view-daily .rec-daily-btn .mmb-ticket.is-done { background: var(--lemon, #ffd83d); color: #231a00; }
+      #view-daily .rec-daily-btn.is-done { opacity: 0.6; box-shadow: none; }
+      #view-list .list-subbar { flex-wrap: wrap; } /* Q-401: a control row that cannot fit wraps (Zoe's chip-row rule) instead of clipping the accepted chip off-screen */
 </style>
   </head>
   <body data-view="map">
@@ -14478,12 +14488,12 @@
         <div class="win list-shell">
         <div class="list-bar">
           
-          <span class="search-summary" id="searchSummary"></span>
+          <span class="search-summary" id="searchSummary"></span><button class="search-open-btn" id="searchOpenBtn" type="button"></button>
           
         </div>
         <div class="list-subbar">
           
-          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="search-open-btn" id="searchOpenBtn" type="button"></button><button class="acc-chip" type="button" id="acceptedChip" aria-pressed="false"></button>
+          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="acc-chip" type="button" id="acceptedChip" aria-pressed="false"></button>
         </div>
         <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
@@ -14553,6 +14563,7 @@
 
           
         </div>
+        <button class="mg-daily-btn rec-daily-btn" id="recDailyBtn" type="button"><span class="mgd-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="2" y="2" width="12" height="12" rx="2"/><rect x="4.5" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="6.8" y="6.8" width="2.4" height="2.4" fill="#e5484d"/><rect x="4.5" y="9.1" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="9.1" width="2.4" height="2.4" fill="#e5484d"/></svg></span><span class="mgd-txt"><span class="mgd-name" id="recDailyName"></span></span><span class="mmb-ticket" id="recDailyTicket"></span><span class="mgd-go" aria-hidden="true">▶</span></button>
         </div>
         <button class="mg-daily-btn" id="mgDailyBtn" type="button"><span class="mgd-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path d="M4 5h8v2h2v5h-3l-2-2H7L5 12H2V7H4z"/><rect x="4" y="7" width="2" height="2" fill="#26339b"/><rect x="11" y="7" width="1.6" height="1.6" fill="#f8bc3d"/><rect x="10" y="9" width="1.6" height="1.6" fill="#e5484d"/></svg></span><span class="mgd-txt"><span class="mgd-kick" id="mgDailyKick"></span><span class="mgd-name" id="mgDailyName"></span></span><span class="mgd-go" aria-hidden="true">▶</span></button>
         <footer class="win-flat site record-foot">
@@ -17430,7 +17441,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261118-0742-q400-f243f8fa";
+        var BUILD_ID = "tql-20261118-1021-q401-5d563cb5";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30704,18 +30715,14 @@ function drawRunnerFrame(ctx, frame, blink) {
         showCoinMsg(L().coinWelcomeT, 2600);
       }
       function applyPortraitFrame() {
-        var cv = document.getElementById("heroBigCanvas");
-        if (!cv || !cv.parentNode) return;
-        var wrap = cv.parentNode;
-        if (!wrap.classList || !wrap.classList.contains("hero-portrait")) {
-          wrap = document.createElement("div");
-          wrap.className = "hero-portrait";
-          cv.parentNode.insertBefore(wrap, cv);
-          wrap.appendChild(cv);
-          ["tl", "tr", "bl", "br"].forEach(function (p) { var i = document.createElement("i"); i.className = "pf-c pf-" + p; wrap.appendChild(i); });
-        }
+        /* Q-401: the frame's homes are the records portrait and the
+           share card ONLY (Q-398). The hero-stage #heroBigCanvas is
+           a retired, permanently hidden canvas — wrapping it in a
+           .hero-portrait painted the frame's border/background and
+           its four corner dots as a stray 16px blob at the hero's
+           feet (Zoe device report 2026-11-18: the pale-blue oval
+           between the walker's legs). No wrap is created here. */
         var fid398 = state.frame && coinFrameDef(state.frame) ? state.frame : "none";
-        wrap.setAttribute("data-frame", fid398);
         var sp398 = document.getElementById("statusPortrait");
         if (sp398) { sp398.setAttribute("data-frame", fid398); var sb398 = document.getElementById("statusBust"); if (sb398) drawHeroBust(sb398); }
         var sn398 = document.getElementById("statusName"); if (sn398) sn398.textContent = heroDisplayName();
@@ -32713,6 +32720,13 @@ function drawZoneStamp(cv, zoneId, mode) {
         var nm = document.getElementById("recMapName"); if (nm) nm.textContent = L().recTitle;
         var tk = document.getElementById("recMapTicket");
         if (tk) { tk.textContent = left > 0 ? String(left) : "\u2713"; tk.classList.toggle("is-done", left <= 0); }
+        /* Q-401: the daily page carries its own picks entry in the
+           panel's lower band (Zoe 2026-11-18) — same fill as the
+           map capsule */
+        var dn = document.getElementById("recDailyName"); if (dn) dn.textContent = L().recTitle;
+        var dt = document.getElementById("recDailyTicket");
+        if (dt) { dt.textContent = left > 0 ? String(left) : "\u2713"; dt.classList.toggle("is-done", left <= 0); }
+        var db = document.getElementById("recDailyBtn"); if (db) db.classList.toggle("is-done", left <= 0);
       }
       function renderRecDeck() {
         var host = document.getElementById("dailyDeck");
@@ -32837,6 +32851,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         sc.querySelectorAll(".dprop").forEach(function (p, i) { p.classList.toggle("on", i < doneN); });
         startDailyScene();
         renderDailyBanner();
+        renderRecEntry();
         syncDailyBadge();
       }
       /* Q-200 (Zoe 2026-10-30): the daily scene band ANIMATES
@@ -37657,6 +37672,7 @@ function drawZoneStamp(cv, zoneId, mode) {
          closes back to the untouched hero page */
       $("mgMapBtn").addEventListener("click", function () { openMgHub(); });
       var mdb = $("mgDailyBtn"); if (mdb) mdb.addEventListener("click", function () { openMgHub(); });
+      var rdb = $("recDailyBtn"); if (rdb) rdb.addEventListener("click", function () { openRecOverlay(); });
       $("evMapBtn").addEventListener("click", function () { evOpen(); });
       $("mgHubClose").addEventListener("click", closeMgHub);
       var mgFbEl = $("mgFoldBtn");
