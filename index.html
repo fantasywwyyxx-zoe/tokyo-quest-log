@@ -13770,6 +13770,25 @@
       #view-daily .rec-daily-btn .mmb-ticket.is-done { background: var(--lemon, #ffd83d); color: #231a00; }
       #view-daily .rec-daily-btn.is-done { opacity: 0.6; box-shadow: none; }
       #view-list .list-subbar { flex-wrap: wrap; } /* Q-401: a control row that cannot fit wraps (Zoe's chip-row rule) instead of clipping the accepted chip off-screen */
+
+      /* Q-402: mini-games fill the screen (R220; mock v2 approved by
+         Zoe 2026-11-18). The game window takes the full height (the
+         same formula as its long-standing max-height cap) instead of
+         hugging its content; the header becomes the mock's red band;
+         the stage grows inside a framed navy matte (the canvas keeps
+         its native contain-fit — the draw code's 360x400 / 360x340
+         bitmaps are untouched); dash + catch steer buttons flank the
+         start button in one control row. Scoped to .run-win: the
+         hub, auth, beta and event windows are untouched. */
+      .auth-screen .run-win { height: calc(var(--vvh, 100dvh) - var(--bar-clear) - 28px); }
+      .run-win::before { display: none; }
+      .run-win .auth-head { background: var(--primary); margin: -12px -14px 10px; padding: 9px 14px; border-radius: 13px 13px 0 0; }
+      .run-win .auth-title { color: #fff; background: transparent; border: none; box-shadow: none; padding-left: 2px; font-size: 18px; }
+      .run-win .auth-x { background: #fffdf4; color: #22303c; border: 2.5px solid #22303c; border-radius: 9px; box-shadow: 0 2px 0 rgba(16, 23, 63, 0.35); }
+      .run-win .run-stage { background: #10162e; border: 3px solid var(--edge); border-radius: 12px; }
+      .run-win .run-btnrow.mg-controls { flex-wrap: wrap; }
+      .run-win .run-btnrow.mg-controls .run-lane-btn { flex: 0 0 62px; }
+      .run-win .run-btnrow.mg-controls .mg-share-btn { flex: 1 1 100%; order: 5; }
 </style>
   </head>
   <body data-view="map">
@@ -14047,13 +14066,9 @@
              while running — two big buttons in the window's fixed
              furniture BELOW the stage, never over the road. One
              tap = exactly one lane. -->
-        <div class="run-lane-row" role="group" aria-label="Lane controls">
-          <button class="run-lane-btn" id="runLeftBtn" type="button" disabled aria-label="Move left">◀</button>
-          <button class="run-lane-btn" id="runRightBtn" type="button" disabled aria-label="Move right">▶</button>
-        </div>
         <p class="run-msg" id="runMsg"></p>
-        <div class="run-btnrow">
-          <button class="auth-btn primary" id="runStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="dash" hidden></button>
+        <div class="run-btnrow mg-controls">
+          <button class="run-lane-btn" id="runLeftBtn" type="button" disabled aria-label="Move left">◀</button><button class="auth-btn primary" id="runStartBtn" type="button"></button><button class="run-lane-btn" id="runRightBtn" type="button" disabled aria-label="Move right">▶</button><button class="auth-btn mg-share-btn" type="button" data-mgid="dash" hidden></button>
         </div>
         <p class="run-help" id="runHelp"></p>
       </div>
@@ -14092,13 +14107,9 @@
         <div class="run-hud"><span class="run-dist" id="catchDist">0</span><span class="run-goal" id="catchGoal"></span><span class="run-best" id="catchBest"></span><span class="run-speed" id="catchLives"></span></div>
         <div class="run-prog" aria-hidden="true"><div class="run-prog-fill" id="catchProgFill"></div><span class="run-prog-flag"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="3" y="1" width="2" height="14" fill="#22303c"/><rect x="5" y="2" width="8" height="5" fill="#e5484d"/></svg> 30</span></div>
         <div class="run-stage stage-340"><canvas id="catchCanvas" width="360" height="340" role="button" aria-label="Catch stage — drag to move the hero"></canvas></div>
-        <div class="run-lane-row" role="group" aria-label="Move controls">
-          <button class="run-lane-btn" id="catchLeftBtn" type="button" disabled aria-label="Move left">◀</button>
-          <button class="run-lane-btn" id="catchRightBtn" type="button" disabled aria-label="Move right">▶</button>
-        </div>
         <p class="run-msg" id="catchMsg"></p>
-        <div class="run-btnrow">
-          <button class="auth-btn primary" id="catchStartBtn" type="button"></button><button class="auth-btn mg-share-btn" type="button" data-mgid="catch" hidden></button>
+        <div class="run-btnrow mg-controls">
+          <button class="run-lane-btn" id="catchLeftBtn" type="button" disabled aria-label="Move left">◀</button><button class="auth-btn primary" id="catchStartBtn" type="button"></button><button class="run-lane-btn" id="catchRightBtn" type="button" disabled aria-label="Move right">▶</button><button class="auth-btn mg-share-btn" type="button" data-mgid="catch" hidden></button>
         </div>
         <p class="run-help" id="catchHelp"></p>
       </div>
@@ -17441,7 +17452,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261118-1021-q401-5d563cb5";
+        var BUILD_ID = "tql-20261118-1048-q402-d79d5b10";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
