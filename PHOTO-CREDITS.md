@@ -288,3 +288,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c160-taro-okamoto-memorial | https://commons.wikimedia.org/wiki/File:Taro_Okamoto_Memorial_Museum.jpg | CC0 | Syced (venue photo: Taro Okamoto Memorial Museum entrance)
 - c161-toyokawa-inari | https://commons.wikimedia.org/wiki/File:Toyokawa_Inari_Betsuin.jpg | CC BY-SA 4.0 | Matsujima (venue photo: Reiko-zuka fox statues)
 - c162-kyu-yasuda-teien | https://www.city.sumida.lg.jp/sisetu_info/kouen/kunai_park_annai/sumida_park/park08.html | Official website photo (© Sumida City) (garden entrance photo)
+- c163-horikiri-shobuen | https://www.city.katsushika.lg.jp/institution/1000096/1006888.html | Official website photo (© Katsushika City) (iris beds close-up photo, June bloom report)
+- c164-tokyo-daibutsu | http://www.tokyo-daibutsu.com/ | Official website photo (© Jorenji Temple) (Tokyo Daibutsu photo)
+- c165-zoshigaya-kishimojin | https://www.kishimojin.jp/ | Official website photo (© Homyo-ji Temple) (main hall front photo)
