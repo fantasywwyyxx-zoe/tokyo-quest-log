@@ -291,3 +291,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c163-horikiri-shobuen | https://www.city.katsushika.lg.jp/institution/1000096/1006888.html | Official website photo (© Katsushika City) (iris beds close-up photo, June bloom report)
 - c164-tokyo-daibutsu | http://www.tokyo-daibutsu.com/ | Official website photo (© Jorenji Temple) (Tokyo Daibutsu photo)
 - c165-zoshigaya-kishimojin | https://www.kishimojin.jp/ | Official website photo (© Homyo-ji Temple) (main hall front photo)
+- c166-hatakeyama-museum | https://www.hatakeyama-museum.org/ | Official website photo (© Ebara Hatakeyama Museum of Fine Art) (museum garden photo)
+- c167-ryushi-memorial | https://www.ota-bunka.or.jp/facilities/ryushi | Official website photo (© Ota City Cultural Promotion Association) (Ryushi Park photo)
+- c168-yamamoto-tei | https://www2.city.katsushika.lg.jp/institution/1030225/1030227/1006823.html | Official website photo (© Katsushika City) (house and pond garden photo)
