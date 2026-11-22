@@ -1034,6 +1034,10 @@ R32 spec that kept the CLEAR poster celebration-only.
   nothing. Superseded in part by Q-377 (the guards stay; the root
   cause was elsewhere).
 
+## Q-404 - Day BGM swapped to "Town" (Zoe's pick, 2026-11-23)
+
+Zoe approved the day pick an hour after Q-403 ("白天也换吧"). The day-1 slot's audio is replaced with "Town" (Pro Sensory, CC0; Ogg Vorbis q3, 64.0 s, measured seamless loop; base64 953,308 -> 1,071,948 chars). Slot id unchanged — saves (bgmDay defaults to "day-1") keep working; day-2 stays the alternate day option. Display name: EN "Town", JA 「タウン」, ZH "Town" (was "Route No.2" / 「午後のロード2号線」). Both default tracks are now Zoe's audition picks (day Town / night Chill); the two alternates (day-2, night-1) and the title theme are untouched. Gates: syntax x6, bootprobe zero+phone PASS, fits + share + hut suites PASS, CDP probe decoded the embedded day-1 data in-page (803,961 bytes, 64.0 s, stereo) and read the new ZH track name. Device-final = Zoe (daytime listening check).
+
 ## Q-403 - Night BGM swapped to "chill" (Zoe's pick, 2026-11-23)
 
 Zoe replied to the 2026-11-18 night audition ("chill" — Pro Sensory, CC0) with "这个BGM吧" on 2026-11-23: the night-2 slot's audio is replaced with the trimmed seamless-loop encode (Ogg Vorbis q3, 95.9 s, 1.27 MB; base64 1,356,576 -> 1,698,776 chars). The slot id is unchanged — every save (bgmNight defaults to "night-2", sanitize admits night-1/night-2) keeps working with no migration; night-1 "Pasture Lullaby" stays as the alternate night option in the picker. Display name follows the music in all three UI languages: EN "Chill", JA 「チル」, ZH "Chill" (was "Night Town" / 「夜のポケタウン」). The BASS sequencer is not the live path — playback is BGM_FILES via fetch + WebAudio decode (bgmPick at ~25160). Day tracks untouched: Zoe has not ruled on the day pick ("Town") yet. Gates: syntax x6, bootprobe zero+phone PASS, fits + share + hut suites PASS, CDP probe decoded the embedded night-2 data in-page (1,274,081 bytes, 95.9 s, stereo) and read the new ZH track name. Device-final = Zoe (night mode listening check).
