@@ -294,3 +294,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c166-hatakeyama-museum | https://www.hatakeyama-museum.org/ | Official website photo (© Ebara Hatakeyama Museum of Fine Art) (museum garden photo)
 - c167-ryushi-memorial | https://www.ota-bunka.or.jp/facilities/ryushi | Official website photo (© Ota City Cultural Promotion Association) (Ryushi Park photo)
 - c168-yamamoto-tei | https://www2.city.katsushika.lg.jp/institution/1030225/1030227/1006823.html | Official website photo (© Katsushika City) (house and pond garden photo)
+- c169-nikolai-do | https://www.nikolaido.org/ | Official website photo (© Holy Resurrection Cathedral) (interior photo: gilded iconostasis)
+- c170-yasuda-kusuo-tei | http://www.national-trust.or.jp/protection/index.php?c=protection_view&pk=1491201890 | Official website photo (© Japan National Trust) (tatami room and garden photo)
+- c171-hyakudan-kaidan | https://megurogajoen.co.jp/hyakudan-kaidan | Official website photo (© Meguro Gajoen) (painted room with gold-leaf ceiling photo)
