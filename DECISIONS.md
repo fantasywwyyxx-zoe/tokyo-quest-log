@@ -2,6 +2,18 @@
 
 > 只记已拍板的。最新决定覆盖旧决定时，旧条目标注「已被 YYYY-MM-DD 决定取代」，不要删。
 
+## Q-407 — Home uses the shared filter system (2026-11-23)
+Zoe: "这里直接引入我们的筛选系统，在複数OK那里直接换成筛选系统". The Q-405 chip row + "可多选" note are gone. In their place one filter bar (#homeFilterBtn) showing the active filter summary (same parts as the list header) or "全部任务 · 点这里筛选"; tapping it opens the SAME #searchModal sheet with a from-home class that hides the STATE label+row (recommendations are always for quests you can still take). homePool now runs through the ONE predicate boardMatch with filterState explicitly neutralized (saved/restored around the filter call); sort unchanged (distance-first when located, else ending-soon). Closing the sheet by any path (done / close / backdrop / Esc via the dialog close event) calls homeFilterDone(): clears from-home and re-renders the home from page 0. New STR homeFilterAll x3; homeEmpty reworded from chips to filters x3; new ICONS.funnel. Q-406's target/tag chip glyphs remain in ICONS (unused by chips now). Gates: syntax x6, bootprobe zero+phone, fits/share/hut suites, q407 probe ALL PASS with physical taps (bar/sheet/state-hide/free-apply/reset/list-sheet-untouched).
+
+## Q-406 — Zoe's device pass over Q-405 + daily page (2026-11-23)
+Five fixes from Zoe's screenshots/messages in the dev chat:
+1. Daily layout (「布局有问题」): the panel no longer stretches a void — `#view-daily .daily-panel { flex: 0 1 auto }` + `#recDailyBtn { margin-top: 10px }` (last style block; probe: window→rec gap 15px, rec→mg gap 10px, panel hugs at 462px).
+2. Title BGM (「BGM在最开始页面也换一下」): `bgmWantedId()` returns `bgmPick()` always — the start screen plays Town by day / Chill by night; the old title theme no longer plays on the front page.
+3. Chip icons (「图标有问题」): new ICONS.target (ring + dot) and ICONS.tag (price tag with punched hole) replace pin/sword on the home chips only.
+4. Editorial reasons (「不难的话可以做」): `homeReason` v2 — urgency facts (last day / ends ≤3 days) first, else the quest's own blurb first line via `homeBlurbLine` (clause-break trim, 26 chars CJK / 64 EN), nearest card prefixed with the near fact when it fits; fact fallbacks unchanged.
+5. Scrollbar (「滑动条太丑」): #view-home is now its own scroller with the bar hidden, mirroring #view-daily.
+Gates: syntax x6, bootprobe zero+phone, fits/share/hut suites, q406 probe ALL PASS.
+
 ## Q-406 — Zoe's device pass over Q-405 + daily page (2026-11-23)
 Five fixes from Zoe's screenshots/messages in the dev chat:
 1. Daily layout (「布局有问题」): the panel no longer stretches a void — `#view-daily .daily-panel { flex: 0 1 auto }` + `#recDailyBtn { margin-top: 10px }` (last style block; probe: window→rec gap 15px, rec→mg gap 10px, panel hugs at 462px).

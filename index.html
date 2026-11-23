@@ -13827,6 +13827,14 @@
       #view-daily #recDailyBtn { margin-top: 10px; }
       #view-home:not([hidden]) { display: flex; flex-direction: column; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
       #view-home::-webkit-scrollbar { display: none; }
+
+      /* ============ Q-407: home filter bar (the shared filter system) ============ */
+      #view-home .home-filter { display: flex; align-items: center; gap: 9px; width: 100%; padding: 11px 13px; border: 2.5px solid #22303c; border-radius: 12px; background: #fffdf4; color: #22303c; font: inherit; font-weight: 800; font-size: 14.5px; text-align: left; cursor: pointer; box-shadow: 0 2px 0 rgba(20, 24, 60, 0.18); }
+      #view-home .home-filter .hf-ico { flex: none; width: 20px; height: 20px; display: inline-flex; }
+      #view-home .home-filter .hf-ico svg { width: 20px; height: 20px; }
+      #view-home .home-filter .hf-txt { flex: 1 1 auto; min-width: 0; }
+      #view-home .home-filter .hf-go { flex: none; color: #5b6a7d; font-size: 12px; }
+      dialog#searchModal.from-home #lblFilterState, dialog#searchModal.from-home #msStates { display: none; }
 </style>
   </head>
   <body data-view="map">
@@ -14357,12 +14365,7 @@
             <canvas id="homeHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
             <div class="home-bubble"><div class="hb-1" id="homeAsk1"></div><div class="hb-2" id="homeAsk2"></div></div>
           </div>
-          <div class="home-q"><span id="homeQ"></span><span class="home-multi" id="homeMulti"></span></div>
-          <div class="home-chips" id="homeChips">
-            <button class="home-chip" type="button" data-home-chip="near" aria-pressed="false"></button>
-            <button class="home-chip" type="button" data-home-chip="free" aria-pressed="false"></button>
-            <button class="home-chip" type="button" data-home-chip="wknd" aria-pressed="false"></button>
-          </div>
+          <button class="home-filter" id="homeFilterBtn" type="button"><span class="hf-ico" id="homeFilterIco"></span><span class="hf-txt" id="homeFilterTxt"></span><span class="hf-go" aria-hidden="true">▶</span></button>
           <div class="home-rec-head"><span id="homeRecTitle"></span><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
           <button class="home-all" id="homeAll" type="button"></button>
@@ -17515,7 +17518,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261123-2329-q406-d083706b";
+        var BUILD_ID = "tql-20261123-2334-q407-9798ca8f";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -17588,6 +17591,7 @@ var qrcode = function() {
         pin: ico('<path d="M8 0h3v2h1v5H9l-1 4-3-4H3V2h2z"/>'),
         target: ico('<path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zm0 3.2a3.3 3.3 0 1 1 0 6.6 3.3 3.3 0 0 1 0-6.6z"/><circle cx="8" cy="8" r="1.6"/>'),
         tag: ico('<path fill-rule="evenodd" d="M1.5 1.5h6.2l6.8 6.8-6.2 6.2-6.8-6.8zM5 4.2a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6z"/>'),
+        funnel: ico('<path d="M2 2h12l-4.3 5.4v4.9l-3.4 1.7V7.4z"/>'),
         list: ico('<path d="M2 3h12v2H2zM2 7h12v2H2zM2 11h12v2H2z"/>'),
         map: ico('<path d="M1.5 3.4 5.3 1.8v11l-3.8 1.6z"/><path d="M6.3 1.8 10.1 3.4v11l-3.8-1.6z" opacity=".55"/><path d="M11.1 3.4 14.9 1.8v11l-3.8 1.6z" opacity=".82"/><circle cx="8.2" cy="6.4" r="2" fill="#e5484d"/><path d="M7.1 7.7h2.2l-1.1 2z" fill="#e5484d"/>'),
         scroll: ico('<rect x="1.4" y="1.8" width="12.2" height="2.9" rx="1.45"/><rect x="3.1" y="4.7" width="9" height="6.6" opacity=".32"/><rect x="1.4" y="11.3" width="12.2" height="2.9" rx="1.45"/><path d="M4.7 6.7h5.6v1.35H4.7zM4.7 8.85h4.1v1.35H4.7z"/>'),
@@ -19215,7 +19219,8 @@ var qrcode = function() {
           homeAccept: "Accept", reasonNear: "Closest to you", reasonFree: "Free to enter",
           reasonEnding: "Ends in {D} days", reasonLastDay: "Last day today", reasonEpic: "Must-see spot",
           reasonWknd: "On this weekend", reasonPick: "A good pick for today",
-          homeEmpty: "Nothing matches. Try turning a chip off.",
+          homeEmpty: "Nothing matches. Try loosening the filters.",
+          homeFilterAll: "All quests - tap to filter",
           tabListIndex: "ADVENTURE QUEST",
           locBtnShort: "LOCATE", bigMapShort: "FULL MAP",
           communityTitle: "COMMUNITY", communitySub: "FELLOW ADVENTURERS' BOARD",
@@ -20124,7 +20129,8 @@ var qrcode = function() {
           homeAccept: "受注する", reasonNear: "いちばん近い", reasonFree: "入場無料",
           reasonEnding: "あと{D}日で終了", reasonLastDay: "今日が最終日", reasonEpic: "必見の名所",
           reasonWknd: "今週末やってる", reasonPick: "今日のおすすめ",
-          homeEmpty: "見つかりませんでした。条件を1つ外してみて。",
+          homeEmpty: "見つかりませんでした。絞り込みをゆるめてみて。",
+          homeFilterAll: "全クエスト・タップで絞り込み",
           tabListIndex: "冒険クエスト",
           locBtnShort: "現在地", bigMapShort: "全画面",
           communityTitle: "コミュニティ", communitySub: "冒険者たちの掲示板",
@@ -21033,7 +21039,8 @@ var qrcode = function() {
           homeAccept: "接任务", reasonNear: "离你最近", reasonFree: "免费开放",
           reasonEnding: "只剩{D}天", reasonLastDay: "今天最后一天", reasonEpic: "必去地标",
           reasonWknd: "本周末有", reasonPick: "今天值得去",
-          homeEmpty: "没有符合的，把选项取消一个试试",
+          homeEmpty: "没有符合的，把筛选条件放宽一点试试。",
+          homeFilterAll: "全部任务 · 点这里筛选",
           tabListIndex: "冒险任务",
           locBtnShort: "定位", bigMapShort: "全屏",
           communityTitle: "社区", communitySub: "冒险者公告板",
@@ -33901,7 +33908,7 @@ function drawZoneStamp(cv, zoneId, mode) {
             sfx("move"); renderSearch();
           });
         });
-        function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); }
+        function closeSearchModal() { if (searchModal.open) searchModal.close(); else searchModal.removeAttribute("open"); homeFilterDone(); }
       document.getElementById("searchClose").addEventListener("click", function () { sfx("back"); closeSearchModal(); });
       document.getElementById("searchDone").addEventListener("click", function () { sfx("move"); closeSearchModal(); });
       document.getElementById("searchReset").addEventListener("click", function () {
@@ -33910,6 +33917,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         sfx("back"); renderSearch();
       });
       searchModal.addEventListener("click", function (ev) { if (ev.target === searchModal) closeSearchModal(); });
+      searchModal.addEventListener("close", function () { homeFilterDone(); });
       document.getElementById("msFree").addEventListener("click", function () {
         filterFree = !filterFree;
         this.setAttribute("aria-pressed", String(filterFree));
@@ -34821,42 +34829,26 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
 
       /* ============ Q-405: recommendation home ============
-         Session-only state: the three chips and the shuffle page.
-         The pool is quests the player can still take (not cleared,
-         not accepted); timed quests must be running today, or on
-         the coming weekend when the weekend chip is on. Sorting is
-         distance-first when a position is known, else ending-soon
-         first. Reasons are facts (ending soon / nearest / EPIC /
-         free / weekend), never invented editorial. */
-      var homeSel = { near: false, free: false, wknd: false };
+         Q-407 (Zoe): the three chips are gone — the home uses the
+         game's shared filter system. The pool is quests the player
+         can still take (not cleared, not accepted) that match the
+         shared filters, via the ONE predicate boardMatch. Sorting
+         is distance-first when a position is known, else
+         ending-soon first. Reasons: urgency facts first, then the
+         quest's own blurb line (Q-406). */
       var homePage = 0;
-      function homeDateStr(d) {
-        function p(n) { return (n < 10 ? "0" : "") + n; }
-        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
-      }
-      function homeWeekendDays() {
-        var out = [];
-        var base = new Date();
-        for (var i = 0; i < 7 && out.length < 2; i++) {
-          var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
-          var dow = d.getDay();
-          if (dow === 0 || dow === 6) out.push(homeDateStr(d));
-        }
-        return out;
-      }
-      function homeRunsOn(e, day) {
-        if (e.evergreen || e.recurring) return true;
-        if (!e.start || !e.end) return true;
-        return e.start <= day && day <= e.end;
-      }
       function homePool() {
-        var wk = homeSel.wknd ? homeWeekendDays() : null;
+        /* The state dimension is neutralized here on purpose:
+           recommendations are always for quests you can still
+           take, so the base pool is not-cleared + not-accepted
+           regardless of the list's state filter. */
+        var savedState = filterState;
+        filterState = "all";
         var pool = EVENTS.filter(function (e) {
           if (isCleared(e.id) || isAccepted(e.id)) return false;
-          if (homeSel.free && !e.free) return false;
-          if (wk) return wk.some(function (d) { return homeRunsOn(e, d); });
-          return homeRunsOn(e, TODAY);
+          return boardMatch(e, filterArea, filterMood, "");
         });
+        filterState = savedState;
         pool.sort(function (a, b) {
           var da = questDistM(a), db = questDistM(b);
           if (da != null && db != null && da !== db) return da - db;
@@ -34868,6 +34860,12 @@ function drawZoneStamp(cv, zoneId, mode) {
           return a.id < b.id ? -1 : 1;
         });
         return pool;
+      }
+      function homeFilterDone() {
+        var m = document.getElementById("searchModal");
+        if (m) m.classList.remove("from-home");
+        var v = document.getElementById("view-home");
+        if (v && !v.hidden) { homePage = 0; renderHome(); }
       }
       function homeBlurbLine(e) {
         var b = evBlurb(e);
@@ -34903,7 +34901,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (isNearest) return t.reasonNear;
         if (isEpicQuest(e)) return t.reasonEpic;
         if (e.free) return t.reasonFree;
-        if (homeSel.wknd) return t.reasonWknd;
         return t.reasonPick;
       }
       function homeMeta(e) {
@@ -34933,16 +34930,14 @@ function drawZoneStamp(cv, zoneId, mode) {
         var t = L();
         document.getElementById("homeAsk1").textContent = t.homeAsk1;
         document.getElementById("homeAsk2").textContent = t.homeAsk2;
-        document.getElementById("homeQ").textContent = t.homeQ;
-        document.getElementById("homeMulti").textContent = t.homeMulti;
-        var chips = document.querySelectorAll("[data-home-chip]");
-        var icons = { near: ICONS.target, free: ICONS.tag, wknd: ICONS.cal };
-        var labels = { near: t.chipNear, free: t.chipFree, wknd: t.chipWknd };
-        chips.forEach(function (b) {
-          var k = b.getAttribute("data-home-chip");
-          b.setAttribute("aria-pressed", String(!!homeSel[k]));
-          b.innerHTML = icons[k] + "<span>" + esc(labels[k]) + "</span>";
-        });
+        document.getElementById("homeFilterIco").innerHTML = ICONS.funnel;
+        var fparts = [];
+        if (filterKind !== "all") fparts.push(filterKind === "ever" ? t.legendEver : filterKind === "epic" ? "EPIC" : t.legendTimed);
+        if (filterCat !== "All") fparts.push(filterCat);
+        if (filterArea !== "All") fparts.push(districtLabel(filterArea));
+        if (filterMood) fparts.push(moodBucketLabel(filterMood));
+        if (filterFree) fparts.push(t.freeOnly);
+        document.getElementById("homeFilterTxt").textContent = fparts.length ? fparts.join(" · ") : t.homeFilterAll;
         document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
         document.getElementById("homeShuffle").textContent = t.homeShuffle;
         var pool = homePool();
@@ -34961,13 +34956,12 @@ function drawZoneStamp(cv, zoneId, mode) {
         var cv = document.getElementById("homeHeroCanvas");
         if (cv) { try { drawHeroEquipped(cv, state.hero, state.gacha.equipped); } catch (e) { /* hero art is garnish */ } }
       }
-      document.getElementById("homeChips").addEventListener("click", function (ev) {
-        var b = ev.target.closest("[data-home-chip]"); if (!b) return;
-        var k = b.getAttribute("data-home-chip");
-        homeSel[k] = !homeSel[k];
-        homePage = 0;
-        sfx("move");
-        renderHome();
+      document.getElementById("homeFilterBtn").addEventListener("click", function () {
+        sfx("open");
+        var m = document.getElementById("searchModal");
+        m.classList.add("from-home");
+        if (typeof m.showModal === "function") m.showModal();
+        else m.setAttribute("open", "");
       });
       document.getElementById("homeShuffle").addEventListener("click", function () {
         homePage++;
@@ -34977,7 +34971,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       document.getElementById("homeAll").addEventListener("click", function () { switchView("list"); });
       document.getElementById("homeSurprise").addEventListener("click", function () {
         var pool = homePool();
-        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isAccepted(e.id) && homeRunsOn(e, TODAY); });
+        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isAccepted(e.id); });
         if (!pool.length) return;
         var e = pool[Math.floor(Math.random() * Math.min(pool.length, 12))];
         if (!isNotStarted(e)) toggleAccept(e.id);
