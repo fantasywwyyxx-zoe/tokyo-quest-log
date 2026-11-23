@@ -2,6 +2,15 @@
 
 > 只记已拍板的。最新决定覆盖旧决定时，旧条目标注「已被 YYYY-MM-DD 决定取代」，不要删。
 
+## Q-406 — Zoe's device pass over Q-405 + daily page (2026-11-23)
+Five fixes from Zoe's screenshots/messages in the dev chat:
+1. Daily layout (「布局有问题」): the panel no longer stretches a void — `#view-daily .daily-panel { flex: 0 1 auto }` + `#recDailyBtn { margin-top: 10px }` (last style block; probe: window→rec gap 15px, rec→mg gap 10px, panel hugs at 462px).
+2. Title BGM (「BGM在最开始页面也换一下」): `bgmWantedId()` returns `bgmPick()` always — the start screen plays Town by day / Chill by night; the old title theme no longer plays on the front page.
+3. Chip icons (「图标有问题」): new ICONS.target (ring + dot) and ICONS.tag (price tag with punched hole) replace pin/sword on the home chips only.
+4. Editorial reasons (「不难的话可以做」): `homeReason` v2 — urgency facts (last day / ends ≤3 days) first, else the quest's own blurb first line via `homeBlurbLine` (clause-break trim, 26 chars CJK / 64 EN), nearest card prefixed with the near fact when it fits; fact fallbacks unchanged.
+5. Scrollbar (「滑动条太丑」): #view-home is now its own scroller with the bar hidden, mirroring #view-daily.
+Gates: syntax x6, bootprobe zero+phone, fits/share/hut suites, q406 probe ALL PASS.
+
 ## 产品与方向
 - **2026-10-25** 公开方式 = GitHub Pages（仓库 `fantasywwyyxx-zoe/tokyo-side-quests`），因为 Muse 分享链接在 iOS 主屏幕模式下有登录墙，不能当 app 用。
 - **2026-10-25** 収益化搁置，增长优先；App Store 必须用屋号/组织名义，绝不用实名（屋号未定）。
