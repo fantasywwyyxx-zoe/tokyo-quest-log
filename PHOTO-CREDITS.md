@@ -297,3 +297,117 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c169-nikolai-do | https://www.nikolaido.org/ | Official website photo (© Holy Resurrection Cathedral) (interior photo: gilded iconostasis)
 - c170-yasuda-kusuo-tei | http://www.national-trust.or.jp/protection/index.php?c=protection_view&pk=1491201890 | Official website photo (© Japan National Trust) (tatami room and garden photo)
 - c171-hyakudan-kaidan | https://megurogajoen.co.jp/hyakudan-kaidan | Official website photo (© Meguro Gajoen) (painted room with gold-leaf ceiling photo)
+- c172-science-dome-hachioji | https://commons.wikimedia.org/wiki/File:Hachioji_City_Children%27s_Museum_of_Science.JPG | Photo by Abasaa, Public domain
+- c173-musashi-imperial-graveyard | https://commons.wikimedia.org/wiki/File:Musashi_Imperial_Graveyard_Sando.jpg | Photo by Naokijp, CC BY-SA 4.0
+- c174-takiyama-castle-ruins | https://commons.wikimedia.org/wiki/File:Takiyamajo_honmaru.jpg | Photo by Phototogisu, CC BY-SA 4.0
+- c175-nagaike-park | https://commons.wikimedia.org/wiki/File:Nagaikebashi.JPG | Photo by fitm, CC BY-SA 3.0
+- c176-takao-monkey-park | https://commons.wikimedia.org/wiki/File:Japanese_Macaque_Monkeys,_in_Mt_Takao_Monkey_Park,_2024.jpg | Photo by Klaasjeoranje, CC BY-SA 4.0
+- c177-shinsengumi-furusato-museum | https://commons.wikimedia.org/wiki/File:Museum_of_Shinsengumi.jpg | Photo by うなぎや, CC BY-SA 4.0
+- c178-hino-shuku-honjin | https://commons.wikimedia.org/wiki/File:Hino-juku_Honjin_ac.jpg | Photo by Asturio Cantabrio, CC BY-SA 4.0
+- c179-parthenon-tama | https://commons.wikimedia.org/wiki/File:PARTHENON_TAMA.jpg | Photo by Akonnchiroll, CC BY-SA 4.0
+- c180-tokyo-archaeological-center | https://commons.wikimedia.org/wiki/File:Jomon_village_20120104.jpg | Photo by An azalea, CC BY-SA 3.0
+- c181-former-tomizawa-house | https://commons.wikimedia.org/wiki/File:%E6%97%A7%E5%AF%8C%E6%BE%A4%E5%AE%B6%E4%BD%8F%E5%AE%85.jpg | Photo by 多摩に暇人, CC BY 3.0
+- c182-hansen-disease-museum | https://commons.wikimedia.org/wiki/File:National_Hansen%27s_Disease_Museum_(Japan)_1.jpg | Photo by Qurren, CC BY-SA 3.0
+- c183-shofukuji-jizodo | https://commons.wikimedia.org/wiki/File:Sh%C5%8Dfuku-ji_Jiz%C5%8Dd%C5%8D_1.jpg | Photo by MomoyamaResearch, CC BY-SA 4.0
+- c184-kitayama-park | https://commons.wikimedia.org/wiki/File:Kitayama_Park_Iris_Garden.jpg | Photo by Yasu, CC BY-SA 3.0
+- c185-komiya-park | https://commons.wikimedia.org/wiki/File:Komiya-park.JPG | Photo by Ans, CC BY-SA 3.0
+- c186-silk-road-museum-hachioji | https://commons.wikimedia.org/wiki/File:Kinunumichi_mus..JPG | Photo by guretaro, Public domain
+- c187-katakura-castle-ruins-park | https://commons.wikimedia.org/wiki/File:%E7%89%87%E5%80%89%E5%9F%8E%E5%9D%80%E5%85%AC%E5%9C%92%E7%A9%BA%E5%A0%80.jpg | Photo by Takaosan fukujuso, CC BY-SA 4.0
+- c188-hamura-city-museum | https://commons.wikimedia.org/wiki/File:Tamagawa_cycling_right-hamuraseki-kyoudohakubutukan_1.jpg | Photo by MWE, CC BY-SA 3.0
+- c189-musashi-kokubunji-ruins | https://commons.wikimedia.org/wiki/File:Ruins_of_Musashi-kokubunji_Temple_R031003.jpg | Photo by DiKnK8713, CC BY-SA 4.0
+- c190-otaka-no-michi | https://commons.wikimedia.org/wiki/File:Masugata_spring.jpg | Photo by ブルーノ・プラス, CC BY-SA 4.0
+- c191-sawanoi-sake-brewery | https://commons.wikimedia.org/wiki/File:Ozawa_shuzo1.jpg | Photo by 江戸村のとくぞう, CC BY-SA 4.0
+- c192-showa-retro-museum | https://commons.wikimedia.org/wiki/File:Showa_Retro_Packaging_Museum_ac_(1).jpg | Photo by Asturio Cantabrio, CC BY-SA 4.0
+- c193-yabo-tenmangu | https://commons.wikimedia.org/wiki/File:Yabo-tenmangu(Kunitachi)_gosha-gouden.jpg | Photo by Taisuke.Kasuya, CC BY-SA 3.0
+- c194-baba-daimon-zelkova-avenue | https://commons.wikimedia.org/wiki/File:202507馬場大門のケヤキ並木.jpg | Photo by Neost60, CC BY-SA 4.0
+- c195-fuda-tenjinja | https://commons.wikimedia.org/wiki/File:Fudaten-jinja,_torii.jpg | Photo by Saigen Jiro, CC0
+- c196-harmonica-yokocho | https://commons.wikimedia.org/wiki/File:In_Harmonica_Yokocho,_Kichijoji_(53417121000).jpg | Photo by Stephen Kelly, CC BY 2.0
+- c197-shibusawa-memorial-museum | https://commons.wikimedia.org/wiki/File:渋沢史料館.jpg | Photo by Syced, CC0
+- c198-suitengu-shrine | https://commons.wikimedia.org/wiki/File:Tokyo_Suitengu_201604a.jpg | Photo by tak1701d, CC BY-SA 3.0
+- c199-koami-shrine | https://commons.wikimedia.org/wiki/File:Koami_jinja.jpg | Photo by Beryllium Transistor, CC BY-SA 4.0
+- c200-fukutoku-shrine | https://commons.wikimedia.org/wiki/File:%E7%A6%8F%E5%BE%B3%E7%A5%9E%E7%A4%BE.jpg | Photo by Indiana jo, CC BY-SA 4.0
+- c201-namiyoke-inari-shrine | https://commons.wikimedia.org/wiki/File:Namiyokeinari_jinja.jpg | Photo by Monado, CC BY-SA 2.5
+- c202-teppozu-inari-shrine | https://commons.wikimedia.org/wiki/File:Teppozu_Inari_Shrine_01.JPG | Photo by Tak1701d, CC BY-SA 3.0
+- c203-asakusa-shrine | https://commons.wikimedia.org/wiki/File:Asakusa_Shrine_2024.jpg | Photo by Qian2007, CC BY-SA 4.0
+- c204-basho-museum-fukagawa | https://commons.wikimedia.org/wiki/File:Basho_kinenkan.jpg | Photo by Elmo rainy day, CC BY 3.0
+- c205-calligraphy-museum-taito | https://commons.wikimedia.org/wiki/File:台東区立書道博物館_(39523372872).jpg | Photo by Shig ISO, CC BY 2.0
+- c206-edo-taito-crafts-center | https://commons.wikimedia.org/wiki/File:Edo_Shitamachi_Traditional_Craft_Museum.JPG | Photo by Elmo rainy day, CC BY-SA 3.0
+- c207-nakagawa-funabansho-museum | https://commons.wikimedia.org/wiki/File:NakagawaFunababbsho.JPG | Photo by Asasa198, CC BY-SA 3.0
+- c208-tokyo-sewerage-museum-rainbow | https://commons.wikimedia.org/wiki/File:Tokyo_Sewerage_Museum_“Rainbow”_Koto-ku_Tokyo.jpg | Photo by Mizushimasea, CC BY-SA 4.0
+- c209-old-shimbashi-station | https://commons.wikimedia.org/wiki/File:Old_Shimbashi_Station_Platform.jpg | Photo by Sushiya, CC BY 3.0
+- c210-bank-of-japan-tour | https://commons.wikimedia.org/wiki/File:Bank_of_Japan_2010.jpg | Photo by Wiiii, CC BY-SA 3.0
+- c211-bunkyo-civic-sky-lounge | https://commons.wikimedia.org/wiki/File:Observation_deck,_Bunkyo_Civic_Center_20190422_1.jpg | Photo by DXR, CC BY-SA 4.0
+- c212-sunamachi-ginza-shopping-street | https://commons.wikimedia.org/wiki/File:Sunamachi_ginza_shopping_street_koto_tokyo_2009.JPG | Photo by Kentin, CC BY-SA 3.0
+- c213-asakusa-underground-shopping-street | https://commons.wikimedia.org/wiki/File:Asakusa_Underground_Shopping_Street_(50057445901).jpg | Photo by Dick Thomas Johnson, CC BY 2.0
+- c214-amazake-yokocho-ningyocho | https://commons.wikimedia.org/wiki/File:Amazake_yokocho_street_overview_2014-2.jpg | Photo by Kentin, CC BY-SA 4.0
+- c215-kamiya-bar-asakusa | https://commons.wikimedia.org/wiki/File:Kamiya_bar_at_asakusa_tokyo.JPG | Photo by おむこさん志望, CC BY 3.0
+- c216-daikokuyu-sento | https://commons.wikimedia.org/wiki/File:Oshiage_Onsen_Daikokuyu_20250831_081110.jpg | Photo by Taufik, CC0
+- c217-koganeyu-sento | https://commons.wikimedia.org/wiki/File:Koganeyu_Tokyo.jpg | Photo by 妖精書士, CC0
+- c218-meijiza-theatre | https://commons.wikimedia.org/wiki/File:Meiji-za_200215f.jpg | Photo by 江戸村のとくぞう, CC BY-SA 4.0
+- c219-shinbashi-enbujo-theatre | https://commons.wikimedia.org/wiki/File:Shinbashi_Enbujo_Theatre_2010_05a.JPG | Photo by Tak1701d, Public domain
+- c220-tower-hall-funabori | https://commons.wikimedia.org/wiki/File:Funabori_Tower_and_Funabori_station.jpg | Photo by しんぎんぐきゃっと, CC BY-SA 4.0
+- c221-yokohama-air-cabin | https://commons.wikimedia.org/wiki/File:YOKOHAMA_AIR_CABIN_(51158521500).jpg | Photo by nagi usano, CC BY-SA 2.0
+- c222-yokohama-hammerhead | https://commons.wikimedia.org/wiki/File:YOKOHAMA_HAMMERHEAD_-_D00b.jpg | Photo by NEO-NEED, CC BY-SA 4.0
+- c223-yokohama-motomachi | https://commons.wikimedia.org/wiki/File:Motomachi_shopping_street.jpg | Photo by Ymblanter, CC BY-SA 4.0
+- c224-yokohama-customs-museum | https://commons.wikimedia.org/wiki/File:The_Yokohama_Customs_Building_and_the_Queen%E2%80%99s_Tower.jpg | Photo by Galactic Center Radio Arc, CC0
+- c225-yokohama-anpanman-childrens-museum | https://commons.wikimedia.org/wiki/File:Yokohama_Anpanman_Children%27s_Museum_2019_-_03.jpg | Photo by Thirteen-fri, CC BY-SA 4.0
+- c226-pokemon-center-yokohama | https://commons.wikimedia.org/wiki/File:PokemonCenter_Yokohama_2022.jpg | Photo by Yoh-Plus, CC BY 4.0
+- c227-yokohama-museum-of-eurasian-cultures | https://commons.wikimedia.org/wiki/File:Eurasia_bunka_1.JPG | Photo by Nightandmagic, CC BY-SA 4.0
+- c228-yokohama-world-porters | https://commons.wikimedia.org/wiki/File:Yokohama_World_Porters_20211117.jpg | Photo by Suicasmo, CC BY-SA 4.0
+- c229-mandarake-complex-akihabara | https://commons.wikimedia.org/wiki/File:MANDARAKE_COMPLEX_AKIHABARA.JPG | Photo by 正和, CC BY-SA 3.0
+- c230-gigo-akihabara-building-3 | https://commons.wikimedia.org/wiki/File:GiGo_Building_3_-_Akihabara_31-5-2026.jpg | Photo by BWard 1997, CC BY 4.0
+- c231-animate-akihabara | https://commons.wikimedia.org/wiki/File:Animate_Akihabara_20250901_102509.jpg | Photo by Taufik, CC0
+- c232-kotobukiya-akihabara | https://commons.wikimedia.org/wiki/File:Kotobukiya_Akihabara_shop_%26_Hirose_Technical,_Sotokanda_1_(2015-04-13_02.26.02_by_IQRemix).jpg | Photo by IQRemix, CC BY-SA 2.0
+- c233-hakuhinkan-toy-park-ginza | https://commons.wikimedia.org/wiki/File:Ginza_Hakuhin-kan.jpg | Photo by Kakidai, CC BY-SA 4.0
+- c234-capcom-store-tokyo-shibuya | https://commons.wikimedia.org/wiki/File:Shibuya_Parco_6F_CAPCOM_Store_2024.JPG | Photo by Fotointheworld, CC BY 4.0
+- c235-pokemon-center-shibuya | https://commons.wikimedia.org/wiki/File:Pok%C3%A9mon_Center_Shibuya_(52506444605).jpg | Photo by Dick Thomas Johnson, CC BY 2.0
+- c236-square-enix-garden-shibuya | https://commons.wikimedia.org/wiki/File:Shibuya_Sakura_Stage_3.jpg | Photo by Syced, CC0
+- c237-yokohama-collection-women-2026 | https://live.staticflickr.com/72/169504561_69138aa238_b.jpg | Photo by hiromy, CC BY-NC-SA 2.0
+- c238-nfaj-mizoguchi-2026 | https://commons.wikimedia.org/wiki/File:National_Film_Archive_of_Japan_ac_(4).jpg | Photo by Asturio Cantabrio, CC BY-SA 4.0
+- c239-janssens-hermes-ginza-2026 | https://live.staticflickr.com/5168/5241381474_b0dce6e378_b.jpg | Photo by karmel80, CC BY-NC 2.0
+- c240-sugino-sato-yoko-2026 | https://commons.wikimedia.org/wiki/File:Sugino_Costume_Museum_2018-06-07.jpg | Photo by Asanagi, CC0
+- c241-cincinnati-ueno-royal | https://commons.wikimedia.org/wiki/File:Ueno_Royal_Museum.JPG | Photo by Dddeco, CC BY 2.5
+- c242-shiseido-komura-tamayama-2027 | https://live.staticflickr.com/2591/4141218984_2c4bd0b4d6_b.jpg | Photo by sota-k, CC BY-SA 2.0
+- c243-seikado-masks-2026 | https://commons.wikimedia.org/wiki/File:Meiji_Yasuda_Life_Insurance_Company_Head_Office_2009.jpg | Photo by Wiiii, CC BY-SA 3.0
+- c244-chiikawa-clinic-tokyo-station-2026 | https://commons.wikimedia.org/wiki/File:Tokyo_Station-5.jpg | Photo by 江戸村のとくぞう, CC BY-SA 4.0
+- c245-nfaj-carte-blanche-2026 | https://commons.wikimedia.org/wiki/File:National_Film_Archive_of_Japan_ac_(2).jpg | Photo by Asturio Cantabrio, CC BY-SA 4.0
+- c246-wang-shu-watari-2027 | https://live.staticflickr.com/7411/9317133609_2e48569bcc_b.jpg | Photo by d o w n s t r e a m, CC BY 2.0
+- c247-tokyo-documentary-film-festival-2026 | https://commons.wikimedia.org/wiki/File:Stage_greeting_for_the_film_%22The_Summer_Catfish_Was_There%22_at_K%27s_Cinema_in_Shinjuku,_Tokyo_IMG_4603.jpg | Photo by Bject, CC BY 4.0
+- c248-ao-no-dokutsu-shibuya-2026 | https://commons.wikimedia.org/wiki/File:渋谷の青の洞窟2016-10_(30887462920).jpg | Photo by TAKA@P.P.R.S, CC BY-SA 2.0
+- c249-jujutsu-kaisen-final-exhibition | https://commons.wikimedia.org/wiki/File:Shinjuku-Sumitomo-Building-01.jpg | Photo by Rs1421, CC BY-SA 3.0
+- c250-kabukiza-hatsuharu-2027 | https://commons.wikimedia.org/wiki/File:Kabuki-za_Theatre_2013_1125.jpg | Photo by Tak1701d, Public domain
+- c251-tokyo-dezomeshiki-2027 | https://commons.wikimedia.org/wiki/File:2013_Tokyo_Fire_Department_Dezome_Ceremony_01.JPG | Photo by Abasaa, Public domain
+- c252-bunka-monochrome-2027 | https://commons.wikimedia.org/wiki/File:Bunka_Gakuen_University_-_Shinjuku,_Tokyo_-_DSC04741.JPG | Photo by Daderot, Public domain
+- c253-final-fantasy-40th-exhibition | https://commons.wikimedia.org/wiki/File:Hyokeikan_of_the_Tokyo_National_Museum_20170208.jpg | Photo by Suicasmo, CC BY-SA 4.0
+- c254-togo-seiji-sompo-2027 | https://commons.wikimedia.org/wiki/File:Sompo_Museum_of_Art_2024-01-25.jpg | Photo by Asanagi, CC0
+- c255-nfaj-silent-film-days-2027 | https://commons.wikimedia.org/wiki/File:National_Film_Archive_of_Japan_ac_(3).jpg | Photo by Asturio Cantabrio, CC BY-SA 4.0
+- c256-kaj-franck-opera-city-2027 | https://upload.wikimedia.org/wikipedia/commons/b/b0/2018_Tokyo_Opera_City_Tower.jpg | Photo by Kakidai, CC BY-SA 4.0
+- c257-teien-lithuanian-handcrafts-2027 | https://commons.wikimedia.org/wiki/File:Tokyo_Metropolitan_Teien_Art_Museum_PC042591.jpg | Photo by Kestrel, CC BY-SA 4.0
+- c258-genji-tnm-2027 | https://commons.wikimedia.org/wiki/File:Heiseikan_of_the_Tokyo_National_Museum_20170323.jpg | Photo by Suicasmo, CC BY-SA 4.0
+- c259-tokyo-art-book-fair-2026 | https://commons.wikimedia.org/wiki/File:2018_Museum_of_Contemporary_Art_Tokyo.jpg | Photo by Kakidai, CC BY-SA 4.0
+- c260-seikado-hina-genji-2027 | https://commons.wikimedia.org/wiki/File:Meiji_Yasuda_Life_Insurance_Company_Head_Office_2009.jpg | Photo by Wiiii, CC BY-SA 3.0
+- c261-kanda-myojin-setsubun-sai-2027 | https://commons.wikimedia.org/wiki/File:Kanda-Myojin_501.jpg | Photo by Ocdp, CC BY-SA 4.0
+- c262-sensoji-setsubun-e-2027 | https://commons.wikimedia.org/wiki/File:Hondo_(Main_Hall)_of_Sensoji_Temple_2.jpg | Photo by Soramimi (そらみみ), CC BY-SA 4.0
+- c263-pokepark-kanto-pikachu-week-2027 | https://commons.wikimedia.org/wiki/File:Yomiuriland-20100411.jpg | Photo by Rsa, CC BY-SA 3.0
+- c264-yebizo-2027 | https://commons.wikimedia.org/wiki/File:Tokyo_Metropolitan_Museum_of_Photography_entrance_2011_January.jpg | Photo by Morio, CC BY-SA 3.0
+- c265-hans-haacke-mot-2027 | https://live.staticflickr.com/8255/8628521990_60fcbeef55_b.jpg | Photo by Kentaro Ohno, CC BY 2.0
+- c266-setagaya-ume-matsuri-2027 | https://commons.wikimedia.org/wiki/File:Hanegikouen-Umebayashi.jpg | Photo by Tokyo-Walk, CC BY-SA 3.0
+- c267-spectrosynthesis-v-mot-2027 | https://live.staticflickr.com/3339/3551480500_c91cd7973d_b.jpg | Photo by heiwa4126, CC BY 2.0
+- c268-mitsui-family-hina-dolls-2027 | https://commons.wikimedia.org/wiki/File:Mitsui_Memorial_Museum_entrance_2026-07-19.jpg | Photo by Asanagi, CC0
+- c269-mot-annual-2027 | https://live.staticflickr.com/8101/8628520380_f6abe6eb93_b.jpg | Photo by Kentaro Ohno, CC BY 2.0
+- c270-yamaga-seika-tokyo-station-2027 | https://commons.wikimedia.org/wiki/File:Tokyo_Station_(Marunouchi_Building).jpg | Photo by Alexandr3126, CC BY-SA 4.0
+- c271-artizon-now-2027 | https://commons.wikimedia.org/wiki/File:Artizon_Museum_Tokyo.jpg | Photo by Arne Vogel, CC BY-SA 4.0
+- c272-cpplus-2027 | https://commons.wikimedia.org/wiki/File:Pacifico_Yokohama_North_06.jpg | Photo by NEO-NEED, CC BY-SA 4.0
+- c273-jindaiji-daruma-ichi-2027 | https://commons.wikimedia.org/wiki/File:Jindaiji_temple_%E9%81%94%E7%A3%A8_(31898125781).jpg | Photo by nakashi from Chofu, Tokyo, JAPAN, CC BY-SA 2.0
+- c274-tokyo-marathon-2027 | https://commons.wikimedia.org/wiki/File:Tokyo_Marathon_-_47322102021.jpg | Photo by TheNickster, CC BY-SA 2.0
+- c275-rakuten-fashion-week-tokyo-2027aw | https://commons.wikimedia.org/wiki/File:Shibuya_Hikarie_2.jpg | Photo by Syced, CC0
+- c276-handmade-in-japan-fes-2027 | https://commons.wikimedia.org/wiki/File:Tokyo_Big_Sight_interior_2024-02-14_2.jpg | Photo by Masahiko OHKUBO, CC BY 2.0
+- c277-matisse-nmwa-2027 | https://commons.wikimedia.org/wiki/File:National_museum_of_western_art05s3200.jpg | Photo by 663highland, CC BY-SA 4.0
+- c278-idemitsu-geidai-2027 | https://commons.wikimedia.org/wiki/File:University_Art_Museum,_Tokyo_University_of_the_Arts_2009.jpg | Photo by Wiiii, CC BY-SA 3.0
+- c279-mizumoto-park | https://commons.wikimedia.org/wiki/File:Mizumoto_Park_in_Tokyo_20180211_153915.jpg | Photo by Ka23 13, CC BY-SA 4.0
+- c280-toneri-park | https://commons.wikimedia.org/wiki/File:Toneri_Park_04.jpg | Photo by Higa4, CC0
+- c281-tabata-bunshimura-museum | https://commons.wikimedia.org/wiki/File:Tabata_Memorial_Museum_of_Writers_and_Artists_01.jpg | Photo by Higa4, CC0
+- c282-itabashi-science-museum | https://commons.wikimedia.org/wiki/File:Itabashi_Science_and_Education_Hall.JPG | Photo by あばさー (Abasaa), Public domain
+- c283-adachi-folk-museum | https://commons.wikimedia.org/wiki/File:Adachi_Historical_Museum_12.jpg | Photo by Higa4, CC0
+- c284-itabashi-folk-museum | https://commons.wikimedia.org/wiki/File:Itabashi_Historical_Museum_2025-04-29.jpg | Photo by Asanagi, CC0
+- c285-ichiyo-memorial-museum | https://commons.wikimedia.org/wiki/File:Ichiyo_Memorial_Museum.JPG | Photo by Abasaa, Public domain
