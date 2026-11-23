@@ -411,3 +411,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c283-adachi-folk-museum | https://commons.wikimedia.org/wiki/File:Adachi_Historical_Museum_12.jpg | Photo by Higa4, CC0
 - c284-itabashi-folk-museum | https://commons.wikimedia.org/wiki/File:Itabashi_Historical_Museum_2025-04-29.jpg | Photo by Asanagi, CC0
 - c285-ichiyo-memorial-museum | https://commons.wikimedia.org/wiki/File:Ichiyo_Memorial_Museum.JPG | Photo by Abasaa, Public domain
+- c286-shimbashi-illumination-2026 | http://www.shinbashi.net/news/detail.php?id=100849 | Official website photo (© Shimbashi-net) — 2025 illumination photo of the same annual event
+- c287-oedo-antique-market-december | https://www.antique-market.jp/about/ | Official website photo (© Oedo Antique Market)
+- c288-megurogawa-illumination-2026 | https://www.minna-no-illumi.com/ | Official website photo (© Meguro River Minna-no-Illumination Executive Committee)
