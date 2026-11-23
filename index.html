@@ -13789,6 +13789,38 @@
       .run-win .run-btnrow.mg-controls { flex-wrap: wrap; }
       .run-win .run-btnrow.mg-controls .run-lane-btn { flex: 0 0 62px; }
       .run-win .run-btnrow.mg-controls .mg-share-btn { flex: 1 1 100%; order: 5; }
+
+      /* ============ Q-405: recommendation home ============ */
+      .tab-gone { display: none !important; }
+      #view-home .home-panel { display: flex; flex-direction: column; gap: 10px; padding: 2px 0 14px; }
+      #view-home .home-scene { position: relative; display: flex; align-items: flex-end; gap: 10px; min-height: 104px; padding: 10px; border: 3px solid var(--line-c); border-radius: 14px; overflow: hidden; background: linear-gradient(180deg, #7ec8f7 0%, #c5ebff 60%, #8fd07e 60.5%, #5ea85c 100%); }
+      #view-home .home-scene[data-phase="night"] { background: linear-gradient(180deg, #1c2a52 0%, #33507e 60%, #2c4a34 60.5%, #223d29 100%); }
+      #homeHeroCanvas { width: 68px; height: 68px; image-rendering: pixelated; flex: 0 0 auto; }
+      #view-home .home-bubble { flex: 1 1 auto; background: #fffdf4; color: #22303c; border: 3px solid var(--line-c); border-radius: 12px; padding: 9px 12px; box-shadow: 0 3px 0 rgba(34, 48, 60, .35); }
+      #view-home .hb-1 { font-weight: 900; font-size: 16px; }
+      #view-home .hb-2 { font-size: 13px; margin-top: 2px; }
+      #view-home .home-q { display: flex; align-items: baseline; gap: 8px; font-weight: 900; font-size: 16.5px; }
+      #view-home .home-multi { margin-left: auto; font-size: 11.5px; font-weight: 700; color: var(--ink-dim); }
+      #view-home .home-chips { display: flex; gap: 8px; }
+      #view-home .home-chip { flex: 1 1 0; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 4px 7px; background: var(--paper); color: var(--ink); border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 3px 0 rgba(34, 48, 60, .35); font: inherit; font-weight: 800; font-size: 14px; cursor: pointer; }
+      #view-home .home-chip svg { width: 22px; height: 22px; }
+      #view-home .home-chip[aria-pressed="true"] { background: #ffd83d; color: #22303c; }
+      #view-home .home-rec-head { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 15.5px; }
+      #view-home .home-shuffle { margin-left: auto; background: var(--paper); color: var(--ink); border: 2.5px solid var(--line-c); border-radius: 999px; padding: 5px 14px; font: inherit; font-weight: 800; font-size: 12.5px; cursor: pointer; }
+      #view-home .home-rec-list { display: flex; flex-direction: column; gap: 9px; }
+      #view-home .home-card { display: flex; align-items: center; gap: 10px; background: var(--paper); border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 3px 0 rgba(34, 48, 60, .35); padding: 7px; cursor: pointer; text-align: left; }
+      #view-home .hc-img { width: 72px; height: 72px; object-fit: cover; border-radius: 8px; border: 2px solid var(--line-c); flex: 0 0 auto; }
+      #view-home .hc-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+      #view-home .hc-name { font-weight: 900; font-size: 15px; line-height: 1.25; }
+      #view-home .hc-meta { font-size: 11.5px; color: var(--ink-dim); font-weight: 700; }
+      #view-home .hc-reason { font-size: 12.5px; }
+      #view-home .hc-accept { flex: 0 0 auto; background: var(--red); color: #fff; border: 2.5px solid var(--line-c); border-radius: 9px; padding: 8px 12px; font-weight: 900; font-size: 13.5px; }
+      #view-home .hc-accept.is-soon { background: var(--paper); color: var(--ink-dim); font-size: 11.5px; }
+      #view-home .home-empty { padding: 22px 12px; text-align: center; font-weight: 700; color: var(--ink-dim); border: 3px dashed var(--line-c); border-radius: 12px; }
+      #view-home .home-all { align-self: center; background: none; border: none; font: inherit; font-weight: 800; font-size: 13.5px; color: var(--gold-deep); cursor: pointer; padding: 4px 8px; }
+      #view-home .home-hud { position: absolute; top: 7px; right: 8px; display: inline-flex; align-items: center; gap: 3px; background: #ffd83d; color: #22303c; border: 2.5px solid var(--line-c); border-radius: 999px; padding: 3px 10px; font-size: 12px; font-weight: 900; }
+      #view-home .home-hud svg { width: 13px; height: 13px; }
+      #view-home .home-surprise { background: #ffd83d; color: #22303c; border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 4px 0 rgba(34, 48, 60, .4); padding: 13px 10px; font: inherit; font-weight: 900; font-size: 15px; cursor: pointer; }
 </style>
   </head>
   <body data-view="map">
@@ -14290,23 +14322,48 @@
      replay and the Escape handler all click through it. -->
      <button id="styleBtn" type="button" hidden></button>
 
-      <!-- View tabs: MAP / LIST / DAILY / HERO (scheme B command menu) -->
-      <!-- COMMAND BAR (nav decision, user 2026-10-26): five slots,
-           never six — LIST | HERO | raised START (= map; on the
-           map it opens the classic menu window) | DAILY (badge) |
-           gear (settings sheet). Always visible, the map included. -->
+      <!-- View tabs (Q-405, user 2026-11-23): five slots, never
+           six — MAP | HERO | raised centre FOR YOU (the new entry
+           home) | DAILY (badge) | gear (settings sheet). The LIST
+           view lost its slot (reached via the home's see-all row);
+           its tab button stays in the DOM, hidden, so switchView
+           and the accepted-count painter keep working. On the map,
+           tapping MAP again opens the classic menu window. -->
       <nav class="tabs" role="tablist" aria-label="Views">
-        <button class="tab" id="tab-list" role="tab" aria-selected="false" data-view="list" type="button"></button>
+        <button class="tab" id="tab-map" role="tab" aria-selected="false" data-view="map" type="button"></button>
         <button class="tab" id="tab-hero" role="tab" aria-selected="false" data-view="hero" type="button"></button>
-        <button class="tab tab-start" id="tab-map" role="tab" aria-selected="true" data-view="map" type="button"></button>
+        <button class="tab tab-start" id="tab-home" role="tab" aria-selected="false" data-view="home" type="button"></button>
         <button class="tab" id="tab-daily" role="tab" aria-selected="false" data-view="daily" type="button"></button>
         <button class="nav-gear" id="navGear" type="button"></button>
+        <button class="tab tab-gone" id="tab-list" role="tab" aria-selected="false" data-view="list" type="button" hidden></button>
       </nav>
 
       <!-- MAP VIEW: the map IS the page — thin HUD above, small chips
            on the map, nothing else. No quest window, no search sheet
            here (search lives on the LIST tab, details open from the
            pin preview). -->
+      <!-- HOME VIEW (Q-405): the entry screen. One question, three
+           big chips, three served quests. No learning curve. -->
+      <section id="view-home" role="tabpanel" aria-labelledby="tab-home" hidden>
+        <div class="home-panel">
+          <div class="home-scene" id="homeScene" data-phase="day">
+            <span class="home-hud" id="homeHud"></span>
+            <canvas id="homeHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
+            <div class="home-bubble"><div class="hb-1" id="homeAsk1"></div><div class="hb-2" id="homeAsk2"></div></div>
+          </div>
+          <div class="home-q"><span id="homeQ"></span><span class="home-multi" id="homeMulti"></span></div>
+          <div class="home-chips" id="homeChips">
+            <button class="home-chip" type="button" data-home-chip="near" aria-pressed="false"></button>
+            <button class="home-chip" type="button" data-home-chip="free" aria-pressed="false"></button>
+            <button class="home-chip" type="button" data-home-chip="wknd" aria-pressed="false"></button>
+          </div>
+          <div class="home-rec-head"><span id="homeRecTitle"></span><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
+          <div class="home-rec-list" id="homeRecList"></div>
+          <button class="home-all" id="homeAll" type="button"></button>
+          <button class="home-surprise" id="homeSurprise" type="button"></button>
+        </div>
+      </section>
+
       <section id="view-map" role="tabpanel" aria-labelledby="tab-map">
         <div class="win map-frame">
           <div class="map-box" id="mapBox">
@@ -17452,7 +17509,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261123-0734-q404-a5f4edfe";
+        var BUILD_ID = "tql-20261123-2312-q405-f6106031";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -19141,7 +19198,16 @@ var qrcode = function() {
           "ep9-meguro-art": { name: "Meguro Gallery Beret", desc: "River black with a silver hem." },
           
           },
-          tabDaily: "DAILY",
+          tabDaily: "DAILY", tabMap: "MAP", tabHome: "FOR YOU",
+          homeAsk1: "Where to today?", homeAsk2: "Pick one - I'll find it for you.",
+          homeQ: "How do you want to play today?", homeMulti: "multi OK",
+          chipNear: "Near me", chipFree: "Free", chipWknd: "This weekend",
+          homeRecTitle: "Picked for you", homeShuffle: "Shuffle",
+          homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me",
+          homeAccept: "Accept", reasonNear: "Closest to you", reasonFree: "Free to enter",
+          reasonEnding: "Ends in {D} days", reasonLastDay: "Last day today", reasonEpic: "Must-see spot",
+          reasonWknd: "On this weekend", reasonPick: "A good pick for today",
+          homeEmpty: "Nothing matches. Try turning a chip off.",
           tabListIndex: "ADVENTURE QUEST",
           locBtnShort: "LOCATE", bigMapShort: "FULL MAP",
           communityTitle: "COMMUNITY", communitySub: "FELLOW ADVENTURERS' BOARD",
@@ -20041,7 +20107,16 @@ var qrcode = function() {
           "ep9-meguro-art": { name: "目黒ギャラリーベレー", desc: "目黒川ブラックに銀の縁。" },
           
           },
-          tabDaily: "デイリー",
+          tabDaily: "デイリー", tabMap: "マップ", tabHome: "おすすめ",
+          homeAsk1: "今日はどこ行く？", homeAsk2: "選んで。あとは私が探すよ。",
+          homeQ: "今日はどう遊ぶ？", homeMulti: "複数OK",
+          chipNear: "近い", chipFree: "無料", chipWknd: "今週末",
+          homeRecTitle: "あなたへのおすすめ", homeShuffle: "別の3件",
+          homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ",
+          homeAccept: "受注する", reasonNear: "いちばん近い", reasonFree: "入場無料",
+          reasonEnding: "あと{D}日で終了", reasonLastDay: "今日が最終日", reasonEpic: "必見の名所",
+          reasonWknd: "今週末やってる", reasonPick: "今日のおすすめ",
+          homeEmpty: "見つかりませんでした。条件を1つ外してみて。",
           tabListIndex: "冒険クエスト",
           locBtnShort: "現在地", bigMapShort: "全画面",
           communityTitle: "コミュニティ", communitySub: "冒険者たちの掲示板",
@@ -20941,7 +21016,16 @@ var qrcode = function() {
           "ep9-meguro-art": { name: "目黑画廊贝雷帽", desc: "目黑川的黑，配银色边。" },
           
           },
-          tabDaily: "每日",
+          tabDaily: "每日", tabMap: "地图", tabHome: "推荐",
+          homeAsk1: "今天想去哪儿？", homeAsk2: "选一个，我直接帮你找。",
+          homeQ: "今天想怎么玩？", homeMulti: "可多选",
+          chipNear: "离我近", chipFree: "免费", chipWknd: "本周末",
+          homeRecTitle: "为你推荐", homeShuffle: "换一批",
+          homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个",
+          homeAccept: "接任务", reasonNear: "离你最近", reasonFree: "免费开放",
+          reasonEnding: "只剩{D}天", reasonLastDay: "今天最后一天", reasonEpic: "必去地标",
+          reasonWknd: "本周末有", reasonPick: "今天值得去",
+          homeEmpty: "没有符合的，把选项取消一个试试",
           tabListIndex: "冒险任务",
           locBtnShort: "定位", bigMapShort: "全屏",
           communityTitle: "社区", communitySub: "冒险者公告板",
@@ -28061,7 +28145,8 @@ function drawRunnerFrame(ctx, frame, blink) {
       function renderStaticText() {
         var t = L();
         document.documentElement.lang = state.lang === "ja" ? "ja" : state.lang === "zh" ? "zh-CN" : "en";
-        document.getElementById("tab-map").innerHTML = ICONS.map + "<span>START</span>";
+        document.getElementById("tab-map").innerHTML = ICONS.map + "<span>" + t.tabMap + "</span>";
+        document.getElementById("tab-home").innerHTML = ICONS.dice + "<span>" + t.tabHome + "</span>";
         document.querySelectorAll(".mg-share-btn").forEach(function (b) { b.textContent = t.mgShareBtn; b.setAttribute("aria-label", t.mgShareBtn); });
         var mlE = document.getElementById("mlEverLbl"); if (mlE) mlE.textContent = t.legendEver;
         var mlT = document.getElementById("mlTimedLbl"); if (mlT) mlT.textContent = t.legendTimed;
@@ -28069,6 +28154,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (navGearEl) navGearEl.innerHTML = ICONS.gear + "<span>" + t.styleBtn + "</span>";
         document.getElementById("tab-daily").innerHTML = ICONS.cal + "<span>" + t.tabDaily + "</span>";
         updateLogTab();
+        var hv405 = document.getElementById("view-home");
+        if (hv405 && !hv405.hidden) renderHome();
         var bmBtn = document.getElementById("bmStyleBtn");
         if (bmBtn) bmBtn.innerHTML = ICONS.gear;
         renderMfChrome();
@@ -31538,7 +31625,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            the black GB blink retired 2026-10-27 22:11 as too
            abrupt). The mosaic tile overlay stays abolished: no
            overlay is created here, no timers, nothing strands. */
-        ["map", "list", "daily", "hero"].forEach(function (v) {
+        ["map", "list", "daily", "hero", "home"].forEach(function (v) {
           document.getElementById("view-" + v).hidden = v !== name;
           document.getElementById("tab-" + v).setAttribute("aria-selected", String(v === name));
         });
@@ -31551,6 +31638,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (name === "hero") { if (heroWinOpen) openHeroWin(null); renderHero(); } /* Q-396: the hero tab closes any open sub-window (R223) */
         else stopWalk();
         if (name === "daily") renderDaily();
+        if (name === "home") renderHome();
         if (name === "list") { maybeRequestSortPos(); renderSearch(); }
         var panel = document.getElementById("view-" + name);
         if (panel) panel.scrollTop = 0;
@@ -32068,9 +32156,9 @@ function drawRunnerFrame(ctx, frame, blink) {
       var entryLocAsked = false;
       var tutAutoShown = false;
       function entrySequence() {
-        playMapIntro();
+        switchView("home");
         if (levelInfo().lv < 2) {
-          var mb = document.getElementById("tab-map");
+          var mb = document.getElementById("tab-home");
           if (mb) mb.classList.add("is-new");
         }
         if (!entryLocAsked) {
@@ -34723,6 +34811,158 @@ function drawZoneStamp(cv, zoneId, mode) {
           g.hidden = false;
         } catch (e) { /* the gate is a courtesy - never block boot */ }
       }
+
+      /* ============ Q-405: recommendation home ============
+         Session-only state: the three chips and the shuffle page.
+         The pool is quests the player can still take (not cleared,
+         not accepted); timed quests must be running today, or on
+         the coming weekend when the weekend chip is on. Sorting is
+         distance-first when a position is known, else ending-soon
+         first. Reasons are facts (ending soon / nearest / EPIC /
+         free / weekend), never invented editorial. */
+      var homeSel = { near: false, free: false, wknd: false };
+      var homePage = 0;
+      function homeDateStr(d) {
+        function p(n) { return (n < 10 ? "0" : "") + n; }
+        return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+      }
+      function homeWeekendDays() {
+        var out = [];
+        var base = new Date();
+        for (var i = 0; i < 7 && out.length < 2; i++) {
+          var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+          var dow = d.getDay();
+          if (dow === 0 || dow === 6) out.push(homeDateStr(d));
+        }
+        return out;
+      }
+      function homeRunsOn(e, day) {
+        if (e.evergreen || e.recurring) return true;
+        if (!e.start || !e.end) return true;
+        return e.start <= day && day <= e.end;
+      }
+      function homePool() {
+        var wk = homeSel.wknd ? homeWeekendDays() : null;
+        var pool = EVENTS.filter(function (e) {
+          if (isCleared(e.id) || isAccepted(e.id)) return false;
+          if (homeSel.free && !e.free) return false;
+          if (wk) return wk.some(function (d) { return homeRunsOn(e, d); });
+          return homeRunsOn(e, TODAY);
+        });
+        pool.sort(function (a, b) {
+          var da = questDistM(a), db = questDistM(b);
+          if (da != null && db != null && da !== db) return da - db;
+          if (da != null && db == null) return -1;
+          if (da == null && db != null) return 1;
+          var ea = (a.evergreen || !a.end) ? "9999-99" : a.end;
+          var eb = (b.evergreen || !b.end) ? "9999-99" : b.end;
+          if (ea !== eb) return ea < eb ? -1 : 1;
+          return a.id < b.id ? -1 : 1;
+        });
+        return pool;
+      }
+      function homeReason(e, isNearest) {
+        var t = L();
+        if (!e.evergreen && e.end) {
+          var de = daysBetween(TODAY, e.end);
+          if (de === 0) return t.reasonLastDay;
+          if (de > 0 && de <= 7) return t.reasonEnding.replace("{D}", String(de));
+        }
+        if (isNearest) return t.reasonNear;
+        if (isEpicQuest(e)) return t.reasonEpic;
+        if (e.free) return t.reasonFree;
+        if (homeSel.wknd) return t.reasonWknd;
+        return t.reasonPick;
+      }
+      function homeMeta(e) {
+        var t = L();
+        var parts = [];
+        var d = questDistM(e);
+        parts.push(d != null ? fmtDist(d) : e.area);
+        parts.push(e.free ? t.chipFree : evPrice(e));
+        if (e.evergreen || !e.start) parts.push(t.legendEver);
+        else parts.push(fmtShortDate(e.start) + " - " + fmtShortDate(e.end));
+        return parts.join(" \u00b7 ");
+      }
+      function homeCardHTML(e, isNearest) {
+        var t = L();
+        var soon = isNotStarted(e);
+        var acc = soon
+          ? '<span class="hc-accept is-soon">' + esc(t.startsIn(daysBetween(TODAY, e.start))) + "</span>"
+          : '<span class="hc-accept" data-home-accept="' + e.id + '">' + esc(t.homeAccept) + "</span>";
+        return '<div class="home-card" data-home-open="' + e.id + '">' +
+          '<img class="hc-img" src="' + e.img + '" alt="" loading="lazy">' +
+          '<span class="hc-main"><span class="hc-name">' + esc(evName(e)) + "</span>" +
+          '<span class="hc-meta">' + esc(homeMeta(e)) + "</span>" +
+          '<span class="hc-reason">' + esc(homeReason(e, isNearest)) + "</span></span>" +
+          acc + "</div>";
+      }
+      function renderHome() {
+        var t = L();
+        document.getElementById("homeAsk1").textContent = t.homeAsk1;
+        document.getElementById("homeAsk2").textContent = t.homeAsk2;
+        document.getElementById("homeQ").textContent = t.homeQ;
+        document.getElementById("homeMulti").textContent = t.homeMulti;
+        var chips = document.querySelectorAll("[data-home-chip]");
+        var icons = { near: ICONS.pin, free: ICONS.sword, wknd: ICONS.cal };
+        var labels = { near: t.chipNear, free: t.chipFree, wknd: t.chipWknd };
+        chips.forEach(function (b) {
+          var k = b.getAttribute("data-home-chip");
+          b.setAttribute("aria-pressed", String(!!homeSel[k]));
+          b.innerHTML = icons[k] + "<span>" + esc(labels[k]) + "</span>";
+        });
+        document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
+        document.getElementById("homeShuffle").textContent = t.homeShuffle;
+        var pool = homePool();
+        if (pool.length && homePage * 3 >= pool.length) homePage = 0;
+        var page = pool.slice(homePage * 3, homePage * 3 + 3);
+        var list = document.getElementById("homeRecList");
+        list.innerHTML = page.length
+          ? page.map(function (e, i) { return homeCardHTML(e, i === 0 && questDistM(e) != null); }).join("")
+          : '<div class="home-empty">' + esc(t.homeEmpty) + "</div>";
+        document.getElementById("homeAll").textContent = t.homeAll.replace("{N}", String(EVENTS.length)) + " \u2192";
+        document.getElementById("homeSurprise").textContent = t.homeSurprise;
+        var hud = document.getElementById("homeHud");
+        if (hud) hud.innerHTML = "Lv." + levelInfo().lv + " · " + ICONS.ticket + "<span>×" + ticketsLeft() + "</span>";
+        var sc = document.getElementById("homeScene");
+        if (sc) sc.setAttribute("data-phase", currentMode());
+        var cv = document.getElementById("homeHeroCanvas");
+        if (cv) { try { drawHeroEquipped(cv, state.hero, state.gacha.equipped); } catch (e) { /* hero art is garnish */ } }
+      }
+      document.getElementById("homeChips").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-home-chip]"); if (!b) return;
+        var k = b.getAttribute("data-home-chip");
+        homeSel[k] = !homeSel[k];
+        homePage = 0;
+        sfx("move");
+        renderHome();
+      });
+      document.getElementById("homeShuffle").addEventListener("click", function () {
+        homePage++;
+        sfx("move");
+        renderHome();
+      });
+      document.getElementById("homeAll").addEventListener("click", function () { switchView("list"); });
+      document.getElementById("homeSurprise").addEventListener("click", function () {
+        var pool = homePool();
+        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isAccepted(e.id) && homeRunsOn(e, TODAY); });
+        if (!pool.length) return;
+        var e = pool[Math.floor(Math.random() * Math.min(pool.length, 12))];
+        if (!isNotStarted(e)) toggleAccept(e.id);
+        openDetail(e.id);
+      });
+      document.getElementById("homeRecList").addEventListener("click", function (ev) {
+        var acc = ev.target.closest("[data-home-accept]");
+        if (acc) {
+          ev.stopPropagation();
+          toggleAccept(acc.getAttribute("data-home-accept"));
+          updateLogTab();
+          renderHome();
+          return;
+        }
+        var card = ev.target.closest("[data-home-open]");
+        if (card) openDetail(card.getAttribute("data-home-open"));
+      });
 
       try {
         renderAll();
