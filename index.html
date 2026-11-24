@@ -14464,11 +14464,6 @@
            big chips, three served quests. No learning curve. -->
       <section id="view-home" role="tabpanel" aria-labelledby="tab-home" hidden>
         <div class="home-panel">
-          <div class="home-scene" id="homeScene" data-phase="day">
-            <span class="home-hud" id="homeHud"></span>
-            <canvas id="homeHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
-            <div class="home-bubble"><div class="hb-1" id="homeAsk1"></div><div class="hb-2" id="homeAsk2"></div></div>
-          </div>
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
           <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
           <div class="home-rec-head"><span id="homeRecTitle"></span><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
@@ -17475,7 +17470,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1741-q417-e867bed9";
+        var BUILD_ID = "tql-20261124-1800-q418-8e6056ce";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -35409,8 +35404,6 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       function renderHome() {
         var t = L();
-        document.getElementById("homeAsk1").textContent = t.homeAsk1;
-        document.getElementById("homeAsk2").textContent = t.homeAsk2;
         var hqLabels = { ending: t.quickEnding, free: t.quickFree, near: t.quickNear, random: t.quickRandom };
         var hqIcons = { ending: ICONS.cal, free: ICONS.tag, near: ICONS.pin, random: ICONS.dice };
         document.querySelectorAll("#homeQuick [data-hq]").forEach(function (b) {
