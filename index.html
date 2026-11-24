@@ -13872,6 +13872,40 @@
       #view-home .hc-savebtn { background: #fffdf4; color: #22303c; display: inline-flex; align-items: center; gap: 5px; }
       #view-home .hc-savebtn.is-on { background: #dceaff; }
       #view-home .hc-savebtn svg { width: 14px; height: 14px; flex: 0 0 auto; }
+
+      /* Q-413: short viewports squeeze the detail onto one screen
+         (measured: c165 overflowed 80px at 695px tall) */
+      @media (max-height: 740px) {
+        dialog#detail .detail-body { gap: 5px; }
+        dialog#detail .detail-preview { height: 92px; }
+        dialog#detail .detail-head { padding: 8px 14px 6px; }
+        dialog#detail .kv dd { line-height: 1.35; }
+        dialog#detail .kv .kv-cols { margin-top: 4px; }
+        dialog#detail .kv .kv-col + .kv-col { margin-top: 4px; }
+        dialog#detail .blurb-box { padding: 9px 11px; }
+        dialog#detail .detail-actions { gap: 6px; }
+        dialog#detail .detail-actions .rpg-btn { padding: 8px 8px; }
+        dialog#detail .detail-actions .btn-checkin { padding: 9px 8px; }
+        dialog#detail .checkin-note { font-size: 12.5px; }
+      }
+      /* Q-413: the scroll hint pill */
+      dialog#detail .detail-more { position: sticky; bottom: 6px; height: 0; margin-top: -8px; display: flex; justify-content: center; pointer-events: none; z-index: 5; }
+      dialog#detail .detail-more[hidden] { display: none; }
+      dialog#detail .detail-more span { transform: translateY(-30px); background: #ffd83d; color: #26324e; border: 2.5px solid #26324e; border-radius: 999px; font-size: 12px; font-weight: 900; line-height: 1; padding: 4px 13px 5px; box-shadow: 0 2px 0 rgba(38, 50, 78, .45); animation: det-bob 0.9s steps(2, end) infinite alternate; }
+      @keyframes det-bob { from { margin-top: 0; } to { margin-top: 4px; } }
+
+      /* Q-413b: second pass — c165 still overflowed 31px */
+      @media (max-height: 740px) {
+        dialog#detail .detail-preview { height: 76px; }
+        dialog#detail .blurb-box { line-height: 1.5; }
+        dialog#detail .detail-head { padding-bottom: 4px; }
+        dialog#detail .detail-head h2 { line-height: 1.25; }
+        dialog#detail .kv { gap: 2px 8px; }
+        dialog#detail .checkin-note { line-height: 1.35; }
+      }
+
+      /* Q-413c: the hint stays last in the sheet's flex order */
+      dialog#detail .detail-more { order: 99; }
 </style>
   </head>
   <body data-view="map">
@@ -15037,6 +15071,7 @@
           <p class="checkin-note" id="checkinNote"></p>
           <button class="undo-link" id="btnUndo" type="button" hidden></button>
           </div>
+          <div class="detail-more" id="detailMore" hidden aria-hidden="true"><span>▼</span></div>
         </div>
         <div class="detail-fade" aria-hidden="true"></div>
         <div class="detail-actions">
@@ -17443,7 +17478,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1623-q412-471450ce";
+        var BUILD_ID = "tql-20261124-1630-q413-e0b04094";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -30172,6 +30207,9 @@ function drawRunnerFrame(ctx, frame, blink) {
            close button no longer opens wearing the focus ring
            (Zoe, 2026-11-02); keyboard focus-visible stays. */
         try { detail.focus({ preventScroll: true }); } catch (err) { try { detail.focus(); } catch (e2) {} }
+        /* Q-413: the typewriter blurb keeps growing the sheet
+           after it opens — re-check the hint while it types */
+        [60, 600, 1600, 2800].forEach(function (ms) { setTimeout(detailMoreSync, ms); });
       }
       /* EPIC reward line in the detail: the spot's limited gear,
          previewed before the clear and marked once it is yours. */
@@ -30196,6 +30234,15 @@ function drawRunnerFrame(ctx, frame, blink) {
         });
         var cv = box.querySelector("[data-epic-canvas]");
         if (cv && it) drawItemPreview(cv, it);
+      }
+      /* Q-413: the detail scroll hint — a lemon ▼ pill riding
+         the foot of the sheet while more content is below; it
+         hides the moment the end is reached. */
+      function detailMoreSync() {
+        var b = document.querySelector("#detail .detail-body");
+        var m = document.getElementById("detailMore");
+        if (!b || !m) return;
+        m.hidden = (b.scrollHeight - b.scrollTop - b.clientHeight) <= 8;
       }
       /* ONE stateful quest button: CHECK IN -> CLEAR (Q-411:
          accept retired; check-in is direct). The manual-clear
@@ -30252,6 +30299,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var undo = document.getElementById("btnUndo");
         undo.hidden = !clr;
         if (clr) undo.textContent = t.undoClear;
+        detailMoreSync();
       }
       /* ============ GBA yes/no confirm ============
          One reusable chunky dialogue window for destructive-ish
@@ -34315,6 +34363,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       
       
       
+      (function () { var db = document.querySelector("#detail .detail-body"); if (db) db.addEventListener("scroll", detailMoreSync, { passive: true }); })();
       document.getElementById("btnQuest").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) return;
