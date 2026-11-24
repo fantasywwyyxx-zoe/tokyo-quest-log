@@ -14494,7 +14494,7 @@
             <div class="map-caps" id="mapCaps">
               <button class="mg-map-btn" id="evMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 22c4.4-4.1 7-7.6 7-11a7 7 0 1 0-14 0c0 3.4 2.6 6.9 7 11z" fill="#e2483a"/><circle cx="12" cy="11" r="2.6" fill="#ffffff"/></svg></span><span class="mmb-txt"><span class="mmb-kick" id="evMapKick"></span><span class="mmb-name" id="evMapName"></span></span><span class="mmb-ticket" id="evMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
               <button class="mg-map-btn" id="mgMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path d="M4 5h8v2h2v5h-3l-2-2H7L5 12H2V7H4z"/><rect x="4" y="7" width="2" height="2" fill="#26339b"/><rect x="11" y="7" width="1.6" height="1.6" fill="#f8bc3d"/><rect x="10" y="9" width="1.6" height="1.6" fill="#e5484d"/></svg></span><span class="mmb-txt"><span class="mmb-kick" id="mgMapKick"></span><span class="mmb-name" id="mgMapName"></span></span><span class="mmb-ticket" id="mgMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
-              <button class="mg-map-btn" id="recMapBtn" type="button"><span class="mmb-ico" aria-hidden="true"><svg viewBox="0 0 16 16" fill="currentColor" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><rect x="2" y="2" width="12" height="12" rx="2"/><rect x="4.5" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="4.5" width="2.4" height="2.4" fill="#e5484d"/><rect x="6.8" y="6.8" width="2.4" height="2.4" fill="#e5484d"/><rect x="4.5" y="9.1" width="2.4" height="2.4" fill="#e5484d"/><rect x="9.1" y="9.1" width="2.4" height="2.4" fill="#e5484d"/></svg></span><span class="mmb-name" id="recMapName"></span><span class="mmb-ticket" id="recMapTicket"></span><span class="mmb-go" aria-hidden="true">▶</span></button>
+              
             </div>
             <div class="map-filters" id="mapFilters" role="group" aria-label="Map filter">
               <span class="mf-side" id="mapSideTag"></span>
@@ -17460,7 +17460,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1713-q415-06f62d75";
+        var BUILD_ID = "tql-20261124-1717-q416-2a044e68";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28502,13 +28502,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         return '<span class="cat-chip ' + CAT_CLASS[e.category] + '">' + ICONS[CAT_ICON[e.category]] + esc(catName(e.category)) + "</span>";
       }
       function stateBadges(e) {
-        /* dedup (Zoe, 2026-11-02): the free mark lives only in
-           the price row and the ending-soon countdown only in
-           the period row -- the band keeps the EPIC tier mark,
-           which stands apart from the status slot. */
-        var s = "";
-        if (isEpicQuest(e)) s += '<span class="epic-badge">' + L().epicBadge + "</span>";
-        return s;
+        /* Q-416 (Zoe, 2026-11-24): no tier badge — the EPIC
+           label retired from the detail head entirely. */
+        return "";
       }
       /* Q-243: the state pill renders beside the No. line, not
          in the head chips row (keeps the chips to one line). */
@@ -28731,7 +28727,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
       }
       function renderKindChips() {
-        var kinds = [{ key: "all", label: L().all }, { key: "timed", label: L().legendTimed }, { key: "ever", label: L().legendEver }, { key: "epic", label: "EPIC" }];
+        var kinds = [{ key: "all", label: L().all }, { key: "timed", label: L().legendTimed }, { key: "ever", label: L().legendEver }];
         document.getElementById("msKinds").innerHTML = kinds.map(function (o) {
           return '<button class="chip-btn" type="button" data-mskind="' + o.key + '" aria-pressed="' + String(filterKind === o.key) + '">' + esc(o.label) + "</button>";
         }).join("");
@@ -29068,7 +29064,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         VISIBLE.filter(mapFilterMatch).forEach(function (e) {
           var b = document.createElement("button");
           b.type = "button";
-          b.className = "pin" + (e.evergreen ? " is-ever" : " is-timed") + (isCleared(e.id) ? " is-cleared" : "") + (isEpicQuest(e) ? " is-epic" : "");
+          b.className = "pin" + (e.evergreen ? " is-ever" : " is-timed") + (isCleared(e.id) ? " is-cleared" : "");
           /* clamp inside the plane so a pin is never half-clipped by
              the frame edge, whatever the projection gives */
           b.dataset.px = Math.max(2.5, Math.min(97.5, e.x));
@@ -29430,9 +29426,9 @@ function drawRunnerFrame(ctx, frame, blink) {
             keyTxt = " · " + esc(fmtShortDate(e.end)) + (de >= 0 ? " · " + esc(L().endsIn(de)) : "");
           }
         }
-        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-ever" : " is-timed") + (isEpicQuest(e) ? " is-epic" : "") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
+        return '<div class="ms-row' + (clr ? " is-cleared" : "") + (e.evergreen ? " is-ever" : " is-timed") + (e.id === selQid ? " is-sel" : "") + '" data-row-open="' + e.id + '">' +
           rowThumbHTML(e, "ms-banner") +
-          '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + (isEpicQuest(e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
+          '<span class="ms-main"><span class="ms-name"><span class="ms-name-t">' + esc(evName(e)) + '</span>' + '</span>' +
           '<span class="ms-meta">' + esc(areaName(e.area)) + " · " + esc(catName(e.category)) + " · " + esc(evPrice(e)) + distTxt + keyTxt + (clr ? " · " + esc(L().clearedStamp) : "") + '</span></span>' +
           '<button type="button" class="ms-open">' + esc(L().listOpen) + '</button>' +
           '</div>';
@@ -30108,7 +30104,6 @@ function drawRunnerFrame(ctx, frame, blink) {
         fitDetailTitle();
         document.getElementById("detailNo").textContent = "No." + ("0" + (VISIBLE.indexOf(e) + 1)).slice(-2) + " / " + VISIBLE.length;
         detail.classList.toggle("has-photo", !!e.img);
-        detail.classList.toggle("is-epic", isEpicQuest(e));
         renderEpicReward(e);
         detail.style.setProperty("--cat", CAT_COLORS[e.category] || "#3b7b9d");
         /* the period is a plain text line — no HP-style gauge */
@@ -30200,7 +30195,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var name = it ? ((t.gachaItems[it.id] || {}).name || it.id) : "";
         var got = !!it && ownsItem(it.id);
         box.hidden = false;
-        box.innerHTML = '<button class="er-toggle" type="button" aria-expanded="false"><span class="er-k">' + esc(t.epicBadge) + " · " + esc(t.epicRewardK) + '</span><span class="er-caret" aria-hidden="true">\u25be</span></button>' +
+        box.innerHTML = '<button class="er-toggle" type="button" aria-expanded="false"><span class="er-k">' + esc(t.epicRewardK) + '</span><span class="er-caret" aria-hidden="true">\u25be</span></button>' +
           '<div class="er-body" hidden>' + (it ? '<canvas width="16" height="16" data-epic-canvas aria-hidden="true"></canvas>' : "") +
           "<span>" + esc(got ? t.epicRewardGot(name) : t.epicReward(name)) + "</span></div>";
         var tg = box.querySelector(".er-toggle");
@@ -30779,7 +30774,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         var rec = clearRec(e.id);
         var o = {
           questId: e.id, name: evName(e),
-          shareText: isEpicQuest(e) ? L().shareEpic(evName(e)) : L().shareQuest(evName(e)),
+          shareText: L().shareQuest(evName(e)),
           exp: rec ? rec.exp : 0, noReward: true
         };
         doShareClear(o, document.getElementById("btnClearShare"));
@@ -33093,7 +33088,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           var method = o.c.method === "remote" ? t.advRemote : o.c.method === "gps" ? t.advOnsite : "";
           var venue = o.e.venue ? evVenue(o.e).split(",")[0] : areaName(o.e.area);
           return '<button type="button" class="adv-row" data-open="' + o.e.id + '">' + rowThumbHTML(o.e, "adv-thumb") +
-            '<span class="adv-main"><span class="adv-name">' + esc(evName(o.e)) + (isEpicQuest(o.e) ? '<span class="epic-tag">EPIC</span>' : "") + '</span>' +
+            '<span class="adv-main"><span class="adv-name">' + esc(evName(o.e)) + '</span>' +
             '<span class="adv-meta">' + esc(when) + (method ? " · " + esc(method) : "") + " · +" + (typeof o.c.exp === "number" ? o.c.exp : expFor(o.e)) + " EXP</span></span>" +
             '<span class="adv-sticker" aria-hidden="true">' + badgeIconSVG(stickerIdxFor(o.e.id)) + "</span>" +
             '<span class="adv-stamps"><span class="adv-stamp adv-stamp-date">' + esc(when) + '</span><span class="adv-stamp adv-stamp-venue">' + esc(venue) + "</span></span>" +
