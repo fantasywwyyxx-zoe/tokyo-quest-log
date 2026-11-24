@@ -1242,3 +1242,14 @@ button likewise opens the sheet on a physical tap. Poster-path
 share probe, daily probe, bootprobe, hosting/fits/share unit tests
 all still pass. Device-final = Zoe, but this is the first build
 where the failing leg itself reproduces — and passes — in a lab.
+
+## Q-414 — Map + list merged into ONE browse view (Zoe, 2026-11-24)
+Her thread: "Map上有个按钮可以选地图查看也可以选一览查看那种" → mock v1 (top pill) → "Map/一覧 放的位置有问题" → mock v2 (bottom-bar split tab) → she circled the LIST HEADER stack: "这里的设计逻辑我感觉还是有问题" → "你能参考一些别的App想想怎么设计么" → v3 (Airbnb/SUUMO pattern) approved "就按这个逻辑做".
+- ONE fixed browse bar (#browseBar, shown only in map/list modes): funnel button (hosts the moved #searchSummary — "581件のクエスト · 上野" format) + [マップ|一覧] toggle (active = var(--primary)). syncBrowseBar() called from switchView, renderStaticText, and the sheet-close hook.
+- ONE filter logic: mapFilterMatch(e) now returns boardMatch(e, filterArea, filterMood, "") — pins and rows always agree (probe: ueno 67 == 67). mapShownCount drops its legend branch.
+- Retired: map FAB (#mfFilterBtn), map filter sheet + scrim (#mfFilterSheet/#mfScrim), map legend chip (#mapLegend) — legend dots' meaning now lives in the shared sheet's TYPE row labels; the 7 unguarded boot listeners for the sheet were existence-guarded. List header stack (title/search button/kind segs/saved chip) — the list keeps only its sort row (.list-sortrow with #sortBtn). #searchOpenBtn references repointed to #browseFilterBtn (sheet opener + focus fallback) or guarded (renderStaticText line replaced by syncBrowseBar()).
+- Bottom bar back to five slots: #tab-list button removed; switchView guards missing tabs and marks tab-map selected in BOTH browse modes. updateLogTab() is now a no-op (saved count lives on tab-mine's badge alone).
+- homeFilterDone (shared sheet close hook) now also renderMap()s / renderSearch()es whichever browse mode is up + syncs the bar, so closing the sheet from the map re-renders pins.
+- List view gets top clearance for the fixed bar (padding-top: safe-area + 68px); the bar floats over the map (z 120, under coinToast 130).
+- Inert-but-kept: mapFilter/mapState/mapMood/mapArea vars, mapFilterMatchAs/mapCountFor/mapStateCountFor/renderMfChrome/openMfSheet/closeMfSheets (all guarded or caller-less); the drawRouteOverlay legend-mode branch never fires (mapFilter stays "all").
+- Probe q414 24/24 (real taps; entry via seeded save + Q-393 gate in JA; counts agree in both modes; filter set in list applies to map and vice versa; reset from map restores 581; bar hides off-browse; mine map-jump lands in map mode; EN relabels). Probe lessons banked: the gate's OK button overlays START's centre (a startBtn tap can be a gate tap); sheet chips may sit below the sheet's fold — scrollIntoView before tapping; wake map chrome (pokeMapUi) before tapping the tab bar off the map.

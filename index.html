@@ -13906,6 +13906,19 @@
 
       /* Q-413c: the hint stays last in the sheet's flex order */
       dialog#detail .detail-more { order: 99; }
+
+      /* ============ Q-414 browse bar (merged map/list) ============ */
+      #browseBar { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px); left: 8px; right: 8px; z-index: 120; display: flex; align-items: center; gap: 8px; background: var(--paper); border: 3px solid var(--ink); border-radius: 16px; padding: 6px 8px; box-shadow: 0 3px 0 rgba(20, 26, 48, 0.35); }
+      #browseBar[hidden] { display: none; }
+      #browseFilterBtn { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 7px; background: none; border: none; padding: 6px 2px; font: inherit; font-weight: 800; color: var(--ink); cursor: pointer; text-align: left; }
+      #browseFilterBtn svg { flex: none; width: 20px; height: 20px; }
+      #browseFilterBtn .search-summary { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .browse-toggle { flex: none; display: flex; border: 3px solid var(--ink); border-radius: 12px; overflow: hidden; background: var(--paper); }
+      .browse-toggle button { font: inherit; font-weight: 800; border: none; background: transparent; color: var(--ink); padding: 7px 13px; cursor: pointer; }
+      .browse-toggle button.is-on { background: var(--primary); color: #fff; }
+      .browse-toggle button + button { border-left: 3px solid var(--ink); }
+      #view-list { padding-top: calc(env(safe-area-inset-top, 0px) + 68px); }
+      .list-sortrow { display: flex; align-items: center; padding: 0 2px 8px; }
 </style>
   </head>
   <body data-view="map">
@@ -14413,9 +14426,15 @@
            view keeps its own permanent tab (Q-410: Zoe missed it
            on device and asked for it back). On the map, tapping
            MAP again opens the classic menu window. -->
+      <!-- Q-414 (Zoe, 2026-11-24): ONE browse bar for the merged
+           map/list view — funnel + the shared filter summary +
+           the mode toggle. Shown only in the two browse modes. -->
+      <div class="browse-bar" id="browseBar" hidden>
+        <button class="browse-filter-btn" id="browseFilterBtn" type="button" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2e7fb8" stroke="#22303c" stroke-width="1.8" stroke-linejoin="round"/></svg><span class="search-summary" id="searchSummary"></span></button>
+        <span class="browse-toggle" role="group" aria-label="View"><button id="browseModeMap" type="button" aria-pressed="false"></button><button id="browseModeList" type="button" aria-pressed="false"></button></span>
+      </div>
       <nav class="tabs" role="tablist" aria-label="Views">
         <button class="tab" id="tab-map" role="tab" aria-selected="false" data-view="map" type="button"></button>
-        <button class="tab" id="tab-list" role="tab" aria-selected="false" data-view="list" type="button"></button>
         <button class="tab" id="tab-hero" role="tab" aria-selected="false" data-view="hero" type="button"></button>
         <button class="tab tab-start" id="tab-home" role="tab" aria-selected="false" data-view="home" type="button"></button>
         <button class="tab" id="tab-mine" role="tab" aria-selected="false" data-view="mine" type="button"></button>
@@ -14498,40 +14517,9 @@
                  See the EDIT C style block in <head>. -->
             <div class="mf-dock" id="mfDock">
               <span class="mf-hint" id="mfHint" role="button" tabindex="0" hidden></span>
-              <button class="mf-fab" id="mfFilterBtn" type="button" aria-haspopup="dialog" aria-expanded="false">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2e7fb8" stroke="#22303c" stroke-width="1.8" stroke-linejoin="round"/></svg>
-                <span class="mf-badge" id="mfBadge">0</span>
-              </button>
+              
             </div>
-            <div class="mf-scrim" id="mfScrim" hidden></div>
-            <div class="mf-sheet" id="mfFilterSheet" role="dialog" aria-labelledby="mfSheetTitle" hidden>
-              <div class="mf-grab" aria-hidden="true"></div>
-              <div class="mf-sheet-head">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v3l-5.5 6v5.5L9.5 21v-8L4 7z" fill="#2e7fb8" stroke="#22303c" stroke-width="1.8" stroke-linejoin="round"/></svg>
-                <span class="mf-sheet-title" id="mfSheetTitle"></span>
-                <span class="mf-sheet-count" id="mfSheetCount"></span>
-                <button class="mf-x" id="mfSheetClose" type="button" aria-label="Close">✕</button>
-              </div>
-              <div class="mf-mood-label" id="mfKindLabel"></div>
-              <div class="mf-chip-row" id="mfSheetChips">
-                <button class="mf-schip" type="button" data-mf="all" aria-pressed="true"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mf="event" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mf="epic" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mf="legend" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                
-                
-              </div>
-              <div class="mf-mood-label" id="mfStateLabel"></div>
-              <div class="mf-chip-row" id="mfSheetStates">
-                <button class="mf-schip" type="button" data-mfstate="all" aria-pressed="true"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mfstate="accepted" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-                <button class="mf-schip" type="button" data-mfstate="cleared" aria-pressed="false"><span class="mf-schip-name"></span><span class="mf-schip-n"></span></button>
-              </div>
-              <div class="mf-mood-label" id="mfMoodLabel"></div>
-              <div class="mf-chip-row" id="mfSheetMoods"></div>
-              <div class="mf-mood-label" id="mfAreaLabel"></div>
-              <div class="mf-chip-row" id="mfSheetAreas"></div>
-            </div>
+            
             <div class="map-backdrop" id="mapBackdrop" aria-hidden="true"></div>
             <svg class="scenery osm-map" id="mapScenery" viewBox="0 0 960.07 857.71" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
               <!-- REAL GEOGRAPHY, BAKED IN AT BUILD TIME: coastline, Tokyo Bay,
@@ -14595,7 +14583,7 @@
               </span>
             </div>
             <div class="loc-chip" id="locChip" hidden><span class="loc-chip-text" id="locChipText"></span><button class="loc-chip-x" id="locChipX" type="button" aria-label="Close">✕</button></div>
-            <div class="map-legend" id="mapLegend" aria-hidden="true"><span class="ml-item"><span class="ml-sw ever"></span><span id="mlEverLbl"></span></span><span class="ml-item"><span class="ml-sw timed"></span><span id="mlTimedLbl"></span></span></div>
+            
             <div class="osm-attrib" id="osmAttrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</div>
           </div>
         </div>
@@ -14631,16 +14619,10 @@
 
       <!-- LIST VIEW: the searchable quest index. Rows are game
            windows; a tap opens the full-screen event briefing. -->
-      <section id="view-list" role="tabpanel" aria-labelledby="tab-list" hidden data-seg="index">
+      <section id="view-list" role="tabpanel" aria-labelledby="tab-map" hidden data-seg="index">
         <div class="win list-shell">
-        <div class="list-bar">
-          
-          <span class="search-summary" id="searchSummary"></span><button class="search-open-btn" id="searchOpenBtn" type="button"></button>
-          
-        </div>
-        <div class="list-subbar">
-          
-          <span class="sort-segs kind-segs" role="group" aria-label="Kind"><button class="sort-near-btn" type="button" data-kindmode="all" aria-pressed="true"></button><button class="sort-near-btn" type="button" data-kindmode="ever" aria-pressed="false"></button><button class="sort-near-btn" type="button" data-kindmode="timed" aria-pressed="false"></button></span><button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button><button class="acc-chip" type="button" id="acceptedChip" aria-pressed="false"></button>
+        <div class="list-sortrow">
+          <button class="sort-btn" type="button" id="sortBtn"><span id="sortBtnLabel"></span><span class="sort-tri" aria-hidden="true"></span></button>
         </div>
         <p class="sort-msg" id="sortMsg" hidden></p>
         <div class="liseg-panel" id="lisegIndex">
@@ -17478,7 +17460,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1630-q413-e0b04094";
+        var BUILD_ID = "tql-20261124-1658-q414-5195b8a0";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28602,7 +28584,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (dmb) dmb.textContent = document.getElementById("detailBlurb").classList.contains("is-collapsed") ? t.moreDetails : t.lessDetails;
         renderMinBtns();
         document.getElementById("msTitle").textContent = t.searchTitle;
-        document.getElementById("searchOpenBtn").innerHTML = "🔍 " + esc(t.searchBtn);
+        syncBrowseBar();
         document.getElementById("lblFilterKind").textContent = t.lblKind;
         document.getElementById("lblFilterState").textContent = t.lblState;
         document.getElementById("lblFilterCat").textContent = t.category;
@@ -28768,9 +28750,9 @@ function drawRunnerFrame(ctx, frame, blink) {
         }).join("");
       }
       function updateLogTab() {
-        var n = (state.saved || []).filter(function (id) { return !isCleared(id) && byId(id); }).length;
-        document.getElementById("tab-list").innerHTML = ICONS.scroll + "<span>" + L().tabList + "</span>" +
-          (n > 0 ? '<span class="count">' + n + "</span>" : "");
+        /* Q-414: the LIST tab retired with the browse merge — the
+           saved count lives on the MY LIST tab badge alone now. */
+        return;
       }
       /* ============ EXP / levels / titles ============ */
       function expFor(e) { if (typeof e.exp === "number") return e.exp; if (e.evergreen) return 100; return e.free ? 30 : 50; } /* EXP table (R3): daily 10 (+30 sweep), normal events 30-50, large/special 60-80 via e.exp, EPIC evergreen 100 + limited gear */
@@ -28876,15 +28858,12 @@ function drawRunnerFrame(ctx, frame, blink) {
         return true;
       }
       function mapFilterMatch(e) {
-        if (!mapFilterMatchAs(e, mapFilter)) return false;
-        if (mapState === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
-        if (mapState === "cleared" && !isCleared(e.id)) return false;
-        if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
-        if (mapArea && mapFilter !== "legend" && districtOf(e) !== mapArea) return false;
-        return true;
+        /* Q-414 (Zoe, 2026-11-24): ONE filter logic — the map runs
+           the shared board predicate, so pins and list rows can
+           never disagree. The map's own filter vars/sheet retired. */
+        return boardMatch(e, filterArea, filterMood, "");
       }
       function mapShownCount() {
-        if (mapFilter === "legend") return LEGENDS.length;
         return VISIBLE.filter(mapFilterMatch).length;
       }
       /* per-chip counts for the sheet: the same match logic, one
@@ -32062,6 +32041,23 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (ev.target.closest(".map-nav-overlay, #tab-map")) return;
         setMapNavOpen(false);
       }, true);
+      /* ============ Q-414: the merged browse bar ============
+         Map and list are ONE browse view with two renderings:
+         one header (filter summary + mode toggle), one filter
+         sheet, one result set. The bar exists only in browse. */
+      function syncBrowseBar(viewName) {
+        var bar = document.getElementById("browseBar");
+        if (!bar) return;
+        var v = viewName || document.body.getAttribute("data-view");
+        var on = v === "map" || v === "list";
+        bar.hidden = !on;
+        if (!on) return;
+        var t = L();
+        var bm = document.getElementById("browseModeMap");
+        if (bm) { bm.textContent = t.tabMap; bm.classList.toggle("is-on", v === "map"); bm.setAttribute("aria-pressed", String(v === "map")); }
+        var bl = document.getElementById("browseModeList");
+        if (bl) { bl.textContent = t.tabList; bl.classList.toggle("is-on", v === "list"); bl.setAttribute("aria-pressed", String(v === "list")); }
+      }
       function switchView(name) {
         /* Tab change = a soft fade through the theme background
            on the page container itself (CSS view-fade, 200ms —
@@ -32070,9 +32066,10 @@ function drawRunnerFrame(ctx, frame, blink) {
            overlay is created here, no timers, nothing strands. */
         ["map", "list", "mine", "hero", "home"].forEach(function (v) {
           document.getElementById("view-" + v).hidden = v !== name;
-          document.getElementById("tab-" + v).setAttribute("aria-selected", String(v === name));
+          var tb = document.getElementById("tab-" + v); if (tb) tb.setAttribute("aria-selected", String(v === name || (v === "map" && name === "list")));
         });
         document.body.setAttribute("data-view", name);
+        syncBrowseBar(name);
         setMapNavOpen(false);
         setStatusMin(true); /* the status card is a compact game HUD on every screen */
         if (name === "map") { pokeMapUi(); playMapIntro(); }
@@ -32636,7 +32633,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       var TUT_FLOW = [
         { view: "map", sel: "pin" },
         { view: "map", sel: "#tab-list" },
-        { view: "list", sel: "#msResults .ms-row", fb: "#searchOpenBtn" },
+        { view: "list", sel: "#msResults .ms-row", fb: "#browseFilterBtn" },
         { view: "list", sel: "#tab-daily" },
         { view: "list", sel: "#styleBtn" }
       ];
@@ -34227,6 +34224,10 @@ function drawZoneStamp(cv, zoneId, mode) {
           switchView(v);
         });
       });
+      var bmm = document.getElementById("browseModeMap");
+      if (bmm) bmm.addEventListener("click", function () { if (document.body.getAttribute("data-view") !== "map") { sfx("move"); switchView("map"); } });
+      var bml = document.getElementById("browseModeList");
+      if (bml) bml.addEventListener("click", function () { if (document.body.getAttribute("data-view") !== "list") { sfx("move"); switchView("list"); } });
       document.getElementById("navGear").addEventListener("click", function () {
         document.getElementById("styleBtn").click();
       });
@@ -34279,7 +34280,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         sfx("move"); renderSearch();
       });
       var searchModal = document.getElementById("searchModal");
-      document.getElementById("searchOpenBtn").addEventListener("click", function () {
+      document.getElementById("browseFilterBtn").addEventListener("click", function () {
         sfx("open");
         if (typeof searchModal.showModal === "function") searchModal.showModal();
         else searchModal.setAttribute("open", "");
@@ -34907,13 +34908,13 @@ function drawZoneStamp(cv, zoneId, mode) {
          the sheet stays open; ✕, the scrim, Escape or the same
          button again close it. Tapping the scrim closes the
          sheet — that is the specified outside-tap behaviour. */
-      document.getElementById("mfFilterBtn").addEventListener("click", function (ev) {
+      var _mfW = document.getElementById("mfFilterBtn"); if (_mfW) _mfW.addEventListener("click", function (ev) {
         ev.stopPropagation();
         sfx("move");
         if (mfOpenSheet) closeMfSheets(); else openMfSheet();
       });
-      document.getElementById("mfSheetClose").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
-      document.getElementById("mfScrim").addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
+      var _mfW = document.getElementById("mfSheetClose"); if (_mfW) _mfW.addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
+      var _mfW = document.getElementById("mfScrim"); if (_mfW) _mfW.addEventListener("click", function (ev) { ev.stopPropagation(); sfx("back"); closeMfSheets(); });
       /* sheet / dock taps never reach the map's own handlers,
          and drags starting on them never pan (the pan and
          pinch gates below exclude the same elements) */
@@ -34928,7 +34929,7 @@ function drawZoneStamp(cv, zoneId, mode) {
           if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); ev.stopPropagation(); markMfHintSeen(); }
         });
       }
-      document.getElementById("mfSheetChips").addEventListener("click", function (ev) {
+      var _mfW = document.getElementById("mfSheetChips"); if (_mfW) _mfW.addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-mf]"); if (!b) return;
         ev.stopPropagation();
         mapFilter = b.getAttribute("data-mf") || "all";
@@ -34936,7 +34937,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderMap();
         renderStatus();
       });
-      document.getElementById("mfSheetStates").addEventListener("click", function (ev) {
+      var _mfW = document.getElementById("mfSheetStates"); if (_mfW) _mfW.addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-mfstate]"); if (!b) return;
         ev.stopPropagation();
         mapState = b.getAttribute("data-mfstate") || "all";
@@ -34948,7 +34949,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       if (recEntryBtn) recEntryBtn.addEventListener("click", function () { sfx("open"); openRecOverlay(); });
       var recOvCloseBtn = document.getElementById("recOvClose");
       if (recOvCloseBtn) recOvCloseBtn.addEventListener("click", function () { sfx("back"); closeRecOverlay(); });
-      document.getElementById("mfSheetAreas").addEventListener("click", function (ev) {
+      var _mfW = document.getElementById("mfSheetAreas"); if (_mfW) _mfW.addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-mfarea]"); if (!b) return;
         ev.stopPropagation();
         var a = b.getAttribute("data-mfarea");
@@ -34957,7 +34958,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderMap();
         renderStatus();
       });
-      document.getElementById("mfSheetMoods").addEventListener("click", function (ev) {
+      var _mfW = document.getElementById("mfSheetMoods"); if (_mfW) _mfW.addEventListener("click", function (ev) {
         var b = ev.target.closest("[data-mfmood]"); if (!b) return;
         ev.stopPropagation();
         var m = b.getAttribute("data-mfmood");
@@ -35274,6 +35275,13 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (m) m.classList.remove("from-home");
         var v = document.getElementById("view-home");
         if (v && !v.hidden) { homePage = 0; renderHome(); }
+        /* Q-414: the same sheet serves the browse views — closing
+           it re-renders whichever browse mode is up, then the bar */
+        var vm = document.getElementById("view-map");
+        if (vm && !vm.hidden) renderMap();
+        var vl = document.getElementById("view-list");
+        if (vl && !vl.hidden) renderSearch();
+        syncBrowseBar();
       }
       function homeBlurbLine(e) {
         var b = evBlurb(e);
