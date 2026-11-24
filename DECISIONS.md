@@ -1265,3 +1265,6 @@ She approved the combined mock ("可以试试看") with two cuts: the top filter
 
 ## Q-418 — Home scene strip removed (Zoe, 2026-11-24 17:59)
 She circled the whole strip (hero + bubble + Lv/ticket HUD) on her device: "这个不需要感觉占地方". Markup and the two unguarded bubble paints removed; the guarded HUD/scene/canvas paints in renderHome no-op; bubble STR strings stay inert. The home now opens straight at the quick picks.
+
+## Q-419 — Recommendations fold behind one button (Zoe, 2026-11-24 18:00)
+Her words: "あなたのおすすめ可不可以做成按钮，按一下然后再蹦出来这种". The rec head/list/see-all now live in #homeRecBody behind a chunky #homeRecToggle （あなたへのおすすめ ▼, lemon when open, chevron flips); opening plays a recPop keyframe (rise + slight overshoot). Default folded (homeRecOpen=false). Quick picks auto-open the fold when a mode engages; shuffle + see-all moved inside. Probe q419 10/10 (the one initial FAIL was the probe tapping see-all below the scroll fold; scrollIntoView first, then it passed — product was right).

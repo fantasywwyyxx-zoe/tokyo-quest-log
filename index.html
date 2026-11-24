@@ -13934,6 +13934,17 @@
 #view-home .hs-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid #22303c; border-radius: 9px; }
 #view-home .hs-name { font-size: 11.5px; font-weight: 800; line-height: 1.3; color: #22303c; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 #view-home .hs-chip { align-self: flex-start; background: #e5484d; color: #ffffff; font-size: 10.5px; font-weight: 800; border-radius: 999px; padding: 2px 8px; }
+
+/* Q-419: recommendations fold behind one toggle button */
+#view-home .home-rec-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 13px; border: 2.5px solid #22303c; border-radius: 12px; background: #fffdf4; color: #22303c; font: inherit; font-weight: 800; font-size: 15px; text-align: left; cursor: pointer; box-shadow: 0 2px 0 rgba(20, 24, 60, 0.18); }
+#view-home .home-rec-toggle.is-on { background: #ffd83d; }
+#view-home .home-rec-toggle .hrt-chev { flex: none; font-size: 12px; color: #5b6a7d; transition: transform .18s; }
+#view-home .home-rec-toggle.is-on .hrt-chev { transform: rotate(180deg); }
+#view-home .home-rec-body { display: flex; flex-direction: column; gap: 10px; }
+#view-home .home-rec-body[hidden] { display: none; }
+#view-home .home-rec-body.pop { animation: recPop .22s ease-out; }
+@keyframes recPop { 0% { opacity: 0; transform: translateY(10px) scale(.97); } 55% { opacity: 1; transform: translateY(-2px) scale(1.006); } 100% { opacity: 1; transform: none; } }
+#view-home .home-rec-head { justify-content: flex-end; }
 </style>
   </head>
   <body data-view="map">
@@ -14466,9 +14477,10 @@
         <div class="home-panel">
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
           <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
-          <div class="home-rec-head"><span id="homeRecTitle"></span><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
+          <button class="home-rec-toggle" id="homeRecToggle" type="button" aria-expanded="false"><span id="homeRecTitle"></span><span class="hrt-chev" aria-hidden="true">▼</span></button>
+          <div class="home-rec-body" id="homeRecBody" hidden><div class="home-rec-head"><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
-          <button class="home-all" id="homeAll" type="button"></button>
+          <button class="home-all" id="homeAll" type="button"></button></div>
         </div>
       </section>
 
@@ -17470,7 +17482,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1800-q418-8e6056ce";
+        var BUILD_ID = "tql-20261124-1801-q419-2847a09d";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -35253,6 +35265,7 @@ function drawZoneStamp(cv, zoneId, mode) {
          quest's own blurb line (Q-406). */
       var homePage = 0;
       var homeQuick = null;
+      var homeRecOpen = false;
       function homePool() {
         /* The state dimension is neutralized here on purpose:
            recommendations are always for quests you can still
@@ -35416,6 +35429,10 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderShelf();
         document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
         document.getElementById("homeShuffle").textContent = t.homeShuffle;
+        var rtb = document.getElementById("homeRecBody");
+        if (rtb) rtb.hidden = !homeRecOpen;
+        var rtt = document.getElementById("homeRecToggle");
+        if (rtt) { rtt.classList.toggle("is-on", homeRecOpen); rtt.setAttribute("aria-expanded", String(homeRecOpen)); }
         var pool = homePool();
         if (pool.length && homePage * 3 >= pool.length) homePage = 0;
         var page = pool.slice(homePage * 3, homePage * 3 + 3);
@@ -35446,9 +35463,19 @@ function drawZoneStamp(cv, zoneId, mode) {
         }
         if (k === "near" && !sortPos) { homeRequestPos(); return; }
         homeQuick = homeQuick === k ? null : k;
+        if (homeQuick) homeRecOpen = true;
         homePage = 0;
         sfx("move");
         renderHome();
+      });
+      document.getElementById("homeRecToggle").addEventListener("click", function () {
+        homeRecOpen = !homeRecOpen;
+        sfx(homeRecOpen ? "open" : "back");
+        renderHome();
+        if (homeRecOpen) {
+          var rb = document.getElementById("homeRecBody");
+          if (rb) { rb.classList.remove("pop"); void rb.offsetWidth; rb.classList.add("pop"); }
+        }
       });
       document.getElementById("hsRow").addEventListener("click", function (ev) {
         var c = ev.target.closest("[data-shelf-open]");
