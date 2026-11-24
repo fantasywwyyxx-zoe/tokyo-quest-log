@@ -13866,6 +13866,12 @@
 
       /* Q-410: see-all is a real button, not a web-style text link */
       #view-home .home-all { align-self: stretch; background: #fffdf4; border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 4px 0 rgba(34, 48, 60, .4); color: #22303c; font-size: 15px; font-weight: 900; padding: 13px 10px; cursor: pointer; }
+
+      /* Q-411: the home card action is the save toggle (cream;
+         blue-tinted when saved) — accept is retired */
+      #view-home .hc-savebtn { background: #fffdf4; color: #22303c; display: inline-flex; align-items: center; gap: 5px; }
+      #view-home .hc-savebtn.is-on { background: #dceaff; }
+      #view-home .hc-savebtn svg { width: 14px; height: 14px; flex: 0 0 auto; }
 </style>
   </head>
   <body data-view="map">
@@ -14620,8 +14626,6 @@
             <h2 class="mine-title" id="mineTitle"></h2>
             <button class="mine-share" id="mineShareBtn" type="button"></button>
           </div>
-          <div class="mine-sec is-acc"><span id="mineAccHead"></span></div>
-          <div class="mine-list" id="mineAccList"></div>
           <div class="mine-sec is-saved"><span id="mineSavedHead"></span></div>
           <div class="mine-list" id="mineSavedList"></div>
         </div>
@@ -17498,7 +17502,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1607-q410-29de24f6";
+        var BUILD_ID = "tql-20261124-1618-q411-d03e6002";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -18747,7 +18751,7 @@ var qrcode = function() {
           progress: "PROGRESS",
           audioHint: "♪ Tap anywhere — the BGM starts with your first tap. Two tracks for day and two for night; pick your favourites under BGM in SETTINGS — the music follows the day/night mode automatically.",
           legendNote: "Tap a pin for a quick preview, then open its briefing; at the real venue, tap <b>CHECK IN</b> there — your location clears the quest. Pins you accepted show <b>!</b>; cleared quests get a stamp.",
-          category: "CATEGORY", all: "All", freeOnly: "FREE only", acceptedOnly: "Accepted only", surprise: "SURPRISE ME",
+          category: "CATEGORY", all: "All", freeOnly: "FREE only", acceptedOnly: "Saved only", surprise: "SURPRISE ME",
           filterTitle: "FILTER", minBtn: "MINIMIZE", maxBtn: "EXPAND",
           filterSummary: function (n, cat, free) { return n + (n === 1 ? " quest" : " quests") + " · " + cat + (free ? " · FREE only" : ""); },
           deckPrev: "Previous quest", deckNext: "Next quest",
@@ -18760,7 +18764,7 @@ var qrcode = function() {
           monthlyLabel: "Monthly workshop",
           monthlyNote: "This quest runs every month. The next session's date is announced on the official page — check there before you set out.",
           official: "OFFICIAL PAGE", mapsBtn: "Open in Maps", mapPickTitle: "Open with which map?", mapPickCancel: "Cancel", mapProvApple: "Apple Maps", mapProvGoogle: "Google Maps", mapProvYahoo: "Yahoo! Maps",
-          accept: "ACCEPT QUEST", accepted: "ON QUEST ✓", undoAccept: "Remove from my quest log",
+          accept: "ACCEPT QUEST", accepted: "SAVED ✓", undoAccept: "Remove from my quest log",
           clear: "CLEAR!", clearedBtn: "CLEARED ✓",
           clearedOn: "Quest cleared on ", undoClear: "Undo clear (mark as not cleared)",
           checkin: "CHECK IN HERE", checkingIn: "LOCATING…",
@@ -19455,7 +19459,7 @@ var qrcode = function() {
           styleBtn: "SETTINGS",
           bigMapBtn: "BIG MAP ⤢", bigMapTitle: "TOKYO MAP", bigMapClose: "✕",
           dailyTitle: "Today's Daily", recTitle: "Daily Picks",
-          recEntry: function (n) { return "Today's Picks \u00b7 " + n + " left \u25b8"; }, recEntryDone: "Today's Picks \u00b7 \u2713 All done", recEver: "Evergreen", recTimed: "Limited", recUntil: "until", recFree: "Free", recSkip: "Skip", recWant: "Want to go", recShuffle: "Shuffle", recAgain: "Show again", recEmpty: "You have seen every pick for today.", recLeft: function (n) { return n + " stacked"; }, recAccepted: function (name) { return "ACCEPTED: " + name; }, 
+          recEntry: function (n) { return "Today's Picks \u00b7 " + n + " left \u25b8"; }, recEntryDone: "Today's Picks \u00b7 \u2713 All done", recEver: "Evergreen", recTimed: "Limited", recUntil: "until", recFree: "Free", recSkip: "Skip", recWant: "Want to go", recShuffle: "Shuffle", recAgain: "Show again", recEmpty: "You have seen every pick for today.", recLeft: function (n) { return n + " stacked"; }, recAccepted: function (name) { return "SAVED: " + name; }, 
           dailySub: "Walking your day IS the daily quest. Each one +10 EXP.",
           dailyNpc: "Psst — this is today's daily: the everyday walk itself, done in minutes, anywhere. The adventure quests are waiting out on the map!",
           dailyHow: "Anywhere, in minutes — tap a row when done. Refreshes at midnight; clear all 3 to complete today's daily for +30 EXP.",
@@ -19531,7 +19535,7 @@ var qrcode = function() {
           mfEvent: "EVENTS",
           mfEpic: "EPIC",
           mfLegend: "LEGEND",
-          mfAccepted: "ACCEPTED",
+          mfAccepted: "SAVED",
           mfCleared: "CLEARED",
           mfSheetTitle: "FILTER", mfHint: "Filter quests", mfToolsTitle: "MAP TOOLS", mfMoodHead: "♥ PICK BY MOOD",
           mfAreaHead: "PICK BY AREA",
@@ -19657,7 +19661,7 @@ var qrcode = function() {
           progress: "進捗",
           audioHint: "♪ どこかをタップするとBGMが流れ始めます。BGMは昼・夜それぞれ2曲から選べます（設定のBGMで選択、保存されます）。カラーモードに合わせて昼／夜が自動で切り替わります。",
           legendNote: "ピンをタップすると小さなプレビューが出ます。そこから詳細を開き、実際の会場で<b>チェックイン</b>を押すと位置情報でクリアになります。受注中のピンには<b>！</b>、クリア済みにはスタンプが付きます。",
-          category: "カテゴリ", all: "すべて", freeOnly: "無料のみ", acceptedOnly: "受注中のみ", surprise: "おまかせ",
+          category: "カテゴリ", all: "すべて", freeOnly: "無料のみ", acceptedOnly: "保存済みのみ", surprise: "おまかせ",
           filterTitle: "フィルター", minBtn: "たたむ", maxBtn: "ひらく",
           filterSummary: function (n, cat, free) { return n + "件 · " + cat + (free ? " · 無料のみ" : ""); },
           deckPrev: "前のクエスト", deckNext: "次のクエスト",
@@ -19670,7 +19674,7 @@ var qrcode = function() {
           monthlyLabel: "毎月開催のワークショップ",
           monthlyNote: "このクエストは毎月開催です。次回の日程は公式ページで発表されるので、出発前に確認してください。",
           official: "公式ページ", mapsBtn: "地図で開く", mapPickTitle: "どのマップで開く？", mapPickCancel: "キャンセル", mapProvApple: "Appleマップ", mapProvGoogle: "Googleマップ", mapProvYahoo: "Yahoo!マップ",
-          accept: "クエストを受ける", accepted: "受注中 ✓", undoAccept: "クエストログから外す",
+          accept: "クエストを受ける", accepted: "保存済み ✓", undoAccept: "クエストログから外す",
           clear: "クリア！", clearedBtn: "クリア済み ✓",
           clearedOn: "クリア日：", undoClear: "クリアを取り消す",
           checkin: "ここにいる？チェックイン", checkingIn: "位置を取得中…",
@@ -20365,7 +20369,7 @@ var qrcode = function() {
           styleBtn: "設定",
           bigMapBtn: "大きな地図 ⤢", bigMapTitle: "東京マップ", bigMapClose: "✕",
           dailyTitle: "今日のデイリー", recTitle: "今日のおすすめ",
-          recEntry: function (n) { return "今日のおすすめ \u00b7 残り" + n + "件 \u25b8"; }, recEntryDone: "今日のおすすめ \u00b7 \u2713 完了", recEver: "常設", recTimed: "期間限定", recUntil: "〜", recFree: "無料", recSkip: "スキップ", recWant: "行きたい", recShuffle: "シャッフル", recAgain: "もう一度見る", recEmpty: "今日のおすすめは全部見たよ。", recLeft: function (n) { return n + "枚"; }, recAccepted: function (name) { return "受注した：" + name; }, 
+          recEntry: function (n) { return "今日のおすすめ \u00b7 残り" + n + "件 \u25b8"; }, recEntryDone: "今日のおすすめ \u00b7 \u2713 完了", recEver: "常設", recTimed: "期間限定", recUntil: "〜", recFree: "無料", recSkip: "スキップ", recWant: "行きたい", recShuffle: "シャッフル", recAgain: "もう一度見る", recEmpty: "今日のおすすめは全部見たよ。", recLeft: function (n) { return n + "枚"; }, recAccepted: function (name) { return "保存した：" + name; }, 
           dailySub: "毎日を歩くこと自体がデイリー。1件 +10 EXP。",
           dailyNpc: "これは今日のデイリー——移動なし、どこでも数分で終わる、毎日の歩みそのもの。寄り道の冒険クエストはマップで待ってるよ！",
           dailyHow: "どこでも数分でOK。できたら行をタップ。深夜0時更新／3つ全達成で今日のデイリー完了、+30 EXP。",
@@ -20441,7 +20445,7 @@ var qrcode = function() {
           mfEvent: "期間限定",
           mfEpic: "史詩",
           mfLegend: "レジェンド",
-          mfAccepted: "受注中",
+          mfAccepted: "保存済み",
           mfCleared: "完了",
           mfSheetTitle: "絞り込み", mfHint: "クエストを絞り込み", mfToolsTitle: "ツール", mfMoodHead: "♥ 気分で選ぶ",
           mfAreaHead: "エリアで選ぶ",
@@ -20567,7 +20571,7 @@ var qrcode = function() {
           progress: "进度",
           audioHint: "♪ 点一下任意位置，BGM 就会开始播放。白天和夜晚各有 2 首可选（在设置的 BGM 中选择并保存），音乐会随昼夜模式自动切换。",
           legendNote: "点图钉会弹出小预览，从那里打开详情；到了真实场馆点<b>打卡</b>，用定位完成任务。已接受的图钉带 <b>!</b>，已完成的会盖上印章。",
-          category: "分类", all: "全部", freeOnly: "仅免费", acceptedOnly: "仅受注中", surprise: "随机一个",
+          category: "分类", all: "全部", freeOnly: "仅免费", acceptedOnly: "仅已收藏", surprise: "随机一个",
           filterTitle: "筛选", minBtn: "收起", maxBtn: "展开",
           filterSummary: function (n, cat, free) { return n + " 件任务 · " + cat + (free ? " · 仅免费" : ""); },
           deckPrev: "上一个任务", deckNext: "下一个任务",
@@ -20580,7 +20584,7 @@ var qrcode = function() {
           monthlyLabel: "每月举办的工作坊",
           monthlyNote: "这个任务每月举办。下次的日期会在官方页面公布，出发前请确认。",
           official: "官方页面", mapsBtn: "在地图中打开", mapPickTitle: "用哪个地图打开？", mapPickCancel: "取消", mapProvApple: "苹果地图", mapProvGoogle: "谷歌地图", mapProvYahoo: "雅虎地图",
-          accept: "接受任务", accepted: "进行中 ✓", undoAccept: "从任务日志中移除",
+          accept: "接受任务", accepted: "已收藏 ✓", undoAccept: "从任务日志中移除",
           clear: "完成！", clearedBtn: "已完成 ✓",
           clearedOn: "完成日期：", undoClear: "撤销完成",
           checkin: "我在这里？打卡", checkingIn: "正在定位…",
@@ -21275,7 +21279,7 @@ var qrcode = function() {
           styleBtn: "设置",
           bigMapBtn: "大地图 ⤢", bigMapTitle: "东京地图", bigMapClose: "✕",
           dailyTitle: "今日每日任务", recTitle: "每日推荐",
-          recEntry: function (n) { return "每日推荐 \u00b7 还剩" + n + "个 \u25b8"; }, recEntryDone: "每日推荐 \u00b7 \u2713 已完成", recEver: "常驻", recTimed: "限时", recUntil: "截止", recFree: "免费", recSkip: "跳过", recWant: "想去", recShuffle: "换一批", recAgain: "再看一遍", recEmpty: "今天能推荐的都看完啦。", recLeft: function (n) { return "牌组 " + n; }, recAccepted: function (name) { return "已接下：" + name; }, 
+          recEntry: function (n) { return "每日推荐 \u00b7 还剩" + n + "个 \u25b8"; }, recEntryDone: "每日推荐 \u00b7 \u2713 已完成", recEver: "常驻", recTimed: "限时", recUntil: "截止", recFree: "免费", recSkip: "跳过", recWant: "想去", recShuffle: "换一批", recAgain: "再看一遍", recEmpty: "今天能推荐的都看完啦。", recLeft: function (n) { return "牌组 " + n; }, recAccepted: function (name) { return "已收藏：" + name; }, 
           dailySub: "每天走下去的过程，本身就是每日任务。每件 +10 EXP。",
           dailyNpc: "这是今日每日任务：不用出门，在任何地方几分钟就能完成——走下去的每一天就是每日任务。真正的冒险任务，在地图上等着你！",
           dailyHow: "随时随地几分钟搞定，完成后点一行。午夜刷新；三个全完成 = 今日每日任务完成，+30 EXP。",
@@ -21351,7 +21355,7 @@ var qrcode = function() {
           mfEvent: "限时",
           mfEpic: "史诗",
           mfLegend: "传说",
-          mfAccepted: "进行中",
+          mfAccepted: "已收藏",
           mfCleared: "已完成",
           mfSheetTitle: "筛选", mfHint: "筛选任务", mfToolsTitle: "工具", mfMoodHead: "♥ 按氛围选",
           mfAreaHead: "按区域选",
@@ -24107,6 +24111,20 @@ var qrcode = function() {
             state.accepted = Array.isArray(parsed.accepted) ? parsed.accepted : [];
             state.saved = Array.isArray(parsed.saved) ? parsed.saved : [];
             state.clears = Array.isArray(parsed.clears) ? parsed.clears.filter(function (c) { return c && c.id && c.clearedAt; }) : [];
+            /* Q-411: ACCEPT retired (only check-in + save remain) --
+               every accepted quest moves into saved, deduped,
+               cleared quests excluded; accepted stays empty. */
+            (function () {
+              var clearedIds = {};
+              state.clears.forEach(function (c) { clearedIds[c.id] = 1; });
+              var seen = {};
+              state.saved = state.saved.filter(function (id) { if (typeof id !== "string" || seen[id]) return false; seen[id] = 1; return true; });
+              state.accepted.forEach(function (a) {
+                var id = typeof a === "string" ? a : (a && a.id);
+                if (id && !clearedIds[id] && !seen[id]) { seen[id] = 1; state.saved.push(id); }
+              });
+              state.accepted = [];
+            })();
           }
         }
       } catch (e) { /* storage unavailable — run in-memory */ }
@@ -28538,7 +28556,7 @@ function drawRunnerFrame(ctx, frame, blink) {
          in the head chips row (keeps the chips to one line). */
       function stateBadgeOnly(e) {
         if (isCleared(e.id)) return '<span class="state-badge cleared">' + L().clearedBtn + "</span>";
-        if (isAccepted(e.id)) return '<span class="state-badge">' + L().accepted + "</span>";
+        if (isSaved(e.id)) return '<span class="state-badge">' + L().accepted + "</span>";
         return "";
       }
 
@@ -28774,7 +28792,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         }).join("");
       }
       function updateLogTab() {
-        var n = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
+        var n = (state.saved || []).filter(function (id) { return !isCleared(id) && byId(id); }).length;
         document.getElementById("tab-list").innerHTML = ICONS.scroll + "<span>" + L().tabList + "</span>" +
           (n > 0 ? '<span class="count">' + n + "</span>" : "");
       }
@@ -28877,13 +28895,13 @@ function drawRunnerFrame(ctx, frame, blink) {
            the quests (renderMap draws one star pin per route and
            the count is the route count, both data-linked) */
         if (f === "legend") return false;
-        if (f === "accepted") return isAccepted(e.id) && !isCleared(e.id);
+        if (f === "accepted") return isSaved(e.id) && !isCleared(e.id);
         if (f === "cleared") return isCleared(e.id);
         return true;
       }
       function mapFilterMatch(e) {
         if (!mapFilterMatchAs(e, mapFilter)) return false;
-        if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+        if (mapState === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
         if (mapState === "cleared" && !isCleared(e.id)) return false;
         if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
         if (mapArea && mapFilter !== "legend" && districtOf(e) !== mapArea) return false;
@@ -28899,7 +28917,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (k === "legend") return LEGENDS.length;
         return VISIBLE.filter(function (e) {
           if (!mapFilterMatchAs(e, k)) return false;
-          if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+          if (mapState === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
           if (mapState === "cleared" && !isCleared(e.id)) return false;
           if (mapMood && k !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
           if (mapArea && k !== "legend" && districtOf(e) !== mapArea) return false;
@@ -28911,7 +28929,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           if (mapFilter === "legend") return LEGENDS.length;
           return VISIBLE.filter(function (e) {
             if (!mapFilterMatchAs(e, mapFilter)) return false;
-            if (s === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+            if (s === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
             if (s === "cleared" && !isCleared(e.id)) return false;
             if (mapMood && evBuckets(e).indexOf(mapMood) === -1) return false;
             if (mapArea && districtOf(e) !== mapArea) return false;
@@ -28920,7 +28938,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         }      function mapAreaCountFor(d) {
         return VISIBLE.filter(function (e) {
           if (districtOf(e) !== d) return false;
-          if (mapState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+          if (mapState === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
           if (mapState === "cleared" && !isCleared(e.id)) return false;
           if (!mapFilterMatchAs(e, mapFilter)) return false;
           if (mapMood && mapFilter !== "legend" && evBuckets(e).indexOf(mapMood) === -1) return false;
@@ -29105,7 +29123,7 @@ function drawRunnerFrame(ctx, frame, blink) {
           b.setAttribute("aria-label", L().pinLabel(e));
           var flag = "";
           if (isCleared(e.id)) flag = '<span class="pin-check">' + ICONS.check + "</span>";
-          else if (isAccepted(e.id)) flag = '<span class="pin-flag">!</span>';
+          else if (isSaved(e.id)) flag = '<span class="pin-flag">!</span>';
           b.dataset.qid = e.id;
           b._ll = eventLngLat(e);
           /* events WITH a real photo wear the photo itself as the
@@ -29383,7 +29401,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         else if (filterKind !== "all" && (filterKind === "ever") !== !!e.evergreen) return false;
         if (filterCat !== "All" && e.category !== filterCat) return false;
         if (filterFree && !e.free) return false;
-        if (filterState === "accepted" && !(isAccepted(e.id) && !isCleared(e.id))) return false;
+        if (filterState === "accepted" && !(isSaved(e.id) && !isCleared(e.id))) return false;
         if (filterState === "cleared" && !isCleared(e.id)) return false;
         if (filterState === "todo" && isCleared(e.id)) return false;
         if (areaVal !== "All" && districtOf(e) !== areaVal) return false;
@@ -29562,7 +29580,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         }
           var achip = document.getElementById("acceptedChip");
           if (achip) {
-            var accN = state.accepted.filter(function (id) { return !isCleared(id) && byId(id); }).length;
+            var accN = (state.saved || []).filter(function (id) { return !isCleared(id) && byId(id); }).length;
             achip.textContent = t.acceptedOnly + " \u00b7 " + accN;
             achip.setAttribute("aria-pressed", String(filterState === "accepted"));
             achip.classList.toggle("is-on", filterState === "accepted");
@@ -30238,14 +30256,15 @@ function drawRunnerFrame(ctx, frame, blink) {
         var cv = box.querySelector("[data-epic-canvas]");
         if (cv && it) drawItemPreview(cv, it);
       }
-      /* ONE stateful quest button: ACCEPT -> (same button becomes)
-         CHECK IN -> CLEAR. The manual-clear rescue lives as a small
+      /* ONE stateful quest button: CHECK IN -> CLEAR (Q-411:
+         accept retired; check-in is direct). The manual-clear
+         rescue lives as a small
          sub-link inside the check-in result message, never a big
          button; un-accept / undo-clear are sub-links too. */
       function refreshDetailButtons() {
         if (!currentId) return;
         var t = L();
-        var acc = isAccepted(currentId), clr = isCleared(currentId);
+        var clr = isCleared(currentId);
         var curEv = byId(currentId);
         var ns = !clr && isNotStarted(curEv);
         var svEl = document.getElementById("btnSave");
@@ -30257,11 +30276,10 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (dsEl) dsEl.innerHTML = curEv ? stateBadgeOnly(curEv) : "";
         var bQ = document.getElementById("btnQuest");
         bQ.disabled = clr || ns;
-        bQ.dataset.state = clr ? "cleared" : ns ? "notstarted" : acc ? "checkin" : "accept";
+        bQ.dataset.state = clr ? "cleared" : ns ? "notstarted" : "checkin";
         if (clr) bQ.innerHTML = ICONS.check + "<span>" + t.clearedBtn + "</span>";
         else if (ns) bQ.innerHTML = "<span>" + esc(t.notStartedBtn(daysUntilStart(curEv))) + "</span>";
-        else if (acc) bQ.innerHTML = ICONS.pin + "<span>" + t.checkin + "</span>";
-        else bQ.innerHTML = ICONS.sword + "<span>" + t.accept + "</span>";
+        else bQ.innerHTML = ICONS.target + "<span>" + t.checkin + "</span>";
         var note = document.getElementById("checkinNote");
         var hasVenue = !!VENUES[currentId];
         if (ns) {
@@ -30276,13 +30294,13 @@ function drawRunnerFrame(ctx, frame, blink) {
              word (Q-232, 2026-10-31), the globe note stays hidden
              for evergreens, and the distance box explains on a
              check-in attempt. */
-          note.hidden = clr || !acc || !hasVenue || !!(curEv && isEpicQuest(curEv));
+          note.hidden = clr || !hasVenue || !!(curEv && isEpicQuest(curEv));
           if (!note.hidden) note.innerHTML = ICONS.globe + "<span>" + esc(t.checkinNote) + "</span>";
         }
         var man = document.getElementById("btnManualClear");
         /* EPIC: no manual route and no reason line either
            (Q-232) — the slot simply stays hidden. */
-        if (clr || !acc || ns || (curEv && isEpicQuest(curEv))) man.hidden = true;
+        if (clr || ns || (curEv && isEpicQuest(curEv))) man.hidden = true;
         else if (man.disabled) { man.disabled = false; }
         var line = document.getElementById("detailClearedLine");
         var rec = clearRec(currentId);
@@ -30291,11 +30309,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         var bcs = document.getElementById("btnClearShare");
         if (bcs) { bcs.hidden = !clr; if (clr) bcs.textContent = t.shareBtn; }
         var undo = document.getElementById("btnUndo");
-        undo.hidden = !(clr || acc);
+        undo.hidden = !clr;
         if (clr) undo.textContent = t.undoClear;
-        /* accepted & not cleared: the modest cancel link (its
-           click asks first — see the GBA confirm wiring) */
-        else if (acc) undo.textContent = t.cancelQuest;
       }
       /* ============ GBA yes/no confirm ============
          One reusable chunky dialogue window for destructive-ish
@@ -31082,8 +31097,9 @@ function drawRunnerFrame(ctx, frame, blink) {
             var f = null;
             try { f = new File([blob], ctx.fileName, { type: "image/png" }); } catch (err) {}
             if (!f || !navigator.canShare || !navigator.canShare({ files: [f] })) { textShare(ctx); return; }
-            var payload = { title: "Tokyo Quest Log", text: ctx.text, files: [f] };
-            if (ctx.url) payload.url = ctx.url;
+            /* Q-411: no separate url item -- WeChat turned it
+               into a junk 107B file; the link rides in the text. */
+            var payload = { title: "Tokyo Quest Log", text: ctx.url ? ctx.text + "\n" + ctx.url : ctx.text, files: [f] };
             navigator.share(payload).then(function () { setShareStatus(L().shareSysDone); ctx.grant(""); }, function (err) {
               if (!err || err.name !== "AbortError") { setShareStatus(L().shareFailed); ctx.fallback(); }
             });
@@ -31094,8 +31110,7 @@ function drawRunnerFrame(ctx, frame, blink) {
       }
       function textShare(ctx) {
         if (navigator.share) {
-          var payload = { title: "Tokyo Quest Log", text: ctx.text };
-          if (ctx.url) payload.url = ctx.url;
+          var payload = { title: "Tokyo Quest Log", text: ctx.url ? ctx.text + "\n" + ctx.url : ctx.text };
           navigator.share(payload).then(function () { setShareStatus(L().shareSysDone); ctx.grant(""); }, function (err) {
             if (!err || err.name !== "AbortError") { setShareStatus(L().shareFailed); ctx.fallback(); }
           });
@@ -31468,7 +31483,6 @@ function drawRunnerFrame(ctx, frame, blink) {
           state.remoteDate = TODAY;
         }
         if (currentId === id) checkinMsg("", "");
-        if (!isAccepted(id)) state.accepted.push(id);
         var prevInfo = levelInfo(), badgesBefore = badgeProgress();
         /* EXP by method (spec D): on-site 100%, remote 30%
            (rounded into the existing EXP numbers: 50→15, 30→9).
@@ -31499,7 +31513,7 @@ function drawRunnerFrame(ctx, frame, blink) {
         sfx("fanfare");
         var newInfo = levelInfo();
         var coinGain = earnCoins(method === "gps" ? 10 : 3, "clear") + coinLevelBonus(prevInfo);
-        renderStatus(); renderMap(); renderList(); renderGacha(); refreshDetailButtons();
+        renderStatus(); renderMap(); renderList(); renderGacha(); refreshDetailButtons(); renderMine(); syncMineBadge();
         renderEpicReward(e);
         /* the settlement's share card (spec G): achievement
            moments only — puzzle completion > epic > level-up >
@@ -31542,7 +31556,7 @@ function drawRunnerFrame(ctx, frame, blink) {
            is nothing to farm */
         if (rec && rec.method === "remote" && localDay(rec.clearedAt) === TODAY && state.remoteDate === TODAY) state.remoteDate = "";
         save(); sfx("back");
-        renderStatus(); renderMap(); renderList(); refreshDetailButtons();
+        renderStatus(); renderMap(); renderList(); refreshDetailButtons(); renderMine(); syncMineBadge();
       }
       /* ============ CLEAR celebration (multi-stage) ============
          Banner slams in with a bounce + a light screen flash,
@@ -31970,7 +31984,7 @@ function drawRunnerFrame(ctx, frame, blink) {
              this result message, shown when the GPS check could not
              complete the quest — for EPIC quests it never appears
              at all (GPS-only, and no reason line: Q-232) */
-          if (kind === "err" && currentId && isAccepted(currentId) && !isCleared(currentId)) {
+          if (kind === "err" && currentId && !isCleared(currentId)) {
             var ev2 = byId(currentId);
             if (ev2 && isEpicQuest(ev2)) {
               man.hidden = true;
@@ -33229,7 +33243,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       var REC_DECK_N = 5;
       function recPool() {
         return EVENTS.filter(function (e) {
-          if (!e || isCleared(e.id) || isAccepted(e.id)) return false;
+          if (!e || isCleared(e.id) || isSaved(e.id)) return false;
           if (e.evergreen) return true;
           if (e.start && e.start > TODAY) return false;
           if (e.end && e.end < TODAY) return false;
@@ -33241,7 +33255,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (freshDraw) { state.recDay = TODAY; state.recSeen = []; state.recDeck = []; }
         if (!Array.isArray(state.recSeen)) state.recSeen = [];
         if (!Array.isArray(state.recDeck)) state.recDeck = [];
-        state.recDeck = state.recDeck.filter(function (id) { var e = byId(id); return !!e && !isCleared(id) && !isAccepted(id); });
+        state.recDeck = state.recDeck.filter(function (id) { var e = byId(id); return !!e && !isCleared(id) && !isSaved(id); });
         if (freshDraw) {
           var pool = recPool().filter(function (e) { return state.recSeen.indexOf(e.id) === -1 && state.recDeck.indexOf(e.id) === -1; });
           while (state.recDeck.length < REC_DECK_N && pool.length) {
@@ -33255,7 +33269,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (!state.recDeck || state.recDeck[0] !== id) return;
         state.recDeck.shift();
         if (state.recSeen.indexOf(id) === -1) state.recSeen.push(id);
-        if (wantIt) { toggleAccept(id); narrate(L().recAccepted(evName(byId(id)))); }
+        if (wantIt) { toggleSave(id); narrate(L().recAccepted(evName(byId(id)))); }
         save();
         renderRecDeck();
       }
@@ -34199,7 +34213,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var lc = document.getElementById("locChip"); if (lc) lc.hidden = true;
         document.getElementById("ppThumb").innerHTML = previewSVG(e);
         document.getElementById("ppName").textContent = evName(e);
-        document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + evPrice(e) + (isCleared(id) ? " · " + L().clearedBtn : isAccepted(id) ? " · " + L().accepted : "");
+        document.getElementById("ppMeta").textContent = areaName(e.area) + " · " + fmtRange(e) + " · " + evPrice(e) + (isCleared(id) ? " · " + L().clearedBtn : isSaved(id) ? " · " + L().accepted : "");
         document.getElementById("pinPreview").hidden = false;
         /* Q-206: the preview owns the +58 band while it is open —
            the game capsule yields (the locChip already does the
@@ -34366,8 +34380,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (!currentId) return;
         if (isCleared(currentId)) return;
         if (isNotStarted(byId(currentId))) return;   /* date gate (the button is disabled too) */
-        if (isAccepted(currentId)) doCheckin();
-        else toggleAccept(currentId);
+        doCheckin();
       });
       document.getElementById("btnManualClear").addEventListener("click", function () {
         if (!currentId || this.disabled) return;
@@ -34421,24 +34434,6 @@ function drawZoneStamp(cv, zoneId, mode) {
       document.getElementById("btnUndo").addEventListener("click", function () {
         if (!currentId) return;
         if (isCleared(currentId)) { undoClear(currentId); return; }
-        if (isAccepted(currentId)) {
-          /* CANCEL an accepted quest — behind a GBA yes/no
-             dialogue so it can never fire by accident. Cancelling
-             returns the quest to un-accepted (re-acceptable any
-             time) and touches no EXP: accepting never granted
-             any. List rows and map cards re-render through
-             toggleAccept, so every surface agrees. */
-          var nm = evName(byId(currentId)), tt = L(), qid = currentId;
-          /* Q-247: act on the id captured NOW -- reading the
-             live currentId at YES-time could hit a null (after
-             close: silent no-op under a success narration) or
-             a different quest opened meanwhile. */
-          showConfirm(tt.confirmTab, tt.cancelQ(nm), tt.yesBtn, tt.noBtn, function () {
-            checkinMsg("", "");
-            toggleAccept(qid);
-            narrate(tt.narrCancelled(nm));
-          });
-        }
       });
       document.getElementById("gcYes").addEventListener("click", function () {
         var cb = confirmCb;
@@ -35272,7 +35267,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         var savedState = filterState;
         filterState = "all";
         var pool = EVENTS.filter(function (e) {
-          if (isCleared(e.id) || isAccepted(e.id)) return false;
+          if (isCleared(e.id) || isSaved(e.id)) return false;
           return boardMatch(e, filterArea, filterMood, "");
         });
         filterState = savedState;
@@ -35342,16 +35337,14 @@ function drawZoneStamp(cv, zoneId, mode) {
       }
       function homeCardHTML(e, isNearest) {
         var t = L();
-        var soon = isNotStarted(e);
-        var acc = soon
-          ? '<span class="hc-accept is-soon">' + esc(t.startsIn(daysBetween(TODAY, e.start))) + "</span>"
-          : '<span class="hc-accept" data-home-accept="' + e.id + '">' + esc(t.homeAccept) + "</span>";
+        var svd = isSaved(e.id);
+        var acc = '<span class="hc-accept hc-savebtn' + (svd ? " is-on" : "") + '" data-home-save="' + e.id + '">' + ICONS.bookmark + "<span>" + esc(svd ? t.mineSavedDone : t.mineSave) + "</span></span>";
         return '<div class="home-card" data-home-open="' + e.id + '">' +
           '<img class="hc-img" src="' + e.img + '" alt="" loading="lazy">' +
           '<span class="hc-main"><span class="hc-name">' + esc(evName(e)) + "</span>" +
           '<span class="hc-meta">' + esc(homeMeta(e)) + "</span>" +
           '<span class="hc-reason">' + esc(homeReason(e, isNearest)) + "</span></span>" +
-          acc + '<span class="hc-save' + (isSaved(e.id) ? " is-on" : "") + '" data-home-save="' + e.id + '">' + ICONS.bookmark + "</span></div>";
+          acc + "</div>";
       }
       function renderHome() {
         var t = L();
@@ -35398,23 +35391,14 @@ function drawZoneStamp(cv, zoneId, mode) {
       document.getElementById("homeAll").addEventListener("click", function () { switchView("list"); });
       document.getElementById("homeSurprise").addEventListener("click", function () {
         var pool = homePool();
-        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isAccepted(e.id); });
+        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isSaved(e.id); });
         if (!pool.length) return;
         var e = pool[Math.floor(Math.random() * Math.min(pool.length, 12))];
-        if (!isNotStarted(e)) toggleAccept(e.id);
         openDetail(e.id);
       });
       document.getElementById("homeRecList").addEventListener("click", function (ev) {
         var svv = ev.target.closest("[data-home-save]");
         if (svv) { ev.stopPropagation(); toggleSave(svv.getAttribute("data-home-save")); renderHome(); return; }
-        var acc = ev.target.closest("[data-home-accept]");
-        if (acc) {
-          ev.stopPropagation();
-          toggleAccept(acc.getAttribute("data-home-accept"));
-          updateLogTab();
-          renderHome();
-          return;
-        }
         var card = ev.target.closest("[data-home-open]");
         if (card) openDetail(card.getAttribute("data-home-open"));
       });
@@ -35435,19 +35419,16 @@ function drawZoneStamp(cv, zoneId, mode) {
       function syncMineBadge() {
         var td = document.getElementById("tab-mine");
         if (!td) return;
-        var n = EVENTS.filter(function (e) { return isAccepted(e.id) && !isCleared(e.id); }).length
-          + (state.saved || []).filter(function (id) { return !isCleared(id) && !isAccepted(id); }).length;
+        var n = (state.saved || []).filter(function (id) { return !isCleared(id) && byId(id); }).length;
         var b = td.querySelector(".count");
         if (n > 0) {
           if (!b) { b = document.createElement("span"); b.className = "count"; td.appendChild(b); }
           b.textContent = n;
         } else if (b) b.remove();
       }
-      function mineCardHTML(e, saved) {
+      function mineCardHTML(e) {
         var t = L();
-        var acts = saved
-          ? '<span class="mine-acts"><span class="mine-act" data-mine-friend="' + e.id + '">' + esc(t.mineFriend) + '</span><span class="mine-act is-red" data-mine-accept="' + e.id + '">' + esc(t.homeAccept) + "</span></span>"
-          : '<span class="mine-acts"><span class="mine-act" data-mine-map="' + e.id + '">' + esc(t.mineMap) + '</span><span class="mine-act" data-mine-nav="' + e.id + '">' + esc(t.mineNav) + '</span><span class="mine-act is-lemon" data-mine-invite="' + e.id + '">' + esc(t.mineInvite) + "</span></span>";
+        var acts = '<span class="mine-acts"><span class="mine-act" data-mine-map="' + e.id + '">' + esc(t.mineMap) + '</span><span class="mine-act" data-mine-nav="' + e.id + '">' + esc(t.mineNav) + '</span><span class="mine-act is-lemon" data-mine-invite="' + e.id + '">' + esc(t.mineInvite) + "</span></span>";
         return '<div class="mine-card" data-mine-open="' + e.id + '">' +
           '<img class="mc-img" src="' + e.img + '" alt="" loading="lazy">' +
           '<span class="mc-main"><span class="mc-name">' + esc(evName(e)) + "</span>" +
@@ -35459,13 +35440,9 @@ function drawZoneStamp(cv, zoneId, mode) {
         var t = L();
         title.textContent = t.mineTitle;
         document.getElementById("mineShareBtn").textContent = t.mineFriend;
-        var acc = EVENTS.filter(function (e) { return isAccepted(e.id) && !isCleared(e.id); });
-        acc.sort(function (a, b) { var ea = a.end || "9999", eb = b.end || "9999"; return ea < eb ? -1 : ea > eb ? 1 : (a.id < b.id ? -1 : 1); });
-        var sav = (state.saved || []).map(function (id) { return byId(id); }).filter(function (e) { return e && !isCleared(e.id) && !isAccepted(e.id); }).reverse();
-        document.getElementById("mineAccHead").textContent = t.mineAccepted + " \u00b7 " + acc.length;
-        document.getElementById("mineSavedHead").textContent = t.mineSaved + " \u00b7 " + sav.length;
-        document.getElementById("mineAccList").innerHTML = acc.length ? acc.map(function (e) { return mineCardHTML(e, false); }).join("") : '<p class="mine-empty">' + esc(t.mineEmptyA) + "</p>";
-        document.getElementById("mineSavedList").innerHTML = sav.length ? sav.map(function (e) { return mineCardHTML(e, true); }).join("") : '<p class="mine-empty">' + esc(t.mineEmptyS) + "</p>";
+        var sav = (state.saved || []).map(function (id) { return byId(id); }).filter(function (e) { return e && !isCleared(e.id); }).reverse();
+        document.getElementById("mineSavedHead").textContent = t.mineSaved;
+        document.getElementById("mineSavedList").innerHTML = sav.length ? sav.map(function (e) { return mineCardHTML(e); }).join("") : '<p class="mine-empty">' + esc(t.mineEmptyS) + "</p>";
       }
       function shareQuestPosterById(id) {
         var e = byId(id);
@@ -35492,8 +35469,7 @@ function drawZoneStamp(cv, zoneId, mode) {
       function shareMineList() {
         var t = L();
         var names = [];
-        EVENTS.forEach(function (e) { if (isAccepted(e.id) && !isCleared(e.id)) names.push(evName(e)); });
-        (state.saved || []).forEach(function (id) { var e = byId(id); if (e && !isCleared(id) && !isAccepted(id)) names.push(evName(e)); });
+        (state.saved || []).forEach(function (id) { var e = byId(id); if (e && !isCleared(id)) names.push(evName(e)); });
         var cv = document.createElement("canvas"); cv.width = 900; cv.height = 1200;
         var g = cv.getContext("2d");
         g.fillStyle = "#fff6dd"; g.fillRect(0, 0, 900, 1200);
@@ -35532,10 +35508,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (nv) { ev.stopPropagation(); var e1 = byId(nv.getAttribute("data-mine-nav")); if (e1) { mapPickEv = e1; openMapPick(); } return; }
         var iv = ev.target.closest("[data-mine-invite]");
         if (iv) { ev.stopPropagation(); shareQuestPosterById(iv.getAttribute("data-mine-invite")); return; }
-        var fr = ev.target.closest("[data-mine-friend]");
-        if (fr) { ev.stopPropagation(); shareQuestPosterById(fr.getAttribute("data-mine-friend")); return; }
-        var ac = ev.target.closest("[data-mine-accept]");
-        if (ac) { ev.stopPropagation(); toggleAccept(ac.getAttribute("data-mine-accept")); renderMine(); return; }
         var card = ev.target.closest("[data-mine-open]");
         if (card) openDetail(card.getAttribute("data-mine-open"));
       });
