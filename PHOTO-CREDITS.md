@@ -414,3 +414,6 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c286-shimbashi-illumination-2026 | http://www.shinbashi.net/news/detail.php?id=100849 | Official website photo (© Shimbashi-net) — 2025 illumination photo of the same annual event
 - c287-oedo-antique-market-december | https://www.antique-market.jp/about/ | Official website photo (© Oedo Antique Market)
 - c288-megurogawa-illumination-2026 | https://www.minna-no-illumi.com/ | Official website photo (© Meguro River Minna-no-Illumination Executive Committee)
+- c289-mejiro-terasu-2026 | https://www.mapion.co.jp/news/release/000000011.000171083-all/ | Press release photo (© Mejiro Garden Park Management Joint Venture) — night illumination of Mejiro Garden
+- c290-digital-hokusai-freer | https://www.ntt-east.co.jp/art/hokusai-freer/ | Official exhibition artwork photo (© Smithsonian National Museum of Asian Art, Charles Lang Freer Collection) — Hokusai, Flowers and Birds of the Twelve Months
+- c291-ota-ukiyoe-masters | https://www.ukiyoe-ota-muse.jp/eng/exhibition/ | Official exhibition flyer (© Ota Memorial Museum of Art) — Utagawa Kunitora, Dutch Ship Entering Nagasaki Harbour
