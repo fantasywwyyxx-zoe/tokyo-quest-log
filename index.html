@@ -13919,6 +13919,21 @@
       .browse-toggle button + button { border-left: 3px solid var(--ink); }
       #view-list { padding-top: calc(env(safe-area-inset-top, 0px) + 68px); }
       .list-sortrow { display: flex; align-items: center; padding: 0 2px 8px; }
+
+/* Q-417: home quick picks + seasonal shelf */
+#view-home .home-quick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#view-home .hq-btn { display: flex; align-items: center; gap: 9px; padding: 12px 13px; border: 2.5px solid #22303c; border-radius: 12px; background: #fffdf4; color: #22303c; font: inherit; font-weight: 800; font-size: 14.5px; text-align: left; cursor: pointer; box-shadow: 0 2px 0 rgba(20, 24, 60, 0.18); }
+#view-home .hq-btn .hq-ico { flex: none; width: 20px; height: 20px; display: inline-flex; }
+#view-home .hq-btn .hq-ico svg { width: 20px; height: 20px; }
+#view-home .hq-btn.is-on { background: #ffd83d; }
+#view-home .home-shelf { border: 2.5px solid #22303c; border-radius: 14px; background: #fff6dd; overflow: hidden; }
+#view-home .hs-head { display: flex; align-items: baseline; justify-content: space-between; padding: 8px 13px; background: #ffd83d; color: #22303c; font-weight: 800; font-size: 16px; }
+#view-home .hs-season { font-size: 12.5px; }
+#view-home .hs-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 10px; }
+#view-home .hs-card { display: flex; flex-direction: column; gap: 5px; cursor: pointer; min-width: 0; }
+#view-home .hs-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border: 2px solid #22303c; border-radius: 9px; }
+#view-home .hs-name { font-size: 11.5px; font-weight: 800; line-height: 1.3; color: #22303c; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+#view-home .hs-chip { align-self: flex-start; background: #e5484d; color: #ffffff; font-size: 10.5px; font-weight: 800; border-radius: 999px; padding: 2px 8px; }
 </style>
   </head>
   <body data-view="map">
@@ -14454,11 +14469,11 @@
             <canvas id="homeHeroCanvas" width="16" height="16" aria-hidden="true"></canvas>
             <div class="home-bubble"><div class="hb-1" id="homeAsk1"></div><div class="hb-2" id="homeAsk2"></div></div>
           </div>
-          <button class="home-filter" id="homeFilterBtn" type="button"><span class="hf-ico" id="homeFilterIco"></span><span class="hf-txt" id="homeFilterTxt"></span><span class="hf-go" aria-hidden="true">▶</span></button>
+          <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
+          <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
           <div class="home-rec-head"><span id="homeRecTitle"></span><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
           <button class="home-all" id="homeAll" type="button"></button>
-          <button class="home-surprise" id="homeSurprise" type="button"></button>
         </div>
       </section>
 
@@ -17460,7 +17475,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261124-1717-q416-2a044e68";
+        var BUILD_ID = "tql-20261124-1741-q417-e867bed9";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -19376,7 +19391,7 @@ var qrcode = function() {
           homeQ: "How do you want to play today?", homeMulti: "multi OK",
           chipNear: "Near me", chipFree: "Free", chipWknd: "This weekend",
           homeRecTitle: "Picked for you", homeShuffle: "Shuffle",
-          homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me",
+          homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me", quickEnding: "Ending soon", quickFree: "Free only", quickNear: "Nearby area", quickRandom: "Surprise me", shelfTitle: "Seasonal picks", shelfDays: "{D}d left", shelfToday: "Last day", seasonSpring: "Spring in Tokyo", seasonSummer: "Summer in Tokyo", seasonAutumn: "Autumn in Tokyo", seasonWinter: "Winter in Tokyo",
           homeAccept: "Accept", reasonNear: "Closest to you", reasonFree: "Free to enter",
           reasonEnding: "Ends in {D} days", reasonLastDay: "Last day today", reasonEpic: "Must-see spot",
           reasonWknd: "On this weekend", reasonPick: "A good pick for today",
@@ -20286,7 +20301,7 @@ var qrcode = function() {
           homeQ: "今日はどう遊ぶ？", homeMulti: "複数OK",
           chipNear: "近い", chipFree: "無料", chipWknd: "今週末",
           homeRecTitle: "あなたへのおすすめ", homeShuffle: "別の3件",
-          homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ",
+          homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ", quickEnding: "もうすぐ終了", quickFree: "無料だけ", quickNear: "近くのエリア", quickRandom: "おまかせ", shelfTitle: "季節の特集", shelfDays: "あと{D}日", shelfToday: "最終日", seasonSpring: "春の東京", seasonSummer: "夏の東京", seasonAutumn: "秋の東京", seasonWinter: "冬の東京",
           homeAccept: "受注する", reasonNear: "いちばん近い", reasonFree: "入場無料",
           reasonEnding: "あと{D}日で終了", reasonLastDay: "今日が最終日", reasonEpic: "必見の名所",
           reasonWknd: "今週末やってる", reasonPick: "今日のおすすめ",
@@ -21196,7 +21211,7 @@ var qrcode = function() {
           homeQ: "今天想怎么玩？", homeMulti: "可多选",
           chipNear: "离我近", chipFree: "免费", chipWknd: "本周末",
           homeRecTitle: "为你推荐", homeShuffle: "换一批",
-          homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个",
+          homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个", quickEnding: "即将结束", quickFree: "只看免费", quickNear: "附近区域", quickRandom: "随机一个", shelfTitle: "季节特集", shelfDays: "还剩{D}天", shelfToday: "最后一天", seasonSpring: "东京之春", seasonSummer: "东京之夏", seasonAutumn: "东京之秋", seasonWinter: "东京之冬",
           homeAccept: "接任务", reasonNear: "离你最近", reasonFree: "免费开放",
           reasonEnding: "只剩{D}天", reasonLastDay: "今天最后一天", reasonEpic: "必去地标",
           reasonWknd: "本周末有", reasonPick: "今天值得去",
@@ -35242,18 +35257,22 @@ function drawZoneStamp(cv, zoneId, mode) {
          ending-soon first. Reasons: urgency facts first, then the
          quest's own blurb line (Q-406). */
       var homePage = 0;
+      var homeQuick = null;
       function homePool() {
         /* The state dimension is neutralized here on purpose:
            recommendations are always for quests you can still
            take, so the base pool is not-cleared + not-accepted
            regardless of the list's state filter. */
-        var savedState = filterState;
-        filterState = "all";
+        /* Q-417: the home answers to its quick picks alone —
+           every shared filter global is neutralized for the
+           duration of this call (the browse views keep theirs). */
+        var savedState = filterState, savedKind = filterKind, savedCat = filterCat, savedFree = filterFree;
+        filterState = "all"; filterKind = "all"; filterCat = "All"; filterFree = false;
         var pool = EVENTS.filter(function (e) {
           if (isCleared(e.id) || isSaved(e.id)) return false;
-          return boardMatch(e, filterArea, filterMood, "");
+          return boardMatch(e, "All", "", "");
         });
-        filterState = savedState;
+        filterState = savedState; filterKind = savedKind; filterCat = savedCat; filterFree = savedFree;
         pool.sort(function (a, b) {
           var da = questDistM(a), db = questDistM(b);
           if (da != null && db != null && da !== db) return da - db;
@@ -35264,6 +35283,19 @@ function drawZoneStamp(cv, zoneId, mode) {
           if (ea !== eb) return ea < eb ? -1 : 1;
           return a.id < b.id ? -1 : 1;
         });
+        if (homeQuick === "ending") {
+          pool = pool.filter(function (e) {
+            if (e.evergreen || !e.end) return false;
+            var d = daysBetween(TODAY, e.end);
+            return d >= 0 && d <= 7;
+          });
+          pool.sort(function (a, b) { return a.end < b.end ? -1 : a.end > b.end ? 1 : 0; });
+        } else if (homeQuick === "free") {
+          pool = pool.filter(function (e) { return !!e.free; });
+        } else if (homeQuick === "near") {
+          pool = pool.filter(function (e) { return questDistM(e) != null; });
+          pool.sort(function (a, b) { return questDistM(a) - questDistM(b); });
+        }
         return pool;
       }
       function homeFilterDone() {
@@ -35336,18 +35368,59 @@ function drawZoneStamp(cv, zoneId, mode) {
           '<span class="hc-reason">' + esc(homeReason(e, isNearest)) + "</span></span>" +
           acc + "</div>";
       }
+      /* Q-417: the seasonal shelf — the three soonest-ending
+         timed quests (within a fortnight), straight off the
+         catalog; hidden when nothing is ending. */
+      function shelfEvents() {
+        return EVENTS.filter(function (e) {
+          if (e.evergreen || !e.end || isCleared(e.id)) return false;
+          var d = daysBetween(TODAY, e.end);
+          return d >= 0 && d <= 14;
+        }).sort(function (a, b) { return a.end < b.end ? -1 : a.end > b.end ? 1 : 0; }).slice(0, 3);
+      }
+      function renderShelf() {
+        var box = document.getElementById("homeShelf");
+        if (!box) return;
+        var t = L();
+        var evs = shelfEvents();
+        if (!evs.length) { box.hidden = true; return; }
+        box.hidden = false;
+        document.getElementById("hsTitle").textContent = t.shelfTitle;
+        var mo = Number(TODAY.slice(5, 7));
+        document.getElementById("hsSeason").textContent = (mo === 12 || mo <= 2) ? t.seasonWinter : mo <= 5 ? t.seasonSpring : mo <= 8 ? t.seasonSummer : t.seasonAutumn;
+        document.getElementById("hsRow").innerHTML = evs.map(function (e) {
+          var d = daysBetween(TODAY, e.end);
+          var chip = d === 0 ? t.shelfToday : t.shelfDays.replace("{D}", String(d));
+          return '<div class="hs-card" data-shelf-open="' + e.id + '"><img class="hs-img" src="' + e.img + '" alt="" loading="lazy"><span class="hs-name">' + esc(evName(e)) + '</span><span class="hs-chip">' + esc(chip) + "</span></div>";
+        }).join("");
+      }
+      /* Nearby quick pick: position is requested only on this
+         tap and kept in memory as sortPos (never saved) — the
+         same privacy shape as the list's nearest sort. */
+      function homeRequestPos() {
+        var t = L();
+        if (!navigator.geolocation) { showCoinMsg(t.sortNoGeo); sfx("back"); return; }
+        navigator.geolocation.getCurrentPosition(function (pos) {
+          sortPos = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+          homeQuick = "near"; homePage = 0; sfx("accept"); renderHome();
+        }, function (err) {
+          showCoinMsg(err && err.code === 1 ? t.sortDenied : t.sortFailed); sfx("back");
+        }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
+      }
       function renderHome() {
         var t = L();
         document.getElementById("homeAsk1").textContent = t.homeAsk1;
         document.getElementById("homeAsk2").textContent = t.homeAsk2;
-        document.getElementById("homeFilterIco").innerHTML = ICONS.funnel;
-        var fparts = [];
-        if (filterKind !== "all") fparts.push(filterKind === "ever" ? t.legendEver : filterKind === "epic" ? "EPIC" : t.legendTimed);
-        if (filterCat !== "All") fparts.push(filterCat);
-        if (filterArea !== "All") fparts.push(districtLabel(filterArea));
-        if (filterMood) fparts.push(moodBucketLabel(filterMood));
-        if (filterFree) fparts.push(t.freeOnly);
-        document.getElementById("homeFilterTxt").textContent = fparts.length ? fparts.join(" · ") : t.homeFilterAll;
+        var hqLabels = { ending: t.quickEnding, free: t.quickFree, near: t.quickNear, random: t.quickRandom };
+        var hqIcons = { ending: ICONS.cal, free: ICONS.tag, near: ICONS.pin, random: ICONS.dice };
+        document.querySelectorAll("#homeQuick [data-hq]").forEach(function (b) {
+          var k = b.getAttribute("data-hq");
+          b.querySelector(".hq-ico").innerHTML = hqIcons[k];
+          b.querySelector(".hq-label").textContent = hqLabels[k];
+          b.classList.toggle("is-on", homeQuick === k);
+          b.setAttribute("aria-pressed", String(homeQuick === k));
+        });
+        renderShelf();
         document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
         document.getElementById("homeShuffle").textContent = t.homeShuffle;
         var pool = homePool();
@@ -35358,7 +35431,6 @@ function drawZoneStamp(cv, zoneId, mode) {
           ? page.map(function (e, i) { return homeCardHTML(e, i === 0 && questDistM(e) != null); }).join("")
           : '<div class="home-empty">' + esc(t.homeEmpty) + "</div>";
         document.getElementById("homeAll").textContent = t.homeAll.replace("{N}", String(EVENTS.length)) + " \u2192";
-        document.getElementById("homeSurprise").textContent = t.homeSurprise;
         var hud = document.getElementById("homeHud");
         if (hud) hud.innerHTML = "Lv." + levelInfo().lv + " · " + ICONS.ticket + "<span>×" + ticketsLeft() + "</span>";
         var sc = document.getElementById("homeScene");
@@ -35366,12 +35438,28 @@ function drawZoneStamp(cv, zoneId, mode) {
         var cv = document.getElementById("homeHeroCanvas");
         if (cv) { try { drawHeroEquipped(cv, state.hero, state.gacha.equipped); } catch (e) { /* hero art is garnish */ } }
       }
-      document.getElementById("homeFilterBtn").addEventListener("click", function () {
-        sfx("open");
-        var m = document.getElementById("searchModal");
-        m.classList.add("from-home");
-        if (typeof m.showModal === "function") m.showModal();
-        else m.setAttribute("open", "");
+      document.getElementById("homeQuick").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-hq]");
+        if (!b) return;
+        var k = b.getAttribute("data-hq");
+        if (k === "random") {
+          sfx("open");
+          var pool = homePool();
+          if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isSaved(e.id); });
+          if (!pool.length) return;
+          var e = pool[Math.floor(Math.random() * Math.min(pool.length, 12))];
+          openDetail(e.id);
+          return;
+        }
+        if (k === "near" && !sortPos) { homeRequestPos(); return; }
+        homeQuick = homeQuick === k ? null : k;
+        homePage = 0;
+        sfx("move");
+        renderHome();
+      });
+      document.getElementById("hsRow").addEventListener("click", function (ev) {
+        var c = ev.target.closest("[data-shelf-open]");
+        if (c) openDetail(c.getAttribute("data-shelf-open"));
       });
       document.getElementById("homeShuffle").addEventListener("click", function () {
         homePage++;
@@ -35379,13 +35467,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderHome();
       });
       document.getElementById("homeAll").addEventListener("click", function () { switchView("list"); });
-      document.getElementById("homeSurprise").addEventListener("click", function () {
-        var pool = homePool();
-        if (!pool.length) pool = EVENTS.filter(function (e) { return !isCleared(e.id) && !isSaved(e.id); });
-        if (!pool.length) return;
-        var e = pool[Math.floor(Math.random() * Math.min(pool.length, 12))];
-        openDetail(e.id);
-      });
       document.getElementById("homeRecList").addEventListener("click", function (ev) {
         var svv = ev.target.closest("[data-home-save]");
         if (svv) { ev.stopPropagation(); toggleSave(svv.getAttribute("data-home-save")); renderHome(); return; }
