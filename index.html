@@ -13945,6 +13945,14 @@
 #view-home .home-rec-body.pop { animation: recPop .22s ease-out; }
 @keyframes recPop { 0% { opacity: 0; transform: translateY(10px) scale(.97); } 55% { opacity: 1; transform: translateY(-2px) scale(1.006); } 100% { opacity: 1; transform: none; } }
 #view-home .home-rec-head { justify-content: flex-end; }
+
+/* Q-420: save FAB beside the share FAB; home rec foot pair */
+dialog#detail .save-fab { right: 58px; color: #f5f0dc; }
+dialog#detail .save-fab svg { width: 19px; height: 19px; }
+dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
+#view-home .home-rec-foot { display: flex; gap: 10px; }
+#view-home .home-rec-foot .home-shuffle { flex: 1 1 0; margin-left: 0; background: #fffdf4; border: 3px solid var(--line-c); border-radius: 12px; box-shadow: 0 4px 0 rgba(34, 48, 60, .4); color: #22303c; font-size: 15px; font-weight: 900; padding: 13px 10px; }
+#view-home .home-rec-foot .home-all { flex: 1 1 0; align-self: auto; }
 </style>
   </head>
   <body data-view="map">
@@ -14478,9 +14486,9 @@
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
           <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
           <button class="home-rec-toggle" id="homeRecToggle" type="button" aria-expanded="false"><span id="homeRecTitle"></span><span class="hrt-chev" aria-hidden="true">▼</span></button>
-          <div class="home-rec-body" id="homeRecBody" hidden><div class="home-rec-head"><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
+          <div class="home-rec-body" id="homeRecBody" hidden>
           <div class="home-rec-list" id="homeRecList"></div>
-          <button class="home-all" id="homeAll" type="button"></button></div>
+          <div class="home-rec-foot"><button class="home-shuffle" id="homeShuffle" type="button"></button><button class="home-all" id="homeAll" type="button"></button></div></div>
         </div>
       </section>
 
@@ -14664,7 +14672,6 @@
             <h2 class="mine-title" id="mineTitle"></h2>
             <button class="mine-share" id="mineShareBtn" type="button"></button>
           </div>
-          <div class="mine-sec is-saved"><span id="mineSavedHead"></span></div>
           <div class="mine-list" id="mineSavedList"></div>
         </div>
         <footer class="win-flat site record-foot">
@@ -15082,7 +15089,6 @@
           <button class="rpg-btn btn-quest wide" id="btnQuest" type="button"></button>
           <a class="rpg-btn btn-maps" id="btnMaps" href="#" target="_blank" rel="noopener" hidden></a>
           <a class="rpg-btn btn-official" id="btnOfficial" href="#" target="_blank" rel="noopener"></a>
-          <button class="rpg-btn btn-save wide" id="btnSave" type="button"></button>
           <button class="rpg-btn btn-back wide" id="btnBack" type="button"></button>
         </div>
       </div>
@@ -17482,7 +17488,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261125-refresh-c289-c291";
+        var BUILD_ID = "tql-20261125-1644-q420-ac4a2d40";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -28540,7 +28546,6 @@ function drawRunnerFrame(ctx, frame, blink) {
          in the head chips row (keeps the chips to one line). */
       function stateBadgeOnly(e) {
         if (isCleared(e.id)) return '<span class="state-badge cleared">' + L().clearedBtn + "</span>";
-        if (isSaved(e.id)) return '<span class="state-badge">' + L().accepted + "</span>";
         return "";
       }
 
@@ -30116,9 +30121,11 @@ function drawRunnerFrame(ctx, frame, blink) {
         if (e.img) {
           dp.hidden = false;
           dp.style.cursor = "zoom-in";
-          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
+          dp.innerHTML = '<img class="qp-main" src="' + e.img + '" alt="">' + '<span class="qp-cap">' + esc(areaName(e.area)) + "</span>" + '<button class="poster-fab save-fab" id="btnSaveFab" type="button" aria-label="' + esc(t.mineSave) + '">' + ICONS.bookmark + '</button>' + '<button class="poster-fab" id="btnPoster" type="button" aria-label="' + esc(t.posterBtn) + '"><svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15.5V5"/><path d="M6.5 10L12 4.5L17.5 10"/><path d="M5 13.5v5A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-5"/></svg></button>';
           var _fb = dp.querySelector("#btnPoster");
           if (_fb) _fb.addEventListener("click", function (ev) { ev.stopPropagation(); sfx("accept"); shareQuestPoster(); });
+          var _sb = dp.querySelector("#btnSaveFab");
+          if (_sb) _sb.addEventListener("click", function (ev) { ev.stopPropagation(); toggleSave(id); refreshDetailButtons(); });
           bn.hidden = true; bn.innerHTML = "";
         } else {
           /* photo-less events get a designed NO PHOTO window — a
@@ -30259,8 +30266,8 @@ function drawRunnerFrame(ctx, frame, blink) {
         var clr = isCleared(currentId);
         var curEv = byId(currentId);
         var ns = !clr && isNotStarted(curEv);
-        var svEl = document.getElementById("btnSave");
-        if (svEl) { var svd = isSaved(currentId); svEl.innerHTML = ICONS.bookmark + "<span>" + esc(svd ? t.mineSavedDone : t.mineSave) + "</span>"; svEl.classList.toggle("is-on", svd); svEl.hidden = clr; }
+        var svEl = document.getElementById("btnSaveFab");
+        if (svEl) { var svd = isSaved(currentId); svEl.innerHTML = ICONS.bookmark; svEl.classList.toggle("is-on", svd); svEl.hidden = clr; svEl.setAttribute("aria-pressed", String(svd)); }
         /* Q-248: the state pill beside the No. line is state
            too -- re-render it here so accept / abandon / clear
            update it in place, without closing the detail. */
@@ -35540,7 +35547,6 @@ function drawZoneStamp(cv, zoneId, mode) {
         title.textContent = t.mineTitle;
         document.getElementById("mineShareBtn").textContent = t.mineFriend;
         var sav = (state.saved || []).map(function (id) { return byId(id); }).filter(function (e) { return e && !isCleared(e.id); }).reverse();
-        document.getElementById("mineSavedHead").textContent = t.mineSaved;
         document.getElementById("mineSavedList").innerHTML = sav.length ? sav.map(function (e) { return mineCardHTML(e); }).join("") : '<p class="mine-empty">' + esc(t.mineEmptyS) + "</p>";
       }
       function shareQuestPosterById(id) {
