@@ -17518,7 +17518,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261125-2308-q422-2f59637f";
+        var BUILD_ID = "tql-20261125-2311-q423-3157e65d";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -35512,7 +35512,13 @@ function drawZoneStamp(cv, zoneId, mode) {
         homePage = 0;
         sfx("move");
         renderHome();
+        if (homeRecOpen) homeRecAnchor();
       });
+      function homeRecAnchor() {
+        var tg = document.getElementById("homeRecToggle");
+        if (!tg) return;
+        setTimeout(function () { try { tg.scrollIntoView({ block: "start", behavior: "smooth" }); } catch (e) {} }, 40);
+      }
       document.getElementById("homeRecToggle").addEventListener("click", function () {
         homeRecOpen = !homeRecOpen;
         sfx(homeRecOpen ? "open" : "back");
@@ -35520,6 +35526,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         if (homeRecOpen) {
           var rb = document.getElementById("homeRecBody");
           if (rb) { rb.classList.remove("pop"); void rb.offsetWidth; rb.classList.add("pop"); }
+          homeRecAnchor();
         }
       });
       document.getElementById("hsRow").addEventListener("click", function (ev) {
