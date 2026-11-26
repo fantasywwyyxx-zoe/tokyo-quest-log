@@ -13968,6 +13968,41 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
 
 /* Q-424: meta date range stays one unit */
 .meta-dates { white-space: nowrap; }
+
+/* Q-426: homepage redesign (brief 2026-11-26) */
+.home-head { display: flex; flex-direction: column; gap: 8px; }
+.home-tagline { font-size: 19px; font-weight: 800; color: #22303c; padding: 2px 2px 0; }
+.home-search { display: flex; align-items: center; gap: 8px; margin: 0; background: #fffdf4; border: 2px solid #22303c; border-radius: 999px; padding: 5px 6px 5px 13px; box-shadow: 0 2px 0 rgba(20, 24, 60, 0.14); }
+.home-search .hsearch-ico { display: inline-flex; flex: 0 0 auto; }
+.home-search .hsearch-ico svg { width: 17px; height: 17px; display: block; }
+.home-search input { flex: 1; min-width: 0; border: none; background: none; font: inherit; font-size: 14.5px; font-weight: 700; color: #22303c; outline: none; padding: 4px 0; }
+.home-search input::placeholder { color: rgba(34, 48, 60, 0.45); font-weight: 700; }
+.hsearch-go { flex: 0 0 auto; border: 2px solid #22303c; background: var(--primary); color: #fff; font: inherit; font-weight: 800; font-size: 13px; border-radius: 999px; padding: 5px 14px; cursor: pointer; }
+#view-home .hq-btn { padding: 9px 11px; border-width: 2px; font-size: 13.5px; box-shadow: 0 1px 0 rgba(20, 24, 60, 0.16); gap: 8px; }
+#view-home .hq-btn[data-hq="ending"] { background: #ffe9e2; }
+#view-home .hq-btn[data-hq="free"] { background: #e6f1ff; }
+#view-home .hq-btn[data-hq="near"] { background: #fff3cf; }
+#view-home .hq-btn[data-hq="random"] { background: #efeaff; }
+#view-home .hq-btn.is-on { background: #ffd83d; }
+#view-home .hs-row { display: flex; grid-template-columns: none; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+#view-home .hs-row::-webkit-scrollbar { display: none; }
+#view-home .hs-card { flex: 0 0 63%; scroll-snap-align: start; }
+#view-home .hs-media { position: relative; display: block; }
+#view-home .hs-img { aspect-ratio: 16 / 10; }
+#view-home .hs-chip { position: absolute; left: 6px; bottom: 6px; box-shadow: 0 1px 0 rgba(20, 24, 60, 0.25); }
+.home-rec-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 2px 2px 0; }
+.home-rec-title { font-size: 16.5px; font-weight: 800; color: #22303c; white-space: nowrap; }
+#view-home .home-all { align-self: auto; font-size: 12.5px; white-space: nowrap; padding: 4px 2px; }
+#view-home .home-rec-foot { display: flex; justify-content: center; }
+#view-home .home-shuffle { margin-left: 0; padding: 8px 22px; font-size: 13.5px; border: 2.5px solid var(--line-c); background: #fffdf4; box-shadow: 0 2px 0 rgba(20, 24, 60, 0.16); }
+.home-areas { display: flex; flex-direction: column; gap: 8px; }
+.ha-title { font-size: 16.5px; font-weight: 800; color: #22303c; padding: 2px 2px 0; }
+.ha-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.ha-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 9px 11px; background: #fffdf4; border: 2px solid #22303c; border-radius: 12px; font: inherit; cursor: pointer; box-shadow: 0 1px 0 rgba(20, 24, 60, 0.14); text-align: left; }
+.ha-name { font-weight: 800; font-size: 14.5px; color: #22303c; }
+.ha-count { font-size: 11.5px; font-weight: 700; color: rgba(34, 48, 60, 0.55); }
+.tabs .tab-start[aria-selected="true"] { outline: 2px solid var(--highlight); outline-offset: 0; }
+.tab .count { font-size: 10.5px; padding: 1px 6px; }
 </style>
   </head>
   <body data-view="map">
@@ -14498,12 +14533,16 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
            big chips, three served quests. No learning curve. -->
       <section id="view-home" role="tabpanel" aria-labelledby="tab-home" hidden>
         <div class="home-panel">
+          <div class="home-head">
+            <div class="home-tagline" id="homeTagline"></div>
+            <form class="home-search" id="homeSearchForm" role="search"><span class="hsearch-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#22303c" stroke-width="2.4"/><path d="M15.5 15.5 L21 21" stroke="#22303c" stroke-width="2.4" stroke-linecap="round"/></svg></span><input id="homeSearchInput" type="search" autocomplete="off" enterkeyhint="search"><button class="hsearch-go" id="homeSearchGo" type="submit"></button></form>
+          </div>
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
           <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
-          <button class="home-rec-toggle" id="homeRecToggle" type="button" aria-expanded="false"><span id="homeRecTitle"></span><span class="hrt-chev" aria-hidden="true">▼</span></button>
-          <div class="home-rec-body" id="homeRecBody" hidden>
+          <div class="home-rec-head"><span class="home-rec-title" id="homeRecTitle"></span><button class="home-all" id="homeAll" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
-          <div class="home-rec-foot"><button class="home-shuffle" id="homeShuffle" type="button"></button><button class="home-all" id="homeAll" type="button"></button></div></div>
+          <div class="home-rec-foot"><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
+          <div class="home-areas" id="homeAreas"><div class="ha-title" id="homeAreasTitle"></div><div class="ha-row" id="homeAreasRow"></div></div>
         </div>
       </section>
 
@@ -17521,7 +17560,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261126-0717-q425-f71f2b6a";
+        var BUILD_ID = "tql-20261126-1655-q426-2edd755b";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -19440,7 +19479,7 @@ var qrcode = function() {
           homeQ: "How do you want to play today?", homeMulti: "multi OK",
           chipNear: "Near me", chipFree: "Free", chipWknd: "This weekend",
           homeRecTitle: "Picked for you", homeShuffle: "Shuffle",
-          homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me", quickEnding: "Ending soon", quickFree: "Free only", quickNear: "Nearby area", quickRandom: "Surprise me", shelfTitle: "Seasonal picks", shelfDays: "{D}d left", shelfToday: "Last day", seasonSpring: "Spring in Tokyo", seasonSummer: "Summer in Tokyo", seasonAutumn: "Autumn in Tokyo", seasonWinter: "Winter in Tokyo",
+          homeTagline: "Let's play Tokyo.", homeSearchGo: "Search", homeAreasTitle: "Browse by area", homeAreaUnit: " quests", homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me", quickEnding: "Ending soon", quickFree: "Free events", quickNear: "Search nearby", quickRandom: "Surprise me", shelfTitle: "Seasonal picks", shelfDays: "{D}d left", shelfToday: "Last day", seasonSpring: "Spring in Tokyo", seasonSummer: "Summer in Tokyo", seasonAutumn: "Autumn in Tokyo", seasonWinter: "Winter in Tokyo",
           homeAccept: "Accept", reasonNear: "Closest to you", reasonFree: "Free to enter",
           reasonEnding: "Ends in {D} days", reasonLastDay: "Last day today", reasonEpic: "Must-see spot",
           reasonWknd: "On this weekend", reasonPick: "A good pick for today",
@@ -20350,7 +20389,7 @@ var qrcode = function() {
           homeQ: "今日はどう遊ぶ？", homeMulti: "複数OK",
           chipNear: "近い", chipFree: "無料", chipWknd: "今週末",
           homeRecTitle: "あなたへのおすすめ", homeShuffle: "別の3件",
-          homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ", quickEnding: "もうすぐ終了", quickFree: "無料だけ", quickNear: "近くのエリア", quickRandom: "おまかせ", shelfTitle: "季節の特集", shelfDays: "あと{D}日", shelfToday: "最終日", seasonSpring: "春の東京", seasonSummer: "夏の東京", seasonAutumn: "秋の東京", seasonWinter: "冬の東京",
+          homeTagline: "東京を、もっと遊ぼう。", homeSearchGo: "検索", homeAreasTitle: "エリアから探す", homeAreaUnit: "件", homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ", quickEnding: "もうすぐ終了", quickFree: "無料イベント", quickNear: "近くで探す", quickRandom: "おまかせ", shelfTitle: "季節の特集", shelfDays: "あと{D}日", shelfToday: "最終日", seasonSpring: "春の東京", seasonSummer: "夏の東京", seasonAutumn: "秋の東京", seasonWinter: "冬の東京",
           homeAccept: "受注する", reasonNear: "いちばん近い", reasonFree: "入場無料",
           reasonEnding: "あと{D}日で終了", reasonLastDay: "今日が最終日", reasonEpic: "必見の名所",
           reasonWknd: "今週末やってる", reasonPick: "今日のおすすめ",
@@ -21260,7 +21299,7 @@ var qrcode = function() {
           homeQ: "今天想怎么玩？", homeMulti: "可多选",
           chipNear: "离我近", chipFree: "免费", chipWknd: "本周末",
           homeRecTitle: "为你推荐", homeShuffle: "换一批",
-          homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个", quickEnding: "即将结束", quickFree: "只看免费", quickNear: "附近区域", quickRandom: "随机一个", shelfTitle: "季节特集", shelfDays: "还剩{D}天", shelfToday: "最后一天", seasonSpring: "东京之春", seasonSummer: "东京之夏", seasonAutumn: "东京之秋", seasonWinter: "东京之冬",
+          homeTagline: "把东京，玩尽兴。", homeSearchGo: "搜索", homeAreasTitle: "按区域找", homeAreaUnit: " 个", homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个", quickEnding: "即将结束", quickFree: "免费活动", quickNear: "找附近", quickRandom: "随机一个", shelfTitle: "季节特集", shelfDays: "还剩{D}天", shelfToday: "最后一天", seasonSpring: "东京之春", seasonSummer: "东京之夏", seasonAutumn: "东京之秋", seasonWinter: "东京之冬",
           homeAccept: "接任务", reasonNear: "离你最近", reasonFree: "免费开放",
           reasonEnding: "只剩{D}天", reasonLastDay: "今天最后一天", reasonEpic: "必去地标",
           reasonWknd: "本周末有", reasonPick: "今天值得去",
@@ -29398,16 +29437,17 @@ function drawRunnerFrame(ctx, frame, blink) {
       ];
       var MOOD_BUCKET_OF = {};
       MOOD_BUCKETS.forEach(function (b) { b.tags.forEach(function (tg) { MOOD_BUCKET_OF[tg] = b.id; }); });
+      function moodList(e) { return Array.isArray(e.mood) ? e.mood : String(e.mood || "").split(/,\s*/).filter(Boolean); }
       function evBuckets(e) {
         var out = [];
-        (e.mood || []).forEach(function (m) { var b = MOOD_BUCKET_OF[m]; if (b && out.indexOf(b) === -1) out.push(b); });
+        moodList(e).forEach(function (m) { var b = MOOD_BUCKET_OF[m]; if (b && out.indexOf(b) === -1) out.push(b); });
         return out;
       }
       function moodBucketLabel(id) { return (L().moodBuckets || {})[id] || id; }
       function questMatchesQuery(e, q) {
         if (!q) return true;
         var hay = [e.name_en, e.name_ja, e.area, AREA_JA[e.area] || "", AREA_ZH[e.area] || "", e.category, CAT_JA[e.category] || "", CAT_ZH[e.category] || "", e.venue, VENUE_JA[e.venue] || "", VENUE_ZH[e.venue] || "",
-          (e.mood || []).join(" "), evBuckets(e).map(moodBucketLabel).join(" ")].join(" ").toLowerCase();
+          moodList(e).join(" "), evBuckets(e).map(moodBucketLabel).join(" ")].join(" ").toLowerCase();
         return q.split(/\s+/).every(function (w) { return !w || hay.indexOf(w) !== -1; });
       }
       function boardMatch(e, areaVal, moodVal, q) {
@@ -35310,7 +35350,6 @@ function drawZoneStamp(cv, zoneId, mode) {
          quest's own blurb line (Q-406). */
       var homePage = 0;
       var homeQuick = null;
-      var homeRecOpen = false;
       function homePool() {
         /* The state dimension is neutralized here on purpose:
            recommendations are always for quests you can still
@@ -35454,7 +35493,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         document.getElementById("hsRow").innerHTML = evs.map(function (e) {
           var d = daysBetween(TODAY, e.end);
           var chip = d === 0 ? t.shelfToday : t.shelfDays.replace("{D}", String(d));
-          return '<div class="hs-card" data-shelf-open="' + e.id + '"><img class="hs-img" src="' + e.img + '" alt="" loading="lazy"><span class="hs-name">' + esc(evName(e)) + '</span><span class="hs-chip">' + esc(chip) + "</span></div>";
+          return '<div class="hs-card" data-shelf-open="' + e.id + '"><span class="hs-media"><img class="hs-img" src="' + e.img + '" alt="" loading="lazy"><span class="hs-chip">' + esc(chip) + '</span></span><span class="hs-name">' + esc(evName(e)) + "</span></div>";
         }).join("");
         document.querySelectorAll("#hsRow .hs-name").forEach(function (el) {
           var fs = 11.5;
@@ -35475,6 +35514,18 @@ function drawZoneStamp(cv, zoneId, mode) {
           showCoinMsg(err && err.code === 1 ? t.sortDenied : t.sortFailed); sfx("back");
         }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 });
       }
+      var HOME_AREAS = ["Asakusa", "Shibuya", "Ikebukuro", "Ueno", "Shinjuku", "Akihabara"];
+      function renderAreas() {
+        var row = document.getElementById("homeAreasRow");
+        if (!row) return;
+        var t = L();
+        document.getElementById("homeAreasTitle").textContent = t.homeAreasTitle;
+        row.innerHTML = HOME_AREAS.map(function (a) {
+          var n = EVENTS.filter(function (e) { return e.area === a && !isCleared(e.id); }).length;
+          var label = state.lang === "ja" ? (AREA_JA[a] || a) : state.lang === "zh" ? (AREA_ZH[a] || a) : a;
+          return '<button class="ha-tile" type="button" data-area-tile="' + a + '"><span class="ha-name">' + esc(label) + '</span><span class="ha-count">' + n + esc(t.homeAreaUnit) + "</span></button>";
+        }).join("");
+      }
       function renderHome() {
         var t = L();
         var hqLabels = { ending: t.quickEnding, free: t.quickFree, near: t.quickNear, random: t.quickRandom };
@@ -35487,12 +35538,12 @@ function drawZoneStamp(cv, zoneId, mode) {
           b.setAttribute("aria-pressed", String(homeQuick === k));
         });
         renderShelf();
+        renderAreas();
+        document.getElementById("homeTagline").textContent = t.homeTagline;
+        document.getElementById("homeSearchInput").placeholder = t.searchPh;
+        document.getElementById("homeSearchGo").textContent = t.homeSearchGo;
         document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
         document.getElementById("homeShuffle").textContent = t.homeShuffle;
-        var rtb = document.getElementById("homeRecBody");
-        if (rtb) rtb.hidden = !homeRecOpen;
-        var rtt = document.getElementById("homeRecToggle");
-        if (rtt) { rtt.classList.toggle("is-on", homeRecOpen); rtt.setAttribute("aria-expanded", String(homeRecOpen)); }
         var pool = homePool();
         if (pool.length && homePage * 3 >= pool.length) homePage = 0;
         var page = pool.slice(homePage * 3, homePage * 3 + 3);
@@ -35523,26 +35574,24 @@ function drawZoneStamp(cv, zoneId, mode) {
         }
         if (k === "near" && !sortPos) { homeRequestPos(); return; }
         homeQuick = homeQuick === k ? null : k;
-        if (homeQuick) homeRecOpen = true;
         homePage = 0;
         sfx("move");
         renderHome();
-        if (homeRecOpen) homeRecAnchor();
       });
-      function homeRecAnchor() {
-        var tg = document.getElementById("homeRecToggle");
-        if (!tg) return;
-        setTimeout(function () { try { tg.scrollIntoView({ block: "start", behavior: "smooth" }); } catch (e) {} }, 40);
-      }
-      document.getElementById("homeRecToggle").addEventListener("click", function () {
-        homeRecOpen = !homeRecOpen;
-        sfx(homeRecOpen ? "open" : "back");
-        renderHome();
-        if (homeRecOpen) {
-          var rb = document.getElementById("homeRecBody");
-          if (rb) { rb.classList.remove("pop"); void rb.offsetWidth; rb.classList.add("pop"); }
-          homeRecAnchor();
-        }
+      document.getElementById("homeAreasRow").addEventListener("click", function (ev) {
+        var b = ev.target.closest("[data-area-tile]");
+        if (!b) return;
+        var a = b.getAttribute("data-area-tile");
+        filterArea = DISTRICT_OF[a] || "All";
+        msQuery = a;
+        sfx("accept");
+        switchView("list");
+      });
+      document.getElementById("homeSearchForm").addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        msQuery = document.getElementById("homeSearchInput").value.trim();
+        sfx("accept");
+        switchView("list");
       });
       document.getElementById("hsRow").addEventListener("click", function (ev) {
         var c = ev.target.closest("[data-shelf-open]");
