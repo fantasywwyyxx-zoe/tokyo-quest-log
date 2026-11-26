@@ -14037,6 +14037,12 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
 
 /* Q-430: empty-list share button rests dimmed + disabled. */
 .mine-share.is-disabled { opacity: .45; box-shadow: none; }
+
+/* Q-431: carousel pagination dots (active = ink, rest faint). */
+.hs-dots { display: flex; justify-content: center; gap: 6px; padding-top: 8px; }
+.hs-dots:empty { display: none; }
+.hs-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(34, 48, 60, .22); }
+.hs-dot.is-on { background: var(--ink); }
 </style>
   </head>
   <body data-view="map">
@@ -14573,7 +14579,7 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
             <form class="home-search" id="homeSearchForm" role="search"><span class="hsearch-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#22303c" stroke-width="2.4"/><path d="M15.5 15.5 L21 21" stroke="#22303c" stroke-width="2.4" stroke-linecap="round"/></svg></span><input id="homeSearchInput" type="search" autocomplete="off" enterkeyhint="search"><button class="hsearch-go" id="homeSearchGo" type="submit"></button></form>
           </div>
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
-          <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-right"><span class="hs-season" id="hsSeason"></span><button class="hs-all" id="hsAllBtn" type="button"></button></span></div><div class="hs-row" id="hsRow"></div></div>
+          <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-right"><span class="hs-season" id="hsSeason"></span><button class="hs-all" id="hsAllBtn" type="button"></button></span></div><div class="hs-row" id="hsRow"></div><div class="hs-dots" id="hsDots"></div></div>
           <div class="home-rec-head"><span class="home-rec-title" id="homeRecTitle"></span><button class="home-all" id="homeAll" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
           <div class="home-rec-foot"><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
@@ -17595,7 +17601,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261126-1737-q430-2c21a159";
+        var BUILD_ID = "tql-20261126-1743-q431-39586491";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -35929,6 +35935,8 @@ function drawZoneStamp(cv, zoneId, mode) {
         var mo = Number(TODAY.slice(5, 7));
         document.getElementById("hsSeason").textContent = (mo === 12 || mo <= 2) ? t.seasonWinter : mo <= 5 ? t.seasonSpring : mo <= 8 ? t.seasonSummer : t.seasonAutumn;
         document.getElementById("hsAllBtn").textContent = t.shelfAll;
+        document.getElementById("hsDots").innerHTML = evs.length > 1 ? evs.map(function (_, di) { return '<span class="hs-dot' + (di === 0 ? " is-on" : "") + '"></span>'; }).join("") : "";
+        document.getElementById("hsRow").scrollLeft = 0;
         document.getElementById("hsRow").innerHTML = evs.map(function (e) {
           var d = daysBetween(TODAY, e.end);
           var chip = d === 0 ? t.shelfToday : t.shelfDays.replace("{D}", String(d));
@@ -36038,6 +36046,15 @@ function drawZoneStamp(cv, zoneId, mode) {
         sfx("accept");
         switchView("list");
       });
+      document.getElementById("hsRow").addEventListener("scroll", function () {
+        var row = document.getElementById("hsRow");
+        var card = row.querySelector(".hs-card");
+        var dots = document.getElementById("hsDots");
+        if (!card || !dots || !dots.children.length) return;
+        var w = card.getBoundingClientRect().width + 10;
+        var idx = Math.max(0, Math.min(dots.children.length - 1, Math.round(row.scrollLeft / w)));
+        for (var di = 0; di < dots.children.length; di++) dots.children[di].classList.toggle("is-on", di === idx);
+      }, { passive: true });
       document.getElementById("hsRow").addEventListener("click", function (ev) {
         var c = ev.target.closest("[data-shelf-open]");
         if (c) openDetail(c.getAttribute("data-shelf-open"));
