@@ -14023,6 +14023,17 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
   dialog#detail .detail-win { width: 100%; height: 100%; max-height: 100%; border-left: 0; border-right: 0; }
   body[data-view] .tabs { width: min(560px, calc(100vw - 16px)); }
 }
+
+/* Q-429: the shelf leaves its box (plain section head, season
+   as muted text, See-all as a small real pill button) and the
+   home header gains the brand subtitle line. */
+#view-home .home-shelf { border: 0; background: transparent; border-radius: 0; overflow: visible; }
+#view-home .hs-head { background: transparent; padding: 2px 2px 8px; align-items: center; }
+#view-home .hs-season { color: var(--ink-dim); font-size: 12.5px; font-weight: 700; }
+.hs-right { display: inline-flex; align-items: center; gap: 10px; }
+.hs-all { font: inherit; font-size: 12.5px; font-weight: 800; color: var(--ink); background: var(--paper); border: 2px solid var(--line-c); border-radius: 999px; padding: 4px 11px; cursor: pointer; box-shadow: 0 2px 0 rgba(34, 48, 60, .3); }
+.home-sub { margin: 3px 2px 8px; font-size: 12.5px; font-weight: 700; color: var(--ink-dim); }
+#view-home .home-search { margin-top: 0; }
 </style>
   </head>
   <body data-view="map">
@@ -14555,10 +14566,11 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
         <div class="home-panel">
           <div class="home-head">
             <div class="home-tagline" id="homeTagline"></div>
+            <p class="home-sub" id="homeSub"></p>
             <form class="home-search" id="homeSearchForm" role="search"><span class="hsearch-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="#22303c" stroke-width="2.4"/><path d="M15.5 15.5 L21 21" stroke="#22303c" stroke-width="2.4" stroke-linecap="round"/></svg></span><input id="homeSearchInput" type="search" autocomplete="off" enterkeyhint="search"><button class="hsearch-go" id="homeSearchGo" type="submit"></button></form>
           </div>
           <div class="home-quick" id="homeQuick"><button class="hq-btn" type="button" data-hq="ending"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="free"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="near"><span class="hq-ico"></span><span class="hq-label"></span></button><button class="hq-btn" type="button" data-hq="random"><span class="hq-ico"></span><span class="hq-label"></span></button></div>
-          <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-season" id="hsSeason"></span></div><div class="hs-row" id="hsRow"></div></div>
+          <div class="home-shelf" id="homeShelf" hidden><div class="hs-head"><span id="hsTitle"></span><span class="hs-right"><span class="hs-season" id="hsSeason"></span><button class="hs-all" id="hsAllBtn" type="button"></button></span></div><div class="hs-row" id="hsRow"></div></div>
           <div class="home-rec-head"><span class="home-rec-title" id="homeRecTitle"></span><button class="home-all" id="homeAll" type="button"></button></div>
           <div class="home-rec-list" id="homeRecList"></div>
           <div class="home-rec-foot"><button class="home-shuffle" id="homeShuffle" type="button"></button></div>
@@ -17580,7 +17592,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261126-1718-q428-38f2c0df";
+        var BUILD_ID = "tql-20261126-1736-q429-615c406b";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -19499,7 +19511,7 @@ var qrcode = function() {
           homeQ: "How do you want to play today?", homeMulti: "multi OK",
           chipNear: "Near me", chipFree: "Free", chipWknd: "This weekend",
           homeRecTitle: "Picked for you", homeShuffle: "Shuffle",
-          homeTagline: "Let's play Tokyo.", homeSearchGo: "Search", homeAreasTitle: "Browse by area", homeAreaUnit: " quests", homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me", quickEnding: "Ending soon", quickFree: "Free events", quickNear: "Search nearby", quickRandom: "Surprise me", shelfTitle: "Seasonal picks", shelfDays: "{D}d left", shelfToday: "Last day", seasonSpring: "Spring in Tokyo", seasonSummer: "Summer in Tokyo", seasonAutumn: "Autumn in Tokyo", seasonWinter: "Winter in Tokyo",
+          homeTagline: "Let's play Tokyo.", homeSub: "Tokyo's sights and hidden gems, as quests.", shelfAll: "See all", homeSearchGo: "Search", homeAreasTitle: "Browse by area", homeAreaUnit: " quests", homeAll: "See all {N} quests", homeSurprise: "No idea? Tap here - surprise me", quickEnding: "Ending soon", quickFree: "Free events", quickNear: "Search nearby", quickRandom: "Surprise me", shelfTitle: "Seasonal picks", shelfDays: "{D}d left", shelfToday: "Last day", seasonSpring: "Spring in Tokyo", seasonSummer: "Summer in Tokyo", seasonAutumn: "Autumn in Tokyo", seasonWinter: "Winter in Tokyo",
           homeAccept: "Accept", reasonNear: "Closest to you", reasonFree: "Free to enter",
           reasonEnding: "Ends in {D} days", reasonLastDay: "Last day today", reasonEpic: "Must-see spot",
           reasonWknd: "On this weekend", reasonPick: "A good pick for today",
@@ -19512,7 +19524,7 @@ var qrcode = function() {
           communityText: "Soon, fellow adventurers will pin their own found quests and clear reports to this board. The board is built — the inn is still preparing to open.",
           titleBgmDay: "DAY BGM", titleBgmNight: "NIGHT BGM",
           tabRecord: "RECORD", segBadges: "BADGES",
-          searchTitle: "QUEST INDEX", searchPh: "Search title, area, category, mood…",
+          searchTitle: "QUEST INDEX", searchPh: "Search events & spots",
           searchCount: function (n) { return n + (n === 1 ? " quest" : " quests"); },
           searchEmpty: "No quests match. Try another word — the city still has secrets.",
           searchBtn: "SEARCH", searchAll: "Showing every quest — tap SEARCH to filter.",
@@ -20409,7 +20421,7 @@ var qrcode = function() {
           homeQ: "今日はどう遊ぶ？", homeMulti: "複数OK",
           chipNear: "近い", chipFree: "無料", chipWknd: "今週末",
           homeRecTitle: "あなたへのおすすめ", homeShuffle: "別の3件",
-          homeTagline: "東京を、もっと遊ぼう。", homeSearchGo: "検索", homeAreasTitle: "エリアから探す", homeAreaUnit: "件", homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ", quickEnding: "もうすぐ終了", quickFree: "無料イベント", quickNear: "近くで探す", quickRandom: "おまかせ", shelfTitle: "季節の特集", shelfDays: "あと{D}日", shelfToday: "最終日", seasonSpring: "春の東京", seasonSummer: "夏の東京", seasonAutumn: "秋の東京", seasonWinter: "冬の東京",
+          homeTagline: "東京を、もっと遊ぼう。", homeSub: "東京の名所と穴場をクエストにした街歩きゲーム。", shelfAll: "すべて見る", homeSearchGo: "検索", homeAreasTitle: "エリアから探す", homeAreaUnit: "件", homeAll: "全{N}件のクエストを見る", homeSurprise: "迷ったらタップ。おまかせで1つ", quickEnding: "もうすぐ終了", quickFree: "無料イベント", quickNear: "近くで探す", quickRandom: "おまかせ", shelfTitle: "季節の特集", shelfDays: "あと{D}日", shelfToday: "最終日", seasonSpring: "春の東京", seasonSummer: "夏の東京", seasonAutumn: "秋の東京", seasonWinter: "冬の東京",
           homeAccept: "受注する", reasonNear: "いちばん近い", reasonFree: "入場無料",
           reasonEnding: "あと{D}日で終了", reasonLastDay: "今日が最終日", reasonEpic: "必見の名所",
           reasonWknd: "今週末やってる", reasonPick: "今日のおすすめ",
@@ -20422,7 +20434,7 @@ var qrcode = function() {
           communityText: "やがて、仲間の冒険者たちが見つけたクエストやクリア報告を、この掲示板に貼れるようになります。掲示板は完成——宿屋は開店準備中です。",
           titleBgmDay: "昼BGM", titleBgmNight: "夜BGM",
           tabRecord: "きろく", segBadges: "バッジ",
-          searchTitle: "クエスト検索", searchPh: "タイトル・エリア・雰囲気で検索",
+          searchTitle: "クエスト検索", searchPh: "イベント・スポットを探す",
           searchCount: function (n) { return n + "件のクエスト"; },
           searchEmpty: "見つからなかった。別の言葉で探してみて——街にはまだ秘密がある。",
           searchBtn: "検索", searchAll: "全クエスト表示中——「検索」で絞り込める。",
@@ -21319,7 +21331,7 @@ var qrcode = function() {
           homeQ: "今天想怎么玩？", homeMulti: "可多选",
           chipNear: "离我近", chipFree: "免费", chipWknd: "本周末",
           homeRecTitle: "为你推荐", homeShuffle: "换一批",
-          homeTagline: "把东京，玩尽兴。", homeSearchGo: "搜索", homeAreasTitle: "按区域找", homeAreaUnit: " 个", homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个", quickEnding: "即将结束", quickFree: "免费活动", quickNear: "找附近", quickRandom: "随机一个", shelfTitle: "季节特集", shelfDays: "还剩{D}天", shelfToday: "最后一天", seasonSpring: "东京之春", seasonSummer: "东京之夏", seasonAutumn: "东京之秋", seasonWinter: "东京之冬",
+          homeTagline: "把东京，玩尽兴。", homeSub: "把东京各处的宝藏地点，做成任务的冒险游戏。", shelfAll: "查看全部", homeSearchGo: "搜索", homeAreasTitle: "按区域找", homeAreaUnit: " 个", homeAll: "看全部 {N} 个任务", homeSurprise: "不知道去哪？点这里，随便给我一个", quickEnding: "即将结束", quickFree: "免费活动", quickNear: "找附近", quickRandom: "随机一个", shelfTitle: "季节特集", shelfDays: "还剩{D}天", shelfToday: "最后一天", seasonSpring: "东京之春", seasonSummer: "东京之夏", seasonAutumn: "东京之秋", seasonWinter: "东京之冬",
           homeAccept: "接任务", reasonNear: "离你最近", reasonFree: "免费开放",
           reasonEnding: "只剩{D}天", reasonLastDay: "今天最后一天", reasonEpic: "必去地标",
           reasonWknd: "本周末有", reasonPick: "今天值得去",
@@ -21332,7 +21344,7 @@ var qrcode = function() {
           communityText: "不久之后，伙伴们可以在这块公告板上贴出他们发现的任务和完成报告。公告板已经建好——旅店还在准备开业。",
           titleBgmDay: "白天 BGM", titleBgmNight: "夜晚 BGM",
           tabRecord: "记录", segBadges: "徽章",
-          searchTitle: "任务搜索", searchPh: "按标题、区域、氛围搜索…",
+          searchTitle: "任务搜索", searchPh: "搜索活动、景点",
           searchCount: function (n) { return n + " 件任务"; },
           searchEmpty: "没有找到。换个词试试——这座城市还有秘密。",
           searchBtn: "搜索", searchAll: "正在显示全部任务——点「搜索」可以筛选。",
@@ -35913,6 +35925,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         document.getElementById("hsTitle").textContent = t.shelfTitle;
         var mo = Number(TODAY.slice(5, 7));
         document.getElementById("hsSeason").textContent = (mo === 12 || mo <= 2) ? t.seasonWinter : mo <= 5 ? t.seasonSpring : mo <= 8 ? t.seasonSummer : t.seasonAutumn;
+        document.getElementById("hsAllBtn").textContent = t.shelfAll;
         document.getElementById("hsRow").innerHTML = evs.map(function (e) {
           var d = daysBetween(TODAY, e.end);
           var chip = d === 0 ? t.shelfToday : t.shelfDays.replace("{D}", String(d));
@@ -35963,6 +35976,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         renderShelf();
         renderAreas();
         document.getElementById("homeTagline").textContent = t.homeTagline;
+        document.getElementById("homeSub").textContent = t.homeSub;
         document.getElementById("homeSearchInput").placeholder = t.searchPh;
         document.getElementById("homeSearchGo").textContent = t.homeSearchGo;
         document.getElementById("homeRecTitle").textContent = t.homeRecTitle;
@@ -36013,6 +36027,11 @@ function drawZoneStamp(cv, zoneId, mode) {
       document.getElementById("homeSearchForm").addEventListener("submit", function (ev) {
         ev.preventDefault();
         msQuery = document.getElementById("homeSearchInput").value.trim();
+        sfx("accept");
+        switchView("list");
+      });
+      document.getElementById("hsAllBtn").addEventListener("click", function () {
+        filterKind = "timed";
         sfx("accept");
         switchView("list");
       });
