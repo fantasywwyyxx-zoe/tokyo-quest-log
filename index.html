@@ -14043,6 +14043,37 @@ dialog#detail .save-fab.is-on { background: #ffd83d; color: #22303c; }
 .hs-dots:empty { display: none; }
 .hs-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(34, 48, 60, .22); }
 .hs-dot.is-on { background: var(--ink); }
+
+/* Q-432: home subtraction pass — light chips, thin borders,
+   one accent, lighter type, paging shelf, slim nav. */
+#view-home #homeQuick { display: flex; grid-template-columns: none; gap: 6px; }
+#view-home #homeQuick .hq-btn { flex: 1 1 0; min-width: 0; height: auto; padding: 7px 3px; font-size: 11.5px; font-weight: 700; white-space: nowrap; background: var(--paper); border: 1.5px solid rgba(34, 48, 60, .38); border-radius: 999px; box-shadow: none; }
+#view-home #homeQuick .hq-btn .hq-ico { display: none; }
+#view-home #homeQuick .hq-btn.is-on { background: #ffe9e5; border-color: var(--primary); color: var(--primary); }
+#view-home .home-search { border: 1.5px solid rgba(34, 48, 60, .55); box-shadow: none; }
+#view-home .home-card { border: 1.5px solid rgba(34, 48, 60, .45); box-shadow: 0 1px 3px rgba(34, 48, 60, .07); }
+#view-home .hc-name { font-size: 14px; font-weight: 700; }
+#view-home .hc-savebtn { border-width: 1.5px; box-shadow: none; }
+#view-home .area-tile { border: 1.5px solid rgba(34, 48, 60, .45); box-shadow: none; }
+#view-home .home-tagline { font-size: 22px; }
+#view-home .home-sub { font-size: 12px; font-weight: 600; }
+#view-home .hs-head { font-size: 15px; }
+#view-home .home-rec-head { font-size: 15px; }
+#view-home .home-areas h3, #homeAreasTitle { font-size: 15px; }
+#view-home .hs-card { flex-basis: calc(100% - 2px); background: var(--paper); border: 1.5px solid rgba(34, 48, 60, .45); border-radius: 14px; overflow: hidden; gap: 0; padding-bottom: 8px; box-shadow: 0 1px 3px rgba(34, 48, 60, .07); }
+#view-home .hs-img { border: 0; border-radius: 0; }
+#view-home .hs-name { padding: 7px 10px 0; }
+#view-home .hs-meta { padding: 1px 10px 0; font-size: 11px; font-weight: 600; color: var(--ink-dim); }
+#view-home .home-panel { padding-bottom: 30px; }
+#msResults .ms-row { border: 1.5px solid rgba(34, 48, 60, .45); box-shadow: 0 1px 3px rgba(34, 48, 60, .07); }
+#view-mine .mine-card { border: 1.5px solid rgba(34, 48, 60, .45); box-shadow: 0 1px 3px rgba(34, 48, 60, .07); }
+body[data-view] #browseBar { border-width: 1.5px; box-shadow: 0 2px 8px rgba(34, 48, 60, .10); }
+body[data-view] .tabs { border-width: 1.5px; box-shadow: 0 4px 14px rgba(34, 48, 60, .13); }
+body[data-view] .tabs .tab { font-size: 10.5px; font-weight: 700; }
+.tabs .tab-start { height: 58px; min-height: 58px; margin-top: -7px; padding-top: 11px; font-size: 11.5px; box-shadow: 0 2px 8px rgba(34, 48, 60, .18); }
+.tabs .tab-start[aria-selected="true"] { outline: none; margin-left: 3px; margin-right: 3px; }
+.tab[aria-selected="true"] span:not(.count)::before { content: none; }
+.tabs .tab[aria-selected="true"] > span:first-of-type:not(.count)::before { content: none; }
 </style>
   </head>
   <body data-view="map">
@@ -17601,7 +17632,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261126-1743-q431-39586491";
+        var BUILD_ID = "tql-20261126-1753-q432-163a023e";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
@@ -35940,7 +35971,7 @@ function drawZoneStamp(cv, zoneId, mode) {
         document.getElementById("hsRow").innerHTML = evs.map(function (e) {
           var d = daysBetween(TODAY, e.end);
           var chip = d === 0 ? t.shelfToday : t.shelfDays.replace("{D}", String(d));
-          return '<div class="hs-card" data-shelf-open="' + e.id + '"><span class="hs-media"><img class="hs-img" src="' + e.img + '" alt="" loading="lazy"><span class="hs-chip">' + esc(chip) + '</span></span><span class="hs-name">' + esc(evName(e)) + "</span></div>";
+          return '<div class="hs-card" data-shelf-open="' + e.id + '"><span class="hs-media"><img class="hs-img" src="' + e.img + '" alt="" loading="lazy"><span class="hs-chip">' + esc(chip) + '</span></span><span class="hs-name">' + esc(evName(e)) + '</span><span class="hs-meta">' + esc(e.area) + "</span></div>";
         }).join("");
         document.querySelectorAll("#hsRow .hs-name").forEach(function (el) {
           var fs = 11.5;
