@@ -417,3 +417,4 @@ row existed). Replaced with a real photograph from Wikimedia Commons.
 - c289-mejiro-terasu-2026 | https://www.mapion.co.jp/news/release/000000011.000171083-all/ | Press release photo (© Mejiro Garden Park Management Joint Venture) — night illumination of Mejiro Garden
 - c290-digital-hokusai-freer | https://www.ntt-east.co.jp/art/hokusai-freer/ | Official exhibition artwork photo (© Smithsonian National Museum of Asian Art, Charles Lang Freer Collection) — Hokusai, Flowers and Birds of the Twelve Months
 - c291-ota-ukiyoe-masters | https://www.ukiyoe-ota-muse.jp/eng/exhibition/ | Official exhibition flyer (© Ota Memorial Museum of Art) — Utagawa Kunitora, Dutch Ship Entering Nagasaki Harbour
+- c292-nezu-horu-urushi | https://www.nezu-muse.or.jp/jp/press/pdf/press_261205_HoruUrushi_1.pdf | Official press photo (© Nezu Museum) — carved-lacquer (tsuishu) camellia box from the exhibition press kit
