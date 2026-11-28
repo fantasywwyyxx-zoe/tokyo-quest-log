@@ -36,7 +36,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=M+PLUS+Rounded+1c:wght@700;800&family=Noto+Sans+SC:wght@700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=M+PLUS+Rounded+1c:wght@400;500;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
       rel="stylesheet"
     />
     <!-- Map: real OpenStreetMap geography (coastline, rivers, roads,
@@ -14074,6 +14074,22 @@ body[data-view] .tabs .tab { font-size: 10.5px; font-weight: 700; }
 .tabs .tab-start[aria-selected="true"] { outline: none; margin-left: 3px; margin-right: 3px; }
 .tab[aria-selected="true"] span:not(.count)::before { content: none; }
 .tabs .tab[aria-selected="true"] > span:first-of-type:not(.count)::before { content: none; }
+
+/* Q-434: real light weights + delicate chips (hairline
+   borders, weight 500, quiet selected state). */
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+#view-home .home-search { border: 1px solid rgba(34, 48, 60, .30); box-shadow: 0 1px 4px rgba(34, 48, 60, .05); }
+#view-home .home-search input { font-weight: 500; }
+#view-home .home-search input::placeholder { color: rgba(34, 48, 60, .40); }
+#view-home #homeQuick .hq-btn { border: 1px solid rgba(34, 48, 60, .26); font-weight: 500; font-size: 12px; letter-spacing: .02em; padding: 6px 3px; }
+#view-home #homeQuick .hq-btn.is-on { background: #fff6f4; border-color: var(--primary); color: var(--primary); font-weight: 600; }
+#view-home .hs-all { border: 1px solid rgba(34, 48, 60, .30); box-shadow: none; font-weight: 600; padding: 5px 12px; }
+#view-home .hs-head { font-weight: 700; }
+#view-home .home-rec-head { font-weight: 700; }
+#view-home #homeAreasTitle { font-weight: 700; }
+#view-home .home-sub { font-weight: 500; }
+#view-home .hs-season { font-weight: 500; }
+#view-home .hs-meta { font-weight: 500; }
 </style>
   </head>
   <body data-view="map">
@@ -17632,7 +17648,7 @@ var qrcode = function() {
          Progress lives in localStorage + the cloud save, so reloads
          lose nothing. Any failure is completely silent. */
       (function () {
-        var BUILD_ID = "tql-20261127-0953-q433-82bc8948";
+        var BUILD_ID = "tql-20261128-1053-q434-dedf9dee";
         window.TQL_BUILD_ID = BUILD_ID;
         var TRY_KEY = "tql_ver_try";
         var lastCheck = 0;
